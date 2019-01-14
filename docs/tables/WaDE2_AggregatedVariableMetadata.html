@@ -1,0 +1,124 @@
+<HTML>
+<header>
+<title>AggregatedVariableMetadata - Table</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+</header>
+<body>
+<div class="logo">
+<p>WaDE [WaDE2.0_schema.xml]</p>
+</div>
+<div class="horzMenu">
+<a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
+</div>
+<h1>Table: AggregatedVariableMetadata</h1>
+<div class="paragraph">
+<p></p>
+</div>
+<h2>Columns</h2>
+<table class="flat">
+<tr>
+<td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
+</tr>
+<tr>
+<td class="PkCol">
+<p class="boolImg">
+<img src="../images/pkb16.gif"></p>
+</td><td class="PkCol"><a href="../columns/WaDE2_AggregatedVariableMetadata_AggregatedVariableMetadataID.html">AggregatedVariableMetadataID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(250)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_AmountUnitCV.html">AmountUnitCV</a></td><td>VarChar(100)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_AggregationInterval.html">AggregationInterval</a></td><td>VarBinary(10)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_AggregationIntervalUnitCV.html">AggregationIntervalUnitCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_ReportYearStartMonth.html">ReportYearStartMonth</a></td><td>VarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_ReportYearTypeCV.html">ReportYearTypeCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_AggregatedVariableMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Six-digit NAICs Code associated with the primary beneficial use category</td><td> </td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_AggregatedVariableMetadata_ReportingUnitID.html">ReportingUnitID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_AggregatedVariableMetadata_VariableSpecificID.html">VariableSpecificID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_AggregatedVariableMetadata_MethodID.html">MethodID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_AggregatedVariableMetadata_WaterSourceID.html">WaterSourceID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+</table>
+<br>
+<h2>Indexes</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Foreign Keys</h2>
+<table class="flat">
+<tr>
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_AggregatedVariableMetadata_fk_AggregatedVariableMetadata_Methods.html">fk_AggregatedVariableMetadata_Methods</a></td><td><a href="../tables/WaDE2_Methods.html">Methods</a></td><td><a href="../tables/WaDE2_AggregatedVariableMetadata.html">AggregatedVariableMetadata</a></td><td>MethodID</td><td>MethodID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_AggregatedVariableMetadata_fk_AggregatedVariableMetadata_ReportingUnits.html">fk_AggregatedVariableMetadata_ReportingUnits</a></td><td><a href="../tables/WaDE2_ReportingUnits.html">ReportingUnits</a></td><td><a href="../tables/WaDE2_AggregatedVariableMetadata.html">AggregatedVariableMetadata</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_AggregatedVariableMetadata_fk_AggregatedVariableMetadata_Variables.html">fk_AggregatedVariableMetadata_Variables</a></td><td><a href="../tables/WaDE2_VariablesSpecific.html">VariablesSpecific</a></td><td><a href="../tables/WaDE2_AggregatedVariableMetadata.html">AggregatedVariableMetadata</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_AggregatedVariableMetadata_fk_AggregatedVariableMetadata_WaterSources.html">fk_AggregatedVariableMetadata_WaterSources</a></td><td><a href="../tables/WaDE2_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_AggregatedVariableMetadata.html">AggregatedVariableMetadata</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+</tr>
+</table>
+<br>
+<h2>Triggers</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Used in Diagrams</h2>
+<table class="flat">
+<tr>
+<td class="header">Diagram Name</td>
+</tr>
+<tr>
+<td><a href="../diagrams/Aggregated.html">Aggregated</a></td>
+</tr>
+</table>
+</body>
+</HTML>

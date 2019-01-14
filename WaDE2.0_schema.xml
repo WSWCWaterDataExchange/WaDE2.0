@@ -1,0 +1,2837 @@
+<?xml version="1.0" encoding="UTF-8"?><Db flnm="WaDE2.0_schema" nm="WaDE" ver="1.3.4">
+  <VerLbl/>
+  <VerNotes/>
+  <DefTblOpts/>
+  <DocFolder>C:\Users\Adel\Documents\GitHub\WaDE2.0\docs</DocFolder>
+  <Sch Cm="" nm="WaDE2">
+    <Tbl UsSo="1" nm="AggregatedAmounts">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="AggregatedAmountID" nm="pkAggregatedAmounts"/>
+      <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeStart" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The start date of the site-specific variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The end date of the site-specific variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Amount" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AggregatedVariableMetadataID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AmountMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_AggregatedVariableMetadata" prLkCl="AggregatedVariableMetadataID" upAc="3">
+        <PrTb mn="0" nm="AggregatedVariableMetadata" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="AggregatedVariableMetadataID" prCl="AggregatedVariableMetadataID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_AmountsMetadata" prLkCl="AmountMetadataID" upAc="3">
+        <PrTb mn="0" nm="AmountsMetadata" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="AggregatedVariableMetadata">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="AggregatedVariableMetadataID" nm="pkAggregatedVariableMetadata"/>
+      <Cl au="0" df="" nm="AggregatedVariableMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="USGSCategoryCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AmountUnitCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Unit of the site-specific ariable amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationStatisticCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationInterval" nu="0">
+        <DT arr="0" ds="VarBinary" en="" id="-3" ln="10" sc="null" sg="1" un="0"/>
+        <Cm>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationIntervalUnitCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The aggregation unit (e.g., day ,month, year).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearStartMonth" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="10" sc="null" sg="1" un="0"/>
+        <Cm>The month of the beginning of the data provider's annual reporting period in MM-DD</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NAICSCodeCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Six-digit NAICs Code associated with the primary beneficial use category</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="VariableSpecificID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="MethodID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_AggregatedVariableMetadata_Methods" prLkCl="MethodID" upAc="3">
+        <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="AggregatedVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="MethodID" prCl="MethodID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedVariableMetadata_ReportingUnits" prLkCl="ReportingUnitID" upAc="3">
+        <PrTb mn="0" nm="ReportingUnits" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="AggregatedVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedVariableMetadata_Variables" prLkCl="VariableSpecificID" upAc="3">
+        <PrTb mn="0" nm="VariablesSpecific" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="AggregatedVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="VariableSpecificID" prCl="VariableSpecificID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedVariableMetadata_WaterSources" prLkCl="WaterSourceID" upAc="3">
+        <PrTb mn="0" nm="WaterSources" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="AggregatedVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="WaterSourceID" prCl="WaterSourceID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="DataValues" stB="A_IRRIGATION"/>
+      </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="AmountsMetadata">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="AmountMetadataID" nm="pkAmountsMetadata"/>
+      <Cl au="0" df="" nm="AmountMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="PopulationServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigatedAcreage" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigationMethod" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="CropType" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="PowerGeneratedGWh" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Geometry" nu="1">
+        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_AggregationStatistic">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_AggregationStatistic"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_EPSGCode">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_EPSGCode"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_GNISCode">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_GNISCode"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_LegalStatusCode">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_LegalStatusCode"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_MethodType">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_VariableType_dup"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_NAICSCode">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_VariableType_dup_dup_dup_dup_dup_dup"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_NHDNetworkStatus">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_NHDNetworkStatus"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_NHDProduct">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_NHDProduct"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_RegulatoryStatus">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_RegulatoryStatus"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_ReportingUnitType">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_ReportingUnitType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_ReportYearCV">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_ReportYearCV"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_ReportYearType">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_ReportYearType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_Units">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_Units"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_USGSCategory">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_ReportingUnitType_dup"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_Variable">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_Variable"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_VerticalDatumEPSGCode">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_VerticalDatumEPSGCode"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_WaterAllocationBasis">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_WaterAllocationBasis"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_WaterAllocationBasis_dup">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_WaterAllocationBasis_dup"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_WaterQualityIndicator">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_WaterQualityIndicator"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_WaterSourceType">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_WaterSourceType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="Methods">
+      <Cm>specific granular variables</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="MethodID" nm="pkMethods"/>
+      <Cl au="0" df="" nm="MethodID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifierfor each database instance that implements the table</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MethodUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifier composed of the OrgID and a unique number.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MethodName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The name of the method used.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MethodDescription" nu="0">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A high level description of the method</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MethodNEMILink" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>A link back to the org's website or other webpage for more information about the method. https://www.nemi.gov/home/</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ApplicableResourceTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MethodTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Indicator of how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataCoverageValue" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>An indicator of data coverage (i.e., spatial coverage or completeness of the data)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataQualityValueCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>An indicator of data quality or grading (e.g. fair, good, best, unreported), or using the NEMS data quality grading system.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataConfidenceValue" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>An indicator of data confidence, should be a confidence interval (e.g. 90%, 50%, etc.)</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="NHDMetadata">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="NHDMetadataID" nm="pkNHDMetadata"/>
+      <Cl au="0" df="" nm="NHDMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Whether or not the point location is indexed to the USGS NHD network</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDProductCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>NHD Product that is used for the indexing. Shouldbe NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDUpdateDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The publication date for the NHD product used for the index.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDReachCode" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Reach Code Identifier</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDMeasureNumber" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="Organizations">
+      <Cm>Organization responsible for the data reported.</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="OrganizationID" nm="pkOrganizations"/>
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifier</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Name corresponding to unique organization ID (i.e. Utah Division of Water Resources)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationPurview" nu="1">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A description of the purview of the agency (i.e. water rights, consumptive use, etc.)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationWebsite" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="200" sc="null" sg="1" un="0"/>
+        <Cm>A hyperlink back to the organization's website. Include https:// header and trailing forward slash</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationPhoneNumber" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The organization's phone number for general information. Include area code and hyphens</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationContactName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>First name of a person.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationContactEmail" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Title of the contact person.</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="schemaA" stB="ORGANIZATION"/>
+        <StPr stA="Metadata" stB="Organizations"/>
+      </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="RegulatoryOverlay">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay"/>
+      <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="NativeRegulatoryOverlayID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Native identifier to each data source</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryOverlayUID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Univeral unique identifer </Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The name of the regulation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryDescription" nu="0">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A description of the regulation. e.g.,This region is subject to addition oversight and development restrictions as dictated by the Groundwater Management Area Act </Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryStatusCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Status of the regulation (i.e., whether it is currently initiated/in effect)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OversightAgency" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>The agency/governance body providing oversight for the regulation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryStatute" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
+        <Cm>Legal Statute(s) related to the regulation.e.g., 56-78134 (Utah Code)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryStatuteLink" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
+        <Cm>A link to the legal statute(s) related to the regulation. e.g., https://le.utah.gov/xcode/code.html</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeStart" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="10" sc="null" sg="1" un="0"/>
+        <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearStartMonth" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5" sc="null" sg="1" un="0"/>
+        <Cm>The month of the beginning of the data provider's annual reporting period.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="RegulatoryReportingUnits">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="BridgeID" nm="pkRegulatoryReportingUnits"/>
+      <Cl au="0" df="" nm="BridgeID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="RegulatoryOverlayID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_RegulatoryOverlay" prLkCl="RegulatoryOverlayID" upAc="3">
+        <PrTb mn="0" nm="RegulatoryOverlay" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="RegulatoryOverlayID" prCl="RegulatoryOverlayID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_ReportingUnits" prLkCl="ReportingUnitID" upAc="3">
+        <PrTb mn="0" nm="ReportingUnits" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="ReportingUnits">
+      <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="ReportingUnitID" nm="pkReportingUnits"/>
+      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>A reporting unit is the geospatial area that is used to aggregate the water supply, withdrawal, or consumptive use. The ReportingUnitID is the unique identification number for the geospatial area. It could be a 5-digit FIPs code for a county, a 12-digit code for a HUC (or fewer digits), or a custom number created by the data provider. The data provider should concatenate their OrganizationID + custom identifier to ensure this number is unique.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>The type of reporting unit - county, HUC, or a custom delineation.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitUpdateDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that the last reporting unit product version was released.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportingUnitProductVersion" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>The reporting unit product version number. Could be a release of the HUC or County layer, or internal to the data provider.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="StateCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Abbrieviated state identifier.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Geometry" nu="1">
+        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="EPSGCodeCV" nu="1">
+        <DT arr="0" ds="VarBinary" en="" id="-3" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="VerticalDatumEPSGCodeCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>EPSG Code for vertical datum</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifier assigned to the organization.  Identifiers would be managed centrally by ????</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDMetadataID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Metadata to reference the National Hydrography Dataset</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_ReportingUnits_NHDMetadata" prLkCl="NHDMetadataID" upAc="3">
+        <PrTb mn="0" nm="NHDMetadata" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="ReportingUnits" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="NHDMetadataID" prCl="NHDMetadataID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_ReportingUnits_Organizations" prLkCl="OrganizationID" upAc="3">
+        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="ReportingUnits" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="DataValues" stB="ReportingAreas"/>
+      </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="Sites">
+      <Cm>Site specific</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="SiteID" nm="pkSites"/>
+      <Cl au="0" df="" nm="SiteID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SiteUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="55" sc="null" sg="1" un="0"/>
+        <Cm>WaDE universal unique identifier for the allocation, can be alphanumeric</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NativeSiteID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Data provider's unique identifier for the site variable, can be alphanumeric</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="SiteName" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Longitude" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section
+
+DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Latitude" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section  DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Geometry" nu="1">
+        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="VerticalDatumEPSGCodeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>EPSG Code for vertical datum</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="CoordinateMethodCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>From a map? GPS? Where coordinate from?</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="GNISCodeCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The Geographic Names Information System (GNIS), developed by the U.S. Geological Survey (USGS) in cooperation with the U.S. Board on Geographic Names (BGN), contains information about the official names for places, features, and areas in the 50 States, the District of Columbia, the territories and outlying areas of the United States, including Antarctica. It is the geographic names component of The National Map. The BGN maintains working relationships with State names authorities to cooperate in achieving the standardization of geographic names.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="25" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDMetadataID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="OrganizationID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A unique identifier assigned to the organization.  Identifiers would be managed centrally by ????</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_Sites_NHDMetadata" prLkCl="NHDMetadataID" upAc="3">
+        <PrTb mn="0" nm="NHDMetadata" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="Sites" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="NHDMetadataID" prCl="NHDMetadataID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Sites_Organizations" prLkCl="OrganizationID" upAc="3">
+        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="Sites" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="SiteVariableAmounts">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="SiteVariableAmountID" nm="pkSiteVariableAmounts"/>
+      <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeStart" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>End date for the allocation each year in MM/DD</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYear" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Amount" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The aggregated variable amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="SiteVariableMetadataID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AmountMetadataID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_AmountsMetadata" prLkCl="AmountMetadataID" upAc="3">
+        <PrTb mn="0" nm="AmountsMetadata" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_SiteVariableMetadata" prLkCl="SiteVariableMetadataID" upAc="3">
+        <PrTb mn="0" nm="SiteVariableMetadata" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="SiteVariableMetadataID" prCl="SiteVariableMetadataID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="SiteVariableMetadata">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="SiteVariableMetadataID" nm="pkSiteVariableMetadata"/>
+      <Cl au="0" df="" nm="SiteVariableMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SiteVariableMetadataUID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
+        <Cm>a unique unversal identifier of a combination of four unique keys: SiteID, MethodID, WaterSourceID, and a VariableSpecificID. Assuming the rest of metadata in this table do not change, then if we know SiteVariableMetadataUID, then we can populae the water allocation amounts table for each year</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="BeneficialUseCategory" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationPrimaryUseCategory" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="USGSCategoryCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AmountUnitCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Unit of the site-specific ariable amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationStatisticCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationInterval" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5" sc="null" sg="1" un="0"/>
+        <Cm>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AggregationIntervalUnitCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The aggregation unit (e.g., day ,month, year).</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearStartMonth" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5" sc="null" sg="1" un="0"/>
+        <Cm>The month of the beginning of the data provider's annual reporting period in MM-DD</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearTypeCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>water year, irrigation year</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="SDWISID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Safe Drinking Water Information System (SDWIS) contains information about public water systems and their violations of EPA's drinking water regulations</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NAICSCodeCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Six-digit NAICs Code associated with the primary beneficial use category</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="SiteID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="VariableSpecificID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="MethodID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>if the source id is unknown, then we use a general dummy source called "uknown"</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationID" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_SiteVariableMetadata_Methods" prLkCl="MethodID" upAc="3">
+        <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="SiteVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="MethodID" prCl="MethodID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableMetadata_Sites" prLkCl="SiteID" upAc="3">
+        <PrTb mn="0" nm="Sites" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="SiteVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="SiteID" prCl="SiteID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableMetadata_Variables" prLkCl="VariableSpecificID" upAc="3">
+        <PrTb mn="0" nm="VariablesSpecific" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="SiteVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="VariableSpecificID" prCl="VariableSpecificID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableMetadata_WaterAllocations" prLkCl="WaterAllocationID" upAc="3">
+        <PrTb mn="0" nm="WaterAllocations" oe="1" sch="WaDE2" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="WaterAllocationID" prCl="WaterAllocationID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableMetadata_WaterSources" prLkCl="WaterSourceID" upAc="3">
+        <PrTb mn="0" nm="WaterSources" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="SiteVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="WaterSourceID" prCl="WaterSourceID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="VariablesSpecific">
+      <Cm>specific granular variables</Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="VariableSpecificID" nm="pkVariablesSpecific"/>
+      <Cl au="0" df="" nm="VariableSpecificID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="VariableSpecificCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="VariableSpecificDescription" nu="1">
+        <DT arr="0" ds="Text" en="" id="703" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>A textual description of the aggregated variable in VariableSpecificCV.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="VariableCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="DataValues" stB="WaterUseVariables"/>
+      </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="WaterAllocationAmounts">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="WaterAllocationAmountID" nm="pkWaterAllocationAmounts"/>
+      <Cl au="0" df="" nm="WaterAllocationAmountID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationTimeframeStart" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Start date for the allocation each year in MM/DD</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationTimeframeEnd" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>End date for the allocation each year in MM/DD</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationAcreage" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Number of acres irrigated by this allocation, if irrigation is a specified use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationBasisCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationDutyAmount" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Duty amount per acre in feet, if available</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationAmount" nu="0">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The allocation amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="MaximumAmountUnitCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Unit of the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationMaximum" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Amount of the allocation maximum or cap</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="SiteVariableMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="AmountMetadataID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Fk deAc="3" nm="fk_WaterAllocationAmounts_AmountsMetadata" prLkCl="AmountMetadataID" upAc="3">
+        <PrTb mn="0" nm="AmountsMetadata" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="WaterAllocationAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_WaterAllocationAmounts_SiteVariableMetadata" prLkCl="SiteVariableMetadataID" upAc="3">
+        <PrTb mn="0" nm="SiteVariableMetadata" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="WaterAllocationAmounts" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="SiteVariableMetadataID" prCl="SiteVariableMetadataID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="WaterAllocations">
+      <Cm>Also known as water rights or permits </Cm>
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="WaterAllocationID" nm="pkWaterAllocations"/>
+      <Cl au="0" df="" nm="WaterAllocationID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="NativeWaterAllocationID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Unique identifier for the allocation, can be alphanumeric</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationOwner" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationApplicationDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date of the original filing on the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationPriorityDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Priority Date given to the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationLegalStatusCodeCV" nu="0">
+        <DT arr="0" ds="VarBinary" en="" id="-3" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationExpirationDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>If the allocation is temporary, add the expiration date</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationChangeApplicationIndicator" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Indicate if this allocation was the result of a change application</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LegacyAllocationIDs" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="WaterSources">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="WaterSourceID" nm="pkWaterSources"/>
+      <Cl au="0" df="" nm="WaterSourceID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceUID" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>a universeal identifier that is auto generated by WaDE data loader as a combination of the native source identifer and the organization univeral id</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceNativeID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Source id as used in the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceName" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>the water source name as in the data provider record</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterSourceTypeCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>The source type(s) of the site-specific variable amount (e.g., surface water, groundwater, mixed sources, reuse, etc.)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="WaterQualityIndicatorCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Water quality indicator(s) for the site-specific variable amount such as fresh, saline, mixed quality, etc.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Geometry" nu="1">
+        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="GNISFeatureNameCV" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <CustomTypes/>
+  </Sch>
+  <Dgm nm="Aggregated">
+    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
+      <ErNotation>InfoEngErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1276" y="519"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="RegulatoryReportingUnits" x="481" y="566"/>
+    <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="ReportingUnits" x="822" y="462"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="870" y="780"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="19" y="20"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="RegulatoryOverlay" x="34" y="478"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1057" y="248"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AggregatedVariableMetadata" x="484" y="51"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="AggregatedAmounts" x="974" y="22"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="17" y="246"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="433" y="362"/>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedAmounts.fk_AggregatedAmounts_AggregatedVariableMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="880" x2="974" y1="56" y2="56"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedAmounts.fk_AggregatedAmounts_AmountsMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1187" x2="1187" y1="248" y2="182"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="384" x2="484" y1="132" y2="132"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_ReportingUnits" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="867" x2="867" y1="462" y2="291"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Variables" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="606" x2="606" y1="362" y2="291"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_WaterSources" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="367" x2="484" y1="269" y2="269"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_RegulatoryOverlay" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="398" x2="481" y1="609" y2="609"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_ReportingUnits" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="822" x2="757" y1="621" y2="621"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.ReportingUnits.fk_ReportingUnits_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1011" x2="1011" y1="780" y2="718"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.ReportingUnits.fk_ReportingUnits_Organizations" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1276" x2="1205" y1="594" y2="594"/>
+      </positionableLines>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="CVs">
+    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
+      <ErNotation>InfoEngErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_AggregationStatistic" x="34" y="326"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_EPSGCode" x="872" y="775"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterQualityIndicator" x="39" y="773"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterAllocationBasis" x="32" y="25"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_VerticalDatumEPSGCode" x="36" y="473"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Variable" x="870" y="626"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_USGSCategory" x="871" y="469"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Units" x="462" y="320"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearType" x="866" y="320"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportingUnitType" x="472" y="775"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_RegulatoryStatus" x="471" y="619"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDProduct" x="465" y="462"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDNetworkStatus" x="465" y="171"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NAICSCode" x="37" y="169"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_MethodType" x="450" y="21"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_LegalStatusCode" x="850" y="19"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_GNISCode" x="861" y="168"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearCV" x="41" y="624"/>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="Site_Specific">
+    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
+      <ErNotation>InfoEngErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="Sites" x="829" y="640"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1265" y="684"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="868" y="958"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="26" y="205"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1386" y="417"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="20" y="453"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="326" y="722"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterAllocations" x="437" y="18"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="SiteVariableMetadata" x="455" y="279"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="SiteVariableAmounts" x="1004" y="409"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="WaterAllocationAmounts" x="981" y="25"/>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.Sites.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1038" x2="1038" y1="958" y2="896"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.Sites.fk_Sites_Organizations" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1265" x2="1198" y1="756" y2="756"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.SiteVariableAmounts.fk_SiteVariableAmounts_AmountsMetadata" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1386" x2="1325" y1="483" y2="483"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableAmounts.fk_SiteVariableAmounts_SiteVariableMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="884" x2="1004" y1="435" y2="435"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="391" x2="455" y1="342" y2="342"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Sites" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="PARENT_LINE" x1="954" x2="954" y1="640" y2="533"/>
+        <positionableLine lineRole="CHILD_LINE" x1="884" x2="950" y1="529" y2="529"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Variables" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="501" x2="501" y1="722" y2="599"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_WaterAllocations" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="645" x2="645" y1="210" y2="279"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_WaterSources" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="370" x2="455" y1="516" y2="516"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.WaterAllocationAmounts.fk_WaterAllocationAmounts_AmountsMetadata" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="PARENT_LINE" x1="1533" x2="1533" y1="417" y2="180"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1377" x2="1529" y1="176" y2="176"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.WaterAllocationAmounts.fk_WaterAllocationAmounts_SiteVariableMetadata" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="PARENT_LINE" x1="884" x2="1139" y1="360" y2="360"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1143" x2="1143" y1="265" y2="356"/>
+      </positionableLines>
+    </FkGl>
+    <Notes/>
+    <Zones/>
+  </Dgm>
+  <RnmMgr NxRnmId="606">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_METRIC" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="2" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="3" nNm="BENEFICIAL_USE_ID" oNm="ROW_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="4" nNm="SOURCE_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="5" nNm="SOURCE_START_DATE" oNm="SOURCE_STATE_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="6" nNm="METHOD_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="7" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="8" nNm="WATER_SUPPLY_TYPE" oNm="AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="9" nNm="WFS_FEATURE_REF" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="10" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterRights" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="11" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="12" nNm="AVAILABILITY" oNm="ROW_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="13" nNm="FRESH_SALINE_IND" oNm="AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="14" nNm="SOURCE_TYPE" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="15" nNm="WFS_FEATURE_REF" oNm="START_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="16" nNm="REPORT_DATE" oNm="ALLOCATION_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="17" nNm="REPRTING_YEAR" oNm="ALLOCATION_OWNER"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="18" nNm="REPORT_NAME" oNm="APPLICATION_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="19" nNm="REPORT_LINK" oNm="PRIORITY_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="20" nNm="YEAR_TYPE" oNm="LEGAL_STATUS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_ALLOCATION_IRRIGATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="22" nNm="IRRIGATION_SEQ" oNm="ROW_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_ALLOCATION_IRRIGATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="23" nNm="IRRIGATION_METHOD" oNm="AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_ALLOCATION_IRRIGATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="24" nNm="ACRES_IRRIGATED" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_ALLOCATION_IRRIGATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="25" nNm="CROP_TYPE" oNm="START_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="26" nNm="BENEFICIAL_USE_ID" oNm="AVAILABILITY"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="27" nNm="AMOUNT" oNm="FRESH_SALINE_IND"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="28" nNm="FRESH_SALINE_iND" oNm="SOURCE_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="29" nNm="SOURCE_TYPE" oNm="WFS_FEATURE_REF"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="30" nNm="REPORT_UNIT_ID" oNm="REPORT_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="31" nNm="REPRTING_UNIT_NAME" oNm="REPRTING_YEAR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="32" nNm="REPORTING_UNIT_TYPE" oNm="REPORT_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="33" nNm="STATE" oNm="REPORT_LINK"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="34" nNm="COUNTRY_FIPS" oNm="YEAR_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="35" nNm="WFS_ID" oNm="REPORT_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="36" nNm="WFS_DATACATEGORY" oNm="REPRTING_YEAR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="37" nNm="WFS_DATATYPE" oNm="REPORT_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="38" nNm="WFS_ADDRESS" oNm="REPORT_LINK"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="39" nNm="WFS_FEATURE_ID_FIELD" oNm="YEAR_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="40" nNm="BENEFICIAL_USE_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="41" nNm="SUMMARY_SEQ" oNm="IRRIGATION_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="42" nNm="ROW_SEQ" oNm="IRRIGATION_METHOD"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="43" nNm="AMOUNT" oNm="ACRES_IRRIGATED"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="44" nNm="CONSUMPTIVE_INDICATOR" oNm="CROP_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="45" nNm="FRESH_SALINE_IND" oNm="ROW_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="46" nNm="SOURCE_TYPE" oNm="AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="47" nNm="POWER_GENERATED" oNm="CONSUMPTIVE_INDICATOR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="48" nNm="POPULATION_SERVED" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="49" nNm="WFS_FEATURE_REF" oNm="START_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="50" nNm="REGULATORY_TYPE" oNm="FRESH_SALINE_IND"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="51" nNm="REGULATORY_STATUS" oNm="SOURCE_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="52" nNm="OVERSIGHT_AGENCY" oNm="POWER_GENERATED"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="53" nNm="REGULATORY_DESCRIPTION" oNm="POPULATION_SERVED"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="54" nNm="DETAIL_SEQ_NO" oNm="ALLOCATION_OWNER"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="55" nNm="AMOUNT_VOLUME" oNm="APPLICATION_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="56" nNm="UNIT_VOLUME" oNm="PRIORITY_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="57" nNm="AMOUNT_RATE" oNm="LEGAL_STATUS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="58" nNm="UNIT_RATE" oNm="END_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_ALLOCATION_USE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="59" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerWaterRight_Actuals" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="60" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="DETAIL_USE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="61" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_USE_LOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="62" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_CONSUMPTIVE_USE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="63" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_THERMOELECTRIC" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="64" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_USE_AMOUNT" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="65" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_IRRIGATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="66" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_COMMUNITY_WATER_SUPPLY" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="67" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_Diverted_Per_SiteActuals" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="68" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerDiversionSites" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="69" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerDiversionSites" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="70" nNm="DIVERSION_ID" oNm="DETAIL_SEQ_NO"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_DIVERSION_USE" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="71" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_ALLOCATION_LOCATION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="72" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="DETAIL_DIVERSION" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="73" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_RETURN_FLOW_ACTUAL" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="74" nNm="ORGANIZATION_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="DETAIL_RETURN_FLOW" SupCls="Schema" SupNme="schemaA">
+      <Rnm id="77" nNm="ORGANIZATION_ID" oNm="ORGANIZATION"/>
+      <Rnm id="75" nNm="ORGANIZATION" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="113" nNm="A_AVAILABILITY_AMOUNT" oNm="S_AVAILABILITY_AMOUNT"/>
+      <Rnm id="76" nNm="S_AVAILABILITY_AMOUNT" oNm="S_SUMMARY_AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Schema" ParCls="Database" ParNme="WADE" SupCls="" SupNme="">
+      <Rnm id="79" nNm="DataValues" oNm="Data"/>
+      <Rnm id="78" nNm="Data" oNm="schemaA"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_BENEFICIAL_USE" SupCls="Schema" SupNme="Lookups">
+      <Rnm id="80" nNm="LU_SEQ_NO" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_BENEFICIAL_USE" SupCls="Schema" SupNme="Lookups">
+      <Rnm id="81" nNm="CONTEXT" oNm="LU_BENEFICIAL_USEName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_FRESH_SALINE_INDICATOR" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="82" nNm="LU_SEQ_NO" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_GENERATOR_TYPE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="83" nNm="LU_SEQ_NO" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="84" nNm="SUMMARY_Allocation_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="124" nNm="AggregatedWaterSupplyID" oNm="Supply_Summary_ID"/>
+      <Rnm id="85" nNm="Supply_Summary_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="167" nNm="LU_WaterSupplyType" oNm="LU_WATER_SUPPLY_TYPE"/>
+      <Rnm id="86" nNm="LU_WATER_SUPPLY_TYPE" oNm="WATER_SUPPLY_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="87" nNm="Supply_Amount_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="250" nNm="AggregatedConsumptiveUSEID" oNm="AggregatedWithdrawalID"/>
+      <Rnm id="238" nNm="AggregatedWithdrawalID" oNm="AggregatedWaterUseID"/>
+      <Rnm id="170" nNm="AggregatedWaterUseID" oNm="Aggregated_WaterUseID"/>
+      <Rnm id="121" nNm="Aggregated_WaterUseID" oNm="Use_SUMMARY_ID"/>
+      <Rnm id="88" nNm="Use_SUMMARY_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="138" nNm="LU_BeneficialUse" oNm="LU_BENEFICIALUSE"/>
+      <Rnm id="137" nNm="LU_BENEFICIALUSE" oNm="LU_BENEFICIAL_USE"/>
+      <Rnm id="89" nNm="LU_BENEFICIAL_USE" oNm="BENEFICIAL_USE_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="197" nNm="LU_FreshSalineIndicator" oNm="LU_FreshSaline"/>
+      <Rnm id="139" nNm="LU_FreshSaline" oNm="LU_FRESH_SALINE"/>
+      <Rnm id="90" nNm="LU_FRESH_SALINE" oNm="FRESH_SALINE_IND"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="247" nNm="ConsumptiveUSE_Amount_ID" oNm="Withdrawal_Amount_ID"/>
+      <Rnm id="240" nNm="Withdrawal_Amount_ID" oNm="Use_Amount_ID"/>
+      <Rnm id="91" nNm="Use_Amount_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="259" nNm="Irrigation_ConslID" oNm="Irrigation_withdrawalID"/>
+      <Rnm id="243" nNm="Irrigation_withdrawalID" oNm="IrrigationID"/>
+      <Rnm id="231" nNm="IrrigationID" oNm="UseIrrigationID"/>
+      <Rnm id="180" nNm="UseIrrigationID" oNm="Use_Irrigation_ID"/>
+      <Rnm id="92" nNm="Use_Irrigation_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="260" nNm="A_ConsUse_CommunityWaterSupply" oNm="A_ConsUse_AMOUNT_CommunityWaterSupply"/>
+      <Rnm id="257" nNm="A_ConsUse_AMOUNT_CommunityWaterSupply" oNm="ConsUse_AMOUNT_CommunityWaterSupply"/>
+      <Rnm id="256" nNm="ConsUse_AMOUNT_CommunityWaterSupply" oNm="ConsumptiveUSE_AMOUNT_CommunityWaterSupply"/>
+      <Rnm id="248" nNm="ConsumptiveUSE_AMOUNT_CommunityWaterSupply" oNm="A_Withdrawal_AMOUNT_CommunityWaterSupply"/>
+      <Rnm id="239" nNm="A_Withdrawal_AMOUNT_CommunityWaterSupply" oNm="A_USE_AMOUNT_CommunityWaterSupply"/>
+      <Rnm id="178" nNm="A_USE_AMOUNT_CommunityWaterSupply" oNm="A_USE_AMOUNT_MandI"/>
+      <Rnm id="149" nNm="A_USE_AMOUNT_MandI" oNm="A_USE_AMOUNT_M&amp;I"/>
+      <Rnm id="116" nNm="A_USE_AMOUNT_M&amp;I" oNm="S_USE_AMOUNT_M&amp;I"/>
+      <Rnm id="93" nNm="S_USE_AMOUNT_M&amp;I" oNm="S_USE_AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="94" nNm="REGULATORY_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="188" nNm="AggregatedWaterAvailabilityID" oNm="AggregatedAvailabilityID"/>
+      <Rnm id="132" nNm="AggregatedAvailabilityID" oNm="Aggregated_Availability_ID"/>
+      <Rnm id="111" nNm="Aggregated_Availability_ID" oNm="SUMMARY_Availability_ID"/>
+      <Rnm id="95" nNm="SUMMARY_Availability_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_METRIC" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="96" nNm="Availability_metric_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="97" nNm="Availability_Amount_ID" oNm="SUMMARY_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_METRIC" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="190" nNm="LU_Metric" oNm="LU_METRIC"/>
+      <Rnm id="98" nNm="LU_METRIC" oNm="METRIC_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="127" nNm="ReportingAreas" oNm="Reporting_Areas"/>
+      <Rnm id="107" nNm="Reporting_Areas" oNm="Reporting_Area"/>
+      <Rnm id="99" nNm="Reporting_Area" oNm="REPORTING_UNIT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="130" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
+      <Rnm id="100" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="193" nNm="LU_ReportingAreaType" oNm="Reporting_Area_TYPE"/>
+      <Rnm id="101" nNm="Reporting_Area_TYPE" oNm="REPORTING_UNIT_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="102" nNm="Reporting_Area_NAME" oNm="REPRTING_UNIT_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="135" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
+      <Rnm id="103" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="131" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
+      <Rnm id="104" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="133" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
+      <Rnm id="105" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="136" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
+      <Rnm id="106" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Metadata" SupCls="" SupNme="">
+      <Rnm id="108" nNm="Reports" oNm="REPORT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="129" nNm="AggregatedRegulatories" oNm="AggregatedRegulatory"/>
+      <Rnm id="109" nNm="AggregatedRegulatory" oNm="SUMMARY_REGULATORY"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="187" nNm="AggregatedWaterAvailabilities" oNm="AggregatedAvailabilities"/>
+      <Rnm id="126" nNm="AggregatedAvailabilities" oNm="AggregatedAvailability"/>
+      <Rnm id="110" nNm="AggregatedAvailability" oNm="SUMMARY_AVAILABILITY"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="112" nNm="A_AVAILABILITY_METRIC" oNm="S_AVAILABILITY_METRIC"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="261" nNm="A_ConsumptiveUSE_Thermoelectric" oNm="A_ConsumptiveUSE_AMOUNT_Thermoelectric"/>
+      <Rnm id="246" nNm="A_ConsumptiveUSE_AMOUNT_Thermoelectric" oNm="A_Withdrawal_AMOUNT_Thermoelectric"/>
+      <Rnm id="241" nNm="A_Withdrawal_AMOUNT_Thermoelectric" oNm="A_USE_AMOUNT_Thermoelectric"/>
+      <Rnm id="177" nNm="A_USE_AMOUNT_Thermoelectric" oNm="A_USE_AMOUNT_Thermal"/>
+      <Rnm id="114" nNm="A_USE_AMOUNT_Thermal" oNm="S_USE_AMOUNT_Thermal"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="263" nNm="A_ConsumptiveUSE_Irrigation" oNm="A_ConsumptiveUSE_AMOUNT_Irrigation"/>
+      <Rnm id="232" nNm="A_ConsumptiveUSE_AMOUNT_Irrigation" oNm="A_USE_AMOUNT_Irrigation"/>
+      <Rnm id="115" nNm="A_USE_AMOUNT_Irrigation" oNm="S_USE_AMOUNT_Irrigation"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="230" nNm="A_IRRIGATION" oNm="A_USE_IRRIGATION"/>
+      <Rnm id="117" nNm="A_USE_IRRIGATION" oNm="S_USE_IRRIGATION"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="249" nNm="Aggregated_ConsumptiveUSE" oNm="Aggregated_Withdrawals"/>
+      <Rnm id="237" nNm="Aggregated_Withdrawals" oNm="Aggregated_WaterUses"/>
+      <Rnm id="236" nNm="Aggregated_WaterUses" oNm="AggregatedWaterUses"/>
+      <Rnm id="125" nNm="AggregatedWaterUses" oNm="Aggregated_WaterUse"/>
+      <Rnm id="120" nNm="Aggregated_WaterUse" oNm="Aggregated_WaterUseID"/>
+      <Rnm id="119" nNm="Aggregated_WaterUseID" oNm="Aggregated_WATER_USE"/>
+      <Rnm id="118" nNm="Aggregated_WATER_USE" oNm="SUMMARY_USE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="122" nNm="A_WATER_SUPPLY_AMOUNT" oNm="S_WATER_SUPPLY_AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="128" nNm="AggregatedWaterSupplies" oNm="Aggregated_Water_Supply"/>
+      <Rnm id="123" nNm="Aggregated_Water_Supply" oNm="SUMMARY_WATER_SUPPLY"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="134" nNm="ReportID" oNm="REPORT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="140" nNm="LU_SourceType" oNm="SOURCE_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="141" nNm="ReportID" oNm="REPORT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="142" nNm="ReportID" oNm="REPORT_REPORT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="143" nNm="ReportID" oNm="REPORT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="144" nNm="ReportID" oNm="REPORT_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="145" nNm="OrganizationID" oNm="ORGANIZATION_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="146" nNm="ReportIssueDate" oNm="REPORT_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="147" nNm="OrganizationID" oNm="ORGANIZATION_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="148" nNm="OrganizationName " oNm="ORGANIZATION_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="150" nNm="ConsumptiveIndicator" oNm="CONSUMPTIVE_INDICATOR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="151" nNm="ConsumptiveIndicator" oNm="CONSUMPTIVE_INDICATOR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="152" nNm="ConsumptiveIndicator" oNm="CONSUMPTIVE_INDICATOR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="195" nNm="LU_CropType" oNm="CropType"/>
+      <Rnm id="153" nNm="CropType" oNm="CROP_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="154" nNm="PopulationServed " oNm="POPULATION_SERVED"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="155" nNm="MethodID" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="156" nNm="MethodID" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_METRIC" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="191" nNm="AggregatedWaterAvailabilityID" oNm="AggregatedAvailabilityID"/>
+      <Rnm id="157" nNm="AggregatedAvailabilityID" oNm="SUMMARY_Availability_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="158" nNm="MethodID" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="159" nNm="MethodID" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Metadata" SupCls="" SupNme="">
+      <Rnm id="160" nNm="Methods" oNm="METHODS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Metadata" SupCls="" SupNme="">
+      <Rnm id="161" nNm="Organizations" oNm="ORGANIZATION"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="162" nNm="MethodID" oNm="METHOD_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Metadata" SupCls="" SupNme="">
+      <Rnm id="165" nNm="Sources" oNm="MethodSources"/>
+      <Rnm id="163" nNm="MethodSources" oNm="DATA_SOURCES"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="164" nNm="SourceID" oNm="SOURCE_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="166" nNm="SourceID" oNm="SOURCE_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="168" nNm="MethodTypeCode" oNm="METHOD_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="169" nNm="LU_AggregationStatistic" oNm="AggregationStatistic"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="171" nNm="AggregatedWaterUseID" oNm="Aggregated_WaterUseID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="179" nNm="AggregatedWaterUseID" oNm="Aggregated_WaterUseID"/>
+      <Rnm id="175" nNm="Aggregated_WaterUseID" oNm="Aggregated_WaterUseIDv"/>
+      <Rnm id="172" nNm="Aggregated_WaterUseIDv" oNm="Use_SUMMARY_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="173" nNm="AggregatedWaterUseID" oNm="Use_SUMMARY_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="198" nNm="LU_FreshSalineIndicator" oNm="LU_FreshSaline"/>
+      <Rnm id="174" nNm="LU_FreshSaline" oNm="FRESH_SALINE_IND"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="176" nNm="AggregatedWaterSupplyID" oNm="Supply_Summary_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="269" nNm="Irrigation_ConslID" oNm="UseIrrigationID"/>
+      <Rnm id="181" nNm="UseIrrigationID" oNm="Use_Irrigation_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="182" nNm="LU_AggregationIntervalUnit" oNm="AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="183" nNm="LU_AggregationIntervalUnit" oNm="AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="184" nNm="LU_AggregationIntervalUnit" oNm="AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_AVAILABILITY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="185" nNm="LU_AggregationIntervalUnit" oNm="AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="186" nNm="LU_AggregationIntervalUnit" oNm="AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="199" nNm="LU_SourceType" oNm="LUSourceType"/>
+      <Rnm id="196" nNm="LUSourceType" oNm="LU_Source_Type"/>
+      <Rnm id="189" nNm="LU_Source_Type" oNm="SOURCE_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="192" nNm="LU_RegulatoryStatus" oNm="REGULATORY_STATUS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="194" nNm="COUNTY_FIPS" oNm="COUNTRY_FIPS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="200" nNm="LU_IrrigationMethod" oNm="IRRIGATION_METHOD"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterAvailabilities" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="201" nNm="AvailabilityType" oNm="AVAILABILITY"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="209" nNm="WaterRights" oNm="Detail_Allocations"/>
+      <Rnm id="202" nNm="Detail_Allocations" oNm="DETAIL_ALLOCATION"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_CONSUMPTIVE_USE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="203" nNm="LU_SourceType" oNm="SOURCE_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_CONSUMPTIVE_USE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="204" nNm="LU_FreshSalineIndicator" oNm="FRESH_SALINE_IND"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_CONSUMPTIVE_USE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="205" nNm="LU_BeneficialUse" oNm="BENEFICIAL_USE_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="206" nNm="D_USE_AMOUNT_Thermoelectric" oNm="A_USE_AMOUNT_Thermoelectric_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="207" nNm="D_USE_AMOUNT_CommunityWaterSupply" oNm="A_USE_AMOUNT_CommunityWaterSupply_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_USE_LOCATION" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="208" nNm="LocationID" oNm="LOCATION_SEQ"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterRights" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="210" nNm="WaterRightID" oNm="ALLOCATION_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="DETAIL_USE" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="211" nNm="WaterRightID" oNm="ALLOCATION_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="223" nNm="D_AllocatedPerDiversionSites" oNm="D_AllocatedDiversionSites"/>
+      <Rnm id="213" nNm="D_AllocatedDiversionSites" oNm="D_Allocated_DIVERSIONS_Sites"/>
+      <Rnm id="212" nNm="D_Allocated_DIVERSIONS_Sites" oNm="D_DIVERSION_FLOW"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_AllocatedPerDiversionSites" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="214" nNm="D_AllocatedDiversionSiteID" oNm="D_Allocated_DIVERSIONS_Sites_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="224" nNm="D_Diverted_Per_SiteActuals" oNm="D_Diverted_Actuals"/>
+      <Rnm id="217" nNm="D_Diverted_Actuals" oNm="D_DIVERSION_ACTUAL_reported"/>
+      <Rnm id="215" nNm="D_DIVERSION_ACTUAL_reported" oNm="D_DIVERSION_ACTUAL"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_Diverted_Per_SiteActuals" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="218" nNm="D_Diverted_ActualID" oNm="Actual_DivertedID"/>
+      <Rnm id="216" nNm="Actual_DivertedID" oNm="ACTUAL_SEQ_NO"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_Diverted_Per_SiteActuals" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="219" nNm="AMOUNT" oNm="AMOUNT_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_Diverted_Per_SiteActuals" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="220" nNm="LU_UnitName" oNm="UNIT_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_Diverted_Per_SiteActuals" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="221" nNm="MethodID" oNm="METHOD_ID_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="222" nNm="D_AllocatedPerWaterRight" oNm="D_ALLOCATION_FLOW"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="225" nNm="D_AllocatedPerWaterRight_Actuals" oNm="D_ALLOCATION_ACTUAL"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_RETURN_FLOW_ACTUAL" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="226" nNm="D_RETURN_FLOW_ACTUAL_ID" oNm="ACTUAL_SEQ_NO"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_RETURN_FLOW_ACTUAL" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="227" nNm="MethodID" oNm="METHOD_ID_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_RETURN_FLOW_ACTUAL" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="228" nNm="LU_UnitName" oNm="UNIT_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="D_RETURN_FLOW_ACTUAL" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="229" nNm="AMOUNT" oNm="AMOUNT_VOLUME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="276" nNm="A_ConsumptiveUSE_Amount_IrrigationID" oNm="A_ConsumptiveUSE_AMOUNT_IrrigationID"/>
+      <Rnm id="233" nNm="A_ConsumptiveUSE_AMOUNT_IrrigationID" oNm="Use_Amount_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="234" nNm="A_Withdrawal_AMOUNT_Irrigation" oNm="A_USE_AMOUNT_Irrigation_with"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_Withdrawal_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="235" nNm="Withdrawal_Amount_ID" oNm="Use_Amount_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="245" nNm="ConsumptiveUSE_AMOUNT_ID" oNm="ConsumptiveUSE_AMOUNT"/>
+      <Rnm id="244" nNm="ConsumptiveUSE_AMOUNT" oNm="Withdrawal_Amount_ID"/>
+      <Rnm id="242" nNm="Withdrawal_Amount_ID" oNm="Use_Amount_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="DataValues" SupCls="" SupNme="">
+      <Rnm id="264" nNm="WaterUseVariables" oNm="Aggregated_Variables"/>
+      <Rnm id="251" nNm="Aggregated_Variables" oNm="UseVariables"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="265" nNm="WaterUseVariableID" oNm="AggregatedVariableID"/>
+      <Rnm id="253" nNm="AggregatedVariableID" oNm="Aggregated_VariableID"/>
+      <Rnm id="252" nNm="Aggregated_VariableID" oNm="ConsumptiveUSE_Amount_ID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="254" nNm="AggregatedVariableID" oNm="Aggregated_VariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="266" nNm="WaterUseVariableCode" oNm="VariableCode"/>
+      <Rnm id="258" nNm="VariableCode" oNm="Variable_Code"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsUse_CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="262" nNm="Year" oNm="DateStamp"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="267" nNm="LU_VariableUnitName" oNm="LU_UnitName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="268" nNm="Year" oNm="DateStamp"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsUse_CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="270" nNm="ReportCode" oNm="ReportID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsUse_CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="271" nNm="ReportingAreaCode" oNm="ReportingAreaID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="272" nNm="Date" oNm="Year"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="273" nNm="StartDate" oNm="START_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="274" nNm="EndDate" oNm="END_DATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
+      <Rnm id="275" nNm="Amount" oNm="AMOUNT"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+      <Rnm id="277" nNm="ContactName" oNm="FIRST_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_FRESH_SALINE_INDICATOR" SupCls="Schema" SupNme="Lookups">
+      <Rnm id="278" nNm="LU_SEQ_NOi" oNm="LU_SEQ_NO"/>
+    </RnmCh>
+    <RnmCh ObjCls="Schema" ParCls="Database" ParNme="WaDE" SupCls="" SupNme="">
+      <Rnm id="603" nNm="WaDE2" oNm="WaDE2.0"/>
+      <Rnm id="602" nNm="WaDE2.0" oNm="WaDE"/>
+      <Rnm id="337" nNm="WaDE" oNm="WaDE2.0"/>
+      <Rnm id="336" nNm="WaDE2.0" oNm="WaDE"/>
+      <Rnm id="279" nNm="WaDE" oNm="Irr_sum"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="595" nNm="Variables" oNm="Variable"/>
+      <Rnm id="548" nNm="Variable" oNm="Variable1"/>
+      <Rnm id="542" nNm="Variable1" oNm="VariableTypes"/>
+      <Rnm id="506" nNm="VariableTypes" oNm="VariableType"/>
+      <Rnm id="455" nNm="VariableType" oNm="WaterBudgetVariables"/>
+      <Rnm id="452" nNm="WaterBudgetVariables" oNm="VariableTypes"/>
+      <Rnm id="342" nNm="VariableTypes" oNm="WaDEVariableTypes"/>
+      <Rnm id="341" nNm="WaDEVariableTypes" oNm="WaDEVariableType"/>
+      <Rnm id="304" nNm="WaDEVariableType" oNm="WaDE_VariableType"/>
+      <Rnm id="303" nNm="WaDE_VariableType" oNm="WaterUseTypes"/>
+      <Rnm id="280" nNm="WaterUseTypes" oNm="WaterUseVariables_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="540" nNm="VariableCV" oNm="VariableTypeCV"/>
+      <Rnm id="467" nNm="VariableTypeCV" oNm="VariableType"/>
+      <Rnm id="457" nNm="VariableType" oNm="WaterBudgetVariableName"/>
+      <Rnm id="453" nNm="WaterBudgetVariableName" oNm="VariableType"/>
+      <Rnm id="281" nNm="VariableType" oNm="VariableName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="517" nNm="AggregatedVariableMetadataID" oNm="AggregatedMetadataID"/>
+      <Rnm id="295" nNm="AggregatedMetadataID" oNm="AmountID"/>
+      <Rnm id="282" nNm="AmountID" oNm="Irrigation_ConslID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="516" nNm="AggregatedVariableMetadata" oNm="AggregatedUnitVariableMetadata"/>
+      <Rnm id="443" nNm="AggregatedUnitVariableMetadata" oNm="AggregatedMetadata"/>
+      <Rnm id="294" nNm="AggregatedMetadata" oNm="AmountDate"/>
+      <Rnm id="284" nNm="AmountDate" oNm="A_IRRIGATION"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="311" nNm="IrrigationAmountID" oNm="IrrigationID"/>
+      <Rnm id="286" nNm="IrrigationID" oNm="Irrigation"/>
+      <Rnm id="285" nNm="Irrigation" oNm="A_ConsumptiveUSE_Amount_IrrigationID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="356" nNm="S_USE_AMOUNT_Irrigation" oNm="IrrigationAmount"/>
+      <Rnm id="310" nNm="IrrigationAmount" oNm="Irrigation"/>
+      <Rnm id="287" nNm="Irrigation" oNm="A_ConsumptiveUSE_Irrigation"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="386" nNm="AggregatedAmounts" oNm="Aggregated_Amounts"/>
+      <Rnm id="366" nNm="Aggregated_Amounts" oNm="S_USE_AMOUNT_Thermoelectric"/>
+      <Rnm id="357" nNm="S_USE_AMOUNT_Thermoelectric" oNm="ThermoelectricAmount"/>
+      <Rnm id="305" nNm="ThermoelectricAmount" oNm="Thermoelectric"/>
+      <Rnm id="288" nNm="Thermoelectric" oNm="Supply"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="385" nNm="AggregatedAmountID" oNm="Aggregated_AmountID"/>
+      <Rnm id="367" nNm="Aggregated_AmountID" oNm="ThermoelectricAmountID"/>
+      <Rnm id="306" nNm="ThermoelectricAmountID" oNm="ThermoelectricID"/>
+      <Rnm id="289" nNm="ThermoelectricID" oNm="IrrigationID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="313" nNm="Availability" oNm="PublicSupplyAmount"/>
+      <Rnm id="309" nNm="PublicSupplyAmount" oNm="Public SupplyAmount"/>
+      <Rnm id="307" nNm="Public SupplyAmount" oNm="Public Supply"/>
+      <Rnm id="290" nNm="Public Supply" oNm="Irrigation_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Availability" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="291" nNm="PopulationServed " oNm="IrrigationMethod"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Supply" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="292" nNm="SupplyID" oNm="ThermoelectricID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Supply" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="293" nNm="SupplyType" oNm="PowerGeneratred"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Supply" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="296" nNm="AggregatedMetadataID" oNm="AmountID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="518" nNm="AggregatedVariableMetadataID" oNm="AggregatedMetadataID"/>
+      <Rnm id="297" nNm="AggregatedMetadataID" oNm="AmountID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Availability" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="298" nNm="AggregatedMetadataID" oNm="AmountID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="299" nNm="AggregatedMetadataID" oNm="AmountID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="544" nNm="VariablesSpecific" oNm="Variables"/>
+      <Rnm id="343" nNm="Variables" oNm="WaDEVariables"/>
+      <Rnm id="300" nNm="WaDEVariables" oNm="WaterUseVariables"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_AVAILABILITY_AMOUNT" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="317" nNm="AvailabilityAmountID" oNm="SupplyAmountID"/>
+      <Rnm id="301" nNm="SupplyAmountID" oNm="SupplyID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_AVAILABILITY_AMOUNT" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="302" nNm="SupplyID" oNm="Supply_SupplyID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Availability" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="315" nNm="AvailabilityID" oNm="PublicSupplyAmountID"/>
+      <Rnm id="308" nNm="PublicSupplyAmountID" oNm="IrrigationID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="360" nNm="S_AVAILABILITY_AMOUNT" oNm="AvailabilityAmount"/>
+      <Rnm id="316" nNm="AvailabilityAmount" oNm="SupplyAmount"/>
+      <Rnm id="312" nNm="SupplyAmount" oNm="Supply_amount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Availability" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="314" nNm="SourceType" oNm="EndDateFrame"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="359" nNm="S_WATER_SUPPLY_AMOUNT" oNm="SupplyAmount"/>
+      <Rnm id="318" nNm="SupplyAmount" oNm="SupplyAmount_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_AVAILABILITY_METRIC" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="319" nNm="AvailabilityMetricID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="537" nNm="StateCV" oNm="State"/>
+      <Rnm id="320" nNm="State" oNm="STATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="321" nNm="CountyFIPS" oNm="COUNTY_FIPS"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="374" nNm="HUCIdentifier" oNm="HUCCode"/>
+      <Rnm id="330" nNm="HUCCode" oNm="HUC8Code"/>
+      <Rnm id="322" nNm="HUC8Code" oNm="HUC"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="323" nNm="ReportName" oNm="REPORT_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="324" nNm="ReportLink" oNm="REPORT_LINK"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="325" nNm="YearType" oNm="YEAR_TYPE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="327" nNm="ReportingYear" oNm="ReportYear"/>
+      <Rnm id="326" nNm="ReportYear" oNm="REPRTING_YEAR"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="511" nNm="ReportingUnitName" oNm="ReportUnitName"/>
+      <Rnm id="500" nNm="ReportUnitName" oNm="ReportUnitNameCV"/>
+      <Rnm id="479" nNm="ReportUnitNameCV" oNm="ReportingUnitNameCV"/>
+      <Rnm id="478" nNm="ReportingUnitNameCV" oNm="ReportingUnitName"/>
+      <Rnm id="352" nNm="ReportingUnitName" oNm="ReportingAreaName"/>
+      <Rnm id="329" nNm="ReportingAreaName" oNm="ReportingAreaNAME"/>
+      <Rnm id="328" nNm="ReportingAreaNAME" oNm="Reporting_Area_NAME"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="546" nNm="VariableSpecificID" oNm="VariableID"/>
+      <Rnm id="331" nNm="VariableID" oNm="WaterUseVariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="332" nNm="VariableCode" oNm="WaterUseVariableCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="549" nNm="VariableSpecificID" oNm="VariableID"/>
+      <Rnm id="333" nNm="VariableID" oNm="AggregatedVariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="596" nNm="VariableCV" oNm="VariableID"/>
+      <Rnm id="547" nNm="VariableID" oNm="VariableTypeID"/>
+      <Rnm id="340" nNm="VariableTypeID" oNm="WaterUseVariableID"/>
+      <Rnm id="334" nNm="WaterUseVariableID" oNm="WaterUseTypes_WaterUseVariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="335" nNm="AcresIrrigated" oNm="Acres_irrigated"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="358" nNm="S_USE_AMOUNT_PublicSupply" oNm="PublicSupplyAmount"/>
+      <Rnm id="338" nNm="PublicSupplyAmount" oNm="PublicSupplyAmount_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="543" nNm="VariableID" oNm="VariableTypeID"/>
+      <Rnm id="456" nNm="VariableTypeID" oNm="WaterBudgetVariableVariableTypeID"/>
+      <Rnm id="454" nNm="WaterBudgetVariableVariableTypeID" oNm="VariableTypeID"/>
+      <Rnm id="339" nNm="VariableTypeID" oNm="WaterUseVariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="344" nNm="OrganizationName" oNm="OrganizationName "/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_PublicSupply" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="345" nNm="PopulationServed" oNm="PopulationServed "/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="346" nNm="Date" oNm="EndDateFrame"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="459" nNm="RegulatoryOverlayID" oNm="RegulatoryID"/>
+      <Rnm id="347" nNm="RegulatoryID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="588" nNm="USGSCategoryCV" oNm="BeneficialUseCategory"/>
+      <Rnm id="465" nNm="BeneficialUseCategory" oNm="LU_BeneficialUseCategory"/>
+      <Rnm id="444" nNm="LU_BeneficialUseCategory" oNm="LU_BeneficialUse"/>
+      <Rnm id="355" nNm="LU_BeneficialUse" oNm="LU_BeneficialUse1"/>
+      <Rnm id="348" nNm="LU_BeneficialUse1" oNm="LU_BeneficialUse"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="508" nNm="ReportingUnits" oNm="ReportUnits"/>
+      <Rnm id="505" nNm="ReportUnits" oNm="ReportingUnits"/>
+      <Rnm id="349" nNm="ReportingUnits" oNm="ReportingAreas"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="536" nNm="ReportingUnitUID" oNm="ReportingUnitCode"/>
+      <Rnm id="510" nNm="ReportingUnitCode" oNm="ReportUnitCode"/>
+      <Rnm id="449" nNm="ReportUnitCode" oNm="ReportUnitIdentifier"/>
+      <Rnm id="373" nNm="ReportUnitIdentifier" oNm="ReportingUnitCode"/>
+      <Rnm id="350" nNm="ReportingUnitCode" oNm="ReportingAreaCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="509" nNm="ReportingUnitID" oNm="ReportUnitID"/>
+      <Rnm id="501" nNm="ReportUnitID" oNm="ReportingUnitID"/>
+      <Rnm id="351" nNm="ReportingUnitID" oNm="ReportingAreaID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="353" nNm="ReportingUnitVersion" oNm="ReportingAreaVersion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="512" nNm="ReportingUnitTypeCV" oNm="ReportUnitTypeCV"/>
+      <Rnm id="480" nNm="ReportUnitTypeCV" oNm="ReportingUnitType"/>
+      <Rnm id="365" nNm="ReportingUnitType" oNm="LU_ReportingUnitType"/>
+      <Rnm id="354" nNm="LU_ReportingUnitType" oNm="LU_ReportingAreaType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="361" nNm="S_AVAILABILITY_METRIC" oNm="AvailabilityMetric"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="362" nNm="MethodCode" oNm="MethodName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="541" nNm="VariableDescription" oNm="VariableTypeDescription"/>
+      <Rnm id="363" nNm="VariableTypeDescription" oNm="Definiton"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="370" nNm="OrganizationContactName" oNm="FirstName"/>
+      <Rnm id="364" nNm="FirstName" oNm="ContactName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="368" nNm="Attribute" oNm="PowerGeneratred"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="369" nNm="OrganizationPurview" oNm="PURVUE_DESC"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="371" nNm="OrganizationContactEmail" oNm="TITLE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="372" nNm="State" oNm="STATE"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="515" nNm="ReportingUnitID" oNm="ReportUnitID"/>
+      <Rnm id="504" nNm="ReportUnitID" oNm="ReportingUnitID"/>
+      <Rnm id="375" nNm="ReportingUnitID" oNm="ReportingAreaID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="376" nNm="MethodName" oNm="VariableName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="377" nNm="MethodDescription" oNm="VariableTypeID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="378" nNm="MethodID" oNm="VariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="379" nNm="USGSCategory" oNm="ConsumptiveUseUSGSCategory"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="567" nNm="AmountUnitCV" oNm="UnitOfMeasureCV"/>
+      <Rnm id="468" nNm="UnitOfMeasureCV" oNm="UnitOfMeasure"/>
+      <Rnm id="464" nNm="UnitOfMeasure" oNm="LU_UnitOfMeasure"/>
+      <Rnm id="380" nNm="LU_UnitOfMeasure" oNm="UnitOfMeasure"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="569" nNm="TimeframeStart" oNm="TimeFrameStart"/>
+      <Rnm id="384" nNm="TimeFrameStart" oNm="TimeframeStart"/>
+      <Rnm id="381" nNm="TimeframeStart" oNm="StartDateFrame"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="568" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
+      <Rnm id="383" nNm="TimeFrameEnd" oNm="TimeframeEnd"/>
+      <Rnm id="382" nNm="TimeframeEnd" oNm="EndDateFrame"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="387" nNm="AggregatedAmountID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="388" nNm="NHDMetadataID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="389" nNm="SiteID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="434" nNm="SiteVariableAmounts" oNm="SiteSpecific_amounts"/>
+      <Rnm id="390" nNm="SiteSpecific_amounts" oNm="AggregatedAmounts_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="531" nNm="SiteVariableAmountID" oNm="SiteVariableAmountsID"/>
+      <Rnm id="435" nNm="SiteVariableAmountsID" oNm="SiteAmountID"/>
+      <Rnm id="391" nNm="SiteAmountID" oNm="AggregatedAmountID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="433" nNm="SiteVariableMetadata" oNm="SiteSpecificMetadata"/>
+      <Rnm id="392" nNm="SiteSpecificMetadata" oNm="AggregatedMetadata_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="432" nNm="SiteVariableMetadataID" oNm="SiteSpecificMetadataID"/>
+      <Rnm id="393" nNm="SiteSpecificMetadataID" oNm="AggregatedMetadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="394" nNm="VolumeAmount" oNm="Amount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="554" nNm="WaterAllocationID" oNm="AllocationID"/>
+      <Rnm id="418" nNm="AllocationID" oNm="PermitID"/>
+      <Rnm id="395" nNm="PermitID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="551" nNm="WaterAllocationOwner" oNm="AllocationOwner"/>
+      <Rnm id="421" nNm="AllocationOwner" oNm="Permit_OwnerName"/>
+      <Rnm id="396" nNm="Permit_OwnerName" oNm="Permit_ownerName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="563" nNm="WaterAllocationLegalStatusCodeCV" oNm="LegalStatusCodeCV"/>
+      <Rnm id="487" nNm="LegalStatusCodeCV" oNm="LegalStatusCode"/>
+      <Rnm id="486" nNm="LegalStatusCode" oNm="LU_LegalStatusCode"/>
+      <Rnm id="423" nNm="LU_LegalStatusCode" oNm="LegalStatusCode"/>
+      <Rnm id="400" nNm="LegalStatusCode" oNm="LU_LegalStatusCode"/>
+      <Rnm id="398" nNm="LU_LegalStatusCode" oNm="LU_LegalStatus"/>
+      <Rnm id="397" nNm="LU_LegalStatus" oNm="LegalStatus_LU"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="562" nNm="WaterAllocationExpirationDate" oNm="ExpirationDate"/>
+      <Rnm id="399" nNm="ExpirationDate" oNm="EndDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="425" nNm="Site_WaterAllocationID" oNm="Site_Permit_ID"/>
+      <Rnm id="401" nNm="Site_Permit_ID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="407" nNm="WaterSourceID" oNm="SourceID"/>
+      <Rnm id="402" nNm="SourceID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountsMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="403" nNm="PopulationServed" oNm="population"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="520" nNm="AmountsMetadata" oNm="Amounts_metadata"/>
+      <Rnm id="404" nNm="Amounts_metadata" oNm="Aggre_Amounts_metadata"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountsMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="521" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
+      <Rnm id="405" nNm="Amounts_metadataID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="406" nNm="WaterSources" oNm="Sources"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="408" nNm="WaterSourceName" oNm="SourceName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="581" nNm="WaterSourceUID" oNm="WaterSourceCode"/>
+      <Rnm id="409" nNm="WaterSourceCode" oNm="SourceCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="491" nNm="WaterSourceTypeCV" oNm="WaterSourceType"/>
+      <Rnm id="462" nNm="WaterSourceType" oNm="LU_WaterSourceType"/>
+      <Rnm id="410" nNm="LU_WaterSourceType" oNm="WaterSourceType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="411" nNm="WaterSourceID" oNm="SourceID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="497" nNm="ReportYearTypeCV" oNm="LU_ReportYearType"/>
+      <Rnm id="412" nNm="LU_ReportYearType" oNm="ReportYearType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="413" nNm="WaterSourceID" oNm="SourceID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="488" nNm="NHDNetworkStatusCV" oNm="LU_NHDNetworkStatusCV"/>
+      <Rnm id="475" nNm="LU_NHDNetworkStatusCV" oNm="LU_NHDNetworkStatus"/>
+      <Rnm id="414" nNm="LU_NHDNetworkStatus" oNm="NHDNetworkStatus"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="489" nNm="NHDProductCV" oNm="LU_NHDProductCV"/>
+      <Rnm id="474" nNm="LU_NHDProductCV" oNm="LU_NHDProduct"/>
+      <Rnm id="415" nNm="LU_NHDProduct" oNm="NHDProduct"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="416" nNm="MethodNEMILink" oNm="MethodLink"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="420" nNm="WaterAllocations" oNm="Allocations"/>
+      <Rnm id="417" nNm="Allocations" oNm="Allocation_WaterRight_Permit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="564" nNm="WaterAllocationUID" oNm="AllocationUID"/>
+      <Rnm id="555" nNm="AllocationUID" oNm="AllocationCode"/>
+      <Rnm id="419" nNm="AllocationCode" oNm="PermitCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="560" nNm="WaterAllocationApplicationDate" oNm="ApplicationDate"/>
+      <Rnm id="422" nNm="ApplicationDate" oNm="PermitDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="424" nNm="Sites_WaterAllocations" oNm="Sites_Permits"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="565" nNm="WaterAllocationID" oNm="AllocationID"/>
+      <Rnm id="426" nNm="AllocationID" oNm="PermitID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="493" nNm="VerticalDatumEPSGCodeCV" oNm="LU_VerticalDatumEPSGCode"/>
+      <Rnm id="430" nNm="LU_VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCode"/>
+      <Rnm id="429" nNm="VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCodLU_e"/>
+      <Rnm id="428" nNm="VerticalDatumEPSGCodLU_e" oNm="VerticalDatumEPSGCode"/>
+      <Rnm id="427" nNm="VerticalDatumEPSGCode" oNm="VerticalDatumCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="499" nNm="BeneficialUseCategory" oNm="LU_BeneficialUseCategory"/>
+      <Rnm id="431" nNm="LU_BeneficialUseCategory" oNm="LU_BeneficialUse"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="448" nNm="WaterAllocationAmountID" oNm="WaterAllocationAmountsID"/>
+      <Rnm id="447" nNm="WaterAllocationAmountsID" oNm="AllocationAmountsID"/>
+      <Rnm id="436" nNm="AllocationAmountsID" oNm="SiteVariableAmountsID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="437" nNm="WaterAllocationAcreage" oNm="Date"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="438" nNm="WaterAllocationDutyAmount" oNm="VolumeAmount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="439" nNm="WaterAllocationAmount" oNm="FlowAmount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="495" nNm="WaterAllocationBasisCV" oNm="LU_WaterAllocationBasis"/>
+      <Rnm id="440" nNm="LU_WaterAllocationBasis" oNm="WaterAllocationBasis"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="533" nNm="MaximumAmountUnitCV" oNm="MaximumAmountUnit"/>
+      <Rnm id="441" nNm="MaximumAmountUnit" oNm="AllocatedAmountUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountsMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="442" nNm="IrrigatedAcreage" oNm="Acres_irrigated"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="482" nNm="VerticalDatumEPSGCodeCV" oNm="VerticalDatumEPSGCode"/>
+      <Rnm id="445" nNm="VerticalDatumEPSGCode" oNm="VerticalDatum"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="446" nNm="WaterAllocationAmounts" oNm="AllocationAmounts"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="513" nNm="ReportingUnitUpdateDate" oNm="ReportUnitUpdateDate"/>
+      <Rnm id="502" nNm="ReportUnitUpdateDate" oNm="ReportingUnitUpdateDate"/>
+      <Rnm id="450" nNm="ReportingUnitUpdateDate" oNm="HUCUpdateDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="514" nNm="ReportingUnitProductVersion" oNm="ReportUnitProductVersion"/>
+      <Rnm id="503" nNm="ReportUnitProductVersion" oNm="ReportingUnitProductVersion"/>
+      <Rnm id="451" nNm="ReportingUnitProductVersion" oNm="HUCProductVersion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="458" nNm="RegulatoryOverlay" oNm="Regulatory"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="460" nNm="RegulatoryName" oNm="RegulatoryType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="461" nNm="BridgeID" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="580" nNm="WaterQualityIndicatorCV" oNm="FreshSalineIndicatorCV"/>
+      <Rnm id="490" nNm="FreshSalineIndicatorCV" oNm="FreshSalineIndicator"/>
+      <Rnm id="463" nNm="FreshSalineIndicator" oNm="LU_FreshSalineIndicator"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="466" nNm="MethodTypeCV" oNm="MethodType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="470" nNm="AggregationStatisticCV" oNm="AggregationStatistic"/>
+      <Rnm id="469" nNm="AggregationStatistic" oNm="LU_AggregationStatistic"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="471" nNm="AggregationIntervalUnitCV" oNm="LU_AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="472" nNm="ReportYearTypeCV" oNm="ReportYearType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="492" nNm="NAICSCodeCV" oNm="NAICSCodeCv"/>
+      <Rnm id="473" nNm="NAICSCodeCv" oNm="NAICSCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="476" nNm="RegulatoryStatusCV" oNm="RegulatoryStatus"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="477" nNm="ReportYearTypeCV" oNm="ReportYearType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="481" nNm="EPSGCodeCV" oNm="EPSGCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="483" nNm="GNISCodeCV" oNm="GNIS_code"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="585" nNm="AmountUnitCV" oNm="UnitOfMeasureCV"/>
+      <Rnm id="484" nNm="UnitOfMeasureCV" oNm="LU_UnitOfMeasure"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="485" nNm="AggregationStatisticCV" oNm="LU_AggregationStatistic"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="494" nNm="GNISCodeCV" oNm="GNISCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="496" nNm="AggregationIntervalUnitCV" oNm="LU_AggregationIntervalUnit"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="498" nNm="NAICSCodeCV" oNm="NAICSCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="570" nNm="ReportYearCV" oNm="ReportYear"/>
+      <Rnm id="507" nNm="ReportYear" oNm="Date"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="519" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountsMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="522" nNm="PowerGeneratedGWh" oNm="Power_generated_gigawatt_hours"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="523" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountsMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="524" nNm="IndustrialSectorName" oNm="IndustrialSector"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="525" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="526" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="527" nNm="SiteVariableMetadataID" oNm="SiteSpecificMetadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="528" nNm="ReportYear" oNm="Date"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="529" nNm="Amount" oNm="FlowAmount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="530" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="532" nNm="SiteVariableMetadataID" oNm="SiteSpecificMetadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="601" nNm="CVs_Variable" oNm="CVs_VariableType"/>
+      <Rnm id="534" nNm="CVs_VariableType" oNm="VariableTypeCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CVs_Variable" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="535" nNm="Name" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="538" nNm="InterbasinTransferFromID" oNm="UpstreamBasinIdentifier"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="539" nNm="InterbasinTransferToID" oNm="DownstreamBasinIdentifier"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="545" nNm="VariableSpecificCV" oNm="VariableName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="550" nNm="VariableSpecificID" oNm="VariableID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="559" nNm="WaterAllocationChangeApplicationIndicator" oNm="ChangeApplicationIndicator"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="561" nNm="WaterAllocationPriorityDate" oNm="PriorityDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="566" nNm="SiteUID" oNm="SiteCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="593" nNm="WaterAllocationTimeframeEnd" oNm="TimeframeEnd"/>
+      <Rnm id="571" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="592" nNm="WaterAllocationTimeframeStart" oNm="TimeframeStart"/>
+      <Rnm id="572" nNm="TimeframeStart" oNm="TimeFrameStart"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="573" nNm="ReportYearCV" oNm="ReportYear"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="574" nNm="DataPublicationDate" oNm="ReportPublishDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="575" nNm="DataPublicationDate" oNm="ReportPublishDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="578" nNm="DataPublicationDate" oNm="s"/>
+      <Rnm id="577" nNm="s" oNm="Date that these data were published by the data provider"/>
+      <Rnm id="576" nNm="Date that these data were published by the data provider" oNm="ReportPublishDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="579" nNm="OrganizationUID" oNm="OrganizationCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="582" nNm="MethodUID" oNm="MethodCode"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="583" nNm="ApplicableResourceTypeCV" oNm="ApplicableResourceType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="584" nNm="DataQualityValueCV" oNm="DataQualityValue"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="586" nNm="DataPublicationDate" oNm="ReportPublishDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="587" nNm="ReportYearCV" oNm="ReportYear"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="589" nNm="TimeframeStart" oNm="TimeFrameStart"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="590" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocations" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="591" nNm="NativeWaterAllocationID" oNm="NativeWaterRightID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="594" nNm="CoordinateMethodCV" oNm="CoordinateMethod"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="VariablesSpecific" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="597" nNm="VariableSpecificDescription" oNm="VariableDescription"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="598" nNm="TimeframeStart" oNm="TimeFrameStart"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+      <Rnm id="599" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="600" nNm="CVs_Units" oNm="CVs_UnitOfMeasure"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="604" nNm="CVs_WaterQualityIndicator" oNm="CVs_FreshSalineIndicator"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
+      <Rnm id="605" nNm="CVs_ReportYearCV" oNm="CVs_WaterQualityIndicator_dup"/>
+    </RnmCh>
+  </RnmMgr>
+  <DbDocOptionMgr>
+    <BasicOptionMgr>
+      <Name>db.doc.option.mgr</Name>
+      <BoolOpt lbl="Diagrams" nm="doc.diagrams" on="1" spl="0"/>
+      <BoolOpt lbl="Foreign Keys" nm="doc.fks" on="1" spl="0"/>
+      <BoolOpt lbl="Indexes" nm="doc.indexes" on="1" spl="0"/>
+      <BoolOpt lbl="Overwrite CSS File" nm="doc.overwrite.css" on="1" spl="0"/>
+      <BoolOpt lbl="Procedures" nm="doc.procs" on="1" spl="0"/>
+      <BoolOpt lbl="Schemas" nm="doc.schemas" on="1" spl="0"/>
+      <BoolOpt lbl="Sequences" nm="doc.sequences" on="1" spl="0"/>
+      <BoolOpt lbl="Tables" nm="doc.tables" on="1" spl="0"/>
+      <BoolOpt lbl="Triggers" nm="doc.triggers" on="1" spl="0"/>
+      <BoolOpt lbl="Views" nm="doc.views" on="1" spl="0"/>
+    </BasicOptionMgr>
+  </DbDocOptionMgr>
+  <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.CVs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.Site_Specific" selected="1"/>
+  </OpenEditors>
+  <TreePaths>
+    <TreePath/>
+    <TreePath>/Schemas (1)</TreePath>
+    <TreePath>/Schemas (1)/WaDE2</TreePath>
+    <TreePath>/Schemas (1)/WaDE2/Tables (36)</TreePath>
+    <TreePath>/Schemas (1)/WaDE2/Tables (36)/AmountsMetadata</TreePath>
+    <TreePath>/Schemas (1)/WaDE2/Views (0)</TreePath>
+    <TreePath>/Schemas (1)/WaDE2/Procedures (0)</TreePath>
+    <TreePath>/Diagrams (3)</TreePath>
+  </TreePaths>
+  <SqlTexts/>
+</Db>
