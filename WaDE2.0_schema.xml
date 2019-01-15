@@ -1267,7 +1267,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="RegulatoryReportingUnits" x="923" y="485"/>
     <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="ReportingUnits" x="796" y="654"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="415" y="758"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="19" y="204"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="20" y="204"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="RegulatoryOverlay" x="1292" y="413"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1357" y="227"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AggregatedVariableMetadata" x="465" y="200"/>
@@ -1286,7 +1286,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="384" x2="465" y1="316" y2="316"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="385" x2="465" y1="316" y2="316"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_ReportingUnits" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2849,8 +2849,8 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Site_Specific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Aggregated" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Site_Specific" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_CVs" selected="0"/>
   </OpenEditors>
   <TreePaths>
