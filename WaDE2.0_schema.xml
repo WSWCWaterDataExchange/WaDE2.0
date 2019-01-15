@@ -1241,7 +1241,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </Tbl>
     <CustomTypes/>
   </Sch>
-  <Dgm nm="Aggregated">
+  <Dgm nm="1_Aggregated">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -1340,55 +1340,7 @@ AggRegulatoryOverlay: retrives regulatory and institutional concerns data for a 
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="CVs">
-    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
-      <VbCfg>
-        <Fg ky="Auto Number" vl="0"/>
-        <Fg ky="Check" vl="0"/>
-        <Fg ky="Comment" vl="0"/>
-        <Fg ky="Data Type" vl="1"/>
-        <Fg ky="Default" vl="0"/>
-        <Fg ky="ENUM Values" vl="0"/>
-        <Fg ky="Length" vl="1"/>
-        <Fg ky="Name" vl="1"/>
-        <Fg ky="Nullable" vl="0"/>
-        <Fg ky="Schema Name" vl="0"/>
-        <Fg ky="Signed" vl="0"/>
-      </VbCfg>
-    </RnCf>
-    <DiaProps>
-      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
-      <ErNotation>InfoEngErNotation</ErNotation>
-      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
-      <svg path=""/>
-    </DiaProps>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_AggregationStatistic" x="43" y="431"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_EPSGCode" x="873" y="876"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterQualityIndicator" x="48" y="878"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterAllocationBasis" x="41" y="130"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_VerticalDatumEPSGCode" x="45" y="578"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Variable" x="870" y="727"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_USGSCategory" x="866" y="580"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Units" x="470" y="432"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearType" x="862" y="430"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportingUnitType" x="479" y="879"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_RegulatoryStatus" x="474" y="726"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDProduct" x="475" y="580"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDNetworkStatus" x="463" y="281"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NAICSCode" x="46" y="274"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_MethodType" x="459" y="126"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_LegalStatusCode" x="859" y="124"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_GNISCode" x="862" y="283"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearCV" x="50" y="729"/>
-    <Notes>
-      <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
-http://vocabulary.wamdam.org/&#13;
-&#13;
-We will make a join with each controlled field using the "Name" unique primary key. </Note>
-    </Notes>
-    <Zones/>
-  </Dgm>
-  <Dgm nm="Site_Specific">
+  <Dgm nm="2_Site_Specific">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -1491,6 +1443,54 @@ GetSiteWaterAllocationData:retrives  time series water allocations (water rights
       <Note bkCl="ffffffe6" x="1163" y="432">When: Date and value</Note>
       <Note bkCl="ffffffe6" x="1035" y="696">Where: location</Note>
       <Note bkCl="ffffffe6" x="1347" y="723">Who: data provider</Note>
+    </Notes>
+    <Zones/>
+  </Dgm>
+  <Dgm nm="3_CVs">
+    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
+      <ErNotation>InfoEngErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_AggregationStatistic" x="43" y="431"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_EPSGCode" x="873" y="876"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterQualityIndicator" x="48" y="878"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_WaterAllocationBasis" x="41" y="130"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_VerticalDatumEPSGCode" x="45" y="578"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Variable" x="870" y="727"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_USGSCategory" x="866" y="580"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_Units" x="470" y="432"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearType" x="862" y="430"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportingUnitType" x="479" y="879"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_RegulatoryStatus" x="474" y="726"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDProduct" x="475" y="580"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NHDNetworkStatus" x="463" y="281"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_NAICSCode" x="46" y="274"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_MethodType" x="459" y="126"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_LegalStatusCode" x="859" y="124"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_GNISCode" x="862" y="283"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2" tbl="CVs_ReportYearCV" x="50" y="729"/>
+    <Notes>
+      <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
+http://vocabulary.wamdam.org/&#13;
+&#13;
+We will make a join with each controlled field using the "Name" unique primary key. </Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2849,9 +2849,9 @@ GetSiteWaterAllocationData:retrives  time series water allocations (water rights
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.Site_Specific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.Aggregated" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.CVs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Site_Specific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Aggregated" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_CVs" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
@@ -2862,11 +2862,11 @@ GetSiteWaterAllocationData:retrives  time series water allocations (water rights
     <TreePath>/Schemas (1)/WaDE2/Views (0)</TreePath>
     <TreePath>/Schemas (1)/WaDE2/Procedures (0)</TreePath>
     <TreePath>/Diagrams (3)</TreePath>
-    <TreePath>/Diagrams (3)/Aggregated</TreePath>
-    <TreePath>/Diagrams (3)/Aggregated/Notes (6)</TreePath>
-    <TreePath>/Diagrams (3)/CVs</TreePath>
-    <TreePath>/Diagrams (3)/Site_Specific</TreePath>
-    <TreePath>/Diagrams (3)/Site_Specific/Notes (6)</TreePath>
+    <TreePath>/Diagrams (3)/1_Aggregated</TreePath>
+    <TreePath>/Diagrams (3)/1_Aggregated/Notes (6)</TreePath>
+    <TreePath>/Diagrams (3)/2_Site_Specific</TreePath>
+    <TreePath>/Diagrams (3)/2_Site_Specific/Notes (6)</TreePath>
+    <TreePath>/Diagrams (3)/3_CVs</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
