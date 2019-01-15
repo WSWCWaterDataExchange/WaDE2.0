@@ -163,6 +163,16 @@ paths:
         By passing in the appropriate options, you can search for
         available inventory in the system
       parameters:
+      - name: VariableNameCV
+        in: query
+        description: number of records to skip for pagination
+        required: false
+        style: form
+        explode: true
+        schema:
+          minimum: 0
+          type: integer
+          format: int32
       - name: SiteCode
         in: query
         description: maximum number of records to return
