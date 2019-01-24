@@ -97,6 +97,9 @@
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="WaterAllocationPrimaryUseCategory" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
       <Fk deAc="3" nm="fk_AggregatedVariableMetadata_Methods" prLkCl="MethodID" upAc="3">
         <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2" zr="0"/>
         <CdTb mn="1" nm="AggregatedVariableMetadata" oe="0" sch="WaDE2" zr="1"/>
@@ -790,6 +793,9 @@
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="ReportingUnitNativeID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
       <Cl au="0" df="" nm="ReportingUnitUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>A reporting unit is the geospatial area that is used to aggregate the water supply, withdrawal, or consumptive use. The ReportingUnitID is the unique identification number for the geospatial area. It could be a 5-digit FIPs code for a county, a 12-digit code for a HUC (or fewer digits), or a custom number created by the data provider. The data provider should concatenate their OrganizationID + custom identifier to ensure this number is unique.</Cm>
@@ -1108,14 +1114,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
         <Cm>End date for the allocation each year in MM/DD</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportYearCV" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
-        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Date that these data were published by the data provider</Cm>
-      </Cl>
       <Cl au="0" df="" nm="WaterAllocationAcreage" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Number of acres irrigated by this allocation, if irrigation is a specified use</Cm>
@@ -1155,6 +1153,31 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <PrTb mn="0" nm="SiteVariableMetadata" oe="1" sch="WaDE2" zr="0"/>
         <CdTb mn="1" nm="WaterAllocationAmounts" oe="0" sch="WaDE2" zr="1"/>
         <ClPr cdCl="SiteVariableMetadataID" prCl="SiteVariableMetadataID"/>
+      </Fk>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="WaterAllocationAmountYears">
+      <TblOpts/>
+      <Pk ClNs="WaterAllocationAmountYearID" nm="pkWaterAllocationAmountYears"/>
+      <Cl au="0" df="" nm="WaterAllocationAmountYearID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="WaterAllocationAmountID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_WaterAllocationAmountYears_WaterAllocationAmounts" prLkCl="WaterAllocationAmountID" upAc="3">
+        <PrTb mn="0" nm="WaterAllocationAmounts" oe="1" sch="WaDE2" zr="0"/>
+        <CdTb mn="1" nm="WaterAllocationAmountYears" oe="0" sch="WaDE2" zr="1"/>
+        <ClPr cdCl="WaterAllocationAmountID" prCl="WaterAllocationAmountID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -1263,67 +1286,67 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1254" y="746"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="RegulatoryReportingUnits" x="923" y="485"/>
-    <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="ReportingUnits" x="796" y="654"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="415" y="758"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1254" y="747"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="RegulatoryReportingUnits" x="946" y="480"/>
+    <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="ReportingUnits" x="798" y="651"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="405" y="759"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="20" y="204"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="RegulatoryOverlay" x="1292" y="413"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1357" y="227"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AggregatedVariableMetadata" x="465" y="200"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1357" y="225"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AggregatedVariableMetadata" x="467" y="199"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="AggregatedAmounts" x="929" y="220"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="24" y="428"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="17" y="631"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="25" y="433"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="25" y="640"/>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedAmounts.fk_AggregatedAmounts_AggregatedVariableMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="861" x2="929" y1="299" y2="299"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="898" x2="929" y1="321" y2="321"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.AggregatedAmounts.fk_AggregatedAmounts_AmountsMetadata" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1357" x2="1305" y1="297" y2="297"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1357" x2="1305" y1="281" y2="281"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="385" x2="465" y1="316" y2="316"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="385" x2="467" y1="316" y2="316"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_ReportingUnits" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="838" x2="838" y1="654" y2="440"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="836" x2="836" y1="651" y2="455"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Variables" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="380" x2="583" y1="670" y2="670"/>
-        <positionableLine lineRole="CHILD_LINE" x1="587" x2="587" y1="440" y2="666"/>
+        <positionableLine lineRole="PARENT_LINE" x1="388" x2="557" y1="679" y2="679"/>
+        <positionableLine lineRole="CHILD_LINE" x1="561" x2="561" y1="455" y2="675"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_WaterSources" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="374" x2="528" y1="520" y2="520"/>
-        <positionableLine lineRole="CHILD_LINE" x1="532" x2="532" y1="440" y2="516"/>
+        <positionableLine lineRole="PARENT_LINE" x1="375" x2="512" y1="531" y2="531"/>
+        <positionableLine lineRole="CHILD_LINE" x1="516" x2="516" y1="455" y2="527"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_RegulatoryOverlay" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1292" x2="1199" y1="518" y2="518"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1292" x2="1222" y1="522" y2="522"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_ReportingUnits" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1043" x2="1043" y1="654" y2="565"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1069" x2="1069" y1="651" y2="560"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.ReportingUnits.fk_ReportingUnits_NHDMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="739" x2="796" y1="814" y2="814"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="729" x2="798" y1="815" y2="815"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.ReportingUnits.fk_ReportingUnits_Organizations" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1254" x2="1179" y1="821" y2="821"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1254" x2="1181" y1="822" y2="822"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -1335,7 +1358,7 @@ GetAggVariableData: retrives aggregated time series data for a givien reporting 
 &#13;
 AggRegulatoryOverlay: retrives regulatory and institutional concerns data for a given reporting unit</Note>
       <Note bkCl="ffffffe6" x="105" y="150">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="603" y="484">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="599" y="463">What: Variable + metadata</Note>
       <Note bkCl="ffffffe6" x="941" y="591">Where</Note>
     </Notes>
     <Zones/>
@@ -1363,16 +1386,17 @@ AggRegulatoryOverlay: retrives regulatory and institutional concerns data for a 
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="Sites" x="834" y="744"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1264" y="806"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Organizations" x="1273" y="807"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="NHDMetadata" x="449" y="864"/>
     <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="26" y="326"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1340" y="507"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="40" y="559"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="49" y="778"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterAllocations" x="444" y="148"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="SiteVariableMetadata" x="458" y="393"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="SiteVariableAmounts" x="965" y="503"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="WaterAllocationAmounts" x="970" y="160"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AmountsMetadata" x="1359" y="499"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="39" y="557"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="36" y="771"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterAllocations" x="445" y="146"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="SiteVariableMetadata" x="459" y="391"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="SiteVariableAmounts" x="991" y="494"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="WaterAllocationAmounts" x="986" y="156"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2" tbl="WaterAllocationAmountYears" x="1154" y="10"/>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.Sites.fk_Sites_NHDMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="773" x2="834" y1="921" y2="921"/>
@@ -1380,59 +1404,67 @@ AggRegulatoryOverlay: retrives regulatory and institutional concerns data for a 
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.Sites.fk_Sites_Organizations" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1264" x2="1203" y1="878" y2="878"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1273" x2="1203" y1="879" y2="879"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.SiteVariableAmounts.fk_SiteVariableAmounts_AmountsMetadata" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1340" x2="1286" y1="573" y2="573"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1359" x2="1312" y1="565" y2="565"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableAmounts.fk_SiteVariableAmounts_SiteVariableMetadata" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="887" x2="965" y1="549" y2="549"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="888" x2="991" y1="547" y2="547"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="391" x2="458" y1="463" y2="463"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="391" x2="459" y1="463" y2="463"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Sites" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="943" x2="943" y1="744" y2="647"/>
-        <positionableLine lineRole="CHILD_LINE" x1="887" x2="939" y1="643" y2="643"/>
+        <positionableLine lineRole="PARENT_LINE" x1="943" x2="943" y1="744" y2="645"/>
+        <positionableLine lineRole="CHILD_LINE" x1="888" x2="939" y1="641" y2="641"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_Variables" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="412" x2="543" y1="820" y2="820"/>
-        <positionableLine lineRole="CHILD_LINE" x1="547" x2="547" y1="713" y2="816"/>
+        <positionableLine lineRole="PARENT_LINE" x1="399" x2="544" y1="813" y2="813"/>
+        <positionableLine lineRole="CHILD_LINE" x1="548" x2="548" y1="711" y2="809"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_WaterAllocations" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="652" x2="652" y1="340" y2="393"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="653" x2="653" y1="338" y2="391"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.SiteVariableMetadata.fk_SiteVariableMetadata_WaterSources" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="390" x2="458" y1="622" y2="622"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="389" x2="459" y1="620" y2="620"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.WaterAllocationAmounts.fk_WaterAllocationAmounts_AmountsMetadata" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1487" x2="1487" y1="507" y2="315"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1366" x2="1483" y1="311" y2="311"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1506" x2="1506" y1="499" y2="311"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1382" x2="1502" y1="307" y2="307"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.WaterAllocationAmounts.fk_WaterAllocationAmounts_SiteVariableMetadata" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="887" x2="1128" y1="474" y2="474"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1132" x2="1132" y1="400" y2="470"/>
+        <positionableLine lineRole="PARENT_LINE" x1="888" x2="1144" y1="455" y2="455"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1148" x2="1148" y1="364" y2="451"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.WaterAllocationAmountYears.fk_WaterAllocationAmountYears_WaterAllocationAmounts" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1293" x2="1293" y1="156" y2="106"/>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="1394" y="124">This table keeps track of water rights data over
+the years. Use it to check persistent rights and 
+potentially any lost rights</Note>
       <Note bkCl="ffffffe6" x="118" y="269">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="352" y="23">Web services: This schema supports two main web-service calls:&#13;
 &#13;
@@ -1441,7 +1473,7 @@ GetSiteVariableData: retrives time series data for given site and specific varia
 GetSiteWaterAllocationData:retrives  time series water allocations (water rights) data for a given site</Note>
       <Note bkCl="ffffffe6" x="596" y="738">What: Variable + metadata</Note>
       <Note bkCl="ffffffe6" x="1163" y="432">When: Date and value</Note>
-      <Note bkCl="ffffffe6" x="1035" y="696">Where: location</Note>
+      <Note bkCl="ffffffe6" x="1003" y="691">Where: location</Note>
       <Note bkCl="ffffffe6" x="1347" y="723">Who: data provider</Note>
     </Notes>
     <Zones/>
@@ -1494,7 +1526,63 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="606">
+  <Dgm nm="Star_diagram">
+    <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
+      <VbCfg>
+        <Fg ky="Auto Number" vl="0"/>
+        <Fg ky="Check" vl="0"/>
+        <Fg ky="Comment" vl="0"/>
+        <Fg ky="Data Type" vl="1"/>
+        <Fg ky="Default" vl="0"/>
+        <Fg ky="ENUM Values" vl="0"/>
+        <Fg ky="Length" vl="1"/>
+        <Fg ky="Name" vl="1"/>
+        <Fg ky="Nullable" vl="0"/>
+        <Fg ky="Schema Name" vl="0"/>
+        <Fg ky="Signed" vl="0"/>
+      </VbCfg>
+    </RnCf>
+    <DiaProps>
+      <Show AllCols="1" FkCols="1" FkNms="0" PkCols="1"/>
+      <ErNotation>InfoEngErNotation</ErNotation>
+      <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
+      <svg path=""/>
+    </DiaProps>
+    <TbGl bkCl="ff990f0f" sch="WaDE2" tbl="ReportingUnits" x="113" y="279"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="Methods" x="1021" y="293"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="AggregatedVariableMetadata" x="559" y="274"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="WaterSources" x="573" y="592"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2" tbl="VariablesSpecific" x="559" y="62"/>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Methods" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1021" x2="990" y1="378" y2="378"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_ReportingUnits" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="496" x2="559" y1="436" y2="436"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_Variables" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="754" x2="754" y1="158" y2="274"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2.AggregatedVariableMetadata.fk_AggregatedVariableMetadata_WaterSources" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="746" x2="746" y1="592" y2="530"/>
+      </positionableLines>
+    </FkGl>
+    <Notes>
+      <Note bkCl="ffffffe6" x="82" y="165">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="553" y="220">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1156" y="515">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="613" y="10">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="106" y="217">Where</Note>
+    </Notes>
+    <Zones/>
+  </Dgm>
+  <RnmMgr NxRnmId="607">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -2832,6 +2920,9 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2" SupCls="" SupNme="">
       <Rnm id="605" nNm="CVs_ReportYearCV" oNm="CVs_WaterQualityIndicator_dup"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterAllocationAmountYears" SupCls="Schema" SupNme="WaDE2">
+      <Rnm id="606" nNm="WaterAllocationAmountYearID" oNm="Id"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -2848,25 +2939,16 @@ We will make a join with each controlled field using the "Name" unique primary k
       <BoolOpt lbl="Views" nm="doc.views" on="1" spl="0"/>
     </BasicOptionMgr>
   </DbDocOptionMgr>
-  <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Site_Specific" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_CVs" selected="0"/>
-  </OpenEditors>
+  <OpenEditors/>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (1)</TreePath>
-    <TreePath>/Schemas (1)/WaDE2</TreePath>
-    <TreePath>/Schemas (1)/WaDE2/Tables (36)</TreePath>
-    <TreePath>/Schemas (1)/WaDE2/Tables (36)/AmountsMetadata</TreePath>
-    <TreePath>/Schemas (1)/WaDE2/Views (0)</TreePath>
-    <TreePath>/Schemas (1)/WaDE2/Procedures (0)</TreePath>
-    <TreePath>/Diagrams (3)</TreePath>
-    <TreePath>/Diagrams (3)/1_Aggregated</TreePath>
-    <TreePath>/Diagrams (3)/1_Aggregated/Notes (6)</TreePath>
-    <TreePath>/Diagrams (3)/2_Site_Specific</TreePath>
-    <TreePath>/Diagrams (3)/2_Site_Specific/Notes (6)</TreePath>
-    <TreePath>/Diagrams (3)/3_CVs</TreePath>
+    <TreePath>/Diagrams (4)</TreePath>
+    <TreePath>/Diagrams (4)/1_Aggregated</TreePath>
+    <TreePath>/Diagrams (4)/1_Aggregated/Notes (6)</TreePath>
+    <TreePath>/Diagrams (4)/2_Site_Specific</TreePath>
+    <TreePath>/Diagrams (4)/2_Site_Specific/Notes (7)</TreePath>
+    <TreePath>/Diagrams (4)/3_CVs</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
