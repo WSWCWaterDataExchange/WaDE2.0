@@ -33,85 +33,31 @@
 </td><td> </td><td> </td><td>a unique unversal identifier of a combination of four unique keys: SiteID, MethodID, WaterSourceID, and a VariableSpecificID. Assuming the rest of metadata in this table do not change, then if we know SiteVariableMetadataUID, then we can populae the water allocation amounts table for each year</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_WaterAllocationPrimaryUseCategory.html">WaterAllocationPrimaryUseCategory</a></td><td>VarChar(100)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar()</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_AmountUnitCV.html">AmountUnitCV</a></td><td>VarChar(100)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_AggregationInterval.html">AggregationInterval</a></td><td>VarChar(5)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_AggregationIntervalUnitCV.html">AggregationIntervalUnitCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_ReportYearStartMonth.html">ReportYearStartMonth</a></td><td>VarChar(5)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_ReportYearTypeCV.html">ReportYearTypeCV</a></td><td>VarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>water year, irrigation year</td><td> </td>
 </tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_SDWISID.html">SDWISID</a></td><td>VarChar(100)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Safe Drinking Water Information System (SDWIS) contains information about public water systems and their violations of EPA's drinking water regulations</td><td> </td>
-</tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(50)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Six-digit NAICs Code associated with the primary beneficial use category</td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_PopulationServed.html">PopulationServed</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_IrrigationMethod.html">IrrigationMethod</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_CropType.html">CropType</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_Geometery.html">Geometery</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_PowerGeneratedGWh.html">PowerGeneratedGWh</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_SiteVariableMetadata_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td> </td><td> </td>
@@ -134,16 +80,8 @@
 </div>
 <br>
 <h2>Used in Diagrams</h2>
-<table class="flat">
-<tr>
-<td class="header">Diagram Name</td>
-</tr>
-<tr>
-<td><a href="../diagrams/1_Star_WaterAllocation.html">1_Star_WaterAllocation</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/2_Star_SiteSpecific.html">2_Star_SiteSpecific</a></td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 </body>
 </HTML>

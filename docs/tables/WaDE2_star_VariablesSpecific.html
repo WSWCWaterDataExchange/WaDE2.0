@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr>
+<tr class="altRow">
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -26,17 +26,59 @@
 <img src="../images/pkb16.gif"></p>
 </td><td class="PkCol"><a href="../columns/WaDE2_star_VariablesSpecific_VariableSpecificID.html">VariableSpecificID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_VariableSpecificUID.html">VariableSpecificUID</a></td><td>BigInt</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
 <tr>
 <td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_VariableSpecificCV.html">VariableSpecificCV</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td> </td>
 </tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_VariableSpecificDescription.html">VariableSpecificDescription</a></td><td>Text</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>A textual description of the aggregated variable in VariableSpecificCV.</td><td> </td>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_VariableCV.html">VariableCV</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_VariableCV.html">VariableCV</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>VarChar()</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_AggregationInterval_.html">AggregationInterval </a></td><td>VarChar()</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td>VarChar()</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>VarChar()</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td>VarChar()</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td>BigInt</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_VariablesSpecific_AmountUnitCV.html">AmountUnitCV</a></td><td>BigInt</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 </table>
 <br>

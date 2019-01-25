@@ -27,70 +27,22 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_AggregatedVariableMetadata_AggregatedVariableMetadataID.html">AggregatedVariableMetadataID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_AmountUnitCV.html">AmountUnitCV</a></td><td>VarChar(100)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_AggregationInterval.html">AggregationInterval</a></td><td>VarChar(10)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_AggregationIntervalUnitCV.html">AggregationIntervalUnitCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_ReportYearStartMonth.html">ReportYearStartMonth</a></td><td>VarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_ReportYearTypeCV.html">ReportYearTypeCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(100)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Six-digit NAICs Code associated with the primary beneficial use category</td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_WaterAllocationPrimaryUseCategory.html">WaterAllocationPrimaryUseCategory</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_PopulationServed.html">PopulationServed</a></td><td>Float</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_ArrigatedAcreage.html">ArrigatedAcreage</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_CropyType.html">CropyType</a></td><td>VarChar()</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_Geometery.html">Geometery</a></td><td>BLOB</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedVariableMetadata_PowerGeneratedGWH.html">PowerGeneratedGWH</a></td><td>Float</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 </table>
 <br>
@@ -110,13 +62,8 @@
 </div>
 <br>
 <h2>Used in Diagrams</h2>
-<table class="flat">
-<tr>
-<td class="header">Diagram Name</td>
-</tr>
-<tr>
-<td><a href="../diagrams/3_Star_Aggregated.html">3_Star_Aggregated</a></td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 </body>
 </HTML>
