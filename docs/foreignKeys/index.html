@@ -20,7 +20,7 @@
 <td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_AggregatedVariableMetadata.html">fk_AggregatedAmounts_AggregatedVariableMetadata</a></td><td><a href="../tables/WaDE2_star_AggregatedVariableMetadata.html">AggregatedVariableMetadata</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>AggregatedVariableMetadataID</td><td>AggregatedVariableMetadataID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_AmountsMetadata.html">fk_AggregatedAmounts_AmountsMetadata</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmountMetadata.html">WaterAllocationAmountMetadata</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>AmountMetadataID</td><td>AmountMetadataID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_AmountsMetadata.html">fk_AggregatedAmounts_AmountsMetadata</a></td><td><a href="../tables/WaDE2_star_AmountMetadata.html">AmountMetadata</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>AmountMetadataID</td><td>AmountMetadataID</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Methods.html">fk_AggregatedAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods.html">Methods</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>MethodID</td><td>MethodID</td>
@@ -41,19 +41,49 @@
 <td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_WaterSources.html">fk_AggregatedAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 <tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_AmountMetadata.html">fk_WaterAllocationAmounts_AmountMetadata</a></td><td><a href="../tables/WaDE2_star_AmountMetadata.html">AmountMetadata</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>AmountMetadataID</td><td>AmountMetadataID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_Methods.html">fk_WaterAllocationAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods.html">Methods</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>MethodID</td><td>MethodID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_Organizations.html">fk_WaterAllocationAmounts_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations.html">Organizations</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>OrganizationID</td><td>OrganizationID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_Sites.html">fk_WaterAllocationAmounts_Sites</a></td><td><a href="../tables/WaDE2_star_Sites.html">Sites</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>SiteID</td><td>SiteID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_SiteVariableMetadata.html">fk_WaterAllocationAmounts_SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_SiteVariableMetadata.html">SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>SiteVariableMetadataID</td><td>SiteVariableMetadataID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_Time_dim.html">fk_WaterAllocationAmounts_Time_dim</a></td><td><a href="../tables/WaDE2_star_Time_dim.html">Time_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>TimeID</td><td>TimeID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_VariablesSpecific.html">fk_WaterAllocationAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_VariablesSpecific.html">VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_WaterAllocations.html">fk_WaterAllocationAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_Allocations.html">Allocations</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>AllocationID</td><td>AllocationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fk_WaterAllocationAmounts_WaterSources.html">fk_WaterAllocationAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts.html">AllocationAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+</tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fk_RegulatoryReportingUnits_Organizations.html">fk_RegulatoryReportingUnits_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations.html">Organizations</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits.html">RegulatoryReportingUnits</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fk_RegulatoryReportingUnits_RegulatoryOverlay.html">fk_RegulatoryReportingUnits_RegulatoryOverlay</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay.html">RegulatoryOverlay</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits.html">RegulatoryReportingUnits</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fk_RegulatoryReportingUnits_ReportingUnits.html">fk_RegulatoryReportingUnits_ReportingUnits</a></td><td><a href="../tables/WaDE2_star_ReportingUnits.html">ReportingUnits</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits.html">RegulatoryReportingUnits</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/WaDE2_star_ReportingUnits_fk_ReportingUnits_NHDMetadata.html">fk_ReportingUnits_NHDMetadata</a></td><td><a href="../tables/WaDE2_star_NHDMetadata.html">NHDMetadata</a></td><td><a href="../tables/WaDE2_star_ReportingUnits.html">ReportingUnits</a></td><td>NHDMetadataID</td><td>NHDMetadataCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_Sites_fk_Sites_NHDMetadata.html">fk_Sites_NHDMetadata</a></td><td><a href="../tables/WaDE2_star_NHDMetadata.html">NHDMetadata</a></td><td><a href="../tables/WaDE2_star_Sites.html">Sites</a></td><td>NHDMetadataID</td><td>NHDMetadataID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_AmountMetadata.html">fk_SiteVariableAmounts_AmountMetadata</a></td><td><a href="../tables/WaDE2_star_AmountMetadata.html">AmountMetadata</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>AmountMetadataID</td><td>AmountMetadataID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Methods.html">fk_SiteVariableAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods.html">Methods</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>MethodID</td><td>MethodID</td>
@@ -74,37 +104,10 @@
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_VariablesSpecific.html">fk_SiteVariableAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_VariablesSpecific.html">VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterAllocations.html">fk_SiteVariableAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_WaterAllocations.html">WaterAllocations</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>WaterAllocationID</td><td>WaterAllocationID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterAllocations.html">fk_SiteVariableAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_Allocations.html">Allocations</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>AllocationID</td><td>AllocationID</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterSources.html">fk_SiteVariableAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_Methods.html">fk_WaterAllocationAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods.html">Methods</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>MethodID</td><td>MethodID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_Organizations.html">fk_WaterAllocationAmounts_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations.html">Organizations</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>OrganizationID</td><td>OrganizationID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_Sites.html">fk_WaterAllocationAmounts_Sites</a></td><td><a href="../tables/WaDE2_star_Sites.html">Sites</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>SiteID</td><td>SiteID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_SiteVariableMetadata.html">fk_WaterAllocationAmounts_SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_SiteVariableMetadata.html">SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>SiteVariableMetadataID</td><td>SiteVariableMetadataID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_Time_dim.html">fk_WaterAllocationAmounts_Time_dim</a></td><td><a href="../tables/WaDE2_star_Time_dim.html">Time_dim</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>TimeID</td><td>TimeID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_VariablesSpecific.html">fk_WaterAllocationAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_VariablesSpecific.html">VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_WaterAllocations.html">fk_WaterAllocationAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_WaterAllocations.html">WaterAllocations</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>WaterAllocationID</td><td>WaterAllocationID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmounts_fk_WaterAllocationAmounts_WaterSources.html">fk_WaterAllocationAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_WaterAllocationAmountYears_fk_WaterAllocationAmountYears_WaterAllocationAmounts.html">fk_WaterAllocationAmountYears_WaterAllocationAmounts</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmounts.html">WaterAllocationAmounts</a></td><td><a href="../tables/WaDE2_star_WaterAllocationAmountYears.html">WaterAllocationAmountYears</a></td><td>WaterAllocationAmountID</td><td>WaterAllocationAmountID</td>
 </tr>
 </table>
 </body>
