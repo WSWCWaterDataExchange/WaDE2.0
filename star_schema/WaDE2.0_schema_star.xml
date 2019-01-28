@@ -1342,69 +1342,74 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="32" y="358"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="40" y="698"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Time_dim" x="1044" y="446"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts" x="529" y="374"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1017" y="101"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1043" y="658"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="31" y="57"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="525" y="801"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="AmountMetadata" x="482" y="17"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="33" y="473"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="40" y="737"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1045" y="561"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts" x="538" y="503"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1018" y="216"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1042" y="795"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="32" y="172"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="521" y="836"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="483" y="132"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="703" x2="703" y1="241" y2="374"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="704" x2="704" y1="356" y2="503"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="397" x2="529" y1="485" y2="485"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="398" x2="538" y1="600" y2="600"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="689" x2="689" y1="801" y2="614"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="836" y2="743"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="409" x2="462" y1="847" y2="847"/>
-        <positionableLine lineRole="CHILD_LINE" x1="529" x2="470" y1="559" y2="559"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="466" x2="466" y1="563" y2="843"/>
+        <positionableLine lineRole="PARENT_LINE" x1="409" x2="471" y1="886" y2="886"/>
+        <positionableLine lineRole="CHILD_LINE" x1="538" x2="479" y1="688" y2="688"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="475" x2="475" y1="692" y2="882"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1044" x2="823" y1="506" y2="506"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1045" x2="832" y1="621" y2="621"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="409" x2="437" y1="171" y2="171"/>
-        <positionableLine lineRole="CHILD_LINE" x1="529" x2="445" y1="423" y2="423"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="441" x2="441" y1="419" y2="175"/>
+        <positionableLine lineRole="PARENT_LINE" x1="410" x2="446" y1="286" y2="286"/>
+        <positionableLine lineRole="CHILD_LINE" x1="538" x2="454" y1="552" y2="552"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="450" x2="450" y1="548" y2="290"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterAllocations" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1017" x2="939" y1="224" y2="224"/>
-        <positionableLine lineRole="CHILD_LINE" x1="823" x2="931" y1="428" y2="428"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="935" x2="935" y1="424" y2="228"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1018" x2="948" y1="339" y2="339"/>
+        <positionableLine lineRole="CHILD_LINE" x1="832" x2="940" y1="557" y2="557"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="944" x2="944" y1="553" y2="343"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterSources" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1043" x2="998" y1="753" y2="753"/>
-        <positionableLine lineRole="CHILD_LINE" x1="823" x2="990" y1="573" y2="573"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="994" x2="994" y1="577" y2="749"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1042" x2="1007" y1="890" y2="890"/>
+        <positionableLine lineRole="CHILD_LINE" x1="832" x2="999" y1="702" y2="702"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="1003" x2="1003" y1="706" y2="886"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="144" y="634">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="487" y="259">What's the tradoff of adding a&#13;
+      <Note bkCl="ffffffe6" x="116" y="687">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="541" y="384">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountMetadata&#13;
  to the Fact Table?</Note>
+      <Note bkCl="ffffffe6" x="495" y="7">GetSiteWaterAllocationData: Rights
+The brown tables are mostly static over time. 
+The blue tables change much or a bit over time 
+The green table is the FACT table that changes 
+over time and connects things together.</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1430,70 +1435,75 @@ with values as in the AmountMetadata&#13;
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="24" y="375"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="37" y="724"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Time_dim" x="1009" y="495"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts" x="557" y="438"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="997" y="740"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="26" y="46"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1014" y="114"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="509" y="812"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="AmountMetadata" x="490" y="21"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="16" y="474"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="22" y="735"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1001" y="604"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts" x="549" y="547"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="994" y="814"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="18" y="155"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1006" y="223"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="505" y="830"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="482" y="130"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="693" x2="693" y1="245" y2="438"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="354" y2="547"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="389" x2="557" y1="507" y2="507"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="381" x2="549" y1="606" y2="606"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="676" x2="676" y1="812" y2="646"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="672" x2="672" y1="830" y2="755"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="406" x2="461" y1="870" y2="870"/>
-        <positionableLine lineRole="CHILD_LINE" x1="557" x2="469" y1="574" y2="574"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="465" x2="465" y1="578" y2="866"/>
+        <positionableLine lineRole="PARENT_LINE" x1="391" x2="453" y1="881" y2="881"/>
+        <positionableLine lineRole="CHILD_LINE" x1="549" x2="461" y1="683" y2="683"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="457" x2="457" y1="687" y2="877"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1009" x2="851" y1="544" y2="544"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1001" x2="843" y1="653" y2="653"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="404" x2="454" y1="190" y2="190"/>
-        <positionableLine lineRole="CHILD_LINE" x1="557" x2="462" y1="465" y2="465"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="458" x2="458" y1="461" y2="194"/>
+        <positionableLine lineRole="PARENT_LINE" x1="396" x2="446" y1="299" y2="299"/>
+        <positionableLine lineRole="CHILD_LINE" x1="549" x2="454" y1="574" y2="574"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="450" x2="450" y1="570" y2="303"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_WaterAllocations" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1014" x2="946" y1="242" y2="242"/>
-        <positionableLine lineRole="CHILD_LINE" x1="851" x2="938" y1="479" y2="479"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="942" x2="942" y1="475" y2="246"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1006" x2="938" y1="351" y2="351"/>
+        <positionableLine lineRole="CHILD_LINE" x1="843" x2="930" y1="588" y2="588"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="934" x2="934" y1="584" y2="355"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_WaterSources" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="997" x2="954" y1="828" y2="828"/>
-        <positionableLine lineRole="CHILD_LINE" x1="851" x2="946" y1="606" y2="606"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="950" x2="950" y1="610" y2="824"/>
+        <positionableLine lineRole="PARENT_LINE" x1="994" x2="946" y1="902" y2="902"/>
+        <positionableLine lineRole="CHILD_LINE" x1="843" x2="938" y1="715" y2="715"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="942" x2="942" y1="719" y2="898"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="471" y="301">What's the tradoff of adding a&#13;
+      <Note bkCl="ffffffe6" x="492" y="11">GetSiteVariableData: Use&#13;
+The brown tables are mostly static over time. &#13;
+The blue tables change much or a bit over time &#13;
+The green table is the FACT table that changes &#13;
+over time and connects things together.</Note>
+      <Note bkCl="ffffffe6" x="523" y="411">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountsMetadata&#13;
 to the Fact Table?</Note>
-      <Note bkCl="ffffffe6" x="1132" y="56">Water rights</Note>
-      <Note bkCl="ffffffe6" x="127" y="659">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="1124" y="165">Water rights</Note>
+      <Note bkCl="ffffffe6" x="118" y="690">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1519,65 +1529,70 @@ to the Fact Table?</Note>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="37" y="731"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="30" y="391"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1039" y="718"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="31" y="45"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts" x="559" y="395"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Time_dim" x="1082" y="449"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="AmountMetadata" x="511" y="24"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="518" y="809"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="41" y="744"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="32" y="482"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1035" y="808"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="33" y="136"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts" x="561" y="486"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1084" y="540"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="513" y="115"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="521" y="824"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_AmountsMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="720" x2="720" y1="248" y2="395"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="339" y2="486"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="395" x2="559" y1="487" y2="487"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="397" x2="561" y1="578" y2="578"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="690" x2="690" y1="809" y2="587"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="693" x2="693" y1="824" y2="678"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_ReportingUnits" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="420" x2="476" y1="842" y2="842"/>
-        <positionableLine lineRole="CHILD_LINE" x1="559" x2="484" y1="552" y2="552"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="480" x2="480" y1="556" y2="838"/>
+        <positionableLine lineRole="PARENT_LINE" x1="424" x2="478" y1="855" y2="855"/>
+        <positionableLine lineRole="CHILD_LINE" x1="561" x2="486" y1="643" y2="643"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="482" x2="482" y1="647" y2="851"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1082" x2="908" y1="489" y2="489"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1084" x2="910" y1="580" y2="580"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="409" x2="477" y1="138" y2="138"/>
-        <positionableLine lineRole="CHILD_LINE" x1="559" x2="485" y1="438" y2="438"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="481" x2="481" y1="434" y2="142"/>
+        <positionableLine lineRole="PARENT_LINE" x1="411" x2="479" y1="229" y2="229"/>
+        <positionableLine lineRole="CHILD_LINE" x1="561" x2="487" y1="529" y2="529"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="483" x2="483" y1="525" y2="233"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_WaterSources" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1039" x2="989" y1="801" y2="801"/>
-        <positionableLine lineRole="CHILD_LINE" x1="908" x2="981" y1="553" y2="553"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="985" x2="985" y1="557" y2="797"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1035" x2="991" y1="891" y2="891"/>
+        <positionableLine lineRole="CHILD_LINE" x1="910" x2="983" y1="644" y2="644"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="987" x2="987" y1="648" y2="887"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="574" y="282">What's the tradoff of adding a&#13;
+      <Note bkCl="ffffffe6" x="109" y="387">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="165" y="695">Where</Note>
+      <Note bkCl="ffffffe6" x="520" y="4">GetAggVariableData: Agg use&#13;
+The brown tables are mostly static over time. &#13;
+The blue tables change much or a bit over time &#13;
+The green table is the FACT table that changes &#13;
+over time and connects things together.</Note>
+      <Note bkCl="ffffffe6" x="576" y="373">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountMetadata&#13;
  to the Fact Table?</Note>
-      <Note bkCl="ffffffe6" x="706" y="746">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="729" y="600">When: Date and value</Note>
-      <Note bkCl="ffffffe6" x="1722" y="882">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="107" y="296">What: Variable + metadata</Note>
-      <Note bkCl="ffffffe6" x="151" y="676">Where</Note>
+      <Note bkCl="ffffffe6" x="702" y="745">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="979" y="445">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1724" y="973">How: Methodology</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1625,6 +1640,10 @@ with values as in the AmountMetadata&#13;
     </FkGl>
     <Notes>
       <Note bkCl="ffffffe6" x="140" y="344">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="519" y="61">GetAggRegulatoryOverlay: regulatory&#13;
+The brown tables are mostly static over time. &#13;
+The green table is the FACT table that changes &#13;
+over time and connects things together.</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3121,11 +3140,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
@@ -3134,13 +3153,13 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TreePath>/Schemas (1)/WaDE2_star/Tables (37)</TreePath>
     <TreePath>/Diagrams (5)</TreePath>
     <TreePath>/Diagrams (5)/1_Star_WaterAllocation</TreePath>
-    <TreePath>/Diagrams (5)/1_Star_WaterAllocation/Notes (2)</TreePath>
+    <TreePath>/Diagrams (5)/1_Star_WaterAllocation/Notes (3)</TreePath>
     <TreePath>/Diagrams (5)/2_Star_SiteSpecific</TreePath>
-    <TreePath>/Diagrams (5)/2_Star_SiteSpecific/Notes (3)</TreePath>
+    <TreePath>/Diagrams (5)/2_Star_SiteSpecific/Notes (4)</TreePath>
     <TreePath>/Diagrams (5)/3_Star_Aggregated</TreePath>
-    <TreePath>/Diagrams (5)/3_Star_Aggregated/Notes (6)</TreePath>
+    <TreePath>/Diagrams (5)/3_Star_Aggregated/Notes (7)</TreePath>
     <TreePath>/Diagrams (5)/4_Star_Regulatory</TreePath>
-    <TreePath>/Diagrams (5)/4_Star_Regulatory/Notes (1)</TreePath>
+    <TreePath>/Diagrams (5)/4_Star_Regulatory/Notes (2)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
