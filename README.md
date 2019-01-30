@@ -7,6 +7,9 @@ The next version of WaDE
 ## WaDE 2.0 draft star schema for OLAP system   
 https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html
 
+## WaDE blank in PostgresQL
+https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/PostgresSQL_black/WaDE2.0.sql
+
 ## Sample input data for WaDE 2.0
 https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/SampleInputData
 
