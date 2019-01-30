@@ -268,21 +268,24 @@
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationPrimaryUseCategory" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>USGSCategoryCV</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationUSGSCategoryCV" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</Cm>
       </Cl>
-      <Cl au="0" df="" nm="SDWISID" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      <Cl au="0" df="" nm="AllocationSDWISIdentifier" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</Cm>
       </Cl>
       <Cl au="0" df="" nm="NAICSCodeCV" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Six-digit NAICs Code associated with the primary beneficial use category</Cm>
       </Cl>
       <Cl au="0" df="" nm="PopulationServed" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
@@ -1240,7 +1243,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificUID" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificCV" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
@@ -1342,13 +1345,13 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="27" y="447"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="40" y="737"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="25" y="458"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="40" y="739"/>
     <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1045" y="561"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1018" y="216"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1042" y="795"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="32" y="172"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="521" y="836"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="522" y="823"/>
     <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="483" y="132"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts" x="538" y="503"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
@@ -1358,18 +1361,19 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="392" x2="538" y1="558" y2="558"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="390" x2="538" y1="593" y2="593"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="836" y2="743"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="686" x2="686" y1="823" y2="743"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Sites" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="353" x2="353" y1="737" y2="701"/>
-        <positionableLine lineRole="CHILD_LINE" x1="538" x2="357" y1="697" y2="697"/>
+        <positionableLine lineRole="PARENT_LINE" x1="409" x2="460" y1="863" y2="863"/>
+        <positionableLine lineRole="CHILD_LINE" x1="538" x2="468" y1="681" y2="681"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="464" x2="464" y1="685" y2="859"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -1377,10 +1381,11 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="1045" x2="832" y1="599" y2="599"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_VariablesSpecific" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="410" x2="681" y1="276" y2="276"/>
-        <positionableLine lineRole="CHILD_LINE" x1="685" x2="685" y1="503" y2="280"/>
+        <positionableLine lineRole="PARENT_LINE" x1="410" x2="452" y1="276" y2="276"/>
+        <positionableLine lineRole="CHILD_LINE" x1="538" x2="460" y1="547" y2="547"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="456" x2="456" y1="543" y2="280"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterAllocations" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
@@ -1439,10 +1444,10 @@ over time and connects things together.</Note>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="VariablesSpecific" x="18" y="155"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1006" y="223"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="505" y="830"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="482" y="130"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="483" y="129"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="354" y2="547"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="686" x2="686" y1="353" y2="547"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -1494,7 +1499,7 @@ The brown tables are mostly static over time. &#13;
 The blue tables change much or a bit over time &#13;
 The green table is the FACT table that changes &#13;
 over time and connects things together.</Note>
-      <Note bkCl="ffffffe6" x="523" y="411">What's the tradoff of adding a&#13;
+      <Note bkCl="ffffffe6" x="529" y="406">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountsMetadata&#13;
 to the Fact Table?</Note>
@@ -1691,7 +1696,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="640">
+  <RnmMgr NxRnmId="641">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -3119,6 +3124,9 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="638" nNm="AllocationID" oNm="WaterAllocationID"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="640" nNm="AllocationSDWISIdentifier" oNm="SDWISID"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -3140,7 +3148,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

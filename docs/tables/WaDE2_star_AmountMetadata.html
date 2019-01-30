@@ -27,34 +27,34 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_AmountMetadata_AmountMetadataID.html">AmountMetadataID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationPrimaryUseCategory.html">AllocationPrimaryUseCategory</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationPrimaryUseCategory.html">AllocationPrimaryUseCategory</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>USGSCategoryCV</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationUSGSCategoryCV.html">AllocationUSGSCategoryCV</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationUSGSCategoryCV.html">AllocationUSGSCategoryCV</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+</td><td> </td><td> </td><td>Assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_SDWISID.html">SDWISID</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationSDWISIdentifier.html">AllocationSDWISIdentifier</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+</td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+</td><td> </td><td> </td><td>Six-digit NAICs Code associated with the primary beneficial use category</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_PopulationServed.html">PopulationServed</a></td><td>Float</td><td>
