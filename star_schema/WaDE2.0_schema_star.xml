@@ -3146,7 +3146,7 @@ We will make a join with each controlled field using the "Name" unique primary k
   <OpenEditors>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
