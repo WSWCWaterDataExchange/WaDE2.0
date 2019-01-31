@@ -1,23 +1,26 @@
-# WaDE2.0 
-The next version of WaDE
+# WaDE 2.0 
+The next version of the Water Data Exchange (WaDE) program. An agreed upon metadata standard and information system for sharing water budget data in the US. Water budgets data include site specific and aggregated water rights, water supplies, use, return flows, and transfers at geospatial areas. 
 
 ## Why WaDE 2.0? 
 
 
 # Design documents  
-## 1. WaDE 2.0 draft metadata fields 
+## 1. Use cases
+
+
+## 2. WaDE 2.0 draft metadata fields 
 https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0oiM/edit?usp=sharing
 
-## 2. WaDE 2.0 draft star schema for OLAP system   
+## 3. WaDE 2.0 draft star schema for OLAP system   
 https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html
 
-## 3. WaDE blank in PostgresQL
+## 4. WaDE blank in PostgresQL
 https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/PostgresSQL_black/WaDE2.0.sql
 
-## 4. Sample input data for WaDE 2.0
+## 5. Sample input data for WaDE 2.0
 https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/SampleInputData
 
-## 5. WaDE 2.0 draft API in Swagger
+## 6. WaDE 2.0 draft API in Swagger
 https://app.swaggerhub.com/apis/WesternStatesWater/WaDE2.0_star/1.0.0
 
 
