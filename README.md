@@ -4,16 +4,20 @@ The next version of WaDE
 ## Why WaDE 2.0? 
 
 
-## WaDE 2.0 draft star schema for OLAP system   
+# Design documents  
+## 1. WaDE 2.0 draft metadata fields 
+https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0oiM/edit?usp=sharing
+
+## 2. WaDE 2.0 draft star schema for OLAP system   
 https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html
 
-## WaDE blank in PostgresQL
+## 3. WaDE blank in PostgresQL
 https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/PostgresSQL_black/WaDE2.0.sql
 
-## Sample input data for WaDE 2.0
+## 4. Sample input data for WaDE 2.0
 https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/SampleInputData
 
-## WaDE 2.0 draft API in Swagger
+## 5. WaDE 2.0 draft API in Swagger
 https://app.swaggerhub.com/apis/WesternStatesWater/WaDE2.0_star/1.0.0
 
 
