@@ -33,19 +33,19 @@
 </td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationPrimaryUseCategory.html">AllocationPrimaryUseCategory</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_PrimaryUseCategory.html">PrimaryUseCategory</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>USGSCategoryCV</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationUSGSCategoryCV.html">AllocationUSGSCategoryCV</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_AllocationSDWISIdentifier.html">AllocationSDWISIdentifier</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_SDWISIdentifier.html">SDWISIdentifier</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td> </td>
@@ -91,6 +91,18 @@
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>VarChar(255)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</td><td> </td>
 </tr>
 </table>
 <br>

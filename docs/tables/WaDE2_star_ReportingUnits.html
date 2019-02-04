@@ -57,18 +57,6 @@
 <td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_StateCV.html">StateCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>Abbrieviated state identifier.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(50)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>VarChar(50)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</td><td> </td>
-</tr>
-<tr>
 <td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_EPSGCodeCV.html">EPSGCodeCV</a></td><td>VarBinary(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -86,15 +74,6 @@
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</td><td> </td>
 </tr>
-<tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_ReportingUnits_NHDMetadataCV.html">NHDMetadataCV</a></td><td class="FkCol">Integer</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Metadata to reference the National Hydrography Dataset</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
-</tr>
 </table>
 <br>
 <h2>Indexes</h2>
@@ -103,14 +82,9 @@
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<table class="flat">
-<tr>
-<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_ReportingUnits_fk_ReportingUnits_NHDMetadata.html">fk_ReportingUnits_NHDMetadata</a></td><td><a href="../tables/WaDE2_star_NHDMetadata.html">NHDMetadata</a></td><td><a href="../tables/WaDE2_star_ReportingUnits.html">ReportingUnits</a></td><td>NHDMetadataID</td><td>NHDMetadataCV</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">
