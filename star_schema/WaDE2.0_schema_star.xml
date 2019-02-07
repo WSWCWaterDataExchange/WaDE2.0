@@ -1558,6 +1558,10 @@ to the Fact Table?</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="944" y="522">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="118" y="422">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
       <Note bkCl="ffffffe6" x="528" y="10">GetAggVariableData: Agg use&#13;
 The brown tables are mostly static over time. &#13;
 The blue tables change much or a bit over time &#13;
@@ -1568,10 +1572,6 @@ few metadata items that change &#13;
 with values as in the AmountMetadata&#13;
  to the Fact Table?</Note>
       <Note bkCl="ffffffe6" x="711" y="780">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="944" y="522">When: Date and value</Note>
-      <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="118" y="422">What: Variable + metadata</Note>
-      <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3126,11 +3126,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
