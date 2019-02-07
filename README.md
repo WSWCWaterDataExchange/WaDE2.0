@@ -15,7 +15,7 @@ https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0
 https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html
 
 ## 4. WaDE 2.0 blank database copies for RDBMS
-https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/PostgresSQL_black/WaDE2.0.sql
+https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Blank_RDBMS
 
 ## 5. Sample input data for WaDE 2.0
 https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/SampleInputData
