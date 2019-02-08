@@ -27,13 +27,16 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_SiteVariableAmountID.html">SiteVariableAmountID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_AllocationID.html">AllocationID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_OrganizationID_.html">OrganizationID	</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_TimeID.html">TimeID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_AllocationID.html">AllocationID</a></td><td class="FkCol">Integer</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -45,7 +48,7 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_MethodID.html">MethodID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">A unique identifierfor each database instance that implements the table</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_VariableSpecificID.html">VariableSpecificID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -57,19 +60,7 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_SiteVariableMetadataID.html">SiteVariableMetadataID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
-</tr>
-<tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_VariableSpecificID.html">VariableSpecificID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
-</tr>
-<tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_OrganizationID_.html">OrganizationID	</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_MethodID.html">MethodID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">A unique identifierfor each database instance that implements the table</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -84,6 +75,12 @@
 </td>
 </tr>
 <tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_SiteVariableAmounts_TimeID.html">TimeID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_SiteVariableAmounts_Amount.html">Amount</a></td><td>Float</td><td> </td><td> </td><td> </td><td>The aggregated variable amount</td><td> </td>
 </tr>
 </table>
@@ -111,18 +108,15 @@
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Sites.html">fk_SiteVariableAmounts_Sites</a></td><td><a href="../tables/WaDE2_star_Sites.html">Sites</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>SiteID</td><td>SiteID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_SiteVariableMetadata.html">fk_SiteVariableAmounts_SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_SiteVariableMetadata.html">SiteVariableMetadata</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>SiteVariableMetadataID</td><td>SiteVariableMetadataID</td>
-</tr>
-<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Time_dim.html">fk_SiteVariableAmounts_Time_dim</a></td><td><a href="../tables/WaDE2_star_Time_dim.html">Time_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>TimeID</td><td>TimeID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_VariablesSpecific.html">fk_SiteVariableAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_Variables.html">Variables</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterAllocations.html">fk_SiteVariableAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_Allocations.html">Allocations</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>AllocationID</td><td>AllocationID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterSources.html">fk_SiteVariableAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources.html">WaterSources</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
