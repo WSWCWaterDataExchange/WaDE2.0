@@ -24,12 +24,14 @@ The WaDE 2.0 approach resolves many of the challenges listed above by integratin
 The centralized repository approach has two main benefits to the member states and to the administrators of WaDE. First, member states do not have to host a WaDE database server and thus potentially avoid costs, changing security requirements, infrequent updates, and other technical difficulties. Second, it eliminates the need for the operation of a central catalog to direct the data queries to separate databases. Any schema or configuration updates and security monitoring would be undertaken by WaDE admins and the member states would only maintain their data sources as part of their operations. Lastly, a centralized design would support more efficient and faster data responses, which in turn would enable regional, multistate and multi-year data analyses. Figure 2 is a conceptual graphic of the data storage and functions related to the central repository for one potential cloud platform.
 
 
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)  
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)     
+
 **Figure 1:** Schematic of WaDE 2.0 workflow 
 
 
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/Azure_workflow.png)
-Figure 2: WaDE system implementation workflow in Azure 
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/Azure_workflow.png)   
+
+**Figure 2:** WaDE system implementation workflow in Azure 
 
 ## 3.	WaDE Basic Use Cases   
 
