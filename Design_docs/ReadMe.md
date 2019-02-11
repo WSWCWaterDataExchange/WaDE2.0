@@ -24,8 +24,8 @@ The WaDE 2.0 approach resolves many of the challenges listed above by integratin
 The centralized repository approach has two main benefits to the member states and to the administrators of WaDE. First, member states do not have to host a WaDE database server and thus potentially avoid costs, changing security requirements, infrequent updates, and other technical difficulties. Second, it eliminates the need for the operation of a central catalog to direct the data queries to separate databases. Any schema or configuration updates and security monitoring would be undertaken by WaDE admins and the member states would only maintain their data sources as part of their operations. Lastly, a centralized design would support more efficient and faster data responses, which in turn would enable regional, multistate and multi-year data analyses. Figure 2 is a conceptual graphic of the data storage and functions related to the central repository for one potential cloud platform.
 
 
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
-Figure 1: Schematic of WaDE 2.0 workflow 
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)  
+**Figure 1:** Schematic of WaDE 2.0 workflow 
 
 
 ![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/Azure_workflow.png)
@@ -70,9 +70,9 @@ There are regulations, compacts, special management areas, etc. that provide a r
 
 •	What are the extents (i.e., affected reporting units) that coincide with a regulatory/institutional constraint of interest?  
 
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaterRights_sites_conceptual.png)
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaterRights_sites_conceptual.png)   
 
-Figure 3: Conceptual diagram of water rights that may or may not have a location (a “site” in the WaDE DB), may have one or many withdrawals, which may have one or many consumptive uses, and return flows as sites.
+**Figure 3:** Conceptual diagram of water rights that may or may not have a location (a “site” in the WaDE DB), may have one or many withdrawals, which may have one or many consumptive uses, and return flows as sites.
 
 
 # 4.	Conceptual design
@@ -89,8 +89,9 @@ In WaDE 2.0 each WaDE water data type has metadata that describe its amount over
 
 **When:** the time period for the data 
 
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/conceptual.png)
-Figure 4: High-level metadata elements for WaDE data. Green is the central table (most often updated) with values for variable amounts. Orange coloring is for metadata that is updated less frequently. Blue indicates data that change over time for each amount value. Red denotes water allocation data, which is uniquely regulatory and not associated with fluctuating amounts like other time-series in WaDE.
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/conceptual.png)   
+
+**Figure 4:** High-level metadata elements for WaDE data. Green is the central table (most often updated) with values for variable amounts. Orange coloring is for metadata that is updated less frequently. Blue indicates data that change over time for each amount value. Red denotes water allocation data, which is uniquely regulatory and not associated with fluctuating amounts like other time-series in WaDE.
 
 
 ## 5.	Specific Use Cases to Address   
