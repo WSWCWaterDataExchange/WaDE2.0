@@ -48,7 +48,7 @@ ON ReportingUnits.ReportingUnitID=AggregatedAmounts.ReportingUnitID
 
 
 -- Return the water budget estimates for a selected year
-WHERE ReportYearCV='' 
+WHERE ReportYearCV='2010' 
 
 AND
 
@@ -58,10 +58,10 @@ VariableCV IN ('Consumptive use','Withdrawal','Supply','Availability')
 AND
 
 -- focus on one reporting unit type
-ReportingUnitTypeCV IN ('')
+ReportingUnitTypeCV IN ('County')
 
 AND 
 
 -- focus on one reporting unit 
-ReportingUnitName IN ('')
+ReportingUnitName IN ('Cache')
  
