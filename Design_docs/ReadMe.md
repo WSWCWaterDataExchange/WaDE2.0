@@ -130,8 +130,10 @@ In WaDE 2.0 each WaDE water data type has metadata that describe its amount over
 
 •	What are the HUC-8s that are influenced by the Colorado River Compact? The Bear River Compact?
 
+ 
+## References  
+https://acwi.gov/hydrology/sic/presentations/larsen_wade_july2018.pdf  
 
-## References
-https://acwi.gov/hydrology/sic/presentations/larsen_wade_july2018.pdf
-https://onlinelibrary.wiley.com/doi/full/10.1111/j.1936-704X.2014.03177.x
-https://iopscience.iop.org/article/10.1088/1748-9326/9/6/064009/meta
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1936-704X.2014.03177.x  
+
+https://iopscience.iop.org/article/10.1088/1748-9326/9/6/064009/meta  
