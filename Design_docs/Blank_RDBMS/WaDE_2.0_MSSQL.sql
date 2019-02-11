@@ -34,7 +34,7 @@ GO
 /*********************** CREATE WADE2.0_SCHEMA_STAR ************************/
 /***************************************************************************/
 
-CREATE TABLE WaDE.AggregatedAmounts (
+CREATE TABLE AggregatedAmounts (
 	AggregatedAmountID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
 	ReportingUnitID int   NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE WaDE.AggregatedAmounts (
 	Amount float   NOT NULL,
 	PRIMARY KEY (AggregatedAmountID)
 )
-CREATE TABLE WaDE.AllocationAmounts (
+CREATE TABLE AllocationAmounts (
 	AllocationAmountID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
 	AllocationID int   NOT NULL,
@@ -61,14 +61,14 @@ CREATE TABLE WaDE.AllocationAmounts (
 	AllocationMaximum float   NULL,
 	PRIMARY KEY (AllocationAmountID)
 )
-CREATE TABLE WaDE.Allocations (
+CREATE TABLE Allocations (
 	AllocationID int   NOT NULL,
 	NativeAllocationID varchar (250)  NULL,
 	AllocationUID varchar (50)  NOT NULL,
 	AllocationOwner varchar (255)  NOT NULL,
 	AllocationApplicationDate date   NULL,
 	AllocationPriorityDate date   NOT NULL,
-	AllocationLegalStatusCodeCV varbinary (50)  NOT NULL,
+	AllocationLegalStatusCodeCV varchar (50)  NOT NULL,
 	AllocationExpirationDate date   NULL,
 	AllocationChangeApplicationIndicator varchar (100)  NULL,
 	LegacyAllocationIDs varchar (100)  NULL,
@@ -76,7 +76,7 @@ CREATE TABLE WaDE.Allocations (
 	AllocationAcreage bigint   NULL,
 	PRIMARY KEY (AllocationID)
 )
-CREATE TABLE WaDE.AmountMetadata (
+CREATE TABLE AmountMetadata (
 	AmountMetadataID int   NOT NULL,
 	BeneficialUseCategory varchar (255)  NULL,
 	PrimaryUseCategory varchar (255)  NULL,
@@ -93,7 +93,7 @@ CREATE TABLE WaDE.AmountMetadata (
 	InterbasinTransferToID varchar (255)  NULL,
 	PRIMARY KEY (AmountMetadataID)
 )
-CREATE TABLE WaDE.CVs_AggregationStatistic (
+CREATE TABLE CVs_AggregationStatistic (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -101,7 +101,7 @@ CREATE TABLE WaDE.CVs_AggregationStatistic (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_EPSGCode (
+CREATE TABLE CVs_EPSGCode (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -109,7 +109,7 @@ CREATE TABLE WaDE.CVs_EPSGCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_GNISCode (
+CREATE TABLE CVs_GNISCode (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -117,7 +117,7 @@ CREATE TABLE WaDE.CVs_GNISCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_LegalStatusCode (
+CREATE TABLE CVs_LegalStatusCode (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -125,7 +125,7 @@ CREATE TABLE WaDE.CVs_LegalStatusCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_MethodType (
+CREATE TABLE CVs_MethodType (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -133,7 +133,7 @@ CREATE TABLE WaDE.CVs_MethodType (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_NAICSCode (
+CREATE TABLE CVs_NAICSCode (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -141,7 +141,7 @@ CREATE TABLE WaDE.CVs_NAICSCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_NHDNetworkStatus (
+CREATE TABLE CVs_NHDNetworkStatus (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -149,7 +149,7 @@ CREATE TABLE WaDE.CVs_NHDNetworkStatus (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_NHDProduct (
+CREATE TABLE CVs_NHDProduct (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -157,7 +157,7 @@ CREATE TABLE WaDE.CVs_NHDProduct (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_RegulatoryStatus (
+CREATE TABLE CVs_RegulatoryStatus (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -165,7 +165,7 @@ CREATE TABLE WaDE.CVs_RegulatoryStatus (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_ReportingUnitType (
+CREATE TABLE CVs_ReportingUnitType (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -173,7 +173,7 @@ CREATE TABLE WaDE.CVs_ReportingUnitType (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_ReportYearCV (
+CREATE TABLE CVs_ReportYearCV (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -181,7 +181,7 @@ CREATE TABLE WaDE.CVs_ReportYearCV (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_ReportYearType (
+CREATE TABLE CVs_ReportYearType (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -189,7 +189,7 @@ CREATE TABLE WaDE.CVs_ReportYearType (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_Units (
+CREATE TABLE CVs_Units (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -197,7 +197,7 @@ CREATE TABLE WaDE.CVs_Units (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_USGSCategory (
+CREATE TABLE CVs_USGSCategory (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -205,7 +205,7 @@ CREATE TABLE WaDE.CVs_USGSCategory (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_Variable (
+CREATE TABLE CVs_Variable (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -213,7 +213,7 @@ CREATE TABLE WaDE.CVs_Variable (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_VerticalDatumEPSGCode (
+CREATE TABLE CVs_VerticalDatumEPSGCode (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -221,7 +221,7 @@ CREATE TABLE WaDE.CVs_VerticalDatumEPSGCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_WaterAllocationBasis (
+CREATE TABLE CVs_WaterAllocationBasis (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -229,7 +229,7 @@ CREATE TABLE WaDE.CVs_WaterAllocationBasis (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_WaterAllocationBasis_dup (
+CREATE TABLE CVs_WaterAllocationBasis_dup (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -237,7 +237,7 @@ CREATE TABLE WaDE.CVs_WaterAllocationBasis_dup (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_WaterQualityIndicator (
+CREATE TABLE CVs_WaterQualityIndicator (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -245,7 +245,7 @@ CREATE TABLE WaDE.CVs_WaterQualityIndicator (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.CVs_WaterSourceType (
+CREATE TABLE CVs_WaterSourceType (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -253,7 +253,7 @@ CREATE TABLE WaDE.CVs_WaterSourceType (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE WaDE.Methods (
+CREATE TABLE Methods (
 	MethodID int   NOT NULL,
 	MethodUID varchar (100)  NOT NULL,
 	MethodName varchar (50)  NOT NULL,
@@ -266,7 +266,7 @@ CREATE TABLE WaDE.Methods (
 	DataConfidenceValue varchar (50)  NULL,
 	PRIMARY KEY (MethodID)
 )
-CREATE TABLE WaDE.NHDMetadata (
+CREATE TABLE NHDMetadata (
 	NHDMetadataID int   NOT NULL,
 	NHDNetworkStatusCV varchar (50)  NOT NULL,
 	NHDProductCV varchar (50)  NULL,
@@ -275,9 +275,9 @@ CREATE TABLE WaDE.NHDMetadata (
 	NHDMeasureNumber varchar (50)  NULL,
 	PRIMARY KEY (NHDMetadataID)
 )
-CREATE TABLE WaDE.Organizations (
+CREATE TABLE Organizations (
 	OrganizationID	 int   NOT NULL,
-	OrganizationUID varbinary (255)  NOT NULL,
+	OrganizationUID varchar (255)  NOT NULL,
 	OrganizationName varchar (255)  NOT NULL,
 	OrganizationPurview varchar (255)  NULL,
 	OrganizationWebsite varchar (255)  NULL,
@@ -286,7 +286,7 @@ CREATE TABLE WaDE.Organizations (
 	OrganizationContactEmail varchar   NULL,
 	PRIMARY KEY (OrganizationID	)
 )
-CREATE TABLE WaDE.RegulatoryOverlay (
+CREATE TABLE RegulatoryOverlay (
 	RegulatoryOverlayID int   NOT NULL,
 	NativeRegulatoryOverlayID varchar (255)  NULL,
 	RegulatoryOverlayUID varchar (255)  NULL,
@@ -302,7 +302,7 @@ CREATE TABLE WaDE.RegulatoryOverlay (
 	ReportYearStartMonth varchar (5)  NOT NULL,
 	PRIMARY KEY (RegulatoryOverlayID)
 )
-CREATE TABLE WaDE.RegulatoryReportingUnits (
+CREATE TABLE RegulatoryReportingUnits (
 	BridgeID int   NOT NULL,
 	RegulatoryOverlayID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
@@ -311,7 +311,7 @@ CREATE TABLE WaDE.RegulatoryReportingUnits (
 	DataPublicationDate date   NOT NULL,
 	PRIMARY KEY (BridgeID)
 )
-CREATE TABLE WaDE.ReportingUnits (
+CREATE TABLE ReportingUnits (
 	ReportingUnitID int   NOT NULL,
 	ReportingUnitNativeID varchar (250)  NULL,
 	ReportingUnitUID varchar (255)  NOT NULL,
@@ -320,12 +320,12 @@ CREATE TABLE WaDE.ReportingUnits (
 	ReportingUnitUpdateDate date   NULL,
 	ReportingUnitProductVersion varchar (100)  NULL,
 	StateCV varchar (50)  NOT NULL,
-	EPSGCodeCV varbinary (50)  NULL,
+	EPSGCodeCV varchar (50)  NULL,
 	VerticalDatumEPSGCodeCV varchar (50)  NULL,
 	Geometry binary   NULL,
 	PRIMARY KEY (ReportingUnitID)
 )
-CREATE TABLE WaDE.Sites (
+CREATE TABLE Sites (
 	SiteID int   NOT NULL,
 	SiteUID varchar (55)  NOT NULL,
 	NativeSiteID varchar (50)  NULL,
@@ -341,7 +341,7 @@ CREATE TABLE WaDE.Sites (
 	NHDMetadataID int   NULL,
 	PRIMARY KEY (SiteID)
 )
-CREATE TABLE WaDE.SiteVariableAmounts (
+CREATE TABLE SiteVariableAmounts (
 	SiteVariableAmountID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
 	AllocationID int   NULL,
@@ -354,7 +354,7 @@ CREATE TABLE WaDE.SiteVariableAmounts (
 	Amount float   NOT NULL,
 	PRIMARY KEY (SiteVariableAmountID)
 )
-CREATE TABLE WaDE.Time_dim (
+CREATE TABLE Time_dim (
 	TimeID int   NOT NULL,
 	ReportYearCV varchar (4)  NOT NULL,
 	TimeframeStart date   NOT NULL,
@@ -362,7 +362,7 @@ CREATE TABLE WaDE.Time_dim (
 	DataPublicationDate date   NOT NULL,
 	PRIMARY KEY (TimeID)
 )
-CREATE TABLE WaDE.Variables (
+CREATE TABLE Variables (
 	VariableSpecificID int   NOT NULL,
 	VariableSpecificUID varchar (255)  NULL,
 	VariableSpecificCV varchar (255)  NOT NULL,
@@ -376,7 +376,7 @@ CREATE TABLE WaDE.Variables (
 	MaximumAmountUnitCV numeric (10)  NULL,
 	PRIMARY KEY (VariableSpecificID)
 )
-CREATE TABLE WaDE.WaterSources (
+CREATE TABLE WaterSources (
 	WaterSourceID int   NOT NULL,
 	WaterSourceUID varchar (100)  NOT NULL,
 	WaterSourceNativeID varchar (255)  NULL,
@@ -388,110 +388,110 @@ CREATE TABLE WaDE.WaterSources (
 	PRIMARY KEY (WaterSourceID)
 )
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AmountsMetadata
-FOREIGN KEY (AmountMetadataID) REFERENCES WaDE.AmountMetadata (AmountMetadataID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AmountsMetadata
+FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Methods
-FOREIGN KEY (MethodID) REFERENCES WaDE.Methods (MethodID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Methods
+FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES WaDE.Organizations (OrganizationID	)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Organizations
+FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_ReportingUnits
-FOREIGN KEY (ReportingUnitID) REFERENCES WaDE.ReportingUnits (ReportingUnitID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_ReportingUnits
+FOREIGN KEY (ReportingUnitID) REFERENCES ReportingUnits (ReportingUnitID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Time_dim
-FOREIGN KEY (TimeID) REFERENCES WaDE.Time_dim (TimeID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Time_dim
+FOREIGN KEY (TimeID) REFERENCES Time_dim (TimeID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_VariablesSpecific
-FOREIGN KEY (VariableSpecificID) REFERENCES WaDE.Variables (VariableSpecificID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_VariablesSpecific
+FOREIGN KEY (VariableSpecificID) REFERENCES Variables (VariableSpecificID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_WaterSources
-FOREIGN KEY (WaterSourceID) REFERENCES WaDE.WaterSources (WaterSourceID)
+ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_WaterSources
+FOREIGN KEY (WaterSourceID) REFERENCES WaterSources (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_AmountMetadata
-FOREIGN KEY (AmountMetadataID) REFERENCES WaDE.AmountMetadata (AmountMetadataID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_AmountMetadata
+FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Methods
-FOREIGN KEY (MethodID) REFERENCES WaDE.Methods (MethodID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Methods
+FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES WaDE.Organizations (OrganizationID	)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Organizations
+FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Sites
-FOREIGN KEY (SiteID) REFERENCES WaDE.Sites (SiteID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Sites
+FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Time_dim
-FOREIGN KEY (TimeID) REFERENCES WaDE.Time_dim (TimeID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Time_dim
+FOREIGN KEY (TimeID) REFERENCES Time_dim (TimeID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_VariablesSpecific
-FOREIGN KEY (VariableSpecificID) REFERENCES WaDE.Variables (VariableSpecificID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_VariablesSpecific
+FOREIGN KEY (VariableSpecificID) REFERENCES Variables (VariableSpecificID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_WaterAllocations
-FOREIGN KEY (AllocationID) REFERENCES WaDE.Allocations (AllocationID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_WaterAllocations
+FOREIGN KEY (AllocationID) REFERENCES Allocations (AllocationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_WaterSources
-FOREIGN KEY (WaterSourceID) REFERENCES WaDE.WaterSources (WaterSourceID)
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_WaterSources
+FOREIGN KEY (WaterSourceID) REFERENCES WaterSources (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES WaDE.Organizations (OrganizationID	)
+ALTER TABLE RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_Organizations
+FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_RegulatoryOverlay
-FOREIGN KEY (RegulatoryOverlayID) REFERENCES WaDE.RegulatoryOverlay (RegulatoryOverlayID)
+ALTER TABLE RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_RegulatoryOverlay
+FOREIGN KEY (RegulatoryOverlayID) REFERENCES RegulatoryOverlay (RegulatoryOverlayID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_ReportingUnits
-FOREIGN KEY (ReportingUnitID) REFERENCES WaDE.ReportingUnits (ReportingUnitID)
+ALTER TABLE RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_ReportingUnits
+FOREIGN KEY (ReportingUnitID) REFERENCES ReportingUnits (ReportingUnitID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.Sites ADD CONSTRAINT fk_Sites_NHDMetadata
-FOREIGN KEY (NHDMetadataID) REFERENCES WaDE.NHDMetadata (NHDMetadataID)
+ALTER TABLE Sites ADD CONSTRAINT fk_Sites_NHDMetadata
+FOREIGN KEY (NHDMetadataID) REFERENCES NHDMetadata (NHDMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_AmountMetadata
-FOREIGN KEY (AmountMetadataID) REFERENCES WaDE.AmountMetadata (AmountMetadataID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_AmountMetadata
+FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Methods
-FOREIGN KEY (MethodID) REFERENCES WaDE.Methods (MethodID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Methods
+FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES WaDE.Organizations (OrganizationID	)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Organizations
+FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Sites
-FOREIGN KEY (SiteID) REFERENCES WaDE.Sites (SiteID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Sites
+FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Time_dim
-FOREIGN KEY (TimeID) REFERENCES WaDE.Time_dim (TimeID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Time_dim
+FOREIGN KEY (TimeID) REFERENCES Time_dim (TimeID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_VariablesSpecific
-FOREIGN KEY (VariableSpecificID) REFERENCES WaDE.Variables (VariableSpecificID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_VariablesSpecific
+FOREIGN KEY (VariableSpecificID) REFERENCES Variables (VariableSpecificID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_WaterAllocations
-FOREIGN KEY (AllocationID) REFERENCES WaDE.Allocations (AllocationID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_WaterAllocations
+FOREIGN KEY (AllocationID) REFERENCES Allocations (AllocationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_WaterSources
-FOREIGN KEY (WaterSourceID) REFERENCES WaDE.WaterSources (WaterSourceID)
+ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_WaterSources
+FOREIGN KEY (WaterSourceID) REFERENCES WaterSources (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION

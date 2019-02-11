@@ -55,7 +55,7 @@ CREATE TABLE Allocations (
 	AllocationOwner VARCHAR (255)  NOT NULL,
 	AllocationApplicationDate DATE   NULL,
 	AllocationPriorityDate DATE   NOT NULL,
-	AllocationLegalStatusCodeCV VARBINARY (50)  NOT NULL,
+	AllocationLegalStatusCodeCV VARCHAR (50)  NOT NULL,
 	AllocationExpirationDate DATE   NULL,
 	AllocationChangeApplicationIndicator VARCHAR (100)  NULL,
 	LegacyAllocationIDs VARCHAR (100)  NULL,
@@ -264,7 +264,7 @@ CREATE TABLE NHDMetadata (
 
 CREATE TABLE Organizations (
 	OrganizationID	 INT   NOT NULL PRIMARY KEY,
-	OrganizationUID VARBINARY (255)  NOT NULL,
+	OrganizationUID VARCHAR (255)  NOT NULL,
 	OrganizationName VARCHAR (255)  NOT NULL,
 	OrganizationPurview VARCHAR (255)  NULL,
 	OrganizationWebsite VARCHAR (255)  NULL,
@@ -307,7 +307,7 @@ CREATE TABLE ReportingUnits (
 	ReportingUnitUpdateDate DATE   NULL,
 	ReportingUnitProductVersion VARCHAR (100)  NULL,
 	StateCV VARCHAR (50)  NOT NULL,
-	EPSGCodeCV VARBINARY (50)  NULL,
+	EPSGCodeCV VARCHAR (50)  NULL,
 	VerticalDatumEPSGCodeCV VARCHAR (50)  NULL,
 	Geometry BLOB   NULL
 );

@@ -186,7 +186,7 @@
         <Cm>Priority Date given to the allocation</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationLegalStatusCodeCV" nu="0">
-        <DT arr="0" ds="VarBinary" en="" id="-3" ln="50" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
@@ -775,7 +775,7 @@
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="OrganizationUID" nu="0">
-        <DT arr="0" ds="VarBinary" en="" id="-3" ln="255" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes	</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationName" nu="0">
@@ -941,7 +941,7 @@
         <Cm>Abbrieviated state identifier.</Cm>
       </Cl>
       <Cl au="0" df="" nm="EPSGCodeCV" nu="1">
-        <DT arr="0" ds="VarBinary" en="" id="-3" ln="50" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
         <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       </Cl>
       <Cl au="0" df="" nm="VerticalDatumEPSGCodeCV" nu="1">
@@ -1439,7 +1439,7 @@ to the Fact Table?</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_ReportingUnits" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="421" x2="495" y1="900" y2="900"/>
+        <positionableLine lineRole="PARENT_LINE" x1="419" x2="495" y1="900" y2="900"/>
         <positionableLine lineRole="CHILD_LINE" x1="572" x2="503" y1="651" y2="651"/>
         <positionableLine lineRole="MIDDLE_LINE" x1="499" x2="499" y1="655" y2="896"/>
       </positionableLines>
@@ -1464,9 +1464,6 @@ to the Fact Table?</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="117" y="399">What: Variable + metadata</Note>
-      <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
       <Note bkCl="ffffffe6" x="528" y="10">GetAggVariableData: Agg use&#13;
 The brown tables are mostly static over time. &#13;
 The blue tables change much or a bit over time &#13;
@@ -1478,6 +1475,9 @@ with values as in the AmountMetadata&#13;
  to the Fact Table?</Note>
       <Note bkCl="ffffffe6" x="724" y="780">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="944" y="522">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="117" y="399">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3032,11 +3032,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

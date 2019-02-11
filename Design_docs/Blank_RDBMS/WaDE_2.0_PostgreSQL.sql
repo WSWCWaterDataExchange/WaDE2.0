@@ -58,7 +58,7 @@ create table WaDE.Allocations (
 	allocationowner varchar (255) NOT NULL,
 	allocationapplicationdate date  NULL,
 	allocationprioritydate date  NOT NULL,
-	allocationlegalstatuscodecv bit (50) NOT NULL,
+	allocationlegalstatuscodecv varchar (50) NOT NULL,
 	allocationexpirationdate date  NULL,
 	allocationchangeapplicationindicator varchar (100) NULL,
 	legacyallocationids varchar (100) NULL,
@@ -243,7 +243,7 @@ create table WaDE.NHDMetadata (
 );
 create table WaDE.Organizations (
 	organizationid	 integer  NOT NULL primary key,
-	organizationuid bit (255) NOT NULL,
+	organizationuid varchar (255) NOT NULL,
 	organizationname varchar (255) NOT NULL,
 	organizationpurview varchar (255) NULL,
 	organizationwebsite varchar (255) NULL,
@@ -283,7 +283,7 @@ create table WaDE.ReportingUnits (
 	reportingunitupdatedate date  NULL,
 	reportingunitproductversion varchar (100) NULL,
 	statecv varchar (50) NOT NULL,
-	epsgcodecv bit (50) NULL,
+	epsgcodecv varchar (50) NULL,
 	verticaldatumepsgcodecv varchar (50) NULL,
 	geometry bytea  NULL
 );
