@@ -1,30 +1,23 @@
 # WaDE 2.0 
 The next version of the Water Data Exchange (WaDE) program. An agreed upon metadata standard and information system for sharing water budget data in the US. Water budgets data include site specific and aggregated water rights, water supplies, use, return flows, and transfers at geospatial areas. 
 
-## Why WaDE 2.0? 
 
+## [A Design Document for the Water Data Exchange (WaDE) Program – Phase II](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs)   
+Why WaDE 2.0?, use cases, and the conceptual design 
 
-# Design documents  
-## 1. Use cases
+## 2. [WaDE 2.0 draft metadata fields](https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0oiM/edit?usp=sharing) 
 
+## 3. [WaDE 2.0 draft star schema for OLAP system](https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html)
 
-## 2. WaDE 2.0 draft metadata fields 
-https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0oiM/edit?usp=sharing
+## 4. [WaDE 2.0 blank database copies for RDBMS](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/Blank_RDBMS)
 
-## 3. WaDE 2.0 draft star schema for OLAP system   
-https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html
+## 5. [Sample input data for WaDE 2.0](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/SampleInputData)
 
-## 4. WaDE 2.0 blank database copies for RDBMS
-https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Blank_RDBMS
+## 6. [WaDE 2.0 draft API in Swagger](https://app.swaggerhub.com/apis/WesternStatesWater/WaDE2.0_star/1.0.0)
 
-## 5. Sample input data for WaDE 2.0
-https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/SampleInputData
+## 7. [Use cases and SQL queries to test the design](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/UseCases_SQL) 
 
-## 6. WaDE 2.0 draft API in Swagger
-https://app.swaggerhub.com/apis/WesternStatesWater/WaDE2.0_star/1.0.0
+## 8. Conceptual workflow of the next WaDE 2.0 system
 
-## 7. Use cases and SQL queries to test the design 
-https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/UseCases
+![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
 
-## Conceptual workflow of the next WaDE 2.0 system  
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/WaDE_workflow.jpg)
