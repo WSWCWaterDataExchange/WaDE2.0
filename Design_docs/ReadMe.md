@@ -71,6 +71,7 @@ There are regulations, compacts, special management areas, etc. that provide a r
 •	What are the extents (i.e., affected reporting units) that coincide with a regulatory/institutional constraint of interest?  
 
 ![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaterRights_sites_conceptual.png)
+
 Figure 3: Conceptual diagram of water rights that may or may not have a location (a “site” in the WaDE DB), may have one or many withdrawals, which may have one or many consumptive uses, and return flows as sites.
 
 
@@ -90,7 +91,6 @@ In WaDE 2.0 each WaDE water data type has metadata that describe its amount over
 
 ![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/conceptual.png)
 Figure 4: High-level metadata elements for WaDE data. Green is the central table (most often updated) with values for variable amounts. Orange coloring is for metadata that is updated less frequently. Blue indicates data that change over time for each amount value. Red denotes water allocation data, which is uniquely regulatory and not associated with fluctuating amounts like other time-series in WaDE.
-
 
 
 ## 5.	Specific Use Cases to Address   
@@ -126,3 +126,9 @@ Figure 4: High-level metadata elements for WaDE data. Green is the central table
 •	What are regulatory agencies or laws that regulate water use in the Bear River watershed?
 
 •	What are the HUC-8s that are influenced by the Colorado River Compact? The Bear River Compact?
+
+
+## References
+https://acwi.gov/hydrology/sic/presentations/larsen_wade_july2018.pdf
+https://onlinelibrary.wiley.com/doi/full/10.1111/j.1936-704X.2014.03177.x
+https://iopscience.iop.org/article/10.1088/1748-9326/9/6/064009/meta
