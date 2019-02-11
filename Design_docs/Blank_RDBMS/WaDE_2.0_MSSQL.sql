@@ -283,7 +283,7 @@ CREATE TABLE Organizations (
 	OrganizationWebsite varchar (255)  NULL,
 	OrganizationPhoneNumber varchar (255)  NULL,
 	OrganizationContactName varchar (255)  NULL,
-	OrganizationContactEmail varchar   NULL,
+	OrganizationContactEmail varchar (255)  NULL,
 	PRIMARY KEY (OrganizationID	)
 )
 CREATE TABLE RegulatoryOverlay (

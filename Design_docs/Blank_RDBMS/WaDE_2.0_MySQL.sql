@@ -270,7 +270,7 @@ CREATE TABLE Organizations (
 	OrganizationWebsite VARCHAR (255)  NULL,
 	OrganizationPhoneNumber VARCHAR (255)  NULL,
 	OrganizationContactName VARCHAR (255)  NULL,
-	OrganizationContactEmail VARCHAR   NULL
+	OrganizationContactEmail VARCHAR (255)  NULL
 );
 
 CREATE TABLE RegulatoryOverlay (

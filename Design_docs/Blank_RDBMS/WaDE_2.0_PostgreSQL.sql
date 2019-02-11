@@ -249,7 +249,7 @@ create table WaDE.Organizations (
 	organizationwebsite varchar (255) NULL,
 	organizationphonenumber varchar (255) NULL,
 	organizationcontactname varchar (255) NULL,
-	organizationcontactemail varchar  NULL
+	organizationcontactemail varchar (255) NULL
 );
 create table WaDE.RegulatoryOverlay (
 	regulatoryoverlayid integer  NOT NULL primary key,
