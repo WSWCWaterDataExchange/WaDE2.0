@@ -57,17 +57,17 @@ WHERE VariableCV ='Consumptive use'
 AND 
 
 -- Focus on one specific variable 
-VariableSpecificUID='Consumptive use_Irrigation'
+VariableSpecificCV='Consumptive use_Irrigation'
 
 
 AND
 
 
 -- focus on one reporting unit type
-ReportingUnitTypeCV IN ('')
+ReportingUnitTypeCV IN ('County')
 
 AND 
 
 -- focus on one reporting unit 
-ReportingUnitName IN ('')
+ReportingUnitName IN ('Cache')
  
