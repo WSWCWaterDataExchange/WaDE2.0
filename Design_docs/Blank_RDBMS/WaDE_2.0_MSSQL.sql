@@ -36,38 +36,26 @@ GO
 
 CREATE TABLE WaDE.AggregatedAmounts (
 	AggregatedAmountID int   NOT NULL,
-	AggregatedVariableMetadataID int   NOT NULL,
-	AmountMetadataID int   NOT NULL,
+	OrganizationID	 int   NOT NULL,
+	ReportingUnitID int   NOT NULL,
 	VariableSpecificID int   NOT NULL,
 	WaterSourceID int   NOT NULL,
-	ReportingUnitID int   NOT NULL,
 	MethodID int   NOT NULL,
+	AmountMetadataID int   NOT NULL,
 	TimeID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
 	Amount float   NOT NULL,
 	PRIMARY KEY (AggregatedAmountID)
 )
-CREATE TABLE WaDE.AggregatedVariableMetadata (
-	AggregatedVariableMetadataID int   NOT NULL,
-	AmountUnitCV varchar (100)  NOT NULL,
-	AggregationStatisticCV varchar (50)  NOT NULL,
-	AggregationInterval varchar (10)  NOT NULL,
-	AggregationIntervalUnitCV varchar (50)  NOT NULL,
-	ReportYearStartMonth varchar (10)  NOT NULL,
-	ReportYearTypeCV varchar (50)  NOT NULL,
-	PRIMARY KEY (AggregatedVariableMetadataID)
-)
 CREATE TABLE WaDE.AllocationAmounts (
 	AllocationAmountID int   NOT NULL,
+	OrganizationID	 int   NOT NULL,
 	AllocationID int   NOT NULL,
 	SiteID int   NOT NULL,
-	MethodID int   NOT NULL,
-	TimeID int   NOT NULL,
-	WaterSourceID int   NOT NULL,
-	SiteVariableMetadataID int   NOT NULL,
 	VariableSpecificID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
+	WaterSourceID int   NOT NULL,
+	MethodID int   NOT NULL,
 	AmountMetadataID int   NULL,
+	TimeID int   NOT NULL,
 	AllocationDutyAmount float   NULL,
 	AllocationAmount float   NOT NULL,
 	AllocationMaximum float   NULL,
@@ -317,8 +305,8 @@ CREATE TABLE WaDE.RegulatoryOverlay (
 CREATE TABLE WaDE.RegulatoryReportingUnits (
 	BridgeID int   NOT NULL,
 	RegulatoryOverlayID int   NOT NULL,
-	ReportingUnitID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
+	ReportingUnitID int   NOT NULL,
 	ReportYearCV varchar (4)  NULL,
 	DataPublicationDate date   NOT NULL,
 	PRIMARY KEY (BridgeID)
@@ -355,36 +343,23 @@ CREATE TABLE WaDE.Sites (
 )
 CREATE TABLE WaDE.SiteVariableAmounts (
 	SiteVariableAmountID int   NOT NULL,
-	AllocationID int   NOT NULL,
-	TimeID int   NOT NULL,
-	SiteID int   NOT NULL,
-	MethodID int   NOT NULL,
-	WaterSourceID int   NOT NULL,
-	SiteVariableMetadataID int   NOT NULL,
-	VariableSpecificID int   NOT NULL,
 	OrganizationID	 int   NOT NULL,
+	AllocationID int   NULL,
+	SiteID int   NOT NULL,
+	VariableSpecificID int   NOT NULL,
+	WaterSourceID int   NOT NULL,
+	MethodID int   NOT NULL,
 	AmountMetadataID int   NULL,
+	TimeID int   NOT NULL,
 	Amount float   NOT NULL,
 	PRIMARY KEY (SiteVariableAmountID)
 )
-CREATE TABLE WaDE.SiteVariableMetadata (
-	SiteVariableMetadataID int   NOT NULL,
-	SiteVariableMetadataUID varchar (500)  NULL,
-	AmountUnitCV varchar (100)  NOT NULL,
-	AggregationStatisticCV varchar (50)  NOT NULL,
-	AggregationInterval varchar (5)  NOT NULL,
-	AggregationIntervalUnitCV varchar (50)  NOT NULL,
-	ReportYearStartMonth varchar (5)  NULL,
-	ReportYearTypeCV varchar (50)  NULL,
-	MaximumAmountUnitCV varchar (255)  NULL,
-	PRIMARY KEY (SiteVariableMetadataID)
-)
 CREATE TABLE WaDE.Time_dim (
 	TimeID int   NOT NULL,
-	ReportYearCV varchar (4)  NULL,
-	TimeframeStart date   NULL,
-	TimeframeEnd date   NULL,
-	DataPublicationDate date   NULL,
+	ReportYearCV varchar (4)  NOT NULL,
+	TimeframeStart date   NOT NULL,
+	TimeframeEnd date   NOT NULL,
+	DataPublicationDate date   NOT NULL,
 	PRIMARY KEY (TimeID)
 )
 CREATE TABLE WaDE.Variables (
@@ -412,10 +387,6 @@ CREATE TABLE WaDE.WaterSources (
 	GNISFeatureNameCV varchar (255)  NULL,
 	PRIMARY KEY (WaterSourceID)
 )
-
-ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AggregatedVariableMetadata
-FOREIGN KEY (AggregatedVariableMetadataID) REFERENCES WaDE.AggregatedVariableMetadata (AggregatedVariableMetadataID)
-ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE WaDE.AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AmountsMetadata
 FOREIGN KEY (AmountMetadataID) REFERENCES WaDE.AmountMetadata (AmountMetadataID)
@@ -459,10 +430,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Sites
 FOREIGN KEY (SiteID) REFERENCES WaDE.Sites (SiteID)
-ON UPDATE NO ACTION ON DELETE NO ACTION
-
-ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_SiteVariableMetadata
-FOREIGN KEY (SiteVariableMetadataID) REFERENCES WaDE.SiteVariableMetadata (SiteVariableMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE WaDE.AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Time_dim
@@ -511,10 +478,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Sites
 FOREIGN KEY (SiteID) REFERENCES WaDE.Sites (SiteID)
-ON UPDATE NO ACTION ON DELETE NO ACTION
-
-ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_SiteVariableMetadata
-FOREIGN KEY (SiteVariableMetadataID) REFERENCES WaDE.SiteVariableMetadata (SiteVariableMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE WaDE.SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Time_dim

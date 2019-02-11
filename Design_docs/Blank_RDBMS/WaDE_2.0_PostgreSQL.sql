@@ -28,36 +28,25 @@ create schema WaDE;
 
 create table WaDE.AggregatedAmounts (
 	aggregatedamountid integer  NOT NULL primary key,
-	aggregatedvariablemetadataid integer  NOT NULL,
-	amountmetadataid integer  NOT NULL,
+	organizationid	 integer  NOT NULL,
+	reportingunitid integer  NOT NULL,
 	variablespecificid integer  NOT NULL,
 	watersourceid integer  NOT NULL,
-	reportingunitid integer  NOT NULL,
 	methodid integer  NOT NULL,
+	amountmetadataid integer  NOT NULL,
 	timeid integer  NOT NULL,
-	organizationid	 integer  NOT NULL,
 	amount double precision  NOT NULL
-);
-create table WaDE.AggregatedVariableMetadata (
-	aggregatedvariablemetadataid integer  NOT NULL primary key,
-	amountunitcv varchar (100) NOT NULL,
-	aggregationstatisticcv varchar (50) NOT NULL,
-	aggregationinterval varchar (10) NOT NULL,
-	aggregationintervalunitcv varchar (50) NOT NULL,
-	reportyearstartmonth varchar (10) NOT NULL,
-	reportyeartypecv varchar (50) NOT NULL
 );
 create table WaDE.AllocationAmounts (
 	allocationamountid integer  NOT NULL primary key,
+	organizationid	 integer  NOT NULL,
 	allocationid integer  NOT NULL,
 	siteid integer  NOT NULL,
-	methodid integer  NOT NULL,
-	timeid integer  NOT NULL,
-	watersourceid integer  NOT NULL,
-	sitevariablemetadataid integer  NOT NULL,
 	variablespecificid integer  NOT NULL,
-	organizationid	 integer  NOT NULL,
+	watersourceid integer  NOT NULL,
+	methodid integer  NOT NULL,
 	amountmetadataid integer  NULL,
+	timeid integer  NOT NULL,
 	allocationdutyamount double precision  NULL,
 	allocationamount double precision  NOT NULL,
 	allocationmaximum double precision  NULL
@@ -280,8 +269,8 @@ create table WaDE.RegulatoryOverlay (
 create table WaDE.RegulatoryReportingUnits (
 	bridgeid integer  NOT NULL primary key,
 	regulatoryoverlayid integer  NOT NULL,
-	reportingunitid integer  NOT NULL,
 	organizationid	 integer  NOT NULL,
+	reportingunitid integer  NOT NULL,
 	reportyearcv varchar (4) NULL,
 	datapublicationdate date  NOT NULL
 );
@@ -315,34 +304,22 @@ create table WaDE.Sites (
 );
 create table WaDE.SiteVariableAmounts (
 	sitevariableamountid integer  NOT NULL primary key,
-	allocationid integer  NOT NULL,
-	timeid integer  NOT NULL,
-	siteid integer  NOT NULL,
-	methodid integer  NOT NULL,
-	watersourceid integer  NOT NULL,
-	sitevariablemetadataid integer  NOT NULL,
-	variablespecificid integer  NOT NULL,
 	organizationid	 integer  NOT NULL,
+	allocationid integer  NULL,
+	siteid integer  NOT NULL,
+	variablespecificid integer  NOT NULL,
+	watersourceid integer  NOT NULL,
+	methodid integer  NOT NULL,
 	amountmetadataid integer  NULL,
+	timeid integer  NOT NULL,
 	amount double precision  NOT NULL
-);
-create table WaDE.SiteVariableMetadata (
-	sitevariablemetadataid integer  NOT NULL primary key,
-	sitevariablemetadatauid varchar (500) NULL,
-	amountunitcv varchar (100) NOT NULL,
-	aggregationstatisticcv varchar (50) NOT NULL,
-	aggregationinterval varchar (5) NOT NULL,
-	aggregationintervalunitcv varchar (50) NOT NULL,
-	reportyearstartmonth varchar (5) NULL,
-	reportyeartypecv varchar (50) NULL,
-	maximumamountunitcv varchar (255) NULL
 );
 create table WaDE.Time_dim (
 	timeid integer  NOT NULL primary key,
-	reportyearcv varchar (4) NULL,
-	timeframestart date  NULL,
-	timeframeend date  NULL,
-	datapublicationdate date  NULL
+	reportyearcv varchar (4) NOT NULL,
+	timeframestart date  NOT NULL,
+	timeframeend date  NOT NULL,
+	datapublicationdate date  NOT NULL
 );
 create table WaDE.Variables (
 	variablespecificid integer  NOT NULL primary key,
@@ -367,10 +344,6 @@ create table WaDE.WaterSources (
 	geometry bytea  NULL,
 	gnisfeaturenamecv varchar (255) NULL
 );
-
-alter table WaDE.AggregatedAmounts add constraint fk_AggregatedAmounts_AggregatedVariableMetadata
-foreign key (AggregatedVariableMetadataID) References WaDE.AggregatedVariableMetadata (AggregatedVariableMetadataID)
-on update no Action on delete cascade;
 
 alter table WaDE.AggregatedAmounts add constraint fk_AggregatedAmounts_AmountsMetadata
 foreign key (AmountMetadataID) References WaDE.AmountMetadata (AmountMetadataID)
@@ -414,10 +387,6 @@ on update no Action on delete cascade;
 
 alter table WaDE.AllocationAmounts add constraint fk_WaterAllocationAmounts_Sites
 foreign key (SiteID) References WaDE.Sites (SiteID)
-on update no Action on delete cascade;
-
-alter table WaDE.AllocationAmounts add constraint fk_WaterAllocationAmounts_SiteVariableMetadata
-foreign key (SiteVariableMetadataID) References WaDE.SiteVariableMetadata (SiteVariableMetadataID)
 on update no Action on delete cascade;
 
 alter table WaDE.AllocationAmounts add constraint fk_WaterAllocationAmounts_Time_dim
@@ -466,10 +435,6 @@ on update no Action on delete cascade;
 
 alter table WaDE.SiteVariableAmounts add constraint fk_SiteVariableAmounts_Sites
 foreign key (SiteID) References WaDE.Sites (SiteID)
-on update no Action on delete cascade;
-
-alter table WaDE.SiteVariableAmounts add constraint fk_SiteVariableAmounts_SiteVariableMetadata
-foreign key (SiteVariableMetadataID) References WaDE.SiteVariableMetadata (SiteVariableMetadataID)
 on update no Action on delete cascade;
 
 alter table WaDE.SiteVariableAmounts add constraint fk_SiteVariableAmounts_Time_dim

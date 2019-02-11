@@ -19,17 +19,14 @@
 
 CREATE TABLE AggregatedAmounts (
 	AggregatedAmountID INTEGER   NOT NULL PRIMARY KEY,
-	AggregatedVariableMetadataID INTEGER   NOT NULL,
-	AmountMetadataID INTEGER   NOT NULL,
+	OrganizationID	 INTEGER   NOT NULL,
+	ReportingUnitID INTEGER   NOT NULL,
 	VariableSpecificID INTEGER   NOT NULL,
 	WaterSourceID INTEGER   NOT NULL,
-	ReportingUnitID INTEGER   NOT NULL,
 	MethodID INTEGER   NOT NULL,
+	AmountMetadataID INTEGER   NOT NULL,
 	TimeID INTEGER   NOT NULL,
-	OrganizationID	 INTEGER   NOT NULL,
 	Amount FLOAT   NOT NULL,
-	FOREIGN KEY (AggregatedVariableMetadataID) REFERENCES AggregatedVariableMetadata (AggregatedVariableMetadataID)
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
@@ -46,27 +43,16 @@ CREATE TABLE AggregatedAmounts (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE AggregatedVariableMetadata (
-	AggregatedVariableMetadataID INTEGER   NOT NULL PRIMARY KEY,
-	AmountUnitCV VARCHAR (100)  NOT NULL,
-	AggregationStatisticCV VARCHAR (50)  NOT NULL,
-	AggregationInterval VARCHAR (10)  NOT NULL,
-	AggregationIntervalUnitCV VARCHAR (50)  NOT NULL,
-	ReportYearStartMonth VARCHAR (10)  NOT NULL,
-	ReportYearTypeCV VARCHAR (50)  NOT NULL
-);
-
 CREATE TABLE AllocationAmounts (
 	AllocationAmountID INTEGER   NOT NULL PRIMARY KEY,
+	OrganizationID	 INTEGER   NOT NULL,
 	AllocationID INTEGER   NOT NULL,
 	SiteID INTEGER   NOT NULL,
-	MethodID INTEGER   NOT NULL,
-	TimeID INTEGER   NOT NULL,
-	WaterSourceID INTEGER   NOT NULL,
-	SiteVariableMetadataID INTEGER   NOT NULL,
 	VariableSpecificID INTEGER   NOT NULL,
-	OrganizationID	 INTEGER   NOT NULL,
+	WaterSourceID INTEGER   NOT NULL,
+	MethodID INTEGER   NOT NULL,
 	AmountMetadataID INTEGER   NULL,
+	TimeID INTEGER   NOT NULL,
 	AllocationDutyAmount FLOAT   NULL,
 	AllocationAmount FLOAT   NOT NULL,
 	AllocationMaximum FLOAT   NULL,
@@ -77,8 +63,6 @@ CREATE TABLE AllocationAmounts (
 	FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (SiteVariableMetadataID) REFERENCES SiteVariableMetadata (SiteVariableMetadataID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (TimeID) REFERENCES Time_dim (TimeID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -334,8 +318,8 @@ CREATE TABLE RegulatoryOverlay (
 CREATE TABLE RegulatoryReportingUnits (
 	BridgeID INTEGER   NOT NULL PRIMARY KEY,
 	RegulatoryOverlayID INTEGER   NOT NULL,
-	ReportingUnitID INTEGER   NOT NULL,
 	OrganizationID	 INTEGER   NOT NULL,
+	ReportingUnitID INTEGER   NOT NULL,
 	ReportYearCV VARCHAR (4)  NULL,
 	DataPublicationDate DATE   NOT NULL,
 	FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
@@ -380,15 +364,14 @@ CREATE TABLE Sites (
 
 CREATE TABLE SiteVariableAmounts (
 	SiteVariableAmountID INTEGER   NOT NULL PRIMARY KEY,
-	AllocationID INTEGER   NOT NULL,
-	TimeID INTEGER   NOT NULL,
-	SiteID INTEGER   NOT NULL,
-	MethodID INTEGER   NOT NULL,
-	WaterSourceID INTEGER   NOT NULL,
-	SiteVariableMetadataID INTEGER   NOT NULL,
-	VariableSpecificID INTEGER   NOT NULL,
 	OrganizationID	 INTEGER   NOT NULL,
+	AllocationID INTEGER   NULL,
+	SiteID INTEGER   NOT NULL,
+	VariableSpecificID INTEGER   NOT NULL,
+	WaterSourceID INTEGER   NOT NULL,
+	MethodID INTEGER   NOT NULL,
 	AmountMetadataID INTEGER   NULL,
+	TimeID INTEGER   NOT NULL,
 	Amount FLOAT   NOT NULL,
 	FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -397,8 +380,6 @@ CREATE TABLE SiteVariableAmounts (
 	FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
-	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (SiteVariableMetadataID) REFERENCES SiteVariableMetadata (SiteVariableMetadataID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (TimeID) REFERENCES Time_dim (TimeID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -410,24 +391,12 @@ CREATE TABLE SiteVariableAmounts (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-CREATE TABLE SiteVariableMetadata (
-	SiteVariableMetadataID INTEGER   NOT NULL PRIMARY KEY,
-	SiteVariableMetadataUID VARCHAR (500)  NULL,
-	AmountUnitCV VARCHAR (100)  NOT NULL,
-	AggregationStatisticCV VARCHAR (50)  NOT NULL,
-	AggregationInterval VARCHAR (5)  NOT NULL,
-	AggregationIntervalUnitCV VARCHAR (50)  NOT NULL,
-	ReportYearStartMonth VARCHAR (5)  NULL,
-	ReportYearTypeCV VARCHAR (50)  NULL,
-	MaximumAmountUnitCV VARCHAR (255)  NULL
-);
-
 CREATE TABLE Time_dim (
 	TimeID INTEGER   NOT NULL PRIMARY KEY,
-	ReportYearCV VARCHAR (4)  NULL,
-	TimeframeStart DATE   NULL,
-	TimeframeEnd DATE   NULL,
-	DataPublicationDate DATE   NULL
+	ReportYearCV VARCHAR (4)  NOT NULL,
+	TimeframeStart DATE   NOT NULL,
+	TimeframeEnd DATE   NOT NULL,
+	DataPublicationDate DATE   NOT NULL
 );
 
 CREATE TABLE Variables (

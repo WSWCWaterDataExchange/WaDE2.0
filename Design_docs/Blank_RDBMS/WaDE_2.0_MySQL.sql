@@ -23,38 +23,26 @@ USE WaDE;
 
 CREATE TABLE AggregatedAmounts (
 	AggregatedAmountID INT   NOT NULL PRIMARY KEY,
-	AggregatedVariableMetadataID INT   NOT NULL,
-	AmountMetadataID INT   NOT NULL,
+	OrganizationID	 INT   NOT NULL,
+	ReportingUnitID INT   NOT NULL,
 	VariableSpecificID INT   NOT NULL,
 	WaterSourceID INT   NOT NULL,
-	ReportingUnitID INT   NOT NULL,
 	MethodID INT   NOT NULL,
+	AmountMetadataID INT   NOT NULL,
 	TimeID INT   NOT NULL,
-	OrganizationID	 INT   NOT NULL,
 	Amount FLOAT   NOT NULL
-);
-
-CREATE TABLE AggregatedVariableMetadata (
-	AggregatedVariableMetadataID INT   NOT NULL PRIMARY KEY,
-	AmountUnitCV VARCHAR (100)  NOT NULL,
-	AggregationStatisticCV VARCHAR (50)  NOT NULL,
-	AggregationInterval VARCHAR (10)  NOT NULL,
-	AggregationIntervalUnitCV VARCHAR (50)  NOT NULL,
-	ReportYearStartMonth VARCHAR (10)  NOT NULL,
-	ReportYearTypeCV VARCHAR (50)  NOT NULL
 );
 
 CREATE TABLE AllocationAmounts (
 	AllocationAmountID INT   NOT NULL PRIMARY KEY,
+	OrganizationID	 INT   NOT NULL,
 	AllocationID INT   NOT NULL,
 	SiteID INT   NOT NULL,
-	MethodID INT   NOT NULL,
-	TimeID INT   NOT NULL,
-	WaterSourceID INT   NOT NULL,
-	SiteVariableMetadataID INT   NOT NULL,
 	VariableSpecificID INT   NOT NULL,
-	OrganizationID	 INT   NOT NULL,
+	WaterSourceID INT   NOT NULL,
+	MethodID INT   NOT NULL,
 	AmountMetadataID INT   NULL,
+	TimeID INT   NOT NULL,
 	AllocationDutyAmount FLOAT   NULL,
 	AllocationAmount FLOAT   NOT NULL,
 	AllocationMaximum FLOAT   NULL
@@ -304,8 +292,8 @@ CREATE TABLE RegulatoryOverlay (
 CREATE TABLE RegulatoryReportingUnits (
 	BridgeID INT   NOT NULL PRIMARY KEY,
 	RegulatoryOverlayID INT   NOT NULL,
-	ReportingUnitID INT   NOT NULL,
 	OrganizationID	 INT   NOT NULL,
+	ReportingUnitID INT   NOT NULL,
 	ReportYearCV VARCHAR (4)  NULL,
 	DataPublicationDate DATE   NOT NULL
 );
@@ -342,36 +330,23 @@ CREATE TABLE Sites (
 
 CREATE TABLE SiteVariableAmounts (
 	SiteVariableAmountID INT   NOT NULL PRIMARY KEY,
-	AllocationID INT   NOT NULL,
-	TimeID INT   NOT NULL,
-	SiteID INT   NOT NULL,
-	MethodID INT   NOT NULL,
-	WaterSourceID INT   NOT NULL,
-	SiteVariableMetadataID INT   NOT NULL,
-	VariableSpecificID INT   NOT NULL,
 	OrganizationID	 INT   NOT NULL,
+	AllocationID INT   NULL,
+	SiteID INT   NOT NULL,
+	VariableSpecificID INT   NOT NULL,
+	WaterSourceID INT   NOT NULL,
+	MethodID INT   NOT NULL,
 	AmountMetadataID INT   NULL,
+	TimeID INT   NOT NULL,
 	Amount FLOAT   NOT NULL
-);
-
-CREATE TABLE SiteVariableMetadata (
-	SiteVariableMetadataID INT   NOT NULL PRIMARY KEY,
-	SiteVariableMetadataUID VARCHAR (500)  NULL,
-	AmountUnitCV VARCHAR (100)  NOT NULL,
-	AggregationStatisticCV VARCHAR (50)  NOT NULL,
-	AggregationInterval VARCHAR (5)  NOT NULL,
-	AggregationIntervalUnitCV VARCHAR (50)  NOT NULL,
-	ReportYearStartMonth VARCHAR (5)  NULL,
-	ReportYearTypeCV VARCHAR (50)  NULL,
-	MaximumAmountUnitCV VARCHAR (255)  NULL
 );
 
 CREATE TABLE Time_dim (
 	TimeID INT   NOT NULL PRIMARY KEY,
-	ReportYearCV VARCHAR (4)  NULL,
-	TimeframeStart DATE   NULL,
-	TimeframeEnd DATE   NULL,
-	DataPublicationDate DATE   NULL
+	ReportYearCV VARCHAR (4)  NOT NULL,
+	TimeframeStart DATE   NOT NULL,
+	TimeframeEnd DATE   NOT NULL,
+	DataPublicationDate DATE   NOT NULL
 );
 
 CREATE TABLE Variables (
@@ -399,10 +374,6 @@ CREATE TABLE WaterSources (
 	GNISFeatureNameCV VARCHAR (255)  NULL
 );
 
-
-ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AggregatedVariableMetadata
-FOREIGN KEY (AggregatedVariableMetadataID) REFERENCES AggregatedVariableMetadata (AggregatedVariableMetadataID)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_AmountsMetadata
 FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
@@ -446,10 +417,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Sites
 FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_SiteVariableMetadata
-FOREIGN KEY (SiteVariableMetadataID) REFERENCES SiteVariableMetadata (SiteVariableMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Time_dim
@@ -498,10 +465,6 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Sites
 FOREIGN KEY (SiteID) REFERENCES Sites (SiteID)
-ON UPDATE NO ACTION ON DELETE NO ACTION;
-
-ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_SiteVariableMetadata
-FOREIGN KEY (SiteVariableMetadataID) REFERENCES SiteVariableMetadata (SiteVariableMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Time_dim
