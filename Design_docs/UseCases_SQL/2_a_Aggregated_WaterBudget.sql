@@ -11,7 +11,8 @@ http://www.spatialmanager.com/spatial-filter-views-in-postgis-or-sql-server/
 */
 
 
-SELECT * 
+SELECT [OrganizationUID],ReportingUnitName,ReportingUnitTypeCV,VariableCV,BeneficialUseCategory,
+WaterSourceTypeCV,MethodName,ReportYearCV,TimeframeStart,TimeframeEnd,Amount  
 
 -- Query the Fact table 
 
@@ -58,10 +59,12 @@ VariableCV IN ('Consumptive use','Withdrawal','Supply','Availability')
 AND
 
 -- focus on one reporting unit type
-ReportingUnitTypeCV IN ('County')
+ReportingUnitTypeCV IN ('Subarea')
 
 AND 
 
 -- focus on one reporting unit 
-ReportingUnitName IN ('Cache')
+ReportingUnitName IN ('Cache Valley')
  
+Order by VariableCV,BeneficialUseCategory,WaterSourceTypeCV
+ asc
