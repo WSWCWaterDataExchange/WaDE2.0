@@ -12,7 +12,12 @@ http://www.spatialmanager.com/spatial-filter-views-in-postgis-or-sql-server/
 */
 
 
-SELECT * 
+SELECT 
+
+[OrganizationUID],ReportingUnitName,ReportingUnitTypeCV,VariableSpecificCV,BeneficialUseCategory,
+WaterSourceTypeCV,MethodName,ReportYearCV,TimeframeStart,TimeframeEnd,Amount 
+
+
 
 -- Query the Fact table 
 
@@ -51,23 +56,19 @@ ON ReportingUnits.ReportingUnitID=AggregatedAmounts.ReportingUnitID
 
 -- Return the water budget estimates for all years in the database
 
--- Focus on one high level variable (this one might not be needed)
-WHERE VariableCV ='Consumptive use'
-
-AND 
-
+WHERE 
 -- Focus on one specific variable 
-VariableSpecificCV='Consumptive use_Irrigation'
+VariableSpecificCV='Consumptive Use, Irrigation'
 
 
 AND
 
 
 -- focus on one reporting unit type
-ReportingUnitTypeCV IN ('County')
+ReportingUnitTypeCV IN ('Subarea')
 
 AND 
 
 -- focus on one reporting unit 
-ReportingUnitName IN ('Cache')
+ReportingUnitName IN ('Cache Valley')
  
