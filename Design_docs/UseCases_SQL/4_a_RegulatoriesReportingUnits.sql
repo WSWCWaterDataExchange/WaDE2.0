@@ -11,7 +11,12 @@ http://www.spatialmanager.com/spatial-filter-views-in-postgis-or-sql-server/
 */
 
 
-SELECT * 
+SELECT 
+
+OrganizationName,ReportingUnitName,ReportingUnitTypeCV,RegulatoryName, RegulatoryDescription
+
+
+
 
 -- Query the Fact table 
 
@@ -36,14 +41,14 @@ ON ReportingUnits.ReportingUnitID=RegulatoryReportingUnits.ReportingUnitID
 
 WHERE 
 
-
+/*
 -- focus on one reporting unit type
 ReportingUnitTypeCV IN ('')
 
 AND 
-
+*/
 -- focus on one reporting unit 
-ReportingUnitName IN ('')
+ReportingUnitName IN ('Colorado - Lower Colorado River')
 
 --Search within a provided geometery for the long and lat of the water rights "sites"
 /*
