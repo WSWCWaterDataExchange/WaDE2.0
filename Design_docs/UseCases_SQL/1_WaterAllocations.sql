@@ -11,9 +11,13 @@ http://www.spatialmanager.com/spatial-filter-views-in-postgis-or-sql-server/
 */
 
 
+SELECT 
+
+OrganizationName,NativeAllocationID,AllocationOwner,AllocationPriorityDate, AllocationAmount
 
 
-SELECT * 
+
+
 
 -- Query the Fact table 
 
