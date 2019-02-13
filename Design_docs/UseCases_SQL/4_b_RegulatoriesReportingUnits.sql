@@ -1,8 +1,10 @@
+
+
 USE [WaDE]
 GO
 /* Use case 4-b: Regulatory overlay for reporting units 
 
-•	What are the reporting units of a given type (e.g., HUC 8) that are governed by a regulatory overlay?
+ï¿½	What are the reporting units of a given type (e.g., HUC 8) that are governed by a regulatory overlay?
 
 
 This use case will use PostGIS spatial filter  
@@ -11,7 +13,8 @@ http://www.spatialmanager.com/spatial-filter-views-in-postgis-or-sql-server/
 */
 
 
-SELECT * 
+SELECT OrganizationName,ReportingUnitName,ReportingUnitTypeCV,RegulatoryName, RegulatoryDescription
+
 
 -- Query the Fact table 
 
@@ -39,6 +42,5 @@ WHERE
 
 -- focus on one regulatory agency
 
-RegulatoryName =''
-
+RegulatoryName ='COLORADO RIVER COMPACT'
 
