@@ -56,33 +56,32 @@ CREATE TABLE AllocationAmounts (
 	MethodID int   NOT NULL,
 	AmountMetadataID int   NULL,
 	TimeID int   NOT NULL,
-	AllocationDutyAmount float   NULL,
+	AllocationCropDutyAmount float   NULL,
 	AllocationAmount float   NOT NULL,
 	AllocationMaximum float   NULL,
 	PRIMARY KEY (AllocationAmountID)
 )
 CREATE TABLE Allocations (
 	AllocationID int   NOT NULL,
-	AllocationNativeID varchar (250)  NULL,
 	AllocationUID varchar (50)  NOT NULL,
+	AllocationNativeID varchar (250)  NOT NULL,
 	AllocationOwner varchar (255)  NOT NULL,
 	AllocationApplicationDate date   NULL,
 	AllocationPriorityDate date   NOT NULL,
-	AllocationLegalStatusCodeCV varchar (50)  NOT NULL,
+	AllocationLegalStatusCV varchar (50)  NOT NULL,
 	AllocationExpirationDate date   NULL,
 	AllocationChangeApplicationIndicator varchar (100)  NULL,
 	LegacyAllocationIDs varchar (100)  NULL,
-	AllocationBasisCV varchar (255)  NULL,
-	AllocationAcreage float   NULL,
+	AllocationBasisCV varchar (250)  NULL,
 	PRIMARY KEY (AllocationID)
 )
 CREATE TABLE AmountMetadata (
 	AmountMetadataID int   NOT NULL,
-	BeneficialUseCategory varchar (255)  NULL,
-	PrimaryUseCategory varchar (255)  NULL,
-	USGSCategoryCV varchar (255)  NULL,
-	SDWISIdentifier varchar (255)  NULL,
-	NAICSCodeCV varchar (255)  NULL,
+	BeneficialUseCategory varchar (500)  NOT NULL,
+	PrimaryUseCategory varchar (250)  NULL,
+	USGSCategoryCV varchar (250)  NULL,
+	SDWISIdentifier varchar (250)  NULL,
+	NAICSCodeCV varchar (250)  NULL,
 	PopulationServed float   NULL,
 	IrrigatedAcreage float   NULL,
 	IrrigationMethod varchar (100)  NULL,
@@ -269,19 +268,19 @@ CREATE TABLE NHDMetadata (
 )
 CREATE TABLE Organizations (
 	OrganizationID int   NOT NULL,
-	OrganizationUID varchar (255)  NOT NULL,
-	OrganizationName varchar (255)  NOT NULL,
-	OrganizationPurview varchar (255)  NULL,
-	OrganizationWebsite varchar (255)  NULL,
-	OrganizationPhoneNumber varchar (255)  NULL,
-	OrganizationContactName varchar (255)  NULL,
-	OrganizationContactEmail varchar (255)  NULL,
+	OrganizationUID varchar (250)  NOT NULL,
+	OrganizationName varchar (250)  NOT NULL,
+	OrganizationPurview varchar (250)  NULL,
+	OrganizationWebsite varchar (250)  NOT NULL,
+	OrganizationPhoneNumber varchar (250)  NOT NULL,
+	OrganizationContactName varchar (250)  NOT NULL,
+	OrganizationContactEmail varchar (250)  NOT NULL,
 	PRIMARY KEY (OrganizationID)
 )
 CREATE TABLE RegulatoryOverlay (
 	RegulatoryOverlayID int   NOT NULL,
-	NativeRegulatoryOverlayID varchar (255)  NULL,
-	RegulatoryOverlayUID varchar (255)  NULL,
+	RegulatoryOverlayUID varchar (250)  NULL,
+	RegulatoryOverlayNativeID varchar (250)  NULL,
 	RegulatoryName varchar (50)  NOT NULL,
 	RegulatoryDescription text   NOT NULL,
 	RegulatoryStatusCV varchar (50)  NOT NULL,
@@ -305,9 +304,9 @@ CREATE TABLE RegulatoryReportingUnits (
 )
 CREATE TABLE ReportingUnits (
 	ReportingUnitID int   NOT NULL,
-	ReportingUnitNativeID varchar (250)  NULL,
-	ReportingUnitUID varchar (255)  NOT NULL,
-	ReportingUnitName varchar (255)  NOT NULL,
+	ReportingUnitUID varchar (250)  NOT NULL,
+	ReportingUnitNativeID varchar (250)  NOT NULL,
+	ReportingUnitName varchar (250)  NOT NULL,
 	ReportingUnitTypeCV varchar (20)  NOT NULL,
 	ReportingUnitUpdateDate date   NULL,
 	ReportingUnitProductVersion varchar (100)  NULL,
@@ -319,7 +318,7 @@ CREATE TABLE ReportingUnits (
 CREATE TABLE Sites (
 	SiteID int   NOT NULL,
 	SiteUID varchar (55)  NOT NULL,
-	NativeSiteID varchar (50)  NULL,
+	SiteNativeID varchar (50)  NULL,
 	SiteName varchar (500)  NOT NULL,
 	SiteTypeCV varchar (100)  NULL,
 	Longitude varchar (50)  NOT NULL,
@@ -354,15 +353,15 @@ CREATE TABLE Time_dim (
 )
 CREATE TABLE Variables (
 	VariableSpecificID int   NOT NULL,
-	VariableSpecificUID varchar (255)  NULL,
-	VariableSpecificCV varchar (255)  NOT NULL,
-	VariableCV varchar (255)  NOT NULL,
-	AggregationStatisticCV varchar (50)  NULL,
-	AggregationInterval  numeric (10)  NULL,
-	AggregationIntervalUnitCV  varchar (50)  NULL,
-	ReportYearStartMonth  varchar (10)  NULL,
-	ReportYearTypeCV  varchar (10)  NULL,
-	AmountUnitCV varchar (250)  NULL,
+	VariableSpecificUID varchar (250)  NULL,
+	VariableSpecificCV varchar (250)  NOT NULL,
+	VariableCV varchar (250)  NOT NULL,
+	AggregationStatisticCV varchar (50)  NOT NULL,
+	AggregationInterval  numeric (10)  NOT NULL,
+	AggregationIntervalUnitCV  varchar (50)  NOT NULL,
+	ReportYearStartMonth  varchar (10)  NOT NULL,
+	ReportYearTypeCV  varchar (10)  NOT NULL,
+	AmountUnitCV varchar (250)  NOT NULL,
 	MaximumAmountUnitCV varchar (255)  NULL,
 	PRIMARY KEY (VariableSpecificID)
 )
@@ -377,12 +376,12 @@ CREATE TABLE VariableSpecific (
 CREATE TABLE WaterSources (
 	WaterSourceID int   NOT NULL,
 	WaterSourceUID varchar (100)  NOT NULL,
-	WaterSourceNativeID varchar (255)  NULL,
-	WaterSourceName varchar (255)  NULL,
+	WaterSourceNativeID varchar (250)  NULL,
+	WaterSourceName varchar (250)  NULL,
 	WaterSourceTypeCV varchar (100)  NOT NULL,
 	WaterQualityIndicatorCV varchar (100)  NOT NULL,
 	Geometry binary   NULL,
-	GNISFeatureNameCV varchar (255)  NULL,
+	GNISFeatureNameCV varchar (250)  NULL,
 	PRIMARY KEY (WaterSourceID)
 )
 
