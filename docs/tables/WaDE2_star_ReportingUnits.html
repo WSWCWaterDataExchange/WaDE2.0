@@ -24,19 +24,16 @@
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitID.html">ReportingUnitID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitID.html">ReportingUnitID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitNativeID.html">ReportingUnitNativeID</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitUID.html">ReportingUnitUID</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>A reporting unit is the geospatial area that is used to aggregate the water supply, withdrawal, or consumptive use. The ReportingUnitID is the unique identification number for the geospatial area. It could be a 5-digit FIPs code for a county, a 12-digit code for a HUC (or fewer digits), or a custom number created by the data provider. The data provider should concatenate their OrganizationID + custom identifier to ensure this number is unique.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitUID.html">ReportingUnitUID</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>A reporting unit is the geospatial area that is used to aggregate the water supply, withdrawal, or consumptive use. The ReportingUnitID is the unique identification number for the geospatial area. It could be a 5-digit FIPs code for a county, a 12-digit code for a HUC (or fewer digits), or a custom number created by the data provider. The data provider should concatenate their OrganizationID + custom identifier to ensure this number is unique.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitNativeID.html">ReportingUnitNativeID</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>the reporting unit native identifer in each memeber state</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitName.html">ReportingUnitName</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitName.html">ReportingUnitName</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_ReportingUnitTypeCV.html">ReportingUnitTypeCV</a></td><td>VarChar(20)</td><td> </td><td> </td><td> </td><td>The type of reporting unit - county, HUC, or a custom delineation.</td><td> </td>
@@ -57,18 +54,12 @@
 <td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_StateCV.html">StateCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>Abbrieviated state identifier.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_EPSGCodeCV.html">EPSGCodeCV</a></td><td>VarBinary(50)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_EPSGCodeCV.html">EPSGCodeCV</a></td><td>VarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_VerticalDatumEPSGCodeCV.html">VerticalDatumEPSGCodeCV</a></td><td>VarChar(50)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>EPSG Code for vertical datum</td><td> </td>
-</tr>
-<tr>
 <td> </td><td><a href="../columns/WaDE2_star_ReportingUnits_Geometry.html">Geometry</a></td><td>BLOB</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>

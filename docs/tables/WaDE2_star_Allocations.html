@@ -13,7 +13,7 @@
 </div>
 <h1>Table: Allocations</h1>
 <div class="paragraph">
-<p>Also known as water rights or permits </p>
+<p>Water Allocations, also known as water rights or permits </p>
 </div>
 <h2>Columns</h2>
 <table class="flat">
@@ -24,16 +24,13 @@
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/WaDE2_star_Allocations_AllocationID.html">AllocationID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/WaDE2_star_Allocations_AllocationID.html">AllocationID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer for allocations</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Allocations_NativeAllocationID.html">NativeAllocationID</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationUID.html">AllocationUID</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>Unique universal identifier for the allocation across all the member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationUID.html">AllocationUID</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>Unique identifier for the allocation, can be alphanumeric</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationNativeID.html">AllocationNativeID</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>Unique identifier for the allocation as-is in the member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationOwner.html">AllocationOwner</a></td><td>VarChar(255)</td><td> </td><td> </td><td> </td><td>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</td><td> </td>
@@ -48,7 +45,7 @@
 <td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationPriorityDate.html">AllocationPriorityDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>Priority Date given to the allocation</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationLegalStatusCodeCV.html">AllocationLegalStatusCodeCV</a></td><td>VarBinary(50)</td><td> </td><td> </td><td> </td><td>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationLegalStatusCV.html">AllocationLegalStatusCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</td><td> </td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationExpirationDate.html">AllocationExpirationDate</a></td><td>Date</td><td>
@@ -69,16 +66,10 @@
 </td><td> </td><td> </td><td>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationBasisCV.html">AllocationBasisCV</a></td><td>BigInt</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationBasisCV.html">AllocationBasisCV</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Allocations_AllocationAcreage.html">AllocationAcreage</a></td><td>BigInt</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+</td><td> </td><td> </td><td>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</td><td> </td>
 </tr>
 </table>
 <br>

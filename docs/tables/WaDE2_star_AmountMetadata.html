@@ -13,11 +13,11 @@
 </div>
 <h1>Table: AmountMetadata</h1>
 <div class="paragraph">
-<p></p>
+<p>AmountMetadata</p>
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr>
+<tr class="altRow">
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -27,31 +27,28 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_AmountMetadata_AmountMetadataID.html">AmountMetadataID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(255)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(500)</td><td> </td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_PrimaryUseCategory.html">PrimaryUseCategory</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_PrimaryUseCategory.html">PrimaryUseCategory</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>USGSCategoryCV</td><td> </td>
+</td><td> </td><td> </td><td>If multiple beneficial uses are specified, add primary use category</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_SDWISIdentifier.html">SDWISIdentifier</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_SDWISIdentifier.html">SDWISIdentifier</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS. Only for site specific data. Leave it null for aggregate data</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Six-digit NAICs Code associated with the primary beneficial use category</td><td> </td>
@@ -90,10 +87,10 @@
 <td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_Geometry.html">Geometry</a></td><td>BLOB</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
+</td><td> </td><td> </td><td>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(50)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AmountMetadata_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</td><td> </td>
