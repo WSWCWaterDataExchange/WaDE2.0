@@ -10,7 +10,7 @@
       <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="OrganizationID&#9;" nu="0">
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
@@ -45,10 +45,10 @@
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_AggregatedAmounts_Organizations" prLkCl="OrganizationID&#9;" upAc="3">
+      <Fk deAc="3" nm="fk_AggregatedAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
         <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="OrganizationID&#9;" prCl="OrganizationID&#9;"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_ReportingUnits" prLkCl="ReportingUnitID" upAc="3">
         <PrTb mn="0" nm="ReportingUnits" oe="1" sch="WaDE2_star" zr="0"/>
@@ -79,7 +79,7 @@
       <Cl au="0" df="" nm="AllocationAmountID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="OrganizationID&#9;" nu="0">
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="AllocationID" nu="0">
@@ -116,6 +116,11 @@
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
+      <Fk deAc="3" nm="fk_AllocationAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
+        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
+      </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_AmountMetadata" prLkCl="AmountMetadataID" upAc="3">
         <PrTb mn="0" nm="AmountMetadata" oe="1" sch="WaDE2_star" zr="1"/>
         <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
@@ -125,11 +130,6 @@
         <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_WaterAllocationAmounts_Organizations" prLkCl="OrganizationID&#9;" upAc="3">
-        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="OrganizationID&#9;" prCl="OrganizationID&#9;"/>
       </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_Sites" prLkCl="SiteID" upAc="3">
         <PrTb mn="0" nm="Sites" oe="1" sch="WaDE2_star" zr="0"/>
@@ -166,7 +166,7 @@
       <Cl au="0" df="" nm="AllocationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="NativeAllocationID" nu="1">
+      <Cl au="0" df="" nm="AllocationNativeID" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="AllocationUID" nu="0">
@@ -202,10 +202,10 @@
         <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="AllocationAcreage" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -260,7 +260,7 @@
         <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
       </Cl>
       <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
@@ -586,27 +586,6 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="CVs_VerticalDatumEPSGCode">
-      <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="Name" nm="pkCVs_VerticalDatumEPSGCode"/>
-      <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Term" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Definition" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Category" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-      </Cl>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
     <Tbl UsSo="1" nm="CVs_WaterAllocationBasis">
       <TblOpts>WITHOUT OIDS</TblOpts>
       <Pk ClNs="Name" nm="pkCVs_WaterAllocationBasis"/>
@@ -770,8 +749,8 @@
     <Tbl UsSo="1" nm="Organizations">
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="OrganizationID&#9;" nm="pkOrganizations"/>
-      <Cl au="0" df="" nm="OrganizationID&#9;" nu="0">
+      <Pk ClNs="OrganizationID" nm="pkOrganizations"/>
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="OrganizationUID" nu="0">
@@ -874,7 +853,7 @@
       <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="OrganizationID&#9;" nu="0">
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
@@ -888,10 +867,10 @@
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
-      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_Organizations" prLkCl="OrganizationID&#9;" upAc="3">
+      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_Organizations" prLkCl="OrganizationID" upAc="3">
         <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="OrganizationID&#9;" prCl="OrganizationID&#9;"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_RegulatoryOverlay" prLkCl="RegulatoryOverlayID" upAc="3">
         <PrTb mn="0" nm="RegulatoryOverlay" oe="1" sch="WaDE2_star" zr="0"/>
@@ -944,10 +923,6 @@
         <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
         <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       </Cl>
-      <Cl au="0" df="" nm="VerticalDatumEPSGCodeCV" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>EPSG Code for vertical datum</Cm>
-      </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
         <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
@@ -993,10 +968,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="VerticalDatumEPSGCodeCV" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>EPSG Code for vertical datum</Cm>
-      </Cl>
       <Cl au="0" df="" nm="CoordinateMethodCV" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
         <Cm>From a map? GPS? Where coordinate from?</Cm>
@@ -1026,7 +997,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="OrganizationID&#9;" nu="0">
+      <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="AllocationID" nu="1">
@@ -1065,10 +1036,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_SiteVariableAmounts_Organizations" prLkCl="OrganizationID&#9;" upAc="3">
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
         <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="OrganizationID&#9;" prCl="OrganizationID&#9;"/>
+        <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_Sites" prLkCl="SiteID" upAc="3">
         <PrTb mn="0" nm="Sites" oe="1" sch="WaDE2_star" zr="0"/>
@@ -1158,17 +1129,38 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AmountUnitCV" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="10" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Unit of the site-specific ariable amount</Cm>
       </Cl>
       <Cl au="0" df="" nm="MaximumAmountUnitCV" nu="1">
-        <DT arr="0" ds="Numeric" en="" id="2" ln="10" sc="2" sg="1" un="0"/>
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="DataValues" stB="WaterUseVariables"/>
       </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="VariableSpecific">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="Name" nm="pkCVs_Variable_dup"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI&#9;" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
     </Tbl>
     <Tbl UsSo="1" nm="WaterSources">
       <TblOpts>WITHOUT OIDS</TblOpts>
@@ -1229,15 +1221,20 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="35" y="462"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="36" y="462"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="39" y="742"/>
     <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1045" y="561"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1018" y="216"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1020" y="215"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1042" y="795"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="31" y="172"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="522" y="823"/>
     <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="504" y="131"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts" x="539" y="502"/>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts.fk_AllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="683" x2="683" y1="823" y2="726"/>
+      </positionableLines>
+    </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="676" x2="676" y1="387" y2="502"/>
@@ -1245,17 +1242,12 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="400" x2="539" y1="602" y2="602"/>
-      </positionableLines>
-    </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="686" x2="686" y1="823" y2="726"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="401" x2="539" y1="602" y2="602"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="408" x2="461" y1="866" y2="866"/>
+        <positionableLine lineRole="PARENT_LINE" x1="365" x2="461" y1="866" y2="866"/>
         <positionableLine lineRole="CHILD_LINE" x1="539" x2="469" y1="680" y2="680"/>
         <positionableLine lineRole="MIDDLE_LINE" x1="465" x2="465" y1="684" y2="862"/>
       </positionableLines>
@@ -1274,19 +1266,19 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterAllocations" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1236" x2="1236" y1="440" y2="536"/>
-        <positionableLine lineRole="CHILD_LINE" x1="828" x2="1232" y1="540" y2="540"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1238" x2="1238" y1="439" y2="536"/>
+        <positionableLine lineRole="CHILD_LINE" x1="828" x2="1234" y1="540" y2="540"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterSources" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="795" y2="699"/>
-        <positionableLine lineRole="CHILD_LINE" x1="828" x2="1213" y1="695" y2="695"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="795" y2="693"/>
+        <positionableLine lineRole="CHILD_LINE" x1="828" x2="1213" y1="689" y2="689"/>
       </positionableLines>
     </FkGl>
     <Notes>
       <Note bkCl="ffffffe6" x="116" y="687">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="714" y="402">What's the tradoff of adding a&#13;
+      <Note bkCl="ffffffe6" x="715" y="402">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountMetadata&#13;
  to the Fact Table?</Note>
@@ -1322,16 +1314,16 @@ over time and connects things together.</Note>
     </DiaProps>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="16" y="471"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="23" y="735"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1001" y="604"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1003" y="596"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts" x="550" y="547"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="994" y="814"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="18" y="155"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="18" y="154"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1006" y="223"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="505" y="830"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="483" y="129"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="484" y="128"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="686" x2="686" y1="385" y2="547"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="687" x2="687" y1="384" y2="547"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -1341,26 +1333,26 @@ over time and connects things together.</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="672" x2="672" y1="830" y2="739"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="693" x2="693" y1="830" y2="739"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="392" x2="454" y1="881" y2="881"/>
+        <positionableLine lineRole="PARENT_LINE" x1="349" x2="454" y1="881" y2="881"/>
         <positionableLine lineRole="CHILD_LINE" x1="550" x2="462" y1="683" y2="683"/>
         <positionableLine lineRole="MIDDLE_LINE" x1="458" x2="458" y1="687" y2="877"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1001" x2="836" y1="653" y2="653"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1003" x2="836" y1="645" y2="645"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="396" x2="447" y1="299" y2="299"/>
+        <positionableLine lineRole="PARENT_LINE" x1="396" x2="447" y1="298" y2="298"/>
         <positionableLine lineRole="CHILD_LINE" x1="550" x2="455" y1="574" y2="574"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="451" x2="451" y1="570" y2="303"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="451" x2="451" y1="570" y2="302"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_WaterAllocations" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
@@ -1434,7 +1426,7 @@ to the Fact Table?</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="703" x2="703" y1="849" y2="697"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="715" x2="715" y1="849" y2="697"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_ReportingUnits" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -1464,11 +1456,6 @@ to the Fact Table?</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="528" y="10">GetAggVariableData: Agg use&#13;
-The brown tables are mostly static over time. &#13;
-The blue tables change much or a bit over time &#13;
-The green table is the FACT table that changes &#13;
-over time and connects things together.</Note>
       <Note bkCl="ffffffe6" x="762" y="397">What's the tradoff of adding a&#13;
 few metadata items that change &#13;
 with values as in the AmountMetadata&#13;
@@ -1478,6 +1465,11 @@ with values as in the AmountMetadata&#13;
       <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="117" y="399">What: Variable + metadata</Note>
       <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
+      <Note bkCl="ffffffe6" x="528" y="10">GetAggVariableData: Agg use&#13;
+The brown tables are mostly static over time. &#13;
+The blue tables change much or a bit over time &#13;
+The green table is the FACT table that changes &#13;
+over time and connects things together.</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1504,12 +1496,12 @@ with values as in the AmountMetadata&#13;
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="RegulatoryOverlay" x="970" y="181"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="77" y="438"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="RegulatoryReportingUnits" x="544" y="205"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="78" y="437"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="RegulatoryReportingUnits" x="544" y="204"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="532" y="519"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="710" x2="710" y1="519" y2="333"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="695" x2="695" y1="519" y2="332"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_RegulatoryOverlay" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -1519,8 +1511,8 @@ with values as in the AmountMetadata&#13;
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_ReportingUnits" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="328" x2="328" y1="438" y2="272"/>
-        <positionableLine lineRole="CHILD_LINE" x1="544" x2="332" y1="268" y2="268"/>
+        <positionableLine lineRole="PARENT_LINE" x1="329" x2="329" y1="437" y2="271"/>
+        <positionableLine lineRole="CHILD_LINE" x1="544" x2="333" y1="267" y2="267"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -1555,23 +1547,23 @@ over time and connects things together.</Note>
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_AggregationStatistic" x="43" y="431"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_EPSGCode" x="873" y="876"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterQualityIndicator" x="48" y="878"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_EPSGCode" x="460" y="891"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterQualityIndicator" x="45" y="759"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterAllocationBasis" x="41" y="130"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_VerticalDatumEPSGCode" x="45" y="578"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Variable" x="870" y="727"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Variable" x="895" y="885"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_USGSCategory" x="866" y="580"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Units" x="470" y="432"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearType" x="862" y="430"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportingUnitType" x="479" y="879"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportingUnitType" x="53" y="903"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_RegulatoryStatus" x="474" y="726"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDProduct" x="475" y="580"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDNetworkStatus" x="463" y="281"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NAICSCode" x="46" y="274"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_MethodType" x="459" y="126"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_MethodType" x="457" y="125"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_LegalStatusCode" x="859" y="124"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_GNISCode" x="862" y="283"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="50" y="729"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="48" y="605"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="VariableSpecific" x="892" y="721"/>
     <Notes>
       <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -1580,7 +1572,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="646">
+  <RnmMgr NxRnmId="652">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -2944,6 +2936,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="612" nNm="OrganizationIDCV" oNm="OrganizationID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="646" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
       <Rnm id="613" nNm="OrganizationID&#9;" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
@@ -2983,6 +2976,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="628" nNm="AllocationID" oNm="WaterAllocationID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="651" nNm="AllocationNativeID" oNm="NativeAllocationID"/>
       <Rnm id="629" nNm="NativeAllocationID" oNm="NativeWaterAllocationID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
@@ -3015,6 +3009,18 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="645" nNm="SDWISIdentifier" oNm="AllocationSDWISIdentifier"/>
       <Rnm id="640" nNm="AllocationSDWISIdentifier" oNm="SDWISID"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="647" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="648" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="649" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="650" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -3032,11 +3038,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

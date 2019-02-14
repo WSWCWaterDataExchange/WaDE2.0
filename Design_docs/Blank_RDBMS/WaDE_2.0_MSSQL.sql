@@ -36,7 +36,7 @@ GO
 
 CREATE TABLE AggregatedAmounts (
 	AggregatedAmountID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
+	OrganizationID int   NOT NULL,
 	ReportingUnitID int   NOT NULL,
 	VariableSpecificID int   NOT NULL,
 	WaterSourceID int   NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE AggregatedAmounts (
 )
 CREATE TABLE AllocationAmounts (
 	AllocationAmountID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
+	OrganizationID int   NOT NULL,
 	AllocationID int   NOT NULL,
 	SiteID int   NOT NULL,
 	VariableSpecificID int   NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE AllocationAmounts (
 )
 CREATE TABLE Allocations (
 	AllocationID int   NOT NULL,
-	NativeAllocationID varchar (250)  NULL,
+	AllocationNativeID varchar (250)  NULL,
 	AllocationUID varchar (50)  NOT NULL,
 	AllocationOwner varchar (255)  NOT NULL,
 	AllocationApplicationDate date   NULL,
@@ -72,8 +72,8 @@ CREATE TABLE Allocations (
 	AllocationExpirationDate date   NULL,
 	AllocationChangeApplicationIndicator varchar (100)  NULL,
 	LegacyAllocationIDs varchar (100)  NULL,
-	AllocationBasisCV bigint   NULL,
-	AllocationAcreage bigint   NULL,
+	AllocationBasisCV varchar (255)  NULL,
+	AllocationAcreage float   NULL,
 	PRIMARY KEY (AllocationID)
 )
 CREATE TABLE AmountMetadata (
@@ -89,7 +89,7 @@ CREATE TABLE AmountMetadata (
 	CropType varchar (100)  NULL,
 	PowerGeneratedGWh float   NULL,
 	Geometry binary   NULL,
-	InterbasinTransferFromID varchar (50)  NULL,
+	InterbasinTransferFromID varchar (255)  NULL,
 	InterbasinTransferToID varchar (255)  NULL,
 	PRIMARY KEY (AmountMetadataID)
 )
@@ -213,14 +213,6 @@ CREATE TABLE CVs_Variable (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE CVs_VerticalDatumEPSGCode (
-	Name varchar (255)  NOT NULL,
-	Term varchar (255)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (255)  NULL,
-	SourceVocabularyURI	 varchar (255)  NULL,
-	PRIMARY KEY (Name)
-)
 CREATE TABLE CVs_WaterAllocationBasis (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
@@ -276,7 +268,7 @@ CREATE TABLE NHDMetadata (
 	PRIMARY KEY (NHDMetadataID)
 )
 CREATE TABLE Organizations (
-	OrganizationID	 int   NOT NULL,
+	OrganizationID int   NOT NULL,
 	OrganizationUID varchar (255)  NOT NULL,
 	OrganizationName varchar (255)  NOT NULL,
 	OrganizationPurview varchar (255)  NULL,
@@ -284,7 +276,7 @@ CREATE TABLE Organizations (
 	OrganizationPhoneNumber varchar (255)  NULL,
 	OrganizationContactName varchar (255)  NULL,
 	OrganizationContactEmail varchar (255)  NULL,
-	PRIMARY KEY (OrganizationID	)
+	PRIMARY KEY (OrganizationID)
 )
 CREATE TABLE RegulatoryOverlay (
 	RegulatoryOverlayID int   NOT NULL,
@@ -305,7 +297,7 @@ CREATE TABLE RegulatoryOverlay (
 CREATE TABLE RegulatoryReportingUnits (
 	BridgeID int   NOT NULL,
 	RegulatoryOverlayID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
+	OrganizationID int   NOT NULL,
 	ReportingUnitID int   NOT NULL,
 	ReportYearCV varchar (4)  NULL,
 	DataPublicationDate date   NOT NULL,
@@ -321,7 +313,6 @@ CREATE TABLE ReportingUnits (
 	ReportingUnitProductVersion varchar (100)  NULL,
 	StateCV varchar (50)  NOT NULL,
 	EPSGCodeCV varchar (50)  NULL,
-	VerticalDatumEPSGCodeCV varchar (50)  NULL,
 	Geometry binary   NULL,
 	PRIMARY KEY (ReportingUnitID)
 )
@@ -334,7 +325,6 @@ CREATE TABLE Sites (
 	Longitude varchar (50)  NOT NULL,
 	Latitude varchar (50)  NOT NULL,
 	Geometry binary   NULL,
-	VerticalDatumEPSGCodeCV varchar (50)  NOT NULL,
 	CoordinateMethodCV varchar (100)  NOT NULL,
 	CoordinateAccuracy varchar (255)  NULL,
 	GNISCodeCV varchar (50)  NULL,
@@ -343,7 +333,7 @@ CREATE TABLE Sites (
 )
 CREATE TABLE SiteVariableAmounts (
 	SiteVariableAmountID int   NOT NULL,
-	OrganizationID	 int   NOT NULL,
+	OrganizationID int   NOT NULL,
 	AllocationID int   NULL,
 	SiteID int   NOT NULL,
 	VariableSpecificID int   NOT NULL,
@@ -372,9 +362,17 @@ CREATE TABLE Variables (
 	AggregationIntervalUnitCV  varchar (50)  NULL,
 	ReportYearStartMonth  varchar (10)  NULL,
 	ReportYearTypeCV  varchar (10)  NULL,
-	AmountUnitCV varchar (10)  NULL,
-	MaximumAmountUnitCV numeric (10)  NULL,
+	AmountUnitCV varchar (250)  NULL,
+	MaximumAmountUnitCV varchar (255)  NULL,
 	PRIMARY KEY (VariableSpecificID)
+)
+CREATE TABLE VariableSpecific (
+	Name varchar (255)  NOT NULL,
+	Term varchar (255)  NOT NULL,
+	Definition varchar (5000)  NULL,
+	Category varchar (255)  NULL,
+	SourceVocabularyURI	 varchar (255)  NULL,
+	PRIMARY KEY (Name)
 )
 CREATE TABLE WaterSources (
 	WaterSourceID int   NOT NULL,
@@ -397,7 +395,7 @@ FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
+FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_ReportingUnits
@@ -416,16 +414,16 @@ ALTER TABLE AggregatedAmounts ADD CONSTRAINT fk_AggregatedAmounts_WaterSources
 FOREIGN KEY (WaterSourceID) REFERENCES WaterSources (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
+ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_AllocationAmounts_Organizations
+FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
+ON UPDATE NO ACTION ON DELETE NO ACTION
+
 ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_AmountMetadata
 FOREIGN KEY (AmountMetadataID) REFERENCES AmountMetadata (AmountMetadataID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Methods
 FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
-ON UPDATE NO ACTION ON DELETE NO ACTION
-
-ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE AllocationAmounts ADD CONSTRAINT fk_WaterAllocationAmounts_Sites
@@ -449,7 +447,7 @@ FOREIGN KEY (WaterSourceID) REFERENCES WaterSources (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
+FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE RegulatoryReportingUnits ADD CONSTRAINT fk_RegulatoryReportingUnits_RegulatoryOverlay
@@ -473,7 +471,7 @@ FOREIGN KEY (MethodID) REFERENCES Methods (MethodID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Organizations
-FOREIGN KEY (OrganizationID	) REFERENCES Organizations (OrganizationID	)
+FOREIGN KEY (OrganizationID) REFERENCES Organizations (OrganizationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION
 
 ALTER TABLE SiteVariableAmounts ADD CONSTRAINT fk_SiteVariableAmounts_Sites
