@@ -1,0 +1,4 @@
+VariableSpecificID,VariableSpecificUID,VariableSpecificCV,VariableCV,AggregationStatisticCV,AggregationInterval,AggregationIntervalUnitCV,ReportYearStartMonth,ReportYearTypeCV,AmountUnitCV
+1,"Consumptive Use, Irrigation","Consumptive Use, Irrigation",Consumptive use      ,Cumulative,1,Year,10/01,WaterYear,Acre feet
+2,"Withdrawal, Irrigation","Withdrawal, Irrigation",Withdrawal               ,Cumulative,1,Year,10/01,WaterYear,Acre feet
+3,"Withdrawal, Public Supply","Withdrawal, Public Supply",Withdrawal        ,Cumulative,1,Year,10/01,WaterYear,Acre feet

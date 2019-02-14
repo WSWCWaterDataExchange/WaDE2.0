@@ -1,0 +1,2 @@
+SiteID,SiteUID,SiteNativeID,SiteName,SiteTypeCV,Longitude,Latitude,Geometry,CoordinateMethodCV,CoordinateAccuracy,GNISCodeCV,NHDMetadataID
+1,CODWR-dummy,100,Dummy,Uknown,40.676523,-112.158743,,GPS,0.01,,

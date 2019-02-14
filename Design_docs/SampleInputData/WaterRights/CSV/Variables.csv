@@ -1,0 +1,2 @@
+VariableSpecificID,VariableSpecificUID,VariableSpecificCV,VariableSpecificDescription,VariableCV,AggregationStatisticCV,AggregationInterval,AggregationIntervalUnitCV,ReportYearStartMonth,ReportYearTypeCV,AmountUnitCV,MaximumAmountUnitCV
+4,Allocation All-CODWR,Allocation All,Water allocations (rights) for all beneficial uses,Allocation,Average,1,seconds,11,Irrigation,CFS,AFY

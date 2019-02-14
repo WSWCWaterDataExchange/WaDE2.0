@@ -1,0 +1,4 @@
+WaterSourceID,WaterSourceUID,WaterSourceTypeCV,WaterQualityIndicatorCV,GNISFeatureNameCV
+1,Fresh_Surface,Surface water ,Fresh,
+2,Fresh_Ground,Groundwater ,Fresh,
+3,Fresh_SW_GW,Surface water and Groundwater ,Fresh,

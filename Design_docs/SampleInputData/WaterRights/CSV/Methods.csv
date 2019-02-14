@@ -1,0 +1,2 @@
+MethodID,MethodUID,MethodName,MethodDescription,MethodNEMILink,ApplicableResourceTypeCV,MethodTypeCV,DataCoverageValue,DataQualityValueCV,DataConfidenceValue
+9,CODWR-DiversionTracking,DiversionTracking,Methodology used for tracking diversions in the state of Colorado.,,Allocation,Water withdrawals,,,

@@ -1,0 +1,9 @@
+MethodID,MethodUID,MethodName,MethodDescription,MethodNEMILink,ApplicableResourceTypeCV,MethodTypeCV,DataCoverageValue,DataQualityValueCV,DataConfidenceValue
+1,STREAMFLOW_SUPPLY,Average Streamflow Method,Average Streamflow Method,Surface Water,Modeled,Modeled,,,
+2,"Use, Agricultural Landuse Survey",Agricultural Landuse Survey,Agricultural Landuse Survey,Surface/Ground,Modeled,Modeled,,,
+3,LEGAVLBLE,Legally Available Water,Legally Available Water,Surface/Ground,Modeled,Modeled,,,
+4,RETURNFLOW,Return Flow Estimates,Return Flow Estimates,Surface Water,Modeled,Modeled,,,
+5,Consumptive Use Estimate,Consumptive Use Estimate Method,Consumptive Use Estimate Method,Surface/Ground,Modeled,Modeled,,,
+6,Withdrawal Volume Estimate,Diversion Volume Estimate,Diversion Volume Estimate,Surface/Ground,Modeled,Modeled,,,
+7,INSTREAM_FLOW,Instream Flow Estimate,Instream Flow Estimate,Surface,Modeled,Modeled,,,
+8,STORAGE_SUPPLY,Estimate of Reservoir Storage,Estimate of Reservoir Storage,Surface,Modeled,Modeled,,,
