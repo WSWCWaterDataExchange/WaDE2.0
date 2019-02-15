@@ -57,7 +57,7 @@ CREATE TABLE AllocationAmounts (
 	AmountMetadataID int   NULL,
 	TimeID int   NOT NULL,
 	AllocationCropDutyAmount float   NULL,
-	AllocationAmount float   NOT NULL,
+	AllocationAmount float   NULL,
 	AllocationMaximum float   NULL,
 	PRIMARY KEY (AllocationAmountID)
 )
@@ -108,7 +108,7 @@ CREATE TABLE CVs_EPSGCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE CVs_GNISCode (
+CREATE TABLE CVs_GNISFeatureName (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -116,7 +116,7 @@ CREATE TABLE CVs_GNISCode (
 	SourceVocabularyURI	 varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
-CREATE TABLE CVs_LegalStatusCode (
+CREATE TABLE CVs_LegalStatus (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -205,22 +205,22 @@ CREATE TABLE CVs_USGSCategory (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_Variable (
-	Name varchar (255)  NOT NULL,
+	Name varchar (250)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
 	Category varchar (255)  NULL,
 	SourceVocabularyURI	 varchar (255)  NULL,
+	PRIMARY KEY (Name)
+)
+CREATE TABLE CVs_VariableSpecific (
+	Name varchar (250)  NOT NULL,
+	Term varchar (250)  NOT NULL,
+	Definition varchar (5000)  NULL,
+	Category varchar (250)  NULL,
+	SourceVocabularyURI varchar (255)  NULL,
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_WaterAllocationBasis (
-	Name varchar (255)  NOT NULL,
-	Term varchar (255)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (255)  NULL,
-	SourceVocabularyURI	 varchar (255)  NULL,
-	PRIMARY KEY (Name)
-)
-CREATE TABLE CVs_WaterAllocationBasis_dup (
 	Name varchar (255)  NOT NULL,
 	Term varchar (255)  NOT NULL,
 	Definition varchar (5000)  NULL,
@@ -364,14 +364,6 @@ CREATE TABLE Variables (
 	AmountUnitCV varchar (250)  NOT NULL,
 	MaximumAmountUnitCV varchar (255)  NULL,
 	PRIMARY KEY (VariableSpecificID)
-)
-CREATE TABLE VariableSpecific (
-	Name varchar (255)  NOT NULL,
-	Term varchar (255)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (255)  NULL,
-	SourceVocabularyURI	 varchar (255)  NULL,
-	PRIMARY KEY (Name)
 )
 CREATE TABLE WaterSources (
 	WaterSourceID int   NOT NULL,
