@@ -1,0 +1,181 @@
+<HTML>
+<header>
+<title>AggregatedAmounts_fact - Table</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+</header>
+<body>
+<div class="logo">
+<p>WaDE [WaDE2.0_schema_star.xml]</p>
+</div>
+<div class="horzMenu">
+<a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
+</div>
+<h1>Table: AggregatedAmounts_fact</h1>
+<div class="paragraph">
+<p></p>
+</div>
+<h2>Columns</h2>
+<table class="flat">
+<tr>
+<td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
+</tr>
+<tr>
+<td class="PkCol">
+<p class="boolImg">
+<img src="../images/pkb16.gif"></p>
+</td><td class="PkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_AggregatedAmountID.html">AggregatedAmountID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the organization</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_ReportingUnitID.html">ReportingUnitID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the reporting unit</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_VariableSpecificID.html">VariableSpecificID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the variable</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_WaterSourceID.html">WaterSourceID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the source</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_MethodID.html">MethodID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">A unique identifierfor each database instance that implements the table</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_BeneficialUsesID.html">BeneficialUsesID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the metadata</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_TimeframeStart.html">TimeframeStart</a></td><td class="FkCol">Integer</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Start date for the allocation each year in MM/DD/YYYY	</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_TimeframeEnd.html">TimeframeEnd</a></td><td class="FkCol">Integer</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">End date for the allocation each year in MM/DD/YYYY	</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_DataPublicationDate.html">DataPublicationDate</a></td><td class="FkCol">Integer</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date that these data were published by the data provider	</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_Amount.html">Amount</a></td><td>Float</td><td> </td><td> </td><td> </td><td>The aggregated variable amount</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_PopulationServed.html">PopulationServed</a></td><td>Float</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use	</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_PowerGeneratedGWh.html">PowerGeneratedGWh</a></td><td>Float</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_IrrigatedAcreage.html">IrrigatedAcreage</a></td><td>Float</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use	</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>VarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.	</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.	</td><td> </td>
+</tr>
+</table>
+<br>
+<h2>Indexes</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Foreign Keys</h2>
+<table class="flat">
+<tr>
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeEnd</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeStart</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUses_dim.html">fk_AggregatedAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_WaterSources_dim.html">fk_AggregatedAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+</tr>
+</table>
+<br>
+<h2>Triggers</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Used in Diagrams</h2>
+<table class="flat">
+<tr>
+<td class="header">Diagram Name</td>
+</tr>
+<tr>
+<td><a href="../diagrams/3_Star_Aggregated.html">3_Star_Aggregated</a></td>
+</tr>
+</table>
+</body>
+</HTML>

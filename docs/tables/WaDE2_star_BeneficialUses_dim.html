@@ -11,7 +11,6 @@
 <div class="horzMenu">
 <a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
 </div>
-<hr>
 <h1>Table: BeneficialUses_dim</h1>
 <div class="paragraph">
 <p>Beneficial uses</p>
@@ -27,7 +26,7 @@
 <img src="../images/pkb16.gif"></p>
 </td><td class="PkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUsesID.html">BeneficialUsesID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(500)</td><td> </td><td> </td><td> </td><td>Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, d, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td> </td>
 </tr>
 <tr>
@@ -36,19 +35,13 @@
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If multiple beneficial uses are specified, add primary use category</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_USGSCategoryCV.html">USGSCategoryCV</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_SDWISIdentifier.html">SDWISIdentifier</a></td><td>VarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS. Only for site specific data. Leave it null for aggregate data</td><td> </td>
-</tr>
-<tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_NAICSCodeCV.html">NAICSCodeCV</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>

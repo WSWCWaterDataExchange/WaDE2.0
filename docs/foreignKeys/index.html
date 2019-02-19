@@ -11,38 +11,43 @@
 <div class="horzMenu">
 <a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
 </div>
-<hr>
 <h1>Foreign Keys</h1>
 <table class="flat">
 <tr>
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_AmountsMetadata.html">fk_AggregatedAmounts_AmountsMetadata</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeEnd</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>DateID</td><td>TimeframeEnd</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>DateID</td><td>DataPublicationDate</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeStart</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>DateID</td><td>TimeframeStart</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUses_dim.html">fk_AggregatedAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Methods.html">fk_AggregatedAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>MethodID</td><td>MethodID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_Organizations.html">fk_AggregatedAmounts_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_ReportingUnits.html">fk_AggregatedAmounts_ReportingUnits</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_VariablesSpecific.html">fk_AggregatedAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fk_AggregatedAmounts_WaterSources.html">fk_AggregatedAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts.html">AggregatedAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_WaterSources_dim.html">fk_AggregatedAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Allocations_dim.html">fk_AllocationAmounts_fact_Allocations_dim</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>AllocationID</td><td>AllocationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_BeneficialUses_dim.html">fk_AllocationAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_end.html">fk_AllocationAmounts_fact_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>DateID</td><td>TimeframeEnd</td>
@@ -54,25 +59,19 @@
 <td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_pub.html">fk_AllocationAmounts_fact_Date_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_Organizations.html">fk_AllocationAmounts_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Methods_dim.html">fk_AllocationAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_AmountMetadata.html">fk_WaterAllocationAmounts_AmountMetadata</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Organizations_dim.html">fk_AllocationAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_Methods.html">fk_WaterAllocationAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Sites_dim.html">fk_AllocationAmounts_fact_Sites_dim</a></td><td><a href="../tables/WaDE2_star_Sites_dim.html">Sites_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_Sites.html">fk_WaterAllocationAmounts_Sites</a></td><td><a href="../tables/WaDE2_star_Sites_dim.html">Sites_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_Variables_dim.html">fk_AllocationAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_VariablesSpecific.html">fk_WaterAllocationAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
-</tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_WaterAllocations.html">fk_WaterAllocationAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>AllocationID</td><td>AllocationID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_WaterAllocationAmounts_WaterSources.html">fk_WaterAllocationAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+<td><a href="../foreignKeys/WaDE2_star_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterSources_dim.html">fk_AllocationAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AllocationAmounts_fact.html">AllocationAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/WaDE2_star_Allocations_dim_fk_Allocations_dim_Date_dim_app.html">fk_Allocations_dim_Date_dim_app</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td>DateID</td><td>AllocationApplicationDate</td>
@@ -84,46 +83,55 @@
 <td><a href="../foreignKeys/WaDE2_star_Allocations_dim_fk_Allocations_dim_Date_dim_prio.html">fk_Allocations_dim_Date_dim_prio</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td>DateID</td><td>AllocationPriorityDate</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_Organizations.html">fk_RegulatoryReportingUnits_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_end.html">fk_RegulatoryOverlay_dim_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeEnd</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_RegulatoryOverlay.html">fk_RegulatoryReportingUnits_RegulatoryOverlay</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_start.html">fk_RegulatoryOverlay_dim_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeStart</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_ReportingUnits.html">fk_RegulatoryReportingUnits_ReportingUnits</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Date_dim.html">fk_RegulatoryReportingUnits_fact_Date_dim</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Organizations_dim.html">fk_RegulatoryReportingUnits_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim.html">fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+</tr>
+<tr>
 <td><a href="../foreignKeys/WaDE2_star_Sites_dim_fk_Sites_NHDMetadata.html">fk_Sites_NHDMetadata</a></td><td><a href="../tables/WaDE2_star_NHDMetadata.html">NHDMetadata</a></td><td><a href="../tables/WaDE2_star_Sites_dim.html">Sites_dim</a></td><td>NHDMetadataID</td><td>NHDMetadataID</td>
 </tr>
-<tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_AmountMetadata.html">fk_SiteVariableAmounts_AmountMetadata</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>BeneficialUsesID</td><td>AmountMetadataID</td>
-</tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Date_dim_end.html">fk_SiteVariableAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>DateID</td><td>TimeframeEnd</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_Date_dim_end.html">fk_SiteVariableAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>DateID</td><td>TimeframeEnd</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Date_dim_pub.html">fk_SiteVariableAmounts_Date_dim_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>DateID</td><td>DataPublicationDate</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_Date_dim_pub.html">fk_SiteVariableAmounts_Date_dim_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Date_dim_start.html">fk_SiteVariableAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>DateID</td><td>TimeframeStart</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_Date_dim_start.html">fk_SiteVariableAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>DateID</td><td>TimeframeStart</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Methods.html">fk_SiteVariableAmounts_Methods</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>MethodID</td><td>MethodID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Allocations_dim.html">fk_SiteVariableAmounts_fact_Allocations_dim</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>AllocationID</td><td>AllocationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Organizations.html">fk_SiteVariableAmounts_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_BeneficialUses_dim.html">fk_SiteVariableAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>BeneficialUsesID</td><td>BeneficialUsesID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_Sites.html">fk_SiteVariableAmounts_Sites</a></td><td><a href="../tables/WaDE2_star_Sites_dim.html">Sites_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>SiteID</td><td>SiteID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Methods_dim.html">fk_SiteVariableAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_VariablesSpecific.html">fk_SiteVariableAmounts_VariablesSpecific</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Organizations_dim.html">fk_SiteVariableAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterAllocations.html">fk_SiteVariableAmounts_WaterAllocations</a></td><td><a href="../tables/WaDE2_star_Allocations_dim.html">Allocations_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>AllocationID</td><td>AllocationID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Sites_dim.html">fk_SiteVariableAmounts_fact_Sites_dim</a></td><td><a href="../tables/WaDE2_star_Sites_dim.html">Sites_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fk_SiteVariableAmounts_WaterSources.html">fk_SiteVariableAmounts_WaterSources</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts.html">SiteVariableAmounts</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Variables_dim.html">fk_SiteVariableAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_WaterSources_dim.html">fk_SiteVariableAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_SiteVariableAmounts_fact.html">SiteVariableAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
 </body>

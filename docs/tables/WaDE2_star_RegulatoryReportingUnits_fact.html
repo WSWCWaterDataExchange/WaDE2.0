@@ -11,7 +11,6 @@
 <div class="horzMenu">
 <a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
 </div>
-<hr>
 <h1>Table: RegulatoryReportingUnits_fact</h1>
 <div class="paragraph">
 <p></p>
@@ -52,7 +51,10 @@
 </td><td> </td><td> </td><td>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_RegulatoryReportingUnits_fact_DataPublicationDate.html">DataPublicationDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>Date that these data were published by the data provider</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_RegulatoryReportingUnits_fact_DataPublicationDate.html">DataPublicationDate</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date that these data were published by the data provider</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 </table>
 <br>
@@ -67,13 +69,16 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_Organizations.html">fk_RegulatoryReportingUnits_Organizations</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Date_dim.html">fk_RegulatoryReportingUnits_fact_Date_dim</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_RegulatoryOverlay.html">fk_RegulatoryReportingUnits_RegulatoryOverlay</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Organizations_dim.html">fk_RegulatoryReportingUnits_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_ReportingUnits.html">fk_RegulatoryReportingUnits_ReportingUnits</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim.html">fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryReportingUnits_fact.html">RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
 </table>
 <br>
