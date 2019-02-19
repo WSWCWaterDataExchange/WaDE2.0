@@ -3,21 +3,12 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 
 
 ## [A Design Document for the Water Data Exchange (WaDE) Program – Phase II](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs)   
-Why WaDE 2.0?, use cases, and the conceptual design 
+* Why WaDE 2.0?, use cases, and the conceptual design    
+* WaDE 2.0 draft star schema for OLAP system   
+* WaDE 2.0 blank database copies for RDBMS   
+* Sample input data for WaDE 2.0   
+* Use cases and SQL queries to test the design
 
-## 2. [WaDE 2.0 draft metadata fields](https://docs.google.com/spreadsheets/d/10SU6zA9E1JMUhvYuU9TWmg20k497Baja8BzJHfO0oiM/edit?usp=sharing) 
-
-## 3. [WaDE 2.0 draft star schema for OLAP system](https://wswcwaterdataexchange.github.io/WaDE2.0/diagrams/index.html)
-
-## 4. [WaDE 2.0 blank database copies for RDBMS](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/Blank_RDBMS)
-
-## 5. [Sample input data for WaDE 2.0](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/SampleInputData)
-
-## 6. [WaDE 2.0 draft API in Swagger](https://app.swaggerhub.com/apis/WesternStatesWater/WaDE2.0_star/1.0.0)
-
-## 7. [Use cases and SQL queries to test the design](https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master/Design_docs/UseCases_SQL) 
-
-## 8. Conceptual workflow of the next WaDE 2.0 system
-
+## Conceptual workflow of the next WaDE 2.0 system
 ![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
 
