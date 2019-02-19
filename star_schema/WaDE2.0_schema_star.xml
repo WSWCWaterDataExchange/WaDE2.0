@@ -31,59 +31,93 @@
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>A unique identifierfor each database instance that implements the table</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AmountMetadataID" nu="0">
+      <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the metadata</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="TimeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>foreign key unique identifier to the time</Cm>
       </Cl>
       <Cl au="0" df="" nm="Amount" nu="0">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The aggregated variable amount</Cm>
       </Cl>
-      <Fk deAc="3" nm="fk_AggregatedAmounts_AmountsMetadata" prLkCl="AmountMetadataID" upAc="3">
-        <PrTb mn="0" nm="AmountMetadata" oe="1" sch="WaDE2_star" zr="0"/>
+      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="PopulationServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigatedAcreage" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeStart" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Start date for the allocation each year in MM/DD/YYYY	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider	</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_AmountsMetadata" prLkCl="BeneficialUsesID" upAc="3">
+        <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+        <ClPr cdCl="BeneficialUsesID" prCl="BeneficialUsesID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_Date_dim_end" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeEnd" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_Date_dim_end_pub" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="DataPublicationDate" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_Date_dim_start" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeStart" prCl="DateID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_Methods" prLkCl="MethodID" upAc="3">
-        <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Methods_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
-        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Organizations_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_ReportingUnits" prLkCl="ReportingUnitID" upAc="3">
-        <PrTb mn="0" nm="ReportingUnits" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="ReportingUnits_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_AggregatedAmounts_Time_dim" prLkCl="TimeID" upAc="3">
-        <PrTb mn="0" nm="Time_dim" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="TimeID" prCl="TimeID"/>
-      </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_VariablesSpecific" prLkCl="VariableSpecificID" upAc="3">
-        <PrTb mn="0" nm="Variables" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Variables_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="VariableSpecificID" prCl="VariableSpecificID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_WaterSources" prLkCl="WaterSourceID" upAc="3">
-        <PrTb mn="0" nm="WaterSources" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="WaterSources_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="WaterSourceID" prCl="WaterSourceID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="AllocationAmounts">
+    <Tbl UsSo="1" nm="AllocationAmounts_fact">
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="AllocationAmountID" nm="pkAllocationAmounts"/>
+      <Pk ClNs="AllocationAmountID" nm="pkAllocationAmounts_fact"/>
       <Cl au="0" df="" nm="AllocationAmountID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
@@ -112,13 +146,33 @@
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>A unique identifierfor each database instance that implements the table</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AmountMetadataID" nu="1">
+      <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to amount metadata</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeID" nu="0">
+      <Cl au="0" df="" nm="TimeframeStart" nu="1">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>foreign key unique identifierto time</Cm>
+        <Cm>Start date for the allocation each year in MM/DD/YYYY</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="CropType" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigationMethod" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Geometry" nu="1">
+        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationCropDutyAmount" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
@@ -132,53 +186,83 @@
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
+      <Cl au="0" df="" nm="PopulationServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigatedAcreage" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="PowerGeneratedGWh" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_AllocationAmounts_fact_Date_dim_end" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeEnd" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AllocationAmounts_fact_Date_dim_start" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeStart" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_AllocationAmounts_fact_Date_pub" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="DataPublicationDate" prCl="DateID"/>
+      </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
-        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Organizations_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_WaterAllocationAmounts_AmountMetadata" prLkCl="AmountMetadataID" upAc="3">
-        <PrTb mn="0" nm="AmountMetadata" oe="1" sch="WaDE2_star" zr="1"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+      <Fk deAc="3" nm="fk_WaterAllocationAmounts_AmountMetadata" prLkCl="BeneficialUsesID" upAc="3">
+        <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="BeneficialUsesID" prCl="BeneficialUsesID"/>
       </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_Methods" prLkCl="MethodID" upAc="3">
-        <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Methods_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
       </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_Sites" prLkCl="SiteID" upAc="3">
-        <PrTb mn="0" nm="Sites" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Sites_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="SiteID" prCl="SiteID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_WaterAllocationAmounts_Time_dim" prLkCl="TimeID" upAc="3">
-        <PrTb mn="0" nm="Time_dim" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="TimeID" prCl="TimeID"/>
-      </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_VariablesSpecific" prLkCl="VariableSpecificID" upAc="3">
-        <PrTb mn="0" nm="Variables" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Variables_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="VariableSpecificID" prCl="VariableSpecificID"/>
       </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_WaterAllocations" prLkCl="AllocationID" upAc="3">
-        <PrTb mn="0" nm="Allocations" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Allocations_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="AllocationID" prCl="AllocationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_WaterAllocationAmounts_WaterSources" prLkCl="WaterSourceID" upAc="3">
-        <PrTb mn="0" nm="WaterSources" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="AllocationAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="WaterSources_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="WaterSourceID" prCl="WaterSourceID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="Allocations">
+    <Tbl UsSo="1" nm="Allocations_dim">
       <Cm>Water Allocations, also known as water rights or permits </Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="AllocationID" nm="pkAllocations"/>
+      <Pk ClNs="AllocationID" nm="pkAllocations_dim"/>
       <Cl au="0" df="" nm="AllocationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer for allocations</Cm>
@@ -196,20 +280,20 @@
         <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date of the original filing on the allocation</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationPriorityDate" nu="0">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Priority Date given to the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>If the allocation is temporary, add the expiration date</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>If the allocation is temporary, add the expiration date</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationChangeApplicationIndicator" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
@@ -223,14 +307,29 @@
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
       </Cl>
+      <Fk deAc="3" nm="fk_Allocations_dim_Date_dim_app" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="Allocations_dim" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="AllocationApplicationDate" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Allocations_dim_Date_dim_exp" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="Allocations_dim" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="AllocationExpirationDate" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Allocations_dim_Date_dim_prio" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="Allocations_dim" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="AllocationPriorityDate" prCl="DateID"/>
+      </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="AmountMetadata">
-      <Cm>AmountMetadata</Cm>
+    <Tbl UsSo="1" nm="BeneficialUses_dim">
+      <Cm>Beneficial uses</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="AmountMetadataID" nm="pkAmountMetadata"/>
-      <Cl au="0" df="" nm="AmountMetadataID" nu="0">
+      <Pk ClNs="BeneficialUsesID" nm="pkBeneficialUses_dim"/>
+      <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
@@ -252,38 +351,6 @@
       <Cl au="0" df="" nm="NAICSCodeCV" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Six-digit NAICs Code associated with the primary beneficial use category</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="PopulationServed" nu="1">
-        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="IrrigatedAcreage" nu="1">
-        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="IrrigationMethod" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>Irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="CropType" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="PowerGeneratedGWh" nu="1">
-        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="Geometry" nu="1">
-        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="255" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -688,10 +755,26 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="Methods">
+    <Tbl UsSo="1" nm="Date_dim">
+      <TblOpts>WITHOUT OIDS</TblOpts>
+      <Pk ClNs="DateID" nm="pkDate_dim"/>
+      <Cl au="0" df="" nm="DateID" nu="0">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="ReportYearCV" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Date" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="Methods_dim">
       <Cm>specific granular variables</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="MethodID" nm="pkMethods"/>
+      <Pk ClNs="MethodID" nm="pkMethods_dim"/>
       <Cl au="0" df="" nm="MethodID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifierfor each database instance that implements the table</Cm>
@@ -764,10 +847,10 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="Organizations">
+    <Tbl UsSo="1" nm="Organizations_dim">
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="OrganizationID" nm="pkOrganizations"/>
+      <Pk ClNs="OrganizationID" nm="pkOrganizations_dim"/>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for organizations</Cm>
@@ -806,9 +889,9 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="RegulatoryOverlay">
+    <Tbl UsSo="1" nm="RegulatoryOverlay_dim">
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay"/>
+      <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay_dim"/>
       <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
@@ -864,9 +947,9 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="RegulatoryReportingUnits">
+    <Tbl UsSo="1" nm="RegulatoryReportingUnits_fact">
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="BridgeID" nm="pkRegulatoryReportingUnits"/>
+      <Pk ClNs="BridgeID" nm="pkRegulatoryReportingUnits_fact"/>
       <Cl au="0" df="" nm="BridgeID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
@@ -892,27 +975,27 @@
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_Organizations" prLkCl="OrganizationID" upAc="3">
-        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Organizations_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_RegulatoryOverlay" prLkCl="RegulatoryOverlayID" upAc="3">
-        <PrTb mn="0" nm="RegulatoryOverlay" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="RegulatoryOverlay_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="RegulatoryOverlayID" prCl="RegulatoryOverlayID"/>
       </Fk>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_ReportingUnits" prLkCl="ReportingUnitID" upAc="3">
-        <PrTb mn="0" nm="ReportingUnits" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits" oe="0" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="ReportingUnits_dim" oe="1" sch="WaDE2_star" zr="0"/>
+        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportingUnits">
+    <Tbl UsSo="1" nm="ReportingUnits_dim">
       <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="ReportingUnitID" nm="pkReportingUnits"/>
+      <Pk ClNs="ReportingUnitID" nm="pkReportingUnits_dim"/>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
@@ -958,10 +1041,10 @@
         <StPr stA="DataValues" stB="ReportingAreas"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="Sites">
+    <Tbl UsSo="1" nm="Sites_dim">
       <Cm>Site specific</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="SiteID" nm="pkSites"/>
+      <Pk ClNs="SiteID" nm="pkSites_dim"/>
       <Cl au="0" df="" nm="SiteID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
@@ -1013,7 +1096,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_Sites_NHDMetadata" prLkCl="NHDMetadataID" upAc="3">
         <PrTb mn="0" nm="NHDMetadata" oe="1" sch="WaDE2_star" zr="1"/>
-        <CdTb mn="1" nm="Sites" oe="0" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="NHDMetadataID" prCl="NHDMetadataID"/>
       </Fk>
       <UniqueConstraints/>
@@ -1054,86 +1137,103 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to amount metadata</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>foreign key unique identifierto time</Cm>
-      </Cl>
       <Cl au="0" df="" nm="Amount" nu="0">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The aggregated variable amount</Cm>
       </Cl>
-      <Fk deAc="3" nm="fk_SiteVariableAmounts_AmountMetadata" prLkCl="AmountMetadataID" upAc="3">
-        <PrTb mn="0" nm="AmountMetadata" oe="1" sch="WaDE2_star" zr="1"/>
+      <Cl au="0" df="" nm="IrrigationMethod" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="CropType" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="PowerGeneratedGWh" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="IrrigatedAcreage" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeStart" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Start date for the allocation each year in MM/DD/YYYY	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="TimeframeEnd" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDate" nu="1">
+        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_AmountMetadata" prLkCl="BeneficialUsesID" upAc="3">
+        <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="WaDE2_star" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="AmountMetadataID" prCl="AmountMetadataID"/>
+        <ClPr cdCl="AmountMetadataID" prCl="BeneficialUsesID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_Date_dim_end" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeEnd" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_Date_dim_pub" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="DataPublicationDate" prCl="DateID"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_Date_dim_start" prLkCl="DateID" upAc="3">
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="WaDE2_star" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
+        <ClPr cdCl="TimeframeStart" prCl="DateID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_Methods" prLkCl="MethodID" upAc="3">
-        <PrTb mn="0" nm="Methods" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Methods_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="MethodID" prCl="MethodID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_Organizations" prLkCl="OrganizationID" upAc="3">
-        <PrTb mn="0" nm="Organizations" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Organizations_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_Sites" prLkCl="SiteID" upAc="3">
-        <PrTb mn="0" nm="Sites" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Sites_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="SiteID" prCl="SiteID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_SiteVariableAmounts_Time_dim" prLkCl="TimeID" upAc="3">
-        <PrTb mn="0" nm="Time_dim" oe="1" sch="WaDE2_star" zr="0"/>
-        <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="TimeID" prCl="TimeID"/>
-      </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_VariablesSpecific" prLkCl="VariableSpecificID" upAc="3">
-        <PrTb mn="0" nm="Variables" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="Variables_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="VariableSpecificID" prCl="VariableSpecificID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_WaterAllocations" prLkCl="AllocationID" upAc="3">
-        <PrTb mn="0" nm="Allocations" oe="1" sch="WaDE2_star" zr="1"/>
+        <PrTb mn="0" nm="Allocations_dim" oe="1" sch="WaDE2_star" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="AllocationID" prCl="AllocationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_WaterSources" prLkCl="WaterSourceID" upAc="3">
-        <PrTb mn="0" nm="WaterSources" oe="1" sch="WaDE2_star" zr="0"/>
+        <PrTb mn="0" nm="WaterSources_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts" oe="0" sch="WaDE2_star" zr="1"/>
         <ClPr cdCl="WaterSourceID" prCl="WaterSourceID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="Time_dim">
-      <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="TimeID" nm="pkTime_dim"/>
-      <Cl au="0" df="" nm="TimeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="ReportYearCV" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
-        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="TimeframeStart" nu="0">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Start date for the allocation each year in MM/DD/YYYY</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="TimeframeEnd" nu="0">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>End date for the allocation each year in MM/DD/YYYY</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="DataPublicationDate" nu="0">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Date that these data were published by the data provider</Cm>
-      </Cl>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
-    <Tbl UsSo="1" nm="Variables">
+    <Tbl UsSo="1" nm="Variables_dim">
       <Cm>specific granular variables</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="VariableSpecificID" nm="pkVariables"/>
+      <Pk ClNs="VariableSpecificID" nm="pkVariables_dim"/>
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>An internal unique identifier integer for variables</Cm>
@@ -1183,10 +1283,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="DataValues" stB="WaterUseVariables"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="WaterSources">
+    <Tbl UsSo="1" nm="WaterSources_dim">
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts>WITHOUT OIDS</TblOpts>
-      <Pk ClNs="WaterSourceID" nm="pkWaterSources"/>
+      <Pk ClNs="WaterSourceID" nm="pkWaterSources_dim"/>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
         <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for water sources</Cm>
@@ -1246,68 +1346,89 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="36" y="462"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="45" y="754"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1045" y="561"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1020" y="215"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1041" y="815"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="31" y="171"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="522" y="823"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="518" y="130"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts" x="538" y="501"/>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts.fk_AllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="35" y="479"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites_dim" x="54" y="810"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Date_dim" x="1106" y="522"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations_dim" x="1016" y="175"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1060" y="884"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables_dim" x="30" y="188"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="556" y="893"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="558" y="176"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts_fact" x="546" y="422"/>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="683" x2="683" y1="823" y2="725"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1106" x2="914" y1="547" y2="547"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="668" x2="668" y1="386" y2="501"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1106" x2="914" y1="584" y2="584"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="401" x2="538" y1="602" y2="602"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1106" x2="914" y1="562" y2="562"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="371" x2="460" y1="878" y2="878"/>
-        <positionableLine lineRole="CHILD_LINE" x1="538" x2="468" y1="679" y2="679"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="464" x2="464" y1="683" y2="874"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="893" y2="806"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1045" x2="861" y1="615" y2="615"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="712" x2="712" y1="304" y2="422"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="409" x2="452" y1="275" y2="275"/>
-        <positionableLine lineRole="CHILD_LINE" x1="538" x2="460" y1="545" y2="545"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="456" x2="456" y1="541" y2="279"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="400" x2="546" y1="579" y2="579"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterAllocations" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1238" x2="1238" y1="423" y2="535"/>
-        <positionableLine lineRole="CHILD_LINE" x1="861" x2="1234" y1="539" y2="539"/>
+        <positionableLine lineRole="PARENT_LINE" x1="380" x2="459" y1="934" y2="934"/>
+        <positionableLine lineRole="CHILD_LINE" x1="546" x2="467" y1="706" y2="706"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="463" x2="463" y1="710" y2="930"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts.fk_WaterAllocationAmounts_WaterSources" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1216" x2="1216" y1="815" y2="704"/>
-        <positionableLine lineRole="CHILD_LINE" x1="861" x2="1212" y1="700" y2="700"/>
+        <positionableLine lineRole="PARENT_LINE" x1="408" x2="460" y1="292" y2="292"/>
+        <positionableLine lineRole="CHILD_LINE" x1="546" x2="468" y1="466" y2="466"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="464" x2="464" y1="462" y2="296"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_WaterAllocations" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="PARENT_LINE" x1="1115" x2="1115" y1="383" y2="473"/>
+        <positionableLine lineRole="CHILD_LINE" x1="914" x2="1111" y1="477" y2="477"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_WaterAllocationAmounts_WaterSources" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="PARENT_LINE" x1="1235" x2="1235" y1="884" y2="679"/>
+        <positionableLine lineRole="CHILD_LINE" x1="914" x2="1231" y1="675" y2="675"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1195" x2="1195" y1="522" y2="383"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_exp" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1237" x2="1237" y1="522" y2="383"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_prio" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1293" x2="1293" y1="522" y2="383"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="142" y="699">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="715" y="402">What's the tradoff of adding a&#13;
-few metadata items that change &#13;
-with values as in the AmountMetadata&#13;
- to the Fact Table?</Note>
-      <Note bkCl="ffffffe6" x="493" y="8">GetSiteWaterAllocationData: Rights
+      <Note bkCl="ffffffe6" x="141" y="716">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="492" y="25">GetSiteWaterAllocationData: Rights
 The brown tables are mostly static over time. 
 The blue tables change much or a bit over time 
 The green table is the FACT table that changes 
@@ -1337,75 +1458,96 @@ over time and connects things together.</Note>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="46" y="470"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites" x="53" y="734"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1033" y="595"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts" x="580" y="544"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1024" y="813"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="48" y="153"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations" x="1036" y="222"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="535" y="829"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="514" y="127"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="22" y="476"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites_dim" x="44" y="753"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Date_dim" x="1015" y="586"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts" x="545" y="419"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1000" y="819"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables_dim" x="22" y="183"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations_dim" x="1012" y="228"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="528" y="839"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="551" y="146"/>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1108" x2="1108" y1="586" y2="436"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_exp" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1188" x2="1188" y1="586" y2="436"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_prio" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1150" x2="1150" y1="586" y2="436"/>
+      </positionableLines>
+    </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_AmountMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="717" x2="717" y1="383" y2="544"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="703" x2="703" y1="274" y2="419"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1015" x2="904" y1="598" y2="598"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1015" x2="904" y1="646" y2="646"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1015" x2="904" y1="621" y2="621"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="411" x2="580" y1="615" y2="615"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="387" x2="545" y1="588" y2="588"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="723" x2="723" y1="829" y2="736"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="716" x2="716" y1="839" y2="739"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Sites" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="379" x2="484" y1="880" y2="880"/>
-        <positionableLine lineRole="CHILD_LINE" x1="580" x2="492" y1="680" y2="680"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="488" x2="488" y1="684" y2="876"/>
-      </positionableLines>
-    </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1033" x2="866" y1="644" y2="644"/>
+        <positionableLine lineRole="PARENT_LINE" x1="370" x2="449" y1="899" y2="899"/>
+        <positionableLine lineRole="CHILD_LINE" x1="545" x2="457" y1="626" y2="626"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="453" x2="453" y1="630" y2="895"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="426" x2="477" y1="297" y2="297"/>
-        <positionableLine lineRole="CHILD_LINE" x1="580" x2="485" y1="571" y2="571"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="481" x2="481" y1="567" y2="301"/>
+        <positionableLine lineRole="PARENT_LINE" x1="400" x2="462" y1="302" y2="302"/>
+        <positionableLine lineRole="CHILD_LINE" x1="545" x2="470" y1="489" y2="489"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="466" x2="466" y1="485" y2="306"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_WaterAllocations" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1036" x2="969" y1="350" y2="350"/>
-        <positionableLine lineRole="CHILD_LINE" x1="866" x2="961" y1="585" y2="585"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="965" x2="965" y1="581" y2="354"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1012" x2="963" y1="337" y2="337"/>
+        <positionableLine lineRole="CHILD_LINE" x1="904" x2="955" y1="460" y2="460"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="959" x2="959" y1="456" y2="341"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts.fk_SiteVariableAmounts_WaterSources" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1024" x2="977" y1="901" y2="901"/>
-        <positionableLine lineRole="CHILD_LINE" x1="866" x2="969" y1="712" y2="712"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="973" x2="973" y1="716" y2="897"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1000" x2="972" y1="907" y2="907"/>
+        <positionableLine lineRole="CHILD_LINE" x1="904" x2="964" y1="687" y2="687"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="968" x2="968" y1="691" y2="903"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="522" y="10">GetSiteVariableData: Use&#13;
+      <Note bkCl="ffffffe6" x="498" y="16">GetSiteVariableData: Use&#13;
 The brown tables are mostly static over time. &#13;
 The blue tables change much or a bit over time &#13;
 The green table is the FACT table that changes &#13;
 over time and connects things together.</Note>
-      <Note bkCl="ffffffe6" x="602" y="423">What's the tradoff of adding a&#13;
-few metadata items that change &#13;
-with values as in the AmountsMetadata&#13;
-to the Fact Table?</Note>
-      <Note bkCl="ffffffe6" x="1154" y="164">Water rights</Note>
-      <Note bkCl="ffffffe6" x="148" y="689">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="1130" y="170">Water rights</Note>
+      <Note bkCl="ffffffe6" x="124" y="695">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1431,70 +1573,76 @@ to the Fact Table?</Note>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="38" y="781"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources" x="1044" y="842"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables" x="44" y="170"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts" x="572" y="520"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Time_dim" x="1094" y="575"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="AmountMetadata" x="527" y="127"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="535" y="849"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods" x="40" y="485"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits_dim" x="27" y="746"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1033" y="807"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables_dim" x="28" y="148"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts" x="561" y="486"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Date_dim" x="1083" y="540"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="534" y="128"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="537" y="847"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="29" y="450"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_AmountsMetadata" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="696" x2="696" y1="383" y2="520"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="703" x2="703" y1="256" y2="486"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1083" x2="920" y1="549" y2="549"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Date_dim_end_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1083" x2="920" y1="601" y2="601"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1083" x2="920" y1="580" y2="580"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Methods" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="405" x2="572" y1="608" y2="608"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="394" x2="561" y1="573" y2="573"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="715" x2="715" y1="849" y2="696"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="717" x2="717" y1="847" y2="758"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_ReportingUnits" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="419" x2="495" y1="900" y2="900"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="503" y1="650" y2="650"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="499" x2="499" y1="654" y2="896"/>
-      </positionableLines>
-    </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_Time_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1094" x2="858" y1="609" y2="609"/>
+        <positionableLine lineRole="PARENT_LINE" x1="408" x2="484" y1="865" y2="865"/>
+        <positionableLine lineRole="CHILD_LINE" x1="561" x2="492" y1="616" y2="616"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="488" x2="488" y1="620" y2="861"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_VariablesSpecific" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="422" x2="473" y1="282" y2="282"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="481" y1="557" y2="557"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="477" x2="477" y1="553" y2="286"/>
+        <positionableLine lineRole="PARENT_LINE" x1="406" x2="462" y1="260" y2="260"/>
+        <positionableLine lineRole="CHILD_LINE" x1="561" x2="470" y1="523" y2="523"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="466" x2="466" y1="519" y2="264"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts.fk_AggregatedAmounts_WaterSources" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1044" x2="1002" y1="925" y2="925"/>
-        <positionableLine lineRole="CHILD_LINE" x1="858" x2="994" y1="656" y2="656"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="998" x2="998" y1="660" y2="921"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1033" x2="991" y1="890" y2="890"/>
+        <positionableLine lineRole="CHILD_LINE" x1="920" x2="983" y1="682" y2="682"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="987" x2="987" y1="686" y2="886"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="174" y="730">Where</Note>
-      <Note bkCl="ffffffe6" x="528" y="10">GetAggVariableData: Agg use&#13;
+      <Note bkCl="ffffffe6" x="746" y="780">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="911" y="448">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1722" y="973">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="107" y="373">What: Variable + metadata</Note>
+      <Note bkCl="ffffffe6" x="163" y="695">Where</Note>
+      <Note bkCl="ffffffe6" x="517" y="0">GetAggVariableData: Agg use&#13;
 The brown tables are mostly static over time. &#13;
 The blue tables change much or a bit over time &#13;
 The green table is the FACT table that changes &#13;
 over time and connects things together.</Note>
-      <Note bkCl="ffffffe6" x="762" y="397">What's the tradoff of adding a&#13;
-few metadata items that change &#13;
-with values as in the AmountMetadata&#13;
- to the Fact Table?</Note>
-      <Note bkCl="ffffffe6" x="724" y="780">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="944" y="522">When: Date and value</Note>
-      <Note bkCl="ffffffe6" x="1733" y="1008">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="117" y="399">What: Variable + metadata</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -1520,21 +1668,21 @@ with values as in the AmountMetadata&#13;
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="RegulatoryOverlay" x="971" y="181"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits" x="78" y="437"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="RegulatoryReportingUnits" x="544" y="204"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations" x="532" y="519"/>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="RegulatoryOverlay_dim" x="971" y="181"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits_dim" x="78" y="437"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="RegulatoryReportingUnits_fact" x="544" y="204"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="532" y="519"/>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_Organizations" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="695" x2="695" y1="519" y2="332"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_RegulatoryOverlay" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_RegulatoryOverlay" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="971" x2="847" y1="270" y2="270"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.RegulatoryReportingUnits.fk_RegulatoryReportingUnits_ReportingUnits" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_ReportingUnits" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="329" x2="329" y1="437" y2="271"/>
         <positionableLine lineRole="CHILD_LINE" x1="544" x2="333" y1="267" y2="267"/>
@@ -1601,7 +1749,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="662">
+  <RnmMgr NxRnmId="679">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -1611,13 +1759,13 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="schemaA">
       <Rnm id="3" nNm="BENEFICIAL_USE_ID" oNm="ROW_SEQ"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="4" nNm="SOURCE_ID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="5" nNm="SOURCE_START_DATE" oNm="SOURCE_STATE_DATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="6" nNm="METHOD_ID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="schemaA">
@@ -1629,7 +1777,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedWaterSupplies" SupCls="Schema" SupNme="schemaA">
       <Rnm id="9" nNm="WFS_FEATURE_REF" oNm="METHOD_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="10" nNm="ORGANIZATION_ID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterRights" SupCls="Schema" SupNme="schemaA">
@@ -1686,19 +1834,19 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
       <Rnm id="29" nNm="SOURCE_TYPE" oNm="WFS_FEATURE_REF"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="30" nNm="REPORT_UNIT_ID" oNm="REPORT_DATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="31" nNm="REPRTING_UNIT_NAME" oNm="REPRTING_YEAR"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="32" nNm="REPORTING_UNIT_TYPE" oNm="REPORT_NAME"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="33" nNm="STATE" oNm="REPORT_LINK"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="schemaA">
       <Rnm id="34" nNm="COUNTRY_FIPS" oNm="YEAR_TYPE"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
@@ -1923,15 +2071,15 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="107" nNm="Reporting_Areas" oNm="Reporting_Area"/>
       <Rnm id="99" nNm="Reporting_Area" oNm="REPORTING_UNIT"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="130" nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
       <Rnm id="100" nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="193" nNm="LU_ReportingAreaType" oNm="Reporting_Area_TYPE"/>
       <Rnm id="101" nNm="Reporting_Area_TYPE" oNm="REPORTING_UNIT_TYPE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="102" nNm="Reporting_Area_NAME" oNm="REPRTING_UNIT_NAME"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
@@ -2021,10 +2169,10 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Reports" SupCls="Schema" SupNme="Metadata">
       <Rnm id="146" nNm="ReportIssueDate" oNm="REPORT_DATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="147" nNm="OrganizationID" oNm="ORGANIZATION_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="148" nNm="OrganizationName " oNm="ORGANIZATION_NAME"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsumptiveUSE_Thermoelectric" SupCls="Schema" SupNme="DataValues">
@@ -2056,7 +2204,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
       <Rnm id="158" nNm="MethodID" oNm="METHOD_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="159" nNm="MethodID" oNm="METHOD_ID"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Metadata" SupCls="" SupNme="">
@@ -2072,13 +2220,13 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="165" nNm="Sources" oNm="MethodSources"/>
       <Rnm id="163" nNm="MethodSources" oNm="DATA_SOURCES"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="164" nNm="SourceID" oNm="SOURCE_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="166" nNm="SourceID" oNm="SOURCE_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="168" nNm="MethodTypeCode" oNm="METHOD_TYPE"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
@@ -2129,7 +2277,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
       <Rnm id="192" nNm="LU_RegulatoryStatus" oNm="REGULATORY_STATUS"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="194" nNm="COUNTY_FIPS" oNm="COUNTRY_FIPS"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
@@ -2229,7 +2377,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="264" nNm="WaterUseVariables" oNm="Aggregated_Variables"/>
       <Rnm id="251" nNm="Aggregated_Variables" oNm="UseVariables"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="265" nNm="WaterUseVariableID" oNm="AggregatedVariableID"/>
       <Rnm id="253" nNm="AggregatedVariableID" oNm="Aggregated_VariableID"/>
       <Rnm id="252" nNm="Aggregated_VariableID" oNm="ConsumptiveUSE_Amount_ID"/>
@@ -2237,14 +2385,14 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
       <Rnm id="254" nNm="AggregatedVariableID" oNm="Aggregated_VariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="266" nNm="WaterUseVariableCode" oNm="VariableCode"/>
       <Rnm id="258" nNm="VariableCode" oNm="Variable_Code"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_ConsUse_CommunityWaterSupply" SupCls="Schema" SupNme="DataValues">
       <Rnm id="262" nNm="Year" oNm="DateStamp"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="DataValues">
       <Rnm id="267" nNm="LU_VariableUnitName" oNm="LU_UnitName"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="A_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="DataValues">
@@ -2268,7 +2416,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_Irrigation" SupCls="Schema" SupNme="DataValues">
       <Rnm id="275" nNm="Amount" oNm="AMOUNT"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Metadata">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="Metadata">
       <Rnm id="277" nNm="ContactName" oNm="FIRST_NAME"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="LU_FRESH_SALINE_INDICATOR" SupCls="Schema" SupNme="Lookups">
@@ -2283,6 +2431,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="279" nNm="WaDE" oNm="Irr_sum"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="664" nNm="Variables_dim" oNm="Variables"/>
       <Rnm id="595" nNm="Variables" oNm="Variable"/>
       <Rnm id="548" nNm="Variable" oNm="Variable1"/>
       <Rnm id="542" nNm="Variable1" oNm="VariableTypes"/>
@@ -2295,7 +2444,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="303" nNm="WaDE_VariableType" oNm="WaterUseTypes"/>
       <Rnm id="280" nNm="WaterUseTypes" oNm="WaterUseVariables_dup"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="540" nNm="VariableCV" oNm="VariableTypeCV"/>
       <Rnm id="467" nNm="VariableTypeCV" oNm="VariableType"/>
       <Rnm id="457" nNm="VariableType" oNm="WaterBudgetVariableName"/>
@@ -2396,14 +2545,14 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_AVAILABILITY_METRIC" SupCls="Schema" SupNme="WaDE">
       <Rnm id="319" nNm="AvailabilityMetricID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="537" nNm="StateCV" oNm="State"/>
       <Rnm id="320" nNm="State" oNm="STATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="321" nNm="CountyFIPS" oNm="COUNTY_FIPS"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="374" nNm="HUCIdentifier" oNm="HUCCode"/>
       <Rnm id="330" nNm="HUCCode" oNm="HUC8Code"/>
       <Rnm id="322" nNm="HUC8Code" oNm="HUC"/>
@@ -2421,7 +2570,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="327" nNm="ReportingYear" oNm="ReportYear"/>
       <Rnm id="326" nNm="ReportYear" oNm="REPRTING_YEAR"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="511" nNm="ReportingUnitName" oNm="ReportUnitName"/>
       <Rnm id="500" nNm="ReportUnitName" oNm="ReportUnitNameCV"/>
       <Rnm id="479" nNm="ReportUnitNameCV" oNm="ReportingUnitNameCV"/>
@@ -2430,18 +2579,18 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="329" nNm="ReportingAreaName" oNm="ReportingAreaNAME"/>
       <Rnm id="328" nNm="ReportingAreaNAME" oNm="Reporting_Area_NAME"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="546" nNm="VariableSpecificID" oNm="VariableID"/>
       <Rnm id="331" nNm="VariableID" oNm="WaterUseVariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="332" nNm="VariableCode" oNm="WaterUseVariableCode"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="549" nNm="VariableSpecificID" oNm="VariableID"/>
       <Rnm id="333" nNm="VariableID" oNm="AggregatedVariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="596" nNm="VariableCV" oNm="VariableID"/>
       <Rnm id="547" nNm="VariableID" oNm="VariableTypeID"/>
       <Rnm id="340" nNm="VariableTypeID" oNm="WaterUseVariableID"/>
@@ -2454,13 +2603,13 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="358" nNm="S_USE_AMOUNT_PublicSupply" oNm="PublicSupplyAmount"/>
       <Rnm id="338" nNm="PublicSupplyAmount" oNm="PublicSupplyAmount_dup"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="543" nNm="VariableID" oNm="VariableTypeID"/>
       <Rnm id="456" nNm="VariableTypeID" oNm="WaterBudgetVariableVariableTypeID"/>
       <Rnm id="454" nNm="WaterBudgetVariableVariableTypeID" oNm="VariableTypeID"/>
       <Rnm id="339" nNm="VariableTypeID" oNm="WaterUseVariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="344" nNm="OrganizationName" oNm="OrganizationName "/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_USE_AMOUNT_PublicSupply" SupCls="Schema" SupNme="WaDE">
@@ -2469,7 +2618,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_WATER_SUPPLY_AMOUNT" SupCls="Schema" SupNme="WaDE">
       <Rnm id="346" nNm="Date" oNm="EndDateFrame"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="459" nNm="RegulatoryOverlayID" oNm="RegulatoryID"/>
       <Rnm id="347" nNm="RegulatoryID" oNm="Id"/>
     </RnmCh>
@@ -2481,26 +2630,27 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="348" nNm="LU_BeneficialUse1" oNm="LU_BeneficialUse"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="675" nNm="ReportingUnits_dim" oNm="ReportingUnits"/>
       <Rnm id="508" nNm="ReportingUnits" oNm="ReportUnits"/>
       <Rnm id="505" nNm="ReportUnits" oNm="ReportingUnits"/>
       <Rnm id="349" nNm="ReportingUnits" oNm="ReportingAreas"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="536" nNm="ReportingUnitUID" oNm="ReportingUnitCode"/>
       <Rnm id="510" nNm="ReportingUnitCode" oNm="ReportUnitCode"/>
       <Rnm id="449" nNm="ReportUnitCode" oNm="ReportUnitIdentifier"/>
       <Rnm id="373" nNm="ReportUnitIdentifier" oNm="ReportingUnitCode"/>
       <Rnm id="350" nNm="ReportingUnitCode" oNm="ReportingAreaCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="509" nNm="ReportingUnitID" oNm="ReportUnitID"/>
       <Rnm id="501" nNm="ReportUnitID" oNm="ReportingUnitID"/>
       <Rnm id="351" nNm="ReportingUnitID" oNm="ReportingAreaID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="353" nNm="ReportingUnitVersion" oNm="ReportingAreaVersion"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="512" nNm="ReportingUnitTypeCV" oNm="ReportUnitTypeCV"/>
       <Rnm id="480" nNm="ReportUnitTypeCV" oNm="ReportingUnitType"/>
       <Rnm id="365" nNm="ReportingUnitType" oNm="LU_ReportingUnitType"/>
@@ -2512,24 +2662,24 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="362" nNm="MethodCode" oNm="MethodName"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="541" nNm="VariableDescription" oNm="VariableTypeDescription"/>
       <Rnm id="363" nNm="VariableTypeDescription" oNm="Definiton"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="370" nNm="OrganizationContactName" oNm="FirstName"/>
       <Rnm id="364" nNm="FirstName" oNm="ContactName"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
       <Rnm id="368" nNm="Attribute" oNm="PowerGeneratred"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="369" nNm="OrganizationPurview" oNm="PURVUE_DESC"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="371" nNm="OrganizationContactEmail" oNm="TITLE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="372" nNm="State" oNm="STATE"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -2537,16 +2687,16 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="504" nNm="ReportUnitID" oNm="ReportingUnitID"/>
       <Rnm id="375" nNm="ReportingUnitID" oNm="ReportingAreaID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="376" nNm="MethodName" oNm="VariableName"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="377" nNm="MethodDescription" oNm="VariableTypeID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="378" nNm="MethodID" oNm="VariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="379" nNm="USGSCategory" oNm="ConsumptiveUseUSGSCategory"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -2571,7 +2721,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="388" nNm="NHDMetadataID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="389" nNm="SiteID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
@@ -2594,17 +2744,17 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
       <Rnm id="394" nNm="VolumeAmount" oNm="Amount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="554" nNm="WaterAllocationID" oNm="AllocationID"/>
       <Rnm id="418" nNm="AllocationID" oNm="PermitID"/>
       <Rnm id="395" nNm="PermitID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="551" nNm="WaterAllocationOwner" oNm="AllocationOwner"/>
       <Rnm id="421" nNm="AllocationOwner" oNm="Permit_OwnerName"/>
       <Rnm id="396" nNm="Permit_OwnerName" oNm="Permit_ownerName"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="563" nNm="WaterAllocationLegalStatusCodeCV" oNm="LegalStatusCodeCV"/>
       <Rnm id="487" nNm="LegalStatusCodeCV" oNm="LegalStatusCode"/>
       <Rnm id="486" nNm="LegalStatusCode" oNm="LU_LegalStatusCode"/>
@@ -2613,7 +2763,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="398" nNm="LU_LegalStatusCode" oNm="LU_LegalStatus"/>
       <Rnm id="397" nNm="LU_LegalStatus" oNm="LegalStatus_LU"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="562" nNm="WaterAllocationExpirationDate" oNm="ExpirationDate"/>
       <Rnm id="399" nNm="ExpirationDate" oNm="EndDate"/>
     </RnmCh>
@@ -2621,35 +2771,37 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="425" nNm="Site_WaterAllocationID" oNm="Site_Permit_ID"/>
       <Rnm id="401" nNm="Site_Permit_ID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="407" nNm="WaterSourceID" oNm="SourceID"/>
       <Rnm id="402" nNm="SourceID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="403" nNm="PopulationServed" oNm="population"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="670" nNm="BeneficialUses_dim" oNm="AmountMetadata"/>
       <Rnm id="618" nNm="AmountMetadata" oNm="WaterAllocationAmountMetadata"/>
       <Rnm id="616" nNm="WaterAllocationAmountMetadata" oNm="WaterAllocationMetadata"/>
       <Rnm id="614" nNm="WaterAllocationMetadata" oNm="AmountsMetadata"/>
       <Rnm id="520" nNm="AmountsMetadata" oNm="Amounts_metadata"/>
       <Rnm id="404" nNm="Amounts_metadata" oNm="Aggre_Amounts_metadata"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="521" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
       <Rnm id="405" nNm="Amounts_metadataID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="666" nNm="WaterSources_dim" oNm="WaterSources"/>
       <Rnm id="406" nNm="WaterSources" oNm="Sources"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="408" nNm="WaterSourceName" oNm="SourceName"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="581" nNm="WaterSourceUID" oNm="WaterSourceCode"/>
       <Rnm id="409" nNm="WaterSourceCode" oNm="SourceCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="491" nNm="WaterSourceTypeCV" oNm="WaterSourceType"/>
       <Rnm id="462" nNm="WaterSourceType" oNm="LU_WaterSourceType"/>
       <Rnm id="410" nNm="LU_WaterSourceType" oNm="WaterSourceType"/>
@@ -2674,20 +2826,21 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="474" nNm="LU_NHDProductCV" oNm="LU_NHDProduct"/>
       <Rnm id="415" nNm="LU_NHDProduct" oNm="NHDProduct"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="416" nNm="MethodNEMILink" oNm="MethodLink"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="663" nNm="Allocations_dim" oNm="Allocations"/>
       <Rnm id="635" nNm="Allocations" oNm="WaterAllocations"/>
       <Rnm id="420" nNm="WaterAllocations" oNm="Allocations"/>
       <Rnm id="417" nNm="Allocations" oNm="Allocation_WaterRight_Permit"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="564" nNm="WaterAllocationUID" oNm="AllocationUID"/>
       <Rnm id="555" nNm="AllocationUID" oNm="AllocationCode"/>
       <Rnm id="419" nNm="AllocationCode" oNm="PermitCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="560" nNm="WaterAllocationApplicationDate" oNm="ApplicationDate"/>
       <Rnm id="422" nNm="ApplicationDate" oNm="PermitDate"/>
     </RnmCh>
@@ -2698,7 +2851,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="565" nNm="WaterAllocationID" oNm="AllocationID"/>
       <Rnm id="426" nNm="AllocationID" oNm="PermitID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="493" nNm="VerticalDatumEPSGCodeCV" oNm="LU_VerticalDatumEPSGCode"/>
       <Rnm id="430" nNm="LU_VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCode"/>
       <Rnm id="429" nNm="VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCodLU_e"/>
@@ -2709,64 +2862,66 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="499" nNm="BeneficialUseCategory" oNm="LU_BeneficialUseCategory"/>
       <Rnm id="431" nNm="LU_BeneficialUseCategory" oNm="LU_BeneficialUse"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="448" nNm="WaterAllocationAmountID" oNm="WaterAllocationAmountsID"/>
       <Rnm id="447" nNm="WaterAllocationAmountsID" oNm="AllocationAmountsID"/>
       <Rnm id="436" nNm="AllocationAmountsID" oNm="SiteVariableAmountsID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="437" nNm="WaterAllocationAcreage" oNm="Date"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="438" nNm="WaterAllocationDutyAmount" oNm="VolumeAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="439" nNm="WaterAllocationAmount" oNm="FlowAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="495" nNm="WaterAllocationBasisCV" oNm="LU_WaterAllocationBasis"/>
       <Rnm id="440" nNm="LU_WaterAllocationBasis" oNm="WaterAllocationBasis"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="533" nNm="MaximumAmountUnitCV" oNm="MaximumAmountUnit"/>
       <Rnm id="441" nNm="MaximumAmountUnit" oNm="AllocatedAmountUnit"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="442" nNm="IrrigatedAcreage" oNm="Acres_irrigated"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="482" nNm="VerticalDatumEPSGCodeCV" oNm="VerticalDatumEPSGCode"/>
       <Rnm id="445" nNm="VerticalDatumEPSGCode" oNm="VerticalDatum"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="669" nNm="AllocationAmounts_fact" oNm="AllocationAmounts"/>
       <Rnm id="639" nNm="AllocationAmounts" oNm="WaterAllocationAmounts"/>
       <Rnm id="446" nNm="WaterAllocationAmounts" oNm="AllocationAmounts"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="513" nNm="ReportingUnitUpdateDate" oNm="ReportUnitUpdateDate"/>
       <Rnm id="502" nNm="ReportUnitUpdateDate" oNm="ReportingUnitUpdateDate"/>
       <Rnm id="450" nNm="ReportingUnitUpdateDate" oNm="HUCUpdateDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="514" nNm="ReportingUnitProductVersion" oNm="ReportUnitProductVersion"/>
       <Rnm id="503" nNm="ReportUnitProductVersion" oNm="ReportingUnitProductVersion"/>
       <Rnm id="451" nNm="ReportingUnitProductVersion" oNm="HUCProductVersion"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="676" nNm="RegulatoryOverlay_dim" oNm="RegulatoryOverlay"/>
       <Rnm id="458" nNm="RegulatoryOverlay" oNm="Regulatory"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="460" nNm="RegulatoryName" oNm="RegulatoryType"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="461" nNm="BridgeID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="580" nNm="WaterQualityIndicatorCV" oNm="FreshSalineIndicatorCV"/>
       <Rnm id="490" nNm="FreshSalineIndicatorCV" oNm="FreshSalineIndicator"/>
       <Rnm id="463" nNm="FreshSalineIndicator" oNm="LU_FreshSalineIndicator"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="466" nNm="MethodTypeCV" oNm="MethodType"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -2783,16 +2938,16 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="492" nNm="NAICSCodeCV" oNm="NAICSCodeCv"/>
       <Rnm id="473" nNm="NAICSCodeCv" oNm="NAICSCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="476" nNm="RegulatoryStatusCV" oNm="RegulatoryStatus"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="477" nNm="ReportYearTypeCV" oNm="ReportYearType"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="481" nNm="EPSGCodeCV" oNm="EPSGCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="483" nNm="GNISCodeCV" oNm="GNIS_code"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -2802,7 +2957,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="485" nNm="AggregationStatisticCV" oNm="LU_AggregationStatistic"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="494" nNm="GNISCodeCV" oNm="GNISCode"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -2818,22 +2973,22 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="519" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="522" nNm="PowerGeneratedGWh" oNm="Power_generated_gigawatt_hours"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="523" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="524" nNm="IndustrialSectorName" oNm="IndustrialSector"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="525" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE">
       <Rnm id="526" nNm="AmountMetadataID" oNm="Amounts_metadataID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="527" nNm="SiteVariableMetadataID" oNm="SiteSpecificMetadataID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
@@ -2842,7 +2997,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
       <Rnm id="529" nNm="Amount" oNm="FlowAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="530" nNm="ReportYearStartMonth" oNm="ReportYearStartDate"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
@@ -2855,39 +3010,39 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="CVs_Variable" SupCls="Schema" SupNme="WaDE">
       <Rnm id="535" nNm="Name" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="538" nNm="InterbasinTransferFromID" oNm="UpstreamBasinIdentifier"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="539" nNm="InterbasinTransferToID" oNm="DownstreamBasinIdentifier"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="545" nNm="VariableSpecificCV" oNm="VariableName"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="550" nNm="VariableSpecificID" oNm="VariableID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="559" nNm="WaterAllocationChangeApplicationIndicator" oNm="ChangeApplicationIndicator"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="561" nNm="WaterAllocationPriorityDate" oNm="PriorityDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="566" nNm="SiteUID" oNm="SiteCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="593" nNm="WaterAllocationTimeframeEnd" oNm="TimeframeEnd"/>
       <Rnm id="571" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="592" nNm="WaterAllocationTimeframeStart" oNm="TimeframeStart"/>
       <Rnm id="572" nNm="TimeframeStart" oNm="TimeFrameStart"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="573" nNm="ReportYearCV" oNm="ReportYear"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
       <Rnm id="574" nNm="DataPublicationDate" oNm="ReportPublishDate"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
@@ -2898,22 +3053,22 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="577" nNm="s" oNm="Date that these data were published by the data provider"/>
       <Rnm id="576" nNm="Date that these data were published by the data provider" oNm="ReportPublishDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="579" nNm="OrganizationUID" oNm="OrganizationCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="582" nNm="MethodUID" oNm="MethodCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="583" nNm="ApplicableResourceTypeCV" oNm="ApplicableResourceType"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="584" nNm="DataQualityValueCV" oNm="DataQualityValue"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="586" nNm="DataPublicationDate" oNm="ReportPublishDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="587" nNm="ReportYearCV" oNm="ReportYear"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
@@ -2922,19 +3077,19 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE">
       <Rnm id="590" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="591" nNm="NativeWaterAllocationID" oNm="NativeWaterRightID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="594" nNm="CoordinateMethodCV" oNm="CoordinateMethod"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="597" nNm="VariableSpecificDescription" oNm="VariableDescription"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="598" nNm="TimeframeStart" oNm="TimeFrameStart"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="599" nNm="TimeframeEnd" oNm="TimeFrameEnd"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
@@ -2950,112 +3105,114 @@ We will make a join with each controlled field using the "Name" unique primary k
       <Rnm id="606" nNm="WaterAllocationAmountYearID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="662" nNm="Date_dim" oNm="Time_dim"/>
       <Rnm id="608" nNm="Time_dim" oNm="Date"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Time_dim" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Date_dim" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="674" nNm="DateID" oNm="TimeID"/>
       <Rnm id="609" nNm="TimeID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="610" nNm="OrganizationCV" oNm="OrganizationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="611" nNm="NHDMetadataCV" oNm="NHDMetadataID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="612" nNm="OrganizationIDCV" oNm="OrganizationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="646" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
       <Rnm id="613" nNm="OrganizationID&#9;" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
       <Rnm id="615" nNm="VariableAmountsMetadata" oNm="AmountsMetadata_dup"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="617" nNm="AggregationStatisticCV" oNm="AggregationStatisticCV "/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="619" nNm="AllocationUID" oNm="WaterAllocationUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="620" nNm="AllocationOwner" oNm="WaterAllocationOwner"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="621" nNm="AllocationApplicationDate" oNm="WaterAllocationApplicationDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="622" nNm="AllocationPriorityDate" oNm="WaterAllocationPriorityDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="656" nNm="AllocationLegalStatusCV" oNm="AllocationLegalStatusCodeCV"/>
       <Rnm id="623" nNm="AllocationLegalStatusCodeCV" oNm="WaterAllocationLegalStatusCodeCV"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="624" nNm="AllocationExpirationDate" oNm="WaterAllocationExpirationDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="625" nNm="AllocationChangeApplicationIndicator" oNm="WaterAllocationChangeApplicationIndicator"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="626" nNm="AllocationBasisCV" oNm="WaterAllocationBasisCV"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="627" nNm="AllocationAcreage" oNm="WaterAllocationAcreage"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="628" nNm="AllocationID" oNm="WaterAllocationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="651" nNm="AllocationNativeID" oNm="NativeAllocationID"/>
       <Rnm id="629" nNm="NativeAllocationID" oNm="NativeWaterAllocationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="630" nNm="AllocationAmountID" oNm="WaterAllocationAmountID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="631" nNm="AllocationID" oNm="WaterAllocationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="652" nNm="AllocationCropDutyAmount" oNm="AllocationDutyAmount"/>
       <Rnm id="632" nNm="AllocationDutyAmount" oNm="WaterAllocationDutyAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="633" nNm="AllocationAmount" oNm="WaterAllocationAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="634" nNm="AllocationMaximum" oNm="WaterAllocationMaximum"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="643" nNm="PrimaryUseCategory" oNm="AllocationPrimaryUseCategory"/>
       <Rnm id="636" nNm="AllocationPrimaryUseCategory" oNm="WaterAllocationPrimaryUseCategory"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="644" nNm="USGSCategoryCV" oNm="AllocationUSGSCategoryCV"/>
       <Rnm id="637" nNm="AllocationUSGSCategoryCV" oNm="WaterAllocationUSGSCategoryCV"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="638" nNm="AllocationID" oNm="WaterAllocationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AmountMetadata" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="645" nNm="SDWISIdentifier" oNm="AllocationSDWISIdentifier"/>
       <Rnm id="640" nNm="AllocationSDWISIdentifier" oNm="SDWISID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="647" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="648" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="649" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="650" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="653" nNm="SiteNativeID" oNm="NativeSiteID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="655" nNm="RegulatoryOverlayNativeID" oNm="RegulatoryNativeOverlayID"/>
       <Rnm id="654" nNm="RegulatoryNativeOverlayID" oNm="NativeRegulatoryOverlayID"/>
     </RnmCh>
@@ -3074,6 +3231,28 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
       <Rnm id="661" nNm="CVs_GNISFeatureName" oNm="CVs_GNISCode"/>
     </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="665" nNm="Organizations_dim" oNm="Organizations"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="667" nNm="Methods_dim" oNm="Methods"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="668" nNm="Sites_dim" oNm="Sites"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="671" nNm="BeneficialUsesID" oNm="AmountMetadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="673" nNm="BeneficialUsesID" oNm="BeneficialUses"/>
+      <Rnm id="672" nNm="BeneficialUses" oNm="AmountMetadataID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="WaDE2_star" SupCls="" SupNme="">
+      <Rnm id="677" nNm="RegulatoryReportingUnits_fact" oNm="RegulatoryReportingUnits"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="678" nNm="BeneficialUsesID" oNm="AmountMetadataID"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -3091,11 +3270,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
@@ -3104,11 +3283,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TreePath>/Schemas (1)/WaDE2_star/Tables (34)</TreePath>
     <TreePath>/Diagrams (5)</TreePath>
     <TreePath>/Diagrams (5)/1_Star_WaterAllocation</TreePath>
-    <TreePath>/Diagrams (5)/1_Star_WaterAllocation/Notes (3)</TreePath>
+    <TreePath>/Diagrams (5)/1_Star_WaterAllocation/Notes (2)</TreePath>
     <TreePath>/Diagrams (5)/2_Star_SiteSpecific</TreePath>
-    <TreePath>/Diagrams (5)/2_Star_SiteSpecific/Notes (4)</TreePath>
+    <TreePath>/Diagrams (5)/2_Star_SiteSpecific/Notes (3)</TreePath>
     <TreePath>/Diagrams (5)/3_Star_Aggregated</TreePath>
-    <TreePath>/Diagrams (5)/3_Star_Aggregated/Notes (7)</TreePath>
+    <TreePath>/Diagrams (5)/3_Star_Aggregated/Notes (6)</TreePath>
     <TreePath>/Diagrams (5)/4_Star_Regulatory</TreePath>
     <TreePath>/Diagrams (5)/4_Star_Regulatory/Notes (3)</TreePath>
   </TreePaths>
