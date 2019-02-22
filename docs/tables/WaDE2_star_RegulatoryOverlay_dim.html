@@ -27,7 +27,7 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_RegulatoryOverlayID.html">RegulatoryOverlayID</a></td><td class="PkCol">Integer</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_RegulatoryOverlayUID.html">RegulatoryOverlayUID</a></td><td>VarChar(250)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_RegulatoryOverlayUUID.html">RegulatoryOverlayUUID</a></td><td>VarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Univeral unique identifer </td><td> </td>
@@ -63,13 +63,13 @@
 </td><td> </td><td> </td><td>A link to the legal statute(s) related to the regulation. e.g., https://le.utah.gov/xcode/code.html</td><td> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_TimeframeStart.html">TimeframeStart</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_TimeframeStartID.html">TimeframeStartID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_TimeframeEnd.html">TimeframeEnd</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_RegulatoryOverlay_dim_TimeframeEndID.html">TimeframeEndID</a></td><td class="FkCol">Integer</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -93,10 +93,10 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_end.html">fk_RegulatoryOverlay_dim_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeEnd</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_end.html">fk_RegulatoryOverlay_dim_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeEndID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_start.html">fk_RegulatoryOverlay_dim_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeStart</td>
+<td><a href="../foreignKeys/WaDE2_star_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_start.html">fk_RegulatoryOverlay_dim_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_RegulatoryOverlay_dim.html">RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeStartID</td>
 </tr>
 </table>
 <br>
