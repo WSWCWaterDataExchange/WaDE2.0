@@ -21,17 +21,24 @@ CREATE SCHEMA IF NOT EXISTS WaDE;
 /***************************************************************************/
 USE WaDE;
 
+CREATE TABLE AggBridge_BeneficialUses_fact (
+	AggBridgeID INT   NOT NULL PRIMARY KEY,
+	BeneficialUseID INT   NOT NULL,
+	AggregatedAmountID INT   NOT NULL
+);
+
 CREATE TABLE AggregatedAmounts_fact (
 	AggregatedAmountID INT   NOT NULL PRIMARY KEY,
 	OrganizationID INT   NOT NULL,
 	ReportingUnitID INT   NOT NULL,
 	VariableSpecificID INT   NOT NULL,
+	BeneficialUseID INT   NOT NULL,
 	WaterSourceID INT   NOT NULL,
 	MethodID INT   NOT NULL,
-	BeneficialUsesID INT   NOT NULL,
-	TimeframeStart INT   NULL,
-	TimeframeEnd INT   NULL,
+	TimeframeStartID INT   NULL,
+	TimeframeEndID INT   NULL,
 	DataPublicationDate INT   NULL,
+	ReportYear VARCHAR (4)  NULL,
 	Amount FLOAT   NOT NULL,
 	PopulationServed FLOAT   NULL,
 	PowerGeneratedGWh FLOAT   NULL,
@@ -46,12 +53,13 @@ CREATE TABLE AllocationAmounts_fact (
 	AllocationID INT   NOT NULL,
 	SiteID INT   NOT NULL,
 	VariableSpecificID INT   NOT NULL,
+	BeneficialUsesID INT   NOT NULL,
 	WaterSourceID INT   NOT NULL,
 	MethodID INT   NOT NULL,
-	BeneficialUsesID INT   NOT NULL,
-	TimeframeStart INT   NOT NULL,
-	TimeframeEnd INT   NOT NULL,
-	DataPublicationDate INT   NOT NULL,
+	TimeframeStartDateID INT   NOT NULL,
+	TimeframeEndDateID INT   NOT NULL,
+	DataPublicationDateID INT   NOT NULL,
+	ReportYear VARCHAR (4)  NOT NULL,
 	AllocationCropDutyAmount FLOAT   NULL,
 	AllocationAmount FLOAT   NULL,
 	AllocationMaximum FLOAT   NULL,
@@ -65,9 +73,15 @@ CREATE TABLE AllocationAmounts_fact (
 	Geometry BLOB   NULL
 );
 
+CREATE TABLE AllocationBridge_BeneficialUses_fact (
+	AllocationBridgeID INT   NOT NULL PRIMARY KEY,
+	BeneficialUseID INT   NOT NULL,
+	AllocationAmountID INT   NOT NULL
+);
+
 CREATE TABLE Allocations_dim (
 	AllocationID INT   NOT NULL PRIMARY KEY,
-	AllocationUID VARCHAR (50)  NOT NULL,
+	AllocationUUID VARCHAR (50)  NOT NULL,
 	AllocationNativeID VARCHAR (250)  NOT NULL,
 	AllocationOwner VARCHAR (255)  NOT NULL,
 	AllocationBasisCV VARCHAR (250)  NULL,
@@ -80,11 +94,11 @@ CREATE TABLE Allocations_dim (
 );
 
 CREATE TABLE BeneficialUses_dim (
-	BeneficialUsesID INT   NOT NULL PRIMARY KEY,
+	BeneficialUseID INT   NOT NULL PRIMARY KEY,
 	BeneficialUseCategory VARCHAR (500)  NOT NULL,
 	PrimaryUseCategory VARCHAR (250)  NULL,
-	USGSCategoryCV VARCHAR (250)  NULL,
-	NAICSCodeCV VARCHAR (250)  NULL
+	USGSCategoryNameCV VARCHAR (250)  NULL,
+	NAICSCodeNameCV VARCHAR (250)  NULL
 );
 
 CREATE TABLE CVs_AggregationStatistic (
@@ -184,7 +198,7 @@ CREATE TABLE CVs_ReportingUnitType (
 );
 
 CREATE TABLE CVs_ReportYearCV (
-	Name VARCHAR (250)  NOT NULL PRIMARY KEY,
+	Name VARCHAR (4)  NOT NULL PRIMARY KEY,
 	Term VARCHAR (250)  NOT NULL,
 	Definition VARCHAR (5000)  NULL,
 	Category VARCHAR (250)  NULL,
@@ -257,13 +271,13 @@ CREATE TABLE CVs_WaterSourceType (
 
 CREATE TABLE Date_dim (
 	DateID INT   NOT NULL PRIMARY KEY,
-	ReportYearCV VARCHAR (4)  NOT NULL,
-	Date DATE   NOT NULL
+	Date DATE   NOT NULL,
+	Year VARCHAR (4)  NULL
 );
 
 CREATE TABLE Methods_dim (
 	MethodID INT   NOT NULL PRIMARY KEY,
-	MethodUID VARCHAR (100)  NOT NULL,
+	MethodUUID VARCHAR (100)  NOT NULL,
 	MethodName VARCHAR (50)  NOT NULL,
 	MethodDescription TEXT   NOT NULL,
 	MethodNEMILink VARCHAR (100)  NULL,
@@ -285,7 +299,7 @@ CREATE TABLE NHDMetadata (
 
 CREATE TABLE Organizations_dim (
 	OrganizationID INT   NOT NULL PRIMARY KEY,
-	OrganizationUID VARCHAR (250)  NOT NULL,
+	OrganizationUUID VARCHAR (250)  NOT NULL,
 	OrganizationName VARCHAR (250)  NOT NULL,
 	OrganizationPurview VARCHAR (250)  NULL,
 	OrganizationWebsite VARCHAR (250)  NOT NULL,
@@ -296,7 +310,7 @@ CREATE TABLE Organizations_dim (
 
 CREATE TABLE RegulatoryOverlay_dim (
 	RegulatoryOverlayID INT   NOT NULL PRIMARY KEY,
-	RegulatoryOverlayUID VARCHAR (250)  NULL,
+	RegulatoryOverlayUUID VARCHAR (250)  NULL,
 	RegulatoryOverlayNativeID VARCHAR (250)  NULL,
 	RegulatoryName VARCHAR (50)  NOT NULL,
 	RegulatoryDescription TEXT   NOT NULL,
@@ -304,8 +318,8 @@ CREATE TABLE RegulatoryOverlay_dim (
 	OversightAgency VARCHAR (250)  NOT NULL,
 	RegulatoryStatute VARCHAR (500)  NULL,
 	RegulatoryStatuteLink VARCHAR (500)  NULL,
-	TimeframeStart INT   NOT NULL,
-	TimeframeEnd INT   NOT NULL,
+	TimeframeStartID INT   NOT NULL,
+	TimeframeEndID INT   NOT NULL,
 	ReportYearTypeCV VARCHAR (10)  NOT NULL,
 	ReportYearStartMonth VARCHAR (5)  NOT NULL
 );
@@ -315,13 +329,13 @@ CREATE TABLE RegulatoryReportingUnits_fact (
 	RegulatoryOverlayID INT   NOT NULL,
 	OrganizationID INT   NOT NULL,
 	ReportingUnitID INT   NOT NULL,
-	ReportYearCV VARCHAR (4)  NULL,
-	DataPublicationDate INT   NOT NULL
+	DataPublicationDateID INT   NOT NULL,
+	ReportYearCV VARCHAR (4)  NOT NULL
 );
 
 CREATE TABLE ReportingUnits_dim (
 	ReportingUnitID INT   NOT NULL PRIMARY KEY,
-	ReportingUnitUID VARCHAR (250)  NOT NULL,
+	ReportingUnitUUID VARCHAR (250)  NOT NULL,
 	ReportingUnitNativeID VARCHAR (250)  NOT NULL,
 	ReportingUnitName VARCHAR (250)  NOT NULL,
 	ReportingUnitTypeCV VARCHAR (20)  NOT NULL,
@@ -332,9 +346,14 @@ CREATE TABLE ReportingUnits_dim (
 	Geometry BLOB   NULL
 );
 
+CREATE TABLE ReportYear_Dim (
+	ReportYearId INT   NOT NULL PRIMARY KEY,
+	ReportYearCV VARCHAR (4)  NOT NULL
+);
+
 CREATE TABLE Sites_dim (
 	SiteID INT   NOT NULL PRIMARY KEY,
-	SiteUID VARCHAR (55)  NOT NULL,
+	SiteUUID VARCHAR (55)  NOT NULL,
 	SiteNativeID VARCHAR (50)  NULL,
 	SiteName VARCHAR (500)  NOT NULL,
 	SiteTypeCV VARCHAR (100)  NULL,
@@ -347,18 +366,25 @@ CREATE TABLE Sites_dim (
 	NHDMetadataID INT   NULL
 );
 
+CREATE TABLE SitesBridge_BeneficialUses_fact (
+	SiteBridgeID INT   NOT NULL PRIMARY KEY,
+	BeneficialUseID INT   NOT NULL,
+	SiteVariableAmountID INT   NOT NULL
+);
+
 CREATE TABLE SiteVariableAmounts_fact (
 	SiteVariableAmountID INT   NOT NULL PRIMARY KEY,
 	OrganizationID INT   NOT NULL,
 	AllocationID INT   NULL,
 	SiteID INT   NOT NULL,
 	VariableSpecificID INT   NOT NULL,
+	BeneficialUseID INT   NOT NULL,
 	WaterSourceID INT   NOT NULL,
 	MethodID INT   NOT NULL,
-	BeneficialUsesID INT   NOT NULL,
 	TimeframeStart INT   NOT NULL,
 	TimeframeEnd INT   NOT NULL,
 	DataPublicationDate INT   NOT NULL,
+	ReportYear VARCHAR (4)  NULL,
 	Amount FLOAT   NOT NULL,
 	PopulationServed FLOAT   NULL,
 	PowerGeneratedGWh FLOAT   NULL,
@@ -370,9 +396,13 @@ CREATE TABLE SiteVariableAmounts_fact (
 	Geometry BLOB   NULL
 );
 
+CREATE TABLE USGSCategory_dim (
+	USGSId INT   NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE Variables_dim (
 	VariableSpecificID INT   NOT NULL PRIMARY KEY,
-	VariableSpecificUID VARCHAR (250)  NULL,
+	VariableSpecificUUID VARCHAR (250)  NULL,
 	VariableSpecificCV VARCHAR (250)  NOT NULL,
 	VariableCV VARCHAR (250)  NOT NULL,
 	AggregationStatisticCV VARCHAR (50)  NOT NULL,
@@ -386,7 +416,7 @@ CREATE TABLE Variables_dim (
 
 CREATE TABLE WaterSources_dim (
 	WaterSourceID INT   NOT NULL PRIMARY KEY,
-	WaterSourceUID VARCHAR (100)  NOT NULL,
+	WaterSourceUUID VARCHAR (100)  NOT NULL,
 	WaterSourceNativeID VARCHAR (250)  NULL,
 	WaterSourceName VARCHAR (250)  NULL,
 	WaterSourceTypeCV VARCHAR (100)  NOT NULL,
@@ -396,8 +426,16 @@ CREATE TABLE WaterSources_dim (
 );
 
 
+ALTER TABLE AggBridge_BeneficialUses_fact ADD CONSTRAINT fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact
+FOREIGN KEY (AggregatedAmountID) REFERENCES AggregatedAmounts_fact (AggregatedAmountID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE AggBridge_BeneficialUses_fact ADD CONSTRAINT fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim
+FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_Date_dim_end
-FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeEndID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_Date_dim_end_pub
@@ -405,11 +443,15 @@ FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_Date_dim_start
-FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeStartID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_fact_BeneficialUses_dim
-FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_fact_CVs_ReportYearCV
+FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AggregatedAmounts_fact ADD CONSTRAINT fk_AggregatedAmounts_fact_Methods_dim
@@ -437,19 +479,23 @@ FOREIGN KEY (AllocationID) REFERENCES Allocations_dim (AllocationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_BeneficialUses_dim
-FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_CVs_ReportYearCV
+FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_Date_dim_end
-FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeEndDateID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_Date_dim_start
-FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeStartDateID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_Date_pub
-FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
+FOREIGN KEY (DataPublicationDateID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_Methods_dim
@@ -472,6 +518,14 @@ ALTER TABLE AllocationAmounts_fact ADD CONSTRAINT fk_AllocationAmounts_fact_Wate
 FOREIGN KEY (WaterSourceID) REFERENCES WaterSources_dim (WaterSourceID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE AllocationBridge_BeneficialUses_fact ADD CONSTRAINT fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact
+FOREIGN KEY (AllocationAmountID) REFERENCES AllocationAmounts_fact (AllocationAmountID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE AllocationBridge_BeneficialUses_fact ADD CONSTRAINT fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim
+FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 ALTER TABLE Allocations_dim ADD CONSTRAINT fk_Allocations_dim_Date_dim_app
 FOREIGN KEY (AllocationApplicationDate) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
@@ -484,16 +538,24 @@ ALTER TABLE Allocations_dim ADD CONSTRAINT fk_Allocations_dim_Date_dim_prio
 FOREIGN KEY (AllocationPriorityDate) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
+ALTER TABLE BeneficialUses_dim ADD CONSTRAINT fk_BeneficialUses_dim_CVs_NAICSCode
+FOREIGN KEY (NAICSCodeNameCV) REFERENCES CVs_NAICSCode (Name)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE BeneficialUses_dim ADD CONSTRAINT fk_BeneficialUses_dim_CVs_USGSCategory
+FOREIGN KEY (USGSCategoryNameCV) REFERENCES CVs_USGSCategory (Name)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
 ALTER TABLE RegulatoryOverlay_dim ADD CONSTRAINT fk_RegulatoryOverlay_dim_Date_dim_end
-FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeEndID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE RegulatoryOverlay_dim ADD CONSTRAINT fk_RegulatoryOverlay_dim_Date_dim_start
-FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+FOREIGN KEY (TimeframeStartID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE RegulatoryReportingUnits_fact ADD CONSTRAINT fk_RegulatoryReportingUnits_fact_Date_dim
-FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
+FOREIGN KEY (DataPublicationDateID) REFERENCES Date_dim (DateID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE RegulatoryReportingUnits_fact ADD CONSTRAINT fk_RegulatoryReportingUnits_fact_Organizations_dim
@@ -510,6 +572,14 @@ ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE Sites_dim ADD CONSTRAINT fk_Sites_NHDMetadata
 FOREIGN KEY (NHDMetadataID) REFERENCES NHDMetadata (NHDMetadataID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE SitesBridge_BeneficialUses_fact ADD CONSTRAINT fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim
+FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE SitesBridge_BeneficialUses_fact ADD CONSTRAINT fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact
+FOREIGN KEY (SiteVariableAmountID) REFERENCES SiteVariableAmounts_fact (SiteVariableAmountID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE SiteVariableAmounts_fact ADD CONSTRAINT fk_SiteVariableAmounts_Date_dim_end
@@ -529,7 +599,11 @@ FOREIGN KEY (AllocationID) REFERENCES Allocations_dim (AllocationID)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE SiteVariableAmounts_fact ADD CONSTRAINT fk_SiteVariableAmounts_fact_BeneficialUses_dim
-FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE SiteVariableAmounts_fact ADD CONSTRAINT fk_SiteVariableAmounts_fact_CVs_ReportYearCV
+FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 ON UPDATE NO ACTION ON DELETE NO ACTION;
 
 ALTER TABLE SiteVariableAmounts_fact ADD CONSTRAINT fk_SiteVariableAmounts_fact_Methods_dim

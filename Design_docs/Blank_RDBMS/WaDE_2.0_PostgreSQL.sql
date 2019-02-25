@@ -26,17 +26,23 @@ create schema WaDE;
 /*********************** CREATE WADE2.0_SCHEMA_STAR ************************/
 /***************************************************************************/
 
+create table AggBridge_BeneficialUses_fact (
+	aggbridgeid integer  NOT NULL primary key,
+	beneficialuseid integer  NOT NULL,
+	aggregatedamountid integer  NOT NULL
+);
 create table AggregatedAmounts_fact (
 	aggregatedamountid integer  NOT NULL primary key,
 	organizationid integer  NOT NULL,
 	reportingunitid integer  NOT NULL,
 	variablespecificid integer  NOT NULL,
+	beneficialuseid integer  NOT NULL,
 	watersourceid integer  NOT NULL,
 	methodid integer  NOT NULL,
-	beneficialusesid integer  NOT NULL,
-	timeframestart integer  NULL,
-	timeframeend integer  NULL,
+	timeframestartid integer  NULL,
+	timeframeendid integer  NULL,
 	datapublicationdate integer  NULL,
+	reportyear varchar (4) NULL,
 	amount double precision  NOT NULL,
 	populationserved double precision  NULL,
 	powergeneratedgwh double precision  NULL,
@@ -50,12 +56,13 @@ create table AllocationAmounts_fact (
 	allocationid integer  NOT NULL,
 	siteid integer  NOT NULL,
 	variablespecificid integer  NOT NULL,
+	beneficialusesid integer  NOT NULL,
 	watersourceid integer  NOT NULL,
 	methodid integer  NOT NULL,
-	beneficialusesid integer  NOT NULL,
-	timeframestart integer  NOT NULL,
-	timeframeend integer  NOT NULL,
-	datapublicationdate integer  NOT NULL,
+	timeframestartdateid integer  NOT NULL,
+	timeframeenddateid integer  NOT NULL,
+	datapublicationdateid integer  NOT NULL,
+	reportyear varchar (4) NOT NULL,
 	allocationcropdutyamount double precision  NULL,
 	allocationamount double precision  NULL,
 	allocationmaximum double precision  NULL,
@@ -68,9 +75,14 @@ create table AllocationAmounts_fact (
 	interbasintransfertoid varchar (250) NULL,
 	geometry bytea  NULL
 );
+create table AllocationBridge_BeneficialUses_fact (
+	allocationbridgeid integer  NOT NULL primary key,
+	beneficialuseid integer  NOT NULL,
+	allocationamountid integer  NOT NULL
+);
 create table Allocations_dim (
 	allocationid integer  NOT NULL primary key,
-	allocationuid varchar (50) NOT NULL,
+	allocationuuid varchar (50) NOT NULL,
 	allocationnativeid varchar (250) NOT NULL,
 	allocationowner varchar (255) NOT NULL,
 	allocationbasiscv varchar (250) NULL,
@@ -82,11 +94,11 @@ create table Allocations_dim (
 	legacyallocationids varchar (100) NULL
 );
 create table BeneficialUses_dim (
-	beneficialusesid integer  NOT NULL primary key,
+	beneficialuseid integer  NOT NULL primary key,
 	beneficialusecategory varchar (500) NOT NULL,
 	primaryusecategory varchar (250) NULL,
-	usgscategorycv varchar (250) NULL,
-	naicscodecv varchar (250) NULL
+	usgscategorynamecv varchar (250) NULL,
+	naicscodenamecv varchar (250) NULL
 );
 create table CVs_AggregationStatistic (
 	name varchar (250) NOT NULL primary key,
@@ -173,7 +185,7 @@ create table CVs_ReportingUnitType (
 	sourcevocabularyuri	 varchar (250) NULL
 );
 create table CVs_ReportYearCV (
-	name varchar (250) NOT NULL primary key,
+	name varchar (4) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
@@ -237,12 +249,12 @@ create table CVs_WaterSourceType (
 );
 create table Date_dim (
 	dateid integer  NOT NULL primary key,
-	reportyearcv varchar (4) NOT NULL,
-	date date  NOT NULL
+	date date  NOT NULL,
+	year varchar (4) NULL
 );
 create table Methods_dim (
 	methodid integer  NOT NULL primary key,
-	methoduid varchar (100) NOT NULL,
+	methoduuid varchar (100) NOT NULL,
 	methodname varchar (50) NOT NULL,
 	methoddescription text  NOT NULL,
 	methodnemilink varchar (100) NULL,
@@ -262,7 +274,7 @@ create table NHDMetadata (
 );
 create table Organizations_dim (
 	organizationid integer  NOT NULL primary key,
-	organizationuid varchar (250) NOT NULL,
+	organizationuuid varchar (250) NOT NULL,
 	organizationname varchar (250) NOT NULL,
 	organizationpurview varchar (250) NULL,
 	organizationwebsite varchar (250) NOT NULL,
@@ -272,7 +284,7 @@ create table Organizations_dim (
 );
 create table RegulatoryOverlay_dim (
 	regulatoryoverlayid integer  NOT NULL primary key,
-	regulatoryoverlayuid varchar (250) NULL,
+	regulatoryoverlayuuid varchar (250) NULL,
 	regulatoryoverlaynativeid varchar (250) NULL,
 	regulatoryname varchar (50) NOT NULL,
 	regulatorydescription text  NOT NULL,
@@ -280,8 +292,8 @@ create table RegulatoryOverlay_dim (
 	oversightagency varchar (250) NOT NULL,
 	regulatorystatute varchar (500) NULL,
 	regulatorystatutelink varchar (500) NULL,
-	timeframestart integer  NOT NULL,
-	timeframeend integer  NOT NULL,
+	timeframestartid integer  NOT NULL,
+	timeframeendid integer  NOT NULL,
 	reportyeartypecv varchar (10) NOT NULL,
 	reportyearstartmonth varchar (5) NOT NULL
 );
@@ -290,12 +302,12 @@ create table RegulatoryReportingUnits_fact (
 	regulatoryoverlayid integer  NOT NULL,
 	organizationid integer  NOT NULL,
 	reportingunitid integer  NOT NULL,
-	reportyearcv varchar (4) NULL,
-	datapublicationdate integer  NOT NULL
+	datapublicationdateid integer  NOT NULL,
+	reportyearcv varchar (4) NOT NULL
 );
 create table ReportingUnits_dim (
 	reportingunitid integer  NOT NULL primary key,
-	reportingunituid varchar (250) NOT NULL,
+	reportingunituuid varchar (250) NOT NULL,
 	reportingunitnativeid varchar (250) NOT NULL,
 	reportingunitname varchar (250) NOT NULL,
 	reportingunittypecv varchar (20) NOT NULL,
@@ -305,9 +317,13 @@ create table ReportingUnits_dim (
 	epsgcodecv varchar (50) NULL,
 	geometry bytea  NULL
 );
+create table ReportYear_Dim (
+	reportyearid integer  NOT NULL primary key,
+	reportyearcv varchar (4) NOT NULL
+);
 create table Sites_dim (
 	siteid integer  NOT NULL primary key,
-	siteuid varchar (55) NOT NULL,
+	siteuuid varchar (55) NOT NULL,
 	sitenativeid varchar (50) NULL,
 	sitename varchar (500) NOT NULL,
 	sitetypecv varchar (100) NULL,
@@ -319,18 +335,24 @@ create table Sites_dim (
 	gniscodecv varchar (50) NULL,
 	nhdmetadataid integer  NULL
 );
+create table SitesBridge_BeneficialUses_fact (
+	sitebridgeid integer  NOT NULL primary key,
+	beneficialuseid integer  NOT NULL,
+	sitevariableamountid integer  NOT NULL
+);
 create table SiteVariableAmounts_fact (
 	sitevariableamountid integer  NOT NULL primary key,
 	organizationid integer  NOT NULL,
 	allocationid integer  NULL,
 	siteid integer  NOT NULL,
 	variablespecificid integer  NOT NULL,
+	beneficialuseid integer  NOT NULL,
 	watersourceid integer  NOT NULL,
 	methodid integer  NOT NULL,
-	beneficialusesid integer  NOT NULL,
 	timeframestart integer  NOT NULL,
 	timeframeend integer  NOT NULL,
 	datapublicationdate integer  NOT NULL,
+	reportyear varchar (4) NULL,
 	amount double precision  NOT NULL,
 	populationserved double precision  NULL,
 	powergeneratedgwh double precision  NULL,
@@ -341,9 +363,12 @@ create table SiteVariableAmounts_fact (
 	interbasintransfertoid varchar (100) NULL,
 	geometry bytea  NULL
 );
+create table USGSCategory_dim (
+	usgsid integer  NOT NULL primary key
+);
 create table Variables_dim (
 	variablespecificid integer  NOT NULL primary key,
-	variablespecificuid varchar (250) NULL,
+	variablespecificuuid varchar (250) NULL,
 	variablespecificcv varchar (250) NOT NULL,
 	variablecv varchar (250) NOT NULL,
 	aggregationstatisticcv varchar (50) NOT NULL,
@@ -356,7 +381,7 @@ create table Variables_dim (
 );
 create table WaterSources_dim (
 	watersourceid integer  NOT NULL primary key,
-	watersourceuid varchar (100) NOT NULL,
+	watersourceuuid varchar (100) NOT NULL,
 	watersourcenativeid varchar (250) NULL,
 	watersourcename varchar (250) NULL,
 	watersourcetypecv varchar (100) NOT NULL,
@@ -365,8 +390,16 @@ create table WaterSources_dim (
 	geometry bytea  NULL
 );
 
+alter table AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact
+foreign key (AggregatedAmountID) References AggregatedAmounts_fact (AggregatedAmountID)
+on update no Action on delete cascade;
+
+alter table AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
 alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end
-foreign key (TimeframeEnd) References Date_dim (DateID)
+foreign key (TimeframeEndID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end_pub
@@ -374,11 +407,15 @@ foreign key (DataPublicationDate) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_start
-foreign key (TimeframeStart) References Date_dim (DateID)
+foreign key (TimeframeStartID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUsesID) References BeneficialUses_dim (BeneficialUsesID)
+foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
+alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
 alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Methods_dim
@@ -406,19 +443,23 @@ foreign key (AllocationID) References Allocations_dim (AllocationID)
 on update no Action on delete cascade;
 
 alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUsesID) References BeneficialUses_dim (BeneficialUsesID)
+foreign key (BeneficialUsesID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
+alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
 alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_end
-foreign key (TimeframeEnd) References Date_dim (DateID)
+foreign key (TimeframeEndDateID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_start
-foreign key (TimeframeStart) References Date_dim (DateID)
+foreign key (TimeframeStartDateID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_pub
-foreign key (DataPublicationDate) References Date_dim (DateID)
+foreign key (DataPublicationDateID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Methods_dim
@@ -441,6 +482,14 @@ alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Wate
 foreign key (WaterSourceID) References WaterSources_dim (WaterSourceID)
 on update no Action on delete cascade;
 
+alter table AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact
+foreign key (AllocationAmountID) References AllocationAmounts_fact (AllocationAmountID)
+on update no Action on delete cascade;
+
+alter table AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
 alter table Allocations_dim add constraint fk_Allocations_dim_Date_dim_app
 foreign key (AllocationApplicationDate) References Date_dim (DateID)
 on update no Action on delete cascade;
@@ -453,16 +502,24 @@ alter table Allocations_dim add constraint fk_Allocations_dim_Date_dim_prio
 foreign key (AllocationPriorityDate) References Date_dim (DateID)
 on update no Action on delete cascade;
 
+alter table BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_NAICSCode
+foreign key (NAICSCodeNameCV) References CVs_NAICSCode (Name)
+on update no Action on delete cascade;
+
+alter table BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_USGSCategory
+foreign key (USGSCategoryNameCV) References CVs_USGSCategory (Name)
+on update no Action on delete cascade;
+
 alter table RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_end
-foreign key (TimeframeEnd) References Date_dim (DateID)
+foreign key (TimeframeEndID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_start
-foreign key (TimeframeStart) References Date_dim (DateID)
+foreign key (TimeframeStartID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Date_dim
-foreign key (DataPublicationDate) References Date_dim (DateID)
+foreign key (DataPublicationDateID) References Date_dim (DateID)
 on update no Action on delete cascade;
 
 alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Organizations_dim
@@ -479,6 +536,14 @@ on update no Action on delete cascade;
 
 alter table Sites_dim add constraint fk_Sites_NHDMetadata
 foreign key (NHDMetadataID) References NHDMetadata (NHDMetadataID)
+on update no Action on delete cascade;
+
+alter table SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
+alter table SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact
+foreign key (SiteVariableAmountID) References SiteVariableAmounts_fact (SiteVariableAmountID)
 on update no Action on delete cascade;
 
 alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_end
@@ -498,7 +563,11 @@ foreign key (AllocationID) References Allocations_dim (AllocationID)
 on update no Action on delete cascade;
 
 alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUsesID) References BeneficialUses_dim (BeneficialUsesID)
+foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+on update no Action on delete cascade;
+
+alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
 alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Methods_dim

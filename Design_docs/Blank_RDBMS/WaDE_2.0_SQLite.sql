@@ -17,30 +17,43 @@
 /*********************** CREATE WADE2.0_SCHEMA_STAR ************************/
 /***************************************************************************/
 
+CREATE TABLE AggBridge_BeneficialUses_fact (
+	AggBridgeID INTEGER   NOT NULL PRIMARY KEY,
+	BeneficialUseID INTEGER   NOT NULL,
+	AggregatedAmountID INTEGER   NOT NULL,
+	FOREIGN KEY (AggregatedAmountID) REFERENCES AggregatedAmounts_fact (AggregatedAmountID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 CREATE TABLE AggregatedAmounts_fact (
 	AggregatedAmountID INTEGER   NOT NULL PRIMARY KEY,
 	OrganizationID INTEGER   NOT NULL,
 	ReportingUnitID INTEGER   NOT NULL,
 	VariableSpecificID INTEGER   NOT NULL,
+	BeneficialUseID INTEGER   NOT NULL,
 	WaterSourceID INTEGER   NOT NULL,
 	MethodID INTEGER   NOT NULL,
-	BeneficialUsesID INTEGER   NOT NULL,
-	TimeframeStart INTEGER   NULL,
-	TimeframeEnd INTEGER   NULL,
+	TimeframeStartID INTEGER   NULL,
+	TimeframeEndID INTEGER   NULL,
 	DataPublicationDate INTEGER   NULL,
+	ReportYear VARCHAR (4)  NULL,
 	Amount FLOAT   NOT NULL,
 	PopulationServed FLOAT   NULL,
 	PowerGeneratedGWh FLOAT   NULL,
 	IrrigatedAcreage FLOAT   NULL,
 	InterbasinTransferToID VARCHAR (100)  NULL,
 	InterbasinTransferFromID VARCHAR (100)  NULL,
-	FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeEndID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeStartID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+	FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (MethodID) REFERENCES Methods_dim (MethodID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -60,12 +73,13 @@ CREATE TABLE AllocationAmounts_fact (
 	AllocationID INTEGER   NOT NULL,
 	SiteID INTEGER   NOT NULL,
 	VariableSpecificID INTEGER   NOT NULL,
+	BeneficialUsesID INTEGER   NOT NULL,
 	WaterSourceID INTEGER   NOT NULL,
 	MethodID INTEGER   NOT NULL,
-	BeneficialUsesID INTEGER   NOT NULL,
-	TimeframeStart INTEGER   NOT NULL,
-	TimeframeEnd INTEGER   NOT NULL,
-	DataPublicationDate INTEGER   NOT NULL,
+	TimeframeStartDateID INTEGER   NOT NULL,
+	TimeframeEndDateID INTEGER   NOT NULL,
+	DataPublicationDateID INTEGER   NOT NULL,
+	ReportYear VARCHAR (4)  NOT NULL,
 	AllocationCropDutyAmount FLOAT   NULL,
 	AllocationAmount FLOAT   NULL,
 	AllocationMaximum FLOAT   NULL,
@@ -79,13 +93,15 @@ CREATE TABLE AllocationAmounts_fact (
 	Geometry BLOB   NULL,
 	FOREIGN KEY (AllocationID) REFERENCES Allocations_dim (AllocationID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+	FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUseID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeEndDateID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeStartDateID) REFERENCES Date_dim (DateID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (DataPublicationDateID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (MethodID) REFERENCES Methods_dim (MethodID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -99,9 +115,19 @@ CREATE TABLE AllocationAmounts_fact (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE AllocationBridge_BeneficialUses_fact (
+	AllocationBridgeID INTEGER   NOT NULL PRIMARY KEY,
+	BeneficialUseID INTEGER   NOT NULL,
+	AllocationAmountID INTEGER   NOT NULL,
+	FOREIGN KEY (AllocationAmountID) REFERENCES AllocationAmounts_fact (AllocationAmountID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 CREATE TABLE Allocations_dim (
 	AllocationID INTEGER   NOT NULL PRIMARY KEY,
-	AllocationUID VARCHAR (50)  NOT NULL,
+	AllocationUUID VARCHAR (50)  NOT NULL,
 	AllocationNativeID VARCHAR (250)  NOT NULL,
 	AllocationOwner VARCHAR (255)  NOT NULL,
 	AllocationBasisCV VARCHAR (250)  NULL,
@@ -120,11 +146,15 @@ CREATE TABLE Allocations_dim (
 );
 
 CREATE TABLE BeneficialUses_dim (
-	BeneficialUsesID INTEGER   NOT NULL PRIMARY KEY,
+	BeneficialUseID INTEGER   NOT NULL PRIMARY KEY,
 	BeneficialUseCategory VARCHAR (500)  NOT NULL,
 	PrimaryUseCategory VARCHAR (250)  NULL,
-	USGSCategoryCV VARCHAR (250)  NULL,
-	NAICSCodeCV VARCHAR (250)  NULL
+	USGSCategoryNameCV VARCHAR (250)  NULL,
+	NAICSCodeNameCV VARCHAR (250)  NULL,
+	FOREIGN KEY (NAICSCodeNameCV) REFERENCES CVs_NAICSCode (Name)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (USGSCategoryNameCV) REFERENCES CVs_USGSCategory (Name)
+	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
 CREATE TABLE CVs_AggregationStatistic (
@@ -224,7 +254,7 @@ CREATE TABLE CVs_ReportingUnitType (
 );
 
 CREATE TABLE CVs_ReportYearCV (
-	Name VARCHAR (250)  NOT NULL PRIMARY KEY,
+	Name VARCHAR (4)  NOT NULL PRIMARY KEY,
 	Term VARCHAR (250)  NOT NULL,
 	Definition VARCHAR (5000)  NULL,
 	Category VARCHAR (250)  NULL,
@@ -297,13 +327,13 @@ CREATE TABLE CVs_WaterSourceType (
 
 CREATE TABLE Date_dim (
 	DateID INTEGER   NOT NULL PRIMARY KEY,
-	ReportYearCV VARCHAR (4)  NOT NULL,
-	Date DATE   NOT NULL
+	Date DATE   NOT NULL,
+	Year VARCHAR (4)  NULL
 );
 
 CREATE TABLE Methods_dim (
 	MethodID INTEGER   NOT NULL PRIMARY KEY,
-	MethodUID VARCHAR (100)  NOT NULL,
+	MethodUUID VARCHAR (100)  NOT NULL,
 	MethodName VARCHAR (50)  NOT NULL,
 	MethodDescription TEXT   NOT NULL,
 	MethodNEMILink VARCHAR (100)  NULL,
@@ -325,7 +355,7 @@ CREATE TABLE NHDMetadata (
 
 CREATE TABLE Organizations_dim (
 	OrganizationID INTEGER   NOT NULL PRIMARY KEY,
-	OrganizationUID VARCHAR (250)  NOT NULL,
+	OrganizationUUID VARCHAR (250)  NOT NULL,
 	OrganizationName VARCHAR (250)  NOT NULL,
 	OrganizationPurview VARCHAR (250)  NULL,
 	OrganizationWebsite VARCHAR (250)  NOT NULL,
@@ -336,7 +366,7 @@ CREATE TABLE Organizations_dim (
 
 CREATE TABLE RegulatoryOverlay_dim (
 	RegulatoryOverlayID INTEGER   NOT NULL PRIMARY KEY,
-	RegulatoryOverlayUID VARCHAR (250)  NULL,
+	RegulatoryOverlayUUID VARCHAR (250)  NULL,
 	RegulatoryOverlayNativeID VARCHAR (250)  NULL,
 	RegulatoryName VARCHAR (50)  NOT NULL,
 	RegulatoryDescription TEXT   NOT NULL,
@@ -344,13 +374,13 @@ CREATE TABLE RegulatoryOverlay_dim (
 	OversightAgency VARCHAR (250)  NOT NULL,
 	RegulatoryStatute VARCHAR (500)  NULL,
 	RegulatoryStatuteLink VARCHAR (500)  NULL,
-	TimeframeStart INTEGER   NOT NULL,
-	TimeframeEnd INTEGER   NOT NULL,
+	TimeframeStartID INTEGER   NOT NULL,
+	TimeframeEndID INTEGER   NOT NULL,
 	ReportYearTypeCV VARCHAR (10)  NOT NULL,
 	ReportYearStartMonth VARCHAR (5)  NOT NULL,
-	FOREIGN KEY (TimeframeEnd) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeEndID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (TimeframeStart) REFERENCES Date_dim (DateID)
+	FOREIGN KEY (TimeframeStartID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
@@ -359,9 +389,9 @@ CREATE TABLE RegulatoryReportingUnits_fact (
 	RegulatoryOverlayID INTEGER   NOT NULL,
 	OrganizationID INTEGER   NOT NULL,
 	ReportingUnitID INTEGER   NOT NULL,
-	ReportYearCV VARCHAR (4)  NULL,
-	DataPublicationDate INTEGER   NOT NULL,
-	FOREIGN KEY (DataPublicationDate) REFERENCES Date_dim (DateID)
+	DataPublicationDateID INTEGER   NOT NULL,
+	ReportYearCV VARCHAR (4)  NOT NULL,
+	FOREIGN KEY (DataPublicationDateID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (OrganizationID) REFERENCES Organizations_dim (OrganizationID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -373,7 +403,7 @@ CREATE TABLE RegulatoryReportingUnits_fact (
 
 CREATE TABLE ReportingUnits_dim (
 	ReportingUnitID INTEGER   NOT NULL PRIMARY KEY,
-	ReportingUnitUID VARCHAR (250)  NOT NULL,
+	ReportingUnitUUID VARCHAR (250)  NOT NULL,
 	ReportingUnitNativeID VARCHAR (250)  NOT NULL,
 	ReportingUnitName VARCHAR (250)  NOT NULL,
 	ReportingUnitTypeCV VARCHAR (20)  NOT NULL,
@@ -384,9 +414,14 @@ CREATE TABLE ReportingUnits_dim (
 	Geometry BLOB   NULL
 );
 
+CREATE TABLE ReportYear_Dim (
+	ReportYearId INTEGER   NOT NULL PRIMARY KEY,
+	ReportYearCV VARCHAR (4)  NOT NULL
+);
+
 CREATE TABLE Sites_dim (
 	SiteID INTEGER   NOT NULL PRIMARY KEY,
-	SiteUID VARCHAR (55)  NOT NULL,
+	SiteUUID VARCHAR (55)  NOT NULL,
 	SiteNativeID VARCHAR (50)  NULL,
 	SiteName VARCHAR (500)  NOT NULL,
 	SiteTypeCV VARCHAR (100)  NULL,
@@ -401,18 +436,29 @@ CREATE TABLE Sites_dim (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE SitesBridge_BeneficialUses_fact (
+	SiteBridgeID INTEGER   NOT NULL PRIMARY KEY,
+	BeneficialUseID INTEGER   NOT NULL,
+	SiteVariableAmountID INTEGER   NOT NULL,
+	FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (SiteVariableAmountID) REFERENCES SiteVariableAmounts_fact (SiteVariableAmountID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION
+);
+
 CREATE TABLE SiteVariableAmounts_fact (
 	SiteVariableAmountID INTEGER   NOT NULL PRIMARY KEY,
 	OrganizationID INTEGER   NOT NULL,
 	AllocationID INTEGER   NULL,
 	SiteID INTEGER   NOT NULL,
 	VariableSpecificID INTEGER   NOT NULL,
+	BeneficialUseID INTEGER   NOT NULL,
 	WaterSourceID INTEGER   NOT NULL,
 	MethodID INTEGER   NOT NULL,
-	BeneficialUsesID INTEGER   NOT NULL,
 	TimeframeStart INTEGER   NOT NULL,
 	TimeframeEnd INTEGER   NOT NULL,
 	DataPublicationDate INTEGER   NOT NULL,
+	ReportYear VARCHAR (4)  NULL,
 	Amount FLOAT   NOT NULL,
 	PopulationServed FLOAT   NULL,
 	PowerGeneratedGWh FLOAT   NULL,
@@ -430,7 +476,9 @@ CREATE TABLE SiteVariableAmounts_fact (
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (AllocationID) REFERENCES Allocations_dim (AllocationID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
-	FOREIGN KEY (BeneficialUsesID) REFERENCES BeneficialUses_dim (BeneficialUsesID)
+	FOREIGN KEY (BeneficialUseID) REFERENCES BeneficialUses_dim (BeneficialUseID)
+	ON UPDATE NO ACTION ON DELETE NO ACTION,
+	FOREIGN KEY (ReportYear) REFERENCES CVs_ReportYearCV (Name)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (MethodID) REFERENCES Methods_dim (MethodID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
@@ -444,9 +492,13 @@ CREATE TABLE SiteVariableAmounts_fact (
 	ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
+CREATE TABLE USGSCategory_dim (
+	USGSId INTEGER   NOT NULL PRIMARY KEY
+);
+
 CREATE TABLE Variables_dim (
 	VariableSpecificID INTEGER   NOT NULL PRIMARY KEY,
-	VariableSpecificUID VARCHAR (250)  NULL,
+	VariableSpecificUUID VARCHAR (250)  NULL,
 	VariableSpecificCV VARCHAR (250)  NOT NULL,
 	VariableCV VARCHAR (250)  NOT NULL,
 	AggregationStatisticCV VARCHAR (50)  NOT NULL,
@@ -460,7 +512,7 @@ CREATE TABLE Variables_dim (
 
 CREATE TABLE WaterSources_dim (
 	WaterSourceID INTEGER   NOT NULL PRIMARY KEY,
-	WaterSourceUID VARCHAR (100)  NOT NULL,
+	WaterSourceUUID VARCHAR (100)  NOT NULL,
 	WaterSourceNativeID VARCHAR (250)  NULL,
 	WaterSourceName VARCHAR (250)  NULL,
 	WaterSourceTypeCV VARCHAR (100)  NOT NULL,
