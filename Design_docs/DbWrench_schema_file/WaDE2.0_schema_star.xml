@@ -971,6 +971,27 @@
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
+    <Tbl UsSo="1" nm="NHDStatus">
+      <TblOpts/>
+      <Pk ClNs="Name" nm="pkNHDStatus"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
     <Tbl UsSo="1" nm="Organizations_dim">
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts/>
@@ -1607,16 +1628,16 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="348" x2="437" y1="1146" y2="1146"/>
-        <positionableLine lineRole="CHILD_LINE" x1="500" x2="445" y1="941" y2="941"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="441" x2="441" y1="945" y2="1142"/>
+        <positionableLine lineRole="PARENT_LINE" x1="348" x2="431" y1="1146" y2="1146"/>
+        <positionableLine lineRole="CHILD_LINE" x1="500" x2="439" y1="941" y2="941"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="435" x2="435" y1="945" y2="1142"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="395" x2="440" y1="451" y2="451"/>
-        <positionableLine lineRole="CHILD_LINE" x1="500" x2="448" y1="650" y2="650"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="444" x2="444" y1="646" y2="455"/>
+        <positionableLine lineRole="PARENT_LINE" x1="395" x2="435" y1="451" y2="451"/>
+        <positionableLine lineRole="CHILD_LINE" x1="500" x2="443" y1="650" y2="650"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="439" x2="439" y1="646" y2="455"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -1829,7 +1850,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="ReportingUnits_dim" x="34" y="747"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1042" y="803"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables_dim" x="28" y="148"/>
-    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts_fact" x="564" y="410"/>
+    <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggregatedAmounts_fact" x="564" y="409"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Date_dim" x="1083" y="503"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="537" y="847"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="39" y="450"/>
@@ -1838,7 +1859,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="1071" y="607"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="730" x2="730" y1="410" y2="351"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="730" x2="730" y1="409" y2="351"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
@@ -1863,12 +1884,12 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="893" x2="893" y1="234" y2="410"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="893" x2="893" y1="234" y2="409"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1071" x2="923" y1="641" y2="641"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1071" x2="923" y1="635" y2="635"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -1878,28 +1899,28 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="730" x2="730" y1="847" y2="714"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="730" x2="730" y1="847" y2="713"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_ReportingUnits_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="415" x2="483" y1="843" y2="843"/>
-        <positionableLine lineRole="CHILD_LINE" x1="564" x2="491" y1="630" y2="630"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="487" x2="487" y1="634" y2="839"/>
+        <positionableLine lineRole="CHILD_LINE" x1="564" x2="491" y1="629" y2="629"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="487" x2="487" y1="633" y2="839"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="406" x2="486" y1="252" y2="252"/>
-        <positionableLine lineRole="CHILD_LINE" x1="564" x2="494" y1="470" y2="470"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="490" x2="490" y1="466" y2="256"/>
+        <positionableLine lineRole="CHILD_LINE" x1="564" x2="494" y1="469" y2="469"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="490" x2="490" y1="465" y2="256"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="1042" x2="994" y1="883" y2="883"/>
-        <positionableLine lineRole="CHILD_LINE" x1="923" x2="986" y1="675" y2="675"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="990" x2="990" y1="679" y2="879"/>
+        <positionableLine lineRole="CHILD_LINE" x1="923" x2="986" y1="674" y2="674"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="990" x2="990" y1="678" y2="879"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -2018,7 +2039,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearType" x="1161" y="283"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportingUnitType" x="26" y="738"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_RegulatoryStatus" x="418" y="581"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDProduct" x="791" y="435"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDProduct" x="792" y="435"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDNetworkStatus" x="413" y="278"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NAICSCode" x="31" y="279"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_MethodType" x="414" y="135"/>
@@ -2029,6 +2050,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterSourceType" x="790" y="744"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_CropType" x="1172" y="743"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_IrrigationMethod" x="29" y="892"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="NHDStatus" x="424" y="899"/>
     <Notes>
       <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -2037,7 +2059,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="732">
+  <RnmMgr NxRnmId="735">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -3666,6 +3688,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="730" nNm="RegulatoryOverlayUUID" oNm="RegulatoryOverlayUID"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDStatus" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="734" nNm="Name" oNm="Term"/>
+      <Rnm id="733" nNm="Term" oNm="Name&#9;"/>
+      <Rnm id="732" nNm="Name&#9;" oNm="Id"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -3683,8 +3710,8 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
@@ -3693,7 +3720,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TreePath/>
     <TreePath>/Schemas (1)</TreePath>
     <TreePath>/Schemas (1)/WaDE2_star</TreePath>
-    <TreePath>/Schemas (1)/WaDE2_star/Tables (41)</TreePath>
+    <TreePath>/Schemas (1)/WaDE2_star/Tables (42)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
