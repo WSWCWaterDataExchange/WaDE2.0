@@ -8,15 +8,15 @@
       <TblOpts/>
       <Pk ClNs="AggBridgeID" nm="pkAggBridge_BeneficialUses_fact"/>
       <Cl au="0" df="" nm="AggBridgeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the beneficial use</Cm>
       </Cl>
       <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the aggregated variable amount</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" prLkCl="AggregatedAmountID" upAc="3">
@@ -36,43 +36,43 @@
       <TblOpts/>
       <Pk ClNs="AggregatedAmountID" nm="pkAggregatedAmounts_fact"/>
       <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the organization</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the reporting unit</Cm>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the variable</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the metadata</Cm>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the source</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>A unique identifierfor each database instance that implements the table</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeStartID" nu="1">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Start date for the allocation each year in MM/DD/YYYY	</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeEndID" nu="1">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
       </Cl>
       <Cl au="0" df="" nm="DataPublicationDate" nu="1">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider	</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYear" nu="1">
@@ -160,47 +160,47 @@
       <TblOpts/>
       <Pk ClNs="AllocationAmountID" nm="pkAllocationAmounts_fact"/>
       <Cl au="0" df="" nm="AllocationAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to Organization</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to Allocation</Cm>
       </Cl>
       <Cl au="0" df="" nm="SiteID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to site</Cm>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to variable specific</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to amount metadata</Cm>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to water source</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>A unique identifierfor each database instance that implements the table</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeStartDateID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Start date for the allocation each year in MM/DD/YYYY</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeEndDateID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
       </Cl>
       <Cl au="0" df="" nm="DataPublicationDateID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider	</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYear" nu="0">
@@ -313,15 +313,15 @@
       <TblOpts/>
       <Pk ClNs="AllocationBridgeID" nm="pkAllocationBridge_BeneficialUses_fact"/>
       <Cl au="0" df="" nm="AllocationBridgeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the beneficial use</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the allocation amount</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" prLkCl="AllocationAmountID" upAc="3">
@@ -342,7 +342,7 @@
       <TblOpts/>
       <Pk ClNs="AllocationID" nm="pkAllocations_dim"/>
       <Cl au="0" df="" nm="AllocationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer for allocations</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationUUID" nu="0">
@@ -407,7 +407,7 @@
       <TblOpts/>
       <Pk ClNs="BeneficialUseID" nm="pkBeneficialUses_dim"/>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseUUID" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
@@ -883,7 +883,7 @@
       <TblOpts/>
       <Pk ClNs="DateID" nm="pkDate_dim"/>
       <Cl au="0" df="" nm="DateID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Date" nu="0">
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
@@ -900,7 +900,7 @@
       <TblOpts/>
       <Pk ClNs="MethodID" nm="pkMethods_dim"/>
       <Cl au="0" df="" nm="MethodID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifierfor each database instance that implements the table</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodUUID" nu="0">
@@ -997,7 +997,7 @@
       <TblOpts/>
       <Pk ClNs="OrganizationID" nm="pkOrganizations_dim"/>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for organizations</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
@@ -1038,7 +1038,7 @@
       <TblOpts/>
       <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay_dim"/>
       <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="RegulatoryOverlayUUID" nu="1">
@@ -1106,23 +1106,23 @@
       <TblOpts/>
       <Pk ClNs="BridgeID" nm="pkRegulatoryReportingUnits_fact"/>
       <Cl au="0" df="" nm="BridgeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto RegulatoryOverlay</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto organizartion</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto reporting unit</Cm>
       </Cl>
       <Cl au="0" df="" nm="DataPublicationDateID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYearCV" nu="0">
@@ -1157,7 +1157,7 @@
       <TblOpts/>
       <Pk ClNs="ReportingUnitID" nm="pkReportingUnits_dim"/>
       <Cl au="0" df="" nm="ReportingUnitID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportingUnitUUID" nu="0">
@@ -1218,7 +1218,7 @@
       <TblOpts/>
       <Pk ClNs="SiteID" nm="pkSites_dim"/>
       <Cl au="0" df="" nm="SiteID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="SiteUUID" nu="0">
@@ -1264,7 +1264,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>The Geographic Names Information System (GNIS), developed by the U.S. Geological Survey (USGS) in cooperation with the U.S. Board on Geographic Names (BGN), contains information about the official names for places, features, and areas in the 50 States, the District of Columbia, the territories and outlying areas of the United States, including Antarctica. It is the geographic names component of The National Map. The BGN maintains working relationships with State names authorities to cooperate in achieving the standardization of geographic names.</Cm>
       </Cl>
       <Cl au="0" df="" nm="NHDMetadataID" nu="1">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Fk deAc="3" nm="fk_Sites_NHDMetadata" prLkCl="NHDMetadataID" upAc="3">
         <PrTb mn="0" nm="NHDMetadata" oe="1" sch="WaDE2_star" zr="1"/>
@@ -1278,15 +1278,15 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="SiteBridgeID" nm="pkSitesBridge_BeneficialUses_fact"/>
       <Cl au="0" df="" nm="SiteBridgeID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the beneficial use</Cm>
       </Cl>
       <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Foreign key identifier for the site variable amount</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" prLkCl="BeneficialUseID" upAc="3">
@@ -1306,47 +1306,47 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="SiteVariableAmountID" nm="pkSiteVariableAmounts_fact"/>
       <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
       <Cl au="0" df="" nm="OrganizationID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to Organization</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationID" nu="1">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to Allocation</Cm>
       </Cl>
       <Cl au="0" df="" nm="SiteID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to site</Cm>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to variable specific</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to BeneficialUsesID</Cm>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to water source</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>A unique identifierfor each database instance that implements the table</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeStart" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Start date for the allocation each year in MM/DD/YYYY	</Cm>
       </Cl>
       <Cl au="0" df="" nm="TimeframeEnd" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>End date for the allocation each year in MM/DD/YYYY	</Cm>
       </Cl>
       <Cl au="0" df="" nm="DataPublicationDate" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYear" nu="1">
@@ -1461,7 +1461,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="VariableSpecificID" nm="pkVariables_dim"/>
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>An internal unique identifier integer for variables</Cm>
       </Cl>
       <Cl au="0" df="" nm="VariableSpecificUUID" nu="1">
@@ -1514,7 +1514,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="WaterSourceID" nm="pkWaterSources_dim"/>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for water sources</Cm>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceUUID" nu="0">
@@ -1813,6 +1813,8 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
       <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
@@ -1820,8 +1822,6 @@ The brown tables are the dimensions tables (look us) that are mostly static over
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3710,11 +3710,11 @@ We will make a join with each controlled field using the "Name" unique primary k
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
