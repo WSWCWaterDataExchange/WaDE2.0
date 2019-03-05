@@ -8,12 +8,13 @@ DRAFT ONLY
 ## 1.	Introduction   
 The Water Data Exchange (WaDE) program provides an API that streamlines access to data provided by western state water agencies and related water availability, use, and rights information. WaDE is built using an agreed upon data schema that reconciles syntactic (e.g., structure) and will address semantic differences as shared data standards are adopted by participating data providers (Larsen and Young, 2014).
 
-
 WaDE supports the following four fundamental distinct types of water data shared by the member states: i) water allocations (e.g., water rights and permitting data), ii) aggregated water budget estimates such as water supply, withdrawal, consumptive use, return flows, and transfers for reporting units (i.e., geospatial delineations used by the states such as counties, HUCs, and custom delineations) over time as time series, iii) site specific reported water data (i.e., water supply, withdrawal, consumptive use, return flows), and iv) regulatory and institutional constraints at play within states/basins that regulate water supply and use in specific locations. Next we describe the need for the Phase II, Section 3 describes the high level motivating use cases, Section 4, provides a high level description of the conceptual design, and Section 5 provides additional specific uses cases.
 
 ## 2.	Why WaDE 2.0?   
 The WaDE 2.0 schema overcomes many challenges to i) support more uses cases such as the ability to more easily query time series data, ii) be interoperable with the U.S. Geological Survey (USGS) “geofabric” framework for national data discover, if the provider has them, iii) improve data loading and retrieval efficiency, and iv) increase performance and reliability of the system, v) make updates to the system more easily, vi) monitor access and usage more completely, and vii) reduce the effort needed by participating agencies to load data into WaDE and to maintain them.   
 
+Check out the WaDE 2.0 simple schema and its web-services in [Google Sheets](
+https://docs.google.com/spreadsheets/d/e/2PACX-1vQEXASrzI-6u_-FXjs-8tkm5EW7GamQKnszP80iuHq8MwzVN6cOtlRsCX-qs3ruJA8K0Cyty3VAVjwK/pubhtml)
 
 WaDE 1.0 implemented a federated “node” approach where participating member states maintain their own physically separate WaDE database with a central catalog that directs data access back to each node. Most participating member states host their own node and maintain its security, mapping their data to the WaDE schema, and updating them over time.   
 
