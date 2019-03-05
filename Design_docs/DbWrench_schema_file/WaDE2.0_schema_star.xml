@@ -93,7 +93,7 @@
       <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="AllocationLegalStatusCodeCV" nu="0">
+      <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
@@ -128,7 +128,7 @@
       <Cl au="0" df="" nm="AllocationUSGSCategoryCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
+      <Cl au="0" df="" nm="WaterSourceName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to water source</Cm>
       </Cl>
@@ -182,14 +182,6 @@
       <Cl au="0" df="" nm="SDWISIdentifier" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
@@ -864,14 +856,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="SDWISIdentifier" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferFromID" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="InterbasinTransferToID" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
@@ -2273,13 +2257,13 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="1009"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="360" x2="526" y1="1129" y2="1129"/>
-        <positionableLine lineRole="CHILD_LINE" x1="530" x2="530" y1="1009" y2="1125"/>
+        <positionableLine lineRole="CHILD_LINE" x1="530" x2="530" y1="977" y2="1125"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2291,7 +2275,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1068" x2="978" y1="984" y2="984"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1068" x2="978" y1="933" y2="933"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2731,10 +2715,10 @@ We will make a join with each controlled field using the "Name" unique primary k
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1144" y="113"/>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="48" y="105"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="49" y="105"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="612" y="103"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="32" y="664"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="33" y="663"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="741" y="655"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1134" y="599"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="37" y="853"/>
@@ -2751,7 +2735,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="774">
+  <RnmMgr NxRnmId="776">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4453,6 +4437,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="761" nNm="SiteNativeID" oNm="SiteUUID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+      <Rnm id="775" nNm="WaterSourceName" oNm="WaterSourceNativeID"/>
       <Rnm id="762" nNm="WaterSourceNativeID" oNm="WaterSourceUUID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
@@ -4487,6 +4472,9 @@ Some tables like the Allocations table might change over time but much slowly</N
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="InputTables">
       <Rnm id="773" nNm="ReportingUnitNativeID" oNm="ReportingUnitUUID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+      <Rnm id="774" nNm="AllocationLegalStatusCV" oNm="AllocationLegalStatusCodeCV"/>
     </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
