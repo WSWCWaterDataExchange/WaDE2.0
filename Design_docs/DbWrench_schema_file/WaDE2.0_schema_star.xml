@@ -2715,10 +2715,10 @@ We will make a join with each controlled field using the "Name" unique primary k
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1144" y="113"/>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="49" y="105"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="50" y="104"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="612" y="103"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="33" y="663"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="33" y="650"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="741" y="655"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1134" y="599"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="37" y="853"/>
