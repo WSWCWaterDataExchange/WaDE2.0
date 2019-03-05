@@ -90,7 +90,7 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_ReportYear.html">ReportYear</a></td><td class="FkCol">VarChar(4)</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_AggregatedAmounts_fact_ReportYear.html">ReportYear</a></td><td class="FkCol">NChar(4)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td class="FkCol">
@@ -120,13 +120,13 @@
 </td><td> </td><td> </td><td>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use	</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>VarChar(100)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.	</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>VarChar(100)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_AggregatedAmounts_fact_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.	</td><td> </td>
@@ -144,34 +144,34 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeEndID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">WaDE2_star.Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeEndID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">WaDE2_star.Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeStartID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/WaDE2_star_Date_dim.html">WaDE2_star.Date_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeStartID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUses_dim.html">fk_AggregatedAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUses_dim.html">fk_AggregatedAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">WaDE2_star.BeneficialUses_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_CVs_ReportYearCV.html">fk_AggregatedAmounts_fact_CVs_ReportYearCV</a></td><td><a href="../tables/WaDE2_star_CVs_ReportYearCV.html">CVs_ReportYearCV</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_CVs_ReportYearCV.html">fk_AggregatedAmounts_fact_CVs_ReportYearCV</a></td><td><a href="../tables/WaDE2_star_CVs_ReportYearCV.html">WaDE2_star.CVs_ReportYearCV</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">Methods_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/WaDE2_star_Methods_dim.html">WaDE2_star.Methods_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/WaDE2_star_Organizations_dim.html">WaDE2_star.Organizations_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_ReportingUnits_dim.html">WaDE2_star.ReportingUnits_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">Variables_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/WaDE2_star_Variables_dim.html">WaDE2_star.Variables_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_WaterSources_dim.html">fk_AggregatedAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">AggregatedAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
+<td><a href="../foreignKeys/WaDE2_star_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_WaterSources_dim.html">fk_AggregatedAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_WaterSources_dim.html">WaDE2_star.WaterSources_dim</a></td><td><a href="../tables/WaDE2_star_AggregatedAmounts_fact.html">WaDE2_star.AggregatedAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
 <br>

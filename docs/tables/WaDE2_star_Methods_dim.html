@@ -27,40 +27,40 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_Methods_dim_MethodID.html">MethodID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifierfor each database instance that implements the table</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodUUID.html">MethodUUID</a></td><td>VarChar(100)</td><td> </td><td> </td><td> </td><td>A unique identifier composed of the OrgID and a unique number.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodUUID.html">MethodUUID</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>A unique identifier composed of the OrgID and a unique number.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodName.html">MethodName</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The name of the method used.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodName.html">MethodName</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The name of the method used.</td><td> </td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodDescription.html">MethodDescription</a></td><td>Text</td><td> </td><td> </td><td> </td><td>A high level description of the method</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodNEMILink.html">MethodNEMILink</a></td><td>VarChar(100)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodNEMILink.html">MethodNEMILink</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>A link back to the org's website or other webpage for more information about the method. https://www.nemi.gov/home/</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_ApplicableResourceTypeCV.html">ApplicableResourceTypeCV</a></td><td>VarChar(100)</td><td> </td><td> </td><td> </td><td>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_ApplicableResourceTypeCV.html">ApplicableResourceTypeCV</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodTypeCV.html">MethodTypeCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>Indicator of how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_MethodTypeCV.html">MethodTypeCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>Indicator of how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataCoverageValue.html">DataCoverageValue</a></td><td>VarChar(100)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataCoverageValue.html">DataCoverageValue</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>An indicator of data coverage (i.e., spatial coverage or completeness of the data)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataQualityValueCV.html">DataQualityValueCV</a></td><td>VarChar(50)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataQualityValueCV.html">DataQualityValueCV</a></td><td>NVarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>An indicator of data quality or grading (e.g. fair, good, best, unreported), or using the NEMS data quality grading system.</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataConfidenceValue.html">DataConfidenceValue</a></td><td>VarChar(50)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Methods_dim_DataConfidenceValue.html">DataConfidenceValue</a></td><td>NVarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>An indicator of data confidence, should be a confidence interval (e.g. 90%, 50%, etc.)</td><td> </td>
@@ -95,9 +95,6 @@
 </tr>
 <tr>
 <td><a href="../diagrams/3_Star_Aggregated.html">3_Star_Aggregated</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/InputTables.html">InputTables</a></td>
 </tr>
 </table>
 </body>

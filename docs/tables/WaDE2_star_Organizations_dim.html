@@ -27,30 +27,30 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_Organizations_dim_OrganizationID.html">OrganizationID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier for organizations</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationUUID.html">OrganizationUUID</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes	</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationUUID.html">OrganizationUUID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes	</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationName.html">OrganizationName</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>Name corresponding to unique organization ID (i.e. Utah Division of Water Resources)	</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationName.html">OrganizationName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>Name corresponding to unique organization ID (i.e. Utah Division of Water Resources)	</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationPurview.html">OrganizationPurview</a></td><td>VarChar(250)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationPurview.html">OrganizationPurview</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>A description of the purview of the agency (i.e. water rights, consumptive use, etc.) </td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationWebsite.html">OrganizationWebsite</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>A hyperlink back to the organization's website. Include https:// header and trailing forward slash
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationWebsite.html">OrganizationWebsite</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>A hyperlink back to the organization's website. Include https:// header and trailing forward slash
 </td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationPhoneNumber.html">OrganizationPhoneNumber</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>The organization's phone number for general information. Include area code and hyphens	</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationPhoneNumber.html">OrganizationPhoneNumber</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>The organization's phone number for general information. Include area code and hyphens	</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationContactName.html">OrganizationContactName</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>First name of a person.
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationContactName.html">OrganizationContactName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>First name of a person.
 </td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationContactEmail.html">OrganizationContactEmail</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>Title of the contact person.
+<td> </td><td><a href="../columns/WaDE2_star_Organizations_dim_OrganizationContactEmail.html">OrganizationContactEmail</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>Title of the contact person.
 </td><td> </td>
 </tr>
 </table>
@@ -86,9 +86,6 @@
 </tr>
 <tr>
 <td><a href="../diagrams/4_Star_Regulatory.html">4_Star_Regulatory</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/InputTables.html">InputTables</a></td>
 </tr>
 </table>
 </body>

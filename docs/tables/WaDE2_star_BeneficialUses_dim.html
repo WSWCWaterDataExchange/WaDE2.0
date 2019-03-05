@@ -27,22 +27,22 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseID.html">BeneficialUseID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseUUID.html">BeneficialUseUUID</a></td><td>VarChar(500)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseUUID.html">BeneficialUseUUID</a></td><td>NVarChar(500)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>VarChar(500)</td><td> </td><td> </td><td> </td><td> </td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>NVarChar(500)</td><td> </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_PrimaryUseCategory.html">PrimaryUseCategory</a></td><td>VarChar(250)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_BeneficialUses_dim_PrimaryUseCategory.html">PrimaryUseCategory</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_USGSCategoryNameCV.html">USGSCategoryNameCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_USGSCategoryNameCV.html">USGSCategoryNameCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
@@ -51,7 +51,7 @@
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_NAICSCodeNameCV.html">NAICSCodeNameCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/WaDE2_star_BeneficialUses_dim_NAICSCodeNameCV.html">NAICSCodeNameCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
@@ -72,10 +72,10 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_BeneficialUses_dim_fk_BeneficialUses_dim_CVs_NAICSCode.html">fk_BeneficialUses_dim_CVs_NAICSCode</a></td><td><a href="../tables/WaDE2_star_CVs_NAICSCode.html">CVs_NAICSCode</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td>Name</td><td>NAICSCodeNameCV</td>
+<td><a href="../foreignKeys/WaDE2_star_BeneficialUses_dim_fk_BeneficialUses_dim_CVs_NAICSCode.html">fk_BeneficialUses_dim_CVs_NAICSCode</a></td><td><a href="../tables/WaDE2_star_CVs_NAICSCode.html">WaDE2_star.CVs_NAICSCode</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">WaDE2_star.BeneficialUses_dim</a></td><td>Name</td><td>NAICSCodeNameCV</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/WaDE2_star_BeneficialUses_dim_fk_BeneficialUses_dim_CVs_USGSCategory.html">fk_BeneficialUses_dim_CVs_USGSCategory</a></td><td><a href="../tables/WaDE2_star_CVs_USGSCategory.html">CVs_USGSCategory</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">BeneficialUses_dim</a></td><td>Name</td><td>USGSCategoryNameCV</td>
+<td><a href="../foreignKeys/WaDE2_star_BeneficialUses_dim_fk_BeneficialUses_dim_CVs_USGSCategory.html">fk_BeneficialUses_dim_CVs_USGSCategory</a></td><td><a href="../tables/WaDE2_star_CVs_USGSCategory.html">WaDE2_star.CVs_USGSCategory</a></td><td><a href="../tables/WaDE2_star_BeneficialUses_dim.html">WaDE2_star.BeneficialUses_dim</a></td><td>Name</td><td>USGSCategoryNameCV</td>
 </tr>
 </table>
 <br>
@@ -97,9 +97,6 @@
 </tr>
 <tr>
 <td><a href="../diagrams/3_Star_Aggregated.html">3_Star_Aggregated</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/InputTables.html">InputTables</a></td>
 </tr>
 </table>
 </body>

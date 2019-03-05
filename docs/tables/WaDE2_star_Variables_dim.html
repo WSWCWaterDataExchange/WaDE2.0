@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr>
+<tr class="altRow">
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -27,37 +27,37 @@
 </td><td class="PkCol"><a href="../columns/WaDE2_star_Variables_dim_VariableSpecificID.html">VariableSpecificID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">An internal unique identifier integer for variables</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableSpecificUUID.html">VariableSpecificUUID</a></td><td>VarChar(250)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableSpecificUUID.html">VariableSpecificUUID</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Unique universal identifier for the variable across all the member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableCV.html">VariableCV</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_VariableCV.html">VariableCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AggregationInterval_.html">AggregationInterval </a></td><td>Numeric(10, 1)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td>VarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>VarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td>VarChar(10)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td>VarChar(250)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td>VarChar(255)</td><td>
+<td> </td><td><a href="../columns/WaDE2_star_Variables_dim_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td>NVarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Amount of the allocation maximum or cap</td><td> </td>
@@ -92,9 +92,6 @@
 </tr>
 <tr>
 <td><a href="../diagrams/3_Star_Aggregated.html">3_Star_Aggregated</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/InputTables.html">InputTables</a></td>
 </tr>
 </table>
 </body>
