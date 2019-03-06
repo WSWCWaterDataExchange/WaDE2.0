@@ -104,7 +104,7 @@ CREATE TABLE Organizations_dim_Input (
 );
 
 CREATE TABLE RegulatoryOverlay_dim_input (
-	RegulatoryOverlayNativeID nvarchar (250)  NULL PRIMARY KEY,
+	RegulatoryOverlayNativeID nvarchar (250)  NOT NULL PRIMARY KEY,
 	RegulatoryName nvarchar (50)  NOT NULL,
 	RegulatoryDescription nvarchar(max)   NOT NULL,
 	RegulatoryStatusCV nvarchar (50)  NOT NULL,
@@ -137,7 +137,7 @@ CREATE TABLE ReportingUnits_dim_Input (
 );
 
 CREATE TABLE Sites_dim_input (
-	SiteNativeID nvarchar (50)  NULL PRIMARY KEY,
+	SiteNativeID nvarchar (50)  NOT NULL PRIMARY KEY,
 	SiteName nvarchar (500)  NOT NULL,
 	SiteTypeCV VARCHAR (100)  NULL,
 	Longitude nvarchar (50)  NOT NULL,
@@ -186,7 +186,7 @@ CREATE TABLE Variables_dim_input (
 );
 
 CREATE TABLE WaterSources_dim_input (
-	WaterSourceNativeID nvarchar (250)  NULL PRIMARY KEY,
+	WaterSourceNativeID nvarchar (250)  NOT NULL PRIMARY KEY,
 	WaterSourceName nvarchar (250)  NULL,
 	WaterSourceTypeCV nvarchar (100)  NOT NULL,
 	WaterQualityIndicatorCV nvarchar (100)  NOT NULL,

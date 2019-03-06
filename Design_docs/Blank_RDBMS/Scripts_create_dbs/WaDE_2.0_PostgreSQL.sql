@@ -104,7 +104,7 @@ create table Organizations_dim_Input (
 	organizationcontactemail nvarchar (250) NOT NULL
 );
 create table RegulatoryOverlay_dim_input (
-	regulatoryoverlaynativeid nvarchar (250) NULL primary key,
+	regulatoryoverlaynativeid nvarchar (250) NOT NULL primary key,
 	regulatoryname nvarchar (50) NOT NULL,
 	regulatorydescription nvarchar(max)  NOT NULL,
 	regulatorystatuscv nvarchar (50) NOT NULL,
@@ -134,7 +134,7 @@ create table ReportingUnits_dim_Input (
 	geometry polygon  NULL
 );
 create table Sites_dim_input (
-	sitenativeid nvarchar (50) NULL primary key,
+	sitenativeid nvarchar (50) NOT NULL primary key,
 	sitename nvarchar (500) NOT NULL,
 	sitetypecv varchar (100) NULL,
 	longitude nvarchar (50) NOT NULL,
@@ -180,7 +180,7 @@ create table Variables_dim_input (
 	maximumamountunitcv nvarchar (255) NULL
 );
 create table WaterSources_dim_input (
-	watersourcenativeid nvarchar (250) NULL primary key,
+	watersourcenativeid nvarchar (250) NOT NULL primary key,
 	watersourcename nvarchar (250) NULL,
 	watersourcetypecv nvarchar (100) NOT NULL,
 	waterqualityindicatorcv nvarchar (100) NOT NULL,

@@ -298,7 +298,7 @@
     <Tbl UsSo="1" nm="RegulatoryOverlay_dim_input">
       <TblOpts/>
       <Pk ClNs="RegulatoryOverlayNativeID" nm="pkRegulatoryOverlay_dim_input"/>
-      <Cl au="0" df="" nm="RegulatoryOverlayNativeID" nu="1">
+      <Cl au="0" df="" nm="RegulatoryOverlayNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Native identifier to each data source</Cm>
       </Cl>
@@ -420,7 +420,7 @@
       <Cm>Site specific</Cm>
       <TblOpts/>
       <Pk ClNs="SiteNativeID" nm="pkSites_dim_input"/>
-      <Cl au="0" df="" nm="SiteNativeID" nu="1">
+      <Cl au="0" df="" nm="SiteNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>Data provider's unique identifier for the site variable, can be alphanumeric</Cm>
       </Cl>
@@ -602,7 +602,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts/>
       <Pk ClNs="WaterSourceNativeID" nm="pkWaterSources_dim_input"/>
-      <Cl au="0" df="" nm="WaterSourceNativeID" nu="1">
+      <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Source id as used in the data provider</Cm>
       </Cl>
@@ -4506,12 +4506,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
