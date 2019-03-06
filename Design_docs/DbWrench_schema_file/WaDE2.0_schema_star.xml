@@ -2428,8 +2428,8 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="387" x2="539" y1="909" y2="909"/>
-        <positionableLine lineRole="CHILD_LINE" x1="543" x2="543" y1="779" y2="905"/>
+        <positionableLine lineRole="PARENT_LINE" x1="387" x2="527" y1="909" y2="909"/>
+        <positionableLine lineRole="CHILD_LINE" x1="531" x2="531" y1="779" y2="905"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
@@ -2441,20 +2441,20 @@ Purple tables are Controlled Vocabulary</Note>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="1012" x2="981" y1="920" y2="920"/>
-        <positionableLine lineRole="CHILD_LINE" x1="877" x2="973" y1="774" y2="774"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="977" x2="977" y1="778" y2="916"/>
+        <positionableLine lineRole="CHILD_LINE" x1="877" x2="973" y1="760" y2="760"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="977" x2="977" y1="764" y2="916"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -4493,12 +4493,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
