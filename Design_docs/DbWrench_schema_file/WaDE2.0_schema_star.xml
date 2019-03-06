@@ -1359,7 +1359,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkCVs_ReportYearCV"/>
       <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="4" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -1611,7 +1611,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <TblOpts/>
       <Pk ClNs="NHDMetadataID" nm="pkNHDMetadata"/>
       <Cl au="0" df="" nm="NHDMetadataID" nu="0">
-        <DT arr="0" ds="Integer" en="" id="4" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
@@ -1632,27 +1632,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="NHDMeasureNumber" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="50" sc="null" sg="1" un="0"/>
         <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</Cm>
-      </Cl>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
-    <Tbl UsSo="1" nm="NHDStatus">
-      <TblOpts/>
-      <Pk ClNs="Name" nm="pkNHDStatus"/>
-      <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Term" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Definition" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="Category" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -1791,7 +1770,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYearCV" nu="0">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="4" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
         <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_Date_dim" prLkCl="DateID" upAc="3">
@@ -2374,6 +2353,7 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="1027" y="689"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Sites_dim" x="51" y="772"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="SiteVariableAmounts_fact" x="508" y="411"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="NHDMetadata" x="76" y="1088"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="1200" x2="1200" y1="582" y2="503"/>
@@ -2387,6 +2367,11 @@ Purple tables are Controlled Vocabulary</Note>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_prio" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="1242" x2="1242" y1="582" y2="503"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="217" x2="217" y1="1088" y2="1012"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
@@ -2421,7 +2406,7 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="723" x2="723" y1="231" y2="411"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="849" x2="849" y1="231" y2="411"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2502,7 +2487,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="39" y="450"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="573" y="106"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AggBridge_BeneficialUses_fact" x="591" y="280"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="1071" y="607"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="1071" y="606"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="409" y2="360"/>
@@ -2535,7 +2520,7 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1071" x2="933" y1="635" y2="635"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1071" x2="933" y1="634" y2="634"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2634,7 +2619,7 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1004" x2="842" y1="389" y2="389"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1004" x2="828" y1="389" y2="389"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
@@ -2696,7 +2681,6 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterSourceType" x="790" y="744"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_CropType" x="1172" y="743"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_IrrigationMethod" x="29" y="892"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="NHDStatus" x="424" y="899"/>
     <Notes>
       <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -4506,11 +4490,11 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
   </OpenEditors>
   <TreePaths>
@@ -4519,7 +4503,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <TreePath>/Schemas (2)/InputTables</TreePath>
     <TreePath>/Schemas (2)/InputTables/Tables (12)</TreePath>
     <TreePath>/Schemas (2)/WaDE2_star</TreePath>
-    <TreePath>/Schemas (2)/WaDE2_star/Tables (41)</TreePath>
+    <TreePath>/Schemas (2)/WaDE2_star/Tables (40)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
     <TreePath>/Diagrams (6)/6_InputTables</TreePath>
     <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>

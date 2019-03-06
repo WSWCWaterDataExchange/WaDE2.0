@@ -146,7 +146,7 @@ CREATE TABLE ReportingUnits_dim_Input (
 	ReportingUnitProductVersion nvarchar (100)  NULL,
 	StateCV nvarchar (50)  NOT NULL,
 	EPSGCodeCV nvarchar (50)  NULL,
-	Geometry polygon   NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (ReportingUnitNativeID)
 )
 CREATE TABLE Sites_dim_input (
@@ -183,7 +183,7 @@ CREATE TABLE SiteVariableAmounts_VariableTable (
 	SDWISIdentifier varchar (250)  NULL,
 	InterbasinTransferFromID varchar (250)  NULL,
 	InterbasinTransferToID varchar (250)  NULL,
-	Geometry binary   NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (OrganizationUUID)
 )
 CREATE TABLE Variables_dim_input (
@@ -399,7 +399,7 @@ CREATE TABLE CVs_ReportingUnitType (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_ReportYearCV (
-	Name nvarchar (4)  NOT NULL,
+	Name nchar (4)  NOT NULL,
 	Term nvarchar (250)  NOT NULL,
 	Definition nvarchar(max)   NULL,
 	Category nvarchar (250)  NULL,
@@ -490,21 +490,13 @@ CREATE TABLE Methods_dim (
 	PRIMARY KEY (MethodID)
 )
 CREATE TABLE NHDMetadata (
-	NHDMetadataID int   NOT NULL,
+	NHDMetadataID bigint   NOT NULL,
 	NHDNetworkStatusCV varchar (50)  NOT NULL,
 	NHDProductCV varchar (50)  NULL,
 	NHDUpdateDate date   NULL,
 	NHDReachCode varchar (50)  NULL,
 	NHDMeasureNumber varchar (50)  NULL,
 	PRIMARY KEY (NHDMetadataID)
-)
-CREATE TABLE NHDStatus (
-	Name varchar (250)  NOT NULL,
-	Term varchar (250)  NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (250)  NULL,
-	SourceVocabularyURI varchar (250)  NULL,
-	PRIMARY KEY (Name)
 )
 CREATE TABLE Organizations_dim (
 	OrganizationID bigint   NOT NULL,
@@ -539,7 +531,7 @@ CREATE TABLE RegulatoryReportingUnits_fact (
 	OrganizationID bigint   NOT NULL,
 	ReportingUnitID bigint   NOT NULL,
 	DataPublicationDateID bigint   NOT NULL,
-	ReportYearCV varchar (4)  NOT NULL,
+	ReportYearCV nchar (4)  NOT NULL,
 	PRIMARY KEY (BridgeID)
 )
 CREATE TABLE ReportingUnits_dim (
@@ -552,7 +544,7 @@ CREATE TABLE ReportingUnits_dim (
 	ReportingUnitProductVersion nvarchar (100)  NULL,
 	StateCV nvarchar (50)  NOT NULL,
 	EPSGCodeCV nvarchar (50)  NULL,
-	Geometry polygon   NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (ReportingUnitID)
 )
 CREATE TABLE Sites_dim (

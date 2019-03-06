@@ -26,7 +26,7 @@ create schema WaDE;
 /*************************** CREATE INPUTTABLES ****************************/
 /***************************************************************************/
 
-create table AggregatedAmounts_VariableTable (
+create table WaDE.AggregatedAmounts_VariableTable (
 	organizationuuid varchar (250) NOT NULL primary key,
 	reportingunitnativeid varchar (250) NOT NULL,
 	variablespecificcv varchar (250) NOT NULL,
@@ -46,7 +46,7 @@ create table AggregatedAmounts_VariableTable (
 	interbasintransferfromid varchar (250) NULL,
 	interbasintransfertoid varchar (250) NULL
 );
-create table AllocationAmounts_VariableTable (
+create table WaDE.AllocationAmounts_VariableTable (
 	organizationuuid nvarchar (250) NOT NULL primary key,
 	allocationnativeid nvarchar (250) NOT NULL,
 	allocationowner nvarchar (250) NOT NULL,
@@ -78,13 +78,13 @@ create table AllocationAmounts_VariableTable (
 	sdwisidentifier nvarchar (250) NULL,
 	geometry geometry  NULL
 );
-create table BeneficialUses_dim_Input (
+create table WaDE.BeneficialUses_dim_Input (
 	beneficialusecategory nvarchar (500) NOT NULL primary key,
 	primaryusecategory nvarchar (250) NULL,
 	usgscategorynamecv nvarchar (250) NULL,
 	naicscodenamecv nvarchar (250) NULL
 );
-create table Methods_dim_input (
+create table WaDE.Methods_dim_input (
 	methodname nvarchar (50) NOT NULL primary key,
 	methoddescription text  NOT NULL,
 	methodnemilink nvarchar (100) NULL,
@@ -94,7 +94,7 @@ create table Methods_dim_input (
 	dataqualityvaluecv nvarchar (50) NULL,
 	dataconfidencevalue nvarchar (50) NULL
 );
-create table Organizations_dim_Input (
+create table WaDE.Organizations_dim_Input (
 	organizationuuid nvarchar (250) NOT NULL primary key,
 	organizationname nvarchar (250) NOT NULL,
 	organizationpurview nvarchar (250) NULL,
@@ -103,7 +103,7 @@ create table Organizations_dim_Input (
 	organizationcontactname nvarchar (250) NOT NULL,
 	organizationcontactemail nvarchar (250) NOT NULL
 );
-create table RegulatoryOverlay_dim_input (
+create table WaDE.RegulatoryOverlay_dim_input (
 	regulatoryoverlaynativeid nvarchar (250) NOT NULL primary key,
 	regulatoryname nvarchar (50) NOT NULL,
 	regulatorydescription nvarchar(max)  NOT NULL,
@@ -116,14 +116,14 @@ create table RegulatoryOverlay_dim_input (
 	reportyeartypecv nvarchar (10) NOT NULL,
 	reportyearstartmonth nvarchar (5) NOT NULL
 );
-create table RegulatoryReportingUnits_VariableTable (
+create table WaDE.RegulatoryReportingUnits_VariableTable (
 	regulatoryoverlayuuid varchar (250) NOT NULL primary key,
 	organizationuuid varchar (250) NOT NULL,
 	reportingunitnativeid varchar (250) NOT NULL,
 	datapublicationdate date  NOT NULL,
 	reportyearcv varchar (4) NOT NULL
 );
-create table ReportingUnits_dim_Input (
+create table WaDE.ReportingUnits_dim_Input (
 	reportingunitnativeid nvarchar (250) NOT NULL primary key,
 	reportingunitname nvarchar (250) NOT NULL,
 	reportingunittypecv nvarchar (20) NOT NULL,
@@ -131,9 +131,9 @@ create table ReportingUnits_dim_Input (
 	reportingunitproductversion nvarchar (100) NULL,
 	statecv nvarchar (50) NOT NULL,
 	epsgcodecv nvarchar (50) NULL,
-	geometry polygon  NULL
+	geometry geometry  NULL
 );
-create table Sites_dim_input (
+create table WaDE.Sites_dim_input (
 	sitenativeid nvarchar (50) NOT NULL primary key,
 	sitename nvarchar (500) NOT NULL,
 	sitetypecv varchar (100) NULL,
@@ -144,7 +144,7 @@ create table Sites_dim_input (
 	coordinateaccuracy nvarchar (255) NULL,
 	gniscodecv nvarchar (50) NULL
 );
-create table SiteVariableAmounts_VariableTable (
+create table WaDE.SiteVariableAmounts_VariableTable (
 	organizationuuid varchar (250) NOT NULL primary key,
 	allocationuuid varchar (250) NULL,
 	sitenativeid varchar (250) NOT NULL,
@@ -166,9 +166,9 @@ create table SiteVariableAmounts_VariableTable (
 	sdwisidentifier varchar (250) NULL,
 	interbasintransferfromid varchar (250) NULL,
 	interbasintransfertoid varchar (250) NULL,
-	geometry bytea  NULL
+	geometry geometry  NULL
 );
-create table Variables_dim_input (
+create table WaDE.Variables_dim_input (
 	variablespecificcv nvarchar (250) NOT NULL primary key,
 	variablecv nvarchar (250) NOT NULL,
 	aggregationstatisticcv nvarchar (50) NOT NULL,
@@ -179,7 +179,7 @@ create table Variables_dim_input (
 	amountunitcv nvarchar (250) NOT NULL,
 	maximumamountunitcv nvarchar (255) NULL
 );
-create table WaterSources_dim_input (
+create table WaDE.WaterSources_dim_input (
 	watersourcenativeid nvarchar (250) NOT NULL primary key,
 	watersourcename nvarchar (250) NULL,
 	watersourcetypecv nvarchar (100) NOT NULL,
@@ -191,12 +191,12 @@ create table WaterSources_dim_input (
 /**************************** CREATE WADE2_STAR ****************************/
 /***************************************************************************/
 
-create table AggBridge_BeneficialUses_fact (
+create table WaDE.AggBridge_BeneficialUses_fact (
 	aggbridgeid bigint  NOT NULL primary key,
 	beneficialuseid bigint  NOT NULL,
 	aggregatedamountid bigint  NOT NULL
 );
-create table AggregatedAmounts_fact (
+create table WaDE.AggregatedAmounts_fact (
 	aggregatedamountid bigint  NOT NULL primary key,
 	organizationid bigint  NOT NULL,
 	reportingunitid bigint  NOT NULL,
@@ -215,7 +215,7 @@ create table AggregatedAmounts_fact (
 	interbasintransfertoid nvarchar (100) NULL,
 	interbasintransferfromid nvarchar (100) NULL
 );
-create table AllocationAmounts_fact (
+create table WaDE.AllocationAmounts_fact (
 	allocationamountid bigint  NOT NULL primary key,
 	organizationid bigint  NOT NULL,
 	allocationid bigint  NOT NULL,
@@ -238,12 +238,12 @@ create table AllocationAmounts_fact (
 	sdwisidentifier nvarchar (250) NULL,
 	geometry geometry  NULL
 );
-create table AllocationBridge_BeneficialUses_fact (
+create table WaDE.AllocationBridge_BeneficialUses_fact (
 	allocationbridgeid bigint  NOT NULL primary key,
 	beneficialuseid bigint  NOT NULL,
 	allocationamountid bigint  NOT NULL
 );
-create table Allocations_dim (
+create table WaDE.Allocations_dim (
 	allocationid bigint  NOT NULL primary key,
 	allocationuuid nvarchar (50) NOT NULL,
 	allocationnativeid nvarchar (250) NOT NULL,
@@ -256,7 +256,7 @@ create table Allocations_dim (
 	allocationchangeapplicationindicator nvarchar (100) NULL,
 	legacyallocationids nvarchar (100) NULL
 );
-create table Allocations_dim_Input (
+create table WaDE.Allocations_dim_Input (
 	allocationnativeid nvarchar (250) NOT NULL primary key,
 	allocationowner nvarchar (255) NOT NULL,
 	allocationbasiscv nvarchar (250) NULL,
@@ -267,7 +267,7 @@ create table Allocations_dim_Input (
 	allocationchangeapplicationindicator nvarchar (100) NULL,
 	legacyallocationids nvarchar (100) NULL
 );
-create table BeneficialUses_dim (
+create table WaDE.BeneficialUses_dim (
 	beneficialuseid bigint  NOT NULL primary key,
 	beneficialuseuuid nvarchar (500) NULL,
 	beneficialusecategory nvarchar (500) NOT NULL,
@@ -275,159 +275,159 @@ create table BeneficialUses_dim (
 	usgscategorynamecv nvarchar (250) NULL,
 	naicscodenamecv nvarchar (250) NULL
 );
-create table CVs_AggregationStatistic (
+create table WaDE.CVs_AggregationStatistic (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_CropType (
+create table WaDE.CVs_CropType (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri varchar (250) NULL
 );
-create table CVs_EPSGCode (
+create table WaDE.CVs_EPSGCode (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_GNISFeatureName (
+create table WaDE.CVs_GNISFeatureName (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_IrrigationMethod (
+create table WaDE.CVs_IrrigationMethod (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri varchar (250) NULL
 );
-create table CVs_LegalStatus (
+create table WaDE.CVs_LegalStatus (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_MethodType (
+create table WaDE.CVs_MethodType (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_NAICSCode (
+create table WaDE.CVs_NAICSCode (
 	name nvarchar (250) NOT NULL primary key,
 	term nvarchar (250) NOT NULL,
 	definition nvarchar(max)  NULL,
 	category nvarchar (250) NULL,
 	sourcevocabularyuri	 nvarchar (250) NULL
 );
-create table CVs_NHDNetworkStatus (
+create table WaDE.CVs_NHDNetworkStatus (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_NHDProduct (
+create table WaDE.CVs_NHDProduct (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_RegulatoryStatus (
+create table WaDE.CVs_RegulatoryStatus (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_ReportingUnitType (
+create table WaDE.CVs_ReportingUnitType (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_ReportYearCV (
-	name nvarchar (4) NOT NULL primary key,
+create table WaDE.CVs_ReportYearCV (
+	name nchar (4) NOT NULL primary key,
 	term nvarchar (250) NOT NULL,
 	definition nvarchar(max)  NULL,
 	category nvarchar (250) NULL,
 	sourcevocabularyuri	 nvarchar (250) NULL
 );
-create table CVs_ReportYearType (
+create table WaDE.CVs_ReportYearType (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_Units (
+create table WaDE.CVs_Units (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_USGSCategory (
+create table WaDE.CVs_USGSCategory (
 	name nvarchar (250) NOT NULL primary key,
 	term nvarchar (250) NOT NULL,
 	definition nvarchar(max)  NULL,
 	category nvarchar (250) NULL,
 	sourcevocabularyuri	 nvarchar (250) NULL
 );
-create table CVs_Variable (
+create table WaDE.CVs_Variable (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_VariableSpecific (
+create table WaDE.CVs_VariableSpecific (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri varchar (250) NULL
 );
-create table CVs_WaterAllocationBasis (
+create table WaDE.CVs_WaterAllocationBasis (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_WaterQualityIndicator (
+create table WaDE.CVs_WaterQualityIndicator (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table CVs_WaterSourceType (
+create table WaDE.CVs_WaterSourceType (
 	name varchar (250) NOT NULL primary key,
 	term varchar (250) NOT NULL,
 	definition varchar (5000) NULL,
 	category varchar (250) NULL,
 	sourcevocabularyuri	 varchar (250) NULL
 );
-create table Date_dim (
+create table WaDE.Date_dim (
 	dateid bigint  NOT NULL primary key,
 	date date  NOT NULL,
 	year nchar (4) NULL
 );
-create table Methods_dim (
+create table WaDE.Methods_dim (
 	methodid bigint  NOT NULL primary key,
 	methoduuid nvarchar (100) NOT NULL,
 	methodname nvarchar (50) NOT NULL,
@@ -439,22 +439,15 @@ create table Methods_dim (
 	dataqualityvaluecv nvarchar (50) NULL,
 	dataconfidencevalue nvarchar (50) NULL
 );
-create table NHDMetadata (
-	nhdmetadataid integer  NOT NULL primary key,
+create table WaDE.NHDMetadata (
+	nhdmetadataid bigint  NOT NULL primary key,
 	nhdnetworkstatuscv varchar (50) NOT NULL,
 	nhdproductcv varchar (50) NULL,
 	nhdupdatedate date  NULL,
 	nhdreachcode varchar (50) NULL,
 	nhdmeasurenumber varchar (50) NULL
 );
-create table NHDStatus (
-	name varchar (250) NOT NULL primary key,
-	term varchar (250) NULL,
-	definition varchar (5000) NULL,
-	category varchar (250) NULL,
-	sourcevocabularyuri varchar (250) NULL
-);
-create table Organizations_dim (
+create table WaDE.Organizations_dim (
 	organizationid bigint  NOT NULL primary key,
 	organizationuuid nvarchar (250) NOT NULL,
 	organizationname nvarchar (250) NOT NULL,
@@ -464,7 +457,7 @@ create table Organizations_dim (
 	organizationcontactname nvarchar (250) NOT NULL,
 	organizationcontactemail nvarchar (250) NOT NULL
 );
-create table RegulatoryOverlay_dim (
+create table WaDE.RegulatoryOverlay_dim (
 	regulatoryoverlayid bigint  NOT NULL primary key,
 	regulatoryoverlayuuid nvarchar (250) NULL,
 	regulatoryoverlaynativeid nvarchar (250) NULL,
@@ -479,15 +472,15 @@ create table RegulatoryOverlay_dim (
 	reportyeartypecv nvarchar (10) NOT NULL,
 	reportyearstartmonth nvarchar (5) NOT NULL
 );
-create table RegulatoryReportingUnits_fact (
+create table WaDE.RegulatoryReportingUnits_fact (
 	bridgeid bigint  NOT NULL primary key,
 	regulatoryoverlayid bigint  NOT NULL,
 	organizationid bigint  NOT NULL,
 	reportingunitid bigint  NOT NULL,
 	datapublicationdateid bigint  NOT NULL,
-	reportyearcv varchar (4) NOT NULL
+	reportyearcv nchar (4) NOT NULL
 );
-create table ReportingUnits_dim (
+create table WaDE.ReportingUnits_dim (
 	reportingunitid bigint  NOT NULL primary key,
 	reportingunituuid nvarchar (250) NOT NULL,
 	reportingunitnativeid nvarchar (250) NOT NULL,
@@ -497,9 +490,9 @@ create table ReportingUnits_dim (
 	reportingunitproductversion nvarchar (100) NULL,
 	statecv nvarchar (50) NOT NULL,
 	epsgcodecv nvarchar (50) NULL,
-	geometry polygon  NULL
+	geometry geometry  NULL
 );
-create table Sites_dim (
+create table WaDE.Sites_dim (
 	siteid bigint  NOT NULL primary key,
 	siteuuid nvarchar (55) NOT NULL,
 	sitenativeid nvarchar (50) NULL,
@@ -514,12 +507,12 @@ create table Sites_dim (
 	gniscodecv nvarchar (50) NULL,
 	nhdmetadataid bigint  NULL
 );
-create table SitesBridge_BeneficialUses_fact (
+create table WaDE.SitesBridge_BeneficialUses_fact (
 	sitebridgeid bigint  NOT NULL primary key,
 	beneficialuseid bigint  NOT NULL,
 	sitevariableamountid bigint  NOT NULL
 );
-create table SiteVariableAmounts_fact (
+create table WaDE.SiteVariableAmounts_fact (
 	sitevariableamountid bigint  NOT NULL primary key,
 	organizationid bigint  NOT NULL,
 	allocationid bigint  NULL,
@@ -542,7 +535,7 @@ create table SiteVariableAmounts_fact (
 	interbasintransfertoid nvarchar (100) NULL,
 	geometry geometry  NULL
 );
-create table Variables_dim (
+create table WaDE.Variables_dim (
 	variablespecificid bigint  NOT NULL primary key,
 	variablespecificuuid nvarchar (250) NULL,
 	variablespecificcv nvarchar (250) NOT NULL,
@@ -555,7 +548,7 @@ create table Variables_dim (
 	amountunitcv nvarchar (250) NOT NULL,
 	maximumamountunitcv nvarchar (255) NULL
 );
-create table WaterSources_dim (
+create table WaDE.WaterSources_dim (
 	watersourceid bigint  NOT NULL primary key,
 	watersourceuuid nvarchar (100) NOT NULL,
 	watersourcenativeid nvarchar (250) NULL,
@@ -566,202 +559,202 @@ create table WaterSources_dim (
 	geometry geometry  NULL
 );
 
-alter table AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact
-foreign key (AggregatedAmountID) References AggregatedAmounts_fact (AggregatedAmountID)
+alter table WaDE.AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact
+foreign key (AggregatedAmountID) References WaDE.AggregatedAmounts_fact (AggregatedAmountID)
 on update no Action on delete cascade;
 
-alter table AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim
-foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.AggBridge_BeneficialUses_fact add constraint fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end
-foreign key (TimeframeEndID) References Date_dim (DateID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end
+foreign key (TimeframeEndID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end_pub
-foreign key (DataPublicationDate) References Date_dim (DateID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_end_pub
+foreign key (DataPublicationDate) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_start
-foreign key (TimeframeStartID) References Date_dim (DateID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_Date_dim_start
+foreign key (TimeframeStartID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_CVs_ReportYearCV
-foreign key (ReportYear) References CVs_ReportYearCV (Name)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References WaDE.CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Methods_dim
-foreign key (MethodID) References Methods_dim (MethodID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Methods_dim
+foreign key (MethodID) References WaDE.Methods_dim (MethodID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Organizations_dim
-foreign key (OrganizationID) References Organizations_dim (OrganizationID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Organizations_dim
+foreign key (OrganizationID) References WaDE.Organizations_dim (OrganizationID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_ReportingUnits_dim
-foreign key (ReportingUnitID) References ReportingUnits_dim (ReportingUnitID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_ReportingUnits_dim
+foreign key (ReportingUnitID) References WaDE.ReportingUnits_dim (ReportingUnitID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Variables_dim
-foreign key (VariableSpecificID) References Variables_dim (VariableSpecificID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_Variables_dim
+foreign key (VariableSpecificID) References WaDE.Variables_dim (VariableSpecificID)
 on update no Action on delete cascade;
 
-alter table AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_WaterSources_dim
-foreign key (WaterSourceID) References WaterSources_dim (WaterSourceID)
+alter table WaDE.AggregatedAmounts_fact add constraint fk_AggregatedAmounts_fact_WaterSources_dim
+foreign key (WaterSourceID) References WaDE.WaterSources_dim (WaterSourceID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Allocations_dim
-foreign key (AllocationID) References Allocations_dim (AllocationID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Allocations_dim
+foreign key (AllocationID) References WaDE.Allocations_dim (AllocationID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUsesID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_BeneficialUses_dim
+foreign key (BeneficialUsesID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_CVs_ReportYearCV
-foreign key (ReportYear) References CVs_ReportYearCV (Name)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References WaDE.CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_end
-foreign key (TimeframeEndDateID) References Date_dim (DateID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_end
+foreign key (TimeframeEndDateID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_start
-foreign key (TimeframeStartDateID) References Date_dim (DateID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_dim_start
+foreign key (TimeframeStartDateID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_pub
-foreign key (DataPublicationDateID) References Date_dim (DateID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Date_pub
+foreign key (DataPublicationDateID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Methods_dim
-foreign key (MethodID) References Methods_dim (MethodID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Methods_dim
+foreign key (MethodID) References WaDE.Methods_dim (MethodID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Organizations_dim
-foreign key (OrganizationID) References Organizations_dim (OrganizationID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Organizations_dim
+foreign key (OrganizationID) References WaDE.Organizations_dim (OrganizationID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Sites_dim
-foreign key (SiteID) References Sites_dim (SiteID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Sites_dim
+foreign key (SiteID) References WaDE.Sites_dim (SiteID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Variables_dim
-foreign key (VariableSpecificID) References Variables_dim (VariableSpecificID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_Variables_dim
+foreign key (VariableSpecificID) References WaDE.Variables_dim (VariableSpecificID)
 on update no Action on delete cascade;
 
-alter table AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_WaterSources_dim
-foreign key (WaterSourceID) References WaterSources_dim (WaterSourceID)
+alter table WaDE.AllocationAmounts_fact add constraint fk_AllocationAmounts_fact_WaterSources_dim
+foreign key (WaterSourceID) References WaDE.WaterSources_dim (WaterSourceID)
 on update no Action on delete cascade;
 
-alter table AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact
-foreign key (AllocationAmountID) References AllocationAmounts_fact (AllocationAmountID)
+alter table WaDE.AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact
+foreign key (AllocationAmountID) References WaDE.AllocationAmounts_fact (AllocationAmountID)
 on update no Action on delete cascade;
 
-alter table AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim
-foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.AllocationBridge_BeneficialUses_fact add constraint fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table Allocations_dim add constraint fk_Allocations_dim_Date_dim_app
-foreign key (AllocationApplicationDate) References Date_dim (DateID)
+alter table WaDE.Allocations_dim add constraint fk_Allocations_dim_Date_dim_app
+foreign key (AllocationApplicationDate) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table Allocations_dim add constraint fk_Allocations_dim_Date_dim_exp
-foreign key (AllocationExpirationDate) References Date_dim (DateID)
+alter table WaDE.Allocations_dim add constraint fk_Allocations_dim_Date_dim_exp
+foreign key (AllocationExpirationDate) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table Allocations_dim add constraint fk_Allocations_dim_Date_dim_prio
-foreign key (AllocationPriorityDate) References Date_dim (DateID)
+alter table WaDE.Allocations_dim add constraint fk_Allocations_dim_Date_dim_prio
+foreign key (AllocationPriorityDate) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_NAICSCode
-foreign key (NAICSCodeNameCV) References CVs_NAICSCode (Name)
+alter table WaDE.BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_NAICSCode
+foreign key (NAICSCodeNameCV) References WaDE.CVs_NAICSCode (Name)
 on update no Action on delete cascade;
 
-alter table BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_USGSCategory
-foreign key (USGSCategoryNameCV) References CVs_USGSCategory (Name)
+alter table WaDE.BeneficialUses_dim add constraint fk_BeneficialUses_dim_CVs_USGSCategory
+foreign key (USGSCategoryNameCV) References WaDE.CVs_USGSCategory (Name)
 on update no Action on delete cascade;
 
-alter table RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_end
-foreign key (TimeframeEndID) References Date_dim (DateID)
+alter table WaDE.RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_end
+foreign key (TimeframeEndID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_start
-foreign key (TimeframeStartID) References Date_dim (DateID)
+alter table WaDE.RegulatoryOverlay_dim add constraint fk_RegulatoryOverlay_dim_Date_dim_start
+foreign key (TimeframeStartID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Date_dim
-foreign key (DataPublicationDateID) References Date_dim (DateID)
+alter table WaDE.RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Date_dim
+foreign key (DataPublicationDateID) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Organizations_dim
-foreign key (OrganizationID) References Organizations_dim (OrganizationID)
+alter table WaDE.RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_Organizations_dim
+foreign key (OrganizationID) References WaDE.Organizations_dim (OrganizationID)
 on update no Action on delete cascade;
 
-alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim
-foreign key (RegulatoryOverlayID) References RegulatoryOverlay_dim (RegulatoryOverlayID)
+alter table WaDE.RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim
+foreign key (RegulatoryOverlayID) References WaDE.RegulatoryOverlay_dim (RegulatoryOverlayID)
 on update no Action on delete cascade;
 
-alter table RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_ReportingUnits_dim
-foreign key (ReportingUnitID) References ReportingUnits_dim (ReportingUnitID)
+alter table WaDE.RegulatoryReportingUnits_fact add constraint fk_RegulatoryReportingUnits_fact_ReportingUnits_dim
+foreign key (ReportingUnitID) References WaDE.ReportingUnits_dim (ReportingUnitID)
 on update no Action on delete cascade;
 
-alter table Sites_dim add constraint fk_Sites_NHDMetadata
-foreign key (NHDMetadataID) References NHDMetadata (NHDMetadataID)
+alter table WaDE.Sites_dim add constraint fk_Sites_NHDMetadata
+foreign key (NHDMetadataID) References WaDE.NHDMetadata (NHDMetadataID)
 on update no Action on delete cascade;
 
-alter table SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim
-foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact
-foreign key (SiteVariableAmountID) References SiteVariableAmounts_fact (SiteVariableAmountID)
+alter table WaDE.SitesBridge_BeneficialUses_fact add constraint fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact
+foreign key (SiteVariableAmountID) References WaDE.SiteVariableAmounts_fact (SiteVariableAmountID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_end
-foreign key (TimeframeEnd) References Date_dim (DateID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_end
+foreign key (TimeframeEnd) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_pub
-foreign key (DataPublicationDate) References Date_dim (DateID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_pub
+foreign key (DataPublicationDate) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_start
-foreign key (TimeframeStart) References Date_dim (DateID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_Date_dim_start
+foreign key (TimeframeStart) References WaDE.Date_dim (DateID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Allocations_dim
-foreign key (AllocationID) References Allocations_dim (AllocationID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Allocations_dim
+foreign key (AllocationID) References WaDE.Allocations_dim (AllocationID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_BeneficialUses_dim
-foreign key (BeneficialUseID) References BeneficialUses_dim (BeneficialUseID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_BeneficialUses_dim
+foreign key (BeneficialUseID) References WaDE.BeneficialUses_dim (BeneficialUseID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_CVs_ReportYearCV
-foreign key (ReportYear) References CVs_ReportYearCV (Name)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_CVs_ReportYearCV
+foreign key (ReportYear) References WaDE.CVs_ReportYearCV (Name)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Methods_dim
-foreign key (MethodID) References Methods_dim (MethodID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Methods_dim
+foreign key (MethodID) References WaDE.Methods_dim (MethodID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Organizations_dim
-foreign key (OrganizationID) References Organizations_dim (OrganizationID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Organizations_dim
+foreign key (OrganizationID) References WaDE.Organizations_dim (OrganizationID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Sites_dim
-foreign key (SiteID) References Sites_dim (SiteID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Sites_dim
+foreign key (SiteID) References WaDE.Sites_dim (SiteID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Variables_dim
-foreign key (VariableSpecificID) References Variables_dim (VariableSpecificID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_Variables_dim
+foreign key (VariableSpecificID) References WaDE.Variables_dim (VariableSpecificID)
 on update no Action on delete cascade;
 
-alter table SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_WaterSources_dim
-foreign key (WaterSourceID) References WaterSources_dim (WaterSourceID)
+alter table WaDE.SiteVariableAmounts_fact add constraint fk_SiteVariableAmounts_fact_WaterSources_dim
+foreign key (WaterSourceID) References WaDE.WaterSources_dim (WaterSourceID)
 on update no Action on delete cascade;

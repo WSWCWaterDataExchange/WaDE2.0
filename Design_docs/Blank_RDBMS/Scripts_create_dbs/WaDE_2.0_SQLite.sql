@@ -129,7 +129,7 @@ CREATE TABLE ReportingUnits_dim_Input (
 	ReportingUnitProductVersion nvarchar (100)  NULL,
 	StateCV nvarchar (50)  NOT NULL,
 	EPSGCodeCV nvarchar (50)  NULL,
-	Geometry polygon   NULL
+	Geometry geometry   NULL
 );
 
 CREATE TABLE Sites_dim_input (
@@ -166,7 +166,7 @@ CREATE TABLE SiteVariableAmounts_VariableTable (
 	SDWISIdentifier VARCHAR (250)  NULL,
 	InterbasinTransferFromID VARCHAR (250)  NULL,
 	InterbasinTransferToID VARCHAR (250)  NULL,
-	Geometry BLOB   NULL
+	Geometry geometry   NULL
 );
 
 CREATE TABLE Variables_dim_input (
@@ -442,7 +442,7 @@ CREATE TABLE CVs_ReportingUnitType (
 );
 
 CREATE TABLE CVs_ReportYearCV (
-	Name nvarchar (4)  NOT NULL PRIMARY KEY,
+	Name nchar (4)  NOT NULL PRIMARY KEY,
 	Term nvarchar (250)  NOT NULL,
 	Definition nvarchar(max)   NULL,
 	Category nvarchar (250)  NULL,
@@ -541,14 +541,6 @@ CREATE TABLE NHDMetadata (
 	NHDMeasureNumber VARCHAR (50)  NULL
 );
 
-CREATE TABLE NHDStatus (
-	Name VARCHAR (250)  NOT NULL PRIMARY KEY,
-	Term VARCHAR (250)  NULL,
-	Definition VARCHAR (5000)  NULL,
-	Category VARCHAR (250)  NULL,
-	SourceVocabularyURI VARCHAR (250)  NULL
-);
-
 CREATE TABLE Organizations_dim (
 	OrganizationID INTEGER   NOT NULL PRIMARY KEY,
 	OrganizationUUID nvarchar (250)  NOT NULL,
@@ -586,7 +578,7 @@ CREATE TABLE RegulatoryReportingUnits_fact (
 	OrganizationID INTEGER   NOT NULL,
 	ReportingUnitID INTEGER   NOT NULL,
 	DataPublicationDateID INTEGER   NOT NULL,
-	ReportYearCV VARCHAR (4)  NOT NULL,
+	ReportYearCV nchar (4)  NOT NULL,
 	FOREIGN KEY (DataPublicationDateID) REFERENCES Date_dim (DateID)
 	ON UPDATE NO ACTION ON DELETE NO ACTION,
 	FOREIGN KEY (OrganizationID) REFERENCES Organizations_dim (OrganizationID)
@@ -607,7 +599,7 @@ CREATE TABLE ReportingUnits_dim (
 	ReportingUnitProductVersion nvarchar (100)  NULL,
 	StateCV nvarchar (50)  NOT NULL,
 	EPSGCodeCV nvarchar (50)  NULL,
-	Geometry polygon   NULL
+	Geometry geometry   NULL
 );
 
 CREATE TABLE Sites_dim (
