@@ -408,7 +408,7 @@
         <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
-        <DT arr="0" ds="Polygon" en="" id="771" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
       <UniqueConstraints/>
@@ -545,7 +545,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
-        <DT arr="0" ds="BLOB" en="" id="2004" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
       <UniqueConstraints/>
@@ -1858,7 +1858,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
-        <DT arr="0" ds="Polygon" en="" id="771" ln="null" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
       <UniqueConstraints/>
@@ -2731,14 +2731,14 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="50" y="104"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="612" y="103"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="33" y="650"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="34" y="648"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="741" y="655"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1135" y="599"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="37" y="853"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="BeneficialUses_dim_Input" x="381" y="704"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="RegulatoryOverlay_dim_input" x="1157" y="765"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="WaterSources_dim_input" x="573" y="509"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="NHDMetadata" x="67" y="1047"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="NHDMetadata" x="52" y="1052"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="ReportingUnits_dim_Input" x="471" y="847"/>
     <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Allocations_dim_Input" x="455" y="1027"/>
     <Notes>
@@ -4506,11 +4506,11 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
   </OpenEditors>
   <TreePaths>
