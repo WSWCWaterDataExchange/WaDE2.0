@@ -791,7 +791,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to variable specific</Cm>
       </Cl>
-      <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
+      <Cl au="0" df="" nm="PrimaryBeneficialUseID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to amount metadata</Cm>
       </Cl>
@@ -863,7 +863,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_BeneficialUses_dim" prLkCl="BeneficialUseID" upAc="3">
         <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="WaDE2_star" zr="0"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="WaDE2_star" zr="1"/>
-        <ClPr cdCl="BeneficialUsesID" prCl="BeneficialUseID"/>
+        <ClPr cdCl="PrimaryBeneficialUseID" prCl="BeneficialUseID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_CVs_ReportYearCV" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="CVs_ReportYearCV" oe="1" sch="WaDE2_star" zr="0"/>
@@ -1061,9 +1061,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="PrimaryUseCategory" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="USGSCategoryNameCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -2201,7 +2198,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="852" x2="852" y1="432" y2="609"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="852" x2="852" y1="416" y2="609"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2259,7 +2256,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="684" x2="684" y1="432" y2="477"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="684" x2="684" y1="416" y2="477"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2358,7 +2355,7 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="695" x2="695" y1="231" y2="269"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="695" x2="695" y1="215" y2="269"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2497,7 +2494,7 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="893" x2="893" y1="234" y2="409"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="893" x2="893" y1="218" y2="409"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -4214,6 +4211,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="671" nNm="BeneficialUsesID" oNm="AmountMetadataID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="750" nNm="PrimaryBeneficialUseID" oNm="BeneficialUsesID"/>
       <Rnm id="673" nNm="BeneficialUsesID" oNm="BeneficialUses"/>
       <Rnm id="672" nNm="BeneficialUses" oNm="AmountMetadataID"/>
     </RnmCh>
