@@ -31,51 +31,151 @@ CREATE SCHEMA WaDE;
 GO
 
 /***************************************************************************/
-/*********************** CREATE WADE2.0_SCHEMA_STAR ************************/
+/*************************** CREATE INPUTTABLES ****************************/
 /***************************************************************************/
 
-CREATE TABLE AggBridge_BeneficialUses_fact (
-	AggBridgeID int   NOT NULL,
-	BeneficialUseID int   NOT NULL,
-	AggregatedAmountID int   NOT NULL,
-	PRIMARY KEY (AggBridgeID)
-)
-CREATE TABLE AggregatedAmounts_fact (
-	AggregatedAmountID int   NOT NULL,
-	OrganizationID int   NOT NULL,
-	ReportingUnitID int   NOT NULL,
-	VariableSpecificID int   NOT NULL,
-	BeneficialUseID int   NOT NULL,
-	WaterSourceID int   NOT NULL,
-	MethodID int   NOT NULL,
-	TimeframeStartID int   NULL,
-	TimeframeEndID int   NULL,
-	DataPublicationDate int   NULL,
-	ReportYear varchar (4)  NULL,
-	Amount float   NOT NULL,
+CREATE TABLE AggregatedAmounts_VariableTable (
+	OrganizationUUID varchar (250)  NOT NULL,
+	ReportingUnitNativeID varchar (250)  NOT NULL,
+	VariableSpecificCV varchar (250)  NOT NULL,
+	BeneficialUseCategory varchar (500)  NOT NULL,
+	PrimaryUseCategory varchar (250)  NULL,
+	AllocationUSGSCategoryCV varchar (250)  NULL,
+	WaterSourceNativeID varchar (250)  NOT NULL,
+	MethodName varchar (250)  NOT NULL,
+	TimeframeStartDate date   NOT NULL,
+	TimeframeEndDate date   NOT NULL,
+	DataPublicationDate date   NOT NULL,
+	ReportYear varchar (4)  NOT NULL,
+	Amount float   NULL,
 	PopulationServed float   NULL,
 	PowerGeneratedGWh float   NULL,
 	IrrigatedAcreage float   NULL,
-	InterbasinTransferToID varchar (100)  NULL,
-	InterbasinTransferFromID varchar (100)  NULL,
-	PRIMARY KEY (AggregatedAmountID)
+	InterbasinTransferFromID varchar (250)  NULL,
+	InterbasinTransferToID varchar (250)  NULL,
+	PRIMARY KEY (OrganizationUUID)
 )
-CREATE TABLE AllocationAmounts_fact (
-	AllocationAmountID int   NOT NULL,
-	OrganizationID int   NOT NULL,
-	AllocationID int   NOT NULL,
-	SiteID int   NOT NULL,
-	VariableSpecificID int   NOT NULL,
-	BeneficialUsesID int   NOT NULL,
-	WaterSourceID int   NOT NULL,
-	MethodID int   NOT NULL,
-	TimeframeStartDateID int   NOT NULL,
-	TimeframeEndDateID int   NOT NULL,
-	DataPublicationDateID int   NOT NULL,
-	ReportYear varchar (4)  NOT NULL,
+CREATE TABLE AllocationAmounts_VariableTable (
+	OrganizationUUID nvarchar (250)  NOT NULL,
+	AllocationNativeID nvarchar (250)  NOT NULL,
+	AllocationOwner nvarchar (250)  NOT NULL,
+	AllocationBasisCV varchar (250)  NULL,
+	AllocationLegalStatusCV nvarchar (250)  NOT NULL,
+	AllocationApplicationDate date   NULL,
+	AllocationPriorityDate date   NOT NULL,
+	AllocationExpirationDate date   NULL,
+	AllocationChangeApplicationIndicator nvarchar (250)  NULL,
+	LegacyAllocationIDs nvarchar (250)  NULL,
+	SiteNativeID nvarchar (250)  NOT NULL,
+	VariableSpecificCV nvarchar (250)  NOT NULL,
+	BeneficialUseCategory nvarchar (500)  NOT NULL,
+	PrimaryUseCategory nvarchar (250)  NULL,
+	AllocationUSGSCategoryCV nvarchar (250)  NULL,
+	WaterSourceName nvarchar (250)  NOT NULL,
+	MethodName nvarchar (250)  NOT NULL,
+	TimeframeStartDate date   NOT NULL,
+	TimeframeEndDate date   NOT NULL,
+	DataPublicationDate date   NOT NULL,
+	ReportYear nchar (4)  NOT NULL,
 	AllocationCropDutyAmount float   NULL,
 	AllocationAmount float   NULL,
 	AllocationMaximum float   NULL,
+	PopulationServed float   NULL,
+	PowerGeneratedGWh float   NULL,
+	IrrigatedAcreage float   NULL,
+	AllocationCommunityWaterSupplySystem nvarchar (250)  NULL,
+	SDWISIdentifier nvarchar (250)  NULL,
+	Geometry geometry   NULL,
+	PRIMARY KEY (OrganizationUUID)
+)
+CREATE TABLE BeneficialUses_dim_Input (
+	BeneficialUseCategory nvarchar (500)  NOT NULL,
+	PrimaryUseCategory nvarchar (250)  NULL,
+	USGSCategoryNameCV nvarchar (250)  NULL,
+	NAICSCodeNameCV nvarchar (250)  NULL,
+	PRIMARY KEY (BeneficialUseCategory)
+)
+CREATE TABLE Methods_dim_input (
+	MethodName nvarchar (50)  NOT NULL,
+	MethodDescription text   NOT NULL,
+	MethodNEMILink nvarchar (100)  NULL,
+	ApplicableResourceTypeCV nvarchar (100)  NOT NULL,
+	MethodTypeCV nvarchar (50)  NOT NULL,
+	DataCoverageValue nvarchar (100)  NULL,
+	DataQualityValueCV nvarchar (50)  NULL,
+	DataConfidenceValue nvarchar (50)  NULL,
+	PRIMARY KEY (MethodName)
+)
+CREATE TABLE Organizations_dim_Input (
+	OrganizationUUID nvarchar (250)  NOT NULL,
+	OrganizationName nvarchar (250)  NOT NULL,
+	OrganizationPurview nvarchar (250)  NULL,
+	OrganizationWebsite nvarchar (250)  NOT NULL,
+	OrganizationPhoneNumber nvarchar (250)  NOT NULL,
+	OrganizationContactName nvarchar (250)  NOT NULL,
+	OrganizationContactEmail nvarchar (250)  NOT NULL,
+	PRIMARY KEY (OrganizationUUID)
+)
+CREATE TABLE RegulatoryOverlay_dim_input (
+	RegulatoryOverlayNativeID nvarchar (250)  NULL,
+	RegulatoryName nvarchar (50)  NOT NULL,
+	RegulatoryDescription nvarchar(max)   NOT NULL,
+	RegulatoryStatusCV nvarchar (50)  NOT NULL,
+	OversightAgency nvarchar (250)  NOT NULL,
+	RegulatoryStatute nvarchar (500)  NULL,
+	RegulatoryStatuteLink varchar (500)  NULL,
+	TimeframeStartID bigint   NOT NULL,
+	TimeframeEndID bigint   NOT NULL,
+	ReportYearTypeCV nvarchar (10)  NOT NULL,
+	ReportYearStartMonth nvarchar (5)  NOT NULL,
+	PRIMARY KEY (RegulatoryOverlayNativeID)
+)
+CREATE TABLE RegulatoryReportingUnits_VariableTable (
+	RegulatoryOverlayUUID varchar (250)  NOT NULL,
+	OrganizationUUID varchar (250)  NOT NULL,
+	ReportingUnitNativeID varchar (250)  NOT NULL,
+	DataPublicationDate date   NOT NULL,
+	ReportYearCV varchar (4)  NOT NULL,
+	PRIMARY KEY (RegulatoryOverlayUUID)
+)
+CREATE TABLE ReportingUnits_dim_Input (
+	ReportingUnitNativeID nvarchar (250)  NOT NULL,
+	ReportingUnitName nvarchar (250)  NOT NULL,
+	ReportingUnitTypeCV nvarchar (20)  NOT NULL,
+	ReportingUnitUpdateDate date   NULL,
+	ReportingUnitProductVersion nvarchar (100)  NULL,
+	StateCV nvarchar (50)  NOT NULL,
+	EPSGCodeCV nvarchar (50)  NULL,
+	Geometry polygon   NULL,
+	PRIMARY KEY (ReportingUnitNativeID)
+)
+CREATE TABLE Sites_dim_input (
+	SiteNativeID nvarchar (50)  NULL,
+	SiteName nvarchar (500)  NOT NULL,
+	SiteTypeCV varchar (100)  NULL,
+	Longitude nvarchar (50)  NOT NULL,
+	Latitude nvarchar (50)  NOT NULL,
+	Geometry geometry   NULL,
+	CoordinateMethodCV nvarchar (100)  NOT NULL,
+	CoordinateAccuracy nvarchar (255)  NULL,
+	GNISCodeCV nvarchar (50)  NULL,
+	PRIMARY KEY (SiteNativeID)
+)
+CREATE TABLE SiteVariableAmounts_VariableTable (
+	OrganizationUUID varchar (250)  NOT NULL,
+	AllocationUUID varchar (250)  NULL,
+	SiteNativeID varchar (250)  NOT NULL,
+	VariableSpecificCV varchar (250)  NOT NULL,
+	BeneficialUseCategory varchar (500)  NOT NULL,
+	PrimaryUseCategory varchar (250)  NULL,
+	AllocationUSGSCategoryCV varchar (250)  NULL,
+	WaterSourceNativeID varchar (250)  NOT NULL,
+	MethodName varchar (250)  NOT NULL,
+	TimeframeStartDate date   NOT NULL,
+	TimeframeEndDate date   NOT NULL,
+	DataPublicationDate date   NOT NULL,
+	ReportYear varchar (4)  NOT NULL,
+	Amount float   NULL,
 	PopulationServed float   NULL,
 	PowerGeneratedGWh float   NULL,
 	IrrigatedAcreage float   NULL,
@@ -84,34 +184,122 @@ CREATE TABLE AllocationAmounts_fact (
 	InterbasinTransferFromID varchar (250)  NULL,
 	InterbasinTransferToID varchar (250)  NULL,
 	Geometry binary   NULL,
+	PRIMARY KEY (OrganizationUUID)
+)
+CREATE TABLE Variables_dim_input (
+	VariableSpecificCV nvarchar (250)  NOT NULL,
+	VariableCV nvarchar (250)  NOT NULL,
+	AggregationStatisticCV nvarchar (50)  NOT NULL,
+	AggregationInterval  numeric (10)  NOT NULL,
+	AggregationIntervalUnitCV  nvarchar (50)  NOT NULL,
+	ReportYearStartMonth  nvarchar (10)  NOT NULL,
+	ReportYearTypeCV  nvarchar (10)  NOT NULL,
+	AmountUnitCV nvarchar (250)  NOT NULL,
+	MaximumAmountUnitCV nvarchar (255)  NULL,
+	PRIMARY KEY (VariableSpecificCV)
+)
+CREATE TABLE WaterSources_dim_input (
+	WaterSourceNativeID nvarchar (250)  NULL,
+	WaterSourceName nvarchar (250)  NULL,
+	WaterSourceTypeCV nvarchar (100)  NOT NULL,
+	WaterQualityIndicatorCV nvarchar (100)  NOT NULL,
+	GNISFeatureNameCV nvarchar (250)  NULL,
+	Geometry geometry   NULL,
+	PRIMARY KEY (WaterSourceNativeID)
+)
+/***************************************************************************/
+/**************************** CREATE WADE2_STAR ****************************/
+/***************************************************************************/
+
+CREATE TABLE AggBridge_BeneficialUses_fact (
+	AggBridgeID bigint   NOT NULL,
+	BeneficialUseID bigint   NOT NULL,
+	AggregatedAmountID bigint   NOT NULL,
+	PRIMARY KEY (AggBridgeID)
+)
+CREATE TABLE AggregatedAmounts_fact (
+	AggregatedAmountID bigint   NOT NULL,
+	OrganizationID bigint   NOT NULL,
+	ReportingUnitID bigint   NOT NULL,
+	VariableSpecificID bigint   NOT NULL,
+	BeneficialUseID bigint   NOT NULL,
+	WaterSourceID bigint   NOT NULL,
+	MethodID bigint   NOT NULL,
+	TimeframeStartID bigint   NULL,
+	TimeframeEndID bigint   NULL,
+	DataPublicationDate bigint   NULL,
+	ReportYear nchar (4)  NULL,
+	Amount float   NOT NULL,
+	PopulationServed float   NULL,
+	PowerGeneratedGWh float   NULL,
+	IrrigatedAcreage float   NULL,
+	InterbasinTransferToID nvarchar (100)  NULL,
+	InterbasinTransferFromID nvarchar (100)  NULL,
+	PRIMARY KEY (AggregatedAmountID)
+)
+CREATE TABLE AllocationAmounts_fact (
+	AllocationAmountID bigint   NOT NULL,
+	OrganizationID bigint   NOT NULL,
+	AllocationID bigint   NOT NULL,
+	SiteID bigint   NOT NULL,
+	VariableSpecificID bigint   NOT NULL,
+	BeneficialUsesID bigint   NOT NULL,
+	WaterSourceID bigint   NOT NULL,
+	MethodID bigint   NOT NULL,
+	TimeframeStartDateID bigint   NOT NULL,
+	TimeframeEndDateID bigint   NOT NULL,
+	DataPublicationDateID bigint   NOT NULL,
+	ReportYear nchar (4)  NOT NULL,
+	AllocationCropDutyAmount float   NULL,
+	AllocationAmount float   NULL,
+	AllocationMaximum float   NULL,
+	PopulationServed float   NULL,
+	PowerGeneratedGWh float   NULL,
+	IrrigatedAcreage float   NULL,
+	AllocationCommunityWaterSupplySystem nvarchar (250)  NULL,
+	SDWISIdentifier nvarchar (250)  NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (AllocationAmountID)
 )
 CREATE TABLE AllocationBridge_BeneficialUses_fact (
-	AllocationBridgeID int   NOT NULL,
-	BeneficialUseID int   NOT NULL,
-	AllocationAmountID int   NOT NULL,
+	AllocationBridgeID bigint   NOT NULL,
+	BeneficialUseID bigint   NOT NULL,
+	AllocationAmountID bigint   NOT NULL,
 	PRIMARY KEY (AllocationBridgeID)
 )
 CREATE TABLE Allocations_dim (
-	AllocationID int   NOT NULL,
-	AllocationUUID varchar (50)  NOT NULL,
-	AllocationNativeID varchar (250)  NOT NULL,
-	AllocationOwner varchar (255)  NOT NULL,
-	AllocationBasisCV varchar (250)  NULL,
-	AllocationLegalStatusCV varchar (50)  NOT NULL,
-	AllocationApplicationDate int   NULL,
-	AllocationPriorityDate int   NOT NULL,
-	AllocationExpirationDate int   NULL,
-	AllocationChangeApplicationIndicator varchar (100)  NULL,
-	LegacyAllocationIDs varchar (100)  NULL,
+	AllocationID bigint   NOT NULL,
+	AllocationUUID nvarchar (50)  NOT NULL,
+	AllocationNativeID nvarchar (250)  NOT NULL,
+	AllocationOwner nvarchar (255)  NOT NULL,
+	AllocationBasisCV nvarchar (250)  NULL,
+	AllocationLegalStatusCV nvarchar (50)  NOT NULL,
+	AllocationApplicationDate bigint   NULL,
+	AllocationPriorityDate bigint   NOT NULL,
+	AllocationExpirationDate bigint   NULL,
+	AllocationChangeApplicationIndicator nvarchar (100)  NULL,
+	LegacyAllocationIDs nvarchar (100)  NULL,
 	PRIMARY KEY (AllocationID)
 )
+CREATE TABLE Allocations_dim_Input (
+	AllocationNativeID nvarchar (250)  NOT NULL,
+	AllocationOwner nvarchar (255)  NOT NULL,
+	AllocationBasisCV nvarchar (250)  NULL,
+	AllocationLegalStatusCV nvarchar (50)  NOT NULL,
+	AllocationApplicationDate bigint   NULL,
+	AllocationPriorityDate bigint   NOT NULL,
+	AllocationExpirationDate bigint   NULL,
+	AllocationChangeApplicationIndicator nvarchar (100)  NULL,
+	LegacyAllocationIDs nvarchar (100)  NULL,
+	PRIMARY KEY (AllocationNativeID)
+)
 CREATE TABLE BeneficialUses_dim (
-	BeneficialUseID int   NOT NULL,
-	BeneficialUseCategory varchar (500)  NOT NULL,
-	PrimaryUseCategory varchar (250)  NULL,
-	USGSCategoryNameCV varchar (250)  NULL,
-	NAICSCodeNameCV varchar (250)  NULL,
+	BeneficialUseID bigint   NOT NULL,
+	BeneficialUseUUID nvarchar (500)  NULL,
+	BeneficialUseCategory nvarchar (500)  NOT NULL,
+	PrimaryUseCategory nvarchar (250)  NULL,
+	USGSCategoryNameCV nvarchar (250)  NULL,
+	NAICSCodeNameCV nvarchar (250)  NULL,
 	PRIMARY KEY (BeneficialUseID)
 )
 CREATE TABLE CVs_AggregationStatistic (
@@ -171,11 +359,11 @@ CREATE TABLE CVs_MethodType (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_NAICSCode (
-	Name varchar (250)  NOT NULL,
-	Term varchar (250)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (250)  NULL,
-	SourceVocabularyURI	 varchar (250)  NULL,
+	Name nvarchar (250)  NOT NULL,
+	Term nvarchar (250)  NOT NULL,
+	Definition nvarchar(max)   NULL,
+	Category nvarchar (250)  NULL,
+	SourceVocabularyURI	 nvarchar (250)  NULL,
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_NHDNetworkStatus (
@@ -211,11 +399,11 @@ CREATE TABLE CVs_ReportingUnitType (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_ReportYearCV (
-	Name varchar (4)  NOT NULL,
-	Term varchar (250)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (250)  NULL,
-	SourceVocabularyURI	 varchar (250)  NULL,
+	Name nvarchar (4)  NOT NULL,
+	Term nvarchar (250)  NOT NULL,
+	Definition nvarchar(max)   NULL,
+	Category nvarchar (250)  NULL,
+	SourceVocabularyURI	 nvarchar (250)  NULL,
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_ReportYearType (
@@ -235,11 +423,11 @@ CREATE TABLE CVs_Units (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_USGSCategory (
-	Name varchar (250)  NOT NULL,
-	Term varchar (250)  NOT NULL,
-	Definition varchar (5000)  NULL,
-	Category varchar (250)  NULL,
-	SourceVocabularyURI	 varchar (250)  NULL,
+	Name nvarchar (250)  NOT NULL,
+	Term nvarchar (250)  NOT NULL,
+	Definition nvarchar(max)   NULL,
+	Category nvarchar (250)  NULL,
+	SourceVocabularyURI	 nvarchar (250)  NULL,
 	PRIMARY KEY (Name)
 )
 CREATE TABLE CVs_Variable (
@@ -283,22 +471,22 @@ CREATE TABLE CVs_WaterSourceType (
 	PRIMARY KEY (Name)
 )
 CREATE TABLE Date_dim (
-	DateID int   NOT NULL,
+	DateID bigint   NOT NULL,
 	Date date   NOT NULL,
-	Year varchar (4)  NULL,
+	Year nchar (4)  NULL,
 	PRIMARY KEY (DateID)
 )
 CREATE TABLE Methods_dim (
-	MethodID int   NOT NULL,
-	MethodUUID varchar (100)  NOT NULL,
-	MethodName varchar (50)  NOT NULL,
+	MethodID bigint   NOT NULL,
+	MethodUUID nvarchar (100)  NOT NULL,
+	MethodName nvarchar (50)  NOT NULL,
 	MethodDescription text   NOT NULL,
-	MethodNEMILink varchar (100)  NULL,
-	ApplicableResourceTypeCV varchar (100)  NOT NULL,
-	MethodTypeCV varchar (50)  NOT NULL,
-	DataCoverageValue varchar (100)  NULL,
-	DataQualityValueCV varchar (50)  NULL,
-	DataConfidenceValue varchar (50)  NULL,
+	MethodNEMILink nvarchar (100)  NULL,
+	ApplicableResourceTypeCV nvarchar (100)  NOT NULL,
+	MethodTypeCV nvarchar (50)  NOT NULL,
+	DataCoverageValue nvarchar (100)  NULL,
+	DataQualityValueCV nvarchar (50)  NULL,
+	DataConfidenceValue nvarchar (50)  NULL,
 	PRIMARY KEY (MethodID)
 )
 CREATE TABLE NHDMetadata (
@@ -310,132 +498,132 @@ CREATE TABLE NHDMetadata (
 	NHDMeasureNumber varchar (50)  NULL,
 	PRIMARY KEY (NHDMetadataID)
 )
+CREATE TABLE NHDStatus (
+	Name varchar (250)  NOT NULL,
+	Term varchar (250)  NULL,
+	Definition varchar (5000)  NULL,
+	Category varchar (250)  NULL,
+	SourceVocabularyURI varchar (250)  NULL,
+	PRIMARY KEY (Name)
+)
 CREATE TABLE Organizations_dim (
-	OrganizationID int   NOT NULL,
-	OrganizationUUID varchar (250)  NOT NULL,
-	OrganizationName varchar (250)  NOT NULL,
-	OrganizationPurview varchar (250)  NULL,
-	OrganizationWebsite varchar (250)  NOT NULL,
-	OrganizationPhoneNumber varchar (250)  NOT NULL,
-	OrganizationContactName varchar (250)  NOT NULL,
-	OrganizationContactEmail varchar (250)  NOT NULL,
+	OrganizationID bigint   NOT NULL,
+	OrganizationUUID nvarchar (250)  NOT NULL,
+	OrganizationName nvarchar (250)  NOT NULL,
+	OrganizationPurview nvarchar (250)  NULL,
+	OrganizationWebsite nvarchar (250)  NOT NULL,
+	OrganizationPhoneNumber nvarchar (250)  NOT NULL,
+	OrganizationContactName nvarchar (250)  NOT NULL,
+	OrganizationContactEmail nvarchar (250)  NOT NULL,
 	PRIMARY KEY (OrganizationID)
 )
 CREATE TABLE RegulatoryOverlay_dim (
-	RegulatoryOverlayID int   NOT NULL,
-	RegulatoryOverlayUUID varchar (250)  NULL,
-	RegulatoryOverlayNativeID varchar (250)  NULL,
-	RegulatoryName varchar (50)  NOT NULL,
-	RegulatoryDescription text   NOT NULL,
-	RegulatoryStatusCV varchar (50)  NOT NULL,
-	OversightAgency varchar (250)  NOT NULL,
-	RegulatoryStatute varchar (500)  NULL,
+	RegulatoryOverlayID bigint   NOT NULL,
+	RegulatoryOverlayUUID nvarchar (250)  NULL,
+	RegulatoryOverlayNativeID nvarchar (250)  NULL,
+	RegulatoryName nvarchar (50)  NOT NULL,
+	RegulatoryDescription nvarchar(max)   NOT NULL,
+	RegulatoryStatusCV nvarchar (50)  NOT NULL,
+	OversightAgency nvarchar (250)  NOT NULL,
+	RegulatoryStatute nvarchar (500)  NULL,
 	RegulatoryStatuteLink varchar (500)  NULL,
-	TimeframeStartID int   NOT NULL,
-	TimeframeEndID int   NOT NULL,
-	ReportYearTypeCV varchar (10)  NOT NULL,
-	ReportYearStartMonth varchar (5)  NOT NULL,
+	TimeframeStartID bigint   NOT NULL,
+	TimeframeEndID bigint   NOT NULL,
+	ReportYearTypeCV nvarchar (10)  NOT NULL,
+	ReportYearStartMonth nvarchar (5)  NOT NULL,
 	PRIMARY KEY (RegulatoryOverlayID)
 )
 CREATE TABLE RegulatoryReportingUnits_fact (
-	BridgeID int   NOT NULL,
-	RegulatoryOverlayID int   NOT NULL,
-	OrganizationID int   NOT NULL,
-	ReportingUnitID int   NOT NULL,
-	DataPublicationDateID int   NOT NULL,
+	BridgeID bigint   NOT NULL,
+	RegulatoryOverlayID bigint   NOT NULL,
+	OrganizationID bigint   NOT NULL,
+	ReportingUnitID bigint   NOT NULL,
+	DataPublicationDateID bigint   NOT NULL,
 	ReportYearCV varchar (4)  NOT NULL,
 	PRIMARY KEY (BridgeID)
 )
 CREATE TABLE ReportingUnits_dim (
-	ReportingUnitID int   NOT NULL,
-	ReportingUnitUUID varchar (250)  NOT NULL,
-	ReportingUnitNativeID varchar (250)  NOT NULL,
-	ReportingUnitName varchar (250)  NOT NULL,
-	ReportingUnitTypeCV varchar (20)  NOT NULL,
+	ReportingUnitID bigint   NOT NULL,
+	ReportingUnitUUID nvarchar (250)  NOT NULL,
+	ReportingUnitNativeID nvarchar (250)  NOT NULL,
+	ReportingUnitName nvarchar (250)  NOT NULL,
+	ReportingUnitTypeCV nvarchar (20)  NOT NULL,
 	ReportingUnitUpdateDate date   NULL,
-	ReportingUnitProductVersion varchar (100)  NULL,
-	StateCV varchar (50)  NOT NULL,
-	EPSGCodeCV varchar (50)  NULL,
-	Geometry binary   NULL,
+	ReportingUnitProductVersion nvarchar (100)  NULL,
+	StateCV nvarchar (50)  NOT NULL,
+	EPSGCodeCV nvarchar (50)  NULL,
+	Geometry polygon   NULL,
 	PRIMARY KEY (ReportingUnitID)
 )
-CREATE TABLE ReportYear_Dim (
-	ReportYearId int   NOT NULL,
-	ReportYearCV varchar (4)  NOT NULL,
-	PRIMARY KEY (ReportYearId)
-)
 CREATE TABLE Sites_dim (
-	SiteID int   NOT NULL,
-	SiteUUID varchar (55)  NOT NULL,
-	SiteNativeID varchar (50)  NULL,
-	SiteName varchar (500)  NOT NULL,
+	SiteID bigint   NOT NULL,
+	SiteUUID nvarchar (55)  NOT NULL,
+	SiteNativeID nvarchar (50)  NULL,
+	SiteName nvarchar (500)  NOT NULL,
 	SiteTypeCV varchar (100)  NULL,
-	Longitude varchar (50)  NOT NULL,
-	Latitude varchar (50)  NOT NULL,
-	Geometry binary   NULL,
-	CoordinateMethodCV varchar (100)  NOT NULL,
-	CoordinateAccuracy varchar (255)  NULL,
-	GNISCodeCV varchar (50)  NULL,
-	NHDMetadataID int   NULL,
+	Longitude nvarchar (50)  NOT NULL,
+	Latitude nvarchar (50)  NOT NULL,
+	SitePoint geometry   NULL,
+	Geometry geometry   NULL,
+	CoordinateMethodCV nvarchar (100)  NOT NULL,
+	CoordinateAccuracy nvarchar (255)  NULL,
+	GNISCodeCV nvarchar (50)  NULL,
+	NHDMetadataID bigint   NULL,
 	PRIMARY KEY (SiteID)
 )
 CREATE TABLE SitesBridge_BeneficialUses_fact (
-	SiteBridgeID int   NOT NULL,
-	BeneficialUseID int   NOT NULL,
-	SiteVariableAmountID int   NOT NULL,
+	SiteBridgeID bigint   NOT NULL,
+	BeneficialUseID bigint   NOT NULL,
+	SiteVariableAmountID bigint   NOT NULL,
 	PRIMARY KEY (SiteBridgeID)
 )
 CREATE TABLE SiteVariableAmounts_fact (
-	SiteVariableAmountID int   NOT NULL,
-	OrganizationID int   NOT NULL,
-	AllocationID int   NULL,
-	SiteID int   NOT NULL,
-	VariableSpecificID int   NOT NULL,
-	BeneficialUseID int   NOT NULL,
-	WaterSourceID int   NOT NULL,
-	MethodID int   NOT NULL,
-	TimeframeStart int   NOT NULL,
-	TimeframeEnd int   NOT NULL,
-	DataPublicationDate int   NOT NULL,
-	ReportYear varchar (4)  NULL,
+	SiteVariableAmountID bigint   NOT NULL,
+	OrganizationID bigint   NOT NULL,
+	AllocationID bigint   NULL,
+	SiteID bigint   NOT NULL,
+	VariableSpecificID bigint   NOT NULL,
+	BeneficialUseID bigint   NOT NULL,
+	WaterSourceID bigint   NOT NULL,
+	MethodID bigint   NOT NULL,
+	TimeframeStart bigint   NOT NULL,
+	TimeframeEnd bigint   NOT NULL,
+	DataPublicationDate bigint   NOT NULL,
+	ReportYear nchar (4)  NULL,
 	Amount float   NOT NULL,
 	PopulationServed float   NULL,
 	PowerGeneratedGWh float   NULL,
 	IrrigatedAcreage float   NULL,
-	IrrigationMethodCV varchar (100)  NULL,
-	CropTypeCV varchar (100)  NULL,
-	InterbasinTransferFromID varchar (100)  NULL,
-	InterbasinTransferToID varchar (100)  NULL,
-	Geometry binary   NULL,
+	IrrigationMethodCV nvarchar (100)  NULL,
+	CropTypeCV nvarchar (100)  NULL,
+	InterbasinTransferFromID nvarchar (100)  NULL,
+	InterbasinTransferToID nvarchar (100)  NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (SiteVariableAmountID)
 )
-CREATE TABLE USGSCategory_dim (
-	USGSId int   NOT NULL,
-	PRIMARY KEY (USGSId)
-)
 CREATE TABLE Variables_dim (
-	VariableSpecificID int   NOT NULL,
-	VariableSpecificUUID varchar (250)  NULL,
-	VariableSpecificCV varchar (250)  NOT NULL,
-	VariableCV varchar (250)  NOT NULL,
-	AggregationStatisticCV varchar (50)  NOT NULL,
+	VariableSpecificID bigint   NOT NULL,
+	VariableSpecificUUID nvarchar (250)  NULL,
+	VariableSpecificCV nvarchar (250)  NOT NULL,
+	VariableCV nvarchar (250)  NOT NULL,
+	AggregationStatisticCV nvarchar (50)  NOT NULL,
 	AggregationInterval  numeric (10)  NOT NULL,
-	AggregationIntervalUnitCV  varchar (50)  NOT NULL,
-	ReportYearStartMonth  varchar (10)  NOT NULL,
-	ReportYearTypeCV  varchar (10)  NOT NULL,
-	AmountUnitCV varchar (250)  NOT NULL,
-	MaximumAmountUnitCV varchar (255)  NULL,
+	AggregationIntervalUnitCV  nvarchar (50)  NOT NULL,
+	ReportYearStartMonth  nvarchar (10)  NOT NULL,
+	ReportYearTypeCV  nvarchar (10)  NOT NULL,
+	AmountUnitCV nvarchar (250)  NOT NULL,
+	MaximumAmountUnitCV nvarchar (255)  NULL,
 	PRIMARY KEY (VariableSpecificID)
 )
 CREATE TABLE WaterSources_dim (
-	WaterSourceID int   NOT NULL,
-	WaterSourceUUID varchar (100)  NOT NULL,
-	WaterSourceNativeID varchar (250)  NULL,
-	WaterSourceName varchar (250)  NULL,
-	WaterSourceTypeCV varchar (100)  NOT NULL,
-	WaterQualityIndicatorCV varchar (100)  NOT NULL,
-	GNISFeatureNameCV varchar (250)  NULL,
-	Geometry binary   NULL,
+	WaterSourceID bigint   NOT NULL,
+	WaterSourceUUID nvarchar (100)  NOT NULL,
+	WaterSourceNativeID nvarchar (250)  NULL,
+	WaterSourceName nvarchar (250)  NULL,
+	WaterSourceTypeCV nvarchar (100)  NOT NULL,
+	WaterQualityIndicatorCV nvarchar (100)  NOT NULL,
+	GNISFeatureNameCV nvarchar (250)  NULL,
+	Geometry geometry   NULL,
 	PRIMARY KEY (WaterSourceID)
 )
 
