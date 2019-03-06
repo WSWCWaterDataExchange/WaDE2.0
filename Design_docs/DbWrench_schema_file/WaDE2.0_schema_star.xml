@@ -6,6 +6,7 @@
   <Sch Cm="" nm="InputTables">
     <Tbl UsSo="1" nm="AggregatedAmounts_VariableTable">
       <TblOpts/>
+      <Pk ClNs="OrganizationUUID" nm="pkAggregatedAmounts_VariableTable"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -80,6 +81,7 @@
     </Tbl>
     <Tbl UsSo="1" nm="AllocationAmounts_VariableTable">
       <TblOpts/>
+      <Pk ClNs="OrganizationUUID" nm="pkAllocationAmounts_VariableTable"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -194,6 +196,7 @@
     </Tbl>
     <Tbl UsSo="1" nm="BeneficialUses_dim_Input">
       <TblOpts/>
+      <Pk ClNs="BeneficialUseCategory" nm="pkBeneficialUses_dim_Input"/>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
       </Cl>
@@ -214,6 +217,7 @@
     <Tbl UsSo="1" nm="Methods_dim_input">
       <Cm>specific granular variables</Cm>
       <TblOpts/>
+      <Pk ClNs="MethodName" nm="pkMethods_dim_input"/>
       <Cl au="0" df="" nm="MethodName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The name of the method used.</Cm>
@@ -254,6 +258,7 @@
     <Tbl UsSo="1" nm="Organizations_dim_Input">
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts/>
+      <Pk ClNs="OrganizationUUID" nm="pkOrganizations_dim_Input"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes	</Cm>
@@ -292,6 +297,7 @@
     </Tbl>
     <Tbl UsSo="1" nm="RegulatoryOverlay_dim_input">
       <TblOpts/>
+      <Pk ClNs="RegulatoryOverlayNativeID" nm="pkRegulatoryOverlay_dim_input"/>
       <Cl au="0" df="" nm="RegulatoryOverlayNativeID" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Native identifier to each data source</Cm>
@@ -343,6 +349,7 @@
     </Tbl>
     <Tbl UsSo="1" nm="RegulatoryReportingUnits_VariableTable">
       <TblOpts/>
+      <Pk ClNs="RegulatoryOverlayUUID" nm="pkRegulatoryReportingUnits_VariableTable"/>
       <Cl au="0" df="" nm="RegulatoryOverlayUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto RegulatoryOverlay</Cm>
@@ -371,6 +378,7 @@
     <Tbl UsSo="1" nm="ReportingUnits_dim_Input">
       <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
+      <Pk ClNs="ReportingUnitNativeID" nm="pkReportingUnits_dim_Input"/>
       <Cl au="0" df="" nm="ReportingUnitNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>the reporting unit native identifer in each memeber state</Cm>
@@ -411,6 +419,7 @@
     <Tbl UsSo="1" nm="Sites_dim_input">
       <Cm>Site specific</Cm>
       <TblOpts/>
+      <Pk ClNs="SiteNativeID" nm="pkSites_dim_input"/>
       <Cl au="0" df="" nm="SiteNativeID" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>Data provider's unique identifier for the site variable, can be alphanumeric</Cm>
@@ -456,6 +465,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </Tbl>
     <Tbl UsSo="1" nm="SiteVariableAmounts_VariableTable">
       <TblOpts/>
+      <Pk ClNs="OrganizationUUID" nm="pkSiteVariableAmounts_VariableTable"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -546,6 +556,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="Variables_dim_input">
       <Cm>specific granular variables</Cm>
       <TblOpts/>
+      <Pk ClNs="VariableSpecificCV" nm="pkVariables_dim_input"/>
       <Cl au="0" df="" nm="VariableSpecificCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</Cm>
@@ -590,6 +601,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="WaterSources_dim_input">
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts/>
+      <Pk ClNs="WaterSourceNativeID" nm="pkWaterSources_dim_input"/>
       <Cl au="0" df="" nm="WaterSourceNativeID" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Source id as used in the data provider</Cm>
@@ -1016,6 +1028,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="Allocations_dim_Input">
       <Cm>Water Allocations, also known as water rights or permits </Cm>
       <TblOpts/>
+      <Pk ClNs="AllocationNativeID" nm="pkAllocations_dim_Input"/>
       <Cl au="0" df="" nm="AllocationNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Unique identifier for the allocation as-is in the member states, can be alphanumeric</Cm>
@@ -2446,6 +2459,8 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
@@ -2453,8 +2468,6 @@ The green table is the FACT table that changes over time and connects things tog
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
       <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2692,7 +2705,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="InputTables">
+  <Dgm nm="6_InputTables">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -2720,7 +2733,7 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="33" y="650"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="741" y="655"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1134" y="599"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1135" y="599"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="37" y="853"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="BeneficialUses_dim_Input" x="381" y="704"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="RegulatoryOverlay_dim_input" x="1157" y="765"/>
@@ -4494,11 +4507,11 @@ Some tables like the Allocations table might change over time but much slowly</N
   </DbDocOptionMgr>
   <OpenEditors>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
@@ -4508,8 +4521,8 @@ Some tables like the Allocations table might change over time but much slowly</N
     <TreePath>/Schemas (2)/WaDE2_star</TreePath>
     <TreePath>/Schemas (2)/WaDE2_star/Tables (41)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
-    <TreePath>/Diagrams (6)/InputTables</TreePath>
-    <TreePath>/Diagrams (6)/InputTables/Notes (1)</TreePath>
+    <TreePath>/Diagrams (6)/6_InputTables</TreePath>
+    <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
