@@ -22,12 +22,6 @@
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="PrimaryUseCategory" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationUSGSCategoryCV" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
       <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to water source</Cm>
@@ -123,12 +117,6 @@
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="PrimaryUseCategory" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationUSGSCategoryCV" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -483,12 +471,6 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="500" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="PrimaryUseCategory" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationUSGSCategoryCV" nu="1">
-        <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
@@ -2444,8 +2426,6 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
@@ -2453,6 +2433,8 @@ The green table is the FACT table that changes over time and connects things tog
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
       <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2711,7 +2693,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1144" y="113"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1119" y="105"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="50" y="104"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="612" y="103"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
@@ -4490,12 +4472,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
