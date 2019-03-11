@@ -619,7 +619,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="AggBridge_BeneficialUses_fact">
       <TblOpts/>
       <Pk ClNs="AggBridgeID" nm="pkAggBridge_BeneficialUses_fact"/>
-      <Cl au="0" df="" nm="AggBridgeID" nu="0">
+      <Cl au="1" df="" nm="AggBridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -647,7 +647,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="AggregatedAmounts_fact">
       <TblOpts/>
       <Pk ClNs="AggregatedAmountID" nm="pkAggregatedAmounts_fact"/>
-      <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
+      <Cl au="1" df="" nm="AggregatedAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -771,7 +771,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="AllocationAmounts_fact">
       <TblOpts/>
       <Pk ClNs="AllocationAmountID" nm="pkAllocationAmounts_fact"/>
-      <Cl au="0" df="" nm="AllocationAmountID" nu="0">
+      <Cl au="1" df="" nm="AllocationAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -916,7 +916,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="AllocationBridge_BeneficialUses_fact">
       <TblOpts/>
       <Pk ClNs="AllocationBridgeID" nm="pkAllocationBridge_BeneficialUses_fact"/>
-      <Cl au="0" df="" nm="AllocationBridgeID" nu="0">
+      <Cl au="1" df="" nm="AllocationBridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -945,7 +945,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>Water Allocations, also known as water rights or permits </Cm>
       <TblOpts/>
       <Pk ClNs="AllocationID" nm="pkAllocations_dim"/>
-      <Cl au="0" df="" nm="AllocationID" nu="0">
+      <Cl au="1" df="" nm="AllocationID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer for allocations</Cm>
       </Cl>
@@ -1053,7 +1053,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="BeneficialUses_dim">
       <TblOpts/>
       <Pk ClNs="BeneficialUseID" nm="pkBeneficialUses_dim"/>
-      <Cl au="0" df="" nm="BeneficialUseID" nu="0">
+      <Cl au="1" df="" nm="BeneficialUseID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseUUID" nu="1">
@@ -1526,7 +1526,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="Date_dim">
       <TblOpts/>
       <Pk ClNs="DateID" nm="pkDate_dim"/>
-      <Cl au="0" df="" nm="DateID" nu="0">
+      <Cl au="1" df="" nm="DateID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Date" nu="0">
@@ -1543,7 +1543,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>specific granular variables</Cm>
       <TblOpts/>
       <Pk ClNs="MethodID" nm="pkMethods_dim"/>
-      <Cl au="0" df="" nm="MethodID" nu="0">
+      <Cl au="1" df="" nm="MethodID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifierfor each database instance that implements the table</Cm>
       </Cl>
@@ -1589,7 +1589,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="NHDMetadata">
       <TblOpts/>
       <Pk ClNs="NHDMetadataID" nm="pkNHDMetadata"/>
-      <Cl au="0" df="" nm="NHDMetadataID" nu="0">
+      <Cl au="1" df="" nm="NHDMetadataID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="0">
@@ -1619,7 +1619,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts/>
       <Pk ClNs="OrganizationID" nm="pkOrganizations_dim"/>
-      <Cl au="0" df="" nm="OrganizationID" nu="0">
+      <Cl au="1" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for organizations</Cm>
       </Cl>
@@ -1660,7 +1660,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="RegulatoryOverlay_dim">
       <TblOpts/>
       <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay_dim"/>
-      <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
+      <Cl au="1" df="" nm="RegulatoryOverlayID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -1779,7 +1779,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
       <Pk ClNs="ReportingUnitID" nm="pkReportingUnits_dim"/>
-      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+      <Cl au="1" df="" nm="ReportingUnitID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -1828,7 +1828,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>Site specific</Cm>
       <TblOpts/>
       <Pk ClNs="SiteID" nm="pkSites_dim"/>
-      <Cl au="0" df="" nm="SiteID" nu="0">
+      <Cl au="1" df="" nm="SiteID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -1891,7 +1891,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="SitesBridge_BeneficialUses_fact">
       <TblOpts/>
       <Pk ClNs="SiteBridgeID" nm="pkSitesBridge_BeneficialUses_fact"/>
-      <Cl au="0" df="" nm="SiteBridgeID" nu="0">
+      <Cl au="1" df="" nm="SiteBridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -1919,7 +1919,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="SiteVariableAmounts_fact">
       <TblOpts/>
       <Pk ClNs="SiteVariableAmountID" nm="pkSiteVariableAmounts_fact"/>
-      <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
+      <Cl au="1" df="" nm="SiteVariableAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -2065,7 +2065,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>specific granular variables</Cm>
       <TblOpts/>
       <Pk ClNs="VariableSpecificID" nm="pkVariables_dim"/>
-      <Cl au="0" df="" nm="VariableSpecificID" nu="0">
+      <Cl au="1" df="" nm="VariableSpecificID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>An internal unique identifier integer for variables</Cm>
       </Cl>
@@ -2118,7 +2118,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts/>
       <Pk ClNs="WaterSourceID" nm="pkWaterSources_dim"/>
-      <Cl au="0" df="" nm="WaterSourceID" nu="0">
+      <Cl au="1" df="" nm="WaterSourceID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for water sources</Cm>
       </Cl>
@@ -2385,7 +2385,7 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="849" x2="849" y1="231" y2="411"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="849" x2="849" y1="215" y2="411"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2474,7 +2474,7 @@ The green table is the FACT table that changes over time and connects things tog
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="234" y2="280"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="218" y2="280"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -4470,23 +4470,18 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (2)</TreePath>
-    <TreePath>/Schemas (2)/InputTables</TreePath>
-    <TreePath>/Schemas (2)/InputTables/Tables (12)</TreePath>
     <TreePath>/Schemas (2)/WaDE2_star</TreePath>
-    <TreePath>/Schemas (2)/WaDE2_star/Tables (40)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
