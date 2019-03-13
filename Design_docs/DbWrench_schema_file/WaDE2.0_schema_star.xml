@@ -2277,24 +2277,24 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Date_dim" x="1144" y="626"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Allocations_dim" x="1017" y="294"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="WaterSources_dim" x="1066" y="904"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="17" y="326"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="17" y="325"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="581" y="1100"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationAmounts_fact" x="500" y="609"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1071" y="749"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="535" y="303"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1072" y="749"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="543" y="303"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="510" y="477"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="439" y="142"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="803" y="141"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="24" y="1009"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Allocations_dim" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1017" x2="909" y1="452" y2="452"/>
-        <positionableLine lineRole="CHILD_LINE" x1="905" x2="905" y1="609" y2="456"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1017" x2="933" y1="452" y2="452"/>
+        <positionableLine lineRole="CHILD_LINE" x1="929" x2="929" y1="609" y2="456"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="853" x2="853" y1="431" y2="609"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="888" x2="888" y1="431" y2="609"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2322,9 +2322,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1071" x2="978" y1="805" y2="805"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1077" x2="1077" y1="749" y2="748"/>
+        <positionableLine lineRole="CHILD_LINE" x1="978" x2="1073" y1="744" y2="744"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2336,9 +2337,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="396" x2="435" y1="451" y2="451"/>
+        <positionableLine lineRole="PARENT_LINE" x1="396" x2="435" y1="450" y2="450"/>
         <positionableLine lineRole="CHILD_LINE" x1="500" x2="443" y1="679" y2="679"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="439" x2="439" y1="675" y2="455"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="439" x2="439" y1="675" y2="454"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2353,7 +2354,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="431" y2="477"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="693" x2="693" y1="431" y2="477"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2424,10 +2425,10 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="35" y="186"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Allocations_dim" x="1015" y="295"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="559" y="880"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="570" y="103"/>
-    <TbGl bkCl="ff6b990f" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="548" y="269"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="597" y="104"/>
+    <TbGl bkCl="ff6b990f" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="530" y="262"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1027" y="689"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="51" y="772"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="60" y="807"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SiteVariableAmounts_fact" x="508" y="411"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="NHDMetadata" x="76" y="1088"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2447,17 +2448,17 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="217" x2="217" y1="1088" y2="1012"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="217" x2="217" y1="1088" y2="1047"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="695" x2="695" y1="231" y2="269"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="232" y2="262"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="655" x2="655" y1="411" y2="349"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="655" x2="655" y1="411" y2="342"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2482,7 +2483,7 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="849" x2="849" y1="231" y2="411"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="867" x2="867" y1="232" y2="411"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2500,16 +2501,18 @@ Purple tables are Controlled Vocabulary</Note>
         <positionableLine lineRole="SINGLE_LINE" x1="1027" x2="877" y1="734" y2="734"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="387" x2="527" y1="909" y2="909"/>
-        <positionableLine lineRole="CHILD_LINE" x1="531" x2="531" y1="779" y2="905"/>
+        <positionableLine lineRole="PARENT_LINE" x1="396" x2="458" y1="911" y2="911"/>
+        <positionableLine lineRole="CHILD_LINE" x1="508" x2="466" y1="720" y2="720"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="462" x2="462" y1="724" y2="907"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="414" x2="532" y1="290" y2="290"/>
-        <positionableLine lineRole="CHILD_LINE" x1="536" x2="536" y1="411" y2="294"/>
+        <positionableLine lineRole="PARENT_LINE" x1="414" x2="468" y1="290" y2="290"/>
+        <positionableLine lineRole="CHILD_LINE" x1="508" x2="476" y1="482" y2="482"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="472" x2="472" y1="478" y2="294"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="ThreeLineUserLinkPositioner">
@@ -2562,16 +2565,16 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="537" y="847"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Methods_dim" x="39" y="450"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="573" y="106"/>
-    <TbGl bkCl="ff6b990f" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="591" y="280"/>
+    <TbGl bkCl="ff6b990f" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="558" y="279"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1071" y="606"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="409" y2="360"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="409" y2="359"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="234" y2="280"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="722" x2="722" y1="234" y2="279"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
