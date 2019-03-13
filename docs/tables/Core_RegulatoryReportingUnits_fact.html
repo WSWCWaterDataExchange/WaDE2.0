@@ -1,0 +1,97 @@
+<HTML>
+<header>
+<title>RegulatoryReportingUnits_fact - Table</title>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+</header>
+<body>
+<div class="logo">
+<p>WaDE [WaDE2.0_schema_star.xml]</p>
+</div>
+<div class="horzMenu">
+<a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
+</div>
+<h1>Table: RegulatoryReportingUnits_fact</h1>
+<div class="paragraph">
+<p></p>
+</div>
+<h2>Columns</h2>
+<table class="flat">
+<tr class="altRow">
+<td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
+</tr>
+<tr>
+<td class="PkCol">
+<p class="boolImg">
+<img src="../images/pkb16.gif"></p>
+</td><td class="PkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_BridgeID.html">BridgeID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_RegulatoryOverlayID.html">RegulatoryOverlayID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto RegulatoryOverlay</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto organizartion</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_ReportingUnitID.html">ReportingUnitID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto reporting unit</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_DataPublicationDateID.html">DataPublicationDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date that these data were published by the data provider</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/Core_RegulatoryReportingUnits_fact_ReportYearCV.html">ReportYearCV</a></td><td>NChar(4)</td><td> </td><td> </td><td> </td><td>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td> </td>
+</tr>
+</table>
+<br>
+<h2>Indexes</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Foreign Keys</h2>
+<table class="flat">
+<tr>
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Date_dim.html">fk_RegulatoryReportingUnits_fact_Date_dim</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Organizations_dim.html">fk_RegulatoryReportingUnits_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim.html">fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryOverlay_dim.html">Core.RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+</tr>
+</table>
+<br>
+<h2>Triggers</h2>
+<div class="paragraph">
+<p>(none)</p>
+</div>
+<br>
+<h2>Used in Diagrams</h2>
+<table class="flat">
+<tr>
+<td class="header">Diagram Name</td>
+</tr>
+<tr>
+<td><a href="../diagrams/4_Star_Regulatory.html">4_Star_Regulatory</a></td>
+</tr>
+</table>
+</body>
+</HTML>
