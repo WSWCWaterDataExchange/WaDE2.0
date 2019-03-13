@@ -1637,9 +1637,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <CustomTypes/>
   </Sch>
   <Sch Cm="" nm="Input">
-    <Tbl UsSo="1" nm="AggregatedAmounts_VariableTable">
+    <Tbl UsSo="1" nm="AggregatedAmounts_fact">
       <TblOpts/>
-      <Pk ClNs="OrganizationUUID" nm="pkAggregatedAmounts_VariableTable"/>
+      <Pk ClNs="OrganizationUUID" nm="pkAggregatedAmounts_fact"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -1706,9 +1706,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="AggregatedAmounts_VariableTable"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="AllocationAmounts_VariableTable">
+    <Tbl UsSo="1" nm="AllocationAmounts_fact">
       <TblOpts/>
-      <Pk ClNs="OrganizationUUID" nm="pkAllocationAmounts_VariableTable"/>
+      <Pk ClNs="OrganizationUUID" nm="pkAllocationAmounts_fact"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -1818,9 +1818,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="AllocationAmounts_VariableTable"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="BeneficialUses_dim_Input">
+    <Tbl UsSo="1" nm="BeneficialUses_dim">
       <TblOpts/>
-      <Pk ClNs="BeneficialUseCategory" nm="pkBeneficialUses_dim_Input"/>
+      <Pk ClNs="BeneficialUseCategory" nm="pkBeneficialUses_dim"/>
       <Cl au="0" df="" nm="BeneficialUseCategory" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
       </Cl>
@@ -1838,10 +1838,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="BeneficialUses_dim_Input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="Methods_dim_input">
+    <Tbl UsSo="1" nm="Methods_dim">
       <Cm>specific granular variables</Cm>
       <TblOpts/>
-      <Pk ClNs="MethodName" nm="pkMethods_dim_input"/>
+      <Pk ClNs="MethodName" nm="pkMethods_dim"/>
       <Cl au="0" df="" nm="MethodName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The name of the method used.</Cm>
@@ -1879,10 +1879,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="Methods_dim_input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="Organizations_dim_Input">
+    <Tbl UsSo="1" nm="Organizations_dim">
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts/>
-      <Pk ClNs="OrganizationUUID" nm="pkOrganizations_dim_Input"/>
+      <Pk ClNs="OrganizationUUID" nm="pkOrganizations_dim"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>A unique identifier assigned to the organization, all uppercase letters, no numbers, no dashes	</Cm>
@@ -1919,9 +1919,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="Organizations_dim_Input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="RegulatoryOverlay_dim_input">
+    <Tbl UsSo="1" nm="RegulatoryOverlay_dim">
       <TblOpts/>
-      <Pk ClNs="RegulatoryOverlayNativeID" nm="pkRegulatoryOverlay_dim_input"/>
+      <Pk ClNs="RegulatoryOverlayNativeID" nm="pkRegulatoryOverlay_dim"/>
       <Cl au="0" df="" nm="RegulatoryOverlayNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Native identifier to each data source</Cm>
@@ -1971,9 +1971,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="RegulatoryOverlay_dim_input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="RegulatoryReportingUnits_VariableTable">
+    <Tbl UsSo="1" nm="RegulatoryReportingUnits_fact">
       <TblOpts/>
-      <Pk ClNs="RegulatoryOverlayUUID" nm="pkRegulatoryReportingUnits_VariableTable"/>
+      <Pk ClNs="RegulatoryOverlayUUID" nm="pkRegulatoryReportingUnits_fact"/>
       <Cl au="0" df="" nm="RegulatoryOverlayUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto RegulatoryOverlay</Cm>
@@ -1999,10 +1999,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="RegulatoryReportingUnits_VariableTable"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportingUnits_dim_Input">
+    <Tbl UsSo="1" nm="ReportingUnits_dim">
       <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
-      <Pk ClNs="ReportingUnitNativeID" nm="pkReportingUnits_dim_Input"/>
+      <Pk ClNs="ReportingUnitNativeID" nm="pkReportingUnits_dim"/>
       <Cl au="0" df="" nm="ReportingUnitNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>the reporting unit native identifer in each memeber state</Cm>
@@ -2040,10 +2040,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="ReportingUnits_dim_Input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="Sites_dim_input">
+    <Tbl UsSo="1" nm="Sites_dim">
       <Cm>Site specific</Cm>
       <TblOpts/>
-      <Pk ClNs="SiteNativeID" nm="pkSites_dim_input"/>
+      <Pk ClNs="SiteNativeID" nm="pkSites_dim"/>
       <Cl au="0" df="" nm="SiteNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>Data provider's unique identifier for the site variable, can be alphanumeric</Cm>
@@ -2087,9 +2087,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="Sites_dim_input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="SiteVariableAmounts_VariableTable">
+    <Tbl UsSo="1" nm="SiteVariableAmounts_fact">
       <TblOpts/>
-      <Pk ClNs="OrganizationUUID" nm="pkSiteVariableAmounts_VariableTable"/>
+      <Pk ClNs="OrganizationUUID" nm="pkSiteVariableAmounts_fact"/>
       <Cl au="0" df="" nm="OrganizationUUID" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
         <Cm>unique identifier to Organization</Cm>
@@ -2171,10 +2171,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="SiteVariableAmounts_VariableTable"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="Variables_dim_input">
+    <Tbl UsSo="1" nm="Variables_dim">
       <Cm>specific granular variables</Cm>
       <TblOpts/>
-      <Pk ClNs="VariableSpecificCV" nm="pkVariables_dim_input"/>
+      <Pk ClNs="VariableSpecificCV" nm="pkVariables_dim"/>
       <Cl au="0" df="" nm="VariableSpecificCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</Cm>
@@ -2216,10 +2216,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="Variables_dim_input"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="WaterSources_dim_input">
+    <Tbl UsSo="1" nm="WaterSources_dim">
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts/>
-      <Pk ClNs="WaterSourceNativeID" nm="pkWaterSources_dim_input"/>
+      <Pk ClNs="WaterSourceNativeID" nm="pkWaterSources_dim"/>
       <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Source id as used in the data provider</Cm>
@@ -2788,20 +2788,18 @@ We will make a join with each controlled field using the "Name" unique primary k
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff990f0f" sch="Input" tbl="AggregatedAmounts_VariableTable" x="1117" y="93"/>
-    <TbGl bkCl="ff990f0f" sch="Input" tbl="AllocationAmounts_VariableTable" x="47" y="91"/>
-    <TbGl bkCl="ff990f0f" sch="Input" tbl="SiteVariableAmounts_VariableTable" x="613" y="93"/>
-    <TbGl bkCl="ff990f0f" sch="Input" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Sites_dim_input" x="22" y="624"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Variables_dim_input" x="744" y="599"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Organizations_dim_Input" x="1135" y="599"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Methods_dim_input" x="9" y="814"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="BeneficialUses_dim_Input" x="377" y="613"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="RegulatoryOverlay_dim_input" x="1157" y="765"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="WaterSources_dim_input" x="576" y="460"/>
-    <TbGl bkCl="ff0f6b99" sch="Core" tbl="NHDMetadata" x="400" y="738"/>
-    <TbGl bkCl="ff0f6b99" sch="Input" tbl="ReportingUnits_dim_Input" x="748" y="786"/>
-    <TbGl bkCl="ff0f6b99" sch="Core" tbl="Allocations_dim_Input" x="403" y="957"/>
+    <TbGl bkCl="ff990f0f" sch="Input" tbl="AggregatedAmounts_fact" x="1117" y="93"/>
+    <TbGl bkCl="ff990f0f" sch="Input" tbl="AllocationAmounts_fact" x="47" y="90"/>
+    <TbGl bkCl="ff990f0f" sch="Input" tbl="SiteVariableAmounts_fact" x="613" y="93"/>
+    <TbGl bkCl="ff990f0f" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1148" y="468"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Sites_dim" x="22" y="624"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Variables_dim" x="774" y="598"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Organizations_dim" x="1164" y="597"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="Methods_dim" x="372" y="727"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="BeneficialUses_dim" x="395" y="613"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="RegulatoryOverlay_dim" x="1178" y="763"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="WaterSources_dim" x="576" y="460"/>
+    <TbGl bkCl="ff0f6b99" sch="Input" tbl="ReportingUnits_dim" x="769" y="788"/>
     <Notes>
       <Note bkCl="ffffffe6" x="196" y="12">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
 The tables in orange are mostly static metadata tables. Each state will poulate them one time and then will reuse them into the red tables. 
@@ -2809,7 +2807,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="803">
+  <RnmMgr NxRnmId="815">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -3783,7 +3781,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="NHDMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="388" nNm="NHDMetadataID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="389" nNm="SiteID" oNm="Id"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Core" SupCls="" SupNme="">
@@ -3914,7 +3912,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="565" nNm="WaterAllocationID" oNm="AllocationID"/>
       <Rnm id="426" nNm="AllocationID" oNm="PermitID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="493" nNm="VerticalDatumEPSGCodeCV" oNm="LU_VerticalDatumEPSGCode"/>
       <Rnm id="430" nNm="LU_VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCode"/>
       <Rnm id="429" nNm="VerticalDatumEPSGCode" oNm="VerticalDatumEPSGCodLU_e"/>
@@ -4020,7 +4018,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
       <Rnm id="485" nNm="AggregationStatisticCV" oNm="LU_AggregationStatistic"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="494" nNm="GNISCodeCV" oNm="GNISCode"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -4091,7 +4089,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="561" nNm="WaterAllocationPriorityDate" oNm="PriorityDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="566" nNm="SiteUID" oNm="SiteCode"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE">
@@ -4143,7 +4141,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="591" nNm="NativeWaterAllocationID" oNm="NativeWaterRightID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm id="594" nNm="CoordinateMethodCV" oNm="CoordinateMethod"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="WaDE">
@@ -4181,7 +4179,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="611" nNm="NHDMetadataCV" oNm="NHDMetadataID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="612" nNm="OrganizationIDCV" oNm="OrganizationID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="WaDE2_star">
@@ -4273,7 +4271,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="650" nNm="OrganizationID" oNm="OrganizationID&#9;"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="653" nNm="SiteNativeID" oNm="NativeSiteID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="WaDE2_star">
@@ -4426,7 +4424,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Methods_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="725" nNm="MethodUUID" oNm="MethodUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="726" nNm="SiteUUID" oNm="SiteUID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="WaterSources_dim" SupCls="Schema" SupNme="WaDE2_star">
@@ -4446,109 +4444,109 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="733" nNm="Term" oNm="Name&#9;"/>
       <Rnm id="732" nNm="Name&#9;" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="739" nNm="OrganizationUUID" oNm="OrganizationUID"/>
       <Rnm id="737" nNm="OrganizationUID" oNm="OrganizationUID "/>
       <Rnm id="736" nNm="OrganizationUID " oNm="OrganizationUID  "/>
       <Rnm id="735" nNm="OrganizationUID  " oNm="OrganizationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="741" nNm="SiteUUID" oNm="SiteUID"/>
       <Rnm id="738" nNm="SiteUID" oNm="SiteID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="740" nNm="AllocationUUID" oNm="AllocationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="742" nNm="WaterSourceUUID" oNm="WaterSourceID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="743" nNm="MethodUUID" oNm="MethodID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="744" nNm="TimeframeStartDate" oNm="TimeframeStartDateID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="745" nNm="TimeframeEndDate" oNm="TimeframeEndDateID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="746" nNm="DataPublicationDate" oNm="DataPublicationDateID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="747" nNm="VariableSpecificIUUD" oNm="VariableSpecificID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="748" nNm="BeneficialUseCategory" oNm="BeneficialUsesID"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Core" SupCls="" SupNme="">
       <Rnm id="750" nNm="AllocationAmounts_VariableTable" oNm="AllocationAmounts_TableType"/>
       <Rnm id="749" nNm="AllocationAmounts_TableType" oNm="AllocationAmounts_InputTable"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="751" nNm="ReportingUnitUUID" oNm="SiteUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="752" nNm="Amount" oNm="AllocationAmount"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="753" nNm="RegulatoryOverlayUUID" oNm="RegulatoryOverlayID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="754" nNm="OrganizationUUID" oNm="OrganizationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="755" nNm="ReportingUnitUUID" oNm="ReportingUnitID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="756" nNm="DataPublicationDate" oNm="DataPublicationDateID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim_input" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm id="757" nNm="SitePoint" oNm="Point"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Core" SupCls="" SupNme="">
       <Rnm id="759" nNm="Sites_dim" oNm="Sites_dim_Input"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="761" nNm="SiteNativeID" oNm="SiteUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="775" nNm="WaterSourceName" oNm="WaterSourceNativeID"/>
       <Rnm id="762" nNm="WaterSourceNativeID" oNm="WaterSourceUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="763" nNm="VariableSpecificCV" oNm="VariableSpecificIUUD"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="764" nNm="MethodName" oNm="MethodUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="765" nNm="SiteNativeID" oNm="SiteUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="766" nNm="VariableSpecificCV" oNm="VariableSpecificIUUD"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="767" nNm="WaterSourceNativeID" oNm="WaterSourceUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="768" nNm="MethodName" oNm="MethodUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="769" nNm="ReportingUnitNativeID" oNm="ReportingUnitUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="770" nNm="VariableSpecificCV" oNm="VariableSpecificIUUD"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="771" nNm="WaterSourceNativeID" oNm="WaterSourceUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="772" nNm="MethodName" oNm="MethodUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingUnits_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="773" nNm="ReportingUnitNativeID" oNm="ReportingUnitUUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="InputTables">
       <Rnm id="774" nNm="AllocationLegalStatusCV" oNm="AllocationLegalStatusCodeCV"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
@@ -4627,6 +4625,42 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Schema" ParCls="Database" ParNme="WaDE" SupCls="" SupNme="">
       <Rnm id="802" nNm="Input" oNm="InputTables"/>
     </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="803" nNm="AllocationAmounts_fact" oNm="AllocationAmounts_VariableTable"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="804" nNm="SiteVariableAmounts_fact" oNm="SiteVariableAmounts_VariableTable"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="805" nNm="AggregatedAmounts_fact" oNm="AggregatedAmounts_VariableTable"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="806" nNm="RegulatoryReportingUnits_fact" oNm="RegulatoryReportingUnits_VariableTable"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="807" nNm="WaterSources_dim" oNm="WaterSources_dim_input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="808" nNm="BeneficialUses_dim" oNm="BeneficialUses_dim_Input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="809" nNm="Sites_dim" oNm="Sites_dim_input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="810" nNm="Methods_dim" oNm="Methods_dim_input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="811" nNm="Variables_dim" oNm="Variables_dim_input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="812" nNm="ReportingUnits_dim" oNm="ReportingUnits_dim_Input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="813" nNm="RegulatoryOverlay_dim" oNm="RegulatoryOverlay_dim_input"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="814" nNm="Organizations_dim" oNm="Organizations_dim_Input"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -4647,13 +4681,15 @@ Some tables like the Allocations table might change over time but much slowly</N
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
+    <TreePath>/Schemas (3)/Core</TreePath>
+    <TreePath>/Schemas (3)/Core/Tables (19)</TreePath>
     <TreePath>/Schemas (3)/CVs</TreePath>
     <TreePath>/Schemas (3)/CVs/Tables (22)</TreePath>
     <TreePath>/Schemas (3)/Input</TreePath>
