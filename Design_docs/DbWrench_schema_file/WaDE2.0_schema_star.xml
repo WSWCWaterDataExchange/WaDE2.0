@@ -92,6 +92,9 @@
       <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="WaterRightTypeCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
       <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
@@ -201,6 +204,30 @@
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="BeneficialUses_dim_Input"/>
       </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="CVs_WaterRightType">
+      <TblOpts/>
+      <Pk ClNs="Name" nm="pkCVs_WaterRightType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar(MAX)" en="" id="729" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Category" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
     </Tbl>
     <Tbl UsSo="1" nm="Methods_dim_input">
       <Cm>specific granular variables</Cm>
@@ -969,6 +996,12 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
       </Cl>
+      <Cl au="0" df="" nm="WaterRightTypeCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
+        <Cm>This field contains the Type of Application or Water Right of this database entry.
+examples: Underground Water Claim, Federal Reserved Water Right
+</Cm>
+      </Cl>
       <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date of the original filing on the allocation</Cm>
@@ -1067,6 +1100,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="USGSCategoryNameCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>USGS</Cm>
       </Cl>
       <Cl au="0" df="" nm="NAICSCodeNameCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -1199,6 +1233,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="State identifier" nu="1">
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
+        <Cm>State identifier two letters</Cm>
+      </Cl>
       <Cl au="0" df="" nm="Definition" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
       </Cl>
@@ -1303,6 +1341,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
+        <Cm>State identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="Definition" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
@@ -1471,6 +1513,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
+        <Cm>State identifier</Cm>
       </Cl>
       <Cl au="0" df="" nm="Definition" nu="1">
         <DT arr="0" ds="VarChar" en="" id="12" ln="5000" sc="null" sg="1" un="0"/>
@@ -2183,12 +2229,12 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Methods_dim" x="18" y="700"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Date_dim" x="1144" y="626"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Allocations_dim" x="1017" y="294"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1068" y="915"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="WaterSources_dim" x="1066" y="904"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Variables_dim" x="17" y="326"/>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="Organizations_dim" x="581" y="1100"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationAmounts_fact" x="500" y="609"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="1071" y="749"/>
-    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="534" y="304"/>
+    <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="BeneficialUses_dim" x="535" y="303"/>
     <TbGl bkCl="ff6b990f" sch="WaDE2_star" tbl="AllocationBridge_BeneficialUses_fact" x="510" y="477"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_USGSCategory" x="439" y="142"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NAICSCode" x="803" y="141"/>
@@ -2201,7 +2247,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="852" x2="852" y1="432" y2="609"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="853" x2="853" y1="431" y2="609"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_CVs_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2226,7 +2272,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="393" x2="500" y1="830" y2="830"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="393" x2="500" y1="798" y2="798"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2234,22 +2280,23 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="360" x2="526" y1="1129" y2="1129"/>
-        <positionableLine lineRole="CHILD_LINE" x1="530" x2="530" y1="977" y2="1125"/>
+        <positionableLine lineRole="PARENT_LINE" x1="360" x2="431" y1="1129" y2="1129"/>
+        <positionableLine lineRole="CHILD_LINE" x1="500" x2="439" y1="907" y2="907"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="435" x2="435" y1="911" y2="1125"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="396" x2="435" y1="451" y2="451"/>
-        <positionableLine lineRole="CHILD_LINE" x1="500" x2="443" y1="650" y2="650"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="439" x2="439" y1="646" y2="455"/>
+        <positionableLine lineRole="CHILD_LINE" x1="500" x2="443" y1="679" y2="679"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="439" x2="439" y1="675" y2="455"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="WaDE2_star.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1068" x2="978" y1="933" y2="933"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1066" x2="978" y1="935" y2="935"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2259,32 +2306,32 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="684" x2="684" y1="432" y2="477"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="685" x2="685" y1="431" y2="477"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1200" x2="1200" y1="626" y2="502"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1200" x2="1200" y1="626" y2="518"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_exp" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1239" x2="1239" y1="626" y2="502"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1239" x2="1239" y1="626" y2="518"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_prio" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1278" x2="1278" y1="626" y2="502"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1278" x2="1278" y1="626" y2="518"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.BeneficialUses_dim.fk_BeneficialUses_dim_CVs_NAICSCode" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="845" x2="845" y1="253" y2="304"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="846" x2="846" y1="253" y2="303"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="WaDE2_star.BeneficialUses_dim.fk_BeneficialUses_dim_CVs_USGSCategory" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="635" x2="635" y1="254" y2="304"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="635" x2="635" y1="254" y2="303"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -2338,17 +2385,17 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff99540f" sch="WaDE2_star" tbl="NHDMetadata" x="76" y="1088"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1200" x2="1200" y1="582" y2="503"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1200" x2="1200" y1="582" y2="519"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_exp" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1280" x2="1280" y1="582" y2="503"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1280" x2="1280" y1="582" y2="519"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Allocations_dim.fk_Allocations_dim_Date_dim_prio" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1242" x2="1242" y1="582" y2="503"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1242" x2="1242" y1="582" y2="519"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="WaDE2_star.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2648,21 +2695,22 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterAllocationBasis" x="33" y="132"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Variable" x="789" y="578"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_USGSCategory" x="1163" y="429"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Units" x="778" y="271"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_Units" x="787" y="287"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearType" x="1161" y="283"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportingUnitType" x="26" y="738"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_RegulatoryStatus" x="418" y="581"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDProduct" x="792" y="435"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDNetworkStatus" x="413" y="278"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NHDNetworkStatus" x="413" y="282"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_NAICSCode" x="31" y="279"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_MethodType" x="414" y="135"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_MethodType" x="414" y="139"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_LegalStatus" x="792" y="140"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_GNISFeatureName" x="1162" y="143"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_ReportYearCV" x="415" y="435"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_VariableSpecific" x="1168" y="581"/>
-    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterSourceType" x="790" y="744"/>
+    <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_WaterSourceType" x="790" y="743"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_CropType" x="1172" y="743"/>
     <TbGl bkCl="ff6666ff" sch="WaDE2_star" tbl="CVs_IrrigationMethod" x="29" y="892"/>
+    <TbGl bkCl="ff6666ff" sch="InputTables" tbl="CVs_WaterRightType" x="400" y="884"/>
     <Notes>
       <Note bkCl="ffffffe6" x="103" y="16">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -2693,28 +2741,28 @@ We will make a join with each controlled field using the "Name" unique primary k
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1119" y="105"/>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="50" y="104"/>
-    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="612" y="103"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AggregatedAmounts_VariableTable" x="1117" y="93"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="AllocationAmounts_VariableTable" x="47" y="91"/>
+    <TbGl bkCl="ff990f0f" sch="InputTables" tbl="SiteVariableAmounts_VariableTable" x="613" y="93"/>
     <TbGl bkCl="ff990f0f" sch="InputTables" tbl="RegulatoryReportingUnits_VariableTable" x="1147" y="468"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="34" y="648"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="741" y="655"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Sites_dim_input" x="22" y="624"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Variables_dim_input" x="744" y="599"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Organizations_dim_Input" x="1135" y="599"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="37" y="853"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="BeneficialUses_dim_Input" x="381" y="704"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="Methods_dim_input" x="5" y="814"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="BeneficialUses_dim_Input" x="377" y="613"/>
     <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="RegulatoryOverlay_dim_input" x="1157" y="765"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="WaterSources_dim_input" x="573" y="509"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="NHDMetadata" x="52" y="1052"/>
-    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="ReportingUnits_dim_Input" x="471" y="847"/>
-    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Allocations_dim_Input" x="455" y="1027"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="WaterSources_dim_input" x="576" y="460"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="NHDMetadata" x="400" y="738"/>
+    <TbGl bkCl="ff0f6b99" sch="InputTables" tbl="ReportingUnits_dim_Input" x="748" y="786"/>
+    <TbGl bkCl="ff0f6b99" sch="WaDE2_star" tbl="Allocations_dim_Input" x="403" y="957"/>
     <Notes>
-      <Note bkCl="ffffffe6" x="196" y="17">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
+      <Note bkCl="ffffffe6" x="196" y="12">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
 The tables in orange are mostly static metadata tables. Each state will poulate them one time and then will reuse them into the red tables. 
 Some tables like the Allocations table might change over time but much slowly</Note>
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="776">
+  <RnmMgr NxRnmId="779">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4455,6 +4503,13 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_VariableTable" SupCls="Schema" SupNme="InputTables">
       <Rnm id="774" nNm="AllocationLegalStatusCV" oNm="AllocationLegalStatusCodeCV"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Allocations_dim" SupCls="Schema" SupNme="WaDE2_star">
+      <Rnm id="776" nNm="WaterRightTypeCV" oNm="WaterRightType"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CVs_WaterRightType" SupCls="Schema" SupNme="InputTables">
+      <Rnm id="778" nNm="Name" oNm="Name&#9;"/>
+      <Rnm id="777" nNm="Name&#9;" oNm="Id"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -4472,18 +4527,18 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (2)</TreePath>
     <TreePath>/Schemas (2)/InputTables</TreePath>
-    <TreePath>/Schemas (2)/InputTables/Tables (12)</TreePath>
+    <TreePath>/Schemas (2)/InputTables/Tables (13)</TreePath>
     <TreePath>/Schemas (2)/WaDE2_star</TreePath>
     <TreePath>/Schemas (2)/WaDE2_star/Tables (40)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
