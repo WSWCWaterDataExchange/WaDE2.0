@@ -2251,7 +2251,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </Tbl>
     <CustomTypes/>
   </Sch>
-  <Dgm nm="1_Star_WaterAllocation">
+  <Dgm nm="1_WaterAllocations">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -2397,7 +2397,7 @@ Purple tables are Controlled Vocabulary</Note>
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="2_Star_SiteSpecific">
+  <Dgm nm="2_SiteSpecificAmounts">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -2523,6 +2523,8 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
@@ -2530,12 +2532,10 @@ The green table is the FACT table that changes over time and connects things tog
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
       <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="3_Star_Aggregated">
+  <Dgm nm="3_AggregatedAmounts">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -2647,7 +2647,7 @@ The green table is the FACT table that changes over time and connects things tog
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="4_Star_Regulatory">
+  <Dgm nm="4_RegulatoryInfo">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -2717,7 +2717,7 @@ The green table is the FACT table that changes over time and connects things tog
     </Notes>
     <Zones/>
   </Dgm>
-  <Dgm nm="5_CVs">
+  <Dgm nm="5_ContreolledVocabulary">
     <RnCf ClkAct="false" FtSz="14" lkStgy="RightAngleStrategy" zm="1.0">
       <VbCfg>
         <Fg ky="Auto Number" vl="0"/>
@@ -4681,12 +4681,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_CVs" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_Star_Regulatory" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_Star_SiteSpecific" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_Star_WaterAllocation" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_Star_Aggregated" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
