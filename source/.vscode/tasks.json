@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "clean",
+      "command": "dotnet",
+      "type": "shell",
+      "args": [
+        "clean",
+        "${workspaceFolder}\\WaDEAzureFunctions.sln"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "build",
+      "command": "dotnet",
+      "type": "shell",
+      "dependsOn": "clean",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "args": [
+        "build",
+        "${workspaceFolder}\\WaDEAzureFunctions.sln"
+      ],
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "clean release",
+      "command": "dotnet clean --configuration Release",
+      "type": "shell",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "publish",
+      "command": "dotnet publish --configuration Release",
+      "type": "shell",
+      "dependsOn": "clean release",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "host start",
+      "type": "shell",
+      "dependsOn": "build",
+      "command": "func host start --script-root C:\\workspaces\\WaDE\\develop\\source\\WaDEAzureFunctions\\bin\\Debug\\netcoreapp2.1",
+      "isBackground": true,
+      "presentation": {
+      "reveal": "always"
+      },
+      "problemMatcher": []
+      }
+  ]
+}
