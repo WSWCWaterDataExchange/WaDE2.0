@@ -7,7 +7,7 @@
     <Tbl UsSo="1" nm="AggBridge_BeneficialUses_fact">
       <TblOpts/>
       <Pk ClNs="AggBridgeID" nm="pkAggBridge_BeneficialUses_fact"/>
-      <Cl au="0" df="" nm="AggBridgeID" nu="0">
+      <Cl au="1" df="" nm="AggBridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -35,7 +35,7 @@
     <Tbl UsSo="1" nm="AggregatedAmounts_fact">
       <TblOpts/>
       <Pk ClNs="AggregatedAmountID" nm="pkAggregatedAmounts_fact"/>
-      <Cl au="0" df="" nm="AggregatedAmountID" nu="0">
+      <Cl au="1" df="" nm="AggregatedAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -159,7 +159,7 @@
     <Tbl UsSo="1" nm="AllocationAmounts_fact">
       <TblOpts/>
       <Pk ClNs="AllocationAmountID" nm="pkAllocationAmounts_fact"/>
-      <Cl au="0" df="" nm="AllocationAmountID" nu="0">
+      <Cl au="1" df="" nm="AllocationAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -178,10 +178,6 @@
       <Cl au="0" df="" nm="VariableSpecificID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to variable specific</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="BeneficialUsesID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>foreign key unique identifier to amount metadata</Cm>
       </Cl>
       <Cl au="0" df="" nm="WaterSourceID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
@@ -243,15 +239,18 @@
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
+      <Cl au="0" df="" nm="PrimaryBeneficialUseID" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_Allocations_dim" prLkCl="AllocationID" upAc="3">
         <PrTb mn="0" nm="Allocations_dim" oe="1" sch="Core" zr="0"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="AllocationID" prCl="AllocationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_BeneficialUses_dim" prLkCl="BeneficialUseID" upAc="3">
-        <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="Core" zr="0"/>
+        <PrTb mn="0" nm="BeneficialUses_dim" oe="1" sch="Core" zr="1"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="BeneficialUsesID" prCl="BeneficialUseID"/>
+        <ClPr cdCl="PrimaryBeneficialUseID" prCl="BeneficialUseID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_Date_dim_end" prLkCl="DateID" upAc="3">
         <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
@@ -304,7 +303,7 @@
     <Tbl UsSo="1" nm="AllocationBridge_BeneficialUses_fact">
       <TblOpts/>
       <Pk ClNs="AllocationBridgeID" nm="pkAllocationBridge_BeneficialUses_fact"/>
-      <Cl au="0" df="" nm="AllocationBridgeID" nu="0">
+      <Cl au="1" df="" nm="AllocationBridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -333,7 +332,7 @@
       <Cm>Water Allocations, also known as water rights or permits </Cm>
       <TblOpts/>
       <Pk ClNs="AllocationID" nm="pkAllocations_dim"/>
-      <Cl au="0" df="" nm="AllocationID" nu="0">
+      <Cl au="1" df="" nm="AllocationID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer for allocations</Cm>
       </Cl>
@@ -447,7 +446,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
     <Tbl UsSo="1" nm="BeneficialUses_dim">
       <TblOpts/>
       <Pk ClNs="BeneficialUseID" nm="pkBeneficialUses_dim"/>
-      <Cl au="0" df="" nm="BeneficialUseID" nu="0">
+      <Cl au="1" df="" nm="BeneficialUseID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="BeneficialUseUUID" nu="1">
@@ -482,7 +481,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
     <Tbl UsSo="1" nm="Date_dim">
       <TblOpts/>
       <Pk ClNs="DateID" nm="pkDate_dim"/>
-      <Cl au="0" df="" nm="DateID" nu="0">
+      <Cl au="1" df="" nm="DateID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Date" nu="0">
@@ -499,7 +498,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <Cm>specific granular variables</Cm>
       <TblOpts/>
       <Pk ClNs="MethodID" nm="pkMethods_dim"/>
-      <Cl au="0" df="" nm="MethodID" nu="0">
+      <Cl au="1" df="" nm="MethodID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifierfor each database instance that implements the table</Cm>
       </Cl>
@@ -545,7 +544,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
     <Tbl UsSo="1" nm="NHDMetadata">
       <TblOpts/>
       <Pk ClNs="NHDMetadataID" nm="pkNHDMetadata"/>
-      <Cl au="0" df="" nm="NHDMetadataID" nu="0">
+      <Cl au="1" df="" nm="NHDMetadataID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="0">
@@ -575,7 +574,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <Cm>Organization responsible for the data reported.  </Cm>
       <TblOpts/>
       <Pk ClNs="OrganizationID" nm="pkOrganizations_dim"/>
-      <Cl au="0" df="" nm="OrganizationID" nu="0">
+      <Cl au="1" df="" nm="OrganizationID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for organizations</Cm>
       </Cl>
@@ -616,7 +615,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
     <Tbl UsSo="1" nm="RegulatoryOverlay_dim">
       <TblOpts/>
       <Pk ClNs="RegulatoryOverlayID" nm="pkRegulatoryOverlay_dim"/>
-      <Cl au="0" df="" nm="RegulatoryOverlayID" nu="0">
+      <Cl au="1" df="" nm="RegulatoryOverlayID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -735,7 +734,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
       <Pk ClNs="ReportingUnitID" nm="pkReportingUnits_dim"/>
-      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+      <Cl au="1" df="" nm="ReportingUnitID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
@@ -784,7 +783,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <Cm>Site specific</Cm>
       <TblOpts/>
       <Pk ClNs="SiteID" nm="pkSites_dim"/>
-      <Cl au="0" df="" nm="SiteID" nu="0">
+      <Cl au="1" df="" nm="SiteID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -875,7 +874,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <Tbl UsSo="1" nm="SiteVariableAmounts_fact">
       <TblOpts/>
       <Pk ClNs="SiteVariableAmountID" nm="pkSiteVariableAmounts_fact"/>
-      <Cl au="0" df="" nm="SiteVariableAmountID" nu="0">
+      <Cl au="1" df="" nm="SiteVariableAmountID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
@@ -1021,7 +1020,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>specific granular variables</Cm>
       <TblOpts/>
       <Pk ClNs="VariableSpecificID" nm="pkVariables_dim"/>
-      <Cl au="0" df="" nm="VariableSpecificID" nu="0">
+      <Cl au="1" df="" nm="VariableSpecificID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>An internal unique identifier integer for variables</Cm>
       </Cl>
@@ -1074,7 +1073,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cm>WaterSources including the source type (groundwater or surface water) and its quality</Cm>
       <TblOpts/>
       <Pk ClNs="WaterSourceID" nm="pkWaterSources_dim"/>
-      <Cl au="0" df="" nm="WaterSourceID" nu="0">
+      <Cl au="1" df="" nm="WaterSourceID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier for water sources</Cm>
       </Cl>
@@ -2294,7 +2293,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="888" x2="888" y1="431" y2="609"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="882" x2="882" y1="431" y2="609"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2523,6 +2522,8 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
       <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
@@ -2530,8 +2531,6 @@ The brown tables are the dimensions tables (look us) that are mostly static over
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2810,7 +2809,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="815">
+  <RnmMgr NxRnmId="816">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4664,6 +4663,9 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
       <Rnm id="814" nNm="Organizations_dim" oNm="Organizations_dim_Input"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm id="815" nNm="PrimaryBeneficialUseID" oNm="BeneficialUseID"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -4681,22 +4683,19 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
     <TreePath>/Schemas (3)/Core</TreePath>
     <TreePath>/Schemas (3)/Core/Tables (19)</TreePath>
-    <TreePath>/Schemas (3)/CVs</TreePath>
-    <TreePath>/Schemas (3)/CVs/Tables (22)</TreePath>
-    <TreePath>/Schemas (3)/Input</TreePath>
-    <TreePath>/Schemas (3)/Input/Tables (12)</TreePath>
+    <TreePath>/Schemas (3)/Core/Tables (19)/Allocations_dim</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
     <TreePath>/Diagrams (6)/6_InputTables</TreePath>
     <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
