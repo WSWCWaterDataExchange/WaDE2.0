@@ -1236,7 +1236,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="VarChar" en="" id="12" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="State identifier" nu="1">
+      <Cl au="0" df="" nm="StateIdentifier" nu="1">
         <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
         <Cm>State identifier two letters</Cm>
       </Cl>
@@ -2522,15 +2522,15 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2809,7 +2809,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="816">
+  <RnmMgr NxRnmId="817">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4666,6 +4666,9 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
       <Rnm id="815" nNm="PrimaryBeneficialUseID" oNm="BeneficialUseID"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="LegalStatus" SupCls="Schema" SupNme="CVs">
+      <Rnm id="816" nNm="StateIdentifier" oNm="State identifier"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -4683,12 +4686,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
