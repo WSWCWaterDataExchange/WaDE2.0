@@ -139,7 +139,7 @@
         <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="AggregatedAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -278,7 +278,7 @@
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="0"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -994,7 +994,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -1396,9 +1396,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="CVs_ReportingUnitType"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportYearCV">
+    <Tbl UsSo="1" nm="ReportYear">
       <TblOpts/>
-      <Pk ClNs="Name" nm="pkReportYearCV"/>
+      <Pk ClNs="Name" nm="pkReportYear"/>
       <Cl au="0" df="" nm="Name" nu="0">
         <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
       </Cl>
@@ -2279,9 +2279,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="17" y="325"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="581" y="1100"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationAmounts_fact" x="500" y="609"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1072" y="749"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1072" y="749"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="543" y="303"/>
-    <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="510" y="477"/>
+    <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="499" y="477"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="439" y="142"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="803" y="141"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="24" y="1009"/>
@@ -2321,10 +2321,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1077" x2="1077" y1="749" y2="748"/>
-        <positionableLine lineRole="CHILD_LINE" x1="978" x2="1073" y1="744" y2="744"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1072" x2="978" y1="754" y2="754"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2426,7 +2425,7 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="559" y="880"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="597" y="104"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="530" y="262"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1027" y="689"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1027" y="689"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="60" y="807"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SiteVariableAmounts_fact" x="508" y="411"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="NHDMetadata" x="76" y="1088"/>
@@ -2522,15 +2521,15 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2565,7 +2564,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff99540f" sch="Core" tbl="Methods_dim" x="39" y="450"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="573" y="106"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="558" y="279"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1071" y="606"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1071" y="606"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="409" y2="359"/>
@@ -2754,7 +2753,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="MethodType" x="414" y="139"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="LegalStatus" x="792" y="140"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="GNISFeatureName" x="1162" y="143"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="415" y="435"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="415" y="435"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="VariableSpecific" x="1168" y="581"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterSourceType" x="790" y="743"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="CropType" x="1172" y="743"/>
@@ -2809,7 +2808,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="817">
+  <RnmMgr NxRnmId="818">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4619,6 +4618,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="799" nNm="EPSGCode" oNm="CVs_EPSGCode"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
+      <Rnm id="817" nNm="ReportYear" oNm="ReportYearCV"/>
       <Rnm id="800" nNm="ReportYearCV" oNm="CVs_ReportYearCV"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
@@ -4686,12 +4686,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

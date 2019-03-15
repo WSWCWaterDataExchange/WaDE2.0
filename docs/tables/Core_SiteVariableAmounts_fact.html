@@ -24,7 +24,10 @@
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/Core_SiteVariableAmounts_fact_SiteVariableAmountID.html">SiteVariableAmountID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer</td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/Core_SiteVariableAmounts_fact_SiteVariableAmountID.html">SiteVariableAmountID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_SiteVariableAmounts_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to Organization</td><td class="FkCol">
@@ -183,7 +186,7 @@
 <td><a href="../foreignKeys/Core_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Organizations_dim.html">fk_SiteVariableAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_SiteVariableAmounts_fact.html">Core.SiteVariableAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_ReportYearCV.html">fk_SiteVariableAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_SiteVariableAmounts_fact.html">Core.SiteVariableAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
+<td><a href="../foreignKeys/Core_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_ReportYearCV.html">fk_SiteVariableAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYear.html">CVs.ReportYear</a></td><td><a href="../tables/Core_SiteVariableAmounts_fact.html">Core.SiteVariableAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_SiteVariableAmounts_fact_fk_SiteVariableAmounts_fact_Sites_dim.html">fk_SiteVariableAmounts_fact_Sites_dim</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td><a href="../tables/Core_SiteVariableAmounts_fact.html">Core.SiteVariableAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
