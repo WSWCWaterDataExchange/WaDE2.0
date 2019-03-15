@@ -13,7 +13,7 @@ namespace WaDEAzureFunctions.v1
     public static class WaterAllocation_WithdrawalSites
     {
         [FunctionName("WaterAllocation_WithdrawalSites_v1")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "v1/WithdrawalSites")] HttpRequest req, ILogger log)
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/WithdrawalSites")] HttpRequest req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_WithdrawalSites)}");
 
