@@ -1112,6 +1112,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
   </Sch>
   <Sch Cm="" nm="CVs">
     <Tbl UsSo="1" nm="AggregationStatistic">
+      <Cm>A term for describing the statistical action used to calculate over recorded time series values within a time interval. For example, 100 cfs of delivery target to a demand site is a "cumulative" aggregation statistic calculated over a time interval like a month.  </Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkAggregationStatistic"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1136,6 +1137,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="CropType">
+      <Cm>A term that indicates the Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkCropType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1159,6 +1161,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="EPSGCode">
+      <Cm>A term to indicate the European Petroleum Survey Group (EPSG) Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkEPSGCode"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1182,6 +1185,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="GNISFeatureName">
+      <Cm>A term that describes the most appropriate Geographic Names Information System (GNIS) identifier for the source location.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkGNISFeatureName"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1205,6 +1209,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="IrrigationMethod">
+      <Cm>A term to describe the irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkIrrigationMethod"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1228,6 +1233,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="LegalStatus">
+      <Cm>A term that describes the legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkLegalStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1255,6 +1261,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="MethodType">
+      <Cm>A term to describe how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkMethodType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1278,6 +1285,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NAICSCode">
+      <Cm>A term for a Six-digit (North American Industry Classification System) NAICs Code associated with the primary beneficial use category</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNAICSCode"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1301,6 +1309,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NHDNetworkStatus">
+      <Cm>A term to describe whether the point location is indexed to a USGS National Hydrography Dataset (NHD) product</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNHDNetworkStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1324,6 +1333,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NHDProduct">
+      <Cm>A term that indicates the National Hydrography Dataset (NHD) Product that is used for the indexing. Should be NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNHDProduct"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1347,6 +1357,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="RegulatoryStatus">
+      <Cm>A term to indicate the status of the regulation (i.e., whether it is currently initiated/in effect)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkRegulatoryStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1374,6 +1385,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="ReportingUnitType">
+      <Cm>A term to describe the type of reporting unit - county, HUC, or a custom delineation.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkReportingUnitType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1397,6 +1409,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="ReportYear">
+      <Cm>A term to indicate the annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkReportYear"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1420,6 +1433,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="ReportYearType">
+      <Cm>A term that describes the annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkReportYearType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1443,6 +1457,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="Units">
+      <Cm>A term that describes the unit of the amount</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkUnits"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1466,6 +1481,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="USGSCategory">
+      <Cm>A term that assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkUSGSCategory"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1489,6 +1505,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="Variable">
+      <Cm>A term that describes the high-level variable used for aggregated water data to support water planning and water balances. The general categories available are for water supply, water withdrawal, consumptive use, and return flows: [AggregatedWaterSupply], [AggregatedWithdrawal], [AggregatedConsumptiveUse], [AggregatedReturnFlow]</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkVariable"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1512,6 +1529,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="VariableSpecific">
+      <Cm>A term that describes a subcategorization of the site-specific variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water withdrawal, the variable would be [SiteSpecificWithdrawal, Irrigation]. Other examples: [SiteSpecificConsumptiveUse, Irrigation], [SiteSpecificReturnFlow, Discharge], etc.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkVariableSpecific"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1535,6 +1553,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterAllocationBasis">
+      <Cm>A Term to specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterAllocationBasis"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1562,6 +1581,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterQualityIndicator">
+      <Cm>A term to describe water quality fresh, saline, or mixed quality</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterQualityIndicator"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1585,6 +1605,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterRightType">
+      <Cm>A term that describes the water right type in each state such as Federal Reserved Water Right, Temporary Application, Water Company Shares</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterRightType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1611,6 +1632,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterSourceType">
+      <Cm>A term that describes the source type of the water allocation (e.g., surface water, groundwater, mixed sources, reuse, etc.)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterSourceType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -2521,15 +2543,15 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2746,9 +2768,9 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="Units" x="787" y="287"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearType" x="1161" y="283"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportingUnitType" x="26" y="738"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="RegulatoryStatus" x="418" y="581"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="RegulatoryStatus" x="419" y="581"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDProduct" x="792" y="435"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDNetworkStatus" x="413" y="282"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDNetworkStatus" x="414" y="282"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="31" y="279"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="MethodType" x="414" y="139"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="LegalStatus" x="792" y="140"/>
@@ -4686,12 +4708,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
