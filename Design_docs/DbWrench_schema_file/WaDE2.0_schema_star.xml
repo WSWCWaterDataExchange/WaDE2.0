@@ -400,49 +400,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="Allocations_dim_Input">
-      <Cm>Water Allocations, also known as water rights or permits </Cm>
-      <TblOpts/>
-      <Pk ClNs="AllocationNativeID" nm="pkAllocations_dim_Input"/>
-      <Cl au="0" df="" nm="AllocationNativeID" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>Unique identifier for the allocation as-is in the member states, can be alphanumeric</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationOwner" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="255" sc="null" sg="1" un="0"/>
-        <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Date of the original filing on the allocation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationPriorityDate" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Priority Date given to the allocation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>If the allocation is temporary, add the expiration date</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationChangeApplicationIndicator" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>Indicate if this allocation was the result of a change application</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="LegacyAllocationIDs" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
-      </Cl>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
     <Tbl UsSo="1" nm="BeneficialUses_dim">
       <TblOpts/>
       <Pk ClNs="BeneficialUseID" nm="pkBeneficialUses_dim"/>
@@ -1839,6 +1796,51 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="AllocationAmounts_VariableTable"/>
       </SchTrHis>
     </Tbl>
+    <Tbl UsSo="1" nm="Allocations_dim">
+      <Cm>Water Allocations, also known as water rights or permits </Cm>
+      <TblOpts/>
+      <Pk ClNs="AllocationNativeID" nm="pkAllocations_dim"/>
+      <Cl au="0" df="" nm="AllocationNativeID" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Unique identifier for the allocation as-is in the member states, can be alphanumeric</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationOwner" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date of the original filing on the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationPriorityDate" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Priority Date given to the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>If the allocation is temporary, add the expiration date</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationChangeApplicationIndicator" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Indicate if this allocation was the result of a change application</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LegacyAllocationIDs" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="Core" stB="Allocations_dim_Input"/>
+      </SchTrHis>
+    </Tbl>
     <Tbl UsSo="1" nm="BeneficialUses_dim">
       <TblOpts/>
       <Pk ClNs="BeneficialUseCategory" nm="pkBeneficialUses_dim"/>
@@ -2830,7 +2832,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="818">
+  <RnmMgr NxRnmId="819">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -4691,6 +4693,9 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="LegalStatus" SupCls="Schema" SupNme="CVs">
       <Rnm id="816" nNm="StateIdentifier" oNm="State identifier"/>
     </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="818" nNm="Allocations_dim" oNm="Allocations_dim_Input"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -4709,21 +4714,16 @@ Some tables like the Allocations table might change over time but much slowly</N
   </DbDocOptionMgr>
   <OpenEditors>
     <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
-    <TreePath>/Schemas (3)/Core</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)/Allocations_dim</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
