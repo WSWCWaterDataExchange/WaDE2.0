@@ -8,16 +8,16 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace WaDEAzureFunctions.v1
+namespace WaDEApiFunctions.v1
 {
-    public static class WaterAllocation_WithdrawalSites
+    public static class WaterAllocation_SiteVariableAmounts_v1
     {
-        [FunctionName("WaterAllocation_WithdrawalSites_v1")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/WithdrawalSites")] HttpRequest req, ILogger log)
+        [FunctionName("WaterAllocation_SiteVariableAmounts_v1")]
+        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_WithdrawalSites)}");
+            log.LogInformation("C# HTTP trigger function processed a request.");
 
-            string name = req.Query["Water"];
+            string name = req.Query["name"];
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);

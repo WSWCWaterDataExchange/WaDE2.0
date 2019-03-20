@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.271
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Managers", "WesternStatesWater.WaDE.Managers\WesternStatesWater.WaDE.Managers.csproj", "{45B1F419-8F2B-47A9-920B-E262BAE89BB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Accessors", "WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj", "{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaDEApiFunctions", "WaDEApiFunctions\WaDEApiFunctions.csproj", "{33107B81-A6AC-4ACA-B542-BF139A7C4182}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Clients", "1. Clients", "{4BE292EC-D2EB-435C-98C3-CB48495C8AB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Managers", "2. Managers", "{71986FDB-7155-4A49-8CAB-F2539259C52C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Engines", "3. Engines", "{DFD8F2F9-71B9-47AF-8B71-439086DDD2E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4. Accessors", "4. Accessors", "{EAE690AC-DCE4-415C-982E-E9975865D239}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5. Utilities", "5. Utilities", "{AD01DBE8-CF05-43B6-8BEA-2F5D5507D804}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6. Common", "6. Common", "{7F7D0E59-ED9A-401D-8F33-A9DE2582546B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "9. Tests", "9. Tests", "{1FD93D0E-2296-451D-8256-D1064A2045AF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Contracts.Api", "WesternStatesWater.WaDE.Contracts.Api\WesternStatesWater.WaDE.Contracts.Api.csproj", "{460C2019-C3F6-4196-9A7B-E1B534E2794C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Accessors.Contracts.Api", "WesternStatesWater.WaDE.Accessors.Contracts.Api\WesternStatesWater.WaDE.Accessors.Contracts.Api.csproj", "{3A9252D9-FC11-47D5-A81F-F237744656A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Accessors.Tests", "WesternStatesWater.WaDE.Accessors.Tests\WesternStatesWater.WaDE.Accessors.Tests.csproj", "{CDA9BC3F-037E-4F17-8606-B7DDABB0B358}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Managers.Tests", "WesternStatesWater.WaDE.Managers.Tests\WesternStatesWater.WaDE.Managers.Tests.csproj", "{59C75C1A-9FA7-495E-8345-412C8356D9FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45B1F419-8F2B-47A9-920B-E262BAE89BB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45B1F419-8F2B-47A9-920B-E262BAE89BB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45B1F419-8F2B-47A9-920B-E262BAE89BB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45B1F419-8F2B-47A9-920B-E262BAE89BB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33107B81-A6AC-4ACA-B542-BF139A7C4182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33107B81-A6AC-4ACA-B542-BF139A7C4182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33107B81-A6AC-4ACA-B542-BF139A7C4182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33107B81-A6AC-4ACA-B542-BF139A7C4182}.Release|Any CPU.Build.0 = Release|Any CPU
+		{460C2019-C3F6-4196-9A7B-E1B534E2794C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{460C2019-C3F6-4196-9A7B-E1B534E2794C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{460C2019-C3F6-4196-9A7B-E1B534E2794C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{460C2019-C3F6-4196-9A7B-E1B534E2794C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9252D9-FC11-47D5-A81F-F237744656A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9252D9-FC11-47D5-A81F-F237744656A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9252D9-FC11-47D5-A81F-F237744656A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9252D9-FC11-47D5-A81F-F237744656A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA9BC3F-037E-4F17-8606-B7DDABB0B358}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA9BC3F-037E-4F17-8606-B7DDABB0B358}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA9BC3F-037E-4F17-8606-B7DDABB0B358}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA9BC3F-037E-4F17-8606-B7DDABB0B358}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59C75C1A-9FA7-495E-8345-412C8356D9FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59C75C1A-9FA7-495E-8345-412C8356D9FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59C75C1A-9FA7-495E-8345-412C8356D9FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59C75C1A-9FA7-495E-8345-412C8356D9FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{45B1F419-8F2B-47A9-920B-E262BAE89BB6} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
+		{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2} = {EAE690AC-DCE4-415C-982E-E9975865D239}
+		{33107B81-A6AC-4ACA-B542-BF139A7C4182} = {4BE292EC-D2EB-435C-98C3-CB48495C8AB6}
+		{460C2019-C3F6-4196-9A7B-E1B534E2794C} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
+		{3A9252D9-FC11-47D5-A81F-F237744656A1} = {EAE690AC-DCE4-415C-982E-E9975865D239}
+		{CDA9BC3F-037E-4F17-8606-B7DDABB0B358} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+		{59C75C1A-9FA7-495E-8345-412C8356D9FF} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}
+	EndGlobalSection
+EndGlobal

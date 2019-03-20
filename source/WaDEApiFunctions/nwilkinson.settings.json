@@ -1,0 +1,6 @@
+{
+  "IsEncrypted": false,
+  "ConnectionStrings": {
+    "WadeDatabase": "Server=(localdb)\\mssqllocaldb;Database=EFGetStarted.ConsoleApp.NewDb;Trusted_Connection=True;"
+  }
+}
