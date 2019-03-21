@@ -17,8 +17,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string SiteNativeId { get; set; }
         public string SiteName { get; set; }
         public string SiteTypeCv { get; set; }
-        public string Longitude { get; set; }
-        public string Latitude { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
         public IGeometry SitePoint { get; set; }
         public IGeometry Geometry { get; set; }
         public string CoordinateMethodCv { get; set; }

@@ -22,16 +22,16 @@ namespace WaDEApiFunctions
         {
             var config = new ConfigurationBuilder()
                 .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.settings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"{Environment.UserName}.settings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("settings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("settings.local.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"settings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"settings.{Environment.UserName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
 
-            builder.Services.Configure<IConfiguration>(config);
+            builder.Services.AddSingleton<IConfiguration>(config);
             builder.Services.AddTransient<IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<IWaterAllocationAccessor, WaterAllocationAccessor>();
-
         }
     }
 }

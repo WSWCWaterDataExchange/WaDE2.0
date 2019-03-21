@@ -6,6 +6,8 @@ using System.Text;
 using WesternStatesWater.WaDE.Accessors.Contracts;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using AutoMapper.QueryableExtensions;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
@@ -18,7 +20,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        List<AllocationAmounts> IWaterAllocationAccessor.GetSiteAllocationAmounts(string variableSpecificCV, string siteUuid)
+        async Task<IEnumerable<AllocationAmounts>> IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -31,7 +33,8 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     query = query.Where(a => a.Site.SiteUuid == siteUuid);
                 }
-                return query.ProjectTo<AllocationAmounts>(Mapping.DtoMapper.Configuration).ToList();
+
+                return await query.ProjectTo<AllocationAmounts>(Mapping.DtoMapper.Configuration).ToListAsync();
             }
         }
     }

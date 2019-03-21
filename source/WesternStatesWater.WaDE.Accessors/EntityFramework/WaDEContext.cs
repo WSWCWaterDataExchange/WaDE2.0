@@ -60,7 +60,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x => x.UseNetTopologySuite());
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
+                {
+                    x.UseNetTopologySuite();
+                    x.EnableRetryOnFailure();
+                });
             }
         }
 
@@ -1521,6 +1525,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.VariableSpecificUuid)
                     .HasColumnName("VariableSpecificUUID")
                     .HasMaxLength(250);
+
+                entity.HasOne(d => d.VariableSpecific)
+                    .WithMany(p => p.VariablesDims)
+                    .HasForeignKey(d => d.VariableSpecificCv)
+                    .HasConstraintName("fk_Variables_dim_VariableSpecific");
             });
 
             modelBuilder.Entity<WaterAllocationBasis>(entity =>

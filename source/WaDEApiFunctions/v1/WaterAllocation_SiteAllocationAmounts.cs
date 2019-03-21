@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Newtonsoft.Json.Serialization;
 
 namespace WaDEApiFunctions.v1
 {
@@ -28,9 +29,14 @@ namespace WaDEApiFunctions.v1
             var variableSpecificCV = req.Query["VariableSpecificCV"];
             var siteUuid = req.Query["SiteUUID"];
 
-            var siteAllocationAmounts = WaterAllocationManager.GetSiteAllocationAmounts(variableSpecificCV, siteUuid);
+            if(string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid))
+            {
+                return new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified");
+            }
 
-            return new OkObjectResult(siteAllocationAmounts);
+            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid);
+
+            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
     }
 }

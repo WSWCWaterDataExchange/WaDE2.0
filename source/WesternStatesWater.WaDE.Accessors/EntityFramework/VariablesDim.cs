@@ -24,6 +24,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string AmountUnitCv { get; set; }
         public string MaximumAmountUnitCv { get; set; }
 
+        public virtual VariableSpecific VariableSpecific { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }

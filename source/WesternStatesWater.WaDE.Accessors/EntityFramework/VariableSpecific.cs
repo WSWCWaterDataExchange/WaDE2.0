@@ -10,5 +10,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string Definition { get; set; }
         public string Category { get; set; }
         public string SourceVocabularyUri { get; set; }
+
+        public virtual ICollection<VariablesDim> VariablesDims { get; set; }
     }
 }

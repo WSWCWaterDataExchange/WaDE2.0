@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Managers.Mapping;
@@ -16,9 +18,10 @@ namespace WesternStatesWater.WaDE.Managers
 
         public IWaterAllocationAccessor WaterAllocationAccessor { get; set; }
 
-        List<Contracts.Api.AllocationAmounts> IWaterAllocationManager.GetSiteAllocationAmounts(string variableSpecificCV, string siteUuid)
+        async Task<IEnumerable<Contracts.Api.AllocationAmounts>> IWaterAllocationManager.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid)
         {
-            return WaterAllocationAccessor.GetSiteAllocationAmounts(variableSpecificCV, siteUuid).Map<List<Contracts.Api.AllocationAmounts>>();
+            var results = await WaterAllocationAccessor.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid);
+            return results.Select(a => a.Map<Contracts.Api.AllocationAmounts>());
         }
     }
 }

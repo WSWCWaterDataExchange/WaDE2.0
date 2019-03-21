@@ -7,7 +7,7 @@
       "type": "shell",
       "args": [
         "clean",
-        "${workspaceFolder}\\WaDEAzureFunctions.sln"
+        "${workspaceFolder}\\WaDE.sln"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -22,7 +22,7 @@
       },
       "args": [
         "build",
-        "${workspaceFolder}\\WaDEAzureFunctions.sln"
+        "${workspaceFolder}\\WaDE.sln"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -43,7 +43,7 @@
       "label": "host start",
       "type": "shell",
       "dependsOn": "build",
-      "command": "func host start --script-root C:\\workspaces\\WaDE\\develop\\source\\WaDEAzureFunctions\\bin\\Debug\\netcoreapp2.1",
+      "command": "func host start --script-root ${workspaceFolder}\\WaDEApiFunctions\\bin\\Debug\\netstandard20",
       "isBackground": true,
       "presentation": {
       "reveal": "always"

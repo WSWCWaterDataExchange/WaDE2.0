@@ -7,25 +7,34 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using WesternStatesWater.WaDE.Contracts.Api;
+using Newtonsoft.Json.Serialization;
 
 namespace WaDEApiFunctions.v1
 {
-    public static class WaterAllocation_SiteVariableAmounts_v1
+    public class WaterAllocation_SiteVariableAmounts
     {
-        [FunctionName("WaterAllocation_SiteVariableAmounts_v1")]
-        public static async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
+        public WaterAllocation_SiteVariableAmounts(IWaterAllocationManager waterAllocationManager)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            WaterAllocationManager = waterAllocationManager;
+        }
 
-            string name = req.Query["name"];
+        private IWaterAllocationManager WaterAllocationManager { get; set; }
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
+        [FunctionName("WaterAllocation_SiteVariableAmounts_v1")]
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
+        {
+            log.LogInformation($"Call to {nameof(WaterAllocation_SiteVariableAmounts)}");
 
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            var variableSpecificCV = req.Query["VariableSpecificCV"];
+            var siteUuid = req.Query["SiteUUID"];
+
+            if (string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid))
+            {
+                return new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified");
+            }
+
+            return new JsonResult(new string[0], new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
     }
 }
