@@ -24,7 +24,10 @@
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/Core_AggregatedAmounts_fact_AggregatedAmountID.html">AggregatedAmountID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/Core_AggregatedAmounts_fact_AggregatedAmountID.html">AggregatedAmountID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the organization</td><td class="FkCol">
@@ -165,7 +168,7 @@
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportYearCV.html">fk_AggregatedAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportYearCV.html">fk_AggregatedAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYear.html">CVs.ReportYear</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYear</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>

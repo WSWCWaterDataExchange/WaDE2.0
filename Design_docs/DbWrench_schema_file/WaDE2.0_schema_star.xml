@@ -139,7 +139,7 @@
         <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="AggregatedAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -278,7 +278,7 @@
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="0"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -397,49 +397,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <CdTb mn="1" nm="Allocations_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="AllocationPriorityDate" prCl="DateID"/>
       </Fk>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
-    <Tbl UsSo="1" nm="Allocations_dim_Input">
-      <Cm>Water Allocations, also known as water rights or permits </Cm>
-      <TblOpts/>
-      <Pk ClNs="AllocationNativeID" nm="pkAllocations_dim_Input"/>
-      <Cl au="0" df="" nm="AllocationNativeID" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>Unique identifier for the allocation as-is in the member states, can be alphanumeric</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationOwner" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="255" sc="null" sg="1" un="0"/>
-        <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Date of the original filing on the allocation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationPriorityDate" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>Priority Date given to the allocation</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>If the allocation is temporary, add the expiration date</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="AllocationChangeApplicationIndicator" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>Indicate if this allocation was the result of a change application</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="LegacyAllocationIDs" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
-      </Cl>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
@@ -994,7 +951,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
+        <PrTb mn="0" nm="ReportYear" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYear" prCl="Name"/>
       </Fk>
@@ -1122,6 +1079,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
   </Sch>
   <Sch Cm="" nm="CVs">
     <Tbl UsSo="1" nm="AggregationStatistic">
+      <Cm>A term for describing the statistical action used to calculate over recorded time series values within a time interval. For example, 100 cfs of delivery target to a demand site is a "cumulative" aggregation statistic calculated over a time interval like a month.  </Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkAggregationStatistic"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1146,6 +1104,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="CropType">
+      <Cm>A term that indicates the Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkCropType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1169,6 +1128,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="EPSGCode">
+      <Cm>A term to indicate the European Petroleum Survey Group (EPSG) Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkEPSGCode"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1192,6 +1152,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="GNISFeatureName">
+      <Cm>A term that describes the most appropriate Geographic Names Information System (GNIS) identifier for the source location.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkGNISFeatureName"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1215,6 +1176,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="IrrigationMethod">
+      <Cm>A term to describe the irrigation method for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkIrrigationMethod"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1238,6 +1200,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="LegalStatus">
+      <Cm>A term that describes the legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkLegalStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1265,6 +1228,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="MethodType">
+      <Cm>A term to describe how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkMethodType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1288,6 +1252,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NAICSCode">
+      <Cm>A term for a Six-digit (North American Industry Classification System) NAICs Code associated with the primary beneficial use category</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNAICSCode"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1311,6 +1276,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NHDNetworkStatus">
+      <Cm>A term to describe whether the point location is indexed to a USGS National Hydrography Dataset (NHD) product</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNHDNetworkStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1334,6 +1300,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="NHDProduct">
+      <Cm>A term that indicates the National Hydrography Dataset (NHD) Product that is used for the indexing. Should be NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNHDProduct"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1357,6 +1324,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="RegulatoryStatus">
+      <Cm>A term to indicate the status of the regulation (i.e., whether it is currently initiated/in effect)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkRegulatoryStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1384,6 +1352,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="ReportingUnitType">
+      <Cm>A term to describe the type of reporting unit - county, HUC, or a custom delineation.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkReportingUnitType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1406,9 +1375,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <StPr stA="WaDE2_star" stB="CVs_ReportingUnitType"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportYearCV">
+    <Tbl UsSo="1" nm="ReportYear">
+      <Cm>A term to indicate the annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
       <TblOpts/>
-      <Pk ClNs="Name" nm="pkReportYearCV"/>
+      <Pk ClNs="Name" nm="pkReportYear"/>
       <Cl au="0" df="" nm="Name" nu="0">
         <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
       </Cl>
@@ -1430,6 +1400,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="ReportYearType">
+      <Cm>A term that describes the annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkReportYearType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1453,6 +1424,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="Units">
+      <Cm>A term that describes the unit of the amount</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkUnits"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1476,6 +1448,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="USGSCategory">
+      <Cm>A term that assign a USGS water use category from the USGS controlled vocabulary (e.g. irrigation, groundwater, fresh)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkUSGSCategory"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1499,6 +1472,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="Variable">
+      <Cm>A term that describes the high-level variable used for aggregated water data to support water planning and water balances. The general categories available are for water supply, water withdrawal, consumptive use, and return flows: [AggregatedWaterSupply], [AggregatedWithdrawal], [AggregatedConsumptiveUse], [AggregatedReturnFlow]</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkVariable"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1522,6 +1496,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="VariableSpecific">
+      <Cm>A term that describes a subcategorization of the site-specific variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water withdrawal, the variable would be [SiteSpecificWithdrawal, Irrigation]. Other examples: [SiteSpecificConsumptiveUse, Irrigation], [SiteSpecificReturnFlow, Discharge], etc.</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkVariableSpecific"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1545,6 +1520,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterAllocationBasis">
+      <Cm>A Term to specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterAllocationBasis"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1572,6 +1548,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterQualityIndicator">
+      <Cm>A term to describe water quality fresh, saline, or mixed quality</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterQualityIndicator"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1595,6 +1572,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterRightType">
+      <Cm>A term that describes the water right type in each state such as Federal Reserved Water Right, Temporary Application, Water Company Shares</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterRightType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1621,6 +1599,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="WaterSourceType">
+      <Cm>A term that describes the source type of the water allocation (e.g., surface water, groundwater, mixed sources, reuse, etc.)</Cm>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkWaterSourceType"/>
       <Cl au="0" df="" nm="Name" nu="0">
@@ -1825,6 +1804,51 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="AllocationAmounts_VariableTable"/>
+      </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="Allocations_dim">
+      <Cm>Water Allocations, also known as water rights or permits </Cm>
+      <TblOpts/>
+      <Pk ClNs="AllocationNativeID" nm="pkAllocations_dim"/>
+      <Cl au="0" df="" nm="AllocationNativeID" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Unique identifier for the allocation as-is in the member states, can be alphanumeric</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationOwner" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="255" sc="null" sg="1" un="0"/>
+        <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Specify whether this water right is based on water withdrawals/diversion or consumptive use/depletion amount</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationLegalStatusCV" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The legal status of the water right (e.g., proven, approved, perfected, adjudicated, etc.)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationApplicationDate" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Date of the original filing on the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationPriorityDate" nu="0">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>Priority Date given to the allocation</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationExpirationDate" nu="1">
+        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>If the allocation is temporary, add the expiration date</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="AllocationChangeApplicationIndicator" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>Indicate if this allocation was the result of a change application</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LegacyAllocationIDs" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list</Cm>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis>
+        <StPr stA="Core" stB="Allocations_dim_Input"/>
       </SchTrHis>
     </Tbl>
     <Tbl UsSo="1" nm="BeneficialUses_dim">
@@ -2289,9 +2313,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="17" y="325"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="581" y="1100"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationAmounts_fact" x="500" y="609"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1072" y="749"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1072" y="749"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="543" y="303"/>
-    <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="510" y="477"/>
+    <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="499" y="477"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="439" y="142"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="803" y="141"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="24" y="1009"/>
@@ -2333,10 +2357,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1077" x2="1077" y1="749" y2="748"/>
-        <positionableLine lineRole="CHILD_LINE" x1="978" x2="1073" y1="744" y2="744"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1072" x2="978" y1="754" y2="754"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2448,7 +2471,7 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="559" y="880"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="597" y="104"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="530" y="262"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1027" y="689"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1027" y="689"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="60" y="807"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SiteVariableAmounts_fact" x="508" y="411"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="NHDMetadata" x="76" y="1088"/>
@@ -2587,7 +2610,7 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff99540f" sch="Core" tbl="Methods_dim" x="39" y="450"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="573" y="106"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="558" y="279"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1071" y="606"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="1071" y="606"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="725" x2="725" y1="409" y2="359"/>
@@ -2769,14 +2792,14 @@ The green table is the FACT table that changes over time and connects things tog
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="Units" x="787" y="287"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearType" x="1161" y="283"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportingUnitType" x="26" y="738"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="RegulatoryStatus" x="418" y="581"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="RegulatoryStatus" x="419" y="581"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDProduct" x="792" y="435"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDNetworkStatus" x="413" y="282"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDNetworkStatus" x="414" y="282"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="31" y="279"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="MethodType" x="414" y="139"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="LegalStatus" x="792" y="140"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="GNISFeatureName" x="1162" y="143"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="415" y="435"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYear" x="415" y="435"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="VariableSpecific" x="1168" y="581"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterSourceType" x="790" y="743"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="CropType" x="1172" y="743"/>
@@ -4641,6 +4664,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="799" nNm="EPSGCode" oNm="CVs_EPSGCode"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
+      <Rnm id="817" nNm="ReportYear" oNm="ReportYearCV"/>
       <Rnm id="800" nNm="ReportYearCV" oNm="CVs_ReportYearCV"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
@@ -4691,11 +4715,14 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="LegalStatus" SupCls="Schema" SupNme="CVs">
       <Rnm id="816" nNm="StateIdentifier" oNm="State identifier"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="Core">
-      <Rnm id="817" nNm="VariableSpecificCV" oNm="Name"/>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm id="817" nNm="Allocations_dim" oNm="Allocations_dim_Input"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="Core">
-      <Rnm id="818" nNm="VariableCV" oNm="Name"/>
+      <Rnm id="818" nNm="VariableSpecificCV" oNm="Name"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="Core">
+      <Rnm id="819" nNm="VariableCV" oNm="Name"/>
     </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
@@ -4714,24 +4741,18 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
-    <TreePath>/Schemas (3)/Core</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)/Variables_dim</TreePath>
     <TreePath>/Schemas (3)/CVs</TreePath>
     <TreePath>/Schemas (3)/CVs/Tables (22)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
