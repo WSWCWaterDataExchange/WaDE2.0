@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Man
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WaDEImportFunctions", "WaDEImportFunctions\WaDEImportFunctions.csproj", "{AF3B3E8D-08A1-4E38-BB51-FE798355DBA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Contracts.Import", "WesternStatesWater.WaDE.Contracts.Import\WesternStatesWater.WaDE.Contracts.Import.csproj", "{0267F2C0-725D-4356-9D23-0E6B9671A6F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Contracts.Import", "WesternStatesWater.WaDE.Contracts.Import\WesternStatesWater.WaDE.Contracts.Import.csproj", "{0267F2C0-725D-4356-9D23-0E6B9671A6F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Accessors.Contracts.Import", "WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj", "{465A7924-ECC0-445D-8BF2-45B9776BB9B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Accessors.Contracts.Import", "WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj", "{465A7924-ECC0-445D-8BF2-45B9776BB9B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

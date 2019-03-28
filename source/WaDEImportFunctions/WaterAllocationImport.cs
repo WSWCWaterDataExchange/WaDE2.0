@@ -14,9 +14,9 @@ using WesternStatesWater.WaDE.Contracts.Import;
 
 namespace WaDEImportFunctions
 {
-    public class Function1
+    public class WaterAllocationImport
     {
-        public Function1(IWaterAllocationManager waterAllocationManager)
+        public WaterAllocationImport(IWaterAllocationManager waterAllocationManager)
         {
             WaterAllocationManager = waterAllocationManager;
         }
@@ -39,16 +39,20 @@ namespace WaDEImportFunctions
 
             await Task.WhenAll(parallelTasks);
 
-            if (parallelTasks.All(a=>a.IsCompletedSuccessfully && a.Result))
+            if (!parallelTasks.All(a=>a.IsCompleted && a.Result))
             {
-                await context.CallActivityAsync(FunctionNames.LoadWaterAllocation, runId);
+                throw new Exception("Some stuff failed");
+            }
+
+            var result = await context.CallActivityAsync<bool>(FunctionNames.LoadWaterAllocation, runId);
+            if (result)
+            {
+                return new OkObjectResult("OK");
             }
             else
             {
                 throw new Exception("Some stuff failed");
             }
-
-            return new OkObjectResult("OK");
         }
 
         [FunctionName(FunctionNames.LoadOrganizations)]
@@ -89,14 +93,15 @@ namespace WaDEImportFunctions
         [FunctionName(FunctionNames.LoadWaterAllocation)]
         public async Task<bool> LoadWaterAllocation([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
-            await Task.Delay(TimeSpan.FromSeconds(context.GetInput<int>()));
-            return true;
+            var runId = context.GetInput<string>();
+            return await WaterAllocationManager.LoadWaterAllocations(runId);
         }
 
         [FunctionName(FunctionNames.LoadWaterAllocationData)]
-        public async Task<IActionResult> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
         {
-            return new OkObjectResult(await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, req.Query["runId"].ToString()));
+            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, req.Query["runId"].ToString());
+            return new OkObjectResult(new { instanceId });
         }
 
         [FunctionName(FunctionNames.GetLoadWaterOrchestrationStatus)]

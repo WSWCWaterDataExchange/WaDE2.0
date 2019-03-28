@@ -47,28 +47,64 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
-                cmd.CommandText = "exec Core.LoadOrganization @runId @orgs @result";
+                cmd.CommandText = "Core.LoadOrganization";
 
-                var orgsParam = new SqlParameter();
-                orgsParam.ParameterName = "@orgs";
-                orgsParam.SqlDbType = SqlDbType.Structured;
-                orgsParam.Value = organizations.Select(ConvertObjectToSqlDataRecords<AccessorImport.Organization>.Convert);
-                orgsParam.TypeName = "Core.OrganizationTableType";
-                cmd.Parameters.Add(orgsParam);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 var runIdParam = new SqlParameter();
-                runIdParam.ParameterName = "@runId";
+                runIdParam.ParameterName = "@RunId";
                 runIdParam.Value = runId;
                 cmd.Parameters.Add(runIdParam);
 
+                var orgsParam = new SqlParameter();
+                orgsParam.ParameterName = "@OrganizationTable";
+                orgsParam.SqlDbType = SqlDbType.Structured;
+                orgsParam.Value = organizations.Select(ConvertObjectToSqlDataRecords<AccessorImport.Organization>.Convert).ToList();
+                orgsParam.TypeName = "Core.OrganizationTableType";
+                cmd.Parameters.Add(orgsParam);
+
                 var resultParam = new SqlParameter();
-                resultParam.ParameterName = "@result";
-                resultParam.Direction = ParameterDirection.Output;
+                resultParam.SqlDbType = SqlDbType.Bit;
+                resultParam.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.Add(resultParam);
 
+                await db.Database.OpenConnectionAsync();
                 await cmd.ExecuteNonQueryAsync();
 
-                return (bool)resultParam.Value;
+                return (int)resultParam.Value==1;
+            }
+        }
+
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadWaterAllocation(string runId, IEnumerable<AccessorImport.WaterAllocation> organizations)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadWaterAllocation";
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter();
+                runIdParam.ParameterName = "@RunId";
+                runIdParam.Value = runId;
+                cmd.Parameters.Add(runIdParam);
+
+                var orgsParam = new SqlParameter();
+                orgsParam.ParameterName = "@WaterAllocationTable";
+                orgsParam.SqlDbType = SqlDbType.Structured;
+                orgsParam.Value = organizations.Select(ConvertObjectToSqlDataRecords<AccessorImport.WaterAllocation>.Convert).ToList();
+                orgsParam.TypeName = "Core.WaterAllocationTableType";
+                cmd.Parameters.Add(orgsParam);
+
+                var resultParam = new SqlParameter();
+                resultParam.SqlDbType = SqlDbType.Bit;
+                resultParam.Direction = ParameterDirection.ReturnValue;
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 1;
             }
         }
     }
@@ -82,8 +118,19 @@ namespace WesternStatesWater.WaDE.Accessors
             var tableSchema = new List<SqlMetaData>();
             foreach (var prop in Properties)
             {
-                var type = SqlDbType.NVarChar; //todo: add support for other types
-                tableSchema.Add(new SqlMetaData(prop.Name, type));
+                //todo: add support for other types
+                if(prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
+                {
+                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Date));
+                }
+                else if (prop.PropertyType == typeof(double))
+                {
+                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Float));
+                }
+                else
+                {
+                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, 4000));
+                }
             }
             TableSchema = tableSchema.ToArray();
         }

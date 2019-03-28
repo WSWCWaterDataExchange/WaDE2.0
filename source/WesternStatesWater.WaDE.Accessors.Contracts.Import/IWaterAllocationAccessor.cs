@@ -6,5 +6,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
     public interface IWaterAllocationAccessor
     {
         Task<bool> LoadOrganizations(string runId, IEnumerable<Organization> organizations);
+        Task<bool> LoadWaterAllocation(string runId, IEnumerable<WaterAllocation> organizations);
     }
 }
