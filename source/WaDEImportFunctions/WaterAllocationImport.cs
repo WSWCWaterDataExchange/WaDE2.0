@@ -26,9 +26,10 @@ namespace WaDEImportFunctions
         [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
         public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] DurableOrchestrationContextBase context, ILogger log)
         {
-            log.LogInformation("Load Water Orchestration");
-
             var runId = context.GetInput<string>();
+
+            log.LogInformation($"Load Water Allocation Data Orchestration [{runId}]");
+
             var parallelTasks = new [] {
                 context.CallActivityAsync<bool>(FunctionNames.LoadOrganizations, runId),
                 context.CallActivityAsync<bool>(FunctionNames.LoadSites, runId),
@@ -41,7 +42,7 @@ namespace WaDEImportFunctions
 
             if (!parallelTasks.All(a=>a.IsCompleted && a.Result))
             {
-                throw new Exception("Some stuff failed");
+                throw new Exception("Failure Loading Initial Data");
             }
 
             var result = await context.CallActivityAsync<bool>(FunctionNames.LoadWaterAllocation, runId);
@@ -51,7 +52,7 @@ namespace WaDEImportFunctions
             }
             else
             {
-                throw new Exception("Some stuff failed");
+                throw new Exception("Failure Loading Water Allocation Data");
             }
         }
 
@@ -100,7 +101,11 @@ namespace WaDEImportFunctions
         [FunctionName(FunctionNames.LoadWaterAllocationData)]
         public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
         {
-            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, req.Query["runId"].ToString());
+            string runId = req.Query["runId"].ToString();
+
+            log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
+
+            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
             return new OkObjectResult(new { instanceId });
         }
 

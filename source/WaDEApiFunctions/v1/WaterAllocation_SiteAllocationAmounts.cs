@@ -28,13 +28,14 @@ namespace WaDEApiFunctions.v1
 
             var variableSpecificCV = req.Query["VariableSpecificCV"];
             var siteUuid = req.Query["SiteUUID"];
+            var beneficialUse = req.Query["BeneficialUse"];
 
-            if(string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid))
+            if (string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUse))
             {
-                return new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified");
+                return new BadRequestObjectResult("VariableSpecificCV, SiteUUID, or BeneficialUse must be specified");
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid);
+            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid, beneficialUse);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }

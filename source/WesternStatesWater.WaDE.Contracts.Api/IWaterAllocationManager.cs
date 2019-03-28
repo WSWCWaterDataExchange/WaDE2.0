@@ -6,6 +6,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
 { 
     public interface IWaterAllocationManager
     {
-        Task<IEnumerable<AllocationAmounts>> GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid);
+        Task<IEnumerable<AllocationAmounts>> GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse);
     }
 }

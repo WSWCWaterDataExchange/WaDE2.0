@@ -31,6 +31,7 @@ namespace WaDEApiFunctions
             builder.Services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
             builder.Services.AddTransient<AccessorImport.IWaterAllocationAccessor, WaterAllocationAccessor>();
             builder.Services.AddTransient<AccessorImport.IWaterAllocationFileAccessor, WaterAllocationFileAccessor>();
+            builder.Services.AddTransient<AccessorImport.IBlobFileAccessor, BlobFileAccessor>();
         }
     }
 }

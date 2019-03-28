@@ -24,7 +24,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.AllocationAmounts>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid)
+        async Task<IEnumerable<AccessorApi.AllocationAmounts>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -36,6 +36,10 @@ namespace WesternStatesWater.WaDE.Accessors
                 if (!string.IsNullOrWhiteSpace(siteUuid))
                 {
                     query = query.Where(a => a.Site.SiteUuid == siteUuid);
+                }
+                if (!string.IsNullOrWhiteSpace(beneficialUse))
+                {
+                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == beneficialUse || a.AllocationBridgeBeneficialUsesFact.Any(b=>b.BeneficialUse.BeneficialUseCategory == beneficialUse));
                 }
 
                 return await query.ProjectTo<AccessorApi.AllocationAmounts>(Mapping.DtoMapper.Configuration).ToListAsync();
