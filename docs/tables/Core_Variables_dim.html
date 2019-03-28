@@ -36,10 +36,16 @@
 </td><td> </td><td> </td><td>Unique universal identifier for the variable across all the member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_Variables_dim_VariableCV.html">VariableCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableCV.html">VariableCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_Variables_dim_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
@@ -73,9 +79,17 @@
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<div class="paragraph">
-<p>(none)</p>
-</div>
+<table class="flat">
+<tr class="altRow">
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Variable.html">fk_Variables_dim_Variable</a></td><td><a href="../tables/CVs_Variable.html">CVs.Variable</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_VariableSpecific.html">fk_Variables_dim_VariableSpecific</a></td><td><a href="../tables/CVs_VariableSpecific.html">CVs.VariableSpecific</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableSpecificCV</td>
+</tr>
+</table>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">

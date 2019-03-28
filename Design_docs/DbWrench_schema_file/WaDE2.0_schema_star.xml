@@ -2409,7 +2409,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="Methods_dim" x="18" y="700"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="Methods_dim" x="14" y="759"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Date_dim" x="1144" y="626"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Allocations_dim" x="1017" y="294"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="WaterSources_dim" x="1066" y="904"/>
@@ -2417,13 +2417,13 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="581" y="1100"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationAmounts_fact" x="500" y="609"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1072" y="749"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="543" y="303"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="556" y="302"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="510" y="477"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="439" y="142"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="803" y="141"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="24" y="1009"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="VariableSpecific" x="51" y="135"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="Variable" x="48" y="561"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="26" y="1056"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="VariableSpecific" x="48" y="114"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="Variable" x="41" y="584"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Allocations_dim" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="1017" x2="933" y1="452" y2="452"/>
@@ -2432,7 +2432,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="882" x2="882" y1="431" y2="609"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="895" x2="895" y1="430" y2="609"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2452,7 +2452,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="393" x2="500" y1="798" y2="798"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="389" x2="500" y1="857" y2="857"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2460,17 +2460,16 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="1100" y2="977"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_ReportYearCV" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1077" x2="1077" y1="749" y2="748"/>
-        <positionableLine lineRole="CHILD_LINE" x1="978" x2="1073" y1="744" y2="744"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1072" x2="978" y1="806" y2="806"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="360" x2="431" y1="1129" y2="1129"/>
+        <positionableLine lineRole="PARENT_LINE" x1="362" x2="431" y1="1176" y2="1176"/>
         <positionableLine lineRole="CHILD_LINE" x1="500" x2="439" y1="907" y2="907"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="435" x2="435" y1="911" y2="1125"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="435" x2="435" y1="911" y2="1172"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2492,7 +2491,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="693" x2="693" y1="431" y2="477"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="706" x2="706" y1="430" y2="477"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Allocations_dim.fk_Allocations_dim_Date_dim_app" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2512,28 +2511,28 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_NAICSCode" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="846" x2="846" y1="253" y2="303"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="858" x2="858" y1="253" y2="302"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_USGSCategory" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="635" x2="635" y1="254" y2="303"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="635" x2="635" y1="254" y2="302"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Variables_dim.fk_Variables_dim_Variable" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="216" x2="216" y1="561" y2="533"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="209" x2="209" y1="584" y2="533"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.Variables_dim.fk_Variables_dim_VariableSpecific" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="219" x2="219" y1="247" y2="325"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="216" x2="216" y1="226" y2="325"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="109" y="946">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="98" y="648">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="386" y="1177">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="117" y="976">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="115" y="708">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="783" y="1036">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="418" y="8">GetSiteWaterAllocationData: Water Rights
 The brown tables are the dimensions tables (look us) that are mostly static over time. 
 
@@ -2541,7 +2540,7 @@ The green table is the FACT table that changes over time and connects things tog
 
 Purple tables are Controlled Vocabulary</Note>
       <Note bkCl="ffffffe6" x="1211" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="75" y="264">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="18" y="257">What: Variable and its metadata</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2671,15 +2670,15 @@ Purple tables are Controlled Vocabulary</Note>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
-      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
       <Note bkCl="ffffffe6" x="355" y="15">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 </Note>
       <Note bkCl="ffffffe6" x="725" y="820">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="86" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="1157" y="242">Water rights</Note>
+      <Note bkCl="ffffffe6" x="120" y="436">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="125" y="706">Where: Location</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2788,7 +2787,7 @@ The green table is the FACT table that changes over time and connects things tog
 </Note>
       <Note bkCl="ffffffe6" x="64" y="98">What: Variable and its metadata</Note>
       <Note bkCl="ffffffe6" x="129" y="400">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="746" y="780">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="746" y="790">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="949" y="376">When: Date and value</Note>
       <Note bkCl="ffffffe6" x="1722" y="973">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="175" y="699">Where</Note>
@@ -4841,25 +4840,19 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
     <TreePath>/Schemas (3)/Core</TreePath>
     <TreePath>/Schemas (3)/Core/Tables (19)</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)/AllocationAmounts_fact</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)/AllocationAmounts_fact/Columns (21)</TreePath>
-    <TreePath>/Schemas (3)/Core/Tables (19)/Sites_dim</TreePath>
-    <TreePath>/Schemas (3)/Core/Procedures (1)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables</TreePath>
-    <TreePath>/Diagrams (6)/6_InputTables/Notes (1)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>
