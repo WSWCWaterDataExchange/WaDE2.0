@@ -30,25 +30,29 @@ namespace WaDEImportFunctions
 
             log.LogInformation($"Load Water Allocation Data Orchestration [{runId}]");
 
-            var parallelTasks = new [] {
-                context.CallActivityAsync<bool>(FunctionNames.LoadOrganizations, runId),
-                context.CallActivityAsync<bool>(FunctionNames.LoadSites, runId),
-                context.CallActivityAsync<bool>(FunctionNames.LoadWaterSources, runId),
-                context.CallActivityAsync<bool>(FunctionNames.LoadVariablesSpecific, runId),
-                context.CallActivityAsync<bool>(FunctionNames.LoadMethods, runId)
+            var parallelTasks = new[] {
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId),
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId),
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId),
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId),
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
             };
 
-            await Task.WhenAll(parallelTasks);
+            var results = await Task.WhenAll(parallelTasks);
 
-            if (!parallelTasks.All(a=>a.IsCompleted && a.Result))
+            foreach(var resultItem in results)
+            {
+                log.LogInformation(JsonConvert.SerializeObject(resultItem));
+            }
+            if (results.Any(a => !a.Status))
             {
                 throw new Exception("Failure Loading Initial Data");
             }
 
-            var result = await context.CallActivityAsync<bool>(FunctionNames.LoadWaterAllocation, runId);
-            if (result)
+            var result = await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId);
+            if (result.Status)
             {
-                return new OkObjectResult("OK");
+                return new OkObjectResult(new { status = "success" });
             }
             else
             {
@@ -57,45 +61,57 @@ namespace WaDEImportFunctions
         }
 
         [FunctionName(FunctionNames.LoadOrganizations)]
-        public async Task<bool> LoadOrganizations([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadOrganizations([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            return await WaterAllocationManager.LoadOrganizations(runId);
+            var result = new StatusHelper { Name= FunctionNames.LoadOrganizations, Status = await WaterAllocationManager.LoadOrganizations(runId) };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadSites)]
-        public async Task<bool> LoadSites([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadSites([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
-            await Task.Delay(TimeSpan.FromSeconds(context.GetInput<int>()));
-            return true;
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            var result = new StatusHelper { Name = FunctionNames.LoadSites, Status = true };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadWaterSources)]
-        public async Task<bool> LoadWaterSources([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadWaterSources([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
-            await Task.Delay(TimeSpan.FromSeconds(context.GetInput<int>()));
-            return true;
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            var result = new StatusHelper { Name = FunctionNames.LoadWaterSources, Status = true };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadVariablesSpecific)]
-        public async Task<bool> LoadVariablesSpecific([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadVariablesSpecific([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
-            await Task.Delay(TimeSpan.FromSeconds(context.GetInput<int>()));
-            return true;
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            var result = new StatusHelper { Name = FunctionNames.LoadVariablesSpecific, Status = true };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadMethods)]
-        public async Task<bool> LoadMethods([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadMethods([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
-            await Task.Delay(TimeSpan.FromSeconds(context.GetInput<int>()));
-            return true;
+            await Task.Delay(TimeSpan.FromSeconds(5));
+            var result = new StatusHelper { Name = FunctionNames.LoadMethods, Status = true };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadWaterAllocation)]
-        public async Task<bool> LoadWaterAllocation([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadWaterAllocation([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            return await WaterAllocationManager.LoadWaterAllocations(runId);
+            var result = new StatusHelper { Name = FunctionNames.LoadWaterAllocation, Status = await WaterAllocationManager.LoadWaterAllocations(runId) };
+            log.LogInformation(JsonConvert.SerializeObject(result));
+            return result;
         }
 
         [FunctionName(FunctionNames.LoadWaterAllocationData)]
@@ -119,7 +135,7 @@ namespace WaDEImportFunctions
             {
                 resultStatus.Status = 1;
             }
-            else if(status.RuntimeStatus==OrchestrationRuntimeStatus.ContinuedAsNew || status.RuntimeStatus == OrchestrationRuntimeStatus.Pending || status.RuntimeStatus == OrchestrationRuntimeStatus.Running)
+            else if (status.RuntimeStatus == OrchestrationRuntimeStatus.ContinuedAsNew || status.RuntimeStatus == OrchestrationRuntimeStatus.Pending || status.RuntimeStatus == OrchestrationRuntimeStatus.Running)
             {
                 resultStatus.Status = 0;
             }
@@ -128,6 +144,12 @@ namespace WaDEImportFunctions
                 resultStatus.Status = 2;
             }
             return new OkObjectResult(resultStatus);
+        }
+
+        public class StatusHelper
+        {
+            public bool Status { get; set; }
+            public string Name { get; set; }
         }
     }
 

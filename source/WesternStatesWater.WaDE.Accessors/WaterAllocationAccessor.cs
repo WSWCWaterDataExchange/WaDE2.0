@@ -75,7 +75,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 await db.Database.OpenConnectionAsync();
                 await cmd.ExecuteNonQueryAsync();
 
-                return (int)resultParam.Value==1;
+                return (int)resultParam.Value==0;
             }
         }
 
@@ -108,7 +108,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 await db.Database.OpenConnectionAsync();
                 await cmd.ExecuteNonQueryAsync();
 
-                return (int)resultParam.Value == 1;
+                return (int)resultParam.Value == 0;
             }
         }
     }
@@ -127,7 +127,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Date));
                 }
-                else if (prop.PropertyType == typeof(double))
+                else if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(double?))
                 {
                     tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Float));
                 }
