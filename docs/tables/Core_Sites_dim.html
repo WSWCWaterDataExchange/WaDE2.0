@@ -42,12 +42,21 @@
 <td> </td><td><a href="../columns/Core_Sites_dim_SiteName.html">SiteName</a></td><td>NVarChar(500)</td><td> </td><td> </td><td> </td><td>Name of the site if available</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Sites_dim_SiteTypeCV.html">SiteTypeCV</a></td><td>VarChar(100)</td><td>
+<td> </td><td><a href="../columns/Core_Sites_dim_USGSSiteID.html">USGSSiteID</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Ditch, Reservoir, well</td><td> </td>
+</td><td> </td><td> </td><td>Unique value for the SWUDS database - Agency code and site ID</td><td> </td>
 </tr>
 <tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Sites_dim_SiteTypeCV.html">SiteTypeCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Ditch, Reservoir, well</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_Longitude.html">Longitude</a></td><td>Double</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -55,40 +64,40 @@
 
 DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_Sites_dim_Latitude.html">Latitude</a></td><td>Double</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section  DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_SitePoint.html">SitePoint</a></td><td>Geometry</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_Sites_dim_Geometry.html">Geometry</a></td><td>Geometry</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_CoordinateMethodCV.html">CoordinateMethodCV</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>From a map? GPS? Where coordinate from?</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_Sites_dim_CoordinateAccuracy.html">CoordinateAccuracy</a></td><td>NVarChar(255)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The data are accurate to +/- x of a second of a degree (using a differenctially corrected GPS)</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_GNISCodeCV.html">GNISCodeCV</a></td><td>NVarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The Geographic Names Information System (GNIS), developed by the U.S. Geological Survey (USGS) in cooperation with the U.S. Board on Geographic Names (BGN), contains information about the official names for places, features, and areas in the 50 States, the District of Columbia, the territories and outlying areas of the United States, including Antarctica. It is the geographic names component of The National Map. The BGN maintains working relationships with State names authorities to cooperate in achieving the standardization of geographic names.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Sites_dim_NHDMetadataID.html">NHDMetadataID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -108,6 +117,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td
 <table class="flat">
 <tr>
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Sites_dim_fk_Sites_dim_SiteType.html">fk_Sites_dim_SiteType</a></td><td><a href="../tables/CVs_SiteType.html">CVs.SiteType</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td>Name</td><td>SiteTypeCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Sites_dim_fk_Sites_NHDMetadata.html">fk_Sites_NHDMetadata</a></td><td><a href="../tables/Core_NHDMetadata.html">Core.NHDMetadata</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td>NHDMetadataID</td><td>NHDMetadataID</td>

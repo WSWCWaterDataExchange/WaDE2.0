@@ -45,16 +45,25 @@
 </td><td> </td><td> </td><td>the water source name as in the data provider record</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_WaterSources_dim_WaterSourceTypeCV.html">WaterSourceTypeCV</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>The source type(s) of the site-specific variable amount (e.g., surface water, groundwater, mixed sources, reuse, etc.)</td><td> </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/Core_WaterSources_dim_WaterQualityIndicatorCV.html">WaterQualityIndicatorCV</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>Water quality indicator(s) for the site-specific variable amount such as fresh, saline, mixed quality, etc.</td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/Core_WaterSources_dim_GNISFeatureNameCV.html">GNISFeatureNameCV</a></td><td>NVarChar(250)</td><td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_WaterSources_dim_WaterSourceTypeCV.html">WaterSourceTypeCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The source type(s) of the site-specific variable amount (e.g., surface water, groundwater, mixed sources, reuse, etc.)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>The most appropriate Geographic Names Information System (GNIS) identifier for the source location.</td><td> </td>
+</td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_WaterSources_dim_WaterQualityIndicatorCV.html">WaterQualityIndicatorCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Water quality indicator(s) for the site-specific variable amount such as fresh, saline, mixed quality, etc.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_WaterSources_dim_GNISFeatureNameCV.html">GNISFeatureNameCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The most appropriate Geographic Names Information System (GNIS) identifier for the source location.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_WaterSources_dim_Geometry.html">Geometry</a></td><td>Geometry</td><td>
@@ -70,9 +79,20 @@
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<div class="paragraph">
-<p>(none)</p>
-</div>
+<table class="flat">
+<tr>
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_WaterSources_dim_fk_WaterSources_dim_GNISFeatureName.html">fk_WaterSources_dim_GNISFeatureName</a></td><td><a href="../tables/CVs_GNISFeatureName.html">CVs.GNISFeatureName</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td>Name</td><td>GNISFeatureNameCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_WaterSources_dim_fk_WaterSources_dim_WaterQualityIndicator.html">fk_WaterSources_dim_WaterQualityIndicator</a></td><td><a href="../tables/CVs_WaterQualityIndicator.html">CVs.WaterQualityIndicator</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td>Name</td><td>WaterQualityIndicatorCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_WaterSources_dim_fk_WaterSources_dim_WaterSourceType.html">fk_WaterSources_dim_WaterSourceType</a></td><td><a href="../tables/CVs_WaterSourceType.html">CVs.WaterSourceType</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td>Name</td><td>WaterSourceTypeCV</td>
+</tr>
+</table>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">
