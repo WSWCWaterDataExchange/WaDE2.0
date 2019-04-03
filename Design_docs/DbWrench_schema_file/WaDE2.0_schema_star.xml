@@ -613,6 +613,11 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</Cm>
       </Cl>
+      <Fk deAc="3" nm="fk_NHDMetadata_NHDNetworkStatus" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="NHDNetworkStatus" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="NHDMetadata" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="NHDNetworkStatusCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_NHDMetadata_NHDProduct" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="NHDProduct" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="NHDMetadata" oe="0" sch="Core" zr="1"/>
@@ -1084,6 +1089,11 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="BeneficialUseID" prCl="BeneficialUseID"/>
       </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_CropType" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="CropType" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="CropTypeCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_IrrigationMethod" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="IrrigationMethod" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
@@ -1170,6 +1180,11 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
+      <Fk deAc="3" nm="fk_Variables_dim_AggregationStatistic" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="AggregationStatistic" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="Variables_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="AggregationStatisticCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_Variables_dim_Units" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="Units" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="Variables_dim" oe="0" sch="Core" zr="1"/>
@@ -1392,7 +1407,7 @@ END</src>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkCropType"/>
       <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -1560,7 +1575,7 @@ END</src>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkNHDNetworkStatus"/>
       <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -2052,10 +2067,6 @@ END</src>
       <Cl au="0" df="" nm="DataPublicationDate" nu="0">
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider	</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="ReportYear" nu="0">
-        <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
-        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationCropDutyAmount" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
@@ -2561,22 +2572,21 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationAmounts_fact" x="949" y="704"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="1027" y="382"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="953" y="556"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="884" y="219"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="1277" y="218"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="896" y="210"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="1277" y="206"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="490" y="1178"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="VariableSpecific" x="521" y="191"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="Variable" x="479" y="679"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="NHDMetadata" x="485" y="1544"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterSourceType" x="1552" y="1301"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="SiteType" x="870" y="1516"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="SiteType" x="876" y="1500"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="LegalStatus" x="1585" y="460"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDNetworkStatus" x="479" y="1721"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NHDProduct" x="881" y="1709"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterAllocationBasis" x="1565" y="681"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterRightType" x="1642" y="306"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="Units" x="132" y="195"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="AggregationStatistic" x="63" y="509"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearType" x="53" y="679"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="AggregationStatistic" x="48" y="512"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="GNISFeatureName" x="1337" y="1574"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
@@ -2638,8 +2648,8 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterRightType" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1642" x2="1401" y1="413" y2="413"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1397" x2="1397" y1="704" y2="417"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1642" x2="1401" y1="378" y2="378"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1397" x2="1397" y1="704" y2="382"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2659,29 +2669,39 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_NAICSCode" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1332" x2="1332" y1="330" y2="382"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1332" x2="1332" y1="318" y2="382"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_USGSCategory" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1080" x2="1080" y1="331" y2="382"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1092" x2="1092" y1="322" y2="382"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.NHDMetadata.fk_NHDMetadata_NHDNetworkStatus" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="652" x2="652" y1="1721" y2="1672"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.NHDMetadata.fk_NHDMetadata_NHDProduct" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1054" x2="1054" y1="1709" y2="1660"/>
-        <positionableLine lineRole="CHILD_LINE" x1="819" x2="1050" y1="1656" y2="1656"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1054" x2="1054" y1="1709" y2="1648"/>
+        <positionableLine lineRole="CHILD_LINE" x1="819" x2="1050" y1="1644" y2="1644"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.Sites_dim.fk_Sites_dim_SiteType" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="980" x2="980" y1="1516" y2="1336"/>
-        <positionableLine lineRole="CHILD_LINE" x1="826" x2="976" y1="1332" y2="1332"/>
+        <positionableLine lineRole="PARENT_LINE" x1="986" x2="986" y1="1500" y2="1336"/>
+        <positionableLine lineRole="CHILD_LINE" x1="826" x2="982" y1="1332" y2="1332"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="643" x2="643" y1="1544" y2="1434"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.Variables_dim.fk_Variables_dim_AggregationStatistic" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="395" x2="466" y1="566" y2="566"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.Variables_dim.fk_Variables_dim_Units" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
@@ -2714,8 +2734,8 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.WaterSources_dim.fk_WaterSources_dim_GNISFeatureName" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1509" x2="1509" y1="1574" y2="1238"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1557" x2="1513" y1="1234" y2="1234"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1509" x2="1509" y1="1574" y2="1193"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1557" x2="1513" y1="1189" y2="1189"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.WaterSources_dim.fk_WaterSources_dim_WaterSourceType" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2727,7 +2747,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Note bkCl="ffffffe6" x="579" y="1111">Where: Location</Note>
       <Note bkCl="ffffffe6" x="557" y="815">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="1247" y="1226">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="863" y="85">GetSiteWaterAllocationData: Water Rights
+      <Note bkCl="ffffffe6" x="865" y="55">GetSiteWaterAllocationData: Water Rights
 The brown tables are the dimensions tables (look us) that are mostly static over time. 
 
 The green table is the FACT table that changes over time and connects things together.
@@ -2763,7 +2783,7 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff99540f" sch="Core" tbl="WaterSources_dim" x="1057" y="818"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Variables_dim" x="35" y="186"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Organizations_dim" x="535" y="881"/>
-    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="844" y="112"/>
+    <TbGl bkCl="ff99540f" sch="Core" tbl="BeneficialUses_dim" x="841" y="90"/>
     <TbGl bkCl="ff6b990f" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="537" y="267"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="ReportYearCV" x="1064" y="640"/>
     <TbGl bkCl="ff99540f" sch="Core" tbl="Sites_dim" x="49" y="855"/>
@@ -2775,19 +2795,19 @@ Purple tables are Controlled Vocabulary</Note>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="SiteType" x="423" y="1171"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="WaterQualityIndicator" x="1295" y="1048"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="GNISFeatureName" x="1121" y="1212"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="1076" y="346"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="USGSCategory" x="1035" y="265"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="NAICSCode" x="1292" y="126"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="Units" x="1472" y="854"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="Units" x="50" y="23"/>
     <TbGl bkCl="ff6666ff" sch="CVs" tbl="IrrigationMethod" x="1451" y="535"/>
-    <TbGl bkCl="ff6666ff" sch="CVs" tbl="CropType" x="1493" y="274"/>
+    <TbGl bkCl="ff6666ff" sch="CVs" tbl="CropType" x="1098" y="392"/>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_NAICSCode" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1292" x2="1195" y1="179" y2="179"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1292" x2="1192" y1="179" y2="179"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.BeneficialUses_dim.fk_BeneficialUses_dim_USGSCategory" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1137" x2="1137" y1="346" y2="240"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1096" x2="1096" y1="265" y2="218"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Methods_dim.fk_Methods_dim_MethodType" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2808,8 +2828,8 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="844" x2="672" y1="172" y2="172"/>
-        <positionableLine lineRole="CHILD_LINE" x1="668" x2="668" y1="267" y2="176"/>
+        <positionableLine lineRole="PARENT_LINE" x1="841" x2="672" y1="150" y2="150"/>
+        <positionableLine lineRole="CHILD_LINE" x1="668" x2="668" y1="267" y2="154"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2834,13 +2854,18 @@ Purple tables are Controlled Vocabulary</Note>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1009" x2="1009" y1="240" y2="531"/>
-        <positionableLine lineRole="CHILD_LINE" x1="853" x2="1005" y1="535" y2="535"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1006" x2="1006" y1="218" y2="531"/>
+        <positionableLine lineRole="CHILD_LINE" x1="853" x2="1002" y1="535" y2="535"/>
+      </positionableLines>
+    </FkGl>
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_CropType" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+      <positionableLines>
+        <positionableLine lineRole="SINGLE_LINE" x1="1098" x2="853" y1="464" y2="464"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_IrrigationMethod" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1451" x2="853" y1="621" y2="621"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1451" x2="853" y1="615" y2="615"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2879,22 +2904,19 @@ Purple tables are Controlled Vocabulary</Note>
         <positionableLine lineRole="MIDDLE_LINE" x1="1015" x2="1015" y1="739" y2="894"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Variables_dim.fk_Variables_dim_Units" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.Variables_dim.fk_Variables_dim_Units" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1472" x2="228" y1="910" y2="910"/>
-        <positionableLine lineRole="CHILD_LINE" x1="224" x2="224" y1="394" y2="906"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="78" x2="78" y1="135" y2="186"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Variables_dim.fk_Variables_dim_Units_interval" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.Variables_dim.fk_Variables_dim_Units_interval" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1472" x2="228" y1="910" y2="910"/>
-        <positionableLine lineRole="CHILD_LINE" x1="224" x2="224" y1="394" y2="906"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="57" x2="57" y1="135" y2="186"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Variables_dim.fk_Variables_dim_Units_max" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.Variables_dim.fk_Variables_dim_Units_max" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1472" x2="228" y1="910" y2="910"/>
-        <positionableLine lineRole="CHILD_LINE" x1="224" x2="224" y1="394" y2="906"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="57" x2="57" y1="135" y2="186"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.WaterSources_dim.fk_WaterSources_dim_GNISFeatureName" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -3181,7 +3203,7 @@ We will make a join with each controlled field using the "Name" unique primary k
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ff990f0f" sch="Input" tbl="AggregatedAmounts_fact" x="1117" y="93"/>
+    <TbGl bkCl="ff990f0f" sch="Input" tbl="AggregatedAmounts_fact" x="1137" y="102"/>
     <TbGl bkCl="ff990f0f" sch="Input" tbl="AllocationAmounts_fact" x="47" y="90"/>
     <TbGl bkCl="ff990f0f" sch="Input" tbl="SiteVariableAmounts_fact" x="613" y="93"/>
     <TbGl bkCl="ff990f0f" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1148" y="468"/>
@@ -5099,12 +5121,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

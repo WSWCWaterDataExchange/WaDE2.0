@@ -36,25 +36,31 @@
 </td><td> </td><td> </td><td>Unique universal identifier for the variable across all the member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableSpecificCV.html">VariableSpecificCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a subcategorization of the aggregated variable. This allows the user to specify not only the general category of water data, but also a more specific categorization. For example, for a subcategorization of water supply, the variable would be [AggregatedWaterSupply, Reservoir]. For a subcategorization of water withdrawal, the variable would be [AggregatedWithdrawal, Irrigation]. Other examples: [AggregatedConsumptiveUse, Irrigation], [AggregatedReturnFlow, Discharge], etc.</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableCV.html">VariableCV</a></td><td class="FkCol">VarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VariableCV.html">VariableCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This is a high-level variable used for site-specific water data. The general categories available are for water withdrawal, consumptive use, and return flow: [SiteSpecificWithdrawal], [SiteSpecificConsumptiveUse], [SiteSpecificReturnFlow]</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Variables_dim_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AggregationStatisticCV.html">AggregationStatisticCV</a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The calculated statistic associated with the site-specific variable amount. Full list is here: http://vocabulary.odm2.org/aggregationstatistic/</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_Variables_dim_AggregationInterval_.html">AggregationInterval </a></td><td>Numeric(10, 1)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>The aggregation unit (e.g., day ,month, year).</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The aggregation unit (e.g., day ,month, year).</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_Variables_dim_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
@@ -63,13 +69,19 @@
 <td> </td><td><a href="../columns/Core_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>Unit of the site-specific ariable amount</td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/Core_Variables_dim_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td>NVarChar(255)</td><td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Unit of the site-specific ariable amount</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Amount of the allocation maximum or cap</td><td> </td>
+</td>
+</tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Amount of the allocation maximum or cap</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 </table>
 <br>
@@ -80,13 +92,25 @@
 <br>
 <h2>Foreign Keys</h2>
 <table class="flat">
-<tr class="altRow">
+<tr>
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_AggregationStatistic.html">fk_Variables_dim_AggregationStatistic</a></td><td><a href="../tables/CVs_AggregationStatistic.html">CVs.AggregationStatistic</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationStatisticCV</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AmountUnitCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_interval.html">fk_Variables_dim_Units_interval</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationIntervalUnitCV</td>
+</tr>
+<tr class="altRow">
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>MaximumAmountUnitCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Variable.html">fk_Variables_dim_Variable</a></td><td><a href="../tables/CVs_Variable.html">CVs.Variable</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_VariableSpecific.html">fk_Variables_dim_VariableSpecific</a></td><td><a href="../tables/CVs_VariableSpecific.html">CVs.VariableSpecific</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableSpecificCV</td>
 </tr>
 </table>
