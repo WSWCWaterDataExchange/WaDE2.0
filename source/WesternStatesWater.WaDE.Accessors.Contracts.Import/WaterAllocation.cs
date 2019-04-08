@@ -32,5 +32,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public double? IrrigatedAcreage { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
         public string SDWISIdentifier { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
     }
 }

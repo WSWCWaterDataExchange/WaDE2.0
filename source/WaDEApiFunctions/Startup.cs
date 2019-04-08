@@ -4,9 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using WesternStatesWater.WaDE.Accessors;
-using WesternStatesWater.WaDE.Managers;
+using WesternStatesWater.WaDE.Managers.Api;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
 [assembly: WebJobsStartup(typeof(WaDEApiFunctions.Startup))]
@@ -29,9 +28,6 @@ namespace WaDEApiFunctions
             builder.Services.AddSingleton<IConfiguration>(config);
             builder.Services.AddTransient<ManagerApi.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationAccessor, WaterAllocationAccessor>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationFileAccessor, WaterAllocationFileAccessor>();
-            builder.Services.AddTransient<AccessorImport.IBlobFileAccessor, BlobFileAccessor>();
         }
     }
 }

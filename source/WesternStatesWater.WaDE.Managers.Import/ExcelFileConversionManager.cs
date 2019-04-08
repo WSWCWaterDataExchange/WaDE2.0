@@ -8,7 +8,7 @@ using System.IO;
 using System.Dynamic;
 using Newtonsoft.Json;
 
-namespace WesternStatesWater.WaDE.Managers
+namespace WesternStatesWater.WaDE.Managers.Import
 {
     public class ExcelFileConversionManager : ManagerImport.IExcelFileConversionManager
     {

@@ -22,7 +22,7 @@ namespace WaDEApiFunctions.v1
         private IWaterAllocationManager WaterAllocationManager { get; set; }
 
         [FunctionName("WaterAllocation_SiteVariableAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
+        public Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_SiteVariableAmounts)}");
 
@@ -31,10 +31,10 @@ namespace WaDEApiFunctions.v1
 
             if (string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid))
             {
-                return new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified");
+                return Task.FromResult((IActionResult)new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified"));
             }
 
-            return new JsonResult(new string[0], new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            return Task.FromResult((IActionResult)new JsonResult(new string[0], new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() }));
         }
     }
 }

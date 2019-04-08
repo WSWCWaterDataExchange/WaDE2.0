@@ -1,7 +1,10 @@
 ﻿using AutoMapper.QueryableExtensions;
+using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Server;
+using NetTopologySuite;
+using NetTopologySuite.IO;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -24,7 +27,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.AllocationAmounts>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse)
+        async Task<IEnumerable<AccessorApi.AllocationAmounts>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse, string geometry)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -40,6 +43,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 if (!string.IsNullOrWhiteSpace(beneficialUse))
                 {
                     query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == beneficialUse || a.AllocationBridgeBeneficialUsesFact.Any(b=>b.BeneficialUse.BeneficialUseCategory == beneficialUse));
+                }
+                if (!string.IsNullOrWhiteSpace(geometry))
+                {
+                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                    WKTReader reader = new WKTReader(geometryFactory);
+                    var shape = reader.Read(geometry);
+                    query = query.Where(a => shape.Covers(a.Geometry));
                 }
 
                 return await query.ProjectTo<AccessorApi.AllocationAmounts>(Mapping.DtoMapper.Configuration).ToListAsync();
@@ -111,42 +121,44 @@ namespace WesternStatesWater.WaDE.Accessors
                 return (int)resultParam.Value == 0;
             }
         }
+
+        private static class ConvertObjectToSqlDataRecords<T>
+        {
+            private static PropertyInfo[] Properties = typeof(T).GetProperties();
+            private static SqlMetaData[] TableSchema;
+            static ConvertObjectToSqlDataRecords()
+            {
+                var tableSchema = new List<SqlMetaData>();
+                foreach (var prop in Properties)
+                {
+                    //todo: add support for other types
+                    if (prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Date));
+                    }
+                    else if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(double?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Float));
+                    }
+                    else
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, 4000));
+                    }
+                }
+                TableSchema = tableSchema.ToArray();
+            }
+
+            public static SqlDataRecord Convert(T obj)
+            {
+                var tableRow = new SqlDataRecord(TableSchema);
+                for (int i = 0; i < Properties.Length; i++)
+                {
+                    tableRow.SetValue(i, Properties[i].GetGetMethod().Invoke(obj, new object[0]));
+                }
+                return tableRow;
+            }
+        }
     }
 
-    internal static class ConvertObjectToSqlDataRecords<T>
-    {
-        private static PropertyInfo[] Properties = typeof(T).GetProperties();
-        private static SqlMetaData[] TableSchema;
-        static ConvertObjectToSqlDataRecords()
-        {
-            var tableSchema = new List<SqlMetaData>();
-            foreach (var prop in Properties)
-            {
-                //todo: add support for other types
-                if(prop.PropertyType == typeof(DateTime) || prop.PropertyType == typeof(DateTime?))
-                {
-                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Date));
-                }
-                else if (prop.PropertyType == typeof(double) || prop.PropertyType == typeof(double?))
-                {
-                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Float));
-                }
-                else
-                {
-                    tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, 4000));
-                }
-            }
-            TableSchema = tableSchema.ToArray();
-        }
-
-        public static SqlDataRecord Convert(T obj)
-        {
-            var tableRow = new SqlDataRecord(TableSchema);
-            for (int i = 0; i < Properties.Length; i++)
-            {
-                tableRow.SetValue(i, Properties[i].GetGetMethod().Invoke(obj, new object[0]));
-            }
-            return tableRow;
-        }
-    }
+    
 }
