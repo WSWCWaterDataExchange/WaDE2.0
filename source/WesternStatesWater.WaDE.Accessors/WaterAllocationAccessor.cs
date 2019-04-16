@@ -49,7 +49,7 @@ namespace WesternStatesWater.WaDE.Accessors
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
                     var shape = reader.Read(geometry);
-                    query = query.Where(a => shape.Covers(a.Geometry));
+                    query = query.Where(a => a.Geometry != null && shape.Covers(a.Geometry));
                 }
 
                 return await query.ProjectTo<AccessorApi.AllocationAmounts>(Mapping.DtoMapper.Configuration).ToListAsync();
