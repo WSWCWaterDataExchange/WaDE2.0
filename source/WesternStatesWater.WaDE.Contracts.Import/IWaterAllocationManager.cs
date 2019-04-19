@@ -13,7 +13,7 @@ namespace WesternStatesWater.WaDE.Contracts.Import
         Task<bool> LoadSites(string runId);
         Task<bool> LoadSiteSpecificAmounts(string runId);
         Task<bool> LoadVariables(string runId);
-        Task<bool> LoadLoadWaterSources(string runId);
+        Task<bool> LoadWaterSources(string runId);
     }
 
     public interface IExcelFileConversionManager

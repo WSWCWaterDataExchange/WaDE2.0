@@ -32,6 +32,46 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetNormalizedData<AccessorImport.WaterAllocation>(runId, "waterallocations.csv");
         }
 
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetAggregatedAmounts(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.AggregatedAmount>(runId, "aggregatedamounts.csv");
+        }
+
+        async Task<List<AccessorImport.Method>> AccessorImport.IWaterAllocationFileAccessor.GetMethods(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.Method>(runId, "methods.csv");
+        }
+
+        async Task<List<AccessorImport.RegulatoryOverlay>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryOverlays(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.RegulatoryOverlay>(runId, "regulatoryoverlays.csv");
+        }
+
+        async Task<List<AccessorImport.ReportingUnit>> AccessorImport.IWaterAllocationFileAccessor.GetReportingUnits(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.ReportingUnit>(runId, "reportingunits.csv");
+        }
+
+        async Task<List<AccessorImport.Site>> AccessorImport.IWaterAllocationFileAccessor.GetSites(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.Site>(runId, "sites.csv");
+        }
+
+        async Task<List<AccessorImport.SiteSpecificAmount>> AccessorImport.IWaterAllocationFileAccessor.GetSiteSpecificAmounts(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.SiteSpecificAmount>(runId, "sitespecificamounts.csv");
+        }
+
+        async Task<List<AccessorImport.Variable>> AccessorImport.IWaterAllocationFileAccessor.GetVariables(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.Variable>(runId, "variables.csv");
+        }
+
+        async Task<List<AccessorImport.WaterSource>> AccessorImport.IWaterAllocationFileAccessor.GetWaterSources(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.WaterSource>(runId, "watersources.csv");
+        }
+
         private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, ClassMap<T> classMap = null)
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
@@ -64,46 +104,6 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 return reader.GetRecords<T>().ToList();
             }
-        }
-
-        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetAggregatedAmounts(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.Method>> AccessorImport.IWaterAllocationFileAccessor.GetMethods(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.RegulatoryOverlay>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryOverlays(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.ReportingUnit>> AccessorImport.IWaterAllocationFileAccessor.GetReportingUnits(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.Site>> AccessorImport.IWaterAllocationFileAccessor.GetSites(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.SiteSpecificAmount>> AccessorImport.IWaterAllocationFileAccessor.GetSiteSpecificAmounts(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.Variable>> AccessorImport.IWaterAllocationFileAccessor.GetVariables(string runId)
-        {
-            throw new NotImplementedException();
-        }
-
-        async Task<List<AccessorImport.WaterSource>> AccessorImport.IWaterAllocationFileAccessor.GetWaterSources(string runId)
-        {
-            throw new NotImplementedException();
         }
 
         public class DMYDateConverter : CsvHelper.TypeConversion.DateTimeConverter

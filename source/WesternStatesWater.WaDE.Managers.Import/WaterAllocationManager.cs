@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using ManagerImport = WesternStatesWater.WaDE.Contracts.Import;
@@ -37,44 +36,100 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadWaterAllocation(runId, waterAllocations);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadAggregatedAmounts(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadAggregatedAmounts(string runId)
         {
-            throw new NotImplementedException();
+            var aggregatedAmounts = await ImportWaterAllocationFileAccessor.GetAggregatedAmounts(runId);
+
+            if (!aggregatedAmounts.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadAggregatedAmounts(runId, aggregatedAmounts);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadLoadWaterSources(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterSources(string runId)
         {
-            throw new NotImplementedException();
+            var waterSources = await ImportWaterAllocationFileAccessor.GetWaterSources(runId);
+
+            if (!waterSources.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadWaterSources(runId, waterSources);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId)
         {
-            throw new NotImplementedException();
+            var methods = await ImportWaterAllocationFileAccessor.GetMethods(runId);
+
+            if (!methods.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadMethods(runId, methods);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryOverlays(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryOverlays(string runId)
         {
-            throw new NotImplementedException();
+            var regulatoryOverlays = await ImportWaterAllocationFileAccessor.GetRegulatoryOverlays(runId);
+
+            if (!regulatoryOverlays.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadRegulatoryOverlays(runId, regulatoryOverlays);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId)
         {
-            throw new NotImplementedException();
+            var reportingUnits = await ImportWaterAllocationFileAccessor.GetReportingUnits(runId);
+
+            if (!reportingUnits.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadReportingUnits(runId, reportingUnits);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadSites(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSites(string runId)
         {
-            throw new NotImplementedException();
+            var sites = await ImportWaterAllocationFileAccessor.GetSites(runId);
+
+            if (!sites.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadSites(runId, sites);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadSiteSpecificAmounts(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSiteSpecificAmounts(string runId)
         {
-            throw new NotImplementedException();
+            var siteSpecificAmounts = await ImportWaterAllocationFileAccessor.GetSiteSpecificAmounts(runId);
+
+            if (!siteSpecificAmounts.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadSiteSpecificAmounts(runId, siteSpecificAmounts);
         }
 
-        Task<bool> ManagerImport.IWaterAllocationManager.LoadVariables(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadVariables(string runId)
         {
-            throw new NotImplementedException();
+            var variables = await ImportWaterAllocationFileAccessor.GetVariables(runId);
+
+            if (!variables.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadVariables(runId, variables);
         }
     }
 }
