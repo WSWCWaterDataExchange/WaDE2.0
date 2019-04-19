@@ -75,6 +75,10 @@
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider	</Cm>
       </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>a unique digital object identifier into the original dataset</Cm>
+      </Cl>
       <Cl au="0" df="" nm="ReportYearCV" nu="1">
         <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
         <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
@@ -189,6 +193,10 @@
       <Cl au="0" df="" nm="DataPublicationDateID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>a unique digital object identifier into the original dataset</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationNativeID" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -559,10 +567,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>A link back to the org's website or other webpage for more information about the method. https://www.nemi.gov/home/</Cm>
       </Cl>
-      <Cl au="0" df="" nm="MethodDOI" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
-        <Cm>a unique digital object identifier into the methodology information</Cm>
-      </Cl>
       <Cl au="0" df="" nm="ApplicableResourceTypeCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</Cm>
@@ -715,37 +719,14 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
         <Cm>A link to the legal statute(s) related to the regulation. e.g., https://le.utah.gov/xcode/code.html</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeframeStartID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      <Cl au="0" df="" nm="StatutoryEffectiveDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeframeEndID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      <Cl au="0" df="" nm="StatutoryEndDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportYearTypeCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
-        <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="ReportYearStartMonth" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="5" sc="null" sg="1" un="0"/>
-        <Cm>The month of the beginning of the data provider's annual reporting period.</Cm>
-      </Cl>
-      <Fk deAc="3" nm="fk_RegulatoryOverlay_dim_Date_dim_end" prLkCl="DateID" upAc="3">
-        <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryOverlay_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="TimeframeEndID" prCl="DateID"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_RegulatoryOverlay_dim_Date_dim_start" prLkCl="DateID" upAc="3">
-        <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryOverlay_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="TimeframeStartID" prCl="DateID"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_RegulatoryOverlay_dim_ReportYearType" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearType" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryOverlay_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="ReportYearTypeCV" prCl="Name"/>
-      </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
@@ -772,10 +753,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportYearCV" nu="0">
-        <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
-        <Cm>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</Cm>
-      </Cl>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_Date_dim" prLkCl="DateID" upAc="3">
         <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
         <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
@@ -795,11 +772,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <PrTb mn="0" nm="ReportingUnits_dim" oe="1" sch="Core" zr="0"/>
         <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_ReportYearCV" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="ReportYearCV" prCl="Name"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -1064,6 +1036,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="DataPublicationDate" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that these data were published by the data provider</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+        <Cm>a unique digital object identifier into the original dataset</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYearCV" nu="1">
         <DT arr="0" ds="NChar" en="" id="722" ln="4" sc="null" sg="1" un="0"/>
@@ -2299,21 +2275,13 @@ END</src>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
         <Cm>A link to the legal statute(s) related to the regulation. e.g., https://le.utah.gov/xcode/code.html</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeframeStartID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</Cm>
+      <Cl au="0" df="" nm="StatutoryEffectiveDate" nu="0">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The start date of the Statutory</Cm>
       </Cl>
-      <Cl au="0" df="" nm="TimeframeEndID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="ReportYearTypeCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
-        <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="ReportYearStartMonth" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="5" sc="null" sg="1" un="0"/>
-        <Cm>The month of the beginning of the data provider's annual reporting period.</Cm>
+      <Cl au="0" df="" nm="StatutoryEndDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The end date of Statutory</Cm>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis>
@@ -2614,67 +2582,67 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="973" y="1201"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="34" y="221"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="507" y="1194"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="514" y="504"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="515" y="503"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="BeneficialUses_dim" x="715" y="61"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="550" y="328"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="46" y="863"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="NHDMetadata" x="54" y="1244"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="985" x2="985" y1="221" y2="504"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="985" x2="985" y1="221" y2="503"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_appl" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1013" y1="711" y2="711"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="711" y2="711"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_expir" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1013" y1="752" y2="752"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="752" y2="752"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_priority" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1013" y1="732" y2="732"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="732" y2="732"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1013" y1="695" y2="695"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="695" y2="695"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="413" x2="514" y1="683" y2="683"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="413" x2="515" y1="683" y2="683"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="679" x2="679" y1="1194" y2="1120"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="679" x2="679" y1="1194" y2="1138"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="382" x2="514" y1="989" y2="989"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="382" x2="515" y1="989" y2="989"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="413" x2="452" y1="340" y2="340"/>
-        <positionableLine lineRole="CHILD_LINE" x1="514" x2="460" y1="574" y2="574"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="456" x2="456" y1="570" y2="344"/>
+        <positionableLine lineRole="PARENT_LINE" x1="413" x2="453" y1="340" y2="340"/>
+        <positionableLine lineRole="CHILD_LINE" x1="515" x2="461" y1="573" y2="573"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="457" x2="457" y1="569" y2="344"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1142" x2="1142" y1="1201" y2="1054"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1013" x2="1138" y1="1050" y2="1050"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1142" x2="1142" y1="1201" y2="1053"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1014" x2="1138" y1="1049" y2="1049"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="748" x2="748" y1="504" y2="431"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="749" x2="749" y1="503" y2="431"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
@@ -2693,17 +2661,12 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Note bkCl="ffffffe6" x="812" y="1026">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="1094" y="326">Unique combination for each &#13;
 AllocationAmount record: &#13;
+&#13;
 OrganizationID&#13;
 SiteID&#13;
 AllocationNativeID&#13;
 VariableISpecificID&#13;
 BenificialUseID&#13;
-AllocationPriorityDate&#13;
-AllocationLegalStatusCV&#13;
-WaterSourceID&#13;
-MethodID&#13;
-AllocationTimeframeStart&#13;
-AllocationTimeframeEnd&#13;
 </Note>
       <Note bkCl="ffffffe6" x="13" y="13">GetSiteWaterAllocationData: Water Rights
 The brown tables are the dimensions tables (look us) that are mostly static over time. 
@@ -2791,7 +2754,7 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="626" x2="626" y1="1068" y2="943"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="626" x2="626" y1="1068" y2="962"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2813,15 +2776,16 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="1042" y="381">Unique combination for each &#13;
-SiteVariableAmounts record: &#13;
+      <Note bkCl="ffffffe6" x="430" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="135" y="301">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="1040" y="366">Unique combination for each &#13;
+SiteVariableAmount record:&#13;
+ &#13;
 OrganizationID&#13;
 SiteID&#13;
 VariableISpecificID&#13;
 BenificialUseID&#13;
-WaterSourceID&#13;
-MethodID&#13;
-TImeFrameStartID&#13;
+TimeFrameStartID&#13;
 TimeFrameEndID&#13;
 ReportYearCV</Note>
       <Note bkCl="ffffffe6" x="509" y="9">GetSiteVariableData: site specific Use&#13;
@@ -2830,8 +2794,6 @@ The green table is the FACT table that changes over time and connects things tog
 Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
       <Note bkCl="ffffffe6" x="134" y="644">Where: Location</Note>
       <Note bkCl="ffffffe6" x="657" y="990">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="430" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="135" y="301">How: Methodology</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2905,7 +2867,7 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="735" x2="735" y1="928" y2="802"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="735" x2="735" y1="928" y2="821"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_ReportingUnits_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2935,22 +2897,22 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <Note bkCl="ffffffe6" x="753" y="846">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="892" y="379">When: Date and value</Note>
       <Note bkCl="ffffffe6" x="194" y="820">Where</Note>
+      <Note bkCl="ffffffe6" x="147" y="18">GetAggVariableData: Aggregate use&#13;
+The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
+The green table is the FACT table that changes over time and connects things together.&#13;
+Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
       <Note bkCl="ffffffe6" x="1164" y="285">Unique combination for each &#13;
 AggregatedAmounts record: &#13;
+&#13;
 OrganizationID&#13;
 ReporitngUnitID&#13;
 VariableISpecificID&#13;
 BenificialUseID&#13;
 WaterSourceID&#13;
-MethodID&#13;
-TImeFrameStartID&#13;
+TimeFrameStartID&#13;
 TimeFrameEndID&#13;
 ReportYearCV&#13;
 </Note>
-      <Note bkCl="ffffffe6" x="147" y="18">GetAggVariableData: Aggregate use&#13;
-The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
-The green table is the FACT table that changes over time and connects things together.&#13;
-Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2976,42 +2938,30 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="RegulatoryOverlay_dim" x="974" y="167"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="20" y="472"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="RegulatoryReportingUnits_fact" x="490" y="209"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="RegulatoryOverlay_dim" x="974" y="169"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="20" y="467"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="RegulatoryReportingUnits_fact" x="490" y="208"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="505" y="482"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="554" y="27"/>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.RegulatoryOverlay_dim.fk_RegulatoryOverlay_dim_Date_dim_end" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="748" x2="1029" y1="80" y2="80"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1033" x2="1033" y1="167" y2="84"/>
-      </positionableLines>
-    </FkGl>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.RegulatoryOverlay_dim.fk_RegulatoryOverlay_dim_Date_dim_start" parentEdge="EAST" positioner="TwoLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="748" x2="1152" y1="51" y2="51"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1156" x2="1156" y1="167" y2="55"/>
-      </positionableLines>
-    </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_Date_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="651" x2="651" y1="130" y2="209"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="651" x2="651" y1="130" y2="208"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="668" x2="668" y1="482" y2="369"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="668" x2="668" y1="482" y2="349"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="974" x2="807" y1="284" y2="284"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="974" x2="807" y1="302" y2="302"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="269" x2="269" y1="472" y2="282"/>
-        <positionableLine lineRole="CHILD_LINE" x1="490" x2="273" y1="278" y2="278"/>
+        <positionableLine lineRole="PARENT_LINE" x1="269" x2="269" y1="467" y2="281"/>
+        <positionableLine lineRole="CHILD_LINE" x1="490" x2="273" y1="277" y2="277"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -3129,7 +3079,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="841">
+  <RnmMgr NxRnmId="846">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -5051,6 +5001,19 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="Core">
       <Rnm id="840" nNm="SDWISIdentifier" oNm="AllocationSDWISIdentifier"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Core">
+      <Rnm id="843" nNm="StatutoryEffectiveDate" oNm="StatutorEffectiveDate"/>
+      <Rnm id="841" nNm="StatutorEffectiveDate" oNm="TimeframeStartID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Core">
+      <Rnm id="842" nNm="StatutoryEndDate" oNm="TimeframeEndID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Input">
+      <Rnm id="844" nNm="StatutoryEffectiveDate" oNm="TimeframeStartID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Input">
+      <Rnm id="845" nNm="StatutoryEndDate" oNm="TimeframeEndID"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -5068,12 +5031,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
