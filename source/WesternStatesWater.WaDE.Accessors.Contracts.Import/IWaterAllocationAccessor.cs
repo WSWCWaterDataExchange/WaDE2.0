@@ -14,6 +14,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         Task<bool> LoadSites(string runId, IEnumerable<Site> sites);
         Task<bool> LoadSiteSpecificAmounts(string runId, IEnumerable<SiteSpecificAmount> siteSpecificAmounts);
         Task<bool> LoadVariables(string runId, IEnumerable<Variable> variables);
-        Task<bool> LoadLoadWaterSources(string runId, IEnumerable<WaterSource> loadWaterSources);
+        Task<bool> LoadLoadWaterSources(string runId, IEnumerable<WaterSource> waterSources);
     }
 }

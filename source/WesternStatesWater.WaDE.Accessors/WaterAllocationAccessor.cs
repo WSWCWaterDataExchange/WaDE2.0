@@ -120,44 +120,332 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        public Task<bool> LoadAggregatedAmounts(string runId, IEnumerable<AccessorImport.AggregatedAmount> aggregatedAmounts)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadAggregatedAmounts(string runId, IEnumerable<AccessorImport.AggregatedAmount> aggregatedAmounts)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadAggregatedAmounts";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var amountsParam = new SqlParameter
+                {
+                    ParameterName = "@AggregatedAmountTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = aggregatedAmounts.Select(ConvertObjectToSqlDataRecords<AccessorImport.AggregatedAmount>.Convert).ToList(),
+                    TypeName = "Core.AggregatedAmountTableType"
+                };
+
+                cmd.Parameters.Add(amountsParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadMethods(string runId, IEnumerable<AccessorImport.Method> methods)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadMethods(string runId, IEnumerable<AccessorImport.Method> methods)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadMethods";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var methodsParam = new SqlParameter
+                {
+                    ParameterName = "@MethodTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = methods.Select(ConvertObjectToSqlDataRecords<AccessorImport.Method>.Convert).ToList(),
+                    TypeName = "Core.MethodTableType"
+                };
+
+                cmd.Parameters.Add(methodsParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadRegulatoryOverlays(string runId, IEnumerable<AccessorImport.RegulatoryOverlay> regulatoryOverlays)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadRegulatoryOverlays(string runId, IEnumerable<AccessorImport.RegulatoryOverlay> regulatoryOverlays)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadRegulatoryOverlays";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var regulatoryParam = new SqlParameter
+                {
+                    ParameterName = "@RegulatoryOverlayTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = regulatoryOverlays.Select(ConvertObjectToSqlDataRecords<AccessorImport.RegulatoryOverlay>.Convert).ToList(),
+                    TypeName = "Core.RegulatoryOverlayTableType"
+                };
+
+                cmd.Parameters.Add(regulatoryParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadReportingUnits(string runId, IEnumerable<AccessorImport.ReportingUnit> reportingUnits)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadReportingUnits(string runId, IEnumerable<AccessorImport.ReportingUnit> reportingUnits)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadReportingUnits";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var regulatoryParam = new SqlParameter
+                {
+                    ParameterName = "@ReportingUnitTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = reportingUnits.Select(ConvertObjectToSqlDataRecords<AccessorImport.ReportingUnit>.Convert).ToList(),
+                    TypeName = "Core.ReportingUnitTableType"
+                };
+
+                cmd.Parameters.Add(regulatoryParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadSites(string runId, IEnumerable<AccessorImport.Site> sites)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadSites(string runId, IEnumerable<AccessorImport.Site> sites)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadSites";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var siteParam = new SqlParameter
+                {
+                    ParameterName = "@SiteTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = sites.Select(ConvertObjectToSqlDataRecords<AccessorImport.Site>.Convert).ToList(),
+                    TypeName = "Core.SiteTableType"
+                };
+
+                cmd.Parameters.Add(siteParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadSiteSpecificAmounts(string runId, IEnumerable<AccessorImport.SiteSpecificAmount> siteSpecificAmounts)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadSiteSpecificAmounts(string runId, IEnumerable<AccessorImport.SiteSpecificAmount> siteSpecificAmounts)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadSiteSpecificAmounts";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var amountParam = new SqlParameter
+                {
+                    ParameterName = "@SiteSpecificAmountTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = siteSpecificAmounts.Select(ConvertObjectToSqlDataRecords<AccessorImport.SiteSpecificAmount>.Convert).ToList(),
+                    TypeName = "Core.SiteSpecificAmountTableType"
+                };
+
+                cmd.Parameters.Add(amountParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadVariables(string runId, IEnumerable<AccessorImport.Variable> variables)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadVariables(string runId, IEnumerable<AccessorImport.Variable> variables)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadVariables";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var amountParam = new SqlParameter
+                {
+                    ParameterName = "@VariableTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = variables.Select(ConvertObjectToSqlDataRecords<AccessorImport.Variable>.Convert).ToList(),
+                    TypeName = "Core.VariableTableType"
+                };
+
+                cmd.Parameters.Add(amountParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
-        public Task<bool> LoadLoadWaterSources(string runId, IEnumerable<AccessorImport.WaterSource> loadWaterSources)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadLoadWaterSources(string runId, IEnumerable<AccessorImport.WaterSource> waterSources)
         {
-            throw new NotImplementedException();
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadWaterSources";
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var amountParam = new SqlParameter
+                {
+                    ParameterName = "@WaterSourceTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = waterSources.Select(ConvertObjectToSqlDataRecords<AccessorImport.WaterSource>.Convert).ToList(),
+                    TypeName = "Core.WaterSourceTableType"
+                };
+
+                cmd.Parameters.Add(amountParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
         }
 
         private static class ConvertObjectToSqlDataRecords<T>
