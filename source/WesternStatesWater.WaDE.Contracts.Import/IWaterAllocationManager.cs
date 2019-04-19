@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace WesternStatesWater.WaDE.Contracts.Import
 {
@@ -7,6 +6,14 @@ namespace WesternStatesWater.WaDE.Contracts.Import
     {
         Task<bool> LoadOrganizations(string runId);
         Task<bool> LoadWaterAllocations(string runId);
+        Task<bool> LoadAggregatedAmounts(string runId);
+        Task<bool> LoadMethods(string runId);
+        Task<bool> LoadRegulatoryOverlays(string runId);
+        Task<bool> LoadReportingUnits(string runId);
+        Task<bool> LoadSites(string runId);
+        Task<bool> LoadSiteSpecificAmounts(string runId);
+        Task<bool> LoadVariables(string runId);
+        Task<bool> LoadLoadWaterSources(string runId);
     }
 
     public interface IExcelFileConversionManager

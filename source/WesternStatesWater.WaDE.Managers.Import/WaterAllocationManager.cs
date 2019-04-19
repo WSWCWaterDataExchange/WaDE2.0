@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
@@ -36,6 +35,46 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 return true;
             }
             return await ImportWaterAllocationAccessor.LoadWaterAllocation(runId, waterAllocations);
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadAggregatedAmounts(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadLoadWaterSources(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryOverlays(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadSites(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadSiteSpecificAmounts(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<bool> ManagerImport.IWaterAllocationManager.LoadVariables(string runId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
