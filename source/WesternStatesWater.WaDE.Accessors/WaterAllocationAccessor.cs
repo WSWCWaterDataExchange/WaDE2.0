@@ -1,12 +1,10 @@
 ﻿using AutoMapper.QueryableExtensions;
-using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Server;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -42,7 +40,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(beneficialUse))
                 {
-                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == beneficialUse || a.AllocationBridgeBeneficialUsesFact.Any(b=>b.BeneficialUse.BeneficialUseCategory == beneficialUse));
+                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == beneficialUse || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == beneficialUse));
                 }
                 if (!string.IsNullOrWhiteSpace(geometry))
                 {
@@ -85,11 +83,11 @@ namespace WesternStatesWater.WaDE.Accessors
                 await db.Database.OpenConnectionAsync();
                 await cmd.ExecuteNonQueryAsync();
 
-                return (int)resultParam.Value==0;
+                return (int)resultParam.Value == 0;
             }
         }
 
-        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadWaterAllocation(string runId, IEnumerable<AccessorImport.WaterAllocation> organizations)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadWaterAllocation(string runId, IEnumerable<AccessorImport.WaterAllocation> waterAllocations)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
@@ -106,7 +104,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var orgsParam = new SqlParameter();
                 orgsParam.ParameterName = "@WaterAllocationTable";
                 orgsParam.SqlDbType = SqlDbType.Structured;
-                orgsParam.Value = organizations.Select(ConvertObjectToSqlDataRecords<AccessorImport.WaterAllocation>.Convert).ToList();
+                orgsParam.Value = waterAllocations.Select(ConvertObjectToSqlDataRecords<AccessorImport.WaterAllocation>.Convert).ToList();
                 orgsParam.TypeName = "Core.WaterAllocationTableType";
                 cmd.Parameters.Add(orgsParam);
 
@@ -120,6 +118,46 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 return (int)resultParam.Value == 0;
             }
+        }
+
+        public Task<bool> LoadAggregatedAmounts(string runId, IEnumerable<AccessorImport.AggregatedAmount> aggregatedAmounts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadMethods(string runId, IEnumerable<AccessorImport.Method> methods)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadRegulatoryOverlays(string runId, IEnumerable<AccessorImport.RegulatoryOverlay> regulatoryOverlays)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadReportingUnits(string runId, IEnumerable<AccessorImport.ReportingUnit> reportingUnits)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadSites(string runId, IEnumerable<AccessorImport.Site> sites)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadSiteSpecificAmounts(string runId, IEnumerable<AccessorImport.SiteSpecificAmount> siteSpecificAmounts)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadVariables(string runId, IEnumerable<AccessorImport.Variable> variables)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> LoadLoadWaterSources(string runId, IEnumerable<AccessorImport.WaterSource> loadWaterSources)
+        {
+            throw new NotImplementedException();
         }
 
         private static class ConvertObjectToSqlDataRecords<T>
@@ -159,6 +197,4 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
     }
-
-    
 }
