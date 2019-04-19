@@ -66,6 +66,46 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetAggregations(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetMethods(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryOverlays(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetReportingUnits(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetSites(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetSiteSpecificAmounts(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetVariables(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetWaterSources(string runId)
+        {
+            throw new NotImplementedException();
+        }
+
         public class DMYDateConverter : CsvHelper.TypeConversion.DateTimeConverter
         {
             private const string dateFormat1 = @"yyyy-M-d";

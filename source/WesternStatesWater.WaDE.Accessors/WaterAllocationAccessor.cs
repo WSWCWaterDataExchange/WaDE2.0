@@ -407,7 +407,7 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadLoadWaterSources(string runId, IEnumerable<AccessorImport.WaterSource> waterSources)
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadWaterSources(string runId, IEnumerable<AccessorImport.WaterSource> waterSources)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
