@@ -78,6 +78,12 @@
 </td>
 </tr>
 <tr>
+<td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationNativeID.html">AllocationNativeID</a></td><td>NVarChar(250)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Unique identifier for the allocation as-is in the member states, can be alphanumeric	</td><td> </td>
+</tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationApplicationDate.html">AllocationApplicationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -87,14 +93,14 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationPriorityDate.html">AllocationPriorityDate</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Priority Date given to the allocation	
 </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationExpirationDate.html">AllocationExpirationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -102,12 +108,6 @@
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationNativeID.html">AllocationNativeID</a></td><td>NVarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Unique identifier for the allocation as-is in the member states, can be alphanumeric	</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationOwner.html">AllocationOwner</a></td><td>NVarChar(250)</td><td>
@@ -134,7 +134,7 @@
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_WaterRightTypeCV.html">WaterRightTypeCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationTypeCV.html">AllocationTypeCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">This field contains the Type of Application or Water Right of this database entry. examples: Underground Water Claim, Federal Reserved Water Right</td><td class="FkCol">
@@ -197,7 +197,7 @@
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS. Only for site specific data. Leave it null for aggregate data</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_AllocationAmounts_fact_SDWISIdentifier.html">SDWISIdentifier</a></td><td>NVarChar(250)</td><td>
+<td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationSDWISIdentifier.html">AllocationSDWISIdentifier</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td> </td>
@@ -272,7 +272,7 @@
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterAllocationBasis.html">fk_AllocationAmounts_fact_WaterAllocationBasis</a></td><td><a href="../tables/CVs_WaterAllocationBasis.html">CVs.WaterAllocationBasis</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationBasisCV</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterRightType.html">fk_AllocationAmounts_fact_WaterRightType</a></td><td><a href="../tables/CVs_WaterRightType.html">CVs.WaterRightType</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>WaterRightTypeCV</td>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterRightType.html">fk_AllocationAmounts_fact_WaterRightType</a></td><td><a href="../tables/CVs_WaterAllocationType.html">CVs.WaterAllocationType</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationTypeCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterSources_dim.html">fk_AllocationAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>

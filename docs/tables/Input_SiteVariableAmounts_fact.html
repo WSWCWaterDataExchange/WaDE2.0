@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr class="altRow">
+<tr>
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -27,37 +27,28 @@
 </td><td class="PkCol"><a href="../columns/Input_SiteVariableAmounts_fact_OrganizationUUID.html">OrganizationUUID</a></td><td class="PkCol">NVarChar(250)</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">unique identifier to Organization</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_AllocationUUID.html">AllocationUUID</a></td><td>NVarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td> </td><td> </td>
-</tr>
-<tr>
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_SiteNativeID.html">SiteNativeID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>unique identifier to site</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_VariableSpecificCV.html">VariableSpecificCV</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>unique identifier to variable specific</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_BeneficialUseCategory.html">BeneficialUseCategory</a></td><td>NVarChar(500)</td><td> </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_WaterSourceNativeID.html">WaterSourceNativeID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>foreign key unique identifier to water source</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_MethodName.html">MethodName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td> </td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_TimeframeStartDate.html">TimeframeStartDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>Start date for the allocation each year in MM/DD/YYYY</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_TimeframeEndDate.html">TimeframeEndDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>End date for the allocation each year in MM/DD/YYYY	</td><td> </td>
 </tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_DataPublicationDate.html">DataPublicationDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>Date that these data were published by the data provider	</td><td> </td>
-</tr>
 <tr>
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_ReportYear.html">ReportYear</a></td><td>NVarChar(4)</td><td> </td><td> </td><td> </td><td>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td> </td>
+<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_ReportYearCV.html">ReportYearCV</a></td><td>NVarChar(4)</td><td> </td><td> </td><td> </td><td>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td> </td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_Amount.html">Amount</a></td><td>Float</td><td>
@@ -84,7 +75,7 @@
 </td><td> </td><td> </td><td>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_AllocationCommunityWaterSupplySystem.html">AllocationCommunityWaterSupplySystem</a></td><td>NVarChar(250)</td><td>
+<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_CommunityWaterSupplySystem.html">CommunityWaterSupplySystem</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS. Only for site specific data. Leave it null for aggregate data</td><td> </td>
@@ -96,22 +87,16 @@
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>NVarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the data provider has a water supply type for the reporting unit that is designated an interbasin transfer, they may add the delivering basin identifier here.</td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>NVarChar(250)</td><td>
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</td><td> </td>
-</tr>
-<tr class="altRow">
 <td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_Geometry.html">Geometry</a></td><td>Geometry</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/Input_SiteVariableAmounts_fact_AssociatedNativeAllocationIDs.html">AssociatedNativeAllocationIDs</a></td><td>NVarChar(500)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 </table>
 <br>

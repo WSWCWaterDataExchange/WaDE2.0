@@ -27,13 +27,13 @@
 </td><td class="PkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_BridgeID.html">BridgeID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_RegulatoryOverlayID.html">RegulatoryOverlayID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto RegulatoryOverlay</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto organizartion</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_OrganizationID.html">OrganizationID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto organizartion</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_RegulatoryOverlayID.html">RegulatoryOverlayID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifierto RegulatoryOverlay</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -51,7 +51,10 @@
 </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_RegulatoryReportingUnits_fact_ReportYearCV.html">ReportYearCV</a></td><td>NChar(4)</td><td> </td><td> </td><td> </td><td>Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryReportingUnits_fact_ReportYearCV.html">ReportYearCV</a></td><td class="FkCol">NChar(4)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Annual reporting period that this data are valid. There is a need to ensure the annual reporting period year matches the type of year used by the data provider. For example, if the data are valid for November 2018, the annual reporting period could be 2018 or 2019 depending on whether the data provider uses a calendar or water year.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 </table>
 <br>
@@ -76,6 +79,9 @@
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportYearCV.html">fk_RegulatoryReportingUnits_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>Name</td><td>ReportYearCV</td>
 </tr>
 </table>
 <br>

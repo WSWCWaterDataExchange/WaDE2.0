@@ -66,7 +66,10 @@
 <td> </td><td><a href="../columns/Core_Variables_dim_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td class="FkCol">NVarChar(10)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Unit of the site-specific ariable amount</td><td class="FkCol">
@@ -99,18 +102,21 @@
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_AggregationStatistic.html">fk_Variables_dim_AggregationStatistic</a></td><td><a href="../tables/CVs_AggregationStatistic.html">CVs.AggregationStatistic</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationStatisticCV</td>
 </tr>
 <tr class="altRow">
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_ReportYearType.html">fk_Variables_dim_ReportYearType</a></td><td><a href="../tables/CVs_ReportYearType.html">CVs.ReportYearType</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>ReportYearTypeCV</td>
+</tr>
+<tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AmountUnitCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_interval.html">fk_Variables_dim_Units_interval</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationIntervalUnitCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>MaximumAmountUnitCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Variable.html">fk_Variables_dim_Variable</a></td><td><a href="../tables/CVs_Variable.html">CVs.Variable</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_VariableSpecific.html">fk_Variables_dim_VariableSpecific</a></td><td><a href="../tables/CVs_VariableSpecific.html">CVs.VariableSpecific</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableSpecificCV</td>
 </tr>
 </table>
