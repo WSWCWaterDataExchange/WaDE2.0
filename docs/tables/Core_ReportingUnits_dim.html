@@ -39,7 +39,10 @@
 <td> </td><td><a href="../columns/Core_ReportingUnits_dim_ReportingUnitName.html">ReportingUnitName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_ReportingUnits_dim_ReportingUnitTypeCV.html">ReportingUnitTypeCV</a></td><td>NVarChar(20)</td><td> </td><td> </td><td> </td><td>The type of reporting unit - county, HUC, or a custom delineation.</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_ReportingUnits_dim_ReportingUnitTypeCV.html">ReportingUnitTypeCV</a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The type of reporting unit - county, HUC, or a custom delineation.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_ReportingUnits_dim_ReportingUnitUpdateDate.html">ReportingUnitUpdateDate</a></td><td>Date</td><td>
@@ -57,10 +60,10 @@
 <td> </td><td><a href="../columns/Core_ReportingUnits_dim_StateCV.html">StateCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>Abbrieviated state identifier.</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_ReportingUnits_dim_EPSGCodeCV.html">EPSGCodeCV</a></td><td>NVarChar(50)</td><td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_ReportingUnits_dim_EPSGCodeCV.html">EPSGCodeCV</a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</td><td> </td>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_ReportingUnits_dim_Geometry.html">Geometry</a></td><td>Geometry</td><td>
@@ -76,9 +79,17 @@
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<div class="paragraph">
-<p>(none)</p>
-</div>
+<table class="flat">
+<tr>
+<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_ReportingUnits_dim_fk_ReportingUnits_dim_EPSGCode.html">fk_ReportingUnits_dim_EPSGCode</a></td><td><a href="../tables/CVs_EPSGCode.html">CVs.EPSGCode</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td>Name</td><td>EPSGCodeCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_ReportingUnits_dim_fk_ReportingUnits_dim_ReportingUnitType.html">fk_ReportingUnits_dim_ReportingUnitType</a></td><td><a href="../tables/CVs_ReportingUnitType.html">CVs.ReportingUnitType</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td>Name</td><td>ReportingUnitTypeCV</td>
+</tr>
+</table>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">

@@ -56,28 +56,31 @@ examples: Underground Water Claim, Federal Reserved Water Right
 </td><td> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Allocations_dim_AllocationApplicationDate.html">AllocationApplicationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<td> </td><td><a href="../columns/Core_Allocations_dim_AllocationApplicationDate.html">AllocationApplicationDate</a></td><td>BigInt</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date of the original filing on the allocation</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
+</td><td> </td><td> </td><td>Date of the original filing on the allocation</td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Allocations_dim_AllocationPriorityDate.html">AllocationPriorityDate</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Priority Date given to the allocation</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
+<td> </td><td><a href="../columns/Core_Allocations_dim_AllocationPriorityDate.html">AllocationPriorityDate</a></td><td>BigInt</td><td> </td><td> </td><td> </td><td>Priority Date given to the allocation</td><td> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Allocations_dim_AllocationExpirationDate.html">AllocationExpirationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<td> </td><td><a href="../columns/Core_Allocations_dim_AllocationExpirationDate.html">AllocationExpirationDate</a></td><td>BigInt</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">If the allocation is temporary, add the expiration date</td><td class="FkCol">
+</td><td> </td><td> </td><td>If the allocation is temporary, add the expiration date</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/Core_Allocations_dim_TimeframeEnd.html">TimeframeEnd</a></td><td>NChar(5)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td>
+</td><td> </td><td> </td><td>MM/DD</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/Core_Allocations_dim_TimeframeStart.html">TimeframeStart</a></td><td>NChar(5)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>MM/DD</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_Allocations_dim_AllocationChangeApplicationIndicator.html">AllocationChangeApplicationIndicator</a></td><td>NVarChar(100)</td><td>
@@ -99,20 +102,9 @@ examples: Underground Water Claim, Federal Reserved Water Right
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<table class="flat">
-<tr>
-<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/Core_Allocations_dim_fk_Allocations_dim_Date_dim_app.html">fk_Allocations_dim_Date_dim_app</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_Allocations_dim.html">Core.Allocations_dim</a></td><td>DateID</td><td>AllocationApplicationDate</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/Core_Allocations_dim_fk_Allocations_dim_Date_dim_exp.html">fk_Allocations_dim_Date_dim_exp</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_Allocations_dim.html">Core.Allocations_dim</a></td><td>DateID</td><td>AllocationExpirationDate</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/Core_Allocations_dim_fk_Allocations_dim_Date_dim_prio.html">fk_Allocations_dim_Date_dim_prio</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_Allocations_dim.html">Core.Allocations_dim</a></td><td>DateID</td><td>AllocationPriorityDate</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">
@@ -120,16 +112,8 @@ examples: Underground Water Claim, Federal Reserved Water Right
 </div>
 <br>
 <h2>Used in Diagrams</h2>
-<table class="flat">
-<tr>
-<td class="header">Diagram Name</td>
-</tr>
-<tr>
-<td><a href="../diagrams/1_WaterAllocations.html">1_WaterAllocations</a></td>
-</tr>
-<tr>
-<td><a href="../diagrams/2_SiteSpecificAmounts.html">2_SiteSpecificAmounts</a></td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 </body>
 </HTML>

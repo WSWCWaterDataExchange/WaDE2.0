@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr>
+<tr class="altRow">
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -60,28 +60,19 @@
 </td><td> </td><td> </td><td>Legal Statute(s) related to the regulation.e.g., 56-78134 (Utah Code)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_RegulatoryStatuteLink.html">RegulatoryStatuteLink</a></td><td>VarChar(500)</td><td>
+<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_RegulatoryStatuteLink.html">RegulatoryStatuteLink</a></td><td>NVarChar(500)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>A link to the legal statute(s) related to the regulation. e.g., https://le.utah.gov/xcode/code.html</td><td> </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryOverlay_dim_TimeframeStartID.html">TimeframeStartID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
+<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_StatutoryEffectiveDate.html">StatutoryEffectiveDate</a></td><td>Date</td><td> </td><td> </td><td> </td><td>The start date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 1/1/2018, 10/1/2017).</td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_RegulatoryOverlay_dim_TimeframeEndID.html">TimeframeEndID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</td><td class="FkCol">
+<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_StatutoryEndDate.html">StatutoryEndDate</a></td><td>Date</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td>
-</tr>
-<tr class="altRow">
-<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_ReportYearTypeCV.html">ReportYearTypeCV</a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td> </td>
-</tr>
-<tr>
-<td> </td><td><a href="../columns/Core_RegulatoryOverlay_dim_ReportYearStartMonth.html">ReportYearStartMonth</a></td><td>NVarChar(5)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period.</td><td> </td>
+</td><td> </td><td> </td><td>The end date of the aggregated variable amount. This could be a monthly timestep or a calendar year/water year timestep (e.g., 12/31/2018, 9/30/2017</td><td> </td>
 </tr>
 </table>
 <br>
@@ -91,17 +82,9 @@
 </div>
 <br>
 <h2>Foreign Keys</h2>
-<table class="flat">
-<tr>
-<td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/Core_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_end.html">fk_RegulatoryOverlay_dim_Date_dim_end</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_RegulatoryOverlay_dim.html">Core.RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeEndID</td>
-</tr>
-<tr>
-<td><a href="../foreignKeys/Core_RegulatoryOverlay_dim_fk_RegulatoryOverlay_dim_Date_dim_start.html">fk_RegulatoryOverlay_dim_Date_dim_start</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_RegulatoryOverlay_dim.html">Core.RegulatoryOverlay_dim</a></td><td>DateID</td><td>TimeframeStartID</td>
-</tr>
-</table>
+<div class="paragraph">
+<p>(none)</p>
+</div>
 <br>
 <h2>Triggers</h2>
 <div class="paragraph">
