@@ -12,9 +12,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string OversightAgency { get; set; }
         public string RegulatoryStatute { get; set; }
         public string RegulatoryStatuteLink { get; set; }
-        public DateTime? TimeframeStart { get; set; }
-        public DateTime? TimeframeEnd { get; set; }
-        public string ReportYearTypeCV { get; set; }
-        public string ReportYearStartMonth { get; set; }
+        public DateTime? StatutoryEffectiveDate { get; set; }
+        public DateTime? StatutoryEndDate { get; set; }
     }
 }

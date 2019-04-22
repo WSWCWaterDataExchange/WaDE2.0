@@ -12,7 +12,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public DateTime? TimeframeStart { get; set; }
         public DateTime? TimeframeEnd { get; set; }
         public DateTime? DataPublicationDate { get; set; }
-        public string ReportYear { get; set; }
+        public string DataPublicationDOI { get; set; }
+        public string ReportYearCV { get; set; }
         public double Amount { get; set; }
         public double? PopulationServed { get; set; }
         public double? PowerGeneratedGWh { get; set; }

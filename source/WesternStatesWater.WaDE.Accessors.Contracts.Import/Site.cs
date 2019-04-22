@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
+﻿namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class Site
     {
@@ -15,6 +13,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string CoordinateMethodCV { get; set; }
         public string CoordinateAccuracy { get; set; }
         public string GNISCodeCV { get; set; }
+        public string EPSGCodeCV { get; set; }
         public long? NHDMetadataID { get; set; }
     }
 }
