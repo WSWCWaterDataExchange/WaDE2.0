@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
@@ -23,8 +24,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string CommunityWaterSupplySystem { get; set; }
         public string SDWISIdentifier { get; set; }
         public string AssociatedNativeAllocationIDs { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public IGeometry Geometry { get; set;  }
         public string BeneficialUseCategory { get; set; }
         public string PrimaryUseCategory { get; set; }
     }

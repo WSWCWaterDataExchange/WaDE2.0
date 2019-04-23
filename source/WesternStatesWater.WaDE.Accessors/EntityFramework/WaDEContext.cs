@@ -123,7 +123,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.PowerGeneratedGwh).HasColumnName("PowerGeneratedGWh");
 
-                entity.Property(e => e.ReportYear).HasMaxLength(4);
+                entity.Property(e => e.ReportYearCV).HasMaxLength(4);
 
                 entity.Property(e => e.ReportingUnitId).HasColumnName("ReportingUnitID");
 
@@ -160,7 +160,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.ReportYearNavigation)
                     .WithMany(p => p.AggregatedAmountsFact)
-                    .HasForeignKey(d => d.ReportYear)
+                    .HasForeignKey(d => d.ReportYearCV)
                     .HasConstraintName("fk_AggregatedAmounts_fact_ReportYearCV");
 
                 entity.HasOne(d => d.ReportingUnit)
@@ -923,30 +923,30 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ReportYearStartMonth)
-                    .IsRequired()
-                    .HasMaxLength(5);
+                //entity.Property(e => e.ReportYearStartMonth)
+                //    .IsRequired()
+                //    .HasMaxLength(5);
 
-                entity.Property(e => e.ReportYearTypeCv)
-                    .IsRequired()
-                    .HasColumnName("ReportYearTypeCV")
-                    .HasMaxLength(10);
+                //entity.Property(e => e.ReportYearTypeCv)
+                //    .IsRequired()
+                //    .HasColumnName("ReportYearTypeCV")
+                //    .HasMaxLength(10);
 
-                entity.Property(e => e.TimeframeEndId).HasColumnName("TimeframeEndID");
+                //entity.Property(e => e.TimeframeEndId).HasColumnName("TimeframeEndID");
 
-                entity.Property(e => e.TimeframeStartId).HasColumnName("TimeframeStartID");
+                //entity.Property(e => e.TimeframeStartId).HasColumnName("TimeframeStartID");
 
-                entity.HasOne(d => d.TimeframeEnd)
-                    .WithMany(p => p.RegulatoryOverlayDimTimeframeEnd)
-                    .HasForeignKey(d => d.TimeframeEndId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_end");
+                //entity.HasOne(d => d.TimeframeEnd)
+                //    .WithMany(p => p.RegulatoryOverlayDimTimeframeEnd)
+                //    .HasForeignKey(d => d.TimeframeEndId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_end");
 
-                entity.HasOne(d => d.TimeframeStart)
-                    .WithMany(p => p.RegulatoryOverlayDimTimeframeStart)
-                    .HasForeignKey(d => d.TimeframeStartId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_start");
+                //entity.HasOne(d => d.TimeframeStart)
+                //    .WithMany(p => p.RegulatoryOverlayDimTimeframeStart)
+                //    .HasForeignKey(d => d.TimeframeStartId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_start");
             });
 
             modelBuilder.Entity<RegulatoryReportingUnitsFact>(entity =>

@@ -1,4 +1,6 @@
-﻿namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
+﻿using GeoAPI.Geometries;
+
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class WaterSource
     {
@@ -8,7 +10,6 @@
         public string WaterSourceTypeCV { get; set; }
         public string WaterQualityIndicatorCV { get; set; }
         public string GNISFeatureNameCV { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public IGeometry Geometry { get; set; }
     }
 }
