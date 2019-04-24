@@ -466,6 +466,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     {
                         tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Float));
                     }
+                    else if (prop.PropertyType == typeof(long) || prop.PropertyType == typeof(long?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.BigInt));
+                    }
                     else
                     {
                         tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, 4000));

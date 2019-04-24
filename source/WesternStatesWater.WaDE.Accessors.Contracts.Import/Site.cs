@@ -26,7 +26,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string Latitude { get; set; }
 
-        public IGeometry Geometry { get; set; }
+        [NullValues("")]
+        public string Geometry { get; set; }
 
         [NullValues("")]
         public string CoordinateMethodCV { get; set; }
