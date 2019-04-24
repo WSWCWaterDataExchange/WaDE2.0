@@ -1,18 +1,36 @@
-﻿using System;
+﻿using CsvHelper.Configuration.Attributes;
+using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class RegulatoryOverlay
     {
+        [NullValues("")]
         public string RegulatoryOverlayUUID { get; set; }
+
+        [NullValues("")]
         public string RegulatoryOverlayNativeID { get; set; }
+
+        [NullValues("")]
         public string RegulatoryName { get; set; }
+
+        [NullValues("")]
         public string RegulatoryDescription { get; set; }
+
+        [NullValues("")]
         public string RegulatoryStatusCV { get; set; }
+
+        [NullValues("")]
         public string OversightAgency { get; set; }
+
+        [NullValues("")]
         public string RegulatoryStatute { get; set; }
+
+        [NullValues("")]
         public string RegulatoryStatuteLink { get; set; }
+
         public DateTime? StatutoryEffectiveDate { get; set; }
+
         public DateTime? StatutoryEndDate { get; set; }
     }
 }

@@ -92,7 +92,7 @@ namespace WesternStatesWater.WaDE.Accessors
             csvConfig.IgnoreBlankLines = true;
             csvConfig.IgnoreQuotes = false;
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
-            if(classMap != null)
+            if (classMap != null)
             {
                 csvConfig.RegisterClassMap(classMap);
             }
@@ -113,7 +113,8 @@ namespace WesternStatesWater.WaDE.Accessors
 
             public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
             {
-                DateTime? newDate = default(System.DateTime?);
+                DateTime? newDate = default;
+
                 if (DateTime.TryParseExact(text, dateFormat1, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parseDate1))
                 {
                     newDate = parseDate1;
