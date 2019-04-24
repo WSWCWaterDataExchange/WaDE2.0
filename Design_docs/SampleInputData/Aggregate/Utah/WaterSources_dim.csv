@@ -1,0 +1,4 @@
+WaterSourceNativeID,WaterSourceName,WaterSourceTypeCV,WaterQualityIndicatorCV,GNISFeatureNameCV,Geometry
+Fresh_Surface,,Surface water ,Fresh,,
+Fresh_Ground,,Groundwater ,Fresh,,
+Fresh_SW_GW,,Surface water and Groundwater ,Fresh,,

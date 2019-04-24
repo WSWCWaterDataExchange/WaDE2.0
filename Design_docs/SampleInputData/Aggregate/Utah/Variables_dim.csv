@@ -1,0 +1,4 @@
+VariableSpecificCV,VariableCV,AggregationStatisticCV,AggregationInterval,AggregationIntervalUnitCV,ReportYearStartMonth,ReportYearTypeCV,AmountUnitCV,MaximumAmountUnitCV
+"Consumptive Use, Irrigation",Consumptive use      ,Cumulative,1,Year,10/01,WaterYear,Acre feet,
+"Withdrawal, Irrigation",Withdrawal               ,Cumulative,1,Year,10/01,WaterYear,Acre feet,
+"Withdrawal, Public Supply",Withdrawal        ,Cumulative,1,Year,10/01,WaterYear,Acre feet,
