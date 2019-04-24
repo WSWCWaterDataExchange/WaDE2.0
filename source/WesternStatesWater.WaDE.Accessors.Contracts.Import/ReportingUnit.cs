@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
+using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
@@ -12,7 +13,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string ReportingUnitProductVersion { get; set; }
         public string StateCV { get; set; }
         public string EPSGCodeCV { get; set; }
-        public string Latitude { get; set; }
-        public string Longitude { get; set; }
+        public IGeometry Geometry { get; set; }
     }
 }
