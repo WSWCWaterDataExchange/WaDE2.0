@@ -276,6 +276,10 @@
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
         <Cm>If this water allocation has one or more associate diversions, add the diversion IDs as comma separated list</Cm>
       </Cl>
+      <Cl au="0" df="" nm="WaterAllcationNativeURL" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Refers back to the state URL that describes the water right</Cm>
+      </Cl>
       <Cl au="0" df="" nm="AllocationAssociatedConsumptiveUseSiteIDs" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
         <Cm>If this water allocation has one or more associate consumptive uses, add the consumptive use IDs as comma separated list</Cm>
@@ -587,49 +591,20 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>An indicator of data confidence, should be a confidence interval (e.g. 90%, 50%, etc.)</Cm>
       </Cl>
+      <Fk deAc="3" nm="fk_Methods_dim_ApplicableResourceTypeCV" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="ApplicableResourceType" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="Methods_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="ApplicableResourceTypeCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Methods_dim_DataQualityValue" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="DataQualityValue" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="Methods_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="DataQualityValueCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_Methods_dim_MethodType" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="MethodType" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="Methods_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="MethodTypeCV" prCl="Name"/>
-      </Fk>
-      <UniqueConstraints/>
-      <SchTrHis/>
-    </Tbl>
-    <Tbl UsSo="1" nm="NHDMetadata">
-      <TblOpts/>
-      <Pk ClNs="NHDMetadataID" nm="pkNHDMetadata"/>
-      <Cl au="1" df="" nm="NHDMetadataID" nu="0">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
-      </Cl>
-      <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>Whether or not the point location is indexed to the USGS NHD network</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="NHDProductCV" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>NHD Product that is used for the indexing. Shouldbe NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="NHDUpdateDate" nu="1">
-        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
-        <Cm>The publication date for the NHD product used for the index.</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="NHDReachCode" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>If the location is indexed to a NHD product, this provides the Reach Code Identifier</Cm>
-      </Cl>
-      <Cl au="0" df="" nm="NHDMeasureNumber" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
-        <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</Cm>
-      </Cl>
-      <Fk deAc="3" nm="fk_NHDMetadata_NHDNetworkStatus" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="NHDNetworkStatus" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="NHDMetadata" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="NHDNetworkStatusCV" prCl="Name"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_NHDMetadata_NHDProduct" prLkCl="Name" upAc="3">
-        <PrTb mn="0" nm="NHDProduct" oe="1" sch="CVs" zr="1"/>
-        <CdTb mn="1" nm="NHDMetadata" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="NHDProductCV" prCl="Name"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -809,7 +784,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <Cm>The reporting unit product version number. Could be a release of the HUC or County layer, or internal to the data provider.</Cm>
       </Cl>
       <Cl au="0" df="" nm="StateCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
         <Cm>Abbrieviated state identifier.</Cm>
       </Cl>
       <Cl au="0" df="" nm="EPSGCodeCV" nu="0">
@@ -829,6 +804,11 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <PrTb mn="0" nm="ReportingUnitType" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="ReportingUnits_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportingUnitTypeCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_ReportingUnits_dim_State" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="State" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="ReportingUnits_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="StateCV" prCl="Name"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis>
@@ -863,18 +843,22 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>Ditch, Reservoir, well</Cm>
       </Cl>
-      <Cl au="0" df="" nm="Longitude" nu="1">
+      <Cl au="0" df="" nm="Longitude_x" nu="1">
         <DT arr="0" ds="Double" en="" id="8" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section
 
 DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="Latitude" nu="1">
+      <Cl au="0" df="" nm="Latitude_y" nu="1">
         <DT arr="0" ds="Double" en="" id="8" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section  DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="SitePoint" nu="1">
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SiteNativeURL" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>Refers to the URL of the site within the state</Cm>
       </Cl>
       <Cl au="0" df="" nm="Geometry" nu="1">
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
@@ -896,18 +880,57 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
       </Cl>
-      <Cl au="0" df="" nm="NHDMetadataID" nu="1">
-        <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
+      <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Whether or not the point location is indexed to the USGS NHD network	
+</Cm>
       </Cl>
+      <Cl au="0" df="" nm="NHDProductCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>NHD Product that is used for the indexing. Shouldbe NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.	
+</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDUpdateDate" nu="1">
+        <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The publication date for the NHD product used for the index.	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDReachCode" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Reach Code Identifier</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDMeasureNumber" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</Cm>
+      </Cl>
+      <Fk deAc="3" nm="fk_Sites_dim_CoordinateMethod" prLkCl="Name&#9;" upAc="3">
+        <PrTb mn="0" nm="CoordinateMethod" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="CoordinateMethodCV" prCl="Name&#9;"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Sites_dim_EPSGCode" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="EPSGCode" oe="1" sch="CVs" zr="0"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="EPSGCodeCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Sites_dim_GNISFeatureName" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="GNISFeatureName" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="GNISCodeCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Sites_dim_NHDNetworkStatus" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="NHDNetworkStatus" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="NHDNetworkStatusCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_Sites_dim_NHDProduct" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="NHDProduct" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="NHDProductCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_Sites_dim_SiteType" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="SiteType" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="SiteTypeCV" prCl="Name"/>
-      </Fk>
-      <Fk deAc="3" nm="fk_Sites_NHDMetadata" prLkCl="NHDMetadataID" upAc="3">
-        <PrTb mn="0" nm="NHDMetadata" oe="1" sch="Core" zr="1"/>
-        <CdTb mn="1" nm="Sites_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="NHDMetadataID" prCl="NHDMetadataID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -1423,6 +1446,48 @@ END</src>
         <StPr stA="WaDE2_star" stB="CVs_AggregationStatistic"/>
       </SchTrHis>
     </Tbl>
+    <Tbl UsSo="1" nm="ApplicableResourceType">
+      <TblOpts>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</TblOpts>
+      <Pk ClNs="Name" nm="pkApplicableResourceType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar(MAX)" en="" id="729" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
+    <Tbl UsSo="1" nm="CoordinateMethod">
+      <TblOpts/>
+      <Pk ClNs="Name&#9;" nm="pkCoordinateMethod"/>
+      <Cl au="0" df="" nm="Name&#9;" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
     <Tbl UsSo="1" nm="CropType">
       <Cm>A term that indicates the Crop type for the place of use, if the VariableSpecificCV is SiteSpecificConsumptive Use, Irrigation or SiteSpecificWithdrawal, Irrigation</Cm>
       <TblOpts/>
@@ -1446,6 +1511,28 @@ END</src>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="CVs_CropType"/>
       </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="DataQualityValue">
+      <TblOpts/>
+      <Pk ClNs="Name" nm="pkDataQualityValue"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>An indicator of data quality or grading (e.g. fair, good, best, unreported), or using the NEMS data quality grading system.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar(MAX)" en="" id="729" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
     </Tbl>
     <Tbl UsSo="1" nm="EPSGCode">
       <Cm>A term to indicate the European Petroleum Survey Group (EPSG) Code for projection, with a preference for WGS_1984, EPSG of 4326</Cm>
@@ -1476,7 +1563,7 @@ END</src>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkGNISFeatureName"/>
       <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
@@ -1761,7 +1848,7 @@ END</src>
       <TblOpts/>
       <Pk ClNs="Name" nm="pkState"/>
       <Cl au="0" df="" nm="Name" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="2" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NChar" en="" id="722" ln="2" sc="null" sg="1" un="0"/>
       </Cl>
       <Cl au="0" df="" nm="Term" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="2" sc="null" sg="1" un="0"/>
@@ -2398,6 +2485,28 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The Geographic Names Information System (GNIS), developed by the U.S. Geological Survey (USGS) in cooperation with the U.S. Board on Geographic Names (BGN), contains information about the official names for places, features, and areas in the 50 States, the District of Columbia, the territories and outlying areas of the United States, including Antarctica. It is the geographic names component of The National Map. The BGN maintains working relationships with State names authorities to cooperate in achieving the standardization of geographic names.</Cm>
       </Cl>
+      <Cl au="0" df="" nm="NHDNetworkStatusCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>Whether or not the point location is indexed to the USGS NHD network	
+</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDProductCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>NHD Product that is used for the indexing. Shouldbe NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.	
+</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDUpdateDate" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>The publication date for the NHD product used for the index.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDReachCode" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Reach Code Identifier	</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="NHDMeasureNumber" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.	</Cm>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="Sites_dim_input"/>
@@ -2577,16 +2686,15 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="38" y="548"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1121" y="675"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="973" y="1201"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="34" y="221"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="507" y="1194"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="27" y="644"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1121" y="731"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="983" y="1234"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="23" y="225"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="510" y="1241"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="515" y="503"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="BeneficialUses_dim" x="715" y="61"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="550" y="328"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="46" y="863"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="NHDMetadata" x="54" y="1244"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="40" y="1014"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="985" x2="985" y1="221" y2="503"/>
@@ -2594,50 +2702,50 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_appl" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="711" y2="711"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="767" y2="767"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_expir" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="752" y2="752"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="808" y2="808"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_priority" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="732" y2="732"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="788" y2="788"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="695" y2="695"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1121" x2="1014" y1="751" y2="751"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="413" x2="515" y1="683" y2="683"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="402" x2="515" y1="779" y2="779"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="679" x2="679" y1="1194" y2="1138"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="682" x2="682" y1="1241" y2="1157"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="382" x2="515" y1="989" y2="989"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="383" x2="515" y1="1085" y2="1085"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="413" x2="453" y1="340" y2="340"/>
+        <positionableLine lineRole="PARENT_LINE" x1="402" x2="453" y1="344" y2="344"/>
         <positionableLine lineRole="CHILD_LINE" x1="515" x2="461" y1="573" y2="573"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="457" x2="457" y1="569" y2="344"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="457" x2="457" y1="569" y2="348"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1142" x2="1142" y1="1201" y2="1053"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1014" x2="1138" y1="1049" y2="1049"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1152" x2="1152" y1="1234" y2="1053"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1014" x2="1148" y1="1049" y2="1049"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2650,14 +2758,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <positionableLine lineRole="SINGLE_LINE" x1="852" x2="852" y1="221" y2="328"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="212" x2="212" y1="1244" y2="1194"/>
-      </positionableLines>
-    </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="154" y="812">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="138" y="493">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="131" y="903">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="129" y="592">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="812" y="1026">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="1094" y="326">Unique combination for each &#13;
 AllocationAmount record: &#13;
@@ -2700,21 +2803,15 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="31" y="376"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="918" y="1071"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="30" y="32"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="467" y="1068"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="41" y="539"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1001" y="1067"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="34" y="157"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="BeneficialUses_dim" x="809" y="139"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="508" y="322"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="40" y="699"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="41" y="860"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="SiteVariableAmounts_fact" x="518" y="498"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="NHDMetadata" x="41" y="1104"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1058" y="655"/>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Sites_dim.fk_Sites_NHDMetadata" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
-      <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="194" x2="194" y1="1104" y2="1030"/>
-      </positionableLines>
-    </FkGl>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="537" y="1067"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="809" x2="643" y1="199" y2="199"/>
@@ -2749,35 +2846,35 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="406" x2="518" y1="581" y2="581"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="416" x2="518" y1="678" y2="678"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="626" x2="626" y1="1068" y2="962"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="749" x2="749" y1="1067" y2="962"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="376" x2="518" y1="779" y2="779"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="384" x2="518" y1="912" y2="912"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="409" x2="466" y1="212" y2="212"/>
+        <positionableLine lineRole="PARENT_LINE" x1="413" x2="466" y1="337" y2="337"/>
         <positionableLine lineRole="CHILD_LINE" x1="518" x2="474" y1="521" y2="521"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="470" x2="470" y1="517" y2="216"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="470" x2="470" y1="517" y2="341"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1045" x2="1045" y1="1071" y2="824"/>
-        <positionableLine lineRole="CHILD_LINE" x1="929" x2="1041" y1="820" y2="820"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1128" x2="1128" y1="1067" y2="824"/>
+        <positionableLine lineRole="CHILD_LINE" x1="929" x2="1124" y1="820" y2="820"/>
       </positionableLines>
     </FkGl>
     <Notes>
       <Note bkCl="ffffffe6" x="430" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="135" y="301">How: Methodology</Note>
+      <Note bkCl="ffffffe6" x="139" y="443">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="1040" y="366">Unique combination for each &#13;
 SiteVariableAmount record:&#13;
  &#13;
@@ -2788,12 +2885,12 @@ BenificialUseID&#13;
 TimeFrameStartID&#13;
 TimeFrameEndID&#13;
 ReportYearCV</Note>
-      <Note bkCl="ffffffe6" x="509" y="9">GetSiteVariableData: site specific Use&#13;
+      <Note bkCl="ffffffe6" x="382" y="9">GetSiteVariableData: site specific Use&#13;
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
-      <Note bkCl="ffffffe6" x="134" y="644">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="657" y="990">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="148" y="795">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="524" y="988">Who: data provider</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -2819,14 +2916,14 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="56" y="882"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="44" y="892"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1026" y="936"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="45" y="202"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggregatedAmounts_fact" x="572" y="433"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1110" y="560"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="541" y="928"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="46" y="535"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="BeneficialUses_dim" x="844" y="78"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="BeneficialUses_dim" x="850" y="64"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="559" y="257"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
@@ -2835,8 +2932,8 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="844" x2="745" y1="186" y2="186"/>
-        <positionableLine lineRole="CHILD_LINE" x1="741" x2="741" y1="257" y2="190"/>
+        <positionableLine lineRole="PARENT_LINE" x1="850" x2="745" y1="172" y2="172"/>
+        <positionableLine lineRole="CHILD_LINE" x1="741" x2="741" y1="257" y2="176"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
@@ -2856,8 +2953,8 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_BeneficialUses_dim" parentEdge="SOUTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1123" x2="1123" y1="238" y2="503"/>
-        <positionableLine lineRole="CHILD_LINE" x1="941" x2="1119" y1="507" y2="507"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1129" x2="1129" y1="224" y2="503"/>
+        <positionableLine lineRole="CHILD_LINE" x1="941" x2="1125" y1="507" y2="507"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2872,9 +2969,9 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_ReportingUnits_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="447" x2="491" y1="978" y2="978"/>
+        <positionableLine lineRole="PARENT_LINE" x1="435" x2="491" y1="988" y2="988"/>
         <positionableLine lineRole="CHILD_LINE" x1="572" x2="499" y1="696" y2="696"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="495" x2="495" y1="700" y2="974"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="495" x2="495" y1="700" y2="984"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
@@ -2939,7 +3036,7 @@ ReportYearCV&#13;
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="RegulatoryOverlay_dim" x="974" y="169"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="20" y="467"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="39" y="478"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="RegulatoryReportingUnits_fact" x="490" y="208"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="505" y="482"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="554" y="27"/>
@@ -2960,12 +3057,12 @@ ReportYearCV&#13;
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="269" x2="269" y1="467" y2="281"/>
-        <positionableLine lineRole="CHILD_LINE" x1="490" x2="273" y1="277" y2="277"/>
+        <positionableLine lineRole="PARENT_LINE" x1="288" x2="288" y1="478" y2="281"/>
+        <positionableLine lineRole="CHILD_LINE" x1="490" x2="292" y1="277" y2="277"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="86" y="401">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="107" y="413">Where: Location</Note>
       <Note bkCl="ffffffe6" x="684" y="413">Who: data provider</Note>
       <Note bkCl="ffffffe6" x="25" y="38">GetAggRegulatoryOverlay: regulatory&#13;
 The brown tables are the dimensions tables (look us) &#13;
@@ -3028,8 +3125,11 @@ RegulatoryOverlayID</Note>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="CropType" x="1161" y="771"/>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="IrrigationMethod" x="28" y="929"/>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="WaterAllocationType" x="403" y="936"/>
-    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="SiteType" x="783" y="935"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="SiteType" x="776" y="937"/>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="State" x="1160" y="936"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="CoordinateMethod" x="31" y="1091"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="DataQualityValue" x="402" y="1095"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="ApplicableResourceType" x="776" y="1099"/>
     <Notes>
       <Note bkCl="ffbfb2ff" x="88" y="13">The tables have identical fiels to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -3064,14 +3164,14 @@ We will make a join with each controlled field using the "Name" unique primary k
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts_fact" x="18" y="111"/>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts_fact" x="556" y="115"/>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1139" y="484"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites_dim" x="19" y="935"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites_dim" x="22" y="870"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables_dim" x="783" y="690"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Organizations_dim" x="1188" y="686"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods_dim" x="377" y="941"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods_dim" x="381" y="952"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="BeneficialUses_dim" x="410" y="690"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="RegulatoryOverlay_dim" x="1190" y="938"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources_dim" x="21" y="694"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingUnits_dim" x="768" y="943"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources_dim" x="21" y="678"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingUnits_dim" x="780" y="960"/>
     <Notes>
       <Note bkCl="ffffffe6" x="195" y="10">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
 The tables in orange are mostly static metadata tables. Each state will poulate them one time and then will reuse them into the red tables. 
@@ -3079,7 +3179,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="846">
+  <RnmMgr NxRnmId="852">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -5014,6 +5114,24 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Input">
       <Rnm id="845" nNm="StatutoryEndDate" oNm="TimeframeEndID"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="CoordinateMethod" SupCls="Schema" SupNme="CVs">
+      <Rnm id="846" nNm="Name&#9;" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="Core">
+      <Rnm id="847" nNm="Longitude_x" oNm="Longitude"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="Core">
+      <Rnm id="848" nNm="Latitude_y" oNm="Latitude"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="DataQualityValue" SupCls="Schema" SupNme="CVs">
+      <Rnm id="849" nNm="Name" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ApplicableResourceType" SupCls="Schema" SupNme="CVs">
+      <Rnm id="850" nNm="Name" oNm="Id"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
+      <Rnm id="851" nNm="ApplicableResourceType" oNm="ApplicableResourceTypeCV"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -5032,18 +5150,18 @@ Some tables like the Allocations table might change over time but much slowly</N
   </DbDocOptionMgr>
   <OpenEditors>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
     <TreePath>/Schemas (3)/Core</TreePath>
     <TreePath>/Schemas (3)/CVs</TreePath>
-    <TreePath>/Schemas (3)/CVs/Tables (24)</TreePath>
+    <TreePath>/Schemas (3)/CVs/Tables (27)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
     <TreePath>/Diagrams (6)/1_WaterAllocations</TreePath>
     <TreePath>/Diagrams (6)/1_WaterAllocations/Notes (6)</TreePath>
@@ -5054,6 +5172,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <TreePath>/Diagrams (6)/3_AggregatedAmounts/Notes (7)</TreePath>
     <TreePath>/Diagrams (6)/4_RegulatoryInfo</TreePath>
     <TreePath>/Diagrams (6)/4_RegulatoryInfo/Notes (4)</TreePath>
+    <TreePath>/Diagrams (6)/5_ContreolledVocabulary</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>

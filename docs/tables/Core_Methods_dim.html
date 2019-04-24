@@ -45,7 +45,10 @@
 </td><td> </td><td> </td><td>A link back to the org's website or other webpage for more information about the method. https://www.nemi.gov/home/</td><td> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_Methods_dim_ApplicableResourceTypeCV.html">ApplicableResourceTypeCV</a></td><td>NVarChar(100)</td><td> </td><td> </td><td> </td><td>A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</td><td> </td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Methods_dim_ApplicableResourceTypeCV.html">ApplicableResourceTypeCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">A description of the types of water supply or water use for which the method is used (e.g. surface water, groundwater, storage, consumptive use, withdrawal)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Methods_dim_MethodTypeCV.html">MethodTypeCV</a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Indicator of how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</td><td class="FkCol">
@@ -60,10 +63,13 @@
 </td><td> </td><td> </td><td>An indicator of data coverage (i.e., spatial coverage or completeness of the data)</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Core_Methods_dim_DataQualityValueCV.html">DataQualityValueCV</a></td><td>NVarChar(50)</td><td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Methods_dim_DataQualityValueCV.html">DataQualityValueCV</a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>An indicator of data quality or grading (e.g. fair, good, best, unreported), or using the NEMS data quality grading system.</td><td> </td>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">An indicator of data quality or grading (e.g. fair, good, best, unreported), or using the NEMS data quality grading system.</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr class="altRow">
 <td> </td><td><a href="../columns/Core_Methods_dim_DataConfidenceValue.html">DataConfidenceValue</a></td><td>NVarChar(50)</td><td>
@@ -82,6 +88,12 @@
 <table class="flat">
 <tr>
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Methods_dim_fk_Methods_dim_ApplicableResourceTypeCV.html">fk_Methods_dim_ApplicableResourceTypeCV</a></td><td><a href="../tables/CVs_ApplicableResourceType.html">CVs.ApplicableResourceType</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td>Name</td><td>ApplicableResourceTypeCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Methods_dim_fk_Methods_dim_DataQualityValue.html">fk_Methods_dim_DataQualityValue</a></td><td><a href="../tables/CVs_DataQualityValue.html">CVs.DataQualityValue</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td>Name</td><td>DataQualityValueCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Methods_dim_fk_Methods_dim_MethodType.html">fk_Methods_dim_MethodType</a></td><td><a href="../tables/CVs_MethodType.html">CVs.MethodType</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td>Name</td><td>MethodTypeCV</td>

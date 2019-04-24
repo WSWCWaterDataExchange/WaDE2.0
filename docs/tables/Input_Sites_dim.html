@@ -70,6 +70,38 @@ DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The Geographic Names Information System (GNIS), developed by the U.S. Geological Survey (USGS) in cooperation with the U.S. Board on Geographic Names (BGN), contains information about the official names for places, features, and areas in the 50 States, the District of Columbia, the territories and outlying areas of the United States, including Antarctica. It is the geographic names component of The National Map. The BGN maintains working relationships with State names authorities to cooperate in achieving the standardization of geographic names.</td><td> </td>
 </tr>
+<tr>
+<td> </td><td><a href="../columns/Input_Sites_dim_NHDNetworkStatusCV.html">NHDNetworkStatusCV</a></td><td>NVarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Whether or not the point location is indexed to the USGS NHD network	
+</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/Input_Sites_dim_NHDProductCV.html">NHDProductCV</a></td><td>NVarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>NHD Product that is used for the indexing. Shouldbe NHDPlus V1, NHDPlus V2, NHD Med Res, or NHD High Res.	
+</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/Input_Sites_dim_NHDUpdateDate.html">NHDUpdateDate</a></td><td>NVarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>The publication date for the NHD product used for the index.</td><td> </td>
+</tr>
+<tr class="altRow">
+<td> </td><td><a href="../columns/Input_Sites_dim_NHDReachCode.html">NHDReachCode</a></td><td>NVarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the location is indexed to a NHD product, this provides the Reach Code Identifier	</td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/Input_Sites_dim_NHDMeasureNumber.html">NHDMeasureNumber</a></td><td>NVarChar(50)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.	</td><td> </td>
+</tr>
 </table>
 <br>
 <h2>Indexes</h2>
