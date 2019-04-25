@@ -1,2 +1,2 @@
-OrganizationID,OrganizationUID,OrganizationName,OrganizationPurview,OrganizationWebsite,OrganizationPhoneNumber,OrganizationContactName,OrganizationContactEmail
-2,CODWR,Colorado Division of Water Resources,Water Administration for the State of Colorado,add it ,303-866-3581,Doug Stenzel,abc@co.com
+OrganizationID,OrganizationUID,OrganizationName,OrganizationPurview,OrganizationWebsite,OrganizationPhoneNumber,OrganizationContactName,OrganizationContactEmail,DataMappingURL
+2,CODWR,Colorado Division of Water Resources,Water Administration for the State of Colorado,add it ,303-866-3581,Doug Stenzel,abc@co.com,https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/master
