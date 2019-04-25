@@ -28,11 +28,13 @@ namespace WaDEImportFunctions
             log.LogInformation($"Load Water Allocation Data Orchestration [{runId}]");
 
             var parallelTasks = new[] {
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId),
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId),
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId),
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId),
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
             };
 
             var results = await Task.WhenAll(parallelTasks);
@@ -70,7 +72,7 @@ namespace WaDEImportFunctions
         public async Task<StatusHelper> LoadAggregatedAmounts([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadOrganizations, Status = await WaterAllocationManager.LoadAggregatedAmounts(runId) };
+            var result = new StatusHelper { Name = FunctionNames.LoadAggregatedAmounts, Status = await WaterAllocationManager.LoadAggregatedAmounts(runId) };
 
             log.LogInformation(JsonConvert.SerializeObject(result));
 
@@ -81,7 +83,7 @@ namespace WaDEImportFunctions
         public async Task<StatusHelper> LoadRegulatoryOverlays([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadOrganizations, Status = await WaterAllocationManager.LoadRegulatoryOverlays(runId) };
+            var result = new StatusHelper { Name = FunctionNames.LoadRegulatoryOverlays, Status = await WaterAllocationManager.LoadRegulatoryOverlays(runId) };
 
             log.LogInformation(JsonConvert.SerializeObject(result));
 
@@ -92,7 +94,7 @@ namespace WaDEImportFunctions
         public async Task<StatusHelper> LoadReportingUnits([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadOrganizations, Status = await WaterAllocationManager.LoadReportingUnits(runId) };
+            var result = new StatusHelper { Name = FunctionNames.LoadReportingUnits, Status = await WaterAllocationManager.LoadReportingUnits(runId) };
 
             log.LogInformation(JsonConvert.SerializeObject(result));
 
@@ -114,7 +116,7 @@ namespace WaDEImportFunctions
         public async Task<StatusHelper> LoadSiteSpecificAmounts([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadSites, Status = await WaterAllocationManager.LoadSiteSpecificAmounts(runId) };
+            var result = new StatusHelper { Name = FunctionNames.LoadSiteSpecificAmounts, Status = await WaterAllocationManager.LoadSiteSpecificAmounts(runId) };
 
             log.LogInformation(JsonConvert.SerializeObject(result));
 
@@ -125,7 +127,7 @@ namespace WaDEImportFunctions
         public async Task<StatusHelper> LoadVariables([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadSites, Status = await WaterAllocationManager.LoadVariables(runId) };
+            var result = new StatusHelper { Name = FunctionNames.LoadVariables, Status = await WaterAllocationManager.LoadVariables(runId) };
 
             log.LogInformation(JsonConvert.SerializeObject(result));
 
