@@ -54,7 +54,7 @@ BEGIN
             ,ReportingUnitProductVersion = Source.ReportingUnitProductVersion
             ,StateCV = Source.StateCV
             ,EPSGCodeCV = Source.EPSGCodeCV
-            ,[Geometry] = Source.[Geometry]
+            ,[Geometry] = geometry::STGeomFromText(Source.[Geometry], 4326)
     WHEN NOT MATCHED THEN
         INSERT
             (ReportingUnitUUID
@@ -75,6 +75,6 @@ BEGIN
             ,Source.ReportingUnitProductVersion
             ,Source.StateCV
             ,Source.EPSGCodeCV
-            ,Source.[Geometry]);
+            ,geometry::STGeomFromText(Source.[Geometry], 4326));
     RETURN 0;
 END

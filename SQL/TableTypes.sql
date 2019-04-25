@@ -67,7 +67,7 @@ CREATE TYPE Core.ReportingUnitTableType AS TABLE(
     ,ReportingUnitProductVersion NVARCHAR(100) NULL
     ,StateCV NVARCHAR(50) NULL
     ,EPSGCodeCV NVARCHAR(50) NULL
-    ,[Geometry] GEOMETRY NULL
+    ,[Geometry] NVARCHAR(MAX) NULL
 )
 GO
 
@@ -132,7 +132,7 @@ CREATE TYPE Core.WaterAllocationTableType AS TABLE(
 	,AllocationUUID NVARCHAR(250) NULL
 	,AllocationNativeID NVARCHAR(250) NULL
 	,AllocationOwner NVARCHAR(250) NULL
-	,AllocationBasisCV NVARCHAR(250) NULL,
+	,AllocationBasisCV NVARCHAR(250) NULL
 	,AllocationLegalStatusCodeCV VARCHAR(250) NULL
 	,AllocationApplicationDATE DATE NULL
 	,AllocationPriorityDATE DATE NULL

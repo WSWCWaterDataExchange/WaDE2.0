@@ -5050,7 +5050,7 @@ Some tables like the Allocations table might change over time but much slowly</N
   </DbDocOptionMgr>
   <OpenEditors>
     <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="1"/>
     <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
@@ -5062,6 +5062,8 @@ Some tables like the Allocations table might change over time but much slowly</N
     <TreePath>/Schemas (3)/Core</TreePath>
     <TreePath>/Schemas (3)/Core/Tables (22)</TreePath>
     <TreePath>/Schemas (3)/Core/Tables (22)/ImportErrors</TreePath>
+    <TreePath>/Schemas (3)/Core/Tables (22)/Sites_dim</TreePath>
+    <TreePath>/Schemas (3)/Core/Tables (22)/Sites_dim/Columns (15)</TreePath>
     <TreePath>/Schemas (3)/CVs</TreePath>
     <TreePath>/Schemas (3)/CVs/Tables (24)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
