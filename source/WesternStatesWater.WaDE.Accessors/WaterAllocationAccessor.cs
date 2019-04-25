@@ -472,7 +472,7 @@ namespace WesternStatesWater.WaDE.Accessors
                     }
                     else
                     {
-                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, 4000));
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.NVarChar, -1));
                     }
                 }
                 TableSchema = tableSchema.ToArray();
