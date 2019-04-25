@@ -45,14 +45,14 @@ CREATE TYPE Core.OrganizationTableType AS TABLE(
 GO
 
 CREATE TYPE Core.RegulatoryOverlayTableType AS TABLE(
-    RegulatoryOverlayUUID NVARCHAR(100) NULL
-    ,RegulatoryOverlayNativeID NVARCHAR(100) NULL
-    ,RegulatoryName NVARCHAR(100) NULL
-    ,RegulatoryDescription NVARCHAR(100) NULL
-    ,RegulatoryStatusCV NVARCHAR(100) NULL
-    ,OversightAgency NVARCHAR(100) NULL
-    ,RegulatoryStatute NVARCHAR(100) NULL
-    ,RegulatoryStatuteLink NVARCHAR(100) NULL
+    RegulatoryOverlayUUID NVARCHAR(250) NULL
+    ,RegulatoryOverlayNativeID NVARCHAR(250) NULL
+    ,RegulatoryName NVARCHAR(50) NULL
+    ,RegulatoryDescription NVARCHAR(MAX) NULL
+    ,RegulatoryStatusCV NVARCHAR(50) NULL
+    ,OversightAgency NVARCHAR(250) NULL
+    ,RegulatoryStatute NVARCHAR(500) NULL
+    ,RegulatoryStatuteLink NVARCHAR(500) NULL
     ,StatutoryEffectiveDATE DATE NULL
     ,StatutoryEndDATE DATE NULL
 )
