@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadReportingUnits]
+ALTER PROCEDURE [Core].[LoadReportingUnits]
 (
     @RunId NVARCHAR(250),
     @ReportingUnitTable Core.ReportingUnitTableType READONLY

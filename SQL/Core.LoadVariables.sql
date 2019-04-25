@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadVariables]
+ALTER PROCEDURE [Core].[LoadVariables]
 (
     @RunId NVARCHAR(250),
     @VariableTable Core.VariableTableType READONLY

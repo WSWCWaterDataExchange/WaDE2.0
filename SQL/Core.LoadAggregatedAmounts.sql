@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadAggregatedAmounts]
+ALTER PROCEDURE [Core].[LoadAggregatedAmounts]
 (
     @RunId NVARCHAR(250),
     @AggregatedAmountTable Core.AggregatedAmountTableType READONLY

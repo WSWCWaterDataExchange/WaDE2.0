@@ -7,7 +7,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-ALTER   PROCEDURE [Core].[LoadOrganization]
+ALTER PROCEDURE [Core].[LoadOrganization]
 (
      @RunId nvarchar(250),
      @OrganizationTable Core.OrganizationTableType READONLY

@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadRegulatoryOverlays]
+ALTER PROCEDURE [Core].[LoadRegulatoryOverlays]
 (
     @RunId NVARCHAR(250),
     @RegulatoryOverlayTable Core.RegulatoryOverlayTableType READONLY

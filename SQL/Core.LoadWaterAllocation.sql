@@ -6,7 +6,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE   PROCEDURE [Core].[LoadWaterAllocation]
+ALTER PROCEDURE [Core].[LoadWaterAllocation]
 (
   @RunId nvarchar(250),
   @WaterAllocationTable CORE.WaterAllocationTableType READONLY

@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadSites]
+ALTER PROCEDURE [Core].[LoadSites]
 (
     @RunId NVARCHAR(250),
     @SiteTable Core.SiteTableType READONLY

@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadMethods]
+ALTER PROCEDURE [Core].[LoadMethods]
 (
     @RunId NVARCHAR(250),
     @MethodTable Core.MethodTableType READONLY
@@ -21,7 +21,7 @@ BEGIN
         WHERE MethodName IS NULL
         UNION ALL
         SELECT 'MethodDescription Not Valid' Reason, *
-        FROM #MethodDescription
+        FROM #TempMethodData
         WHERE MethodDescription IS NULL
         UNION ALL
         SELECT 'ApplicableResourceTypeCV Not Valid' Reason, *
@@ -50,10 +50,10 @@ BEGIN
             MethodName = Source.MethodName
             ,MethodDescription = Source.MethodDescription
             ,MethodNEMILink = Source.MethodNEMILink
-            ,ApplicableResourceTypeCV = Source.ApplicableResourceType
+            ,ApplicableResourceTypeCV = Source.ApplicableResourceTypeCV
             ,MethodTypeCV = Source.MethodTypeCV
             ,DataCoverageValue = Source.DataCoverageValue
-            ,DataQualityValueCV = Source.DataQualityValue
+            ,DataQualityValueCV = Source.DataQualityValueCV
             ,DataConfidenceValue = Source.DataConfidenceValue
     WHEN NOT MATCHED THEN
         INSERT
@@ -71,10 +71,10 @@ BEGIN
             ,Source.MethodName
             ,Source.MethodDescription
             ,Source.MethodNEMILink
-            ,Source.ApplicableResourceType
+            ,Source.ApplicableResourceTypeCV
             ,Source.MethodTypeCV
             ,Source.DataCoverageValue
-            ,Source.DataQualityValue
+            ,Source.DataQualityValueCV
             ,Source.DataConfidenceValue);
     RETURN 0;
 END

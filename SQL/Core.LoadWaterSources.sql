@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadWaterSources]
+ALTER PROCEDURE [Core].[LoadWaterSources]
 (
     @RunId NVARCHAR(250),
     @WaterSourceTable Core.WaterSourceTableType READONLY

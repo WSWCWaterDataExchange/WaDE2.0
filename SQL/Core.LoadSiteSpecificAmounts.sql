@@ -1,4 +1,4 @@
-CREATE PROCEDURE [Core].[LoadSiteSpecificAmounts]
+ALTER PROCEDURE [Core].[LoadSiteSpecificAmounts]
 (
     @RunId NVARCHAR(250),
     @SiteSpecificAmountTable Core.SiteSpecificAmountTableType READONLY
