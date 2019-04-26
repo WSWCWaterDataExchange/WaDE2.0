@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Import;
@@ -35,28 +36,51 @@ namespace WaDEImportFunctions
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
             };
 
-            var results = await Task.WhenAll(parallelTasks);
+            var parallelResults = await Task.WhenAll(parallelTasks);
 
-            foreach (var resultItem in results)
+            foreach (var result in parallelResults)
             {
-                log.LogInformation(JsonConvert.SerializeObject(resultItem));
+                log.LogInformation(JsonConvert.SerializeObject(result));
             }
-            if (results.Any(a => !a.Status))
+
+            if (parallelResults.Any(a => !a.Status))
             {
                 throw new Exception("Failure Loading Initial Data");
             }
 
-            var result = await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId);
-            if (result.Status)
+            //original code
+            //var result = await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId);
+
+            //if (result.Status)
+            //{
+            //    return new OkObjectResult(new { status = "success" });
+            //}
+            //else
+            //{
+            //    throw new Exception("Failure Loading Water Allocation Data");
+            //}
+
+            //new code
+            var results = new List<StatusHelper>
             {
-                return new OkObjectResult(new { status = "success" });
-            }
-            else
+                await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
+                //,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
+            };
+
+            foreach (var result in results)
             {
-                throw new Exception("Failure Loading Water Allocation Data");
+                log.LogInformation(JsonConvert.SerializeObject(result));
             }
+
+            if (results.Any(a => !a.Status))
+            {
+                throw new Exception("Failure Loading Fact Data");
+            }
+
+            return new OkObjectResult(new { status = "success" });
         }
 
         [FunctionName(FunctionNames.LoadOrganizations)]
