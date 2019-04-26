@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
@@ -23,6 +22,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string GNISFeatureNameCV { get; set; }
 
-        public IGeometry Geometry { get; set; }
+        [NullValues("")]
+        public string Geometry { get; set; }
     }
 }

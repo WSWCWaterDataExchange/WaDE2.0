@@ -168,7 +168,6 @@ CREATE TYPE Core.WaterSourceTableType AS TABLE(
     ,WaterSourceTypeCV NVARCHAR(100) NULL
     ,WaterQualityIndicatorCV NVARCHAR(100) NULL
     ,GNISFeatureNameCV NVARCHAR(250) NULL
-    ,Longitude NVARCHAR(10) NULL
-    ,Latitude NVARCHAR(10) NULL
+    ,[Geometry] NVARCHAR(MAX) NULL
 )
 GO

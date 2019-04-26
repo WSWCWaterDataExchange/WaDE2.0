@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using GeoAPI.Geometries;
 using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
@@ -56,7 +55,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AssociatedNativeAllocationIDs { get; set; }
 
-        public IGeometry Geometry { get; set;  }
+        [NullValues("")]
+        public string Geometry { get; set; }
 
         [NullValues("")]
         public string BeneficialUseCategory { get; set; }

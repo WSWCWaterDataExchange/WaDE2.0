@@ -44,7 +44,7 @@ BEGIN
             ,WaterSourceTypeCV = Source.WaterSourceTypeCV
             ,WaterQualityIndicatorCV = Source.WaterQualityIndicatorCV
             ,GNISFeatureNameCV = Source.GNISFeatureNameCV
-            ,[Geometry] = Source.[Geometry]
+            ,[Geometry] = geometry::STGeomFromText(Source.[Geometry], 4326)
     WHEN NOT MATCHED THEN
         INSERT
             (WaterSourceUUID
@@ -61,6 +61,6 @@ BEGIN
             ,Source.WaterSourceTypeCV
             ,Source.WaterQualityIndicatorCV
             ,Source.GNISFeatureNameCV
-            ,Source.[Geometry]);
+            ,geometry::STGeomFromText(Source.[Geometry], 4326));
     RETURN 0;
 END

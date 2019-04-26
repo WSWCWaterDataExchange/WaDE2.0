@@ -1,5 +1,4 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
