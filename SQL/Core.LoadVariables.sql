@@ -12,10 +12,6 @@ BEGIN
     --data validation
     WITH q1 AS
     (
-        SELECT 'VariableSpecificUUID Not Valid' Reason, *
-        FROM #TempVariableData
-        WHERE VariableSpecificUUID IS NULL
-        UNION ALL
         SELECT 'VariableSpecificCV Not Valid' Reason, *
         FROM #TempVariableData
         WHERE VariableSpecificCV IS NULL
@@ -60,7 +56,7 @@ BEGIN
 
     --merge the data
     MERGE INTO Core.Variables_dim AS Target USING #TempVariableData AS Source ON
-		Target.VariableUUID = Source.VariableUUID
+		Target.VariableSpecificUUID = Source.VariableSpecificUUID
     WHEN MATCHED THEN
         UPDATE SET
             VariableSpecificCV = Source.VariableSpecificCV
