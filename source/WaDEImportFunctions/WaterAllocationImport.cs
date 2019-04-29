@@ -69,8 +69,8 @@ namespace WaDEImportFunctions
             var results = new List<StatusHelper>
             {
                 //await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
-                await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
-                //,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
+                await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
+                //,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
             };
 
             foreach (var result in results)

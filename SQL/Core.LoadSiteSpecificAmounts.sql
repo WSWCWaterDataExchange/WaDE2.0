@@ -11,7 +11,7 @@ BEGIN
     
     --wire up the foreign keys
     SELECT
-        ssa.*
+		ssa.*
 		,og.OrganizationID
 		,st.SiteID
         ,vb.VariableSpecificID
