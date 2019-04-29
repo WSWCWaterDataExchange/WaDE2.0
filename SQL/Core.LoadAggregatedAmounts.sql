@@ -11,19 +11,21 @@ BEGIN
     
     --wire up the foreign keys
     SELECT
-        ssa.*
+        aad.*
         ,og.OrganizationID
 		,ru.ReportingUnitID
 		,vb.VariableSpecificID
 		,mt.MethodID
         ,wt.WaterSourceID
+	INTO
+		#TempJoinedAggregatedAmountData
     FROM
-        #TempJoinedAggregatedAmountData ssa
-		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
-		LEFT OUTER JOIN Core.ReportingUnits_dim ru ON ssa.ReportingUnitUUID = og.ReportingUnitUUID
-        LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
-        LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = vb.MethodUUID
-        LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = og.WaterSourceUUID;
+        #TempAggregatedAmountData aad
+		LEFT OUTER JOIN Core.Organizations_dim og ON aad.OrganizationUUID = og.OrganizationUUID
+		LEFT OUTER JOIN Core.ReportingUnits_dim ru ON aad.ReportingUnitUUID = ru.ReportingUnitUUID
+        LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
+        LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
+        LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 
     --data validation
     WITH q1 AS
@@ -40,6 +42,10 @@ BEGIN
         FROM #TempJoinedAggregatedAmountData
         WHERE VariableSpecificID IS NULL
         UNION ALL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, *
+        FROM #TempJoinedAggregatedAmountData
+        WHERE BeneficialUseCategory IS NULL
+        UNION ALL
 		SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
         WHERE MethodID IS NULL
@@ -48,7 +54,7 @@ BEGIN
         FROM #TempJoinedAggregatedAmountData
         WHERE WaterSourceID IS NULL
         UNION ALL
-        SELECT 'Amount Not Valid' Reason, *
+		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
         WHERE Amount IS NULL
     )
@@ -64,7 +70,7 @@ BEGIN
 
     --set up missing Core.BeneficialUses_dim entries
     SELECT
-        wad.RowNumber
+        aad.RowNumber
         ,BeneficialUse = TRIM(bu.[Value])
     INTO
         #TempBeneficialUsesData
@@ -72,7 +78,7 @@ BEGIN
         #TempAggregatedAmountData aad
         CROSS APPLY STRING_SPLIT(aad.BeneficialUseCategory, ',') bu
     WHERE
-        wad.BeneficialUseCategory IS NOT NULL
+        aad.BeneficialUseCategory IS NOT NULL
         AND bu.[Value] IS NOT NULL
         AND LEN(TRIM(bu.[Value])) > 0;
     
@@ -89,7 +95,7 @@ BEGIN
     INSERT INTO
         Core.BeneficialUses_dim(BeneficialUseCategory)
     SELECT DISTINCT
-        wad.PrimaryUseCategory
+        aad.PrimaryUseCategory
     FROM
         #TempAggregatedAmountData aad
         LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = aad.PrimaryUseCategory
@@ -104,8 +110,8 @@ BEGIN
         SELECT
             [Date]
         FROM
-            #TempAggregatedAmountData ssa
-            UNPIVOT ([Date] FOR Dates IN (ssa.TimeframeStartID, ssa.TimeframeEndID, ssa.DataPublicationDate)) AS up
+            #TempAggregatedAmountData aad
+            UNPIVOT ([Date] FOR Dates IN (aad.TimeframeStart, aad.TimeframeEnd, aad.DataPublicationDate)) AS up
 	)
     INSERT INTO Core.Date_dim (Date, Year)
     SELECT
@@ -125,29 +131,30 @@ BEGIN
     WITH q1 AS
     (
         SELECT
-            ssa.OrganizationID
-			,ssa.ReportingUnitID
-            ,ssa.VariableSpecificID
+            jaad.OrganizationID
+			,jaad.ReportingUnitID
+            ,jaad.VariableSpecificID
             ,bu.BeneficialUseID
-            ,ssa.WaterSourceID
-            ,ssa.MethodID
+            ,jaad.WaterSourceID
+            ,jaad.MethodID
             ,TimeframeStartID = ds.DateID
             ,TimeframeEndID = de.DateID
             ,DataPublicationDate = dp.DateID
-            ,ssa.ReportYearCV
-            ,ssa.Amount
-            ,ssa.PopulationServed
-            ,ssa.PowerGeneratedGWh
-            ,ssa.IrrigatedAcreage
-            ,ssa.InterbasinTransferToID
-            ,ssa.CropTypeCV
-            ,ssa.InterbasinTransferFromID
+			,jaad.DataPublicationDOI
+            ,jaad.ReportYearCV
+            ,jaad.Amount
+            ,jaad.PopulationServed
+            ,jaad.PowerGeneratedGWh
+            ,jaad.IrrigatedAcreage
+            ,jaad.InterbasinTransferToID
+            ,jaad.InterbasinTransferFromID
+			,jaad.RowNumber
         FROM
-            #TempJoinedAggregatedAmountData ssa
-            LEFT OUTER JOIN Core.BeneficialUses_dim bu ON ssa.PrimaryUseCategory = bu.BeneficialUseCategory
-            LEFT OUTER JOIN Core.Date_dim ds ON ssa.TimeframeStart = ds.[Date]
-            LEFT OUTER JOIN Core.Date_dim de ON ssa.TimeframeEnd = de.[Date]
-            LEFT OUTER JOIN Core.Date_dim dp ON ssa.DataPublicationDate = dp.[Date]
+            #TempJoinedAggregatedAmountData jaad
+            LEFT OUTER JOIN Core.BeneficialUses_dim bu ON jaad.PrimaryUseCategory = bu.BeneficialUseCategory
+            LEFT OUTER JOIN Core.Date_dim ds ON jaad.TimeframeStart = ds.[Date]
+            LEFT OUTER JOIN Core.Date_dim de ON jaad.TimeframeEnd = de.[Date]
+            LEFT OUTER JOIN Core.Date_dim dp ON jaad.DataPublicationDate = dp.[Date]
     )
     MERGE INTO Core.AggregatedAmounts_fact AS Target
 	USING q1 AS Source ON
@@ -189,6 +196,7 @@ BEGIN
 			,Source.TimeframeStartID
 			,Source.TimeframeEndID
 			,Source.DataPublicationDate
+			,Source.DataPublicationDOI
 			,Source.ReportYearCV
 			,Source.Amount
 			,Source.PopulationServed
@@ -202,13 +210,14 @@ BEGIN
 		INTO
 			#AggregatedAmountRecords;
     
-    --insert into Core.SitesBridge_BeneficialUses_fact
-	INSERT INTO Core.SitesBridge_BeneficialUses_fact (BeneficialUseID, AggregatedAmountID)
+	--insert into Core.AggBridge_BeneficialUses_fact
+	INSERT INTO Core.AggBridge_BeneficialUses_fact (BeneficialUseID, AggregatedAmountID)
 	SELECT DISTINCT
-		*
+		bu.BeneficialUseID
+		,aar.AggregatedAmountID
 	FROM
-		#AggregatedAmountRecords sva
-		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = sva.RowNumber
+		#AggregatedAmountRecords aar
+		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
 		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
 		bu.BeneficialUseID IS NOT NULL;

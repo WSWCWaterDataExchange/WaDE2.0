@@ -2,11 +2,13 @@ CREATE TYPE Core.AggregatedAmountTableType AS TABLE(
     OrganizationUUID NVARCHAR(250) NULL
     ,ReportingUnitUUID NVARCHAR(250) NULL
     ,VariableSpecificUUID NVARCHAR(250) NULL
+	,BeneficialUseCategory NVARCHAR(500) NULL
+    ,PrimaryUseCategory NVARCHAR(250) NULL
     ,MethodUUID NVARCHAR(250) NULL
     ,WaterSourceUUID NVARCHAR(250) NULL
     ,TimeframeStart DATE NULL
     ,TimeframeEnd DATE NULL
-    ,DataPublicationDATE DATE NULL
+    ,DataPublicationDate DATE NULL
     ,DataPublicationDOI NVARCHAR(100) NULL
     ,ReportYearCV NVARCHAR(4) NULL
     ,Amount FLOAT NULL
@@ -15,8 +17,6 @@ CREATE TYPE Core.AggregatedAmountTableType AS TABLE(
     ,IrrigatedAcreage FLOAT NULL
     ,InterbasinTransferToID NVARCHAR(100) NULL
     ,InterbasinTransferFromID NVARCHAR(100) NULL
-    ,BeneficialUseCategory NVARCHAR(500) NULL
-    ,PrimaryUseCategory NVARCHAR(250) NULL
 )
 
 CREATE TYPE Core.MethodTableType AS TABLE(

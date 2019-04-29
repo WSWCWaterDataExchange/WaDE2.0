@@ -15,6 +15,12 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string VariableSpecificUUID { get; set; }
 
         [NullValues("")]
+        public string BeneficialUseCategory { get; set; }
+
+        [NullValues("")]
+        public string PrimaryUseCategory { get; set; }
+
+        [NullValues("")]
         public string MethodUUID { get; set; }
 
         [NullValues("")]
@@ -45,11 +51,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string InterbasinTransferFromID { get; set; }
-
-        [NullValues("")]
-        public string BeneficialUseCategory { get; set; }
-
-        [NullValues("")]
-        public string PrimaryUseCategory { get; set; }
     }
 }

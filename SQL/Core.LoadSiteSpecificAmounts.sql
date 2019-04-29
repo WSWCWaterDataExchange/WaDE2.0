@@ -215,7 +215,8 @@ BEGIN
     --insert into Core.SitesBridge_BeneficialUses_fact
 	INSERT INTO Core.SitesBridge_BeneficialUses_fact (BeneficialUseID, SiteVariableAmountID)
 	SELECT DISTINCT
-		*
+		bu.BeneficialUseID
+		,sva.SiteVariableAmountID
 	FROM
 		#SiteVariableAmountRecords sva
 		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = sva.RowNumber

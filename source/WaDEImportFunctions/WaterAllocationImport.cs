@@ -28,16 +28,17 @@ namespace WaDEImportFunctions
 
             log.LogInformation($"Load Water Allocation Data Orchestration [{runId}]");
 
-            var parallelTasks = new[] {
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
-            };
+            var parallelTasks = new List<Task<StatusHelper>>();
+            //{
+            //    context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
+            //    ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
+            //};
 
             var parallelResults = await Task.WhenAll(parallelTasks);
 
@@ -66,6 +67,7 @@ namespace WaDEImportFunctions
             //new code
             var results = new List<StatusHelper>
             {
+                //await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
                 await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
                 //,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
             };
