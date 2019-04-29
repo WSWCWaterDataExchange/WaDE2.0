@@ -10,7 +10,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string SiteUUID { get; set; }
-
+        
         [NullValues("")]
         public string VariableSpecificUUID { get; set; }
 
@@ -19,6 +19,9 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string MethodUUID { get; set; }
+
+        [NullValues("")]
+        public string AllocationUUID { get; set; }
 
         public DateTime? TimeframeStart { get; set; }
 

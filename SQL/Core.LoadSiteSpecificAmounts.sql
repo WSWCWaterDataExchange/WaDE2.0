@@ -17,13 +17,16 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
+		,al.AllocationID
     FROM
         #TempJoinedSiteSpecificAmountData ssa
 		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.SiteUUID
 		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
-		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = og.WaterSourceUUID
-		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = vb.MethodUUID;
+		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
+		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID
+		LEFT OUTER JOIN Core.Allocations_dim al ON ssa.AllocationUUID = al.AllocationUUID;
+
     --data validation
     WITH q1 AS
     (
@@ -47,6 +50,10 @@ BEGIN
         FROM #TempJoinedSiteSpecificAmountData
         WHERE MethodID IS NULL
         UNION ALL
+		SELECT 'AllocationID Not Valid' Reason, *
+        FROM #TempJoinedSiteSpecificAmountData
+        WHERE AllocationID IS NULL
+        UNION ALL
 		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
         WHERE Amount IS NULL
@@ -63,7 +70,7 @@ BEGIN
 
     --set up missing Core.BeneficialUses_dim entries
     SELECT
-        wad.RowNumber
+        ssa.RowNumber
         ,BeneficialUse = TRIM(bu.[Value])
     INTO
         #TempBeneficialUsesData
@@ -71,7 +78,7 @@ BEGIN
         #TempSiteSpecificAmountData ssa
         CROSS APPLY STRING_SPLIT(ssa.BeneficialUseCategory, ',') bu
     WHERE
-        wad.BeneficialUseCategory IS NOT NULL
+        ssa.BeneficialUseCategory IS NOT NULL
         AND bu.[Value] IS NOT NULL
         AND LEN(TRIM(bu.[Value])) > 0;
     
@@ -88,7 +95,7 @@ BEGIN
     INSERT INTO
         Core.BeneficialUses_dim(BeneficialUseCategory)
     SELECT DISTINCT
-        wad.PrimaryUseCategory
+        ssa.PrimaryUseCategory
     FROM
         #TempSiteSpecificAmountData ssa
         LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = ssa.PrimaryUseCategory
@@ -130,6 +137,7 @@ BEGIN
             ,bu.BeneficialUseID
             ,ssa.WaterSourceID
             ,ssa.MethodID
+			,ssa.AllocationID
             ,TimeframeStart = ds.DateID
             ,TimeframeEnd = de.DateID
             ,DataPublicationDate = dp.DateID
@@ -223,5 +231,16 @@ BEGIN
 		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
 		bu.BeneficialUseID IS NOT NULL;
+
+	--insert into Core.SitesvariableAmountBridgeAllocations_fact
+	INSERT INTO Core.SitesvariableAmountBridgeAllocations_fact(SiteVariableAmountID, AllocationID)
+	SELECT DISTINCT
+		sva.SiteVariableAmountID
+		,sva.AllocationID
+	FROM
+		#TempJoinedSiteSpecificAmountData sva
+	WHERE
+		sva.AllocationID IS NOT NULL;
+
 	RETURN 0;
 END
