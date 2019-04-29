@@ -241,6 +241,5 @@ BEGIN
 		#TempJoinedSiteSpecificAmountData sva
 	WHERE
 		sva.AllocationID IS NOT NULL;
-
 	RETURN 0;
 END

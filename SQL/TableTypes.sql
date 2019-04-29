@@ -129,25 +129,24 @@ GO
 
 CREATE TYPE Core.WaterAllocationTableType AS TABLE(
 	OrganizationUUID NVARCHAR(250) NULL
-	,AllocationUUID NVARCHAR(250) NULL
-	,AllocationNativeID NVARCHAR(250) NULL
-	,AllocationOwner NVARCHAR(250) NULL
-	,AllocationBasisCV NVARCHAR(250) NULL
-	,AllocationLegalStatusCodeCV VARCHAR(250) NULL
-	,AllocationApplicationDATE DATE NULL
-	,AllocationPriorityDATE DATE NULL
-	,AllocationExpirationDATE DATE NULL
-	,AllocationChangeApplicationIndicator NVARCHAR(250) NULL
-	,SiteUUID NVARCHAR(250) NULL
 	,VariableSpecificUUID NVARCHAR(250) NULL
-	,BeneficialUseCategory NVARCHAR(500) NULL
-	,PrimaryUseCategory NVARCHAR(250) NULL
+	,SiteUUID NVARCHAR(250) NULL
 	,WaterSourceUUID NVARCHAR(250) NULL
 	,MethodUUID NVARCHAR(250) NULL
-	,TimeframeStartDATE DATE NULL
-	,TimeframeEndDATE DATE NULL
+	,BeneficialUseCategory NVARCHAR(500) NULL
+	,PrimaryUseCategory NVARCHAR(250) NULL
 	,DataPublicationDATE DATE NULL
-	,ReportYear NVARCHAR(4) NULL
+	,DataPublicationDOI NVARCHAR(100) NULL
+	,AllocationNativeID NVARCHAR(250) NULL
+	,AllocationApplicationDate DATE NULL
+	,AllocationPriorityDate DATE NULL
+	,AllocationExpirationDate DATE NULL
+	,AllocationOwner NVARCHAR(250) NULL
+	,AllocationBasisCV NVARCHAR(250) NULL
+	,AllocationLegalStatusCV VARCHAR(250) NULL
+	,AllocationTypeCV NVARCHAR(250) NULL
+	,AllocationTimeframeStart DATE NULL
+	,AllocationTimeframeEnd DATE NULL
 	,AllocationCropDutyAmount FLOAT NULL
 	,AllocationAmount FLOAT NULL
 	,AllocationMaximum FLOAT NULL
@@ -155,9 +154,11 @@ CREATE TYPE Core.WaterAllocationTableType AS TABLE(
 	,PowerGeneratedGWh FLOAT NULL
 	,IrrigatedAcreage FLOAT NULL
 	,AllocationCommunityWaterSupplySystem NVARCHAR(250) NULL
-	,SDWISIdentifier NVARCHAR(250) NULL
-	,Latitude NVARCHAR(100) NULL
-	,Longitude NVARCHAR(100) NULL
+	,AllocationSDWISIdentifier NVARCHAR(250) NULL
+	,AllocationAssociatedWithdrawalSiteIDs NVARCHAR(500) NULL
+	,AllocationAssociatedConsumptiveUseSiteIDs NVARCHAR(500) NULL
+	,AllocationChangeApplicationIndicator NVARCHAR(250) NULL
+	,LegacyAllocationIDs NVARCHAR(250) NULL
 )
 GO
 

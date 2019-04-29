@@ -13,74 +13,46 @@ BEGIN
 	SELECT
 		wad.*
 		,o.OrganizationID
-		,ws.WaterSourceID
 		,v.VariableSpecificID
-		,m.MethodID
 		,s.SiteID
+		,ws.WaterSourceID
+		,m.MethodID
 	INTO
 		#TempJoinedWaterAllocationData
 	FROM
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN CORE.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
-		LEFT OUTER JOIN CORE.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN CORE.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
-		LEFT OUTER JOIN CORE.Methods_dim m ON m.MethodUUID = wad.MethodUUID
-		LEFT OUTER JOIN CORE.Sites_dim s ON s.SiteUUID = wad.SiteUUID;
+		LEFT OUTER JOIN CORE.Sites_dim s ON s.SiteUUID = wad.SiteUUID
+		LEFT OUTER JOIN CORE.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
+		LEFT OUTER JOIN CORE.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
 
 	--data validation
 	WITH q1 AS
 	(
-		SELECT 'OranizationUUID Not Valid' Reason, *
+		SELECT 'OrganizationID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE OrganizationID is null
+		WHERE OrganizationID IS NULL
 		UNION ALL
-		SELECT 'WaterSourceUUID Not Valid' Reason, *
+		SELECT 'VariableSpecificID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE WaterSourceID is null
+		WHERE VariableSpecificID IS NULL
 		UNION ALL
-		SELECT 'VariableSpecificUUID Not Valid' Reason, *
+		SELECT 'WaterSourceID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE VariableSpecificID is null
+		WHERE WaterSourceID IS NULL
 		UNION ALL
-		SELECT 'MethodUUID Not Valid' Reason, *
+		SELECT 'MethodID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE MethodID is null
+		WHERE MethodID IS NULL
 		UNION ALL
-		SELECT 'SiteUUID Not Valid' Reason, *
+		SELECT 'DataPublicationDate Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE SiteID is null
-		UNION ALL
-		SELECT 'AllocationUUID Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationUUID is null
-		UNION ALL
-		SELECT 'AllocationNativeID Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationNativeID is null
-		UNION ALL
-		SELECT 'AllocationOwner Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationOwner is null
-		UNION ALL
-		SELECT 'AllocationLegalStatusCodeCV Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationLegalStatusCodeCV is null
+		WHERE DataPublicationDate IS NULL
 		UNION ALL
 		SELECT 'AllocationPriorityDate Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationPriorityDate is null
-		UNION ALL
-		SELECT 'TimeframeStartDate Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE TimeframeStartDate is null
-		UNION ALL
-		SELECT 'TimeframeEndDate Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE TimeframeEndDate is null
-		UNION ALL
-		SELECT 'ReportYear Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE ReportYear is null
+		WHERE AllocationPriorityDate IS NULL
 	)
 	SELECT * INTO #TempErrorWaterAllocationRecords FROM q1;
 
@@ -133,7 +105,7 @@ BEGIN
 	(
 		SELECT [Date]
 		FROM #TempWaterAllocationData wad
-		UNPIVOT ([Date] FOR Dates IN (wad.TimeframeStartDate, wad.TimeframeEndDate, wad.DataPublicationDate, wad.AllocationApplicationDate, wad.AllocationPriorityDate, wad.AllocationExpirationDate)) AS up
+		UNPIVOT ([Date] FOR Dates IN (wad.DataPublicationDATE, wad.AllocationApplicationDate, wad.AllocationPriorityDate, wad.AllocationExpirationDate, wad.AllocationTimeframeStart, wad.AllocationTimeframeEnd)) AS up
 	)
 	INSERT INTO CORE.Date_dim (Date, Year)
 	SELECT
@@ -147,36 +119,6 @@ BEGIN
     GROUP BY
         q1.[Date];
  
---set up missing CORE.Allocations_dim entries
-	INSERT INTO CORE.Allocations_dim
-		(AllocationUUID
-		,AllocationNativeID
-		,AllocationOwner
-		,AllocationBasisCV
-		,AllocationLegalStatusCV
-		,AllocationApplicationDate
-		,AllocationPriorityDate
-		,AllocationExpirationDate
-		,AllocationChangeApplicationIndicator)
-	SELECT DISTINCT
-		wad.AllocationUUID
-		,wad.AllocationNativeID
-		,wad.AllocationOwner
-		,wad.AllocationBasisCV
-		,wad.AllocationLegalStatusCodeCV
-		,dApp.DateID
-		,dPrior.DateID
-		,dExpir.DateID
-		,wad.AllocationChangeApplicationIndicator
-	FROM
-		#TempWaterAllocationData wad
-		LEFT OUTER JOIN CORE.Allocations_dim a ON a.AllocationNativeID = wad.AllocationNativeID
-		LEFT OUTER JOIN CORE.Date_dim dApp ON dApp.Date = wad.AllocationApplicationDate
-		LEFT OUTER JOIN CORE.Date_dim dPrior ON dPrior.Date = wad.AllocationPriorityDate
-		LEFT OUTER JOIN CORE.Date_dim dExpir ON dExpir.Date = wad.AllocationExpirationDate
-	WHERE
-		a.AllocationID IS NULL;
-
 	--merge into CORE.AllocationAmounts_fact
 	CREATE TABLE #AllocationAmountRecords(AllocationAmountID BIGINT, RowNumber BIGINT);
 
@@ -184,16 +126,23 @@ BEGIN
 	(
 		SELECT
 			wad.OrganizationID
-			,a.AllocationID
-			,wad.SiteID
 			,wad.VariableSpecificID
-			,bu.BeneficialUseID
+			,wad.SiteID
 			,wad.WaterSourceID
 			,wad.MethodID
-			,dStart.DateID DateStartId
-			,dEnd.DateID DateEndId
-			,dPub.DateID DatePubId
-			,wad.ReportYear
+			,bu.BeneficialUseID
+			,DataPublicationDateID = dpub.DateID
+			,wad.DataPublicationDOI
+			,wad.AllocationNativeID
+			,AllocationApplicationDate = dApp.DateID
+			,AllocationPriorityDate = dPri.DateID
+			,AllocationExpirationDate = dExp.DateID
+			,wad.AllocationOwner
+			,wad.AllocationBasisCV
+			,wad.AllocationLegalStatusCV
+			,wad.AllocationTypeCV
+			,AllocationTimeframeStart = dStart.DateID
+			,AllocationTimeframeEnd = dEnd.DateID
 			,wad.AllocationCropDutyAmount
 			,wad.AllocationAmount
 			,wad.AllocationMaximum
@@ -201,17 +150,21 @@ BEGIN
 			,wad.PowerGeneratedGWh
 			,wad.IrrigatedAcreage
 			,wad.AllocationCommunityWaterSupplySystem
-			,wad.SDWISIdentifier
+			,wad.AllocationSDWISIdentifier
+			,wad.AllocationAssociatedWithdrawalSiteIDs
+			,wad.AllocationAssociatedConsumptiveUseSiteIDs
+			,wad.AllocationChangeApplicationIndicator
+			,wad.LegacyAllocationIDs
 			,wad.RowNumber
-			,CASE WHEN --this isn't going to work, and geometry isn't in here  any more
-				wad.Latitude is not null and len(wad.Latitude)>0 and wad.Longitude is not null and len(wad.Longitude)>0 then geometry::STGeomFromText('POINT('+wad.Longitude+' '+wad.Latitude+')', 4326) else null end [Geometry]
 		FROM
 			#TempJoinedWaterAllocationData wad
-			LEFT OUTER JOIN CORE.Allocations_dim a ON a.AllocationUUID = wad.AllocationUUID
 			LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = wad.PrimaryUseCategory
-			LEFT OUTER JOIN CORE.Date_dim dStart ON dStart.[Date] = wad.TimeframeStartDate
-			LEFT OUTER JOIN CORE.Date_dim dEnd ON dEnd.[Date] = wad.TimeframeEndDate
 			LEFT OUTER JOIN CORE.Date_dim dPub ON dPub.[Date] = wad.DataPublicationDate
+			LEFT OUTER JOIN CORE.Date_dim dApp ON dApp.[Date] = wad.AllocationApplicationDate
+			LEFT OUTER JOIN CORE.Date_dim dPri ON dPri.[Date] = wad.AllocationPriorityDate
+			LEFT OUTER JOIN CORE.Date_dim dExp ON dExp.[Date] = wad.AllocationExpirationDate
+			LEFT OUTER JOIN CORE.Date_dim dStart ON dStart.[Date] = wad.AllocationTimeframeStart
+			LEFT OUTER JOIN CORE.Date_dim dEnd ON dEnd.[Date] = wad.AllocationTimeframeEnd
 	)
 	MERGE INTO CORE.AllocationAmounts_fact AS Target
 	USING q1 AS Source ON
@@ -223,16 +176,23 @@ BEGIN
 	WHEN NOT MATCHED THEN
 	INSERT
 		(OrganizationID
-		,AllocationID
-		,SiteID
 		,VariableSpecificID
-		,PrimaryBeneficialUseID
+		,SiteID
 		,WaterSourceID
 		,MethodID
-		,TimeframeStartDateID
-		,TimeframeEndDateID
+		,BeneficialUseID
 		,DataPublicationDateID
-		,ReportYear
+		,DataPublicationDOI
+		,AllocationNativeID
+		,AllocationApplicationDate
+		,AllocationPriorityDate
+		,AllocationExpirationDate
+		,AllocationOwner
+		,AllocationBasisCV
+		,AllocationLegalStatusCV
+		,AllocationTypeCV
+		,AllocationTimeframeStart
+		,AllocationTimeframeEnd
 		,AllocationCropDutyAmount
 		,AllocationAmount
 		,AllocationMaximum
@@ -240,45 +200,69 @@ BEGIN
 		,PowerGeneratedGWh
 		,IrrigatedAcreage
 		,AllocationCommunityWaterSupplySystem
-		,SDWISIdentifier
-		,[Geometry])
+		,AllocationSDWISIdentifier
+		,AllocationAssociatedWithdrawalSiteIDs
+		,AllocationAssociatedConsumptiveUseSiteIDs
+		,AllocationChangeApplicationIndicator
+		,LegacyAllocationIDs)
 	VALUES
-		(q1.OrganizationID
-		,q1.AllocationID
-		,q1.SiteID
-		,q1.VariableSpecificID
-		,q1.BeneficialUseID
-		,q1.WaterSourceID
-		,q1.MethodID
-		,q1.DateStartId
-		,q1.DateEndId
-		,q1.DatePubId
-		,q1.ReportYear
-		,q1.AllocationCropDutyAmount
-		,q1.AllocationAmount
-		,q1.AllocationMaximum
-		,q1.PopulationServed
-		,q1.PowerGeneratedGWh
-		,q1.IrrigatedAcreage
-		,q1.AllocationCommunityWaterSupplySystem
-		,q1.SDWISIdentifier
-		,q1.[Geometry])
+		(Source.OrganizationID
+		,Source.VariableSpecificID
+		,Source.SiteID
+		,Source.WaterSourceID
+		,Source.MethodID
+		,Source.BeneficialUseID
+		,Source.DataPublicationDateID
+		,Source.DataPublicationDOI
+		,Source.AllocationNativeID
+		,Source.AllocationApplicationDate
+		,Source.AllocationPriorityDate
+		,Source.AllocationExpirationDate
+		,Source.AllocationOwner
+		,Source.AllocationBasisCV
+		,Source.AllocationLegalStatusCV
+		,Source.AllocationTypeCV
+		,Source.AllocationTimeframeStart
+		,Source.AllocationTimeframeEnd
+		,Source.AllocationCropDutyAmount
+		,Source.AllocationAmount
+		,Source.AllocationMaximum
+		,Source.PopulationServed
+		,Source.PowerGeneratedGWh
+		,Source.IrrigatedAcreage
+		,Source.AllocationCommunityWaterSupplySystem
+		,Source.AllocationSDWISIdentifier
+		,Source.AllocationAssociatedWithdrawalSiteIDs
+		,Source.AllocationAssociatedConsumptiveUseSiteIDs
+		,Source.AllocationChangeApplicationIndicator
+		,Source.LegacyAllocationIDs)
 	OUTPUT
 		inserted.AllocationAmountID
-		,q1.RowNumber
+		,Source.RowNumber
 	INTO
 		#AllocationAmountRecords;
 
 	--insert into CORE.AllocationBridge_BeneficialUses_fact
-	INSERT INTO CORE.AllocationBridge_BeneficialUses_fact (AllocationAmountID, BeneficialUseID)
+	INSERT INTO CORE.AllocationBridge_BeneficialUses_fact (BeneficialUseID, AllocationAmountID)
 	SELECT DISTINCT
-		aar.AllocationAmountID
-		,bu.BeneficialUseID
+		bu.BeneficialUseID
+		,aar.AllocationAmountID
 	FROM
 		#AllocationAmountRecords aar
 		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
 		LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
-	bu.BeneficialUseID IS NOT NULL;
+		bu.BeneficialUseID IS NOT NULL;
+
+	--insert into CORE.SitesAllocationAmountsBridge_fact
+	INSERT INTO CORE.SitesAllocationAmountsBridge_fact (SiteID, AllocationAmountID)
+	SELECT DISTINCT
+		aarJoin.SiteID
+		,aar.AllocationAmountID
+	FROM
+		#AllocationAmountRecords aar
+		LEFT OUTER JOIN #TempJoinedWaterAllocationData aarjoin ON aar.RowNumber = aarJoin.RowNumber
+	WHERE
+		bu.BeneficialUseID IS NOT NULL;
 	return 0;
 END

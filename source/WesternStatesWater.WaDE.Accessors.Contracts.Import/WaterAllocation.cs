@@ -9,10 +9,36 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string OrganizationUUID { get; set; }
 
         [NullValues("")]
-        public string AllocationUUID { get; set; }
+        public string VariableSpecificUUID { get; set; }
+
+        [NullValues("")]
+        public string SiteUUID { get; set; }
+
+        [NullValues("")]
+        public string WaterSourceUUID { get; set; }
+
+        [NullValues("")]
+        public string MethodUUID { get; set; }
+
+        [NullValues("")]
+        public string BeneficialUseCategory { get; set; }
+
+        [NullValues("")]
+        public string PrimaryUseCategory { get; set; }
+
+        public DateTime? DataPublicationDate { get; set; }
+
+        [NullValues("")]
+        public string DataPublicationDOI { get; set; }
 
         [NullValues("")]
         public string AllocationNativeID { get; set; }
+
+        public DateTime? AllocationApplicationDate { get; set; }
+
+        public DateTime? AllocationPriorityDate { get; set; }
+
+        public DateTime? AllocationExpirationDate { get; set; }
 
         [NullValues("")]
         public string AllocationOwner { get; set; }
@@ -21,43 +47,14 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationBasisCV { get; set; }
 
         [NullValues("")]
-        public string AllocationLegalStatusCodeCV { get; set; }
-
-        public DateTime? AllocationApplicationDate { get; set; }
-
-        public DateTime? WaterAllocationPriorityDate { get; set; }
-
-        public DateTime? AllocationExpirationDate { get; set; }
+        public string AllocationLegalStatusCV { get; set; }
 
         [NullValues("")]
-        public string AllocationChangeApplicationIndicator { get; set; }
+        public string AllocationTypeCV { get; set; }
 
-        [NullValues("")]
-        public string SiteUUID { get; set; }
+        public DateTime? AllocationTimeframeStart { get; set; }
 
-        [NullValues("")]
-        public string VariableSpecificUUID { get; set; }
-
-        [NullValues("")]
-        public string BeneficialUseCategory { get; set; }
-
-        [NullValues("")]
-        public string PrimaryUseCategory { get; set; }
-
-        [NullValues("")]
-        public string WaterSourceUUID { get; set; }
-
-        [NullValues("")]
-        public string MethodUUID { get; set; }
-
-        public DateTime? TimeframeStartDate { get; set; }
-
-        public DateTime? TimeframeEndDate { get; set; }
-
-        public DateTime? DataPublicationDate { get; set; }
-
-        [NullValues("")]
-        public string ReportYear { get; set; }
+        public DateTime? AllocationTimeframeEnd { get; set; }
 
         public double? AllocationCropDutyAmount { get; set; }
 
@@ -75,12 +72,18 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationCommunityWaterSupplySystem { get; set; }
 
         [NullValues("")]
-        public string SDWISIdentifier { get; set; }
+        public string AllocationSDWISIdentifier { get; set; }
 
         [NullValues("")]
-        public string Latitude { get; set; }
+        public string AllocationAssociatedWithdrawalSiteIDs { get; set; }
 
         [NullValues("")]
-        public string Longitude { get; set; }
+        public string AllocationAssociatedConsumptiveUseSiteIDs { get; set; }
+
+        [NullValues("")]
+        public string AllocationChangeApplicationIndicator { get; set; }
+
+        [NullValues("")]
+        public string LegacyAllocationIDs { get; set; }
     }
 }
