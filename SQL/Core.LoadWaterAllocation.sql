@@ -172,7 +172,7 @@ BEGIN
 		AND Target.SiteID = Source.SiteID
 		AND Target.AllocationNativeID = Source.AllocationNativeID
 		AND Target.VariableSpecificID = Source.VariableSpecificID
-		AND Target.BeneficialUseID = Source.BeneficialUseID
+		AND Target.PrimaryBeneficialUseID = Source.BeneficialUseID
 	WHEN NOT MATCHED THEN
 	INSERT
 		(OrganizationID
@@ -180,7 +180,7 @@ BEGIN
 		,SiteID
 		,WaterSourceID
 		,MethodID
-		,BeneficialUseID
+		,PrimaryBeneficialUseID
 		,DataPublicationDateID
 		,DataPublicationDOI
 		,AllocationNativeID
@@ -250,19 +250,20 @@ BEGIN
 	FROM
 		#AllocationAmountRecords aar
 		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
+		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
 		bu.BeneficialUseID IS NOT NULL;
 
 	--insert into CORE.SitesAllocationAmountsBridge_fact
-	INSERT INTO CORE.SitesAllocationAmountsBridge_fact (SiteID, AllocationAmountID)
+	INSERT INTO Core.SitesAllocationAmountsBridge_fact (SiteID, AllocationAmountID)
 	SELECT DISTINCT
-		aarJoin.SiteID
+		s.SiteID
 		,aar.AllocationAmountID
 	FROM
 		#AllocationAmountRecords aar
-		LEFT OUTER JOIN #TempJoinedWaterAllocationData aarjoin ON aar.RowNumber = aarJoin.RowNumber
+		LEFT OUTER JOIN #TempWaterAllocationData wad ON wad.RowNumber = aar.RowNumber
+		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
 	WHERE
-		bu.BeneficialUseID IS NOT NULL;
+		wad.SiteUUID IS NOT NULL;
 	return 0;
 END
