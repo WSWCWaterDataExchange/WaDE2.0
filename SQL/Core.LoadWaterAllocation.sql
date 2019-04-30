@@ -74,9 +74,9 @@ BEGIN
 		#TempWaterAllocationData wad
 		CROSS APPLY STRING_SPLIT(wad.BeneficialUseCategory, ',') bu
 	WHERE
-	wad.BeneficialUseCategory IS NOT NULL
-	AND bu.[Value] IS NOT NULL
-	AND LEN(TRIM(bu.[Value])) > 0;
+		wad.BeneficialUseCategory IS NOT NULL
+		AND bu.[Value] IS NOT NULL
+		AND LEN(TRIM(bu.[Value])) > 0;
 
 	INSERT INTO
 		CORE.BeneficialUses_dim(BeneficialUseCategory)
@@ -98,7 +98,7 @@ BEGIN
 	WHERE
 		bu.BeneficialUseID IS NULL
 		AND wad.PrimaryUseCategory IS NOT NULL
-		AND LEN(TRIM(wad.PrimaryUseCategory))>0;
+		AND LEN(TRIM(wad.PrimaryUseCategory)) > 0;
 
 	--set up missing Core.Date_dim entries
 	WITH q1 AS
@@ -242,16 +242,16 @@ BEGIN
 	INTO
 		#AllocationAmountRecords;
 	
-	--insert into CORE.SitesAllocationAmountsBridge_fact
-	INSERT INTO Core.SitesAllocationAmountsBridge_fact (SiteID, AllocationAmountID)
+	--insert into Core.AllocationBridge_BeneficialUses_fact
+	INSERT INTO Core.AllocationBridge_BeneficialUses_fact (BeneficialUseID, AllocationAmountID)
 	SELECT DISTINCT
-		s.SiteID
+		bu.BeneficialUseID
 		,aar.AllocationAmountID
 	FROM
 		#AllocationAmountRecords aar
-		LEFT OUTER JOIN #TempWaterAllocationData wad ON wad.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
+		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
+		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
-		wad.SiteUUID IS NOT NULL;
+		bu.BeneficialUseID IS NOT NULL;
 	RETURN 0;
 END
