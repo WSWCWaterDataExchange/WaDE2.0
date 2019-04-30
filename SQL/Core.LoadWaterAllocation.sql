@@ -241,19 +241,7 @@ BEGIN
 		,Source.RowNumber
 	INTO
 		#AllocationAmountRecords;
-
-	--insert into CORE.AllocationBridge_BeneficialUses_fact
-	INSERT INTO CORE.AllocationBridge_BeneficialUses_fact (BeneficialUseID, AllocationAmountID)
-	SELECT DISTINCT
-		bu.BeneficialUseID
-		,aar.AllocationAmountID
-	FROM
-		#AllocationAmountRecords aar
-		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
-	WHERE
-		bu.BeneficialUseID IS NOT NULL;
-
+	
 	--insert into CORE.SitesAllocationAmountsBridge_fact
 	INSERT INTO Core.SitesAllocationAmountsBridge_fact (SiteID, AllocationAmountID)
 	SELECT DISTINCT
