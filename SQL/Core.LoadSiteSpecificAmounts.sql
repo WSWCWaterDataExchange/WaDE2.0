@@ -17,15 +17,15 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
-		,al.AllocationID
+	INTO
+		#TempJoinedSiteSpecificAmountData
     FROM
-        #TempJoinedSiteSpecificAmountData ssa
+        #TempSiteSpecificAmountData ssa
 		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.SiteUUID
 		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
-		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID
-		LEFT OUTER JOIN Core.Allocations_dim al ON ssa.AllocationUUID = al.AllocationUUID;
+		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
 
     --data validation
     WITH q1 AS
@@ -49,10 +49,6 @@ BEGIN
         SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
         WHERE MethodID IS NULL
-        UNION ALL
-		SELECT 'AllocationID Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData
-        WHERE AllocationID IS NULL
         UNION ALL
 		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
@@ -137,8 +133,7 @@ BEGIN
             ,bu.BeneficialUseID
             ,ssa.WaterSourceID
             ,ssa.MethodID
-			,ssa.AllocationID
-            ,TimeframeStart = ds.DateID
+			,TimeframeStart = ds.DateID
             ,TimeframeEnd = de.DateID
             ,DataPublicationDate = dp.DateID
 			,ssa.DataPublicationDOI
@@ -213,7 +208,7 @@ BEGIN
 			,Source.CommunityWaterSupplySystem
 			,Source.SDWISIdentifier
 			,Source.AssociatedNativeAllocationIDs
-			,Source.[Geometry])
+			,geometry::STGeomFromText(Source.[Geometry], 4326))
 		OUTPUT
 			inserted.SiteVariableAmountID
 			,Source.RowNumber

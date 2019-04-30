@@ -20,9 +20,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string MethodUUID { get; set; }
 
-        [NullValues("")]
-        public string AllocationUUID { get; set; }
-
         public DateTime? TimeframeStart { get; set; }
 
         public DateTime? TimeframeEnd { get; set; }

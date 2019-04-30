@@ -107,7 +107,7 @@ CREATE TYPE Core.SiteSpecificAmountTableType AS TABLE(
     ,CommunityWaterSupplySystem NVARCHAR(250) NULL
     ,SDWISIdentifier NVARCHAR(250) NULL
     ,AssociatedNativeAllocationIDs NVARCHAR(500) NULL
-    ,[Geometry] GEOMETRY NULL
+    ,[Geometry] NVARCHAR(MAX) NULL
     ,BeneficialUseCategory NVARCHAR(500) NULL
     ,PrimaryUseCategory NVARCHAR(250) NULL
 )
