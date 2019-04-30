@@ -231,15 +231,5 @@ BEGIN
 		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
 	WHERE
 		bu.BeneficialUseID IS NOT NULL;
-
-	--insert into Core.SitesvariableAmountBridgeAllocations_fact
-	INSERT INTO Core.SitesvariableAmountBridgeAllocations_fact(SiteVariableAmountID, AllocationID)
-	SELECT DISTINCT
-		sva.SiteVariableAmountID
-		,sva.AllocationID
-	FROM
-		#TempJoinedSiteSpecificAmountData sva
-	WHERE
-		sva.AllocationID IS NOT NULL;
 	RETURN 0;
 END

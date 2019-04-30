@@ -253,5 +253,5 @@ BEGIN
 		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
 	WHERE
 		wad.SiteUUID IS NOT NULL;
-	return 0;
+	RETURN 0;
 END
