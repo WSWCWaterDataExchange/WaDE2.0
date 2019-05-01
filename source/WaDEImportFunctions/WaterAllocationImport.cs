@@ -29,18 +29,17 @@ namespace WaDEImportFunctions
 
             log.LogInformation($"Load Water Allocation Data Orchestration [{runId}]");
 
-            var parallelTasks = new List<Task<StatusHelper>>();
-            //var parallelTasks = new List<Task<StatusHelper>>
-            //{
-            //    //context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
-            //    //context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
-            //    //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
-            //};
+            var parallelTasks = new List<Task<StatusHelper>>
+            {
+                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
+                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
+            };
 
             var parallelResults = await Task.WhenAll(parallelTasks);
 
@@ -54,24 +53,11 @@ namespace WaDEImportFunctions
                 throw new Exception("Failure Loading Initial Data");
             }
 
-            //original code
-            //var result = await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId);
-
-            //if (result.Status)
-            //{
-            //    return new OkObjectResult(new { status = "success" });
-            //}
-            //else
-            //{
-            //    throw new Exception("Failure Loading Water Allocation Data");
-            //}
-
-            //new code
             var results = new List<StatusHelper>
             {
-                //await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
-                //await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
-                await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
+                await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
+                ,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
+                ,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
             };
 
             foreach (var result in results)
