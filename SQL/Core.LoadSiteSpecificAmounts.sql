@@ -158,13 +158,13 @@ BEGIN
     )
     MERGE INTO Core.SiteVariableAmounts_fact AS Target
 	USING q1 AS Source ON
-		Target.OrganizationID = Source.OrganizationID
-		AND Target.SiteID = Source.SiteID
-		AND Target.VariableSpecificID = Source.VariableSpecificID
-		AND Target.BeneficialUseID = Source.BeneficialUseID
-		AND Target.TimeframeStart = Source.TimeframeStart
-		AND Target.TimeframeEnd = Source.TimeframeEnd
-		AND Target.ReportYearCV = Source.ReportYearCV
+		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
+		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
+		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
+		AND ISNULL(Target.BeneficialUseID, '') = ISNULL(Source.BeneficialUseID, '')
+		AND ISNULL(Target.TimeframeStart, '') = ISNULL(Source.TimeframeStart, '')
+		AND ISNULL(Target.TimeframeEnd, '') = ISNULL(Source.TimeframeEnd, '')
+		AND ISNULL(Target.ReportYearCV, '') = ISNULL(Source.ReportYearCV, '')
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationID

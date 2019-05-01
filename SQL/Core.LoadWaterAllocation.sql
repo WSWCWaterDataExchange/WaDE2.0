@@ -168,11 +168,11 @@ BEGIN
 	)
 	MERGE INTO CORE.AllocationAmounts_fact AS Target
 	USING q1 AS Source ON
-		Target.OrganizationID = Source.OrganizationID
-		AND Target.SiteID = Source.SiteID
-		AND Target.AllocationNativeID = Source.AllocationNativeID
-		AND Target.VariableSpecificID = Source.VariableSpecificID
-		AND Target.PrimaryBeneficialUseID = Source.BeneficialUseID
+		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
+		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
+		AND ISNULL(Target.AllocationNativeID, '') = ISNULL(Source.AllocationNativeID, '')
+		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
+		AND ISNULL(Target.PrimaryBeneficialUseID, '') = ISNULL(Source.BeneficialUseID, '')
 	WHEN NOT MATCHED THEN
 	INSERT
 		(OrganizationID
