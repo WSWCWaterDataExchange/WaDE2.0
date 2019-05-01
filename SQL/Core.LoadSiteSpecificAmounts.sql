@@ -77,8 +77,8 @@ BEGIN
         ssa.BeneficialUseCategory IS NOT NULL
         AND bu.[Value] IS NOT NULL
         AND LEN(TRIM(bu.[Value])) > 0;
-    
-    INSERT INTO
+
+	INSERT INTO
         Core.BeneficialUses_dim(BeneficialUseCategory)
     SELECT DISTINCT
         bud.BeneficialUse
@@ -148,6 +148,7 @@ BEGIN
 			,ssa.SDWISIdentifier
             ,ssa.AssociatedNativeAllocationIDs
             ,ssa.[Geometry]
+			,ssa.RowNumber
         FROM
             #TempJoinedSiteSpecificAmountData ssa
             LEFT OUTER JOIN Core.BeneficialUses_dim bu ON ssa.PrimaryUseCategory = bu.BeneficialUseCategory
@@ -161,8 +162,8 @@ BEGIN
 		AND Target.SiteID = Source.SiteID
 		AND Target.VariableSpecificID = Source.VariableSpecificID
 		AND Target.BeneficialUseID = Source.BeneficialUseID
-		AND Target.TimeframeStartID = Source.TimeframeStartID
-		AND Target.TimeframeEndID = Source.TimeframeEndID
+		AND Target.TimeframeStart = Source.TimeframeStart
+		AND Target.TimeframeEnd = Source.TimeframeEnd
 		AND Target.ReportYearCV = Source.ReportYearCV
 	WHEN NOT MATCHED THEN
 		INSERT

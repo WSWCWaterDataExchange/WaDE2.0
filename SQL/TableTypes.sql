@@ -95,7 +95,7 @@ CREATE TYPE Core.SiteSpecificAmountTableType AS TABLE(
     ,MethodUUID NVARCHAR(100) NULL
     ,TimeframeStart DATE NULL
     ,TimeframeEnd DATE NULL
-    ,DataPublicationDATE DATE NULL
+    ,DataPublicationDate DATE NULL
     ,DataPublicationDOI NVARCHAR(100) NULL
     ,ReportYearCV NVARCHAR(4) NULL
     ,Amount FLOAT NULL
