@@ -1,8 +1,4 @@
 /****** Object:  StoredProcedure [Core].[LoadRegulatoryOverlays]    Script Date: 5/2/2019 11:13:33 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE PROCEDURE [Core].[LoadRegulatoryOverlays]
 (
     @RunId NVARCHAR(250),
@@ -90,4 +86,3 @@ BEGIN
             ,Source.StatutoryEndDate);
     RETURN 0;
 END
-GO

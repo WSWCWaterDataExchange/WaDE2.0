@@ -1,8 +1,4 @@
 /****** Object:  StoredProcedure [Core].[LoadSiteSpecificAmounts]    Script Date: 5/2/2019 11:13:33 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE PROCEDURE [Core].[LoadSiteSpecificAmounts]
 (
     @RunId NVARCHAR(250),
@@ -234,4 +230,3 @@ BEGIN
 		bu.BeneficialUseID IS NOT NULL;
 	RETURN 0;
 END
-GO

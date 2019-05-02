@@ -1,8 +1,4 @@
 /****** Object:  StoredProcedure [Core].[LoadWaterAllocation]    Script Date: 5/2/2019 11:13:33 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE PROCEDURE [Core].[LoadWaterAllocation]
 (
 	@RunId nvarchar(250),
@@ -260,4 +256,3 @@ BEGIN
 		bu.BeneficialUseID IS NOT NULL;
 	RETURN 0;
 END
-GO

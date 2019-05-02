@@ -43,16 +43,30 @@ namespace WesternStatesWater.WaDE.DbUp
 
         private static void ClearDb(string connectionString)
         {
+            Console.WriteLine($"Clearing database: {connectionString}");
+            
+            ClearSchema(connectionString, "Core");
+            ClearSchema(connectionString, "CVs");
+            ClearSchema(connectionString, "Input");
+            ClearSchema(connectionString, "dbo");
+
+            Console.WriteLine("Database cleared");
+        }
+
+        private static void ClearSchema(string connectionString, string schema)
+        {
+            Console.WriteLine($"Clearing schema: {schema}");
+
             // script came from http://stackoverflow.com/a/32776552
             var dropProcedure = @"IF EXISTS (SELECT * FROM sysobjects WHERE type = 'P' AND name = 'spDropSchema')
                 BEGIN
-                    DROP  PROCEDURE  spDropSchema;
+                    DROP PROCEDURE spDropSchema;
                 END";
 
             var createProcedure = @"CREATE PROCEDURE spDropSchema(@Schema nvarchar(200))
                 AS
                 DECLARE @Sql NVARCHAR(MAX) = '';
-                            
+        
                 --constraints
                 SELECT @Sql = @Sql + 'ALTER TABLE '+ QUOTENAME(@Schema) + '.' + QUOTENAME(t.name) + ' DROP CONSTRAINT ' + QUOTENAME(f.name)  + ';' + CHAR(13)
                 FROM sys.tables t 
@@ -60,52 +74,51 @@ namespace WesternStatesWater.WaDE.DbUp
                     inner join sys.schemas s on t.schema_id = s.schema_id
                 WHERE s.name = @Schema
                 ORDER BY t.name;
-                            
+
                 --tables
                 SELECT @Sql = @Sql + 'DROP TABLE '+ QUOTENAME(@Schema) +'.' + QUOTENAME(TABLE_NAME) + ';' + CHAR(13)
                 FROM INFORMATION_SCHEMA.TABLES
                 WHERE TABLE_SCHEMA = @Schema AND TABLE_TYPE = 'BASE TABLE'
                 ORDER BY TABLE_NAME;
-                            
+
                 --views
                 SELECT @Sql = @Sql + 'DROP VIEW '+ QUOTENAME(@Schema) +'.' + QUOTENAME(TABLE_NAME) + ';' + CHAR(13)
                 FROM INFORMATION_SCHEMA.TABLES
                 WHERE TABLE_SCHEMA = @Schema AND TABLE_TYPE = 'VIEW'
                 ORDER BY TABLE_NAME;
-                            
+
                 --procedures
                 SELECT @Sql = @Sql + 'DROP PROCEDURE '+ QUOTENAME(@Schema) +'.' + QUOTENAME(ROUTINE_NAME) + ';' + CHAR(13)
                 FROM INFORMATION_SCHEMA.ROUTINES
                 WHERE ROUTINE_SCHEMA = @Schema AND ROUTINE_TYPE = 'PROCEDURE'
                 ORDER BY ROUTINE_NAME;
-                            
+
                 --functions
                 SELECT @Sql = @Sql + 'DROP FUNCTION '+ QUOTENAME(@Schema) +'.' + QUOTENAME(ROUTINE_NAME) + ';' + CHAR(13)
                 FROM INFORMATION_SCHEMA.ROUTINES
                 WHERE ROUTINE_SCHEMA = @Schema AND ROUTINE_TYPE = 'FUNCTION'
                 ORDER BY ROUTINE_NAME;
-                            
+
                 --sequences
                 SELECT @Sql = @Sql + 'DROP SEQUENCE '+ QUOTENAME(@Schema) +'.' + QUOTENAME(SEQUENCE_NAME) + ';' + CHAR(13)
                 FROM INFORMATION_SCHEMA.SEQUENCES
                 WHERE SEQUENCE_SCHEMA = @Schema
                 ORDER BY SEQUENCE_NAME;
-
+                
                 --column encryption keys
                 SELECT @Sql = @Sql + 'DROP COLUMN ENCRYPTION KEY ' + QUOTENAME(NAME) + ';' + CHAR(13)
                 FROM sys.column_encryption_keys
-                ORDER BY NAME
+                ORDER BY NAME;
 
                 --column master keys
                 SELECT @Sql = @Sql + 'DROP COLUMN MASTER KEY ' + QUOTENAME(NAME) + ';' + CHAR(13)
                 FROM sys.column_master_keys
-                ORDER BY NAME
+                ORDER BY NAME;
+
                 EXECUTE sp_executesql @Sql;
                 ";
 
-            var execProcedure = @"exec spDropSchema 'dbo';";
-
-            Console.WriteLine($"Clearing database: {connectionString}");
+            var execProcedure = $"exec spDropSchema '{schema}';";
 
             using (var conn = new SqlConnection(connectionString))
             {
@@ -131,8 +144,6 @@ namespace WesternStatesWater.WaDE.DbUp
                     cmd.ExecuteNonQuery();
                 }
             }
-
-            Console.WriteLine("Database cleared");
         }
 
         private static void UpdateDb(string connectionString)

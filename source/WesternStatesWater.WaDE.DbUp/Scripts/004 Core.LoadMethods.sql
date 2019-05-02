@@ -1,8 +1,4 @@
 /****** Object:  StoredProcedure [Core].[LoadMethods]    Script Date: 5/2/2019 11:13:33 AM ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 CREATE PROCEDURE [Core].[LoadMethods]
 (
     @RunId NVARCHAR(250),
@@ -83,4 +79,3 @@ BEGIN
             ,Source.DataConfidenceValue);
     RETURN 0;
 END
-GO
