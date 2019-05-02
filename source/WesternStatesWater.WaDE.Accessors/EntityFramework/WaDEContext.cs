@@ -922,31 +922,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.RegulatoryStatuteLink)
                     .HasMaxLength(500)
                     .IsUnicode(false);
-
-                //entity.Property(e => e.ReportYearStartMonth)
-                //    .IsRequired()
-                //    .HasMaxLength(5);
-
-                //entity.Property(e => e.ReportYearTypeCv)
-                //    .IsRequired()
-                //    .HasColumnName("ReportYearTypeCV")
-                //    .HasMaxLength(10);
-
-                //entity.Property(e => e.TimeframeEndId).HasColumnName("TimeframeEndID");
-
-                //entity.Property(e => e.TimeframeStartId).HasColumnName("TimeframeStartID");
-
-                //entity.HasOne(d => d.TimeframeEnd)
-                //    .WithMany(p => p.RegulatoryOverlayDimTimeframeEnd)
-                //    .HasForeignKey(d => d.TimeframeEndId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_end");
-
-                //entity.HasOne(d => d.TimeframeStart)
-                //    .WithMany(p => p.RegulatoryOverlayDimTimeframeStart)
-                //    .HasForeignKey(d => d.TimeframeStartId)
-                //    .OnDelete(DeleteBehavior.ClientSetNull)
-                //    .HasConstraintName("fk_RegulatoryOverlay_dim_Date_dim_start");
             });
 
             modelBuilder.Entity<RegulatoryReportingUnitsFact>(entity =>
