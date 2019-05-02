@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WesternStatesWater.WaDE.DbUp": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;"
+      }
+    }
+  }
+}

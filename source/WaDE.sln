@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Accessors", "WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj", "{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}"
 EndProject
@@ -38,6 +38,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Managers.Import", "WesternStatesWater.WaDE.Managers.Import\WesternStatesWater.WaDE.Managers.Import.csproj", "{5EA48C84-6F06-43D3-8EC1-C6A39AD4CA73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Managers.Api", "WesternStatesWater.WaDE.Managers.Api\WesternStatesWater.WaDE.Managers.Api.csproj", "{3589C894-6C7D-49F2-AF2C-028256932955}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Database", "7. Database", "{21B09963-0085-489E-AC9E-3D5B95E3F4C0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.DbUp", "WesternStatesWater.WaDE.DbUp\WesternStatesWater.WaDE.DbUp.csproj", "{304BDD8F-5088-458E-9CFB-9D06929700D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +93,10 @@ Global
 		{3589C894-6C7D-49F2-AF2C-028256932955}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3589C894-6C7D-49F2-AF2C-028256932955}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3589C894-6C7D-49F2-AF2C-028256932955}.Release|Any CPU.Build.0 = Release|Any CPU
+		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,6 +113,7 @@ Global
 		{465A7924-ECC0-445D-8BF2-45B9776BB9B3} = {EAE690AC-DCE4-415C-982E-E9975865D239}
 		{5EA48C84-6F06-43D3-8EC1-C6A39AD4CA73} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
 		{3589C894-6C7D-49F2-AF2C-028256932955} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
+		{304BDD8F-5088-458E-9CFB-9D06929700D5} = {21B09963-0085-489E-AC9E-3D5B95E3F4C0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}
