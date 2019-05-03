@@ -161,7 +161,6 @@ BEGIN
 		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
 		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
 		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
-		AND ISNULL(Target.BeneficialUseID, '') = ISNULL(Source.BeneficialUseID, '')
 		AND ISNULL(Target.TimeframeStart, '') = ISNULL(Source.TimeframeStart, '')
 		AND ISNULL(Target.TimeframeEnd, '') = ISNULL(Source.TimeframeEnd, '')
 		AND ISNULL(Target.ReportYearCV, '') = ISNULL(Source.ReportYearCV, '')
