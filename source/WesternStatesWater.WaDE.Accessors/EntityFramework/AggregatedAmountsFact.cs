@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -20,7 +19,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long? TimeframeStartId { get; set; }
         public long? TimeframeEndId { get; set; }
         public long? DataPublicationDate { get; set; }
-        public string ReportYear { get; set; }
+        public string DataPublicationDOI { get; set; }
+        public string ReportYearCV { get; set; }
         public double Amount { get; set; }
         public double? PopulationServed { get; set; }
         public double? PowerGeneratedGwh { get; set; }

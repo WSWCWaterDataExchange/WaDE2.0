@@ -19,13 +19,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string OversightAgency { get; set; }
         public string RegulatoryStatute { get; set; }
         public string RegulatoryStatuteLink { get; set; }
-        public long TimeframeStartId { get; set; }
-        public long TimeframeEndId { get; set; }
-        public string ReportYearTypeCv { get; set; }
-        public string ReportYearStartMonth { get; set; }
+        public DateTime StatutoryEffectiveDate { get; set; }
+        public DateTime? StatutoryEndDate { get; set; }
 
-        public virtual DateDim TimeframeEnd { get; set; }
-        public virtual DateDim TimeframeStart { get; set; }
         public virtual ICollection<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
     }
 }

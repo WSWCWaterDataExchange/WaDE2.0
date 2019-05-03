@@ -43,8 +43,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.CoordinateMethod, b => b.MapFrom(c => c.CoordinateMethodCv))
                 .ForMember(a => a.State, b => b.Ignore())
                 .ForMember(a => a.AllocationAcreage, b => b.Ignore())
-                .ForMember(a => a.AllocationBasisCV, b => b.Ignore());
-            //.ForMember(a => a.Organization, b => b.Ignore());
+                .ForMember(a => a.AllocationBasisCV, b => b.Ignore())
+                .ForMember(a => a.Organization, b => b.Ignore());
             CreateMap<EF.VariablesDim, AccessorApi.VariableSpecific>()
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificCv))
                 .ForMember(a => a.VariableTypeDescription, b => b.MapFrom(c => c.VariableCv))

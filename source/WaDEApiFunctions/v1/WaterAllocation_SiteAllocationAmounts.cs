@@ -22,21 +22,34 @@ namespace WaDEApiFunctions.v1
         private IWaterAllocationManager WaterAllocationManager { get; set; }
 
         [FunctionName("WaterAllocation_SiteAllocationAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/SiteAllocationAmounts")] HttpRequest req, ILogger log)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequest req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)}");
 
-            var variableSpecificCV = req.Query["VariableSpecificCV"];
-            var siteUuid = req.Query["SiteUUID"];
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
 
-            if(string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid))
+            var variableSpecificCV = ((string)req.Query["VariableSpecificCV"]) ?? data?.variableSpecificCV;
+            var siteUuid = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
+            var beneficialUse = ((string)req.Query["BeneficialUse"]) ?? data?.beneficialUse;
+            var geometry = ((string)req.Query["Geometry"]) ?? data?.geometry;
+
+            if (string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(geometry))
             {
-                return new BadRequestObjectResult("Either VariableSpecificCV or SiteUUID must be specified");
+                return new BadRequestObjectResult("VariableSpecificCV, SiteUUID, BeneficialUse, or Geometry must be specified");
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid);
+            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid, beneficialUse, geometry);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+        }
+
+        private class SiteAllocationAmountsRequestBody
+        {
+            public string variableSpecificCV { get; set; }
+            public string siteUUID { get; set; }
+            public string beneficialUse { get; set; }
+            public string geometry { get; set; }
         }
     }
 }

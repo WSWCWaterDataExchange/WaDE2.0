@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EPPlus" Version="4.5.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj" />
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Contracts.Import\WesternStatesWater.WaDE.Contracts.Import.csproj" />
+  </ItemGroup>
+
+</Project>
