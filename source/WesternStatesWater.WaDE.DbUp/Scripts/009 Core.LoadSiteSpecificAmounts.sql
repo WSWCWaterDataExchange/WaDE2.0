@@ -131,7 +131,6 @@ BEGIN
             ssa.OrganizationID
             ,ssa.SiteID
             ,ssa.VariableSpecificID
-            ,bu.BeneficialUseID
             ,ssa.WaterSourceID
             ,ssa.MethodID
 			,TimeframeStart = ds.DateID
@@ -171,7 +170,6 @@ BEGIN
 			(OrganizationID
 			,SiteID
 			,VariableSpecificID
-			,BeneficialUseID
 			,WaterSourceID
 			,MethodID
 			,TimeframeStart
@@ -193,7 +191,6 @@ BEGIN
 			(Source.OrganizationID
 			,Source.SiteId
 			,Source.VariableSpecificID
-			,Source.BeneficialUseID
 			,Source.WaterSourceID
 			,Source.MethodID
 			,Source.TimeframeStart
