@@ -34,7 +34,6 @@ namespace WaDEImportFunctions
                 context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariablesSpecific, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
@@ -159,15 +158,6 @@ namespace WaDEImportFunctions
             return result;
         }
 
-        [FunctionName(FunctionNames.LoadVariablesSpecific)]
-        public async Task<StatusHelper> LoadVariablesSpecific([ActivityTrigger] DurableActivityContextBase context, ILogger log)
-        {
-            await Task.Delay(TimeSpan.FromSeconds(5));
-            var result = new StatusHelper { Name = FunctionNames.LoadVariablesSpecific, Status = true };
-            log.LogInformation(JsonConvert.SerializeObject(result));
-            return result;
-        }
-
         [FunctionName(FunctionNames.LoadMethods)]
         public async Task<StatusHelper> LoadMethods([ActivityTrigger] DurableActivityContextBase context, ILogger log)
         {
@@ -235,7 +225,6 @@ namespace WaDEImportFunctions
         public const string LoadOrganizations = "LoadOrganizations";
         public const string LoadSites = "LoadSites";
         public const string LoadWaterSources = "LoadWaterSources";
-        public const string LoadVariablesSpecific = "LoadVariablesSpecific";
         public const string LoadMethods = "LoadMethods";
         public const string LoadWaterAllocation = "LoadWaterAllocation";
         public const string LoadAggregatedAmounts = "LoadAggregatedAmounts";
