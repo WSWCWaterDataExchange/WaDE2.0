@@ -24,7 +24,7 @@ BEGIN
         #TempAggregatedAmountData aad
 		LEFT OUTER JOIN Core.Organizations_dim og ON aad.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.ReportingUnits_dim ru ON aad.ReportingUnitUUID = ru.ReportingUnitUUID
-        LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
+        LEFT OUTER JOIN CVs.VariableSpecific vb ON aad.VariableSpecificUUID = vb.[Name]
         LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 

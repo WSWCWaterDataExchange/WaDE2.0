@@ -2,7 +2,7 @@
 CREATE PROCEDURE [Core].[LoadWaterAllocation]
 (
 	@RunId nvarchar(250),
-	@WaterAllocationTable CORE.WaterAllocationTableType READONLY
+	@WaterAllocationTable Core.WaterAllocationTableType READONLY
 )
 AS
 BEGIN
@@ -22,11 +22,11 @@ BEGIN
 		#TempJoinedWaterAllocationData
 	FROM
 		#TempWaterAllocationData wad
-		LEFT OUTER JOIN CORE.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
-		LEFT OUTER JOIN CORE.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
-		LEFT OUTER JOIN CORE.Sites_dim s ON s.SiteUUID = wad.SiteUUID
-		LEFT OUTER JOIN CORE.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
-		LEFT OUTER JOIN CORE.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
+		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
+		LEFT OUTER JOIN CVs.VariableSpecific v ON wad.VariableSpecificUUID = v.[Name]
+		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
+		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
+		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
 
 	--data validation
 	WITH q1 AS
@@ -80,22 +80,22 @@ BEGIN
 		AND LEN(TRIM(bu.[Value])) > 0;
 
 	INSERT INTO
-		CORE.BeneficialUses_dim(BeneficialUseCategory)
+		Core.BeneficialUses_dim(BeneficialUseCategory)
     SELECT DISTINCT
 		bud.BeneficialUse
     FROM
 		#TempBeneficialUsesData bud
-		LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
+		LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = bud.BeneficialUse
       WHERE
 		bu.BeneficialUseID IS NULL;
 
 	INSERT INTO
-		CORE.BeneficialUses_dim(BeneficialUseCategory)
+		Core.BeneficialUses_dim(BeneficialUseCategory)
 	SELECT DISTINCT
 		wad.PrimaryUseCategory
 	FROM
 		#TempWaterAllocationData wad
-		LEFT OUTER JOIN CORE.BeneficialUses_dim bu on bu.BeneficialUseCategory = wad.PrimaryUseCategory
+		LEFT OUTER JOIN Core.BeneficialUses_dim bu on bu.BeneficialUseCategory = wad.PrimaryUseCategory
 	WHERE
 		bu.BeneficialUseID IS NULL
 		AND wad.PrimaryUseCategory IS NOT NULL
@@ -108,7 +108,7 @@ BEGIN
 		FROM #TempWaterAllocationData wad
 		UNPIVOT ([Date] FOR Dates IN (wad.DataPublicationDATE, wad.AllocationApplicationDate, wad.AllocationPriorityDate, wad.AllocationExpirationDate, wad.AllocationTimeframeStart, wad.AllocationTimeframeEnd)) AS up
 	)
-	INSERT INTO CORE.Date_dim (Date, Year)
+	INSERT INTO Core.Date_dim (Date, Year)
 	SELECT
 		q1.[Date]
 		,YEAR(q1.[Date])
@@ -120,7 +120,7 @@ BEGIN
     GROUP BY
         q1.[Date];
  
-	--merge into CORE.AllocationAmounts_fact
+	--merge into Core.AllocationAmounts_fact
 	CREATE TABLE #AllocationAmountRecords(AllocationAmountID BIGINT, RowNumber BIGINT);
 
 	WITH q1 AS
@@ -159,15 +159,15 @@ BEGIN
 			,wad.RowNumber
 		FROM
 			#TempJoinedWaterAllocationData wad
-			LEFT OUTER JOIN CORE.BeneficialUses_dim bu ON bu.BeneficialUseCategory = wad.PrimaryUseCategory
-			LEFT OUTER JOIN CORE.Date_dim dPub ON dPub.[Date] = wad.DataPublicationDate
-			LEFT OUTER JOIN CORE.Date_dim dApp ON dApp.[Date] = wad.AllocationApplicationDate
-			LEFT OUTER JOIN CORE.Date_dim dPri ON dPri.[Date] = wad.AllocationPriorityDate
-			LEFT OUTER JOIN CORE.Date_dim dExp ON dExp.[Date] = wad.AllocationExpirationDate
-			LEFT OUTER JOIN CORE.Date_dim dStart ON dStart.[Date] = wad.AllocationTimeframeStart
-			LEFT OUTER JOIN CORE.Date_dim dEnd ON dEnd.[Date] = wad.AllocationTimeframeEnd
+			LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = wad.PrimaryUseCategory
+			LEFT OUTER JOIN Core.Date_dim dPub ON dPub.[Date] = wad.DataPublicationDate
+			LEFT OUTER JOIN Core.Date_dim dApp ON dApp.[Date] = wad.AllocationApplicationDate
+			LEFT OUTER JOIN Core.Date_dim dPri ON dPri.[Date] = wad.AllocationPriorityDate
+			LEFT OUTER JOIN Core.Date_dim dExp ON dExp.[Date] = wad.AllocationExpirationDate
+			LEFT OUTER JOIN Core.Date_dim dStart ON dStart.[Date] = wad.AllocationTimeframeStart
+			LEFT OUTER JOIN Core.Date_dim dEnd ON dEnd.[Date] = wad.AllocationTimeframeEnd
 	)
-	MERGE INTO CORE.AllocationAmounts_fact AS Target
+	MERGE INTO Core.AllocationAmounts_fact AS Target
 	USING q1 AS Source ON
 		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
 		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
