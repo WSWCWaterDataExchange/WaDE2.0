@@ -21,40 +21,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\001 Schema and Tables.sql">
+    <EmbeddedResource Include="Scripts\001\001 Schema and Tables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\002 Table Types.sql">
+    <EmbeddedResource Include="Scripts\001\002 Table Types.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\003 Core.LoadAggregatedAmounts.sql">
+    <EmbeddedResource Include="Scripts\001\003 Core.LoadAggregatedAmounts.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\004 Core.LoadMethods.sql">
+    <EmbeddedResource Include="Scripts\001\004 Core.LoadMethods.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\005 Core.LoadOrganization.sql">
+    <EmbeddedResource Include="Scripts\001\005 Core.LoadOrganization.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\006 Core.LoadRegulatoryOverlays.sql">
+    <EmbeddedResource Include="Scripts\001\006 Core.LoadRegulatoryOverlays.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\007 Core.LoadReportingUnits.sql">
+    <EmbeddedResource Include="Scripts\001\007 Core.LoadReportingUnits.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\008 Core.LoadSites.sql">
+    <EmbeddedResource Include="Scripts\001\008 Core.LoadSites.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\009 Core.LoadSiteSpecificAmounts.sql">
+    <EmbeddedResource Include="Scripts\001\009 Core.LoadSiteSpecificAmounts.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\010 Core.LoadVariables.sql">
+    <EmbeddedResource Include="Scripts\001\010 Core.LoadVariables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\011 Core.LoadWaterAllocation.sql">
+    <EmbeddedResource Include="Scripts\001\011 Core.LoadWaterAllocation.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\012 Core.LoadWaterSources.sql">
+    <EmbeddedResource Include="Scripts\001\012 Core.LoadWaterSources.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

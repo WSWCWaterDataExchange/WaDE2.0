@@ -21,19 +21,21 @@ namespace WesternStatesWater.WaDE.DbUp
 
         static void Main(string[] args)
         {
-            var connectionString = Configuration["WadeDatabase"];
+                (var connectionString, var rebuild, var force) = ParseParameters(args);
+
+            //if no connection was provided, check the environment variable
+            connectionString = string.IsNullOrEmpty(connectionString) ? Configuration["WadeDatabase"] : connectionString;
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("Connection string environment variable missing.");
+                throw new InvalidOperationException("Connection string not found.");
             }
 
             EnsureDatabase.For.SqlDatabase(connectionString);
 
-            if (args.Length > 0 &&
-                args[0].Equals("rebuild", StringComparison.InvariantCultureIgnoreCase))
+            if (rebuild)
             {
-                ClearDb(connectionString);
+                ClearDb(connectionString, force);
             }
 
             UpdateDb(connectionString);
@@ -41,16 +43,75 @@ namespace WesternStatesWater.WaDE.DbUp
             return;
         }
 
-        private static void ClearDb(string connectionString)
+        private static (string ConnectionString, bool Rebuild, bool Force) ParseParameters(string[] args)
         {
-            Console.WriteLine($"Clearing database: {connectionString}");
-            
-            ClearSchema(connectionString, "Core");
-            ClearSchema(connectionString, "CVs");
-            ClearSchema(connectionString, "Input");
-            ClearSchema(connectionString, "dbo");
+            var connectionString = string.Empty;
+            var rebuild = false;
+            var force = false;
 
-            Console.WriteLine("Database cleared");
+            if (args != null &&
+                args.Length > 0)
+            {
+                rebuild = args[0].Equals("rebuild", StringComparison.InvariantCultureIgnoreCase);
+
+                if (args.Length > 1)
+                {
+                    connectionString = args[1];
+
+                    if (args.Length > 2)
+                    {
+                        force = args[2].Equals("force", StringComparison.InvariantCultureIgnoreCase);
+                    }
+                }
+            }
+
+            return (connectionString, rebuild, force);
+        }
+
+        private static void ClearDb(string connectionString, bool force)
+        {
+            var doClear = true;
+
+            if (!force &&
+                Environment.UserInteractive)
+            {
+                //ask user if they really want this
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("###User Interactive Mode Question###");
+                Console.WriteLine("Do you want to rebuild the database? yes/no");
+                Console.ResetColor();
+
+                var response = Console.ReadLine();
+
+                if (response.Equals("yes", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    doClear = true;
+                }
+                else
+                {
+                    doClear = false;
+                }
+
+                Console.WriteLine($"doClear: {doClear}");
+
+                
+            }
+
+            if (doClear)
+            {
+                Console.WriteLine($"Clearing database: {connectionString}");
+
+                ClearSchema(connectionString, "Core");
+                ClearSchema(connectionString, "CVs");
+                ClearSchema(connectionString, "Input");
+                ClearSchema(connectionString, "dbo");
+
+                Console.WriteLine("Database cleared.");
+            }
+            else
+            {
+                Console.WriteLine("Database not cleared.");
+            }
         }
 
         private static void ClearSchema(string connectionString, string schema)
