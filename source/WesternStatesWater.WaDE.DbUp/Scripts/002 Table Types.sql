@@ -8,8 +8,8 @@ CREATE TYPE [Core].[AggregatedAmountTableType] AS TABLE(
 	[OrganizationUUID] [nvarchar](250) NULL,
 	[ReportingUnitUUID] [nvarchar](250) NULL,
 	[VariableSpecificUUID] [nvarchar](250) NULL,
-	[BeneficialUseCatery] [nvarchar](500) NULL,
-	[PrimaryUseCatery] [nvarchar](250) NULL,
+	[BeneficialUseCategory] [nvarchar](500) NULL,
+	[PrimaryUseCategory] [nvarchar](250) NULL,
 	[MethodUUID] [nvarchar](250) NULL,
 	[WaterSourceUUID] [nvarchar](250) NULL,
 	[TimeframeStart] [date] NULL,
@@ -124,8 +124,8 @@ CREATE TYPE [Core].[SiteSpecificAmountTableType] AS TABLE(
 	[SDWISIdentifier] [nvarchar](250) NULL,
 	[AssociatedNativeAllocationIDs] [nvarchar](500) NULL,
 	[Geometry] [nvarchar](max) NULL,
-	[BeneficialUseCatery] [nvarchar](500) NULL,
-	[PrimaryUseCatery] [nvarchar](250) NULL
+	[BeneficialUseCategory] [nvarchar](500) NULL,
+	[PrimaryUseCategory] [nvarchar](250) NULL
 )
 
 /****** Object:  UserDefinedTableType [Core].[SiteTableType]    Script Date: 5/2/2019 11:13:30 AM ******/
@@ -181,8 +181,8 @@ CREATE TYPE [Core].[WaterAllocationTableType] AS TABLE(
 	[SiteUUID] [nvarchar](250) NULL,
 	[WaterSourceUUID] [nvarchar](250) NULL,
 	[MethodUUID] [nvarchar](250) NULL,
-	[BeneficialUseCatery] [nvarchar](500) NULL,
-	[PrimaryUseCatery] [nvarchar](250) NULL,
+	[BeneficialUseCategory] [nvarchar](500) NULL,
+	[PrimaryUseCategory] [nvarchar](250) NULL,
 	[DataPublicationDATE] [date] NULL,
 	[DataPublicationDOI] [nvarchar](100) NULL,
 	[AllocationNativeID] [nvarchar](250) NULL,
