@@ -24,7 +24,7 @@ BEGIN
         #TempSiteSpecificAmountData ssa
 		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.SiteUUID
-		LEFT OUTER JOIN CVs.VariableSpecific vb ON ssa.VariableSpecificUUID = vb.[Name]
+		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
 		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
 

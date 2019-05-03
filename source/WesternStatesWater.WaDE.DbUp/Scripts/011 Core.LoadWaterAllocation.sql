@@ -23,7 +23,7 @@ BEGIN
 	FROM
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
-		LEFT OUTER JOIN CVs.VariableSpecific v ON wad.VariableSpecificUUID = v.[Name]
+		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
 		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
