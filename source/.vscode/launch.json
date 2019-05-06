@@ -2,7 +2,30 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Attach to C# Functions",
+      "name": "WesterStatesWater.WaDE.DbUp",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/WesternStatesWater.WaDE.DbUp/bin/Debug/netcoreapp2.2/WesternStatesWater.WaDE.DbUp.dll",
+      "args": ["rebuild", //rebuild -> rebuild database
+        "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;", //connectionString
+        "" //force -> rebuild database without user interaction
+      ],
+      "cwd": "${workspaceFolder}",
+      "stopAtEntry": false,
+      "console": "integratedTerminal",
+      // "env": {
+      //   "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;"
+      // }
+    },
+    {
+      "name": "WaDEApiFunctions",
+      "type": "coreclr",
+      "request": "attach",
+      "processId": "${command:azureFunctions.pickProcess}"
+    },
+    {
+      "name": "WaDEImportFunctions",
       "type": "coreclr",
       "request": "attach",
       "processId": "${command:azureFunctions.pickProcess}"
