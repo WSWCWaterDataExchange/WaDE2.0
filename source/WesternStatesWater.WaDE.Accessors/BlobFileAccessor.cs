@@ -16,14 +16,14 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<Stream> AccessorImport.IBlobFileAccessor.GetBlobData(string containter, string path)
+        async Task<Stream> AccessorImport.IBlobFileAccessor.GetBlobData(string container, string path)
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 
             var blobClient = storageAccount.CreateCloudBlobClient();
 
-            CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference(containter);
+            CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference(container);
             var blob = cloudBlobContainer.GetBlobReference(path);
             if (!await blob.ExistsAsync())
             {

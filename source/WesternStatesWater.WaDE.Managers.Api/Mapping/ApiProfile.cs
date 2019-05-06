@@ -12,11 +12,10 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
         public ApiProfile()
         {
             CreateMap<AccessorApi.Allocation, ManagerApi.Allocation>();
-            CreateMap<AccessorApi.AllocationAmounts, ManagerApi.AllocationAmounts>();
             CreateMap<AccessorApi.BeneficialUse, ManagerApi.BeneficialUse>();
             CreateMap<AccessorApi.Method, ManagerApi.Method>();
             CreateMap<AccessorApi.NHDMetadata, ManagerApi.NHDMetadata>();
-            CreateMap<AccessorApi.Organization, ManagerApi.Organization>();
+            CreateMap<AccessorApi.WaterAllocationOrganization, ManagerApi.WaterAllocationOrganization>();
             CreateMap<AccessorApi.Site, ManagerApi.Site>();
             CreateMap<AccessorApi.VariableSpecific, ManagerApi.VariableSpecific>();
             CreateMap<AccessorApi.WaterSource, ManagerApi.WaterSource>();

@@ -17,6 +17,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string NhdreachCode { get; set; }
         public string NhdmeasureNumber { get; set; }
 
+        public virtual NhdnetworkStatus NhdnetworkStatusCvNavigation { get; set; }
+        public virtual Nhdproduct NhdproductCvNavigation { get; set; }
         public virtual ICollection<SitesDim> SitesDim { get; set; }
     }
 }

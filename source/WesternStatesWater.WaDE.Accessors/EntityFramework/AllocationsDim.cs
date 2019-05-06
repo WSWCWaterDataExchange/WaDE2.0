@@ -7,8 +7,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public AllocationsDim()
         {
-            AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
-            SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
+            SitesVariableAmountBridgeAllocationsFact = new HashSet<SitesVariableAmountBridgeAllocationsFact>();
         }
 
         public long AllocationId { get; set; }
@@ -21,13 +20,14 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long? AllocationApplicationDate { get; set; }
         public long AllocationPriorityDate { get; set; }
         public long? AllocationExpirationDate { get; set; }
+        public string TimeframeEnd { get; set; }
+        public string TimeframeStart { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }
         public string LegacyAllocationIds { get; set; }
 
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual DateDim AllocationExpirationDateNavigation { get; set; }
         public virtual DateDim AllocationPriorityDateNavigation { get; set; }
-        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
-        public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
+        public virtual ICollection<SitesVariableAmountBridgeAllocationsFact> SitesVariableAmountBridgeAllocationsFact { get; set; }
     }
 }

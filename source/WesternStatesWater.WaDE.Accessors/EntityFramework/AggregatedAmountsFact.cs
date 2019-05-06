@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -19,8 +20,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long? TimeframeStartId { get; set; }
         public long? TimeframeEndId { get; set; }
         public long? DataPublicationDate { get; set; }
-        public string DataPublicationDOI { get; set; }
-        public string ReportYearCV { get; set; }
+        public string DataPublicationDoi { get; set; }
+        public string ReportYearCv { get; set; }
         public double Amount { get; set; }
         public double? PopulationServed { get; set; }
         public double? PowerGeneratedGwh { get; set; }
@@ -32,7 +33,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DateDim DataPublicationDateNavigation { get; set; }
         public virtual MethodsDim Method { get; set; }
         public virtual OrganizationsDim Organization { get; set; }
-        public virtual ReportYearCv ReportYearNavigation { get; set; }
+        public virtual ReportYearCv ReportYearCvNavigation { get; set; }
         public virtual ReportingUnitsDim ReportingUnit { get; set; }
         public virtual DateDim TimeframeEnd { get; set; }
         public virtual DateDim TimeframeStart { get; set; }

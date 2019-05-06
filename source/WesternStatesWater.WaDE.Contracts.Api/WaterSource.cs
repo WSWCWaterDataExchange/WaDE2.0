@@ -3,10 +3,10 @@
     public class WaterSource
     {
         public string WaterSourceName { get; set; }
-        public string WaterSourceCode { get; set; }
+        public string WaterSourceNativeID { get; set; }
+        public string WaterSourceUUID { get; set; }
         public string WaterSourceTypeCV { get; set; }
         public string FreshSalineIndicatorCV { get; set; }
-        //public string Geometry { get; set; }
-        public Organization Organization { get; set; }
+        public string WaterSourceGeometry { get; set; }
     }
 }
