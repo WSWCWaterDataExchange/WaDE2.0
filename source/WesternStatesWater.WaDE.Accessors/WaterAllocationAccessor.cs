@@ -25,11 +25,12 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.AllocationAmounts>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse, string geometry)
+        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse, string geometry)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                IQueryable<EntityFramework.AllocationAmountsFact> query = db.AllocationAmountsFact;
+
+                IQueryable<EntityFramework.AllocationAmountsFact> query = db.AllocationAmountsFact.AsNoTracking();
                 if (!string.IsNullOrWhiteSpace(variableSpecificCV))
                 {
                     query = query.Where(a => a.VariableSpecific.VariableSpecificCv == variableSpecificCV);
@@ -47,10 +48,13 @@ namespace WesternStatesWater.WaDE.Accessors
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
                     var shape = reader.Read(geometry);
-                    query = query.Where(a => a.Geometry != null && shape.Covers(a.Geometry));
+                    query = query.Where(a => a.Site.Geometry != null && shape.Covers(a.Site.Geometry));
                 }
 
-                return await query.ProjectTo<AccessorApi.AllocationAmounts>(Mapping.DtoMapper.Configuration).ToListAsync();
+                return await query
+                    .GroupBy(a => a.Organization)
+                    .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 

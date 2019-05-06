@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class AggregationStatistic
+    public partial class CoordinateMethod
     {
-        public AggregationStatistic()
+        public CoordinateMethod()
         {
-            VariablesDim = new HashSet<VariablesDim>();
+            SitesDim = new HashSet<SitesDim>();
         }
 
         public string Name { get; set; }
@@ -16,6 +16,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string State { get; set; }
         public string SourceVocabularyUri { get; set; }
 
-        public virtual ICollection<VariablesDim> VariablesDim { get; set; }
+        public virtual ICollection<SitesDim> SitesDim { get; set; }
     }
 }

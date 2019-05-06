@@ -1,0 +1,2 @@
+ALTER TABLE Core.ImportErrors
+ADD CONSTRAINT PK_ImportErrors PRIMARY KEY (Id);

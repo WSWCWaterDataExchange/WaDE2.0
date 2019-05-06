@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Man
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7. Database", "7. Database", "{21B09963-0085-489E-AC9E-3D5B95E3F4C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.DbUp", "WesternStatesWater.WaDE.DbUp\WesternStatesWater.WaDE.DbUp.csproj", "{304BDD8F-5088-458E-9CFB-9D06929700D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.DbUp", "WesternStatesWater.WaDE.DbUp\WesternStatesWater.WaDE.DbUp.csproj", "{304BDD8F-5088-458E-9CFB-9D06929700D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

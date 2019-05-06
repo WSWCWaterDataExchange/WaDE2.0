@@ -23,6 +23,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string EpsgcodeCv { get; set; }
         public IGeometry Geometry { get; set; }
 
+        public virtual Epsgcode EpsgcodeCvNavigation { get; set; }
+        public virtual ReportingUnitType ReportingUnitTypeCvNavigation { get; set; }
+        public virtual State StateCvNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
         public virtual ICollection<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
     }

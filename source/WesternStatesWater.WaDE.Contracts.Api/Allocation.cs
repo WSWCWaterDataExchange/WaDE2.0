@@ -4,15 +4,35 @@ namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public class Allocation
     {
-        public string NativeAllocationID { get; set; }
+        public string AllocationNativeID { get; set; }
+        public string WaterSourceUUID { get; set; }
         public string AllocationOwner { get; set; }
         public DateTime AllocationApplicationDate { get; set; }
-        public DateTime WaterAllocationPriorityDate { get; set; }
+        public DateTime AllocationPriorityDate { get; set; }
         public string AllocationLegalStatusCodeCV { get; set; }
         public DateTime? AllocationExpirationDate { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }
         public string LegacyAllocationIDs { get; set; }
         public double? AllocationAcreage { get; set; }
         public string AllocationBasisCV { get; set; }
+        public DateTime? TimeframeStart { get; set; }
+        public DateTime? TimeframeEnd { get; set; }
+        public DateTime? DataPublicationDate { get; set; }
+        public double? AllocationCropDutyAmount { get; set; }
+        public double? AllocationAmount { get; set; }
+        public double? AllocationMaximum { get; set; }
+        public double? PopulationServed { get; set; }
+        public double? PowerGeneratedGWh { get; set; }
+        public string AllocationCommunityWaterSupplySystem { get; set; }
+        public string AllocationSDWISIdentifier { get; set; }
+        public string MethodUUID { get; set; }
+        public string VariableSpecificTypeCV { get; set; }
+        public string NativeSiteID { get; set; }
+        public double? Longitude { get; set; }
+        public double? Latitude { get; set; }
+        public string SiteGeometry { get; set; }
+        public string CoordinateMethodCV { get; set; }
+        public string AllocationGNISIDCV { get; set; }
+        public NHDMetadata NHDMetadata { get; set; }
     }
 }

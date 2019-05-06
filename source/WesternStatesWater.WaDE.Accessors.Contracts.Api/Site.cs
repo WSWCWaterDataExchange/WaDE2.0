@@ -14,6 +14,5 @@
         public double? AllocationAcreage { get; set; }
         public string AllocationBasisCV { get; set; }
         public NHDMetadata NHDMetadata { get; set; }
-        public Organization Organization { get; set; }
     }
 }
