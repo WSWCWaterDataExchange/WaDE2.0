@@ -26,8 +26,12 @@ namespace WaDEApiFunctions
                 .Build();
 
             builder.Services.AddSingleton<IConfiguration>(config);
+
             builder.Services.AddTransient<ManagerApi.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
+
+            builder.Services.AddTransient<ManagerApi.IAggregatedAmountsManager, AggregratedAmountsManager>();
+            builder.Services.AddTransient<AccessorApi.IAggregatedAmountsAccessor, AggregratedAmountsAccessor>();
         }
     }
 }

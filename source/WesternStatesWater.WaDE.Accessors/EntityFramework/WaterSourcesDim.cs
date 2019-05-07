@@ -22,6 +22,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string GnisfeatureNameCv { get; set; }
         public IGeometry Geometry { get; set; }
 
+        public virtual GnisfeatureName GnisfeatureNameCvNavigation { get; set; }
+        public virtual WaterQualityIndicator WaterQualityIndicatorCvNavigation { get; set; }
+        public virtual WaterSourceType WaterSourceTypeCvNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }

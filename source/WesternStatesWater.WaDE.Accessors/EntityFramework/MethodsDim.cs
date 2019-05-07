@@ -23,6 +23,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string DataQualityValueCv { get; set; }
         public string DataConfidenceValue { get; set; }
 
+        public virtual ApplicableResourceType ApplicableResourceTypeCvNavigation { get; set; }
+        public virtual DataQualityValue DataQualityValueCvNavigation { get; set; }
+        public virtual MethodType MethodTypeCvNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }

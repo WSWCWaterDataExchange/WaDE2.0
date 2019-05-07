@@ -34,7 +34,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         public double Amount { get; set; }
 
-        public double? PopulationServed { get; set; }
+        public long? PopulationServed { get; set; }
 
         public double? PowerGeneratedGWh { get; set; }
 
