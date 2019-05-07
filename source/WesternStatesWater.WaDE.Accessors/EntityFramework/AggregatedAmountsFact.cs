@@ -23,7 +23,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string DataPublicationDoi { get; set; }
         public string ReportYearCv { get; set; }
         public double Amount { get; set; }
-        public double? PopulationServed { get; set; }
+        public long? PopulationServed { get; set; }
         public double? PowerGeneratedGwh { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public string InterbasinTransferToId { get; set; }
