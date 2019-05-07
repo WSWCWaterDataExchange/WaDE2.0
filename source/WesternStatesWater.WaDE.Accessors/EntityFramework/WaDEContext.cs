@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
@@ -77,7 +75,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 {
                     x.UseNetTopologySuite();
                     x.EnableRetryOnFailure();
-
                 });
             }
         }
