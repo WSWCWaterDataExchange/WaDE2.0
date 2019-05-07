@@ -25,15 +25,20 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse, string geometry)
+        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string siteUuid, string beneficialUse, string geometry, DateTime? startPriorityDate, DateTime? endPriorityDate)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
 
-                IQueryable<EntityFramework.AllocationAmountsFact> query = db.AllocationAmountsFact.AsNoTracking();
-                if (!string.IsNullOrWhiteSpace(variableSpecificCV))
+                var query = db.AllocationAmountsFact
+                    .AsNoTracking();
+                if (startPriorityDate != null)
                 {
-                    query = query.Where(a => a.VariableSpecific.VariableSpecificCv == variableSpecificCV);
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= startPriorityDate);
+                }
+                if (endPriorityDate != null)
+                {
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= endPriorityDate);
                 }
                 if (!string.IsNullOrWhiteSpace(siteUuid))
                 {

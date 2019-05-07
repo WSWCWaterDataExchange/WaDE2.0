@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Managers.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api
 {
@@ -16,9 +16,9 @@ namespace WesternStatesWater.WaDE.Managers.Api
         }
 
         public AccessorApi.IWaterAllocationAccessor ApiWaterAllocationAccessor { get; set; }
-        async Task<IEnumerable<Contracts.Api.WaterAllocationOrganization>> ManagerApi.IWaterAllocationManager.GetSiteAllocationAmountsAsync(string variableSpecificCV, string siteUuid, string beneficialUse, string geometry)
+        async Task<IEnumerable<Contracts.Api.WaterAllocationOrganization>> ManagerApi.IWaterAllocationManager.GetSiteAllocationAmountsAsync(string siteUuid, string beneficialUse, string geometry, DateTime? startPriorityDate, DateTime? endPriorityDate)
         {
-            var results = await ApiWaterAllocationAccessor.GetSiteAllocationAmountsAsync(variableSpecificCV, siteUuid, beneficialUse, geometry);
+            var results = await ApiWaterAllocationAccessor.GetSiteAllocationAmountsAsync(siteUuid, beneficialUse, geometry, startPriorityDate, endPriorityDate);
             return results.Select(a => a.Map<Contracts.Api.WaterAllocationOrganization>());
         }
     }

@@ -62,7 +62,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         public double? AllocationMaximum { get; set; }
 
-        public double? PopulationServed { get; set; }
+        public long? PopulationServed { get; set; }
 
         public double? PowerGeneratedGWh { get; set; }
 
