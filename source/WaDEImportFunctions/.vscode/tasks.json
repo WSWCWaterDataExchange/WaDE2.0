@@ -1,0 +1,17 @@
+{
+  //project specific build tasks
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Import Functions",
+      "type": "shell",
+      "dependsOn": "build",
+      "command": "func host start --port 7072 --script-root ${workspaceFolder}\\..\\WaDEImportFunctions\\bin\\Debug\\netstandard20",
+      "isBackground": true,
+      "presentation": {
+      "reveal": "always"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

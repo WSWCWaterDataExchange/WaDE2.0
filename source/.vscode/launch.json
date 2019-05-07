@@ -1,8 +1,24 @@
 {
   "version": "0.2.0",
+  "compounds": [
+    {
+      //multiple configs that get launched together
+      "name": "API & Import Functions",
+      "configurations": [
+        {
+          "folder": "WaDEApiFunctions",
+          "name": "API Functions"
+        },
+        {
+          "folder": "WaDEImportFunctions",
+          "name": "Import Functions"
+        }
+      ]
+    }
+  ],
   "configurations": [
     {
-      "name": "WesterStatesWater.WaDE.DbUp",
+      "name": "DbUp",
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
@@ -15,20 +31,8 @@
       "stopAtEntry": false,
       "console": "integratedTerminal",
       // "env": {
-      //   "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;"
+      //   "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;" //set the environment variable in lieu of the connectionString arg
       // }
-    },
-    {
-      "name": "WaDEApiFunctions",
-      "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:azureFunctions.pickProcess}"
-    },
-    {
-      "name": "WaDEImportFunctions",
-      "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:azureFunctions.pickProcess}"
     }
   ]
 }
