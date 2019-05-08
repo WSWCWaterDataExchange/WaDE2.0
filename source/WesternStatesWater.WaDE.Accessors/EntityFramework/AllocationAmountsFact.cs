@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -8,7 +7,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public AllocationAmountsFact()
         {
             AllocationBridgeBeneficialUsesFact = new HashSet<AllocationBridgeBeneficialUsesFact>();
-            SitesAllocationAmountsBridgeFact = new HashSet<SitesAllocationAmountsBridgeFact>();
         }
 
         public long AllocationAmountId { get; set; }
@@ -58,6 +56,5 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
-        public virtual ICollection<SitesAllocationAmountsBridgeFact> SitesAllocationAmountsBridgeFact { get; set; }
     }
 }

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using GeoAPI.Geometries;
 using System.Collections.Generic;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -9,7 +8,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public SiteVariableAmountsFact()
         {
             SitesBridgeBeneficialUsesFact = new HashSet<SitesBridgeBeneficialUsesFact>();
-            SitesVariableAmountBridgeAllocationsFact = new HashSet<SitesVariableAmountBridgeAllocationsFact>();
         }
 
         public long SiteVariableAmountId { get; set; }
@@ -46,6 +44,5 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual ICollection<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
-        public virtual ICollection<SitesVariableAmountBridgeAllocationsFact> SitesVariableAmountBridgeAllocationsFact { get; set; }
     }
 }

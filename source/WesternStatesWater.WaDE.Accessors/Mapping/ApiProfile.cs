@@ -39,7 +39,6 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.MethodsDim, AccessorApi.Method>()
                 .ForMember(a => a.ApplicableResourceType, b => b.MapFrom(c => c.ApplicableResourceTypeCv))
                 .ForMember(a => a.DataQualityValue, b => b.MapFrom(c => c.DataQualityValueCv));
-            CreateMap<EF.Nhdmetadata, AccessorApi.NHDMetadata>();
             CreateMap<EF.VariablesDim, AccessorApi.VariableSpecific>()
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificCv));
             CreateMap<EF.WaterSourcesDim, AccessorApi.WaterSource>()
@@ -85,7 +84,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date));
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
-                .ForMember(a=>a.ReportingUnitGeometry, b=>b.MapFrom(c=> c.Geometry == null ? null : c.Geometry.AsText()));
+                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
         }
     }
 }

@@ -19,8 +19,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<AggregationStatistic> AggregationStatistic { get; set; }
         public virtual DbSet<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual DbSet<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
-        public virtual DbSet<AllocationsDim> AllocationsDim { get; set; }
-        public virtual DbSet<AllocationsDimInput> AllocationsDimInput { get; set; }
         public virtual DbSet<ApplicableResourceType> ApplicableResourceType { get; set; }
         public virtual DbSet<BeneficialUsesDim> BeneficialUsesDim { get; set; }
         public virtual DbSet<CoordinateMethod> CoordinateMethod { get; set; }
@@ -35,7 +33,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<MethodType> MethodType { get; set; }
         public virtual DbSet<MethodsDim> MethodsDim { get; set; }
         public virtual DbSet<Naicscode> Naicscode { get; set; }
-        public virtual DbSet<Nhdmetadata> Nhdmetadata { get; set; }
         public virtual DbSet<NhdnetworkStatus> NhdnetworkStatus { get; set; }
         public virtual DbSet<Nhdproduct> Nhdproduct { get; set; }
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
@@ -48,10 +45,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<ReportingUnitsDim> ReportingUnitsDim { get; set; }
         public virtual DbSet<SiteType> SiteType { get; set; }
         public virtual DbSet<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
-        public virtual DbSet<SitesAllocationAmountsBridgeFact> SitesAllocationAmountsBridgeFact { get; set; }
         public virtual DbSet<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
         public virtual DbSet<SitesDim> SitesDim { get; set; }
-        public virtual DbSet<SitesVariableAmountBridgeAllocationsFact> SitesVariableAmountBridgeAllocationsFact { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Units> Units { get; set; }
         public virtual DbSet<Usgscategory> Usgscategory { get; set; }
@@ -405,101 +400,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim");
             });
 
-            modelBuilder.Entity<AllocationsDim>(entity =>
-            {
-                entity.HasKey(e => e.AllocationId)
-                    .HasName("pkAllocations_dim");
-
-                entity.ToTable("Allocations_dim", "Core");
-
-                entity.Property(e => e.AllocationId).HasColumnName("AllocationID");
-
-                entity.Property(e => e.AllocationBasisCv)
-                    .HasColumnName("AllocationBasisCV")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.AllocationChangeApplicationIndicator).HasMaxLength(100);
-
-                entity.Property(e => e.AllocationLegalStatusCv)
-                    .IsRequired()
-                    .HasColumnName("AllocationLegalStatusCV")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.AllocationNativeId)
-                    .IsRequired()
-                    .HasColumnName("AllocationNativeID")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.AllocationOwner)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.AllocationUuid)
-                    .IsRequired()
-                    .HasColumnName("AllocationUUID")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.LegacyAllocationIds)
-                    .HasColumnName("LegacyAllocationIDs")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.TimeframeEnd).HasMaxLength(5);
-
-                entity.Property(e => e.TimeframeStart).HasMaxLength(5);
-
-                entity.Property(e => e.WaterRightTypeCv)
-                    .HasColumnName("WaterRightTypeCV")
-                    .HasMaxLength(10);
-
-                entity.HasOne(d => d.AllocationApplicationDateNavigation)
-                    .WithMany(p => p.AllocationsDimAllocationApplicationDateNavigation)
-                    .HasForeignKey(d => d.AllocationApplicationDate)
-                    .HasConstraintName("FK_AllocationsDate_ApplicationDate");
-
-                entity.HasOne(d => d.AllocationExpirationDateNavigation)
-                    .WithMany(p => p.AllocationsDimAllocationExpirationDateNavigation)
-                    .HasForeignKey(d => d.AllocationExpirationDate)
-                    .HasConstraintName("FK_AllocationsDate_ExpirationDate");
-
-                entity.HasOne(d => d.AllocationPriorityDateNavigation)
-                    .WithMany(p => p.AllocationsDimAllocationPriorityDateNavigation)
-                    .HasForeignKey(d => d.AllocationPriorityDate)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AllocationsDate_PriorityDate");
-            });
-
-            modelBuilder.Entity<AllocationsDimInput>(entity =>
-            {
-                entity.HasKey(e => e.AllocationNativeId)
-                    .HasName("pkAllocations_dim_Input");
-
-                entity.ToTable("Allocations_dim_Input", "Core");
-
-                entity.Property(e => e.AllocationNativeId)
-                    .HasColumnName("AllocationNativeID")
-                    .HasMaxLength(250)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.AllocationBasisCv)
-                    .HasColumnName("AllocationBasisCV")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.AllocationChangeApplicationIndicator).HasMaxLength(100);
-
-                entity.Property(e => e.AllocationLegalStatusCv)
-                    .IsRequired()
-                    .HasColumnName("AllocationLegalStatusCV")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.AllocationOwner)
-                    .IsRequired()
-                    .HasMaxLength(255);
-
-                entity.Property(e => e.LegacyAllocationIds)
-                    .HasColumnName("LegacyAllocationIDs")
-                    .HasMaxLength(100);
-            });
-
             modelBuilder.Entity<ApplicableResourceType>(entity =>
             {
                 entity.HasKey(e => e.Name)
@@ -850,45 +750,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.Term)
                     .IsRequired()
                     .HasMaxLength(250);
-            });
-
-            modelBuilder.Entity<Nhdmetadata>(entity =>
-            {
-                entity.ToTable("NHDMetadata", "Core");
-
-                entity.Property(e => e.NhdmetadataId).HasColumnName("NHDMetadataID");
-
-                entity.Property(e => e.NhdmeasureNumber)
-                    .HasColumnName("NHDMeasureNumber")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.NhdnetworkStatusCv)
-                    .IsRequired()
-                    .HasColumnName("NHDNetworkStatusCV")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.NhdproductCv)
-                    .HasColumnName("NHDProductCV")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.NhdreachCode)
-                    .HasColumnName("NHDReachCode")
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.NhdupdateDate)
-                    .HasColumnName("NHDUpdateDate")
-                    .HasColumnType("date");
-
-                entity.HasOne(d => d.NhdnetworkStatusCvNavigation)
-                    .WithMany(p => p.Nhdmetadata)
-                    .HasForeignKey(d => d.NhdnetworkStatusCv)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_NHDMetadata_NHDNetworkStatus");
-
-                entity.HasOne(d => d.NhdproductCvNavigation)
-                    .WithMany(p => p.Nhdmetadata)
-                    .HasForeignKey(d => d.NhdproductCv)
-                    .HasConstraintName("fk_NHDMetadata_NHDProduct");
             });
 
             modelBuilder.Entity<NhdnetworkStatus>(entity =>
@@ -1356,30 +1217,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("fk_SiteVariableAmounts_fact_WaterSources_dim");
             });
 
-            modelBuilder.Entity<SitesAllocationAmountsBridgeFact>(entity =>
-            {
-                entity.HasKey(e => e.SitesAllocationAmountsBridgeId)
-                    .HasName("pkSitesAllocationAmountsBridge_fact");
-
-                entity.ToTable("SitesAllocationAmountsBridge_fact", "Core");
-
-                entity.Property(e => e.SitesAllocationAmountsBridgeId).HasColumnName("SitesAllocationAmountsBridgeID");
-
-                entity.Property(e => e.AllocationAmountId).HasColumnName("AllocationAmountID");
-
-                entity.Property(e => e.SiteId).HasColumnName("SiteID");
-
-                entity.HasOne(d => d.AllocationAmount)
-                    .WithMany(p => p.SitesAllocationAmountsBridgeFact)
-                    .HasForeignKey(d => d.AllocationAmountId)
-                    .HasConstraintName("FK_SitesAllocationAmountsBridge_fact_AllocationAmounts_fact");
-
-                entity.HasOne(d => d.Site)
-                    .WithMany(p => p.SitesAllocationAmountsBridgeFact)
-                    .HasForeignKey(d => d.SiteId)
-                    .HasConstraintName("FK_SitesAllocationAmountsBridge_fact_Sites_dim");
-            });
-
             modelBuilder.Entity<SitesBridgeBeneficialUsesFact>(entity =>
             {
                 entity.HasKey(e => e.SiteBridgeId)
@@ -1433,8 +1270,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("GNISCodeCV")
                     .HasMaxLength(250);
 
-                entity.Property(e => e.NhdmetadataId).HasColumnName("NHDMetadataID");
-
                 entity.Property(e => e.NhdnetworkStatusCv)
                     .HasColumnName("NHDNetworkStatusCV")
                     .HasMaxLength(50);
@@ -1483,11 +1318,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.GniscodeCv)
                     .HasConstraintName("FK_Sites_dim_GNISFeatureName");
 
-                entity.HasOne(d => d.Nhdmetadata)
-                    .WithMany(p => p.SitesDim)
-                    .HasForeignKey(d => d.NhdmetadataId)
-                    .HasConstraintName("fk_Sites_NHDMetadata");
-
                 entity.HasOne(d => d.NhdnetworkStatusCvNavigation)
                     .WithMany(p => p.SitesDim)
                     .HasForeignKey(d => d.NhdnetworkStatusCv)
@@ -1502,30 +1332,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .WithMany(p => p.SitesDim)
                     .HasForeignKey(d => d.SiteTypeCv)
                     .HasConstraintName("fk_Sites_dim_SiteType");
-            });
-
-            modelBuilder.Entity<SitesVariableAmountBridgeAllocationsFact>(entity =>
-            {
-                entity.HasKey(e => e.SitesVariableAmountAllocationsId)
-                    .HasName("pkSitesVariableAmountBridgeAllocations_fact");
-
-                entity.ToTable("SitesVariableAmountBridgeAllocations_fact", "Core");
-
-                entity.Property(e => e.SitesVariableAmountAllocationsId).HasColumnName("SitesVariableAmountAllocationsID");
-
-                entity.Property(e => e.AllocationId).HasColumnName("AllocationID");
-
-                entity.Property(e => e.SiteVariableAmountId).HasColumnName("SiteVariableAmountID");
-
-                entity.HasOne(d => d.Allocation)
-                    .WithMany(p => p.SitesVariableAmountBridgeAllocationsFact)
-                    .HasForeignKey(d => d.AllocationId)
-                    .HasConstraintName("FK_SitesVariableAmountBridgeAllocations_fact_Allocations_dim");
-
-                entity.HasOne(d => d.SiteVariableAmount)
-                    .WithMany(p => p.SitesVariableAmountBridgeAllocationsFact)
-                    .HasForeignKey(d => d.SiteVariableAmountId)
-                    .HasConstraintName("FK_SitesVariableAmountBridgeAllocations_fact_SiteVariableAmounts_fact");
             });
 
             modelBuilder.Entity<State>(entity =>
