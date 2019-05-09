@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "CSV to JSON",
+				"name": "Excel to Json",
 				"type": "AzureFunctionActivity",
 				"policy": {
 					"timeout": "7.00:00:00",
