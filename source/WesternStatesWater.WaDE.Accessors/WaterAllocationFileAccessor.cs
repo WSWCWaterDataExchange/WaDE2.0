@@ -113,7 +113,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
             public override object ConvertFromString(string text, IReaderRow row, MemberMapData memberMapData)
             {
-                DateTime? newDate = default;
+                DateTime? newDate = null;
 
                 if (DateTime.TryParseExact(text, dateFormat1, CultureInfo.InvariantCulture, DateTimeStyles.None, out var parseDate1))
                 {
