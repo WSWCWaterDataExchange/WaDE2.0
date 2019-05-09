@@ -1,4 +1,5 @@
 {
+  //general build tasks for the entire solution
   "version": "2.0.0",
   "tasks": [
     {
@@ -38,17 +39,6 @@
       "type": "shell",
       "dependsOn": "clean release",
       "problemMatcher": "$msCompile"
-    },
-    {
-      "label": "host start",
-      "type": "shell",
-      "dependsOn": "build",
-      "command": "func host start --script-root ${workspaceFolder}\\WaDEApiFunctions\\bin\\Debug\\netstandard20",
-      "isBackground": true,
-      "presentation": {
-      "reveal": "always"
-      },
-      "problemMatcher": []
-      }
+    }
   ]
 }

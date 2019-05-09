@@ -1,0 +1,39 @@
+{
+	"name": "Db_States",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Name",
+				"type": "nchar"
+			},
+			{
+				"name": "Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Definition",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceVocabularyURI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "CVs.States"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

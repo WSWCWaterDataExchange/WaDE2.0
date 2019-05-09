@@ -1,0 +1,61 @@
+{
+	"name": "AggregationStatistic_blob",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Blob"
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "term",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "provenance",
+				"type": "String"
+			},
+			{
+				"name": "provenance_uri",
+				"type": "String"
+			},
+			{
+				"name": "note",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"nullValue": "",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"fileName": "AggregationStatistic.csv",
+			"folderPath": "cvimport/cvimport"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

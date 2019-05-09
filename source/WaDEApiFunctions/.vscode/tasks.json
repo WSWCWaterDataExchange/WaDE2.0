@@ -1,0 +1,17 @@
+{
+  //project specific build tasks
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "API Functions",
+      "type": "shell",
+      "dependsOn": "build",
+      "command": "func host start --port 7071 --script-root ${workspaceFolder}\\..\\WaDEApiFunctions\\bin\\Debug\\netstandard20",
+      "isBackground": true,
+      "presentation": {
+      "reveal": "always"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

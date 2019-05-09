@@ -1,0 +1,20 @@
+{
+	"folders": [
+		//defines what folders are included in the workspace
+		{
+			"path": ".."
+		},
+		{
+			"path": "..\\WaDEApiFunctions"
+		},
+		{
+			"path": "..\\WaDEImportFunctions"
+		}
+	],
+	"settings": {
+		"debug.internalConsoleOptions": "neverOpen",
+		"launch": {
+			"configurations": []
+		}
+	}
+}

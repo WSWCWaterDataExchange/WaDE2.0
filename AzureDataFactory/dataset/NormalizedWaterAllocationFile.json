@@ -1,0 +1,155 @@
+{
+	"name": "NormalizedWaterAllocationFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FileLocation": {
+				"type": "String"
+			}
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "OrganizationUUID",
+				"type": "String"
+			},
+			{
+				"name": "AllocationUUID",
+				"type": "String"
+			},
+			{
+				"name": "AllocationNativeID",
+				"type": "String"
+			},
+			{
+				"name": "AllocationOwner",
+				"type": "String"
+			},
+			{
+				"name": "AllocationBasisCV",
+				"type": "String"
+			},
+			{
+				"name": "AllocationLegalStatusCodeCV",
+				"type": "String"
+			},
+			{
+				"name": "AllocationApplicationDate",
+				"type": "String"
+			},
+			{
+				"name": "WaterAllocationPriorityDate",
+				"type": "String"
+			},
+			{
+				"name": "AllocationExpirationDate",
+				"type": "String"
+			},
+			{
+				"name": "AllocationChangeApplicationIndicator",
+				"type": "String"
+			},
+			{
+				"name": "SiteUUID",
+				"type": "String"
+			},
+			{
+				"name": "VariableSpecificUUID",
+				"type": "String"
+			},
+			{
+				"name": "BeneficialUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "PrimaryUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceUUID",
+				"type": "String"
+			},
+			{
+				"name": "MethodUUID",
+				"type": "String"
+			},
+			{
+				"name": "TimeframeStartDate",
+				"type": "String"
+			},
+			{
+				"name": "TimeframeEndDate",
+				"type": "String"
+			},
+			{
+				"name": "DataPublicationDate",
+				"type": "String"
+			},
+			{
+				"name": "ReportYear",
+				"type": "String"
+			},
+			{
+				"name": "AllocationAmount",
+				"type": "String"
+			},
+			{
+				"name": "AllocationMaximum",
+				"type": "String"
+			},
+			{
+				"name": "PopulationServed",
+				"type": "String"
+			},
+			{
+				"name": "PowerGeneratedGWh",
+				"type": "String"
+			},
+			{
+				"name": "IrrigatedAcreage",
+				"type": "String"
+			},
+			{
+				"name": "AllocationCommunityWaterSupplySystem",
+				"type": "String"
+			},
+			{
+				"name": "SDWISIdentifier",
+				"type": "String"
+			},
+			{
+				"name": "AllocationCropDutyAmount",
+				"type": "String"
+			},
+			{
+				"name": "Latitude",
+				"type": "String"
+			},
+			{
+				"name": "Longitude",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"quoteChar": "\"",
+				"nullValue": "",
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"fileName": {
+				"value": "@concat(dataset().FileLocation, '/waterallocations.csv')",
+				"type": "Expression"
+			},
+			"folderPath": "normalizedimports"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
