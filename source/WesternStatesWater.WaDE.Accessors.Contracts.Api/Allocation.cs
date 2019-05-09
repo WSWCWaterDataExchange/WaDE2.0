@@ -33,6 +33,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string SiteGeometry { get; set; }
         public string CoordinateMethodCV { get; set; }
         public string AllocationGNISIDCV { get; set; }
-        public NHDMetadata NHDMetadata { get; set; }
     }
 }

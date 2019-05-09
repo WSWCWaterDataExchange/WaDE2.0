@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -7,7 +6,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public NhdnetworkStatus()
         {
-            Nhdmetadata = new HashSet<Nhdmetadata>();
             SitesDim = new HashSet<SitesDim>();
         }
 
@@ -17,7 +15,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string State { get; set; }
         public string SourceVocabularyUri { get; set; }
 
-        public virtual ICollection<Nhdmetadata> Nhdmetadata { get; set; }
         public virtual ICollection<SitesDim> SitesDim { get; set; }
     }
 }

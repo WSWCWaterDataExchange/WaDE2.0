@@ -14,9 +14,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             AllocationAmountsFactAllocationExpirationDateNavigation = new HashSet<AllocationAmountsFact>();
             AllocationAmountsFactAllocationPriorityDateNavigation = new HashSet<AllocationAmountsFact>();
             AllocationAmountsFactDataPublicationDate = new HashSet<AllocationAmountsFact>();
-            AllocationsDimAllocationApplicationDateNavigation = new HashSet<AllocationsDim>();
-            AllocationsDimAllocationExpirationDateNavigation = new HashSet<AllocationsDim>();
-            AllocationsDimAllocationPriorityDateNavigation = new HashSet<AllocationsDim>();
             RegulatoryReportingUnitsFact = new HashSet<RegulatoryReportingUnitsFact>();
             SiteVariableAmountsFactDataPublicationDateNavigation = new HashSet<SiteVariableAmountsFact>();
             SiteVariableAmountsFactTimeframeEndNavigation = new HashSet<SiteVariableAmountsFact>();
@@ -34,9 +31,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactAllocationExpirationDateNavigation { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactAllocationPriorityDateNavigation { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactDataPublicationDate { get; set; }
-        public virtual ICollection<AllocationsDim> AllocationsDimAllocationApplicationDateNavigation { get; set; }
-        public virtual ICollection<AllocationsDim> AllocationsDimAllocationExpirationDateNavigation { get; set; }
-        public virtual ICollection<AllocationsDim> AllocationsDimAllocationPriorityDateNavigation { get; set; }
         public virtual ICollection<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFactDataPublicationDateNavigation { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFactTimeframeEndNavigation { get; set; }

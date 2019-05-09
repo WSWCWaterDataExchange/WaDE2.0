@@ -39,7 +39,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string EPSGCodeCV { get; set; }
-
-        public long? NHDMetadataID { get; set; }
     }
 }
