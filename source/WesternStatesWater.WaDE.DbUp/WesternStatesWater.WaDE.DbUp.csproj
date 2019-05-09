@@ -11,6 +11,7 @@
     <None Remove="Scripts\001\014 Core.SetAllocationsDateForeignKeys.sql" />
     <None Remove="Scripts\001\015 Core.CreateUpdateUDDTStoredProcedure.sql" />
     <None Remove="Scripts\001\016 Core.FixPopulationServedDataType.sql" />
+    <None Remove="Scripts\001\017 Core.AllocationAmountsDateForeignKeys.sql" />
     <None Remove="Scripts\002 Table Types.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
@@ -56,6 +57,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\011 Core.LoadWaterAllocation.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\017 Core.AllocationAmountsDateForeignKeys.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\016 Core.FixPopulationServedDataType.sql">
