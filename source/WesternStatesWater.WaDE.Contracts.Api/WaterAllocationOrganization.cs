@@ -15,6 +15,5 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public List<WaterSource> WaterSources { get; set; }
         public List<VariableSpecific> VariableSpecifics { get; set; }
         public List<Method> Methods { get; set; }
-        public List<Allocation> WaterAllocations { get; set; }
     }
 }
