@@ -27,7 +27,6 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.Site.CoordinateMethodCv))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.Site.GniscodeCv))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Site.Geometry == null ? null : c.Site.Geometry.AsText()))
-                .ForMember(a => a.NHDMetadata, b => b.Ignore())
                 .ForMember(a => a.TimeframeStart, b => b.Ignore())
                 .ForMember(a => a.TimeframeEnd, b => b.Ignore());
             CreateMap<EF.BeneficialUsesDim, AccessorApi.BeneficialUse>();
