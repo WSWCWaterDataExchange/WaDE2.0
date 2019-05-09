@@ -1,0 +1,64 @@
+{
+	"name": "CVs_SiteType",
+	"properties": {
+		"description": "http://vocabulary.westernstateswater.org/sitetype/",
+		"linkedServiceName": {
+			"referenceName": "CVsAPI",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GetCVs_data"
+		},
+		"type": "HttpFile",
+		"structure": [
+			{
+				"name": "term",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "provenance",
+				"type": "String"
+			},
+			{
+				"name": "provenance_uri",
+				"type": "String"
+			},
+			{
+				"name": "note",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"quoteChar": "\"",
+				"nullValue": "\\N",
+				"encodingName": null,
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"relativeUrl": "/api/v1/sitetype/?format=csv",
+			"requestMethod": "GET"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

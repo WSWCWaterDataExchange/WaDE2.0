@@ -1,0 +1,65 @@
+{
+	"name": "Copy_CO_Amonts",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_5oi",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "/api/views/a8zw-bjth/rows.csv?accessType=DOWNLOAD&api_foundry=true"
+					},
+					{
+						"name": "Destination",
+						"value": "colorado-import/"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"WDID": "Prop_0",
+							"Structure Name": "Prop_1",
+							"Structure Type": "Prop_2",
+							"Water Source": "Prop_3",
+							"GNIS ID": "Prop_4",
+							"Stream Mile": "Prop_5",
+							"DIV": "Prop_6",
+							"WD": "Prop_7",
+							"County": "Prop_8"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_5oi",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_5oi",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,39 @@
+{
+	"name": "Db_WaterAllocationType",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "Name",
+				"type": "String"
+			},
+			{
+				"name": "Term",
+				"type": "String"
+			},
+			{
+				"name": "Definition",
+				"type": "String"
+			},
+			{
+				"name": "Category",
+				"type": "String"
+			},
+			{
+				"name": "SourceVocabularyURI",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"tableName": "CVs.WaterAllocationType"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

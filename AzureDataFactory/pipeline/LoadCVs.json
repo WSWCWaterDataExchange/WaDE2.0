@@ -1,0 +1,1136 @@
+{
+	"name": "LoadCVs",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_AggregationStatistic",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"term": "term",
+							"name": "name",
+							"state": "state",
+							"definition": "definition",
+							"category": "category",
+							"provenance": "provenance",
+							"provenance_uri": "provenance_uri",
+							"note": "note"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_AggregationStatistic",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "AggregationStatistic_blob",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_ReportYearType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_ReportYearType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_ReportYearType",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_EPSGCode",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "/api/v1/epsgcode/?format=csv"
+					},
+					{
+						"name": "Destination",
+						"value": "CVs.EPSGCode"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_epsgcode",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_EPSGCode",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_GNISFeatureName",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "/api/v1/gnisfeaturename/?format=csv"
+					},
+					{
+						"name": "Destination",
+						"value": "CVs.GNISFeatureName"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_GnisFeatureName",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_GNISFeatureName",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_CropType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"term": "term",
+							"name": "name",
+							"state": "state",
+							"definition": "definition",
+							"category": "category",
+							"provenance": "provenance",
+							"provenance_uri": "provenance_uri",
+							"note": "note"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_CropType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CV_CropType_Blob",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_IrrigationMethod",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_IrrigationMethod",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_IrrigationMethod",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_LegalStatus",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_LegalStatus",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_LegalStatus",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_MethodType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_LegalStatus",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_LegalStatus",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_NAICSCode",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_NaicsCode",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_NAICSCode",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_NHDNetworkStatus",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_NHDNetworkStatus",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_NHDNetworkStatus",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_NHDProduct",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_NHDProduct",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_NHDProduct",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_RegulatoryStatus",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_RegulatoryStatus",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_RegulatoryStatus",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_ReportingUnitType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_ReportingUnitType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_ReportingUnitType",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_ReportYear",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_ReportYear",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_ReportYearCV",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_SiteType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_SiteType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_SiteType",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_Units",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_Units",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_Units",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_USGSCategory",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_UsgsCategory",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_USGSCategory",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_Variable",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_Variable",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_Variable",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_VariableSpecific",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_VariableSpecific",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_VariableSpecific",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_WaterAllocationBasis",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_WaterAllocationBasis",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_WaterAllocationBasis",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_WaterQualityIndicator",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_WaterQualityIndicator",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_WaterQualityIndicator",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy1",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_WaterAllocationType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_WaterAllocationType",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Copy_WaterSourceType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_WaterSourceType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_WaterSourceType",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "CropTypeCvDataFlow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Copy_CropType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "CropTypeCvDataFlow",
+						"type": "DataFlowReference"
+					}
+				}
+			},
+			{
+				"name": "Copy_WaterAllocationType",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"name": "Name",
+							"term": "Term",
+							"definition": "Definition",
+							"category": "Category",
+							"provenance_uri": "SourceVocabularyURI"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CVs_WaterAllocationType",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Db_WaterAllocationType",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

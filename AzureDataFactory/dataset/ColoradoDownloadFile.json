@@ -1,0 +1,18 @@
+{
+	"name": "ColoradoDownloadFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "GitHub",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Colorado"
+		},
+		"type": "HttpFile",
+		"typeProperties": {
+			"relativeUrl": "/WSWCWaterDataExchange/WaDE2.0/raw/ImportWork/Design_docs/DBPopulate/CO_WaterAllocations_Basic.xlsx",
+			"requestMethod": "GET"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

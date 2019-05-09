@@ -1,0 +1,60 @@
+{
+	"name": "ColoradoOrganizationsFile",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderIdentifier": {
+				"type": "String"
+			}
+		},
+		"folder": {
+			"name": "Colorado"
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "OrganizationUID",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationName",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationPurview",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationWebsite",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationPhoneNumber",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationContactName",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationContactEmail",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "arrayOfObjects"
+			},
+			"fileName": {
+				"value": "@concat(dataset().FolderIdentifier, '/Organizations.json')",
+				"type": "Expression"
+			},
+			"folderPath": "colorado-import"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

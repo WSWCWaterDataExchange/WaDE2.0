@@ -1,0 +1,261 @@
+{
+	"name": "Colorado Normalization",
+	"properties": {
+		"description": "Move files from one folder to another folder",
+		"activities": [
+			{
+				"name": "Excel To Json",
+				"type": "AzureFunctionActivity",
+				"dependsOn": [
+					{
+						"activity": "DownloadColoradoWaterAllocationData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"functionName": {
+						"value": "@concat('ExcelConversionToJson?container=colorado-import&fileName=colorado-raw.xlsx&folder=', pipeline().RunId)",
+						"type": "Expression"
+					},
+					"method": "GET"
+				},
+				"linkedServiceName": {
+					"referenceName": "WaDE Import Functions",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "DownloadColoradoWaterAllocationData",
+				"type": "Copy",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "HttpSource",
+						"httpRequestTimeout": "00:01:40"
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ColoradoDownloadFile",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ColoradoRawFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderIdentifier": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Colorado Organization Normalization",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Excel To Json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"OrganizationUID": "OrganizationUUID",
+							"OrganizationName": "OrganizationName",
+							"OrganizationPurview": "OrganizationPurview",
+							"OrganizationWebsite": "OrganizationWebsite",
+							"OrganizationPhoneNumber": "OrganizationPhoneNumber",
+							"OrganizationContactName": "OrganizationContactName",
+							"OrganizationContactEmail": "OrganizationContactEmail"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ColoradoOrganizationsFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderIdentifier": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NormalizedOrganizationsFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderIdentifier": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Colorado Water Allocation Normalization",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Excel To Json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "BlobSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"OrganizationUID": "OrganizationUUID",
+							"AllocationUID": "AllocationUUID",
+							"NativeAllocationID": "AllocationNativeID",
+							"AllocationOwner": "AllocationOwner",
+							"AllocationBasisCV": "AllocationBasisCV",
+							"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
+							"AllocationApplicationDate": "AllocationApplicationDate",
+							"AllocationPriorityDate": "WaterAllocationPriorityDate",
+							"AllocationExpirationDate": "AllocationExpirationDate",
+							"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
+							"SiteUID": "SiteUUID",
+							"VariableSpecificUID": "VariableSpecificUUID",
+							"BeneficialUseCategory": "BeneficialUseCategory",
+							"AllocationPrimaryUseCategory": "PrimaryUseCategory",
+							"SourceUID": "WaterSourceUUID",
+							"MethodUID": "MethodUUID",
+							"TimeframeStart": "TimeframeStartDate",
+							"TimeframeEnd": "TimeframeEndDate",
+							"DataPublicationDate": "DataPublicationDate",
+							"ReportYearCV": "ReportYear",
+							"AllocationAmount": "AllocationAmount",
+							"AllocationMaximum": "AllocationMaximum",
+							"PopulationServed": "PopulationServed",
+							"PowerGeneratedGWh": "PowerGeneratedGWh",
+							"IrrigatedAcreage": "IrrigatedAcreage",
+							"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
+							"SDWISID": "SDWISIdentifier",
+							"AllocationCropDutyAmount": "AllocationCropDutyAmount",
+							"Latitude": "Latitude",
+							"Longitude": "Longitude"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ColoradoWaterAllocationFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderIdentifier": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "NormalizedWaterAllocationFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileLocation": {
+								"value": "@pipeline().RunId",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Load Water Allocation Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Colorado Organization Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Colorado Water Allocation Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load Normalized Water Allocation Data",
+						"type": "PipelineReference"
+					},
+					"parameters": {
+						"FolderLocation": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
+				}
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
