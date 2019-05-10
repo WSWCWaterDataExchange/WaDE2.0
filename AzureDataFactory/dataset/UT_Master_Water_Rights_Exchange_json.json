@@ -25,7 +25,7 @@
 			{
 				"name": "WREX_SOURCE",
 				"type": "String",
-				"description": "WaterSourceName"
+				"description": "SiteID, WaterSourceID"
 			},
 			{
 				"name": "DATE_FILED",
@@ -56,6 +56,11 @@
 				"name": "WATER_USES",
 				"type": "String",
 				"description": "BeneficialUseID"
+			},
+			{
+				"name": "IRRIGATION_DEPLETION",
+				"type": "String",
+				"description": "AllocationCropDutyAmount"
 			}
 		],
 		"typeProperties": {
