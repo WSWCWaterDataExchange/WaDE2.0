@@ -35,8 +35,18 @@
 					"secureInput": false
 				},
 				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "UT_Master_Water_Rights_Exchange_json",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {
