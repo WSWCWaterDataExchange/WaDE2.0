@@ -1,0 +1,70 @@
+{
+	"name": "UT_Master_Water_Rights_Exchange_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "WRNUM",
+				"type": "String",
+				"description": "NativeAllocationID"
+			},
+			{
+				"name": "WREX_CFS",
+				"type": "String",
+				"description": "AllocationAmount"
+			},
+			{
+				"name": "WREX_ACFT",
+				"type": "String",
+				"description": "AllocationMaximum"
+			},
+			{
+				"name": "WREX_SOURCE",
+				"type": "String",
+				"description": "WaterSourceName"
+			},
+			{
+				"name": "DATE_FILED",
+				"type": "String",
+				"description": "AllocationApplicationDate"
+			},
+			{
+				"name": "DATE_PRIORITY",
+				"type": "String",
+				"description": "AllocationPriorityDate"
+			},
+			{
+				"name": "DATE_TERMINATED",
+				"type": "String",
+				"description": "AllocationExpirationDate"
+			},
+			{
+				"name": "TYPE_OF_RIGHT",
+				"type": "String",
+				"description": "WaterAllocationTypeCV"
+			},
+			{
+				"name": "WREX_STATUS",
+				"type": "String",
+				"description": "AllocationLegalStatusCV"
+			},
+			{
+				"name": "WATER_USES",
+				"type": "String",
+				"description": "BeneficialUseID"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "JsonFormat",
+				"filePattern": "arrayOfObjects"
+			},
+			"fileName": "UT_Master_Water_Rights_Exchange.json",
+			"folderPath": "utahwaterrights/Test_Normalization"
+		}
+	}
+}
