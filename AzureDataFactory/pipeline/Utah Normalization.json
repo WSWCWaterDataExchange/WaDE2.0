@@ -13,7 +13,10 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "@concat('ExcelConversionToJson?container=utahwaterrights&fileName=UT_Master_Water_Rights_Exchange.csv&folder=', Test_Normalization)",
+					"functionName": {
+						"value": "@concat('ExcelConversionToJson?container=utahwaterrights&fileName=UT_Master_Water_Rights_Exchange.csv&folder=', Test_Normalization)",
+						"type": "Expression"
+					},
 					"method": "GET"
 				},
 				"linkedServiceName": {
@@ -21,6 +24,9 @@
 					"type": "LinkedServiceReference"
 				}
 			}
-		]
+		],
+		"folder": {
+			"name": "State Normalization"
+		}
 	}
 }
