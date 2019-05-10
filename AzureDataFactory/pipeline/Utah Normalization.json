@@ -25,7 +25,7 @@
 				}
 			},
 			{
-				"name": "Copy Data1",
+				"name": "UT Water Sources",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -60,8 +60,7 @@
 					},
 					"enableStaging": false,
 					"translator": {
-						"value": "@variables('OrganizationUUID')",
-						"type": "Expression"
+						"type": "TabularTranslator"
 					}
 				},
 				"inputs": [
@@ -78,12 +77,6 @@
 				]
 			}
 		],
-		"variables": {
-			"OrganizationUUID": {
-				"type": "String",
-				"defaultValue": "UTDWRe"
-			}
-		},
 		"folder": {
 			"name": "State Normalization"
 		}
