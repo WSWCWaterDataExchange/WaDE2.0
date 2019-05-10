@@ -60,7 +60,19 @@
 					},
 					"enableStaging": false,
 					"translator": {
-						"type": "TabularTranslator"
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "WREX_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SiteUUID",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
