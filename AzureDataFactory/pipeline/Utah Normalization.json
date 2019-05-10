@@ -52,15 +52,7 @@
 					},
 					"enableStaging": false,
 					"translator": {
-						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"sink": {
-									"name": "OrganizationUUID",
-									"type": "String"
-								}
-							}
-						]
+						"type": "TabularTranslator"
 					}
 				},
 				"inputs": [
