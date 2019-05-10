@@ -50,7 +50,18 @@
 							"fileExtension": ".txt"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"sink": {
+									"name": "OrganizationUUID",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
