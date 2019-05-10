@@ -9,6 +9,56 @@
 			"name": "Utah"
 		},
 		"type": "AzureBlob",
+		"structure": [
+			{
+				"name": "WREX_SOURCE",
+				"type": "String"
+			},
+			{
+				"name": "WATER_USES",
+				"type": "String"
+			},
+			{
+				"name": "WRNUM",
+				"type": "String"
+			},
+			{
+				"name": "TYPE_OF_RIGHT",
+				"type": "String"
+			},
+			{
+				"name": "DATE_FILED",
+				"type": "String"
+			},
+			{
+				"name": "DATE_PRIORITY",
+				"type": "String"
+			},
+			{
+				"name": "WREX_STATUS",
+				"type": "String"
+			},
+			{
+				"name": "IRRIGATION_DEPLETION",
+				"type": "String"
+			},
+			{
+				"name": "DATE_TERMINATED",
+				"type": "String"
+			},
+			{
+				"name": "IRRIGATION_ACREAGE",
+				"type": "String"
+			},
+			{
+				"name": "WREX_CFS",
+				"type": "String"
+			},
+			{
+				"name": "WREX_ACFT",
+				"type": "String"
+			}
+		],
 		"typeProperties": {
 			"format": {
 				"type": "JsonFormat",
