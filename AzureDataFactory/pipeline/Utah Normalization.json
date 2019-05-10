@@ -137,6 +137,120 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "UT Water Sources",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Excel to Json",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "WREX_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SiteUUID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WREX_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "WaterSourceUUID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WATER_USES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "BeneficialUseCategory",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WRNUM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationNativeID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TYPE_OF_RIGHT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationTypeCV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DATE_FILED",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationApplicationDate",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "UT_Master_Water_Rights_Exchange_json",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "UT_NormalizedWaterAllocations",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {
