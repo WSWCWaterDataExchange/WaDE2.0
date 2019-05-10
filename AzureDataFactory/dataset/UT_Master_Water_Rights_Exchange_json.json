@@ -5,64 +5,10 @@
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Utah"
+		},
 		"type": "AzureBlob",
-		"structure": [
-			{
-				"name": "WRNUM",
-				"type": "String",
-				"description": "NativeAllocationID"
-			},
-			{
-				"name": "WREX_CFS",
-				"type": "String",
-				"description": "AllocationAmount"
-			},
-			{
-				"name": "WREX_ACFT",
-				"type": "String",
-				"description": "AllocationMaximum"
-			},
-			{
-				"name": "WREX_SOURCE",
-				"type": "String",
-				"description": "SiteID, WaterSourceID"
-			},
-			{
-				"name": "DATE_FILED",
-				"type": "String",
-				"description": "AllocationApplicationDate"
-			},
-			{
-				"name": "DATE_PRIORITY",
-				"type": "String",
-				"description": "AllocationPriorityDate"
-			},
-			{
-				"name": "DATE_TERMINATED",
-				"type": "String",
-				"description": "AllocationExpirationDate"
-			},
-			{
-				"name": "TYPE_OF_RIGHT",
-				"type": "String",
-				"description": "WaterAllocationTypeCV"
-			},
-			{
-				"name": "WREX_STATUS",
-				"type": "String",
-				"description": "AllocationLegalStatusCV"
-			},
-			{
-				"name": "WATER_USES",
-				"type": "String",
-				"description": "BeneficialUseID"
-			},
-			{
-				"name": "IRRIGATION_DEPLETION",
-				"type": "String",
-				"description": "AllocationCropDutyAmount"
-			}
-		],
 		"typeProperties": {
 			"format": {
 				"type": "JsonFormat",
