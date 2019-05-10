@@ -55,12 +55,74 @@
 						"formatSettings": {
 							"type": "DelimitedTextWriteSetting",
 							"quoteAllText": true,
-							"fileExtension": ".txt"
+							"fileExtension": ".csv"
 						}
 					},
 					"enableStaging": false,
 					"translator": {
-						"type": "TabularTranslator"
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "WREX_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "SiteUUID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WREX_SOURCE",
+									"type": "String"
+								},
+								"sink": {
+									"name": "WaterSourceUUID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WATER_USES",
+									"type": "String"
+								},
+								"sink": {
+									"name": "BeneficialUseCategory",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "WRNUM",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationNativeID",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TYPE_OF_RIGHT",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationTypeCV",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DATE_FILED",
+									"type": "String"
+								},
+								"sink": {
+									"name": "AllocationApplicationDate",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
