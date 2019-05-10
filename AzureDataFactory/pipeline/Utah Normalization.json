@@ -25,7 +25,7 @@
 				}
 			},
 			{
-				"name": "UT Water Sources",
+				"name": "UT Water Allocations",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -42,12 +42,6 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [
-					{
-						"name": "OrganizationUUID",
-						"value": "UTDWRe"
-					}
-				],
 				"typeProperties": {
 					"source": {
 						"type": "BlobSource",
