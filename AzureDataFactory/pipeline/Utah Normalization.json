@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Excel to Json",
+				"name": "Master Water Rights to JSON",
 				"type": "AzureFunctionActivity",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -25,11 +25,11 @@
 				}
 			},
 			{
-				"name": "UT Water Allocations",
+				"name": "Water Allocations",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Excel to Json",
+						"activity": "Master Water Rights to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -139,11 +139,11 @@
 				]
 			},
 			{
-				"name": "UT Water Sources",
+				"name": "Water Sources",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Excel to Json",
+						"activity": "Master Water Rights to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -213,11 +213,11 @@
 				]
 			},
 			{
-				"name": "UT Sites",
+				"name": "Sites",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Excel to Json",
+						"activity": "Master Water Rights to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
