@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Master Water Rights to JSON",
+				"name": "Master to JSON",
 				"type": "AzureFunctionActivity",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -29,7 +29,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Master Water Rights to JSON",
+						"activity": "Master to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -143,7 +143,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Master Water Rights to JSON",
+						"activity": "Master to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -217,7 +217,7 @@
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Master Water Rights to JSON",
+						"activity": "Master to JSON",
 						"dependencyConditions": [
 							"Succeeded"
 						]
