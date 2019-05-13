@@ -24,7 +24,7 @@
 			"transformations": [
 				{
 					"name": "DerivedColumns",
-					"script": "UTBeneficialUseID derive(OrganizationUUID = 'UTWRe',\n\t\t{} = ERROR_FUNCTION('')) ~> DerivedColumns"
+					"script": "UTBeneficialUseID derive(OrganizationUUID = 'UTWRe',\n\t\tBeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other')) ~> DerivedColumns"
 				},
 				{
 					"name": "UTBeneficialUseID",
