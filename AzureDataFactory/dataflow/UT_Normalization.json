@@ -1,0 +1,36 @@
+{
+	"name": "UT_Normalization",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "UT_Master_Water_Rights_Exchange",
+						"type": "DatasetReference"
+					},
+					"name": "UTMaster",
+					"script": "source(output(\n\t\tWRNUM as string,\n\t\tAPPL_CLAIM_NUMBER as string,\n\t\tCERTIFICATE_NUMBER as string,\n\t\tLAND_OWNERSHIP as string,\n\t\tWREX_CFS as string,\n\t\tWREX_ANDOR as string,\n\t\tWREX_ACFT as string,\n\t\tWREX_SOURCE as string,\n\t\tWREX_COUNTY as string,\n\t\tCOMMON_DESCRIPTION as string,\n\t\tDATE_FILED as string,\n\t\tTAKEN_BY_INITIALS as string,\n\t\tDATE_PRIORITY as string,\n\t\tADV_NEWSPAPER as string,\n\t\tDATE_PUB_BEGAN as string,\n\t\tDATE_PROOF_PUB as string,\n\t\tPROTESTED as string,\n\t\tDATE_PROTEST_END as string,\n\t\tMEMO_DECISION as string,\n\t\tDATE_APPROVED_REJECTED as string,\n\t\tAPPROVED_REJECTED as string,\n\t\tDATE_PROOF_DUE as string,\n\t\tDATE_EXTENSION_FILED as string,\n\t\tELECTION_PROOF as string,\n\t\tDATE_ELECTION_PROOF as string,\n\t\tDATE_CERT_WUC_ISSUED as string,\n\t\tDATE_TERMINATED as string,\n\t\tPDBOOK_NUMBER as string,\n\t\tTYPE_OF_RIGHT as string,\n\t\tWREX_STATUS as string,\n\t\tDOCUMENT_ENTERED as string,\n\t\tMAP_NUMBER as string,\n\t\tDATE_RUSH_LETTER as string,\n\t\tDATE_RENOVATED as string,\n\t\tDATE_VERIFIED as string,\n\t\tVERIFIED_BY_INITIALS as string,\n\t\tENDORSEMENT_COMMENT1 as string,\n\t\tENDORSEMENT_COMMENT2 as string,\n\t\tENDORSEMENT_COMMENT3 as string,\n\t\tDATE_PUB_ENDED as string,\n\t\tMODIFIED_LOGON as string,\n\t\tDATE_RECON_REQUESTED as string,\n\t\tRECONSIDER_TYPE as string,\n\t\tIRRIGATION_DIVERSION as string,\n\t\tIRRIGATION_DEPLETION as string,\n\t\tSTOCK_DIVERSION as string,\n\t\tSTOCK_DEPLETION as string,\n\t\tDOMESTIC_DIVERSION as string,\n\t\tDOMESTIC_DEPLETION as string,\n\t\tMUNICIPAL_DIVERSION as string,\n\t\tMUNICIPAL_DEPLETION as string,\n\t\tMINING_DIVERSION as string,\n\t\tMINING_DEPLETION as string,\n\t\tPOWER_DIVERSION as string,\n\t\tPOWER_DEPLETION as string,\n\t\tOTHER_DIVERSION as string,\n\t\tOTHER_DEPLETION as string,\n\t\tEXNUM as string,\n\t\tEXCHANGE_BASE_WRNUM as string,\n\t\tEXCHANGE_CONTRACT_NUMBER as string,\n\t\tEXCHANGE_EVIDENCED1 as string,\n\t\tEXCHANGE_EVIDENCED2 as string,\n\t\tEXCHANGE_EVIDENCED3 as string,\n\t\tEXCHANGE_CFS as string,\n\t\tEXCHANGE_ANDOR as string,\n\t\tEXCHANGE_ACFT as string,\n\t\tEXCHANGE_BEG_DATE as string,\n\t\tEXCHANGE_END_DATE as string,\n\t\tEXCHANGE_SOURCE as string,\n\t\tEXCHANGE_COUNTY as string,\n\t\tEXCHANGE_PORELEASE_SAME as string,\n\t\tEXCHANGE_RELEASE_CFS as string,\n\t\tEXCHANGE_RELEASE_ANDOR as string,\n\t\tEXCHANGE_RELEASE_ACFT as string,\n\t\tEXCHANGE_RELEASE_BEG_DATE as string,\n\t\tEXCHANGE_RELEASE_END_DATE as string,\n\t\tWATER_USES as string,\n\t\tDATE_WUCS_RECEIVED as string,\n\t\tMANUAL_EVALUATION as string,\n\t\tACRE_FEET_EXPORTED as string,\n\t\tDATE_HEARING_HELD as string,\n\t\tDIVERSION_DUTY as string,\n\t\tDEPLETION_DUTY as string,\n\t\tGROWING_SEASON as string,\n\t\tDATE_FIELD_REVIEW as string,\n\t\tAREA_CODE as string,\n\t\tACTIVE_LITIGATION as string,\n\t\tDSYSDB_NUMBER as string,\n\t\tREPORT_TYPE as string,\n\t\tPROOF_DUE_YEARS as string,\n\t\tPUBLIC_VIEW as string,\n\t\tWATER_USE_REPORTING as string,\n\t\tSTREAM_ALT_REQUIRED as string,\n\t\tDAM_PERMIT_REQUIRED as string,\n\t\tWR_SOLE_SUPPLY as string,\n\t\tDATE_LAPSING_LETTER as string,\n\t\tSTOCK_COMPANY_ID as string,\n\t\tSHARES_OF_STOCK as string,\n\t\tOSE_SIGNATURE as string,\n\t\tCERT_SIGNATURE as string,\n\t\tPROOF_PROF_LICENSE_NUMBER as string,\n\t\tCOUNTY_TAX_ID as string,\n\t\tLAST_MODIFIED_TYPE as string,\n\t\tLAST_MODIFIED_TABLE as string,\n\t\tFILE_DESTROYED as string,\n\t\tDATE_50YEAR_PERIOD as string,\n\t\tSUB_BASIN_NUMBER as string,\n\t\tSUB_BASIN_NAME as string,\n\t\tDIVDEP_DOCUMENT_ID as string,\n\t\tFULL_SUPPLY_EQUIVALENCE as string,\n\t\tRECORD_ID as string,\n\t\tSHARES_DISTRIBUTION as string,\n\t\tDECREE_CLASS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTMaster"
+				},
+				{
+					"name": "UTWaterUses",
+					"script": "source(output(\n\t\t\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTWaterUses"
+				},
+				{
+					"name": "CSV3",
+					"script": "source(output(\n\t\t\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CSV3"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumns",
+					"script": "UTBenificalUse derive(OrganizationUUID = 'UTWRe',\n\t\t{} = ERROR_FUNCTION('')) ~> DerivedColumns"
+				},
+				{
+					"name": "UTBenificalUse",
+					"script": "UTMaster join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBenificalUse"
+				}
+			]
+		}
+	}
+}
