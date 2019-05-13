@@ -28,7 +28,7 @@
 				},
 				{
 					"name": "UTBenificalUse",
-					"script": "UTMaster join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBenificalUse"
+					"script": "UTMaster, UTWaterUses join(WRNUM == ERROR_FUNCTION(''),\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBenificalUse"
 				}
 			]
 		}
