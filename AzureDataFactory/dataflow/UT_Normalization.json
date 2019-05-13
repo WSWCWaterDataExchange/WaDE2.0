@@ -24,11 +24,11 @@
 			"transformations": [
 				{
 					"name": "DerivedColumns",
-					"script": "Join1 derive(OrganizationUUID = 'UTWRe',\n\t\t{} = ERROR_FUNCTION('')) ~> DerivedColumns"
+					"script": "UTBeneficialUseID derive(OrganizationUUID = 'UTWRe',\n\t\t{} = ERROR_FUNCTION('')) ~> DerivedColumns"
 				},
 				{
-					"name": "Join1",
-					"script": "UTMaster, UTWaterUses join(WRNUM == ERROR_FUNCTION(''),\n\tjoinType:'left',\n\tbroadcast: 'none')~> Join1"
+					"name": "UTBeneficialUseID",
+					"script": "UTMaster, UTWaterUses join(WRNUM == UTWaterUses@WRNUM,\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBeneficialUseID"
 				}
 			]
 		}
