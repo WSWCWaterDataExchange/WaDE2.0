@@ -48,7 +48,7 @@
 				},
 				{
 					"name": "MasterOwners",
-					"script": "MasterIrrigation, UTOwners join(UTIrrigationMaster@WRNUM == WRCHEX,\n\tjoinType:'left',\n\tbroadcast: 'none')~> MasterOwners"
+					"script": "UTMaster, UTOwners join(UTMaster@WRNUM == WRCHEX,\n\tjoinType:'left',\n\tbroadcast: 'none')~> MasterOwners"
 				},
 				{
 					"name": "MasterIrrigation",
