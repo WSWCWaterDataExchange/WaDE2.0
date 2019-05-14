@@ -1,0 +1,63 @@
+{
+	"name": "UT_Irrigation_Master",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_Irrigation_Master.csv",
+				"folderPath": "Test_Normalization",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "WRNUM",
+				"type": "String"
+			},
+			{
+				"name": "GROUP_IDNUM",
+				"type": "String"
+			},
+			{
+				"name": "USE_IDNUM",
+				"type": "String"
+			},
+			{
+				"name": "IRRIGATION_ACREAGE",
+				"type": "String"
+			},
+			{
+				"name": "SOLE_SUPPLY",
+				"type": "String"
+			},
+			{
+				"name": "DIVERSION_LIMIT",
+				"type": "String"
+			},
+			{
+				"name": "USE_BEG_DATE",
+				"type": "String"
+			},
+			{
+				"name": "USE_END_DATE",
+				"type": "String"
+			},
+			{
+				"name": "IRRIGATION_COMMENTS",
+				"type": "String"
+			}
+		]
+	}
+}
