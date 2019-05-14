@@ -28,7 +28,11 @@
 				},
 				{
 					"name": "UTBeneficialUseID",
-					"script": "UTMaster, UTWaterUses join(WRNUM == UTWaterUses@WRNUM,\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBeneficialUseID"
+					"script": "AllocationOwner, UTWaterUses join(WRNUM == UTWaterUses@WRNUM,\n\tjoinType:'left',\n\tbroadcast: 'none')~> UTBeneficialUseID"
+				},
+				{
+					"name": "AllocationOwner",
+					"script": "UTMaster join(WRNUM == ERROR_FUNCTION(''),\n\tjoinType:'left',\n\tbroadcast: 'none')~> AllocationOwner"
 				}
 			]
 		}
