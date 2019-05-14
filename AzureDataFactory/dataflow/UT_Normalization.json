@@ -60,7 +60,7 @@
 				},
 				{
 					"name": "DerivedMasterIrrigation",
-					"script": "JoinIrrigation derive() ~> DerivedMasterIrrigation"
+					"script": "JoinIrrigation derive(AllocationTimeframeStart = USE_BEG_DATE,\n\t\tAllocationTimeFrameEnd = USE_END_DATE) ~> DerivedMasterIrrigation"
 				},
 				{
 					"name": "DerivedMaster",
