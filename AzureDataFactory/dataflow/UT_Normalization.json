@@ -40,7 +40,7 @@
 			"transformations": [
 				{
 					"name": "DerivedMasterWaterUses",
-					"script": "JoinWaterUses derive(BeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other'),\n\t\tId = UTMaster@WRNUM) ~> DerivedMasterWaterUses"
+					"script": "JoinWaterUses derive(BeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other'),\n\t\tAllocationNativeID = UTMaster@WRNUM) ~> DerivedMasterWaterUses"
 				},
 				{
 					"name": "JoinWaterUses",
@@ -56,11 +56,11 @@
 				},
 				{
 					"name": "DerivedMasterOwners",
-					"script": "JoinOwners derive(AllocationOwner = OWNER_LAST_NAME + ', ' + OWNER_FIRST_NAME,\n\t\tId = WRNUM) ~> DerivedMasterOwners"
+					"script": "JoinOwners derive(AllocationOwner = OWNER_LAST_NAME + ', ' + OWNER_FIRST_NAME,\n\t\tAllocationNativeID = WRNUM) ~> DerivedMasterOwners"
 				},
 				{
 					"name": "DerivedMasterIrrigation",
-					"script": "JoinIrrigation derive(AllocationTimeframeStart = USE_BEG_DATE,\n\t\tAllocationTimeFrameEnd = USE_END_DATE,\n\t\tId = UTMaster@WRNUM) ~> DerivedMasterIrrigation"
+					"script": "JoinIrrigation derive(AllocationTimeframeStart = USE_BEG_DATE,\n\t\tAllocationTimeFrameEnd = USE_END_DATE,\n\t\tAllocationNativeID = UTMaster@WRNUM) ~> DerivedMasterIrrigation"
 				},
 				{
 					"name": "DerivedMaster",
@@ -68,15 +68,7 @@
 				},
 				{
 					"name": "Union1",
-					"script": "DerivedMasterOwners, DerivedMaster union(byName: true)~> Union1"
-				},
-				{
-					"name": "Union2",
-					"script": "Union1, DerivedMasterIrrigation union(byName: true)~> Union2"
-				},
-				{
-					"name": "Union3",
-					"script": "Union2, DerivedMasterWaterUses union(byName: true)~> Union3"
+					"script": "DerivedMasterOwners, DerivedMaster, DerivedMasterIrrigation, DerivedMasterWaterUses union(byName: false)~> Union1"
 				}
 			]
 		}
