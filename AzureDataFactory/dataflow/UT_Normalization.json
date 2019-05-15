@@ -40,7 +40,7 @@
 			"transformations": [
 				{
 					"name": "DerivedMasterWaterUses",
-					"script": "JoinWaterUses derive(BeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other', 'OH NOES'),\n\t\tAllocationNativeID = UTMaster@WRNUM) ~> DerivedMasterWaterUses"
+					"script": "JoinWaterUses derive(BeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other'),\n\t\tAllocationNativeID = UTMaster@WRNUM) ~> DerivedMasterWaterUses"
 				},
 				{
 					"name": "JoinWaterUses",
