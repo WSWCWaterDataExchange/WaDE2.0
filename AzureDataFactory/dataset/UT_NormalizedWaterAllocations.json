@@ -12,13 +12,13 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "waterallocations.csv",
 				"folderPath": "UT_Test",
 				"container": "normalizedimports"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
+			"nullValue": "''",
 			"quoteChar": "\""
 		},
 		"schema": [
