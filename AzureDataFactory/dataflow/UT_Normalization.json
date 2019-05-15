@@ -76,11 +76,15 @@
 				},
 				{
 					"name": "SelectIrrigation",
-					"script": "DerivedIrrigation select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tWRNUM = UTIrrigationMaster@WRNUM,\n\t\tAllocationTimeframeStart,\n\t\tAllocationTimeFrameEnd\n\t))~> SelectIrrigation"
+					"script": "DerivedIrrigation select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tAllocationTimeframeStart,\n\t\tAllocationTimeFrameEnd\n\t))~> SelectIrrigation"
 				},
 				{
 					"name": "SelectWaterUses",
 					"script": "DerivedWaterUses select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tBeneficialUseCategory\n\t))~> SelectWaterUses"
+				},
+				{
+					"name": "Union1",
+					"script": "SelectWaterUses, SelectMaster, SelectOwners, SelectIrrigation union(byName: true)~> Union1"
 				}
 			]
 		}
