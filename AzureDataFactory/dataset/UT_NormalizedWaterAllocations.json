@@ -12,10 +12,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "'waterallocations.csv'",
-					"type": "Expression"
-				},
+				"fileName": "waterallocations.csv",
 				"folderPath": "UT_Test",
 				"container": "normalizedimports"
 			},
