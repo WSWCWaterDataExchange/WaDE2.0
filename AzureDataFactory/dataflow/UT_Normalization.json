@@ -94,11 +94,7 @@
 				},
 				{
 					"name": "UnionWaterAllocations",
-					"script": "Aggregate1, SelectMaster, SelectOwners, SelectIrrigation union(byName: true)~> UnionWaterAllocations"
-				},
-				{
-					"name": "Aggregate1",
-					"script": "SelectWaterUses aggregate(groupBy(OrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\t{} = ERROR_FUNCTION(''))) ~> Aggregate1"
+					"script": "SelectWaterUses, SelectMaster, SelectOwners, SelectIrrigation union(byName: true)~> UnionWaterAllocations"
 				}
 			]
 		}
