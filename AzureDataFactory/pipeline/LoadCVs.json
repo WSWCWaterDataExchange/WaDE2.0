@@ -967,21 +967,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -991,7 +988,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NAICSCode",
+						"referenceName": "NaicsCodeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1537,7 +1534,7 @@
 				]
 			},
 			{
-				"name": "Copy1",
+				"name": "Copy_WaterAllocationType",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -1692,50 +1689,6 @@
 						"type": "DataFlowReference"
 					}
 				}
-			},
-			{
-				"name": "Copy_WaterAllocationType",
-				"type": "Copy",
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"typeProperties": {
-					"source": {
-						"type": "HttpSource",
-						"httpRequestTimeout": "00:01:40"
-					},
-					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "CVs_WaterAllocationType",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Db_WaterAllocationType",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		]
 	},

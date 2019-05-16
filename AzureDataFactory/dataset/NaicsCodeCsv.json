@@ -1,5 +1,5 @@
 {
-	"name": "MethodTypeCsv",
+	"name": "NaicsCodeCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -12,50 +12,49 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "MethodType.csv",
+				"fileName": "NaicsCode.csv",
 				"folderPath": "cvimport",
 				"container": "cvimport"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
-			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": [
 			{
-				"name": "term",
+				"name": "Prop_0",
 				"type": "String"
 			},
 			{
-				"name": "name",
+				"name": "Prop_1",
 				"type": "String"
 			},
 			{
-				"name": "state",
+				"name": "Prop_2",
 				"type": "String"
 			},
 			{
-				"name": "abbreviation",
+				"name": "Prop_3",
 				"type": "String"
 			},
 			{
-				"name": "definition",
+				"name": "Prop_4",
 				"type": "String"
 			},
 			{
-				"name": "category",
+				"name": "Prop_5",
 				"type": "String"
 			},
 			{
-				"name": "provenance",
+				"name": "Prop_6",
 				"type": "String"
 			},
 			{
-				"name": "provenance_uri",
+				"name": "Prop_7",
 				"type": "String"
 			},
 			{
-				"name": "note",
+				"name": "Prop_8",
 				"type": "String"
 			}
 		]
