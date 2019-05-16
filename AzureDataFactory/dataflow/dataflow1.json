@@ -114,7 +114,7 @@
 				},
 				{
 					"name": "Aggregate1",
-					"script": "Select1 aggregate(groupBy(WRNUM),\n\tUSE_TYPE = concatWS(',', max(USE_TYPE))) ~> Aggregate1"
+					"script": "Select1 aggregate(groupBy(WRNUM),\n\tUSE_TYPE = concatWS(',', USE_TYPE)) ~> Aggregate1"
 				}
 			]
 		}
