@@ -286,7 +286,84 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -978,7 +1055,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1148,7 +1311,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1190,7 +1439,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1232,7 +1567,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1274,7 +1695,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1316,7 +1823,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1358,7 +1951,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1400,7 +2079,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1442,7 +2207,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1484,7 +2335,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1526,7 +2463,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1568,7 +2591,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1610,7 +2719,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
@@ -1652,7 +2847,93 @@
 						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true
+					"enableSkipIncompatibleRow": true,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{

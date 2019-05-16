@@ -18,43 +18,44 @@
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
+			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
 		"schema": [
 			{
-				"name": "Prop_0",
+				"name": "term",
 				"type": "String"
 			},
 			{
-				"name": "Prop_1",
+				"name": "name",
 				"type": "String"
 			},
 			{
-				"name": "Prop_2",
+				"name": "state",
 				"type": "String"
 			},
 			{
-				"name": "Prop_3",
+				"name": "abbreviation",
 				"type": "String"
 			},
 			{
-				"name": "Prop_4",
+				"name": "definition",
 				"type": "String"
 			},
 			{
-				"name": "Prop_5",
+				"name": "category",
 				"type": "String"
 			},
 			{
-				"name": "Prop_6",
+				"name": "provenance",
 				"type": "String"
 			},
 			{
-				"name": "Prop_7",
+				"name": "provenance_uri",
 				"type": "String"
 			},
 			{
-				"name": "Prop_8",
+				"name": "note",
 				"type": "String"
 			}
 		]
