@@ -1112,11 +1112,17 @@
 				]
 			},
 			{
-				"name": "CropTypeCvDataFlow",
+				"name": "CvDataFlow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
 						"activity": "Copy_CropType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_AggregationStatistic",
 						"dependencyConditions": [
 							"Succeeded"
 						]
