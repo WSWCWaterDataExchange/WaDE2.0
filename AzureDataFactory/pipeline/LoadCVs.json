@@ -18,22 +18,94 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "BlobSink"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"term": "term",
-							"name": "name",
-							"state": "state",
-							"definition": "definition",
-							"category": "category",
-							"provenance": "provenance",
-							"provenance_uri": "provenance_uri",
-							"note": "note"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -44,7 +116,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AggregationStatistic_blob",
+						"referenceName": "AggegationStatisticCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1059,7 +1131,7 @@
 				},
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "CropTypeCvDataFlow",
+						"referenceName": "CvDataFlow",
 						"type": "DataFlowReference"
 					}
 				}
