@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Blob"
+			"name": "CvBlobs"
 		},
 		"type": "DelimitedText",
 		"typeProperties": {

@@ -24,6 +24,10 @@
 				"type": "String"
 			},
 			{
+				"name": "abbreviation",
+				"type": "String"
+			},
+			{
 				"name": "definition",
 				"type": "String"
 			},

@@ -1,6 +1,9 @@
 {
 	"name": "CropTypeCvDataFlow",
 	"properties": {
+		"folder": {
+			"name": "CvData"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
