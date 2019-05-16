@@ -264,6 +264,14 @@
 					},
 					"name": "NaicsCodeCvDb",
 					"script": "NaicsCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tCategory as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NaicsCodeCvDb"
+				},
+				{
+					"dataset": {
+						"referenceName": "Db_NHDNetworkStatus",
+						"type": "DatasetReference"
+					},
+					"name": "NhdNetworkStatusCvDb",
+					"script": "NhdNetworkStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tCategory as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdNetworkStatusCvDb"
 				}
 			]
 		}
