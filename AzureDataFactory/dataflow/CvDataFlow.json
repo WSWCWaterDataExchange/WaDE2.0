@@ -62,6 +62,14 @@
 					},
 					"name": "LegalStatusCSV",
 					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> LegalStatusCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "MethodTypeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "MethodTypeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MethodTypeCSV"
 				}
 			],
 			"sinks": [
@@ -120,6 +128,14 @@
 					},
 					"name": "LegalStatusCvDb",
 					"script": "LegalStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tStateIdentifier as string,\n\t\tDefinition as string,\n\t\tCategory as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tStateIdentifier = state,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> LegalStatusCvDb"
+				},
+				{
+					"dataset": {
+						"referenceName": "Db_MethodType",
+						"type": "DatasetReference"
+					},
+					"name": "MethodTypeCvDb",
+					"script": "MethodTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tCategory as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false) ~> MethodTypeCvDb"
 				}
 			]
 		}
