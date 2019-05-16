@@ -1009,20 +1009,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -1033,7 +1116,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NHDNetworkStatus",
+						"referenceName": "NhdNetworkStatusCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1054,21 +1137,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -1078,7 +1158,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NHDProduct",
+						"referenceName": "NhdProductCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1099,21 +1179,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -1123,7 +1200,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_RegulatoryStatus",
+						"referenceName": "RegulatoryStatusCsv",
 						"type": "DatasetReference"
 					}
 				]
