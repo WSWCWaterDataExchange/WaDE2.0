@@ -70,6 +70,126 @@
 					},
 					"name": "MethodTypeCSV",
 					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MethodTypeCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "NaicsCodeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "NaicsCodeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NaicsCodeCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "NhdNetworkStatusCsv",
+						"type": "DatasetReference"
+					},
+					"name": "NhdNetworkStatusCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NhdNetworkStatusCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "NhdProductCsv",
+						"type": "DatasetReference"
+					},
+					"name": "NhdProductCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NhdProductCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "RegulatoryStatusCsv",
+						"type": "DatasetReference"
+					},
+					"name": "RegulatoryStatusCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> RegulatoryStatusCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "ReportingUnitTypeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "ReportingUnitTypeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ReportingUnitTypeCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "ReportYearCsv",
+						"type": "DatasetReference"
+					},
+					"name": "ReportYearCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ReportYearCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "SiteTypeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "SiteTypeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SiteTypeCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "UnitsCsv",
+						"type": "DatasetReference"
+					},
+					"name": "UnitsCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UnitsCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "UsgsCategoryCsv",
+						"type": "DatasetReference"
+					},
+					"name": "UsgsCategoryCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UsgsCategoryCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "VariableCsv",
+						"type": "DatasetReference"
+					},
+					"name": "VariableCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VariableCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "VariableSpecificCsv",
+						"type": "DatasetReference"
+					},
+					"name": "VariableSpecificCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VariableSpecificCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "WaterAllocationBasisCsv",
+						"type": "DatasetReference"
+					},
+					"name": "WaterAllocationBasisCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterAllocationBasisCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "WaterAllocationTypeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "WaterAllocationTypeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterAllocationTypeCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "WaterQualityIndicatorCsv",
+						"type": "DatasetReference"
+					},
+					"name": "WaterQualityIndicatorCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterQualityIndicatorCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "WaterSourceTypeCsv",
+						"type": "DatasetReference"
+					},
+					"name": "WaterSourceTypeCSV",
+					"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterSourceTypeCSV"
 				}
 			],
 			"sinks": [
