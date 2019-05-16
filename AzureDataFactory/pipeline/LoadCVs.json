@@ -154,8 +154,7 @@
 						"mappings": [
 							{
 								"source": {
-									"name": "term",
-									"type": "String"
+									"name": "term"
 								},
 								"sink": {
 									"name": "term",
@@ -164,8 +163,7 @@
 							},
 							{
 								"source": {
-									"name": "name",
-									"type": "String"
+									"name": "name"
 								},
 								"sink": {
 									"name": "name",
@@ -174,8 +172,7 @@
 							},
 							{
 								"source": {
-									"name": "state",
-									"type": "String"
+									"name": "state"
 								},
 								"sink": {
 									"name": "state",
@@ -184,8 +181,7 @@
 							},
 							{
 								"source": {
-									"name": "abbreviation",
-									"type": "String"
+									"name": "abbreviation"
 								},
 								"sink": {
 									"name": "abbreviation",
@@ -194,8 +190,7 @@
 							},
 							{
 								"source": {
-									"name": "definition",
-									"type": "String"
+									"name": "definition"
 								},
 								"sink": {
 									"name": "definition",
@@ -204,8 +199,7 @@
 							},
 							{
 								"source": {
-									"name": "category",
-									"type": "String"
+									"name": "category"
 								},
 								"sink": {
 									"name": "category",
@@ -214,8 +208,7 @@
 							},
 							{
 								"source": {
-									"name": "provenance",
-									"type": "String"
+									"name": "provenance"
 								},
 								"sink": {
 									"name": "provenance",
@@ -224,8 +217,7 @@
 							},
 							{
 								"source": {
-									"name": "provenance_uri",
-									"type": "String"
+									"name": "provenance_uri"
 								},
 								"sink": {
 									"name": "provenance_uri",
@@ -234,8 +226,7 @@
 							},
 							{
 								"source": {
-									"name": "note",
-									"type": "String"
+									"name": "note"
 								},
 								"sink": {
 									"name": "note",
@@ -336,20 +327,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -360,7 +434,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_GNISFeatureName",
+						"referenceName": "GnisFeatureNameCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1327,6 +1401,12 @@
 					},
 					{
 						"activity": "Copy_EPSGCode",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_GNISFeatureName",
 						"dependencyConditions": [
 							"Succeeded"
 						]
