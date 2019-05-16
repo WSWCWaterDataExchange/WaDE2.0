@@ -289,21 +289,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -313,7 +310,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_EPSGCode",
+						"referenceName": "EpsgCodeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1226,6 +1223,12 @@
 					},
 					{
 						"activity": "Copy_ReportYearType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_EPSGCode",
 						"dependencyConditions": [
 							"Succeeded"
 						]
