@@ -1473,21 +1473,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -1497,7 +1494,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_VariableSpecific",
+						"referenceName": "VariableSpecificCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1518,21 +1515,18 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
-					"enableSkipIncompatibleRow": true,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
+					"enableSkipIncompatibleRow": true
 				},
 				"inputs": [
 					{
@@ -1542,7 +1536,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_WaterAllocationBasis",
+						"referenceName": "WaterAllocationBasisCsv",
 						"type": "DatasetReference"
 					}
 				]
