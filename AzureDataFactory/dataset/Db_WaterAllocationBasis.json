@@ -1,0 +1,43 @@
+{
+	"name": "Db_WaterAllocationBasis",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "nchar"
+			},
+			{
+				"name": "Definition",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Category",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceVocabularyURI",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "CVs.WaterAllocationBasis"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
