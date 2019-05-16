@@ -5,6 +5,9 @@
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "CvBlobs"
+		},
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
