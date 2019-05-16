@@ -359,7 +359,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "WaterAllocationTypeCvDb",
-					"script": "WaterAllocationTypeCSV sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name']) ~> WaterAllocationTypeCvDb"
+					"script": "WaterAllocationTypeCSV sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tterm,\n\t\tname,\n\t\tstate,\n\t\tabbreviation,\n\t\tdefinition,\n\t\tcategory,\n\t\tprovenance,\n\t\tprovenance_uri,\n\t\tnote\n\t)) ~> WaterAllocationTypeCvDb"
 				}
 			]
 		}
