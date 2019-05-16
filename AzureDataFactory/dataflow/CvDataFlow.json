@@ -355,7 +355,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "Db_WaterAllocationType_New1",
+						"referenceName": "Db_WaterAllocationType",
 						"type": "DatasetReference"
 					},
 					"name": "WaterAllocationTypeCvDb",

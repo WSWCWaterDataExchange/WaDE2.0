@@ -1,5 +1,5 @@
 {
-	"name": "Db_WaterAllocationType_New1",
+	"name": "Db_WaterAllocationType",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "WaDE Database",
