@@ -1,0 +1,43 @@
+{
+	"name": "Db_RegulatoryStatus",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Term",
+				"type": "varchar"
+			},
+			{
+				"name": "State",
+				"type": "nchar"
+			},
+			{
+				"name": "Definition",
+				"type": "varchar"
+			},
+			{
+				"name": "Category",
+				"type": "varchar"
+			},
+			{
+				"name": "SourceVocabularyURI",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"tableName": "CVs.RegulatoryStatus"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
