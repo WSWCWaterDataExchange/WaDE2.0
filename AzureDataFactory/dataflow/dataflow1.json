@@ -102,7 +102,7 @@
 				},
 				{
 					"name": "Pivot1",
-					"script": "Select1 pivot(groupBy(WRNUM),\n\tpivotBy(USE_TYPE),\n\tconcatWS(',', max(USE_TYPE)),\n\tcolumnNaming: '$N$V',\n\tlateral: false) ~> Pivot1"
+					"script": "Select1 pivot(groupBy(WRNUM),\n\tpivotBy(USE_TYPE),\n\tmax(USE_TYPE),\n\tcolumnNaming: '$N$V',\n\tlateral: false) ~> Pivot1"
 				},
 				{
 					"name": "Aggregate1",
