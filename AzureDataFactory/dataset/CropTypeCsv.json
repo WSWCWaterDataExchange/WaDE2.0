@@ -17,7 +17,6 @@
 				"container": "cvimport"
 			},
 			"columnDelimiter": ",",
-			"rowDelimiter": "",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\"",
