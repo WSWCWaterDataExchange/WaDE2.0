@@ -1,0 +1,18 @@
+{
+	"name": "Db_WaterAllocationType_New1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"tableName": "CVs.WaterAllocationType"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
