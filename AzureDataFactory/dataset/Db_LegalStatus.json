@@ -12,27 +12,23 @@
 		"schema": [
 			{
 				"name": "Name",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Term",
-				"type": "varchar"
-			},
-			{
-				"name": "StateIdentifier",
-				"type": "nchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Definition",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
-				"name": "Category",
-				"type": "varchar"
+				"name": "State",
+				"type": "nvarchar"
 			},
 			{
 				"name": "SourceVocabularyURI",
-				"type": "varchar"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

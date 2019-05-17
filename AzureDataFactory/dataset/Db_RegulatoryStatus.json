@@ -12,11 +12,11 @@
 		"schema": [
 			{
 				"name": "Name",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Term",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "State",
@@ -24,15 +24,11 @@
 			},
 			{
 				"name": "Definition",
-				"type": "varchar"
-			},
-			{
-				"name": "Category",
-				"type": "varchar"
+				"type": "nvarchar"
 			},
 			{
 				"name": "SourceVocabularyURI",
-				"type": "varchar"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {

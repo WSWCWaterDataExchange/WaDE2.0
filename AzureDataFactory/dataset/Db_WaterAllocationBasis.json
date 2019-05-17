@@ -27,10 +27,6 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "Category",
-				"type": "nvarchar"
-			},
-			{
 				"name": "SourceVocabularyURI",
 				"type": "nvarchar"
 			}

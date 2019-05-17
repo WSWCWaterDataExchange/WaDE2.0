@@ -9,7 +9,28 @@
 			"name": "DB_CVs_tables"
 		},
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Term",
+				"type": "nvarchar"
+			},
+			{
+				"name": "State",
+				"type": "nchar"
+			},
+			{
+				"name": "Definition",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SourceVocabularyURI",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"tableName": "CVs.WaterAllocationType"
 		}

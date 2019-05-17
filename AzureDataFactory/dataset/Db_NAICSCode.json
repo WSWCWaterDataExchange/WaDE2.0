@@ -23,7 +23,7 @@
 				"type": "nvarchar"
 			},
 			{
-				"name": "Category",
+				"name": "State",
 				"type": "nvarchar"
 			},
 			{
