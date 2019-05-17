@@ -1,0 +1,331 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "WaDE-Data-Factory"
+		},
+		"AzureBlobStorage_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage'"
+		},
+		"Blob_CO_Amounts_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Blob_CO_Amounts'"
+		},
+		"WaDE Database_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'WaDE Database'"
+		},
+		"WaDE Import Functions_functionKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'functionKey' of 'WaDE Import Functions'"
+		},
+		"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/Organizations.json')"
+		},
+		"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		},
+		"ColoradoRawFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/colorado-raw.xlsx')"
+		},
+		"ColoradoRawFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/WaterAllocations.json')"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		},
+		"DestinationDataset_5oi_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"DestinationDataset_5oi_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		},
+		"DestinationDataset_j78_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": ""
+		},
+		"DestinationDataset_j78_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "utahwaterrights"
+		},
+		"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/organizations.csv')"
+		},
+		"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "normalizedimports"
+		},
+		"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FileLocation, '/waterallocations.csv')"
+		},
+		"NormalizedWaterAllocationFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "normalizedimports"
+		},
+		"SourceDataset_j78_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "WATER_MASTER.csv"
+		},
+		"SourceDataset_j78_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "utahwaterrights"
+		},
+		"WaterMaster_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "WATER_MASTER.csv"
+		},
+		"WaterMaster_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "utahwaterrights"
+		},
+		"test_netAmount_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "Net_new.csv"
+		},
+		"test_netAmount_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "cvimport"
+		},
+		"CVsAPI_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://vocabulary.westernstateswater.org"
+		},
+		"DataColorado_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://data.colorado.gov"
+		},
+		"GitHub_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://github.com"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas Token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage_connectionString": {
+						"value": "[parameters('AzureBlobStorage_connectionString')]"
+					},
+					"Blob_CO_Amounts_connectionString": {
+						"value": "[parameters('Blob_CO_Amounts_connectionString')]"
+					},
+					"WaDE Database_connectionString": {
+						"value": "[parameters('WaDE Database_connectionString')]"
+					},
+					"WaDE Import Functions_functionKey": {
+						"value": "[parameters('WaDE Import Functions_functionKey')]"
+					},
+					"CVsAPI_properties_typeProperties_url": {
+						"value": "[parameters('CVsAPI_properties_typeProperties_url')]"
+					},
+					"DataColorado_properties_typeProperties_url": {
+						"value": "[parameters('DataColorado_properties_typeProperties_url')]"
+					},
+					"GitHub_properties_typeProperties_url": {
+						"value": "[parameters('GitHub_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
+						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_fileName')]"
+					},
+					"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ColoradoRawFile_properties_typeProperties_fileName": {
+						"value": "[parameters('ColoradoRawFile_properties_typeProperties_fileName')]"
+					},
+					"ColoradoRawFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('ColoradoRawFile_properties_typeProperties_folderPath')]"
+					},
+					"ColoradoWaterAllocationFile_properties_typeProperties_fileName": {
+						"value": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_fileName')]"
+					},
+					"ColoradoWaterAllocationFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"DestinationDataset_5oi_properties_typeProperties_fileName": {
+						"value": "[parameters('DestinationDataset_5oi_properties_typeProperties_fileName')]"
+					},
+					"DestinationDataset_5oi_properties_typeProperties_folderPath": {
+						"value": "[parameters('DestinationDataset_5oi_properties_typeProperties_folderPath')]"
+					},
+					"DestinationDataset_j78_properties_typeProperties_fileName": {
+						"value": "[parameters('DestinationDataset_j78_properties_typeProperties_fileName')]"
+					},
+					"DestinationDataset_j78_properties_typeProperties_folderPath": {
+						"value": "[parameters('DestinationDataset_j78_properties_typeProperties_folderPath')]"
+					},
+					"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
+						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]"
+					},
+					"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
+						"value": "[parameters('NormalizedWaterAllocationFile_properties_typeProperties_fileName')]"
+					},
+					"NormalizedWaterAllocationFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('NormalizedWaterAllocationFile_properties_typeProperties_folderPath')]"
+					},
+					"SourceDataset_j78_properties_typeProperties_fileName": {
+						"value": "[parameters('SourceDataset_j78_properties_typeProperties_fileName')]"
+					},
+					"SourceDataset_j78_properties_typeProperties_folderPath": {
+						"value": "[parameters('SourceDataset_j78_properties_typeProperties_folderPath')]"
+					},
+					"WaterMaster_properties_typeProperties_fileName": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_fileName')]"
+					},
+					"WaterMaster_properties_typeProperties_folderPath": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
+					},
+					"test_netAmount_properties_typeProperties_fileName": {
+						"value": "[parameters('test_netAmount_properties_typeProperties_fileName')]"
+					},
+					"test_netAmount_properties_typeProperties_folderPath": {
+						"value": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_4')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,1031 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "WaDE-Data-Factory"
+		},
+		"ColoradoRawFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/colorado-raw.xlsx')"
+		},
+		"ColoradoRawFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/WaterAllocations.json')"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "colorado-import"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ColoradoRawFile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Colorado"
+				},
+				"annotations": [],
+				"type": "AzureBlob",
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"nullValue": "\\N",
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": false
+					},
+					"fileName": {
+						"value": "[parameters('ColoradoRawFile_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('ColoradoRawFile_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ColoradoWaterAllocationFile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Colorado"
+				},
+				"annotations": [],
+				"type": "AzureBlob",
+				"structure": [
+					{
+						"name": "OrganizationUID",
+						"type": "String"
+					},
+					{
+						"name": "SiteUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificUID",
+						"type": "String"
+					},
+					{
+						"name": "SourceUID",
+						"type": "String"
+					},
+					{
+						"name": "MethodUID",
+						"type": "String"
+					},
+					{
+						"name": "NativeAllocationID",
+						"type": "String"
+					},
+					{
+						"name": "AllocationUID",
+						"type": "String"
+					},
+					{
+						"name": "AllocationOwner",
+						"type": "String"
+					},
+					{
+						"name": "AllocationApplicationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationPriorityDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationLegalStatusCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationChangeApplicationIndicator",
+						"type": "String"
+					},
+					{
+						"name": "LegacyAllocationIDs",
+						"type": "String"
+					},
+					{
+						"name": "AllocationBasisCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAcreage",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearCV",
+						"type": "String"
+					},
+					{
+						"name": "TimeframeStart",
+						"type": "String"
+					},
+					{
+						"name": "TimeframeEnd",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAmount",
+						"type": "String"
+					},
+					{
+						"name": "AllocationMaximum",
+						"type": "String"
+					},
+					{
+						"name": "BeneficialUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "AllocationPrimaryUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "AllocationUSGSCategoryCV",
+						"type": "String"
+					},
+					{
+						"name": "PopulationServed",
+						"type": "String"
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "String"
+					},
+					{
+						"name": "IrrigationMethod",
+						"type": "String"
+					},
+					{
+						"name": "CropType",
+						"type": "String"
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "String"
+					},
+					{
+						"name": "SDWISID",
+						"type": "String"
+					},
+					{
+						"name": "NAICSCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCommunityWaterSupplySystem",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCropDutyAmount",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"format": {
+						"type": "JsonFormat",
+						"filePattern": "arrayOfObjects"
+					},
+					"fileName": {
+						"value": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CropTypeCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "croptype.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\"",
+					"encoding": "UTF-8"
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_AggregationStatistic')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.AggregationStatistic"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_ApplicableResourceType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.ApplicableResourceType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_CoordinateMethod')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.CoordinateMethod"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_CropType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.CropType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_DataQualityValue')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.DataQualityValue"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_EPSGCode')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.EPSGCode"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_GNISFeatureName')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.GNISFeatureName"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_IrrigationMethod')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.IrrigationMethod"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_LegalStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.LegalStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_MethodType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.MethodType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NAICSCode')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NAICSCode"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NHDNetworkStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NHDNetworkStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NHDProduct')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NHDProduct"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_RegulatoryStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.RegulatoryStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_ReportYearCV')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.ReportYearCV"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_ReportYearType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.ReportYearType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_ReportingUnitType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.ReportingUnitType"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

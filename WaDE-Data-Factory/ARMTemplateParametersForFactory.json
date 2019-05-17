@@ -1,0 +1,90 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "WaDE-Data-Factory"
+		},
+		"AzureBlobStorage_connectionString": {
+			"value": ""
+		},
+		"Blob_CO_Amounts_connectionString": {
+			"value": ""
+		},
+		"WaDE Database_connectionString": {
+			"value": ""
+		},
+		"WaDE Import Functions_functionKey": {
+			"value": ""
+		},
+		"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
+			"value": "@concat(dataset().FolderIdentifier, '/Organizations.json')"
+		},
+		"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
+			"value": "colorado-import"
+		},
+		"ColoradoRawFile_properties_typeProperties_fileName": {
+			"value": "@concat(dataset().FolderIdentifier, '/colorado-raw.xlsx')"
+		},
+		"ColoradoRawFile_properties_typeProperties_folderPath": {
+			"value": "colorado-import"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_fileName": {
+			"value": "@concat(dataset().FolderIdentifier, '/WaterAllocations.json')"
+		},
+		"ColoradoWaterAllocationFile_properties_typeProperties_folderPath": {
+			"value": "colorado-import"
+		},
+		"DestinationDataset_5oi_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"DestinationDataset_5oi_properties_typeProperties_folderPath": {
+			"value": "colorado-import"
+		},
+		"DestinationDataset_j78_properties_typeProperties_fileName": {
+			"value": ""
+		},
+		"DestinationDataset_j78_properties_typeProperties_folderPath": {
+			"value": "utahwaterrights"
+		},
+		"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
+			"value": "@concat(dataset().FolderIdentifier, '/organizations.csv')"
+		},
+		"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
+			"value": "normalizedimports"
+		},
+		"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
+			"value": "@concat(dataset().FileLocation, '/waterallocations.csv')"
+		},
+		"NormalizedWaterAllocationFile_properties_typeProperties_folderPath": {
+			"value": "normalizedimports"
+		},
+		"SourceDataset_j78_properties_typeProperties_fileName": {
+			"value": "WATER_MASTER.csv"
+		},
+		"SourceDataset_j78_properties_typeProperties_folderPath": {
+			"value": "utahwaterrights"
+		},
+		"WaterMaster_properties_typeProperties_fileName": {
+			"value": "WATER_MASTER.csv"
+		},
+		"WaterMaster_properties_typeProperties_folderPath": {
+			"value": "utahwaterrights"
+		},
+		"test_netAmount_properties_typeProperties_fileName": {
+			"value": "Net_new.csv"
+		},
+		"test_netAmount_properties_typeProperties_folderPath": {
+			"value": "cvimport"
+		},
+		"CVsAPI_properties_typeProperties_url": {
+			"value": "http://vocabulary.westernstateswater.org"
+		},
+		"DataColorado_properties_typeProperties_url": {
+			"value": "https://data.colorado.gov"
+		},
+		"GitHub_properties_typeProperties_url": {
+			"value": "http://github.com"
+		}
+	}
+}
