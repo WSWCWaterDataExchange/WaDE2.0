@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -59,7 +57,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterSourceType> WaterSourceType { get; set; }
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
 
-        private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

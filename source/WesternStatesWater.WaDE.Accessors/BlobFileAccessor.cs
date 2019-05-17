@@ -20,10 +20,9 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-
             var blobClient = storageAccount.CreateCloudBlobClient();
+            var cloudBlobContainer = blobClient.GetContainerReference(container);
 
-            CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference(container);
             var blob = cloudBlobContainer.GetBlobReference(path);
             if (!await blob.ExistsAsync())
             {
@@ -33,17 +32,31 @@ namespace WesternStatesWater.WaDE.Accessors
             return await blob.OpenReadAsync();
         }
 
-        async Task AccessorImport.IBlobFileAccessor.SaveBlobData(string containter, string path, byte[] data)
+        async Task AccessorImport.IBlobFileAccessor.SaveBlobData(string container, string path, byte[] data)
+        {
+            var blob = CreateBlobContainer(container, path);
+
+            await blob.UploadFromByteArrayAsync(data, 0, data.Length);
+        }
+
+        async Task AccessorImport.IBlobFileAccessor.SaveBlobData(string container, string path, string data)
+        {
+            var blob = CreateBlobContainer(container, path);
+
+            await blob.UploadTextAsync(data);
+        }
+
+        #region Private Methods
+        private CloudBlockBlob CreateBlobContainer(string container, string path)
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-
             var blobClient = storageAccount.CreateCloudBlobClient();
-
-            CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference(containter);
-
+            var cloudBlobContainer = blobClient.GetContainerReference(container);
             var blob = cloudBlobContainer.GetBlockBlobReference(path);
-            await blob.UploadFromByteArrayAsync(data, 0, data.Length);
+
+            return blob;
         }
+        #endregion
     }
 }

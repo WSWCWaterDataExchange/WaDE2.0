@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using ManagerImport = WesternStatesWater.WaDE.Contracts.Import;
-using System.IO;
-using System.Dynamic;
-using Newtonsoft.Json;
 
 namespace WesternStatesWater.WaDE.Managers.Import
 {
@@ -28,8 +25,6 @@ namespace WesternStatesWater.WaDE.Managers.Import
             foreach (var worksheet in package.Workbook.Worksheets)
             {
                 var headers = worksheet.Cells[1, 1, 1, worksheet.Dimension.End.Column].Select(a => string.IsNullOrWhiteSpace(a.Text) ? $"Column{a.Start.Column}" : a.Text.Replace(" ", "")).ToList();
-
-                var resultData = new List<dynamic>();
 
                 using (var ms = new MemoryStream())
                 using (var tw = new StreamWriter(ms))
