@@ -1,0 +1,63 @@
+{
+	"name": "ReportingUnitTypeCsv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "CvBlobs"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "ReportingUnitType.csv",
+				"folderPath": "cvimport",
+				"container": "cvimport"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "term",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "abbreviation",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "provenance",
+				"type": "String"
+			},
+			{
+				"name": "provenance_uri",
+				"type": "String"
+			},
+			{
+				"name": "note",
+				"type": "String"
+			}
+		]
+	}
+}

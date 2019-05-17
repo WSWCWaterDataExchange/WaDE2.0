@@ -9,26 +9,26 @@
 			"name": "DB_CVs_tables"
 		},
 		"type": "AzureSqlTable",
-		"structure": [
+		"schema": [
 			{
 				"name": "Name",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Term",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
 				"name": "Definition",
-				"type": "String"
+				"type": "nvarchar"
 			},
 			{
-				"name": "Category",
-				"type": "String"
+				"name": "State",
+				"type": "nvarchar"
 			},
 			{
 				"name": "SourceVocabularyURI",
-				"type": "String"
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
