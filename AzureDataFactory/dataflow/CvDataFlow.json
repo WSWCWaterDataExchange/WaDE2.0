@@ -303,7 +303,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "ReportYearCvDb",
-					"script": "ReportYearCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearCvDb"
+					"script": "ReportYearCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearCvDb"
 				},
 				{
 					"dataset": {
@@ -311,7 +311,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "SiteTypeCvDb",
-					"script": "SiteTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> SiteTypeCvDb"
+					"script": "SiteTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> SiteTypeCvDb"
 				},
 				{
 					"dataset": {
@@ -319,7 +319,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "UnitsCvDb",
-					"script": "UnitsCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UnitsCvDb"
+					"script": "UnitsCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UnitsCvDb"
 				},
 				{
 					"dataset": {
@@ -327,7 +327,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "UsgsCategoryCvDb",
-					"script": "UsgsCategoryCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UsgsCategoryCvDb"
+					"script": "UsgsCategoryCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UsgsCategoryCvDb"
 				},
 				{
 					"dataset": {
@@ -335,7 +335,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "VariableCvDb",
-					"script": "VariableCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableCvDb"
+					"script": "VariableCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableCvDb"
 				},
 				{
 					"dataset": {
@@ -343,7 +343,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "VariableSpecificCvDb",
-					"script": "VariableSpecificCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableSpecificCvDb"
+					"script": "VariableSpecificCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableSpecificCvDb"
 				},
 				{
 					"dataset": {
@@ -351,7 +351,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "WaterAllocationBasisCvDb",
-					"script": "WaterAllocationBasisCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tCategory = category,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationBasisCvDb"
+					"script": "WaterAllocationBasisCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationBasisCvDb"
 				},
 				{
 					"dataset": {
@@ -359,7 +359,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "WaterAllocationTypeCvDb",
-					"script": "WaterAllocationTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name']) ~> WaterAllocationTypeCvDb"
+					"script": "WaterAllocationTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationTypeCvDb"
 				},
 				{
 					"dataset": {
@@ -367,7 +367,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "WaterQualityIndicatorCvDb",
-					"script": "WaterQualityIndicatorCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name']) ~> WaterQualityIndicatorCvDb"
+					"script": "WaterQualityIndicatorCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterQualityIndicatorCvDb"
 				},
 				{
 					"dataset": {
@@ -375,7 +375,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "WaterSourceTypeCvDb",
-					"script": "WaterSourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name']) ~> WaterSourceTypeCvDb"
+					"script": "WaterSourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterSourceTypeCvDb"
 				}
 			]
 		}
