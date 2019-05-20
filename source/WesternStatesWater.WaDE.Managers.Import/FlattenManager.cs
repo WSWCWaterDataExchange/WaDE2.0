@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,45 +25,63 @@ namespace WesternStatesWater.WaDE.Managers.Import
             var rawData = await BlobFileAccessor
                 .GetBlobData(container, Path.Combine(folder, sourceFileName));
 
+
+            //ignore bad data and missing fields; we don't care
+            var csvConfig = new Configuration
+            {
+                BadDataFound = null,
+                MissingFieldFound = null
+            };
+
+            var rawRecords = new List<FlattenedRaw>();
+
+            using (var reader = new StreamReader(rawData))
+            using (var csv = new CsvReader(reader, csvConfig))
+            {
+                var flattenedRawMap = new FlattenedRawMap(keyCol, valueCol);
+
+                csv.Configuration.RegisterClassMap(flattenedRawMap);
+
+                rawRecords = csv.GetRecords<FlattenedRaw>().ToList();
+            }
+
             //flatten the data into <key>, <csv values> pairs
             var flattenedKeys = new List<FlattenedKey>();
 
-            using (var reader = new StreamReader(rawData))
-            using (var csv = new CsvReader(reader))
+            //TODO: bottleneck!
+            foreach (var record in rawRecords)
             {
-                csv.Read();
-                csv.ReadHeader();
-
-                while (csv.Read())
+                if (!string.IsNullOrEmpty(record.Key) &&
+                    !string.IsNullOrEmpty(record.Value))
                 {
-                    var keyVal = csv.GetField<string>(keyCol);
-                    var valVal = csv.GetField<string>(valueCol);
-
-                    if (!flattenedKeys.Select(x => x.Text).Contains(keyVal))
+                    if (!flattenedKeys.Select(x => x.Text).Contains(record.Key))
                     {
                         //new key
                         flattenedKeys.Add(new FlattenedKey
                         {
-                            Text = keyVal,
-                            FlattenedValues = new List<FlattenedValue> { new FlattenedValue { Text = valVal } }
+                            Text = record.Key,
+                            FlattenedValues = new List<FlattenedValue> { new FlattenedValue { Text = record.Value } }
                         });
                     }
                     else
                     {
                         //existing key
-                        var flattenedKey = flattenedKeys.Single(x => x.Text.Equals(keyVal));
+                        var flattenedKey = flattenedKeys.Single(x => x.Text.Equals(record.Key));
 
-                        flattenedKey.FlattenedValues.Add(new FlattenedValue { Text = valVal });
+                        if (!flattenedKey.FlattenedValues.Select(x => x.Text).Contains(record.Value))
+                        {
+                            flattenedKey.FlattenedValues.Add(new FlattenedValue { Text = record.Value });
+                        }
                     }
                 }
             }
 
             //write the result back to blob storage
-            var records = new List<object>();
+            var flattenedRecords = new List<object>();
 
             foreach (var flattenedKey in flattenedKeys)
             {
-                records.Add(new { Id = flattenedKey.Text, Value = flattenedKey.CsvValues });
+                flattenedRecords.Add(new { Id = flattenedKey.Text, Value = flattenedKey.CsvValues });
             }
 
             var csvData = string.Empty;
@@ -70,9 +89,9 @@ namespace WesternStatesWater.WaDE.Managers.Import
             using (var stream = new MemoryStream())
             using (var reader = new StreamReader(stream))
             using (var writer = new StreamWriter(stream))
-            using (var csv = new CsvWriter(writer))
+            using (var csv = new CsvWriter(writer, csvConfig))
             {
-                csv.WriteRecords(records);
+                csv.WriteRecords(flattenedRecords);
                 writer.Flush();
 
                 stream.Position = 0;
