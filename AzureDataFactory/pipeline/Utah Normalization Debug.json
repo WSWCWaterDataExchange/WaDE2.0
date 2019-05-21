@@ -1,0 +1,27 @@
+{
+	"name": "Utah Normalization Debug",
+	"properties": {
+		"activities": [
+			{
+				"name": "UT_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Normalization",
+						"type": "DataFlowReference"
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "State Normalization"
+		}
+	}
+}
