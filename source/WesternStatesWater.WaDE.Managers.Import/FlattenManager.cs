@@ -1,6 +1,5 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,7 +24,6 @@ namespace WesternStatesWater.WaDE.Managers.Import
             var rawData = await BlobFileAccessor
                 .GetBlobData(container, Path.Combine(folder, sourceFileName));
 
-
             //ignore bad data and missing fields; we don't care
             var csvConfig = new Configuration
             {
@@ -38,6 +36,7 @@ namespace WesternStatesWater.WaDE.Managers.Import
             using (var reader = new StreamReader(rawData))
             using (var csv = new CsvReader(reader, csvConfig))
             {
+                //remap the targeted csv columns into generic Key/Value fields
                 var flattenedRawMap = new FlattenedRawMap(keyCol, valueCol);
 
                 csv.Configuration.RegisterClassMap(flattenedRawMap);
@@ -45,44 +44,49 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 rawRecords = csv.GetRecords<FlattenedRaw>().ToList();
             }
 
-            //flatten the data into <key>, <csv values> pairs
+            //distinct set of keys
+            var distinctKeys = rawRecords
+                .Select(x => x.Key)
+                .Where(x => !string.IsNullOrEmpty(x))
+                .Distinct()
+                .ToList();
+
+            //new flattened data structure
             var flattenedKeys = new List<FlattenedKey>();
 
-            //TODO: bottleneck!
-            foreach (var record in rawRecords)
+            //parallel processing for performance!
+            Parallel.ForEach(distinctKeys, key =>
             {
-                if (!string.IsNullOrEmpty(record.Key) &&
-                    !string.IsNullOrEmpty(record.Value))
+                //get the values to flatten for the given key
+                var flattenedValues = rawRecords
+                    .Where(x => x.Key.Equals(key))
+                    .Select(x => x.Value)
+                    .Where(y => !string.IsNullOrEmpty(y))
+                    .Distinct()
+                    .Select(z => new FlattenedValue
+                    {
+                        Text = z
+                    })
+                    .ToList();
+
+                //add it to the collection
+                var flattenedKey = new FlattenedKey
                 {
-                    if (!flattenedKeys.Select(x => x.Text).Contains(record.Key))
-                    {
-                        //new key
-                        flattenedKeys.Add(new FlattenedKey
-                        {
-                            Text = record.Key,
-                            FlattenedValues = new List<FlattenedValue> { new FlattenedValue { Text = record.Value } }
-                        });
-                    }
-                    else
-                    {
-                        //existing key
-                        var flattenedKey = flattenedKeys.Single(x => x.Text.Equals(record.Key));
+                    Text = key,
+                    FlattenedValues = flattenedValues
+                };
 
-                        if (!flattenedKey.FlattenedValues.Select(x => x.Text).Contains(record.Value))
-                        {
-                            flattenedKey.FlattenedValues.Add(new FlattenedValue { Text = record.Value });
-                        }
-                    }
-                }
-            }
+                flattenedKeys.Add(flattenedKey);
+            });
 
-            //write the result back to blob storage
-            var flattenedRecords = new List<object>();
-
-            foreach (var flattenedKey in flattenedKeys)
-            {
-                flattenedRecords.Add(new { Id = flattenedKey.Text, Value = flattenedKey.CsvValues });
-            }
+            //convert to object array of Id/Value pairs for CsvWriter
+            var flattenedRecords = flattenedKeys
+                .Select(x => new
+                {
+                    Id = x.Text,
+                    Value = x.CsvValues
+                })
+                .ToList();
 
             var csvData = string.Empty;
 
