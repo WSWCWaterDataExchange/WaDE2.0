@@ -1,5 +1,5 @@
 {
-	"name": "UT_Normalization",
+	"name": "UT_WaterAllocation_Normalization",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
