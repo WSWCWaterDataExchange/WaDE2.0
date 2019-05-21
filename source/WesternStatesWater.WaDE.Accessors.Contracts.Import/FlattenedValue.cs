@@ -1,6 +1,4 @@
-﻿using CsvHelper.Configuration.Attributes;
-
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
+﻿namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class FlattenedValue
     {
