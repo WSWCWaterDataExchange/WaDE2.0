@@ -1,5 +1,5 @@
 {
-	"name": "UT_Normalization",
+	"name": "UT_Normalization_Clone",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -14,11 +14,11 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "UT_Flat_Uses",
+						"referenceName": "UT_Water_Uses",
 						"type": "DatasetReference"
 					},
 					"name": "UTWaterUses",
-					"script": "source(output(\n\t\tId as string,\n\t\tValue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTWaterUses"
+					"script": "source(output(\n\t\tGROUP_NUMBER as string,\n\t\tWRNUM as string,\n\t\tUSE_TYPE as string,\n\t\tUSE_ID as string,\n\t\tIRRIGATION_ACREAGE as string,\n\t\tDOMESTIC_FAMILIES as string,\n\t\tDOMESTIC_ANDOR as string,\n\t\tDOMESTIC_PERSONS as string,\n\t\tSTOCK_UNITS as string,\n\t\tMUNICIPALITY as string,\n\t\tMINE_DISTRICT as string,\n\t\tMINE_NAME as string,\n\t\tMINE_ORES as string,\n\t\tPOWER_PLANT_NAME as string,\n\t\tPOWER_TYPE as string,\n\t\tPOWER_CAPACITY as string,\n\t\tPOWER_UNITS as string,\n\t\tOTHER_TYPE as string,\n\t\tOTHER_DESCRIPTION as string,\n\t\tPART_TIME_USE as string,\n\t\tDIVERSION_LIMIT as string,\n\t\tUSE_BEG_DATE as string,\n\t\tUSE_END_DATE as string,\n\t\tUSE_COMMENTS as string,\n\t\tADJUD_IRRIGATION_ACREAGE as string,\n\t\tADJUD_DOMESTIC_FAMILIES as string,\n\t\tADJUD_DOMESTIC_ANDOR as string,\n\t\tADJUD_DOMESTIC_PERSONS as string,\n\t\tADJUD_STOCK_UNITS as string,\n\t\tADJUD_MUNICIPALITY as string,\n\t\tADJUD_MINE_DISTRICT as string,\n\t\tADJUD_MINE_NAME as string,\n\t\tADJUD_MINE_ORES as string,\n\t\tADJUD_POWER_PLANT_NAME as string,\n\t\tADJUD_POWER_TYPE as string,\n\t\tADJUD_POWER_CAPACITY as string,\n\t\tADJUD_POWER_UNITS as string,\n\t\tADJUD_OTHER_TYPE as string,\n\t\tADJUD_OTHER_DESCRIPTION as string,\n\t\tADJUD_PART_TIME_USE as string,\n\t\tADJUD_DIVERSION_LIMIT as string,\n\t\tADJUD_USE_BEG_DATE as string,\n\t\tADJUD_USE_END_DATE as string,\n\t\tADJUD_USE_COMMENTS as string,\n\t\tADJUD_ACTION_FLAG as string,\n\t\tRECORD_ID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTWaterUses"
 				},
 				{
 					"dataset": {
@@ -50,11 +50,11 @@
 			"transformations": [
 				{
 					"name": "DerivedWaterUses",
-					"script": "JoinWaterUses derive(BeneficialUseCategory = replace(replace(replace(replace(replace(replace(Value, 'OTH', 'Other'), 'POW', 'Power'), 'MUN', 'Mining'), 'STK', 'Stockwatering') , 'IRR', 'Irrigation'), 'DOM', 'Domestic'),\n\t\tPrimaryUseCategory = '') ~> DerivedWaterUses"
+					"script": "JoinWaterUses derive(BeneficialUseCategory = case(USE_TYPE == 'DOM', 'Domestic'\r\n    ,USE_TYPE == 'IRR', 'Irrigation'\r\n    ,USE_TYPE == 'STK', 'Stockwatering'\r\n    ,USE_TYPE == 'MUN', 'Municipal'\r\n    ,USE_TYPE == 'MIN', 'Mining'\r\n    ,USE_TYPE == 'POW', 'Power'\r\n    ,USE_TYPE == 'OTH', 'Other'),\n\t\tPrimaryUseCategory = '') ~> DerivedWaterUses"
 				},
 				{
 					"name": "JoinWaterUses",
-					"script": "SelectMaster, UTWaterUses join(AllocationNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinWaterUses"
+					"script": "SelectMaster, UTWaterUses join(AllocationNativeID == WRNUM,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinWaterUses"
 				},
 				{
 					"name": "JoinOwners",
