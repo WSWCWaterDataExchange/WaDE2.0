@@ -18,22 +18,94 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "BlobSink"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"term": "term",
-							"name": "name",
-							"state": "state",
-							"definition": "definition",
-							"category": "category",
-							"provenance": "provenance",
-							"provenance_uri": "provenance_uri",
-							"note": "note"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -44,7 +116,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AggregationStatistic_blob",
+						"referenceName": "AggegationStatisticCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -65,20 +137,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -89,7 +244,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_ReportYearType",
+						"referenceName": "ReportYearTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -120,20 +275,94 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -144,7 +373,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_EPSGCode",
+						"referenceName": "EpsgCodeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -175,20 +404,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -199,7 +511,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_GNISFeatureName",
+						"referenceName": "GnisFeatureNameCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -220,22 +532,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "BlobSink"
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"term": "term",
-							"name": "name",
-							"state": "state",
-							"definition": "definition",
-							"category": "category",
-							"provenance": "provenance",
-							"provenance_uri": "provenance_uri",
-							"note": "note"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -246,7 +639,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "CV_CropType_Blob",
+						"referenceName": "CropTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -267,20 +660,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -291,7 +767,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_IrrigationMethod",
+						"referenceName": "IrrigationMethodCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -312,20 +788,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -336,7 +895,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_LegalStatus",
+						"referenceName": "LegalStatusCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -357,31 +916,114 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
 					{
-						"referenceName": "CVs_LegalStatus",
+						"referenceName": "CVs_MethodType",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_LegalStatus",
+						"referenceName": "MethodTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -402,20 +1044,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -426,7 +1151,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NAICSCode",
+						"referenceName": "NaicsCodeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -447,20 +1172,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -471,7 +1279,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NHDNetworkStatus",
+						"referenceName": "NhdNetworkStatusCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -492,20 +1300,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -516,7 +1407,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_NHDProduct",
+						"referenceName": "NhdProductCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -537,20 +1428,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -561,7 +1535,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_RegulatoryStatus",
+						"referenceName": "RegulatoryStatusCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -582,20 +1556,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -606,7 +1663,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_ReportingUnitType",
+						"referenceName": "ReportingUnitTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -627,20 +1684,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -651,7 +1791,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_ReportYearCV",
+						"referenceName": "ReportYearCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -672,20 +1812,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -696,7 +1919,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_SiteType",
+						"referenceName": "SiteTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -717,20 +1940,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -741,7 +2047,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_Units",
+						"referenceName": "UnitsCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -762,20 +2068,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -786,7 +2175,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_USGSCategory",
+						"referenceName": "UsgsCategoryCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -807,20 +2196,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -831,7 +2303,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_Variable",
+						"referenceName": "VariableCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -852,20 +2324,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -876,7 +2431,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_VariableSpecific",
+						"referenceName": "VariableSpecificCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -897,20 +2452,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -921,7 +2559,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_WaterAllocationBasis",
+						"referenceName": "WaterAllocationBasisCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -942,20 +2580,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -966,13 +2687,13 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_WaterQualityIndicator",
+						"referenceName": "WaterQualityIndicatorCsv",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Copy1",
+				"name": "Copy_WaterAllocationType",
 				"type": "Copy",
 				"policy": {
 					"timeout": "7.00:00:00",
@@ -987,20 +2708,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -1011,7 +2815,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_WaterAllocationType",
+						"referenceName": "WaterAllocationTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
@@ -1032,20 +2836,103 @@
 						"httpRequestTimeout": "00:01:40"
 					},
 					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSetting"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSetting",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
 					},
 					"enableStaging": false,
 					"enableSkipIncompatibleRow": true,
 					"translator": {
 						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
+						"mappings": [
+							{
+								"source": {
+									"name": "term"
+								},
+								"sink": {
+									"name": "term",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "name"
+								},
+								"sink": {
+									"name": "name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "state"
+								},
+								"sink": {
+									"name": "state",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "abbreviation"
+								},
+								"sink": {
+									"name": "abbreviation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "definition"
+								},
+								"sink": {
+									"name": "definition",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "category"
+								},
+								"sink": {
+									"name": "category",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance"
+								},
+								"sink": {
+									"name": "provenance",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "provenance_uri"
+								},
+								"sink": {
+									"name": "provenance_uri",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "note"
+								},
+								"sink": {
+									"name": "note",
+									"type": "String"
+								}
+							}
+						]
 					}
 				},
 				"inputs": [
@@ -1056,17 +2943,149 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Db_WaterSourceType",
+						"referenceName": "WaterSourceTypeCsv",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "CropTypeCvDataFlow",
+				"name": "CvDataFlow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
 						"activity": "Copy_CropType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_AggregationStatistic",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_ReportYearType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_EPSGCode",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_GNISFeatureName",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_IrrigationMethod",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_LegalStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_MethodType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_NAICSCode",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_NHDNetworkStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_NHDProduct",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_RegulatoryStatus",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_ReportingUnitType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_ReportYear",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_SiteType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_Units",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_USGSCategory",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_Variable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_VariableSpecific",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_WaterAllocationBasis",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_WaterQualityIndicator",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_WaterAllocationType",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Copy_WaterSourceType",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -1081,54 +3100,10 @@
 				},
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "CropTypeCvDataFlow",
+						"referenceName": "CvDataFlow",
 						"type": "DataFlowReference"
 					}
 				}
-			},
-			{
-				"name": "Copy_WaterAllocationType",
-				"type": "Copy",
-				"policy": {
-					"timeout": "7.00:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"typeProperties": {
-					"source": {
-						"type": "HttpSource",
-						"httpRequestTimeout": "00:01:40"
-					},
-					"sink": {
-						"type": "SqlSink",
-						"writeBatchSize": 10000
-					},
-					"enableStaging": false,
-					"translator": {
-						"type": "TabularTranslator",
-						"columnMappings": {
-							"name": "Name",
-							"term": "Term",
-							"definition": "Definition",
-							"category": "Category",
-							"provenance_uri": "SourceVocabularyURI"
-						}
-					}
-				},
-				"inputs": [
-					{
-						"referenceName": "CVs_WaterAllocationType",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Db_WaterAllocationType",
-						"type": "DatasetReference"
-					}
-				]
 			}
 		]
 	},

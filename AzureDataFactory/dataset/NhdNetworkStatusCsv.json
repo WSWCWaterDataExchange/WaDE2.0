@@ -1,15 +1,27 @@
 {
-	"name": "AggregationStatistic_blob",
+	"name": "NhdNetworkStatusCsv",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
 		"folder": {
-			"name": "Blob"
+			"name": "CvBlobs"
 		},
-		"type": "AzureBlob",
-		"structure": [
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "NhdNetworkStatus.csv",
+				"folderPath": "cvimport",
+				"container": "cvimport"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
 			{
 				"name": "term",
 				"type": "String"
@@ -20,6 +32,10 @@
 			},
 			{
 				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "abbreviation",
 				"type": "String"
 			},
 			{
@@ -42,20 +58,6 @@
 				"name": "note",
 				"type": "String"
 			}
-		],
-		"typeProperties": {
-			"format": {
-				"type": "TextFormat",
-				"columnDelimiter": ",",
-				"rowDelimiter": "",
-				"nullValue": "",
-				"treatEmptyAsNull": true,
-				"skipLineCount": 0,
-				"firstRowAsHeader": true
-			},
-			"fileName": "AggregationStatistic.csv",
-			"folderPath": "cvimport/cvimport"
-		}
-	},
-	"type": "Microsoft.DataFactory/factories/datasets"
+		]
+	}
 }
