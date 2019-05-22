@@ -1,0 +1,27 @@
+{
+	"name": "UT_Sites_Normalization",
+	"properties": {
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "UT_Points_of_Diversion",
+						"type": "DatasetReference"
+					},
+					"name": "UTPointsOfDiversion",
+					"script": "source(output(\n\t\tWRCHEX as string,\n\t\tPOD_TYPE as string,\n\t\tNS_DIRECTION as string,\n\t\tNS_DISTANCE as string,\n\t\tEW_DIRECTION as string,\n\t\tEW_DISTANCE as string,\n\t\tSECTION_CORNER as string,\n\t\tSTR as string,\n\t\tDIVERTING_WORKS as string,\n\t\tPOD_COMMENT as string,\n\t\tWELL_DIAMETER as string,\n\t\tWELL_DEPTH1 as string,\n\t\tWELL_DEPTH2 as string,\n\t\tWELL_YEAR_DRILLED as string,\n\t\tWELL_LOG as string,\n\t\tWIN as string,\n\t\tX_UTM as string,\n\t\tY_UTM as string,\n\t\tELEVATION as string,\n\t\trecordId as string,\n\t\tMANUAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTPointsOfDiversion"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedPointsOfDiversion",
+					"script": "UTPointsOfDiversion derive(SiteUUID = WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', 'Unknown'\r\n    ,POD_TYPE == 'A', 'Abandoned'\r\n    ,POD_TYPE == 'C', 'Sewage'\r\n    ,POD_TYPE == 'D', 'Drain'\r\n    ,POD_TYPE == 'F', 'Sewage'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'Sewage'\r\n    ,POD_TYPE == 'P', 'Sewage'\r\n    ,POD_TYPE == 'R', 'Point of Rediversion'\r\n    ,POD_TYPE == 'S', 'Surface'\r\n    ,POD_TYPE == 'T', 'Point of Return'\r\n    ,POD_TYPE == 'U', 'Underground'),\n\t\tLongitude = 'TODO: Conversion',\n\t\tLatitude = 'TODO: Conversion',\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = 'TODO: Not Nullable in DB',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'TOOD: Not Nullable in DB',\n\t\tNHDMetadataID = '') ~> DerivedPointsOfDiversion"
+				}
+			]
+		}
+	}
+}

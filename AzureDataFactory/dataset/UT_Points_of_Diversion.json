@@ -1,0 +1,111 @@
+{
+	"name": "UT_Points_of_Diversion",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_Points_of_Diversion.csv",
+				"folderPath": "Test_Normalization",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "WRCHEX",
+				"type": "String"
+			},
+			{
+				"name": "POD_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "NS_DIRECTION",
+				"type": "String"
+			},
+			{
+				"name": "NS_DISTANCE",
+				"type": "String"
+			},
+			{
+				"name": "EW_DIRECTION",
+				"type": "String"
+			},
+			{
+				"name": "EW_DISTANCE",
+				"type": "String"
+			},
+			{
+				"name": "SECTION_CORNER",
+				"type": "String"
+			},
+			{
+				"name": "STR",
+				"type": "String"
+			},
+			{
+				"name": "DIVERTING_WORKS",
+				"type": "String"
+			},
+			{
+				"name": "POD_COMMENT",
+				"type": "String"
+			},
+			{
+				"name": "WELL_DIAMETER",
+				"type": "String"
+			},
+			{
+				"name": "WELL_DEPTH1",
+				"type": "String"
+			},
+			{
+				"name": "WELL_DEPTH2",
+				"type": "String"
+			},
+			{
+				"name": "WELL_YEAR_DRILLED",
+				"type": "String"
+			},
+			{
+				"name": "WELL_LOG",
+				"type": "String"
+			},
+			{
+				"name": "WIN",
+				"type": "String"
+			},
+			{
+				"name": "X_UTM",
+				"type": "String"
+			},
+			{
+				"name": "Y_UTM",
+				"type": "String"
+			},
+			{
+				"name": "ELEVATION",
+				"type": "String"
+			},
+			{
+				"name": "recordId",
+				"type": "String"
+			},
+			{
+				"name": "MANUAL",
+				"type": "String"
+			}
+		]
+	}
+}
