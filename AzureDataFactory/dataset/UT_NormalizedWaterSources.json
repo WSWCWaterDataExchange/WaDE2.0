@@ -1,0 +1,54 @@
+{
+	"name": "UT_NormalizedWaterSources",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "UT_Test",
+				"container": "normalizedimports"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "WaterSourceUUID",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceNativeID",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceName",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "WaterQualityIndicatorCV",
+				"type": "String"
+			},
+			{
+				"name": "GNISFeatureNameCV",
+				"type": "String"
+			},
+			{
+				"name": "Geometry",
+				"type": "String"
+			}
+		]
+	}
+}
