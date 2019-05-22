@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "UT_Normalization",
+				"name": "UT_WaterAllocation_Normalization",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
@@ -45,6 +45,23 @@
 				"linkedServiceName": {
 					"referenceName": "WaDE Import Functions",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UT_WaterSources_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_WaterSources_Normalization",
+						"type": "DataFlowReference"
+					}
 				}
 			}
 		],
