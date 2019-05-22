@@ -1,6 +1,9 @@
 {
 	"name": "UT_WaterSources_Normalization",
 	"properties": {
+		"folder": {
+			"name": "Utah"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
