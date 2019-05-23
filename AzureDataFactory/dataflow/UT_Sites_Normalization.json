@@ -45,15 +45,15 @@
 				},
 				{
 					"name": "SelectConvertedPoints",
-					"script": "UTConvertedPoints select(mapColumn(\n\t\tLatitude,\n\t\tLongitude,\n\t\tSiteNativeID = Id\n\t))~> SelectConvertedPoints"
+					"script": "UTConvertedPoints select(mapColumn(\n\t\tLatitude,\n\t\tLongitude,\n\t\tId\n\t))~> SelectConvertedPoints"
 				},
 				{
 					"name": "JoinConvertedPoints",
-					"script": "SelectPointsOfDiversion, SelectConvertedPoints join(SelectPointsOfDiversion@SiteNativeID == SelectConvertedPoints@SiteNativeID,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
+					"script": "SelectPointsOfDiversion, SelectConvertedPoints join(SiteNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
 				},
 				{
 					"name": "SelectJoined",
-					"script": "JoinConvertedPoints select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID = SelectPointsOfDiversion@SiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID,\n\t\tLatitude,\n\t\tLongitude\n\t))~> SelectJoined"
+					"script": "JoinConvertedPoints select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID,\n\t\tLatitude,\n\t\tLongitude\n\t))~> SelectJoined"
 				}
 			]
 		}
