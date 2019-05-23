@@ -44,12 +44,8 @@
 					"script": "DerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID\n\t))~> SelectPointsOfDiversion"
 				},
 				{
-					"name": "SelectConvertedPoints",
-					"script": "UTConvertedPoints select(mapColumn(\n\t\tLatitude,\n\t\tLongitude,\n\t\tId\n\t))~> SelectConvertedPoints"
-				},
-				{
 					"name": "JoinConvertedPoints",
-					"script": "SelectPointsOfDiversion, SelectConvertedPoints join(SiteNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
+					"script": "SelectPointsOfDiversion, UTConvertedPoints join(SiteNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
 				},
 				{
 					"name": "SelectJoined",
