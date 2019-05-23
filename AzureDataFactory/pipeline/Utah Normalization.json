@@ -63,6 +63,49 @@
 						"type": "DataFlowReference"
 					}
 				}
+			},
+			{
+				"name": "UT_Sites_Normalization",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Convert Site Points",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Sites_Normalization",
+						"type": "DataFlowReference"
+					}
+				}
+			},
+			{
+				"name": "Convert Site Points",
+				"type": "AzureFunctionActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&keyCol=WRCHEX&xValueCol=X_UTM&yValueCol=Y_UTM"
+				},
+				"linkedServiceName": {
+					"referenceName": "WaDE Import Functions",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"folder": {
