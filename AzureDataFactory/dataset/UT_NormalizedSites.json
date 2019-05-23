@@ -12,7 +12,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "sites.csv",
 				"folderPath": "UT_Test",
 				"container": "normalizedimports"
 			},
