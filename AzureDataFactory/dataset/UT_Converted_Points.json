@@ -27,6 +27,14 @@
 				"type": "String"
 			},
 			{
+				"name": "XCoord",
+				"type": "String"
+			},
+			{
+				"name": "YCoord",
+				"type": "String"
+			},
+			{
 				"name": "Latitude",
 				"type": "String"
 			},

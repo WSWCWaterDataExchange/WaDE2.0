@@ -21,7 +21,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "UTConvertedPoints",
-					"script": "source(output(\n\t\tId as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints"
+					"script": "source(output(\n\t\tId as string,\n\t\tXCoord as string,\n\t\tYCoord as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints"
 				}
 			],
 			"sinks": [
@@ -41,11 +41,11 @@
 				},
 				{
 					"name": "SelectPointsOfDiversion",
-					"script": "DerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID\n\t))~> SelectPointsOfDiversion"
+					"script": "DerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID,\n\t\tXCoord = X_UTM,\n\t\tYCoord = Y_UTM\n\t))~> SelectPointsOfDiversion"
 				},
 				{
 					"name": "JoinConvertedPoints",
-					"script": "SelectPointsOfDiversion, UTConvertedPoints join(SiteNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
+					"script": "SelectPointsOfDiversion, UTConvertedPoints join(SelectPointsOfDiversion@XCoord == UTConvertedPoints@XCoord\n\t&& SelectPointsOfDiversion@YCoord == UTConvertedPoints@YCoord,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints"
 				},
 				{
 					"name": "SelectJoined",
