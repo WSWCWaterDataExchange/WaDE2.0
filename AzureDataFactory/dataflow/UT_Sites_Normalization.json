@@ -24,6 +24,16 @@
 					"script": "source(output(\n\t\tId as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints"
 				}
 			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "UT_NormalizedSites",
+						"type": "DatasetReference"
+					},
+					"name": "NormalizedSites",
+					"script": "SelectJoined sink(input(\n\t\tSiteUUID as string,\n\t\tSiteNativeID as string,\n\t\tSiteName as string,\n\t\tUSGSSiteID as string,\n\t\tSiteTypeCV as string,\n\t\tLongitude as string,\n\t\tLatitude as string,\n\t\tGeometry as string,\n\t\tCoordinateMethodCV as string,\n\t\tCoordinateAccuracy as string,\n\t\tGNISCodeCV as string,\n\t\tEPSGCodeCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['sites.csv']) ~> NormalizedSites"
+				}
+			],
 			"transformations": [
 				{
 					"name": "DerivedPointsOfDiversion",
