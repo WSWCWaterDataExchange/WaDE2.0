@@ -17,8 +17,26 @@ namespace WaDEImportFunctions
 
         private ManagerImport.IFlattenManager FlattenManager { get; set; }
 
+        [FunctionName("CoordinateProjection")]
+        public async Task<IActionResult> RunProjection([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
+        {
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string container = req.Query["container"];
+            string folder = req.Query["folder"];
+            string sourceFileName = req.Query["sourceFileName"];
+            string destinationFileName = req.Query["destinationFileName"];
+            string keyCol = req.Query["keyCol"];
+            string xValueCol = req.Query["xValueCol"];
+            string yValueCol = req.Query["yValueCol"];
+
+            await FlattenManager.CoordinateProjection(container, folder, sourceFileName, destinationFileName, keyCol, xValueCol, yValueCol);
+
+            return new OkObjectResult(new { status = "success" });
+        }
+
         [FunctionName("Flatten")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
+        public async Task<IActionResult> RunFlatten([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
