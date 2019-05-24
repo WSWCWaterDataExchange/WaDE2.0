@@ -21,7 +21,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "UTConvertedPoints",
-					"script": "source(output(\n\t\tId as string,\n\t\tXCoord as string,\n\t\tYCoord as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints"
+					"script": "source(output(\n\t\tXCoord as string,\n\t\tYCoord as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints"
 				}
 			],
 			"sinks": [
