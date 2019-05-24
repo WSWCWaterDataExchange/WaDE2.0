@@ -100,7 +100,7 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&keyCol=WRCHEX&xValueCol=X_UTM&yValueCol=Y_UTM"
+					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM"
 				},
 				"linkedServiceName": {
 					"referenceName": "WaDE Import Functions",
