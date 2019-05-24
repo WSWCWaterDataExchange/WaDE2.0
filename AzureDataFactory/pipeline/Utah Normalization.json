@@ -100,11 +100,49 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM"
+					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
+					"method": "GET"
 				},
 				"linkedServiceName": {
 					"referenceName": "WaDE Import Functions",
 					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Load Normalized Water Allocation Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "UT_WaterAllocation_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_Sites_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_WaterSources_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load Normalized Water Allocation Data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"FolderLocation": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
 				}
 			}
 		],
