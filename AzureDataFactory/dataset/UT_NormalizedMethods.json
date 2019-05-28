@@ -5,6 +5,11 @@
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"FolderIdentifier": {
+				"type": "string"
+			}
+		},
 		"folder": {
 			"name": "Utah"
 		},
@@ -12,7 +17,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "UT_Test",
+				"folderPath": {
+					"value": "@dataset().FolderIdentifier",
+					"type": "Expression"
+				},
 				"container": "normalizedimports"
 			},
 			"columnDelimiter": ",",
