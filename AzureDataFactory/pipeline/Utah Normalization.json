@@ -147,6 +147,18 @@
 						"dependencyConditions": [
 							"Succeeded"
 						]
+					},
+					{
+						"activity": "UT_ReportingUnits_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_AggregatedAmounts_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
 					}
 				],
 				"typeProperties": {
@@ -210,6 +222,40 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "UT_Variables_Normalization",
+						"type": "DataFlowReference"
+					}
+				}
+			},
+			{
+				"name": "UT_ReportingUnits_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_ReportingUnits_Normalization",
+						"type": "DataFlowReference"
+					}
+				}
+			},
+			{
+				"name": "UT_AggregatedAmounts_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_AggregatedAmounts_Normalization",
 						"type": "DataFlowReference"
 					}
 				}
