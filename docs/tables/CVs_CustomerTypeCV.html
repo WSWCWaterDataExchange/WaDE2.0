@@ -1,6 +1,6 @@
 <HTML>
 <header>
-<title>RegulatoryReportingUnits_fact - Table</title>
+<title>CustomerTypeCV - Table</title>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 <link href="../css/style.css" rel="stylesheet" type="text/css">
 </header>
@@ -11,29 +11,44 @@
 <div class="horzMenu">
 <a class="horzMenu" href="../index.html"> Home</a><a class="horzMenu" href="../tables/index.html">Tables</a><a class="horzMenu" href="../schemas/index.html">Schemas</a><a class="horzMenu" href="../diagrams/index.html">Diagrams</a><a class="horzMenu" href="../foreignKeys/index.html">Foreign Keys</a><a class="horzMenu" href="../indexes/index.html">Indexes</a>
 </div>
-<h1>Table: RegulatoryReportingUnits_fact</h1>
+<h1>Table: CustomerTypeCV</h1>
 <div class="paragraph">
-<p></p>
+<p>CustomerTypeCV within a CommunityWaterSupplySystem</p>
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr class="altRow">
+<tr>
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/Input_RegulatoryReportingUnits_fact_RegulatoryName.html">RegulatoryName</a></td><td class="PkCol">NVarChar(250)</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> RegulatoryOverlay</td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/CVs_CustomerTypeCV_Name.html">Name</a></td><td class="PkCol">NVarChar(100)</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Input_RegulatoryReportingUnits_fact_OrganizationUUID.html">OrganizationUUID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>foreign key unique identifierto organizartion</td><td> </td>
+<td> </td><td><a href="../columns/CVs_CustomerTypeCV_Term.html">Term</a></td><td>NVarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Input_RegulatoryReportingUnits_fact_ReportingUnitNativeID.html">ReportingUnitNativeID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>foreign key unique identifierto reporting unit</td><td> </td>
+<td> </td><td><a href="../columns/CVs_CustomerTypeCV_Definition.html">Definition</a></td><td>NVarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Input_RegulatoryReportingUnits_fact_DataPublicationDateID.html">DataPublicationDateID</a></td><td>Date</td><td> </td><td> </td><td> </td><td> </td><td> </td>
+<td> </td><td><a href="../columns/CVs_CustomerTypeCV_State.html">State</a></td><td>NVarChar(100)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
+</tr>
+<tr>
+<td> </td><td><a href="../columns/CVs_CustomerTypeCV_SourceVocabularyURI.html">SourceVocabularyURI</a></td><td>NVarChar(250)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td> </td><td> </td>
 </tr>
 </table>
 <br>
@@ -58,7 +73,7 @@
 <td class="header">Diagram Name</td>
 </tr>
 <tr>
-<td><a href="../diagrams/6_InputTables.html">6_InputTables</a></td>
+<td><a href="../diagrams/5_ContreolledVocabulary.html">5_ContreolledVocabulary</a></td>
 </tr>
 </table>
 </body>

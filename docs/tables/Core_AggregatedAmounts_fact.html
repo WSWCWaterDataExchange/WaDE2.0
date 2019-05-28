@@ -117,6 +117,21 @@
 </td><td> </td><td> </td><td>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use	</td><td> </td>
 </tr>
 <tr>
+<td> </td><td><a href="../columns/Core_AggregatedAmounts_fact_CommunityWaterSupplySystem.html">CommunityWaterSupplySystem</a></td><td>NVarChar(250)</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>Community Water Supply System name</td><td> </td>
+</tr>
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_CustomerTypeCV.html">CustomerTypeCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Residential, Commercial, Industrial, Institutional, Combined, Unspecified</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
+<tr>
 <td> </td><td><a href="../columns/Core_AggregatedAmounts_fact_PowerGeneratedGWh.html">PowerGeneratedGWh</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -165,21 +180,24 @@
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUses_dim.html">fk_AggregatedAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
 </tr>
 <tr>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_CustomerTypeCV.html">fk_AggregatedAmounts_fact_CustomerTypeCV</a></td><td><a href="../tables/CVs_CustomerTypeCV.html">CVs.CustomerTypeCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>CustomerTypeCV</td>
+</tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportYearCV.html">fk_AggregatedAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYearCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Variables_dim.html">fk_AggregatedAmounts_fact_Variables_dim</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_WaterSources_dim.html">fk_AggregatedAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
