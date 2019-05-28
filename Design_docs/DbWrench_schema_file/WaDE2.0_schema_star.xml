@@ -2190,6 +2190,9 @@ END</src>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.</Cm>
       </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="AggregatedAmounts_VariableTable"/>
@@ -2294,6 +2297,9 @@ END</src>
       <Cl au="0" df="" nm="Geometry" nu="1">
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis>
@@ -2666,6 +2672,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AssociatedNativeAllocationIDs" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis>
@@ -3248,18 +3257,18 @@ We will make a join with each controlled field using the "Name" unique primary k
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AggregatedAmounts_fact" x="1118" y="107"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AggregatedAmounts_fact" x="1126" y="112"/>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts_fact" x="25" y="107"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts_fact" x="581" y="115"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1172" y="538"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites_dim" x="22" y="870"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables_dim" x="770" y="679"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Organizations_dim" x="764" y="950"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods_dim" x="376" y="952"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="BeneficialUses_dim" x="400" y="684"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="RegulatoryOverlay_dim" x="1168" y="682"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources_dim" x="26" y="684"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingUnits_dim" x="1156" y="946"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts_fact" x="582" y="110"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1178" y="572"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites_dim" x="18" y="905"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables_dim" x="766" y="714"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Organizations_dim" x="760" y="985"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods_dim" x="372" y="987"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="BeneficialUses_dim" x="396" y="719"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="RegulatoryOverlay_dim" x="1164" y="717"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources_dim" x="22" y="719"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingUnits_dim" x="1152" y="981"/>
     <Notes>
       <Note bkCl="ffffffe6" x="195" y="10">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
 The tables in orange are mostly static metadata tables. Each state will poulate them one time and then will reuse them into the red tables. 
