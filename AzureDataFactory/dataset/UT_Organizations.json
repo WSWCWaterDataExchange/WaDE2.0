@@ -1,5 +1,5 @@
 {
-	"name": "UT_Irrigation_Master",
+	"name": "UT_Organizations",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -12,7 +12,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "UT_Irrigation_Master.csv",
+				"fileName": "UT_Organizations.csv",
 				"folderPath": "Uploads",
 				"container": "utahwaterrights"
 			},
@@ -23,39 +23,35 @@
 		},
 		"schema": [
 			{
-				"name": "WRNUM",
+				"name": "OrganizationUUID",
 				"type": "String"
 			},
 			{
-				"name": "GROUP_IDNUM",
+				"name": "OrganizationName",
 				"type": "String"
 			},
 			{
-				"name": "USE_IDNUM",
+				"name": "OrganizationPurview",
 				"type": "String"
 			},
 			{
-				"name": "IRRIGATION_ACREAGE",
+				"name": "OrganizationWebsite",
 				"type": "String"
 			},
 			{
-				"name": "SOLE_SUPPLY",
+				"name": "OrganizationPhoneNumber",
 				"type": "String"
 			},
 			{
-				"name": "DIVERSION_LIMIT",
+				"name": "OrganizationContactName",
 				"type": "String"
 			},
 			{
-				"name": "USE_BEG_DATE",
+				"name": "OrganizationContactEmail",
 				"type": "String"
 			},
 			{
-				"name": "USE_END_DATE",
-				"type": "String"
-			},
-			{
-				"name": "IRRIGATION_COMMENTS",
+				"name": "DataMappingURL",
 				"type": "String"
 			}
 		]

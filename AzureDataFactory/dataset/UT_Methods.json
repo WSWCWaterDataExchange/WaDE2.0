@@ -1,14 +1,9 @@
 {
-	"name": "UT_NormalizedSites",
+	"name": "UT_Methods",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
-		},
-		"parameters": {
-			"FolderIdentifier": {
-				"type": "string"
-			}
 		},
 		"folder": {
 			"name": "Utah"
@@ -17,11 +12,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": {
-					"value": "@dataset().FolderIdentifier",
-					"type": "Expression"
-				},
-				"container": "normalizedimports"
+				"fileName": "UT_Methods.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
@@ -30,51 +23,39 @@
 		},
 		"schema": [
 			{
-				"name": "SiteUUID",
+				"name": "MethodUUID",
 				"type": "String"
 			},
 			{
-				"name": "SiteNativeID",
+				"name": "MethodName",
 				"type": "String"
 			},
 			{
-				"name": "SiteName",
+				"name": "MethodDescription",
 				"type": "String"
 			},
 			{
-				"name": "USGSSiteID",
+				"name": "MethodNEMILink",
 				"type": "String"
 			},
 			{
-				"name": "SiteTypeCV",
+				"name": "ApplicableResourceTypeCV",
 				"type": "String"
 			},
 			{
-				"name": "Longitude",
+				"name": "MethodTypeCV",
 				"type": "String"
 			},
 			{
-				"name": "Latitude",
+				"name": "DataCoverageValue",
 				"type": "String"
 			},
 			{
-				"name": "Geometry",
+				"name": "DataQualityValueCV",
 				"type": "String"
 			},
 			{
-				"name": "CoordinateMethodCV",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateAccuracy",
-				"type": "String"
-			},
-			{
-				"name": "GNISCodeCV",
-				"type": "String"
-			},
-			{
-				"name": "EPSGCodeCV",
+				"name": "DataConfidenceValue",
 				"type": "String"
 			}
 		]

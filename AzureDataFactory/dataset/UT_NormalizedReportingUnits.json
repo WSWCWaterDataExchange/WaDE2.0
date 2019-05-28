@@ -1,5 +1,5 @@
 {
-	"name": "UT_NormalizedSites",
+	"name": "UT_NormalizedReportingUnits",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -30,51 +30,39 @@
 		},
 		"schema": [
 			{
-				"name": "SiteUUID",
+				"name": "ReportingUnitUUID",
 				"type": "String"
 			},
 			{
-				"name": "SiteNativeID",
+				"name": "ReportingUnitNativeID",
 				"type": "String"
 			},
 			{
-				"name": "SiteName",
+				"name": "ReportingUnitName",
 				"type": "String"
 			},
 			{
-				"name": "USGSSiteID",
+				"name": "ReportingUnitTypeCV",
 				"type": "String"
 			},
 			{
-				"name": "SiteTypeCV",
+				"name": "ReportingUnitUpdateDate",
 				"type": "String"
 			},
 			{
-				"name": "Longitude",
+				"name": "ReportingUnitProductVersion",
 				"type": "String"
 			},
 			{
-				"name": "Latitude",
-				"type": "String"
-			},
-			{
-				"name": "Geometry",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateMethodCV",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateAccuracy",
-				"type": "String"
-			},
-			{
-				"name": "GNISCodeCV",
+				"name": "StateCV",
 				"type": "String"
 			},
 			{
 				"name": "EPSGCodeCV",
+				"type": "String"
+			},
+			{
+				"name": "Geometery",
 				"type": "String"
 			}
 		]

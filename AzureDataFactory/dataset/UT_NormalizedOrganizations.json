@@ -1,5 +1,5 @@
 {
-	"name": "UT_NormalizedSites",
+	"name": "UT_NormalizedOrganizations",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -30,51 +30,35 @@
 		},
 		"schema": [
 			{
-				"name": "SiteUUID",
+				"name": "OrganizationUUID",
 				"type": "String"
 			},
 			{
-				"name": "SiteNativeID",
+				"name": "OrganizationName",
 				"type": "String"
 			},
 			{
-				"name": "SiteName",
+				"name": "OrganizationPurview",
 				"type": "String"
 			},
 			{
-				"name": "USGSSiteID",
+				"name": "OrganizationWebsite",
 				"type": "String"
 			},
 			{
-				"name": "SiteTypeCV",
+				"name": "OrganizationPhoneNumber",
 				"type": "String"
 			},
 			{
-				"name": "Longitude",
+				"name": "OrganizationContactName",
 				"type": "String"
 			},
 			{
-				"name": "Latitude",
+				"name": "OrganizationContactEmail",
 				"type": "String"
 			},
 			{
-				"name": "Geometry",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateMethodCV",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateAccuracy",
-				"type": "String"
-			},
-			{
-				"name": "GNISCodeCV",
-				"type": "String"
-			},
-			{
-				"name": "EPSGCodeCV",
+				"name": "DataMappingURL",
 				"type": "String"
 			}
 		]

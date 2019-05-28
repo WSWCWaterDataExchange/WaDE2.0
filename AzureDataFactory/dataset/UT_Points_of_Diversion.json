@@ -1,5 +1,5 @@
 {
-	"name": "UT_Owners",
+	"name": "UT_Points_of_Diversion",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -12,7 +12,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "UT_Owners.csv",
+				"fileName": "UT_Points_of_Diversion.csv",
 				"folderPath": "Uploads",
 				"container": "utahwaterrights"
 			},
@@ -27,99 +27,83 @@
 				"type": "String"
 			},
 			{
-				"name": "OWNER_NAME",
+				"name": "POD_TYPE",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_ADDRESS",
+				"name": "NS_DIRECTION",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_CITY",
+				"name": "NS_DISTANCE",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_STATE",
+				"name": "EW_DIRECTION",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_ZIPCODE",
+				"name": "EW_DISTANCE",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_INTEREST",
+				"name": "SECTION_CORNER",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_PHONE",
+				"name": "STR",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_REMARKS",
+				"name": "DIVERTING_WORKS",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_CARE_OF",
+				"name": "POD_COMMENT",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_EMAIL_ADDRESS",
+				"name": "WELL_DIAMETER",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_FIRST_NAME",
+				"name": "WELL_DEPTH1",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_LAST_NAME",
+				"name": "WELL_DEPTH2",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_TITLE",
+				"name": "WELL_YEAR_DRILLED",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_ADDRESS1",
+				"name": "WELL_LOG",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_ADDRESS2",
+				"name": "WIN",
 				"type": "String"
 			},
 			{
-				"name": "OWNER_ADDRESS3",
+				"name": "X_UTM",
 				"type": "String"
 			},
 			{
-				"name": "DATE_WUC_SIGNED",
+				"name": "Y_UTM",
 				"type": "String"
 			},
 			{
-				"name": "BAD_ADDRESS",
-				"type": "String"
-			},
-			{
-				"name": "PUBLIC_WATER_SUPPLIER",
-				"type": "String"
-			},
-			{
-				"name": "TITLE_CONFLICT",
-				"type": "String"
-			},
-			{
-				"name": "TITLE_CONFLICT_COMMENTS",
-				"type": "String"
-			},
-			{
-				"name": "OWNER_TYPE",
-				"type": "String"
-			},
-			{
-				"name": "ATTORNEY_RECORD_ID",
+				"name": "ELEVATION",
 				"type": "String"
 			},
 			{
 				"name": "recordId",
+				"type": "String"
+			},
+			{
+				"name": "MANUAL",
 				"type": "String"
 			}
 		]

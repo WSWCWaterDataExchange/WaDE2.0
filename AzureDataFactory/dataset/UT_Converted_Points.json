@@ -1,5 +1,5 @@
 {
-	"name": "UT_Flat_Uses",
+	"name": "UT_Converted_Points",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -12,7 +12,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "UT_Flat_Uses.csv",
+				"fileName": "UT_Converted_Points.csv",
 				"folderPath": "Uploads",
 				"container": "utahwaterrights"
 			},
@@ -23,11 +23,19 @@
 		},
 		"schema": [
 			{
-				"name": "Id",
+				"name": "XCoord",
 				"type": "String"
 			},
 			{
-				"name": "Value",
+				"name": "YCoord",
+				"type": "String"
+			},
+			{
+				"name": "Latitude",
+				"type": "String"
+			},
+			{
+				"name": "Longitude",
 				"type": "String"
 			}
 		]

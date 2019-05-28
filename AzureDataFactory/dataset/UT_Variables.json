@@ -1,14 +1,9 @@
 {
-	"name": "UT_NormalizedSites",
+	"name": "UT_Variables",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
 			"type": "LinkedServiceReference"
-		},
-		"parameters": {
-			"FolderIdentifier": {
-				"type": "string"
-			}
 		},
 		"folder": {
 			"name": "Utah"
@@ -17,11 +12,9 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": {
-					"value": "@dataset().FolderIdentifier",
-					"type": "Expression"
-				},
-				"container": "normalizedimports"
+				"fileName": "UT_Variables.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
@@ -30,51 +23,43 @@
 		},
 		"schema": [
 			{
-				"name": "SiteUUID",
+				"name": "VariableSpecificUUID",
 				"type": "String"
 			},
 			{
-				"name": "SiteNativeID",
+				"name": "VariableSpecificCV",
 				"type": "String"
 			},
 			{
-				"name": "SiteName",
+				"name": "VariableCV",
 				"type": "String"
 			},
 			{
-				"name": "USGSSiteID",
+				"name": "AggregationStatisticCV",
 				"type": "String"
 			},
 			{
-				"name": "SiteTypeCV",
+				"name": "AggregationInterval",
 				"type": "String"
 			},
 			{
-				"name": "Longitude",
+				"name": "AggregationIntervalUnitCV",
 				"type": "String"
 			},
 			{
-				"name": "Latitude",
+				"name": "ReportYearStartMonth",
 				"type": "String"
 			},
 			{
-				"name": "Geometry",
+				"name": "ReportYearTypeCV",
 				"type": "String"
 			},
 			{
-				"name": "CoordinateMethodCV",
+				"name": "AmountUnitCV",
 				"type": "String"
 			},
 			{
-				"name": "CoordinateAccuracy",
-				"type": "String"
-			},
-			{
-				"name": "GNISCodeCV",
-				"type": "String"
-			},
-			{
-				"name": "EPSGCodeCV",
+				"name": "MaximumAmountUnitCV",
 				"type": "String"
 			}
 		]

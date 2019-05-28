@@ -1,5 +1,5 @@
 {
-	"name": "UT_NormalizedSites",
+	"name": "UT_NormalizedWaterSources",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage",
@@ -30,51 +30,31 @@
 		},
 		"schema": [
 			{
-				"name": "SiteUUID",
+				"name": "WaterSourceUUID",
 				"type": "String"
 			},
 			{
-				"name": "SiteNativeID",
+				"name": "WaterSourceNativeID",
 				"type": "String"
 			},
 			{
-				"name": "SiteName",
+				"name": "WaterSourceName",
 				"type": "String"
 			},
 			{
-				"name": "USGSSiteID",
+				"name": "WaterSourceTypeCV",
 				"type": "String"
 			},
 			{
-				"name": "SiteTypeCV",
+				"name": "WaterQualityIndicatorCV",
 				"type": "String"
 			},
 			{
-				"name": "Longitude",
-				"type": "String"
-			},
-			{
-				"name": "Latitude",
+				"name": "GNISFeatureNameCV",
 				"type": "String"
 			},
 			{
 				"name": "Geometry",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateMethodCV",
-				"type": "String"
-			},
-			{
-				"name": "CoordinateAccuracy",
-				"type": "String"
-			},
-			{
-				"name": "GNISCodeCV",
-				"type": "String"
-			},
-			{
-				"name": "EPSGCodeCV",
 				"type": "String"
 			}
 		]
