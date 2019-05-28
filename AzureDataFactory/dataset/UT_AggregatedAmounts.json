@@ -31,7 +31,7 @@
 				"type": "String"
 			},
 			{
-				"name": "VariableSpecificCV",
+				"name": "VariableSpecificUUID",
 				"type": "String"
 			},
 			{

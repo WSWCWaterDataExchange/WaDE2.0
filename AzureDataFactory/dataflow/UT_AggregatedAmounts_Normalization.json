@@ -13,7 +13,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "UTAggregatedAmounts",
-					"script": "source(output(\n\t\tOrganizationUUID as string,\n\t\tReportingUnitUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tBeneficialUseCategory as string,\n\t\tWaterSourceUUID as string,\n\t\tMethodUUID as string,\n\t\tTimeframeStart as string,\n\t\tTimeframeEnd as string,\n\t\tDataPublicationDate as string,\n\t\tDataPublicationDOI as string,\n\t\tReportYearCV as string,\n\t\tAmount as string,\n\t\tPopulationServed as string,\n\t\tPowerGeneratedGWh as string,\n\t\tIrrigatedAcreage as string,\n\t\tInterbasinTransferToID as string,\n\t\tInterbasinTransferFromID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTAggregatedAmounts"
+					"script": "source(output(\n\t\tOrganizationUUID as string,\n\t\tReportingUnitUUID as string,\n\t\tVariableSpecificUUID as string,\n\t\tBeneficialUseCategory as string,\n\t\tWaterSourceUUID as string,\n\t\tMethodUUID as string,\n\t\tTimeframeStart as string,\n\t\tTimeframeEnd as string,\n\t\tDataPublicationDate as string,\n\t\tDataPublicationDOI as string,\n\t\tReportYearCV as string,\n\t\tAmount as string,\n\t\tPopulationServed as string,\n\t\tPowerGeneratedGWh as string,\n\t\tIrrigatedAcreage as string,\n\t\tInterbasinTransferToID as string,\n\t\tInterbasinTransferFromID as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTAggregatedAmounts"
 				}
 			],
 			"sinks": [
