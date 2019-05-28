@@ -39,7 +39,7 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "Flatten?container=normalizedimports&folder=FlattenTesting&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
+					"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
 					"method": "GET"
 				},
 				"linkedServiceName": {
@@ -100,7 +100,7 @@
 					"secureInput": false
 				},
 				"typeProperties": {
-					"functionName": "CoordinateProjection?container=normalizedimports&folder=ProjectionTesting&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
+					"functionName": "CoordinateProjection?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
 					"method": "GET"
 				},
 				"linkedServiceName": {
