@@ -6,6 +6,6 @@ namespace WesternStatesWater.WaDE.Contracts.Import
     {
         Task Flatten(string container, string folder, string sourceFileName, string destFileName, string keyCol, string valueCol);
 
-        Task CoordinateProjection(string container, string folder, string sourceFileName, string destFileName, string keyCol, string xValueCol, string yValueCol);
+        Task CoordinateProjection(string container, string folder, string sourceFileName, string destFileName, string xValueCol, string yValueCol);
     }
 }

@@ -2,7 +2,9 @@
 {
     public class CoordinateResult
     {
-        public string Id { get; set; }
+        public string XCoord { get; set; }
+
+        public string YCoord { get; set; }
 
         public string Latitude { get; set; }
 

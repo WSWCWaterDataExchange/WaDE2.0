@@ -20,7 +20,7 @@ namespace WesternStatesWater.WaDE.Managers.Import
 
         public IBlobFileAccessor BlobFileAccessor { get; set; }
 
-        async Task ManagerImport.IFlattenManager.CoordinateProjection(string container, string folder, string sourceFileName, string destFileName, string keyCol, string xValueCol, string yValueCol)
+        async Task ManagerImport.IFlattenManager.CoordinateProjection(string container, string folder, string sourceFileName, string destFileName, string xValueCol, string yValueCol)
         {
             //get the source file from blob storage
             var rawData = await BlobFileAccessor
@@ -39,7 +39,7 @@ namespace WesternStatesWater.WaDE.Managers.Import
             using (var csv = new CsvReader(reader, csvConfig))
             {
                 //remap the targeted csv columns into generic Key/Value fields
-                var coordinateRawMap = new CoordinateRawMap(keyCol, xValueCol, yValueCol);
+                var coordinateRawMap = new CoordinateRawMap(xValueCol, yValueCol);
 
                 csv.Configuration.RegisterClassMap(coordinateRawMap);
 
@@ -55,11 +55,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             var trans = ctfac.CreateFromCoordinateSystems(utm, GeographicCoordinateSystem.WGS84);
 
             //if they don't have convertible coordinates, we don't care
+            //then, group by the coordinate pairs and get just the first of each group, so we have distinct sets of coordinates
             rawRecords = rawRecords
                 .Where(x => !string.IsNullOrWhiteSpace(x.XCoord) &&
                     !string.IsNullOrWhiteSpace(x.YCoord) &&
                     double.TryParse(x.XCoord, out double xTemp) &&
                     double.TryParse(x.YCoord, out double yTemp))
+                .GroupBy(x => new { x.XCoord, x.YCoord })
+                .Select(x => x.First())
                 .ToList();
 
             //new converted coordinates
@@ -74,7 +77,8 @@ namespace WesternStatesWater.WaDE.Managers.Import
 
                 coordinateResults.Add(new CoordinateResult
                 {
-                    Id = record.Key,
+                    XCoord = record.XCoord,
+                    YCoord = record.YCoord,
                     Latitude = result[1].ToString(),
                     Longitude = result[0].ToString()
                 });
@@ -84,7 +88,8 @@ namespace WesternStatesWater.WaDE.Managers.Import
             var coordRecords = coordinateResults
                 .Select(x => new
                 {
-                    x.Id,
+                    x.XCoord,
+                    x.YCoord,
                     x.Latitude,
                     x.Longitude
                 })

@@ -26,11 +26,10 @@ namespace WaDEImportFunctions
             string folder = req.Query["folder"];
             string sourceFileName = req.Query["sourceFileName"];
             string destinationFileName = req.Query["destinationFileName"];
-            string keyCol = req.Query["keyCol"];
             string xValueCol = req.Query["xValueCol"];
             string yValueCol = req.Query["yValueCol"];
 
-            await FlattenManager.CoordinateProjection(container, folder, sourceFileName, destinationFileName, keyCol, xValueCol, yValueCol);
+            await FlattenManager.CoordinateProjection(container, folder, sourceFileName, destinationFileName, xValueCol, yValueCol);
 
             return new OkObjectResult(new { status = "success" });
         }
