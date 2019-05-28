@@ -13,7 +13,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "UT_ReportingUnits.csv",
-				"folderPath": "Test_Normalization",
+				"folderPath": "Uploads",
 				"container": "utahwaterrights"
 			},
 			"columnDelimiter": ",",
