@@ -1,4 +1,4 @@
-OrganizationUUID,ReportingUnitUUID,VariableSpecificCV,BeneficialUseCategory,WaterSourceUUID,MethodUUID,TimeframeStart,TimeframeEnd,DataPublicationDate,DataPublicationDOI,ReportYearCV,Amount,PopulationServed,PowerGeneratedGWh,IrrigatedAcreage,InterbasinTransferToID,InterbasinTransferFromID
+OrganizationUUID,ReportingUnitUUID,VariableSpecificUUID,BeneficialUseCategory,WaterSourceUUID,MethodUUID,TimeframeStart,TimeframeEnd,DataPublicationDate,DataPublicationDOI,ReportYearCV,Amount,PopulationServed,PowerGeneratedGWh,IrrigatedAcreage,InterbasinTransferToID,InterbasinTransferFromID
 UTDWRE,UT_49001,"Consumptive Use, Irrigation",Agriculture,Fresh_SW_GW,"Use, Agricultural Landuse Survey",10/1/2005,9/30/2005,4/24/2019,,2005,79581.42567,,,,,
 UTDWRE,UT_49001,"Consumptive Use, Irrigation",Agriculture,Fresh_SW_GW,"Use, Agricultural Landuse Survey",10/1/2006,9/30/2006,4/24/2019,,2006,76914.99791,,,,,
 UTDWRE,UT_49001,"Consumptive Use, Irrigation",Agriculture,Fresh_SW_GW,"Use, Agricultural Landuse Survey",10/1/2007,9/30/2007,4/24/2019,,2007,66243.16159,,,,,
