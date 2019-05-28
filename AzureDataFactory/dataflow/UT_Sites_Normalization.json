@@ -37,11 +37,11 @@
 			"transformations": [
 				{
 					"name": "DerivedPointsOfDiversion",
-					"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', 'Unknown'\r\n    ,POD_TYPE == 'A', 'Abandoned'\r\n    ,POD_TYPE == 'C', 'Sewage'\r\n    ,POD_TYPE == 'D', 'Drain'\r\n    ,POD_TYPE == 'F', 'Sewage'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'Sewage'\r\n    ,POD_TYPE == 'P', 'Sewage'\r\n    ,POD_TYPE == 'R', 'Point of Rediversion'\r\n    ,POD_TYPE == 'S', 'Surface'\r\n    ,POD_TYPE == 'T', 'Point of Return'\r\n    ,POD_TYPE == 'U', 'Underground'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = '5107',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG:4326',\n\t\tNHDMetadataID = '') ~> DerivedPointsOfDiversion"
+					"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', 'Unknown'\r\n    ,POD_TYPE == 'A', 'Abandoned'\r\n    ,POD_TYPE == 'C', 'Sewage'\r\n    ,POD_TYPE == 'D', 'Drain'\r\n    ,POD_TYPE == 'F', 'Sewage'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'Sewage'\r\n    ,POD_TYPE == 'P', 'Sewage'\r\n    ,POD_TYPE == 'R', 'Point of Rediversion'\r\n    ,POD_TYPE == 'S', 'Surface'\r\n    ,POD_TYPE == 'T', 'Point of Return'\r\n    ,POD_TYPE == 'U', 'Underground'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = '5107',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG:4326') ~> DerivedPointsOfDiversion"
 				},
 				{
 					"name": "SelectPointsOfDiversion",
-					"script": "DerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID,\n\t\tXCoord = X_UTM,\n\t\tYCoord = Y_UTM\n\t))~> SelectPointsOfDiversion"
+					"script": "DerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tXCoord = X_UTM,\n\t\tYCoord = Y_UTM\n\t))~> SelectPointsOfDiversion"
 				},
 				{
 					"name": "JoinConvertedPoints",
@@ -49,7 +49,7 @@
 				},
 				{
 					"name": "SelectJoined",
-					"script": "JoinConvertedPoints select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tNHDMetadataID,\n\t\tLatitude,\n\t\tLongitude\n\t))~> SelectJoined"
+					"script": "JoinConvertedPoints select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tLatitude,\n\t\tLongitude\n\t))~> SelectJoined"
 				}
 			]
 		}
