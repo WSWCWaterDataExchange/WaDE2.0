@@ -1,6 +1,7 @@
 {
 	"name": "UT Normalization",
 	"properties": {
+		"description": "Full normalization pipeline for UT.",
 		"activities": [
 			{
 				"name": "UT_WaterAllocation_Normalization",
