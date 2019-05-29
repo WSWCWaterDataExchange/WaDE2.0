@@ -180,12 +180,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
-						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_fileName')]"
-					},
-					"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
-						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -206,6 +200,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
+						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_fileName')]"
+					},
+					"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_folderPath')]"
 					},
 					"ColoradoRawFile_properties_typeProperties_fileName": {
 						"value": "[parameters('ColoradoRawFile_properties_typeProperties_fileName')]"
@@ -250,12 +250,6 @@
 					},
 					"DestinationDataset_j78_properties_typeProperties_folderPath": {
 						"value": "[parameters('DestinationDataset_j78_properties_typeProperties_folderPath')]"
-					},
-					"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
-						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]"
-					},
-					"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
-						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -277,6 +271,12 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
+						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]"
+					},
+					"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
+						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
+					},
 					"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
 						"value": "[parameters('NormalizedWaterAllocationFile_properties_typeProperties_fileName')]"
 					},
@@ -288,18 +288,6 @@
 					},
 					"SourceDataset_j78_properties_typeProperties_folderPath": {
 						"value": "[parameters('SourceDataset_j78_properties_typeProperties_folderPath')]"
-					},
-					"WaterMaster_properties_typeProperties_fileName": {
-						"value": "[parameters('WaterMaster_properties_typeProperties_fileName')]"
-					},
-					"WaterMaster_properties_typeProperties_folderPath": {
-						"value": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
-					},
-					"test_netAmount_properties_typeProperties_fileName": {
-						"value": "[parameters('test_netAmount_properties_typeProperties_fileName')]"
-					},
-					"test_netAmount_properties_typeProperties_folderPath": {
-						"value": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -320,11 +308,63 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"WaterMaster_properties_typeProperties_fileName": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_fileName')]"
+					},
+					"WaterMaster_properties_typeProperties_folderPath": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"test_netAmount_properties_typeProperties_fileName": {
+						"value": "[parameters('test_netAmount_properties_typeProperties_fileName')]"
+					},
+					"test_netAmount_properties_typeProperties_folderPath": {
+						"value": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_5')]"
+			]
+		},
+		{
+			"name": "ArmTemplate_7",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_7.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'ArmTemplate_6')]"
 			]
 		}
 	]

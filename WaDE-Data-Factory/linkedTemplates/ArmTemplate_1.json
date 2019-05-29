@@ -6,20 +6,83 @@
 			"type": "string",
 			"metadata": "Data Factory Name",
 			"defaultValue": "WaDE-Data-Factory"
-		},
-		"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/Organizations.json')"
-		},
-		"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "colorado-import"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CVs_MethodType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "http://vocabulary.westernstateswater.org/methodtype/",
+				"linkedServiceName": {
+					"referenceName": "CVsAPI",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "GetCVs_data"
+				},
+				"annotations": [],
+				"type": "HttpFile",
+				"structure": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"quoteChar": "\"",
+						"nullValue": "\\N",
+						"encodingName": null,
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": true
+					},
+					"relativeUrl": "/api/v1/methodtype/?format=csv",
+					"requestMethod": "GET"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CVs_NHDNetworkStatus')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -1309,69 +1372,6 @@
 				"typeProperties": {
 					"relativeUrl": "/WSWCWaterDataExchange/WaDE2.0/raw/ImportWork/Design_docs/DBPopulate/CO_WaterAllocations_Basic.xlsx",
 					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ColoradoOrganizationsFile')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderIdentifier": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "Colorado"
-				},
-				"annotations": [],
-				"type": "AzureBlob",
-				"structure": [
-					{
-						"name": "OrganizationUID",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationName",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationPurview",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationWebsite",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationPhoneNumber",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationContactName",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationContactEmail",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "JsonFormat",
-						"filePattern": "arrayOfObjects"
-					},
-					"fileName": {
-						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_fileName')]",
-						"type": "Expression"
-					},
-					"folderPath": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_folderPath')]"
 				}
 			},
 			"dependsOn": []

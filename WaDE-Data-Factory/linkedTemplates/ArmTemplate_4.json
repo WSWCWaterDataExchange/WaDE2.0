@@ -7,6 +7,14 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "WaDE-Data-Factory"
 		},
+		"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "@concat(dataset().FolderIdentifier, '/organizations.csv')"
+		},
+		"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "normalizedimports"
+		},
 		"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
 			"type": "string",
 			"defaultValue": "@concat(dataset().FileLocation, '/waterallocations.csv')"
@@ -22,28 +30,81 @@
 		"SourceDataset_j78_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "utahwaterrights"
-		},
-		"WaterMaster_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "WATER_MASTER.csv"
-		},
-		"WaterMaster_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "utahwaterrights"
-		},
-		"test_netAmount_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "Net_new.csv"
-		},
-		"test_netAmount_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "cvimport"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/NormalizedOrganizationsFile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "String"
+					}
+				},
+				"folder": {
+					"name": "Colorado"
+				},
+				"annotations": [],
+				"type": "AzureBlob",
+				"structure": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPurview",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationWebsite",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactEmail",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"quoteChar": "\"",
+						"nullValue": "",
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": true
+					},
+					"fileName": {
+						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]",
+						"type": "Expression"
+					},
+					"folderPath": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NormalizedWaterAllocationFile')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -1224,7 +1285,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/UnitsCsv')]",
+			"name": "[concat(parameters('factoryName'), '/UT_AggregatedAmounts')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1233,16 +1294,16 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "CvBlobs"
+					"name": "Utah"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "Units.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
+						"fileName": "UT_AggregatedAmounts.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -1250,503 +1311,80 @@
 					"quoteChar": "\""
 				},
 				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UsgsCategoryCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "UsgsCategory.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/VariableCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "Variable.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/VariableSpecificCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "VariableSpecific.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseOrganizations')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WaDE Database",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DB_CVs_tables"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"structure": [
 					{
 						"name": "OrganizationUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
-						"name": "OrganizationName",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "OrganizationPurview",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "OrganizationWebsite",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "OrganizationPhoneNumber",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "OrganizationContactName",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "OrganizationContactEmail",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					}
-				],
-				"typeProperties": {
-					"tableName": "OrganizationTable"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseWaterAllocations')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WaDE Database",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DB_CVs_tables"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"structure": [
-					{
-						"name": "OrganizationUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationNativeID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationOwner",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationBasisCV",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationLegalStatusCodeCV",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationApplicationDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationPriorityDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationExpirationDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "AllocationChangeApplicationIndicator",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "SiteUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"name": "ReportingUnitUUID",
+						"type": "String"
 					},
 					{
 						"name": "VariableSpecificUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
 						"name": "BeneficialUseCategory",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
-					},
-					{
-						"name": "PrimaryUseCategory",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
 						"name": "WaterSourceUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
 						"name": "MethodUUID",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
-						"name": "TimeframeStartDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
+						"name": "TimeframeStart",
+						"type": "String"
 					},
 					{
-						"name": "TimeframeEndDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
+						"name": "TimeframeEnd",
+						"type": "String"
 					},
 					{
 						"name": "DataPublicationDate",
-						"type": "DateTime",
-						"precision": 255,
-						"scale": 255
+						"type": "String"
 					},
 					{
-						"name": "ReportYear",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"name": "DataPublicationDOI",
+						"type": "String"
 					},
 					{
-						"name": "AllocationCropDutyAmount",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
+						"name": "ReportYearCV",
+						"type": "String"
 					},
 					{
-						"name": "AllocationAmount",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
-					},
-					{
-						"name": "AllocationMaximum",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
+						"name": "Amount",
+						"type": "String"
 					},
 					{
 						"name": "PopulationServed",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
+						"type": "String"
 					},
 					{
 						"name": "PowerGeneratedGWh",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
+						"type": "String"
 					},
 					{
 						"name": "IrrigatedAcreage",
-						"type": "Double",
-						"precision": 15,
-						"scale": 255
+						"type": "String"
 					},
 					{
-						"name": "AllocationCommunityWaterSupplySystem",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"name": "InterbasinTransferToID",
+						"type": "String"
 					},
 					{
-						"name": "SDWISIdentifier",
-						"type": "String",
-						"precision": 255,
-						"scale": 255
+						"name": "InterbasinTransferFromID",
+						"type": "String"
 					}
-				],
-				"typeProperties": {
-					"tableName": "WaterAllocationTable"
-				}
+				]
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterAllocationBasisCsv')]",
+			"name": "[concat(parameters('factoryName'), '/UT_Converted_Points')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1755,16 +1393,16 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "CvBlobs"
+					"name": "Utah"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "WaterAllocationBasis.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
+						"fileName": "UT_Converted_Points.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -1773,39 +1411,19 @@
 				},
 				"schema": [
 					{
-						"name": "term",
+						"name": "XCoord",
 						"type": "String"
 					},
 					{
-						"name": "name",
+						"name": "YCoord",
 						"type": "String"
 					},
 					{
-						"name": "state",
+						"name": "Latitude",
 						"type": "String"
 					},
 					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
+						"name": "Longitude",
 						"type": "String"
 					}
 				]
@@ -1813,7 +1431,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterAllocationTypeCsv')]",
+			"name": "[concat(parameters('factoryName'), '/UT_Flat_Uses')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1822,16 +1440,16 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "CvBlobs"
+					"name": "Utah"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "WaterAllocationType.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
+						"fileName": "UT_Flat_Uses.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -1840,39 +1458,11 @@
 				},
 				"schema": [
 					{
-						"name": "term",
+						"name": "Id",
 						"type": "String"
 					},
 					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
+						"name": "Value",
 						"type": "String"
 					}
 				]
@@ -1880,7 +1470,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterMaster')]",
+			"name": "[concat(parameters('factoryName'), '/UT_Irrigation_Master')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1888,9 +1478,91 @@
 					"referenceName": "AzureBlobStorage",
 					"type": "LinkedServiceReference"
 				},
+				"folder": {
+					"name": "Utah"
+				},
 				"annotations": [],
-				"type": "AzureBlob",
-				"structure": [
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Irrigation_Master.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "GROUP_IDNUM",
+						"type": "String"
+					},
+					{
+						"name": "USE_IDNUM",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_ACREAGE",
+						"type": "String"
+					},
+					{
+						"name": "SOLE_SUPPLY",
+						"type": "String"
+					},
+					{
+						"name": "DIVERSION_LIMIT",
+						"type": "String"
+					},
+					{
+						"name": "USE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "USE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_COMMENTS",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Master_Water_Rights_Exchange')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Master_Water_Rights_Exchange.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
 					{
 						"name": "WRNUM",
 						"type": "String"
@@ -2343,27 +2015,12 @@
 						"name": "DECREE_CLASS",
 						"type": "String"
 					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"fileName": "[parameters('WaterMaster_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
-				}
+				]
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterQualityIndicatorCsv')]",
+			"name": "[concat(parameters('factoryName'), '/UT_Methods')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2372,16 +2029,16 @@
 					"type": "LinkedServiceReference"
 				},
 				"folder": {
-					"name": "CvBlobs"
+					"name": "Utah"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "WaterQualityIndicator.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
+						"fileName": "UT_Methods.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2390,39 +2047,39 @@
 				},
 				"schema": [
 					{
-						"name": "term",
+						"name": "MethodUUID",
 						"type": "String"
 					},
 					{
-						"name": "name",
+						"name": "MethodName",
 						"type": "String"
 					},
 					{
-						"name": "state",
+						"name": "MethodDescription",
 						"type": "String"
 					},
 					{
-						"name": "abbreviation",
+						"name": "MethodNEMILink",
 						"type": "String"
 					},
 					{
-						"name": "definition",
+						"name": "ApplicableResourceTypeCV",
 						"type": "String"
 					},
 					{
-						"name": "category",
+						"name": "MethodTypeCV",
 						"type": "String"
 					},
 					{
-						"name": "provenance",
+						"name": "DataCoverageValue",
 						"type": "String"
 					},
 					{
-						"name": "provenance_uri",
+						"name": "DataQualityValueCV",
 						"type": "String"
 					},
 					{
-						"name": "note",
+						"name": "DataConfidenceValue",
 						"type": "String"
 					}
 				]
@@ -2430,25 +2087,32 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/WaterSourceTypeCsv')]",
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedAggregatedAmounts')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
 					"referenceName": "AzureBlobStorage",
 					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
 				},
 				"folder": {
-					"name": "CvBlobs"
+					"name": "Utah"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "WaterSourceType.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -2457,39 +2121,71 @@
 				},
 				"schema": [
 					{
-						"name": "term",
+						"name": "OrganizationUUID",
 						"type": "String"
 					},
 					{
-						"name": "name",
+						"name": "ReportingUnitUUID",
 						"type": "String"
 					},
 					{
-						"name": "state",
+						"name": "VariableSpecificUUID",
 						"type": "String"
 					},
 					{
-						"name": "abbreviation",
+						"name": "BeneficialUseCategory",
 						"type": "String"
 					},
 					{
-						"name": "definition",
+						"name": "WaterSourceUUID",
 						"type": "String"
 					},
 					{
-						"name": "category",
+						"name": "MethodUUID",
 						"type": "String"
 					},
 					{
-						"name": "provenance",
+						"name": "TimeframeStart",
 						"type": "String"
 					},
 					{
-						"name": "provenance_uri",
+						"name": "TimeframeEnd",
 						"type": "String"
 					},
 					{
-						"name": "note",
+						"name": "DataPublicationDate",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDOI",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearCV",
+						"type": "String"
+					},
+					{
+						"name": "Amount",
+						"type": "String"
+					},
+					{
+						"name": "PopulationServed",
+						"type": "String"
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "String"
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "String"
+					},
+					{
+						"name": "InterbasinTransferToID",
+						"type": "String"
+					},
+					{
+						"name": "InterbasinTransferFromID",
 						"type": "String"
 					}
 				]
@@ -2497,7 +2193,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/test_netAmount')]",
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedMethods')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -2505,233 +2201,298 @@
 					"referenceName": "AzureBlobStorage",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
 				"annotations": [],
-				"type": "AzureBlob",
-				"structure": [
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
 					{
-						"name": "Prop_0",
+						"name": "MethodUUID",
 						"type": "String"
 					},
 					{
-						"name": "Prop_1",
+						"name": "MethodName",
 						"type": "String"
 					},
 					{
-						"name": "Prop_2",
+						"name": "MethodDescription",
 						"type": "String"
 					},
 					{
-						"name": "Prop_3",
+						"name": "MethodNEMILink",
 						"type": "String"
 					},
 					{
-						"name": "Prop_4",
+						"name": "ApplicableResourceTypeCV",
 						"type": "String"
 					},
 					{
-						"name": "Prop_5",
+						"name": "MethodTypeCV",
 						"type": "String"
 					},
 					{
-						"name": "Prop_6",
+						"name": "DataCoverageValue",
 						"type": "String"
 					},
 					{
-						"name": "Prop_7",
+						"name": "DataQualityValueCV",
 						"type": "String"
 					},
 					{
-						"name": "Prop_8",
-						"type": "String"
-					},
-					{
-						"name": "Prop_9",
-						"type": "String"
-					},
-					{
-						"name": "Prop_10",
-						"type": "String"
-					},
-					{
-						"name": "Prop_11",
-						"type": "String"
-					},
-					{
-						"name": "Prop_12",
-						"type": "String"
-					},
-					{
-						"name": "Prop_13",
-						"type": "String"
-					},
-					{
-						"name": "Prop_14",
-						"type": "String"
-					},
-					{
-						"name": "Prop_15",
-						"type": "String"
-					},
-					{
-						"name": "Prop_16",
-						"type": "String"
-					},
-					{
-						"name": "Prop_17",
-						"type": "String"
-					},
-					{
-						"name": "Prop_18",
-						"type": "String"
-					},
-					{
-						"name": "Prop_19",
-						"type": "String"
-					},
-					{
-						"name": "Prop_20",
-						"type": "String"
-					},
-					{
-						"name": "Prop_21",
-						"type": "String"
-					},
-					{
-						"name": "Prop_22",
-						"type": "String"
-					},
-					{
-						"name": "Prop_23",
-						"type": "String"
-					},
-					{
-						"name": "Prop_24",
-						"type": "String"
-					},
-					{
-						"name": "Prop_25",
-						"type": "String"
-					},
-					{
-						"name": "Prop_26",
-						"type": "String"
-					},
-					{
-						"name": "Prop_27",
-						"type": "String"
-					},
-					{
-						"name": "Prop_28",
-						"type": "String"
-					},
-					{
-						"name": "Prop_29",
-						"type": "String"
-					},
-					{
-						"name": "Prop_30",
-						"type": "String"
-					},
-					{
-						"name": "Prop_31",
-						"type": "String"
-					},
-					{
-						"name": "Prop_32",
-						"type": "String"
-					},
-					{
-						"name": "Prop_33",
-						"type": "String"
-					},
-					{
-						"name": "Prop_34",
-						"type": "String"
-					},
-					{
-						"name": "Prop_35",
-						"type": "String"
-					},
-					{
-						"name": "Prop_36",
-						"type": "String"
-					},
-					{
-						"name": "Prop_37",
-						"type": "String"
-					},
-					{
-						"name": "Prop_38",
-						"type": "String"
-					},
-					{
-						"name": "Prop_39",
-						"type": "String"
-					},
-					{
-						"name": "Prop_40",
-						"type": "String"
-					},
-					{
-						"name": "Prop_41",
-						"type": "String"
-					},
-					{
-						"name": "Prop_42",
-						"type": "String"
-					},
-					{
-						"name": "Prop_43",
-						"type": "String"
-					},
-					{
-						"name": "Prop_44",
-						"type": "String"
-					},
-					{
-						"name": "Prop_45",
-						"type": "String"
-					},
-					{
-						"name": "Prop_46",
-						"type": "String"
-					},
-					{
-						"name": "Prop_47",
-						"type": "String"
-					},
-					{
-						"name": "Prop_48",
-						"type": "String"
-					},
-					{
-						"name": "Prop_49",
-						"type": "String"
-					},
-					{
-						"name": "Prop_50",
-						"type": "String"
-					},
-					{
-						"name": "Prop_51",
+						"name": "DataConfidenceValue",
 						"type": "String"
 					}
-				],
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedOrganizations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
 				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 1,
-						"firstRowAsHeader": false
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
 					},
-					"fileName": "[parameters('test_netAmount_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
-				}
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPurview",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationWebsite",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactEmail",
+						"type": "String"
+					},
+					{
+						"name": "DataMappingURL",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedReportingUnits')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ReportingUnitUUID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitNativeID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitName",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitUpdateDate",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitProductVersion",
+						"type": "String"
+					},
+					{
+						"name": "StateCV",
+						"type": "String"
+					},
+					{
+						"name": "EPSGCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometery",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedSites')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SiteUUID",
+						"type": "String"
+					},
+					{
+						"name": "SiteNativeID",
+						"type": "String"
+					},
+					{
+						"name": "SiteName",
+						"type": "String"
+					},
+					{
+						"name": "USGSSiteID",
+						"type": "String"
+					},
+					{
+						"name": "SiteTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					},
+					{
+						"name": "CoordinateMethodCV",
+						"type": "String"
+					},
+					{
+						"name": "CoordinateAccuracy",
+						"type": "String"
+					},
+					{
+						"name": "GNISCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "EPSGCodeCV",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		}

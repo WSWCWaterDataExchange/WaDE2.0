@@ -22,20 +22,54 @@
 		"DestinationDataset_j78_properties_typeProperties_folderPath": {
 			"type": "string",
 			"defaultValue": "utahwaterrights"
-		},
-		"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/organizations.csv')"
-		},
-		"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "normalizedimports"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_ReportingUnitType')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.ReportingUnitType"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_SiteType')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -1039,75 +1073,6 @@
 						"type": "String"
 					}
 				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/NormalizedOrganizationsFile')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderIdentifier": {
-						"type": "String"
-					}
-				},
-				"folder": {
-					"name": "Colorado"
-				},
-				"annotations": [],
-				"type": "AzureBlob",
-				"structure": [
-					{
-						"name": "OrganizationUUID",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationName",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationPurview",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationWebsite",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationPhoneNumber",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationContactName",
-						"type": "String"
-					},
-					{
-						"name": "OrganizationContactEmail",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "",
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"fileName": {
-						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]",
-						"type": "Expression"
-					},
-					"folderPath": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
-				}
 			},
 			"dependsOn": []
 		}

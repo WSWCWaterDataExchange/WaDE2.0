@@ -6,6 +6,14 @@
 			"type": "string",
 			"metadata": "Data Factory Name",
 			"defaultValue": "WaDE-Data-Factory"
+		},
+		"WaterMaster_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "WATER_MASTER.csv"
+		},
+		"WaterMaster_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "utahwaterrights"
 		}
 	},
 	"variables": {
@@ -13,4405 +21,2237 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Colorado Normalization')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedVariables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Move files from one folder to another folder",
-				"activities": [
-					{
-						"name": "Excel To Json",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [
-							{
-								"activity": "DownloadColoradoWaterAllocationData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": {
-								"value": "@concat('ExcelConversionToJson?container=colorado-import&fileName=colorado-raw.xlsx&folder=', pipeline().RunId)",
-								"type": "Expression"
-							},
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "DownloadColoradoWaterAllocationData",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoDownloadFile",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ColoradoRawFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Colorado Organization Normalization",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Excel To Json",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUID": "OrganizationUUID",
-									"OrganizationName": "OrganizationName",
-									"OrganizationPurview": "OrganizationPurview",
-									"OrganizationWebsite": "OrganizationWebsite",
-									"OrganizationPhoneNumber": "OrganizationPhoneNumber",
-									"OrganizationContactName": "OrganizationContactName",
-									"OrganizationContactEmail": "OrganizationContactEmail"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoOrganizationsFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NormalizedOrganizationsFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Colorado Water Allocation Normalization",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Excel To Json",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUID": "OrganizationUUID",
-									"AllocationUID": "AllocationUUID",
-									"NativeAllocationID": "AllocationNativeID",
-									"AllocationOwner": "AllocationOwner",
-									"AllocationBasisCV": "AllocationBasisCV",
-									"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
-									"AllocationApplicationDate": "AllocationApplicationDate",
-									"AllocationPriorityDate": "WaterAllocationPriorityDate",
-									"AllocationExpirationDate": "AllocationExpirationDate",
-									"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
-									"SiteUID": "SiteUUID",
-									"VariableSpecificUID": "VariableSpecificUUID",
-									"BeneficialUseCategory": "BeneficialUseCategory",
-									"AllocationPrimaryUseCategory": "PrimaryUseCategory",
-									"SourceUID": "WaterSourceUUID",
-									"MethodUID": "MethodUUID",
-									"TimeframeStart": "TimeframeStartDate",
-									"TimeframeEnd": "TimeframeEndDate",
-									"DataPublicationDate": "DataPublicationDate",
-									"ReportYearCV": "ReportYear",
-									"AllocationAmount": "AllocationAmount",
-									"AllocationMaximum": "AllocationMaximum",
-									"PopulationServed": "PopulationServed",
-									"PowerGeneratedGWh": "PowerGeneratedGWh",
-									"IrrigatedAcreage": "IrrigatedAcreage",
-									"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
-									"SDWISID": "SDWISIdentifier",
-									"AllocationCropDutyAmount": "AllocationCropDutyAmount",
-									"Latitude": "Latitude",
-									"Longitude": "Longitude"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoWaterAllocationFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NormalizedWaterAllocationFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FileLocation": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Load Water Allocation Data",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Colorado Organization Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Colorado Water Allocation Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Load Normalized Water Allocation Data",
-								"type": "PipelineReference"
-							},
-							"parameters": {
-								"FolderLocation": {
-									"value": "@pipeline().RunId",
-									"type": "Expression"
-								}
-							}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CopyPipeline_j78')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_j78",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "utahwaterrights/WATER_MASTER.csv"
-							},
-							{
-								"name": "Destination",
-								"value": "utahwaterrights/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_j78",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_j78",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy_CO_Amonts')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_5oi",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "/api/views/a8zw-bjth/rows.csv?accessType=DOWNLOAD&api_foundry=true"
-							},
-							{
-								"name": "Destination",
-								"value": "colorado-import/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"WDID": "Prop_0",
-									"Structure Name": "Prop_1",
-									"Structure Type": "Prop_2",
-									"Water Source": "Prop_3",
-									"GNIS ID": "Prop_4",
-									"Stream Mile": "Prop_5",
-									"DIV": "Prop_6",
-									"WD": "Prop_7",
-									"County": "Prop_8"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_5oi",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_5oi",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Needs Work - Load Water Allocation Data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Load Organizations",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "SqlSink",
-								"writeBatchSize": 10000,
-								"sqlWriterStoredProcedureName": "[[Core].[LoadOrganization]",
-								"sqlWriterTableType": "Core.OrganizationTableType",
-								"storedProcedureParameters": {
-									"RunId": {
-										"type": "String"
-									}
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUUID": "OrganizationUUID",
-									"OrganizationName": "OrganizationName",
-									"OrganizationPurview": "OrganizationPurview",
-									"OrganizationWebsite": "OrganizationWebsite",
-									"OrganizationPhoneNumber": "OrganizationPhoneNumber",
-									"OrganizationContactName": "OrganizationContactName",
-									"OrganizationContactEmail": "OrganizationContactEmail"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "NormalizedOrganizationsFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().parameters.FolderLocation",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaDEDatabaseOrganizations",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Load Water Allocations",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Load Organizations",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "SqlSink",
-								"writeBatchSize": 10000,
-								"sqlWriterStoredProcedureName": "[[Core].[LoadWaterAllocation]",
-								"sqlWriterTableType": "Core.WaterAllocationTableType",
-								"storedProcedureParameters": {
-									"RunId": {
-										"type": "String",
-										"value": {
-											"value": "@activity('Load Organizations').output",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUUID": "OrganizationUUID",
-									"AllocationUUID": "AllocationUUID",
-									"AllocationNativeID": "AllocationNativeID",
-									"AllocationOwner": "AllocationOwner",
-									"AllocationBasisCV": "AllocationBasisCV",
-									"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
-									"AllocationApplicationDate": "AllocationApplicationDate",
-									"WaterAllocationPriorityDate": "AllocationPriorityDate",
-									"AllocationExpirationDate": "AllocationExpirationDate",
-									"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
-									"SiteUUID": "SiteUUID",
-									"VariableSpecificUUID": "VariableSpecificUUID",
-									"BeneficialUseCategory": "BeneficialUseCategory",
-									"PrimaryUseCategory": "PrimaryUseCategory",
-									"WaterSourceUUID": "WaterSourceUUID",
-									"MethodUUID": "MethodUUID",
-									"TimeframeStartDate": "TimeframeStartDate",
-									"TimeframeEndDate": "TimeframeEndDate",
-									"DataPublicationDate": "DataPublicationDate",
-									"ReportYear": "ReportYear",
-									"AllocationCropDutyAmount": "AllocationCropDutyAmount",
-									"AllocationAmount": "AllocationAmount",
-									"AllocationMaximum": "AllocationMaximum",
-									"PopulationServed": "PopulationServed",
-									"PowerGeneratedGWh": "PowerGeneratedGWh",
-									"IrrigatedAcreage": "IrrigatedAcreage",
-									"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
-									"SDWISIdentifier": "SDWISIdentifier"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "NormalizedWaterAllocationFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FileLocation": {
-										"value": "@activity('Load Organizations').output",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaDEDatabaseWaterAllocations",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Web1",
-						"type": "WebActivity",
-						"dependsOn": [
-							{
-								"activity": "Load Water Allocations",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"url": "https://prod-96.westus.logic.azure.com:443/workflows/c948a258cc4b48cd936c57cfd052cc07/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oAwqpJmcBBp9Yt20MWYBqqwXo4-zLDjadBOaupCqBHg",
-							"method": "POST",
-							"headers": {},
-							"body": {
-								"value": "@concat('{\"RunId\":\"', pipeline().parameters.FolderLocation, '\"}')",
-								"type": "Expression"
-							}
-						}
-					}
-				],
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
 				"parameters": {
-					"FolderLocation": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificCV",
+						"type": "String"
+					},
+					{
+						"name": "VariableCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationStatisticCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationInterval",
+						"type": "String"
+					},
+					{
+						"name": "AggregationIntervalUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearStartMonth",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "AmountUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "MaximumAmountUnitCV",
 						"type": "String"
 					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterAllocations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
 				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/NetAmount')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "NEtAmount",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "CO_netamount_call",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "test_netAmount",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
 					}
-				],
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CvDataFlow')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
+				},
 				"folder": {
-					"name": "CvData"
+					"name": "Utah"
 				},
-				"type": "MappingDataFlow",
+				"annotations": [],
+				"type": "DelimitedText",
 				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
-							"typeProperties": {}
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
 						},
-						{
-							"dataset": {
-								"referenceName": "AggegationStatisticCsv",
-								"type": "DatasetReference"
-							},
-							"name": "AggregationStatisticCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> AggregationStatisticCSV",
-							"typeProperties": {}
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "SiteUUID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "MethodUUID",
+						"type": "String"
+					},
+					{
+						"name": "PrimaryUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "BeneficialUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDate",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDOI",
+						"type": "String"
+					},
+					{
+						"name": "AllocationNativeID",
+						"type": "String"
+					},
+					{
+						"name": "AllocationOwner",
+						"type": "String"
+					},
+					{
+						"name": "AllocationBasisCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationLegalStatusCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationApplicationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationPriorityDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationChangeApplicationIndicator",
+						"type": "String"
+					},
+					{
+						"name": "LegacyAllocationIDs",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTimeframeStart",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTimeframeEnd",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCropDutyAmount",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAmount",
+						"type": "String"
+					},
+					{
+						"name": "AllocationMaximum",
+						"type": "String"
+					},
+					{
+						"name": "PopulationServed",
+						"type": "String"
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "String"
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCommunityWaterSupplySystem",
+						"type": "String"
+					},
+					{
+						"name": "AllocationSDWISIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAssociatedWithdrawalSiteIDs",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAssociatedConsumptiveUseSiteIDs",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterSources')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
 						},
-						{
-							"dataset": {
-								"referenceName": "ReportYearTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "ReportYearTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ReportYearTypeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "EpsgCodeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "EpsgCodeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> EpsgCodeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "GnisFeatureNameCsv",
-								"type": "DatasetReference"
-							},
-							"name": "GnisFeatureNameCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> GnisFeatureNameCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "IrrigationMethodCsv",
-								"type": "DatasetReference"
-							},
-							"name": "IrrigationMethodCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> IrrigationMethodCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "LegalStatusCsv",
-								"type": "DatasetReference"
-							},
-							"name": "LegalStatusCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> LegalStatusCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "MethodTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "MethodTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> MethodTypeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "NaicsCodeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "NaicsCodeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NaicsCodeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "NhdNetworkStatusCsv",
-								"type": "DatasetReference"
-							},
-							"name": "NhdNetworkStatusCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NhdNetworkStatusCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "NhdProductCsv",
-								"type": "DatasetReference"
-							},
-							"name": "NhdProductCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> NhdProductCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "RegulatoryStatusCsv",
-								"type": "DatasetReference"
-							},
-							"name": "RegulatoryStatusCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> RegulatoryStatusCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "ReportingUnitTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "ReportingUnitTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ReportingUnitTypeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "ReportYearCsv",
-								"type": "DatasetReference"
-							},
-							"name": "ReportYearCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ReportYearCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "SiteTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "SiteTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> SiteTypeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "UnitsCsv",
-								"type": "DatasetReference"
-							},
-							"name": "UnitsCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UnitsCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "UsgsCategoryCsv",
-								"type": "DatasetReference"
-							},
-							"name": "UsgsCategoryCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UsgsCategoryCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "VariableCsv",
-								"type": "DatasetReference"
-							},
-							"name": "VariableCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VariableCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "VariableSpecificCsv",
-								"type": "DatasetReference"
-							},
-							"name": "VariableSpecificCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> VariableSpecificCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "WaterAllocationBasisCsv",
-								"type": "DatasetReference"
-							},
-							"name": "WaterAllocationBasisCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterAllocationBasisCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "WaterAllocationTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "WaterAllocationTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterAllocationTypeCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "WaterQualityIndicatorCsv",
-								"type": "DatasetReference"
-							},
-							"name": "WaterQualityIndicatorCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterQualityIndicatorCSV",
-							"typeProperties": {}
-						},
-						{
-							"dataset": {
-								"referenceName": "WaterSourceTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "WaterSourceTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterSourceTypeCSV",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Db_CropType",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCvDb",
-							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_AggregationStatistic",
-								"type": "DatasetReference"
-							},
-							"name": "AggregationStatisticCvDb",
-							"script": "AggregationStatisticCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> AggregationStatisticCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_ReportYearType",
-								"type": "DatasetReference"
-							},
-							"name": "ReportYearTypeCvDb",
-							"script": "ReportYearTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_EPSGCode",
-								"type": "DatasetReference"
-							},
-							"name": "EpsgCodeCvDb",
-							"script": "EpsgCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> EpsgCodeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_GNISFeatureName",
-								"type": "DatasetReference"
-							},
-							"name": "GnisFeatureNameCvDb",
-							"script": "GnisFeatureNameCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> GnisFeatureNameCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_IrrigationMethod",
-								"type": "DatasetReference"
-							},
-							"name": "IrrigationMethodCvDb",
-							"script": "IrrigationMethodCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> IrrigationMethodCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_LegalStatus",
-								"type": "DatasetReference"
-							},
-							"name": "LegalStatusCvDb",
-							"script": "LegalStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> LegalStatusCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_MethodType",
-								"type": "DatasetReference"
-							},
-							"name": "MethodTypeCvDb",
-							"script": "MethodTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> MethodTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_NAICSCode",
-								"type": "DatasetReference"
-							},
-							"name": "NaicsCodeCvDb",
-							"script": "NaicsCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NaicsCodeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_NHDNetworkStatus",
-								"type": "DatasetReference"
-							},
-							"name": "NhdNetworkStatusCvDb",
-							"script": "NhdNetworkStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdNetworkStatusCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_NHDProduct",
-								"type": "DatasetReference"
-							},
-							"name": "NhdProductCvDb",
-							"script": "NhdProductCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdProductCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_RegulatoryStatus",
-								"type": "DatasetReference"
-							},
-							"name": "RegulatoryStatusCvDb",
-							"script": "RegulatoryStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> RegulatoryStatusCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_ReportingUnitType",
-								"type": "DatasetReference"
-							},
-							"name": "ReportingUnitTypeCvDb",
-							"script": "ReportingUnitTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportingUnitTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_ReportYearCV",
-								"type": "DatasetReference"
-							},
-							"name": "ReportYearCvDb",
-							"script": "DerivedColumn1 sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_SiteType",
-								"type": "DatasetReference"
-							},
-							"name": "SiteTypeCvDb",
-							"script": "SiteTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> SiteTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_Units",
-								"type": "DatasetReference"
-							},
-							"name": "UnitsCvDb",
-							"script": "UnitsCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UnitsCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_USGSCategory",
-								"type": "DatasetReference"
-							},
-							"name": "UsgsCategoryCvDb",
-							"script": "UsgsCategoryCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UsgsCategoryCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_Variable",
-								"type": "DatasetReference"
-							},
-							"name": "VariableCvDb",
-							"script": "VariableCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_VariableSpecific",
-								"type": "DatasetReference"
-							},
-							"name": "VariableSpecificCvDb",
-							"script": "VariableSpecificCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableSpecificCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_WaterAllocationBasis",
-								"type": "DatasetReference"
-							},
-							"name": "WaterAllocationBasisCvDb",
-							"script": "WaterAllocationBasisCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationBasisCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_WaterAllocationType",
-								"type": "DatasetReference"
-							},
-							"name": "WaterAllocationTypeCvDb",
-							"script": "WaterAllocationTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationTypeCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_WaterQualityIndicator",
-								"type": "DatasetReference"
-							},
-							"name": "WaterQualityIndicatorCvDb",
-							"script": "WaterQualityIndicatorCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterQualityIndicatorCvDb"
-						},
-						{
-							"dataset": {
-								"referenceName": "Db_WaterSourceType",
-								"type": "DatasetReference"
-							},
-							"name": "WaterSourceTypeCvDb",
-							"script": "WaterSourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterSourceTypeCvDb"
-						}
-					],
-					"transformations": [
-						{
-							"name": "DerivedColumn1",
-							"script": "ReportYearCSV derive(name = substring(name, 1, 4)) ~> DerivedColumn1"
-						}
-					]
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceNativeID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceName",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "WaterQualityIndicatorCV",
+						"type": "String"
+					},
+					{
+						"name": "GNISFeatureNameCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Organizations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Organizations.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPurview",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationWebsite",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactEmail",
+						"type": "String"
+					},
+					{
+						"name": "DataMappingURL",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Owners')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Owners.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WRCHEX",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_NAME",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_ADDRESS",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_CITY",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_STATE",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_ZIPCODE",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_INTEREST",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_PHONE",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_REMARKS",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_CARE_OF",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_EMAIL_ADDRESS",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_FIRST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_LAST_NAME",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_TITLE",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_ADDRESS1",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_ADDRESS2",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_ADDRESS3",
+						"type": "String"
+					},
+					{
+						"name": "DATE_WUC_SIGNED",
+						"type": "String"
+					},
+					{
+						"name": "BAD_ADDRESS",
+						"type": "String"
+					},
+					{
+						"name": "PUBLIC_WATER_SUPPLIER",
+						"type": "String"
+					},
+					{
+						"name": "TITLE_CONFLICT",
+						"type": "String"
+					},
+					{
+						"name": "TITLE_CONFLICT_COMMENTS",
+						"type": "String"
+					},
+					{
+						"name": "OWNER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "ATTORNEY_RECORD_ID",
+						"type": "String"
+					},
+					{
+						"name": "recordId",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Points_of_Diversion')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Points_of_Diversion.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WRCHEX",
+						"type": "String"
+					},
+					{
+						"name": "POD_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "NS_DIRECTION",
+						"type": "String"
+					},
+					{
+						"name": "NS_DISTANCE",
+						"type": "String"
+					},
+					{
+						"name": "EW_DIRECTION",
+						"type": "String"
+					},
+					{
+						"name": "EW_DISTANCE",
+						"type": "String"
+					},
+					{
+						"name": "SECTION_CORNER",
+						"type": "String"
+					},
+					{
+						"name": "STR",
+						"type": "String"
+					},
+					{
+						"name": "DIVERTING_WORKS",
+						"type": "String"
+					},
+					{
+						"name": "POD_COMMENT",
+						"type": "String"
+					},
+					{
+						"name": "WELL_DIAMETER",
+						"type": "String"
+					},
+					{
+						"name": "WELL_DEPTH1",
+						"type": "String"
+					},
+					{
+						"name": "WELL_DEPTH2",
+						"type": "String"
+					},
+					{
+						"name": "WELL_YEAR_DRILLED",
+						"type": "String"
+					},
+					{
+						"name": "WELL_LOG",
+						"type": "String"
+					},
+					{
+						"name": "WIN",
+						"type": "String"
+					},
+					{
+						"name": "X_UTM",
+						"type": "String"
+					},
+					{
+						"name": "Y_UTM",
+						"type": "String"
+					},
+					{
+						"name": "ELEVATION",
+						"type": "String"
+					},
+					{
+						"name": "recordId",
+						"type": "String"
+					},
+					{
+						"name": "MANUAL",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_ReportingUnits')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_ReportingUnits.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ReportingUnitUUID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitNativeID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitName",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitUpdateDate",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitProductVersion",
+						"type": "String"
+					},
+					{
+						"name": "StateCV",
+						"type": "String"
+					},
+					{
+						"name": "EPSGCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometery",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Variables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Variables.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificCV",
+						"type": "String"
+					},
+					{
+						"name": "VariableCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationStatisticCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationInterval",
+						"type": "String"
+					},
+					{
+						"name": "AggregationIntervalUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearStartMonth",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "AmountUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "MaximumAmountUnitCV",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_WaterSources')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_WaterSources.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceNativeID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceName",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "WaterQualityIndicatorCV",
+						"type": "String"
+					},
+					{
+						"name": "GNISFeatureNameCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Water_Uses')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Utah"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UT_Water_Uses.csv",
+						"folderPath": "Uploads",
+						"container": "utahwaterrights"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "GROUP_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "USE_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "USE_ID",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_ACREAGE",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_FAMILIES",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_PERSONS",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_UNITS",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPALITY",
+						"type": "String"
+					},
+					{
+						"name": "MINE_DISTRICT",
+						"type": "String"
+					},
+					{
+						"name": "MINE_NAME",
+						"type": "String"
+					},
+					{
+						"name": "MINE_ORES",
+						"type": "String"
+					},
+					{
+						"name": "POWER_PLANT_NAME",
+						"type": "String"
+					},
+					{
+						"name": "POWER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "POWER_CAPACITY",
+						"type": "String"
+					},
+					{
+						"name": "POWER_UNITS",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "PART_TIME_USE",
+						"type": "String"
+					},
+					{
+						"name": "DIVERSION_LIMIT",
+						"type": "String"
+					},
+					{
+						"name": "USE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "USE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "USE_COMMENTS",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_IRRIGATION_ACREAGE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_DOMESTIC_FAMILIES",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_DOMESTIC_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_DOMESTIC_PERSONS",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_STOCK_UNITS",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_MUNICIPALITY",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_MINE_DISTRICT",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_MINE_NAME",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_MINE_ORES",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_POWER_PLANT_NAME",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_POWER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_POWER_CAPACITY",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_POWER_UNITS",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_OTHER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_OTHER_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_PART_TIME_USE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_DIVERSION_LIMIT",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_USE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_USE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_USE_COMMENTS",
+						"type": "String"
+					},
+					{
+						"name": "ADJUD_ACTION_FLAG",
+						"type": "String"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UnitsCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Units.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UsgsCategoryCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "UsgsCategory.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VariableCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "Variable.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/VariableSpecificCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "VariableSpecific.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseOrganizations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"structure": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationName",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationPurview",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationWebsite",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationPhoneNumber",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationContactName",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "OrganizationContactEmail",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					}
+				],
+				"typeProperties": {
+					"tableName": "OrganizationTable"
 				}
 			},
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/LoadCVs')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseWaterAllocations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Copy_AggregationStatistic",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_AggregationStatistic",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AggegationStatisticCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_ReportYearType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_ReportYearType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ReportYearTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_EPSGCode",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "/api/v1/epsgcode/?format=csv"
-							},
-							{
-								"name": "Destination",
-								"value": "CVs.EPSGCode"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_epsgcode",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "EpsgCodeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_GNISFeatureName",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "/api/v1/gnisfeaturename/?format=csv"
-							},
-							{
-								"name": "Destination",
-								"value": "CVs.GNISFeatureName"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_GnisFeatureName",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "GnisFeatureNameCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_CropType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_CropType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_IrrigationMethod",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_IrrigationMethod",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "IrrigationMethodCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_LegalStatus",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_LegalStatus",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "LegalStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_MethodType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_MethodType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "MethodTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_NAICSCode",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_NaicsCode",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NaicsCodeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_NHDNetworkStatus",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_NHDNetworkStatus",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NhdNetworkStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_NHDProduct",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_NHDProduct",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NhdProductCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_RegulatoryStatus",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_RegulatoryStatus",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "RegulatoryStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_ReportingUnitType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_ReportingUnitType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ReportingUnitTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_ReportYear",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_ReportYear",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ReportYearCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_SiteType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_SiteType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "SiteTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_Units",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_Units",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "UnitsCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_USGSCategory",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_UsgsCategory",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "UsgsCategoryCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_Variable",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_Variable",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "VariableCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_VariableSpecific",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_VariableSpecific",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "VariableSpecificCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_WaterAllocationBasis",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_WaterAllocationBasis",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaterAllocationBasisCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_WaterQualityIndicator",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_WaterQualityIndicator",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaterQualityIndicatorCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_WaterAllocationType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_WaterAllocationType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaterAllocationTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "Copy_WaterSourceType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_WaterSourceType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "WaterSourceTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "CvDataFlow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Copy_CropType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_AggregationStatistic",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_ReportYearType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_EPSGCode",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_GNISFeatureName",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_IrrigationMethod",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_LegalStatus",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_MethodType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_NAICSCode",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_NHDNetworkStatus",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_NHDProduct",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_RegulatoryStatus",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_ReportingUnitType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_ReportYear",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_SiteType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_Units",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_USGSCategory",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_Variable",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_VariableSpecific",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_WaterAllocationBasis",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_WaterQualityIndicator",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_WaterAllocationType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Copy_WaterSourceType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "CvDataFlow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CropTypeCSV": {},
-									"AggregationStatisticCSV": {},
-									"ReportYearTypeCSV": {},
-									"EpsgCodeCSV": {},
-									"GnisFeatureNameCSV": {},
-									"IrrigationMethodCSV": {},
-									"LegalStatusCSV": {},
-									"MethodTypeCSV": {},
-									"NaicsCodeCSV": {},
-									"NhdNetworkStatusCSV": {},
-									"NhdProductCSV": {},
-									"RegulatoryStatusCSV": {},
-									"ReportingUnitTypeCSV": {},
-									"ReportYearCSV": {},
-									"SiteTypeCSV": {},
-									"UnitsCSV": {},
-									"UsgsCategoryCSV": {},
-									"VariableCSV": {},
-									"VariableSpecificCSV": {},
-									"WaterAllocationBasisCSV": {},
-									"WaterAllocationTypeCSV": {},
-									"WaterQualityIndicatorCSV": {},
-									"WaterSourceTypeCSV": {},
-									"CropTypeCvDb": {},
-									"AggregationStatisticCvDb": {},
-									"ReportYearTypeCvDb": {},
-									"EpsgCodeCvDb": {},
-									"GnisFeatureNameCvDb": {},
-									"IrrigationMethodCvDb": {},
-									"LegalStatusCvDb": {},
-									"MethodTypeCvDb": {},
-									"NaicsCodeCvDb": {},
-									"NhdNetworkStatusCvDb": {},
-									"NhdProductCvDb": {},
-									"RegulatoryStatusCvDb": {},
-									"ReportingUnitTypeCvDb": {},
-									"ReportYearCvDb": {},
-									"SiteTypeCvDb": {},
-									"UnitsCvDb": {},
-									"UsgsCategoryCvDb": {},
-									"VariableCvDb": {},
-									"VariableSpecificCvDb": {},
-									"WaterAllocationBasisCvDb": {},
-									"WaterAllocationTypeCvDb": {},
-									"WaterQualityIndicatorCvDb": {},
-									"WaterSourceTypeCvDb": {}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ColoradoWaterAllocationFileArrived')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
 				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
+				"type": "AzureSqlTable",
+				"structure": [
 					{
-						"pipelineReference": {
-							"referenceName": "Colorado Normalization",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
+						"name": "OrganizationUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationNativeID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationOwner",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationBasisCV",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationLegalStatusCodeCV",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationApplicationDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationPriorityDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationExpirationDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationChangeApplicationIndicator",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "SiteUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "BeneficialUseCategory",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "PrimaryUseCategory",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "WaterSourceUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "MethodUUID",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "TimeframeStartDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "TimeframeEndDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "DataPublicationDate",
+						"type": "DateTime",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "ReportYear",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "AllocationCropDutyAmount",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "AllocationAmount",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "AllocationMaximum",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "PopulationServed",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "Double",
+						"precision": 15,
+						"scale": 255
+					},
+					{
+						"name": "AllocationCommunityWaterSupplySystem",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
+					},
+					{
+						"name": "SDWISIdentifier",
+						"type": "String",
+						"precision": 255,
+						"scale": 255
 					}
 				],
-				"type": "ScheduleTrigger",
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2019-03-27T03:00:00Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"minutes": [
-								0
-							],
-							"hours": [
-								6
-							],
-							"weekDays": [
-								"Monday"
-							]
-						}
-					}
+					"tableName": "WaterAllocationTable"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Colorado Normalization')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Load_CVs')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/WaterAllocationBasisCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
 				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "WaterAllocationBasis.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
 					{
-						"pipelineReference": {
-							"referenceName": "LoadCVs",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterAllocationTypeCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "WaterAllocationType.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterMaster')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureBlob",
+				"structure": [
+					{
+						"name": "WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "APPL_CLAIM_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "CERTIFICATE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "LAND_OWNERSHIP",
+						"type": "String"
+					},
+					{
+						"name": "WREX_CFS",
+						"type": "String"
+					},
+					{
+						"name": "WREX_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "WREX_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "WREX_SOURCE",
+						"type": "String"
+					},
+					{
+						"name": "WREX_COUNTY",
+						"type": "String"
+					},
+					{
+						"name": "COMMON_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "DATE_FILED",
+						"type": "String"
+					},
+					{
+						"name": "TAKEN_BY_INITIALS",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PRIORITY",
+						"type": "String"
+					},
+					{
+						"name": "ADV_NEWSPAPER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PUB_BEGAN",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROOF_PUB",
+						"type": "String"
+					},
+					{
+						"name": "PROTESTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROTEST_END",
+						"type": "String"
+					},
+					{
+						"name": "MEMO_DECISION",
+						"type": "String"
+					},
+					{
+						"name": "DATE_APPROVED_REJECTED",
+						"type": "String"
+					},
+					{
+						"name": "APPROVED_REJECTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROOF_DUE",
+						"type": "String"
+					},
+					{
+						"name": "DATE_EXTENSION_FILED",
+						"type": "String"
+					},
+					{
+						"name": "ELECTION_PROOF",
+						"type": "String"
+					},
+					{
+						"name": "DATE_ELECTION_PROOF",
+						"type": "String"
+					},
+					{
+						"name": "DATE_CERT_WUC_ISSUED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_TERMINATED",
+						"type": "String"
+					},
+					{
+						"name": "PDBOOK_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "TYPE_OF_RIGHT",
+						"type": "String"
+					},
+					{
+						"name": "WREX_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "DOCUMENT_ENTERED",
+						"type": "String"
+					},
+					{
+						"name": "MAP_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RUSH_LETTER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RENOVATED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_VERIFIED",
+						"type": "String"
+					},
+					{
+						"name": "VERIFIED_BY_INITIALS",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT1",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT2",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT3",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PUB_ENDED",
+						"type": "String"
+					},
+					{
+						"name": "MODIFIED_LOGON",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RECON_REQUESTED",
+						"type": "String"
+					},
+					{
+						"name": "RECONSIDER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPAL_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPAL_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "MINING_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "MINING_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "POWER_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "POWER_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "EXNUM",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_BASE_WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_CONTRACT_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED1",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED2",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED3",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_CFS",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_SOURCE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_COUNTY",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_PORELEASE_SAME",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_CFS",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "WATER_USES",
+						"type": "String"
+					},
+					{
+						"name": "DATE_WUCS_RECEIVED",
+						"type": "String"
+					},
+					{
+						"name": "MANUAL_EVALUATION",
+						"type": "String"
+					},
+					{
+						"name": "ACRE_FEET_EXPORTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_HEARING_HELD",
+						"type": "String"
+					},
+					{
+						"name": "DIVERSION_DUTY",
+						"type": "String"
+					},
+					{
+						"name": "DEPLETION_DUTY",
+						"type": "String"
+					},
+					{
+						"name": "GROWING_SEASON",
+						"type": "String"
+					},
+					{
+						"name": "DATE_FIELD_REVIEW",
+						"type": "String"
+					},
+					{
+						"name": "AREA_CODE",
+						"type": "String"
+					},
+					{
+						"name": "ACTIVE_LITIGATION",
+						"type": "String"
+					},
+					{
+						"name": "DSYSDB_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "REPORT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "PROOF_DUE_YEARS",
+						"type": "String"
+					},
+					{
+						"name": "PUBLIC_VIEW",
+						"type": "String"
+					},
+					{
+						"name": "WATER_USE_REPORTING",
+						"type": "String"
+					},
+					{
+						"name": "STREAM_ALT_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "DAM_PERMIT_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "WR_SOLE_SUPPLY",
+						"type": "String"
+					},
+					{
+						"name": "DATE_LAPSING_LETTER",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_COMPANY_ID",
+						"type": "String"
+					},
+					{
+						"name": "SHARES_OF_STOCK",
+						"type": "String"
+					},
+					{
+						"name": "OSE_SIGNATURE",
+						"type": "String"
+					},
+					{
+						"name": "CERT_SIGNATURE",
+						"type": "String"
+					},
+					{
+						"name": "PROOF_PROF_LICENSE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "COUNTY_TAX_ID",
+						"type": "String"
+					},
+					{
+						"name": "LAST_MODIFIED_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "LAST_MODIFIED_TABLE",
+						"type": "String"
+					},
+					{
+						"name": "FILE_DESTROYED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_50YEAR_PERIOD",
+						"type": "String"
+					},
+					{
+						"name": "SUB_BASIN_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "SUB_BASIN_NAME",
+						"type": "String"
+					},
+					{
+						"name": "DIVDEP_DOCUMENT_ID",
+						"type": "String"
+					},
+					{
+						"name": "FULL_SUPPLY_EQUIVALENCE",
+						"type": "String"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "String"
+					},
+					{
+						"name": "SHARES_DISTRIBUTION",
+						"type": "String"
+					},
+					{
+						"name": "DECREE_CLASS",
+						"type": "String"
 					}
 				],
-				"type": "ScheduleTrigger",
 				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2019-04-09T21:19:00Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"hours": [
-								10
-							],
-							"weekDays": [
-								"Monday",
-								"Friday"
-							]
-						}
-					}
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"quoteChar": "\"",
+						"nullValue": "\\N",
+						"encodingName": null,
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": true
+					},
+					"fileName": "[parameters('WaterMaster_properties_typeProperties_fileName')]",
+					"folderPath": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/LoadCVs')]"
-			]
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterQualityIndicatorCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "WaterQualityIndicator.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
 		}
 	]
 }
