@@ -139,47 +139,12 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 rawRecords = csv.GetRecords<FlattenedRaw>().ToList();
             }
 
-            //distinct set of keys
-            var distinctKeys = rawRecords
-                .Select(x => x.Key)
-                .Where(x => !string.IsNullOrEmpty(x))
-                .Distinct()
-                .ToList();
-
-            //new flattened data structure
-            var flattenedKeys = new List<FlattenedKey>();
-
-            //parallel processing for performance!
-            Parallel.ForEach(distinctKeys, key =>
-            {
-                //get the values to flatten for the given key
-                var flattenedValues = rawRecords
-                    .Where(x => x.Key.Equals(key))
-                    .Select(x => x.Value)
-                    .Where(y => !string.IsNullOrEmpty(y))
-                    .Distinct()
-                    .Select(z => new FlattenedValue
-                    {
-                        Text = z
-                    })
-                    .ToList();
-
-                //add it to the collection
-                var flattenedKey = new FlattenedKey
-                {
-                    Text = key,
-                    FlattenedValues = flattenedValues
-                };
-
-                flattenedKeys.Add(flattenedKey);
-            });
-
-            //convert to object array of Id/Value pairs for CsvWriter
-            var flattenedRecords = flattenedKeys
+            var flattenedRecords = rawRecords
+                .GroupBy(x => x.Key)
                 .Select(x => new
                 {
-                    Id = x.Text,
-                    Value = x.CsvValues
+                    Id = x.Key,
+                    Value = string.Join(",", x.Select(y => y.Value).Distinct())
                 })
                 .ToList();
 
