@@ -144,7 +144,7 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 .Select(x => new
                 {
                     Id = x.Key,
-                    Value = string.Join(",", x.Select(y => y.Value))
+                    Value = string.Join(",", x.Select(y => y.Value).Distinct())
                 })
                 .ToList();
 
