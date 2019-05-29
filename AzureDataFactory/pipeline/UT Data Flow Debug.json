@@ -1,6 +1,7 @@
 {
-	"name": "Utah Normalization Debug",
+	"name": "UT Data Flow Debug",
 	"properties": {
+		"description": "Ad-hoc data flow debugging, bypassing additional azure functions and only calling the normalization data flows directly.",
 		"activities": [
 			{
 				"name": "UT_WaterAllocation_Normalization",
