@@ -1,0 +1,66 @@
+{
+	"name": "UT_NormalizedOrganizations",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderIdentifier": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().FolderIdentifier",
+					"type": "Expression"
+				},
+				"container": "normalizedimports"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "OrganizationUUID",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationName",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationPurview",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationWebsite",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationPhoneNumber",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationContactName",
+				"type": "String"
+			},
+			{
+				"name": "OrganizationContactEmail",
+				"type": "String"
+			},
+			{
+				"name": "DataMappingURL",
+				"type": "String"
+			}
+		]
+	}
+}

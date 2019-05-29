@@ -1,0 +1,67 @@
+{
+	"name": "UT_Variables",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_Variables.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "VariableSpecificUUID",
+				"type": "String"
+			},
+			{
+				"name": "VariableSpecificCV",
+				"type": "String"
+			},
+			{
+				"name": "VariableCV",
+				"type": "String"
+			},
+			{
+				"name": "AggregationStatisticCV",
+				"type": "String"
+			},
+			{
+				"name": "AggregationInterval",
+				"type": "String"
+			},
+			{
+				"name": "AggregationIntervalUnitCV",
+				"type": "String"
+			},
+			{
+				"name": "ReportYearStartMonth",
+				"type": "String"
+			},
+			{
+				"name": "ReportYearTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "AmountUnitCV",
+				"type": "String"
+			},
+			{
+				"name": "MaximumAmountUnitCV",
+				"type": "String"
+			}
+		]
+	}
+}

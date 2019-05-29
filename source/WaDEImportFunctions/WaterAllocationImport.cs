@@ -20,7 +20,7 @@ namespace WaDEImportFunctions
         }
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
-
+        
         [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
         public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] DurableOrchestrationContextBase context, ILogger log)
         {

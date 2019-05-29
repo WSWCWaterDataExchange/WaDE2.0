@@ -15,9 +15,4 @@ namespace WesternStatesWater.WaDE.Contracts.Import
         Task<bool> LoadVariables(string runId);
         Task<bool> LoadWaterSources(string runId);
     }
-
-    public interface IExcelFileConversionManager
-    {
-        Task ConvertExcelFileToJsonFiles(string container, string folder, string fileName);
-    }
 }

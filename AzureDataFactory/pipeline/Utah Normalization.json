@@ -1,0 +1,332 @@
+{
+	"name": "Utah Normalization",
+	"properties": {
+		"activities": [
+			{
+				"name": "UT_WaterAllocation_Normalization",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Flatten Water Uses",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_WaterAllocation_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedWaterAllocations": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "Flatten Water Uses",
+				"description": "pre-process UT water uses",
+				"type": "AzureFunctionActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
+					"method": "GET"
+				},
+				"linkedServiceName": {
+					"referenceName": "WaDE Import Functions",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "UT_WaterSources_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_WaterSources_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedWaterSources": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_Sites_Normalization",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Convert Site Points",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Sites_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedSites": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "Convert Site Points",
+				"type": "AzureFunctionActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"functionName": "CoordinateProjection?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
+					"method": "GET"
+				},
+				"linkedServiceName": {
+					"referenceName": "WaDE Import Functions",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Load Normalized Water Allocation Data",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "UT_WaterAllocation_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_Sites_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_WaterSources_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_Methods_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_Organizations_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_Variables_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_ReportingUnits_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "UT_AggregatedAmounts_Normalization",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "Load Normalized Water Allocation Data",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": false,
+					"parameters": {
+						"FolderLocation": {
+							"value": "@pipeline().RunId",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_Methods_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Methods_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedMethods": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_Organizations_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Organizations_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedOrganizations": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_Variables_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_Variables_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedVariables": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_ReportingUnits_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_ReportingUnits_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedReportingUnits": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"name": "UT_AggregatedAmounts_Normalization",
+				"type": "ExecuteDataFlow",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "UT_AggregatedAmounts_Normalization",
+						"type": "DataFlowReference",
+						"datasetParameters": {
+							"NormalizedAggregatedAmounts": {
+								"FolderIdentifier": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				}
+			}
+		],
+		"folder": {
+			"name": "State Normalization"
+		}
+	}
+}

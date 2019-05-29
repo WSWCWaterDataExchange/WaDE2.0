@@ -1,0 +1,158 @@
+{
+	"name": "UT_NormalizedWaterAllocations",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderIdentifier": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().FolderIdentifier",
+					"type": "Expression"
+				},
+				"container": "normalizedimports"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "OrganizationUUID",
+				"type": "String"
+			},
+			{
+				"name": "VariableSpecificUUID",
+				"type": "String"
+			},
+			{
+				"name": "SiteUUID",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceUUID",
+				"type": "String"
+			},
+			{
+				"name": "MethodUUID",
+				"type": "String"
+			},
+			{
+				"name": "PrimaryUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "BeneficialUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "DataPublicationDate",
+				"type": "String"
+			},
+			{
+				"name": "DataPublicationDOI",
+				"type": "String"
+			},
+			{
+				"name": "AllocationNativeID",
+				"type": "String"
+			},
+			{
+				"name": "AllocationOwner",
+				"type": "String"
+			},
+			{
+				"name": "AllocationBasisCV",
+				"type": "String"
+			},
+			{
+				"name": "AllocationLegalStatusCV",
+				"type": "String"
+			},
+			{
+				"name": "AllocationTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "AllocationApplicationDate",
+				"type": "String"
+			},
+			{
+				"name": "AllocationPriorityDate",
+				"type": "String"
+			},
+			{
+				"name": "AllocationExpirationDate",
+				"type": "String"
+			},
+			{
+				"name": "AllocationChangeApplicationIndicator",
+				"type": "String"
+			},
+			{
+				"name": "LegacyAllocationIDs",
+				"type": "String"
+			},
+			{
+				"name": "AllocationTimeframeStart",
+				"type": "String"
+			},
+			{
+				"name": "AllocationTimeframeEnd",
+				"type": "String"
+			},
+			{
+				"name": "AllocationCropDutyAmount",
+				"type": "String"
+			},
+			{
+				"name": "AllocationAmount",
+				"type": "String"
+			},
+			{
+				"name": "AllocationMaximum",
+				"type": "String"
+			},
+			{
+				"name": "PopulationServed",
+				"type": "String"
+			},
+			{
+				"name": "PowerGeneratedGWh",
+				"type": "String"
+			},
+			{
+				"name": "IrrigatedAcreage",
+				"type": "String"
+			},
+			{
+				"name": "AllocationCommunityWaterSupplySystem",
+				"type": "String"
+			},
+			{
+				"name": "AllocationSDWISIdentifier",
+				"type": "String"
+			},
+			{
+				"name": "AllocationAssociatedWithdrawalSiteIDs",
+				"type": "String"
+			},
+			{
+				"name": "AllocationAssociatedConsumptiveUseSiteIDs",
+				"type": "String"
+			}
+		]
+	}
+}

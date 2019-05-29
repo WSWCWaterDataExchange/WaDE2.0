@@ -1,0 +1,211 @@
+{
+	"name": "UT_Water_Uses",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_Water_Uses.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "GROUP_NUMBER",
+				"type": "String"
+			},
+			{
+				"name": "WRNUM",
+				"type": "String"
+			},
+			{
+				"name": "USE_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "USE_ID",
+				"type": "String"
+			},
+			{
+				"name": "IRRIGATION_ACREAGE",
+				"type": "String"
+			},
+			{
+				"name": "DOMESTIC_FAMILIES",
+				"type": "String"
+			},
+			{
+				"name": "DOMESTIC_ANDOR",
+				"type": "String"
+			},
+			{
+				"name": "DOMESTIC_PERSONS",
+				"type": "String"
+			},
+			{
+				"name": "STOCK_UNITS",
+				"type": "String"
+			},
+			{
+				"name": "MUNICIPALITY",
+				"type": "String"
+			},
+			{
+				"name": "MINE_DISTRICT",
+				"type": "String"
+			},
+			{
+				"name": "MINE_NAME",
+				"type": "String"
+			},
+			{
+				"name": "MINE_ORES",
+				"type": "String"
+			},
+			{
+				"name": "POWER_PLANT_NAME",
+				"type": "String"
+			},
+			{
+				"name": "POWER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "POWER_CAPACITY",
+				"type": "String"
+			},
+			{
+				"name": "POWER_UNITS",
+				"type": "String"
+			},
+			{
+				"name": "OTHER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "OTHER_DESCRIPTION",
+				"type": "String"
+			},
+			{
+				"name": "PART_TIME_USE",
+				"type": "String"
+			},
+			{
+				"name": "DIVERSION_LIMIT",
+				"type": "String"
+			},
+			{
+				"name": "USE_BEG_DATE",
+				"type": "String"
+			},
+			{
+				"name": "USE_END_DATE",
+				"type": "String"
+			},
+			{
+				"name": "USE_COMMENTS",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_IRRIGATION_ACREAGE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_DOMESTIC_FAMILIES",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_DOMESTIC_ANDOR",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_DOMESTIC_PERSONS",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_STOCK_UNITS",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_MUNICIPALITY",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_MINE_DISTRICT",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_MINE_NAME",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_MINE_ORES",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_POWER_PLANT_NAME",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_POWER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_POWER_CAPACITY",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_POWER_UNITS",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_OTHER_TYPE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_OTHER_DESCRIPTION",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_PART_TIME_USE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_DIVERSION_LIMIT",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_USE_BEG_DATE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_USE_END_DATE",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_USE_COMMENTS",
+				"type": "String"
+			},
+			{
+				"name": "ADJUD_ACTION_FLAG",
+				"type": "String"
+			},
+			{
+				"name": "RECORD_ID",
+				"type": "String"
+			}
+		]
+	}
+}

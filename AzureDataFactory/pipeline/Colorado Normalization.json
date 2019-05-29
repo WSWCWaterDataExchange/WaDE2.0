@@ -255,7 +255,10 @@
 					}
 				}
 			}
-		]
+		],
+		"folder": {
+			"name": "State Normalization"
+		}
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
