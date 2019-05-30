@@ -746,6 +746,10 @@
 						"type": "String"
 					},
 					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
 						"name": "definition",
 						"type": "String"
 					},
@@ -811,6 +815,10 @@
 					},
 					{
 						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
 						"type": "String"
 					},
 					{

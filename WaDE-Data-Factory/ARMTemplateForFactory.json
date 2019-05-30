@@ -1115,7 +1115,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -1643,7 +1643,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -1775,7 +1775,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -1907,7 +1907,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2039,7 +2039,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2171,7 +2171,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2303,7 +2303,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2435,7 +2435,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2567,7 +2567,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2699,7 +2699,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2831,7 +2831,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -2963,7 +2963,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3095,7 +3095,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3227,7 +3227,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3359,7 +3359,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3491,7 +3491,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3623,7 +3623,7 @@
 								"formatSettings": {
 									"type": "DelimitedTextWriteSetting",
 									"quoteAllText": true,
-									"fileExtension": ".txt"
+									"fileExtension": ".csv"
 								}
 							},
 							"enableStaging": false,
@@ -3871,6 +3871,18 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "Copy_ApplicableResourceType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_CoordinateMethod",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"policy": {
@@ -3910,6 +3922,8 @@
 									"WaterAllocationTypeCSV": {},
 									"WaterQualityIndicatorCSV": {},
 									"WaterSourceTypeCSV": {},
+									"ApplicableResourceTypeCSV": {},
+									"CoordinateMethodCSV": {},
 									"CropTypeCvDb": {},
 									"AggregationStatisticCvDb": {},
 									"ReportYearTypeCvDb": {},
@@ -3932,73 +3946,16 @@
 									"WaterAllocationBasisCvDb": {},
 									"WaterAllocationTypeCvDb": {},
 									"WaterQualityIndicatorCvDb": {},
-									"WaterSourceTypeCvDb": {}
+									"WaterSourceTypeCvDb": {},
+									"ApplicableResourceTypeCvDb": {},
+									"CoordinateMethodCvDb": {}
 								}
 							},
 							"staging": {}
 						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/CVs_AggregationStatistic')]",
-				"[concat(variables('factoryId'), '/datasets/AggegationStatisticCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportYearType')]",
-				"[concat(variables('factoryId'), '/datasets/ReportYearTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_epsgcode')]",
-				"[concat(variables('factoryId'), '/datasets/EpsgCodeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_GnisFeatureName')]",
-				"[concat(variables('factoryId'), '/datasets/GnisFeatureNameCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
-				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_IrrigationMethod')]",
-				"[concat(variables('factoryId'), '/datasets/IrrigationMethodCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_LegalStatus')]",
-				"[concat(variables('factoryId'), '/datasets/LegalStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_MethodType')]",
-				"[concat(variables('factoryId'), '/datasets/MethodTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NaicsCode')]",
-				"[concat(variables('factoryId'), '/datasets/NaicsCodeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NHDNetworkStatus')]",
-				"[concat(variables('factoryId'), '/datasets/NhdNetworkStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NHDProduct')]",
-				"[concat(variables('factoryId'), '/datasets/NhdProductCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_RegulatoryStatus')]",
-				"[concat(variables('factoryId'), '/datasets/RegulatoryStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportingUnitType')]",
-				"[concat(variables('factoryId'), '/datasets/ReportingUnitTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportYear')]",
-				"[concat(variables('factoryId'), '/datasets/ReportYearCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_SiteType')]",
-				"[concat(variables('factoryId'), '/datasets/SiteTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_Units')]",
-				"[concat(variables('factoryId'), '/datasets/UnitsCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_UsgsCategory')]",
-				"[concat(variables('factoryId'), '/datasets/UsgsCategoryCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_Variable')]",
-				"[concat(variables('factoryId'), '/datasets/VariableCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_VariableSpecific')]",
-				"[concat(variables('factoryId'), '/datasets/VariableSpecificCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationBasis')]",
-				"[concat(variables('factoryId'), '/datasets/WaterAllocationBasisCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterQualityIndicator')]",
-				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationType')]",
-				"[concat(variables('factoryId'), '/datasets/WaterAllocationTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterSourceType')]",
-				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LoadCVs_Debug')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
+					},
 					{
-						"name": "Copy_CropType",
+						"name": "Copy_ApplicableResourceType",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -4116,30 +4073,23 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "CVs_CropType",
+								"referenceName": "CVs_ApplicableResourceType",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "CropTypeCsv",
+								"referenceName": "ApplicableResourceTypeCsv",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						]
 					},
 					{
-						"name": "CvDataFlow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Copy_CropType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
+						"name": "Copy_CoordinateMethod",
+						"type": "Copy",
+						"dependsOn": [],
 						"policy": {
 							"timeout": "7.00:00:00",
 							"retry": 0,
@@ -4149,25 +4099,180 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"dataflow": {
-								"referenceName": "CvDataFlow_Debug",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CropTypeCSV": {},
-									"CropTypeCvDb": {}
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
 								}
 							},
-							"staging": {}
-						}
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CoordinateMethod",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CoordinateMethodCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CVs_AggregationStatistic')]",
+				"[concat(variables('factoryId'), '/datasets/AggegationStatisticCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_ReportYearType')]",
+				"[concat(variables('factoryId'), '/datasets/ReportYearTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_epsgcode')]",
+				"[concat(variables('factoryId'), '/datasets/EpsgCodeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_GnisFeatureName')]",
+				"[concat(variables('factoryId'), '/datasets/GnisFeatureNameCsv')]",
 				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
 				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow_Debug')]"
+				"[concat(variables('factoryId'), '/datasets/CVs_IrrigationMethod')]",
+				"[concat(variables('factoryId'), '/datasets/IrrigationMethodCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_LegalStatus')]",
+				"[concat(variables('factoryId'), '/datasets/LegalStatusCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_MethodType')]",
+				"[concat(variables('factoryId'), '/datasets/MethodTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_NaicsCode')]",
+				"[concat(variables('factoryId'), '/datasets/NaicsCodeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_NHDNetworkStatus')]",
+				"[concat(variables('factoryId'), '/datasets/NhdNetworkStatusCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_NHDProduct')]",
+				"[concat(variables('factoryId'), '/datasets/NhdProductCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_RegulatoryStatus')]",
+				"[concat(variables('factoryId'), '/datasets/RegulatoryStatusCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_ReportingUnitType')]",
+				"[concat(variables('factoryId'), '/datasets/ReportingUnitTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_ReportYear')]",
+				"[concat(variables('factoryId'), '/datasets/ReportYearCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_SiteType')]",
+				"[concat(variables('factoryId'), '/datasets/SiteTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_Units')]",
+				"[concat(variables('factoryId'), '/datasets/UnitsCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_UsgsCategory')]",
+				"[concat(variables('factoryId'), '/datasets/UsgsCategoryCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_Variable')]",
+				"[concat(variables('factoryId'), '/datasets/VariableCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_VariableSpecific')]",
+				"[concat(variables('factoryId'), '/datasets/VariableSpecificCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationBasis')]",
+				"[concat(variables('factoryId'), '/datasets/WaterAllocationBasisCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_WaterQualityIndicator')]",
+				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationType')]",
+				"[concat(variables('factoryId'), '/datasets/WaterAllocationTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_WaterSourceType')]",
+				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
+				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_ApplicableResourceType')]",
+				"[concat(variables('factoryId'), '/datasets/ApplicableResourceTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CVs_CoordinateMethod')]",
+				"[concat(variables('factoryId'), '/datasets/CoordinateMethodCsv')]"
 			]
 		},
 		{
@@ -5548,6 +5653,10 @@
 						"type": "String"
 					},
 					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
 						"name": "definition",
 						"type": "String"
 					},
@@ -5613,6 +5722,10 @@
 					},
 					{
 						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
 						"type": "String"
 					},
 					{
@@ -15050,6 +15163,24 @@
 							"name": "WaterSourceTypeCSV",
 							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> WaterSourceTypeCSV",
 							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "ApplicableResourceTypeCsv",
+								"type": "DatasetReference"
+							},
+							"name": "ApplicableResourceTypeCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> ApplicableResourceTypeCSV",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "CoordinateMethodCsv",
+								"type": "DatasetReference"
+							},
+							"name": "CoordinateMethodCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tabbreviation as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CoordinateMethodCSV",
+							"typeProperties": {}
 						}
 					],
 					"sinks": [
@@ -15059,7 +15190,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "CropTypeCvDb",
-							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
+							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15067,7 +15198,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "AggregationStatisticCvDb",
-							"script": "AggregationStatisticCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> AggregationStatisticCvDb"
+							"script": "AggregationStatisticCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> AggregationStatisticCvDb"
 						},
 						{
 							"dataset": {
@@ -15075,7 +15206,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "ReportYearTypeCvDb",
-							"script": "ReportYearTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearTypeCvDb"
+							"script": "ReportYearTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15083,7 +15214,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "EpsgCodeCvDb",
-							"script": "EpsgCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> EpsgCodeCvDb"
+							"script": "EpsgCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> EpsgCodeCvDb"
 						},
 						{
 							"dataset": {
@@ -15091,7 +15222,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "GnisFeatureNameCvDb",
-							"script": "GnisFeatureNameCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> GnisFeatureNameCvDb"
+							"script": "GnisFeatureNameCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> GnisFeatureNameCvDb"
 						},
 						{
 							"dataset": {
@@ -15099,7 +15230,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "IrrigationMethodCvDb",
-							"script": "IrrigationMethodCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> IrrigationMethodCvDb"
+							"script": "IrrigationMethodCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> IrrigationMethodCvDb"
 						},
 						{
 							"dataset": {
@@ -15107,7 +15238,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "LegalStatusCvDb",
-							"script": "LegalStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> LegalStatusCvDb"
+							"script": "LegalStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> LegalStatusCvDb"
 						},
 						{
 							"dataset": {
@@ -15115,7 +15246,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "MethodTypeCvDb",
-							"script": "MethodTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> MethodTypeCvDb"
+							"script": "MethodTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> MethodTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15123,7 +15254,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "NaicsCodeCvDb",
-							"script": "NaicsCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NaicsCodeCvDb"
+							"script": "NaicsCodeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NaicsCodeCvDb"
 						},
 						{
 							"dataset": {
@@ -15131,7 +15262,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "NhdNetworkStatusCvDb",
-							"script": "NhdNetworkStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdNetworkStatusCvDb"
+							"script": "NhdNetworkStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdNetworkStatusCvDb"
 						},
 						{
 							"dataset": {
@@ -15139,7 +15270,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "NhdProductCvDb",
-							"script": "NhdProductCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdProductCvDb"
+							"script": "NhdProductCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> NhdProductCvDb"
 						},
 						{
 							"dataset": {
@@ -15147,7 +15278,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "RegulatoryStatusCvDb",
-							"script": "RegulatoryStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> RegulatoryStatusCvDb"
+							"script": "RegulatoryStatusCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> RegulatoryStatusCvDb"
 						},
 						{
 							"dataset": {
@@ -15155,7 +15286,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "ReportingUnitTypeCvDb",
-							"script": "ReportingUnitTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportingUnitTypeCvDb"
+							"script": "ReportingUnitTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportingUnitTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15163,7 +15294,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "ReportYearCvDb",
-							"script": "DerivedColumn1 sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearCvDb"
+							"script": "DerivedColumn1 sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['name'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ReportYearCvDb"
 						},
 						{
 							"dataset": {
@@ -15171,7 +15302,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "SiteTypeCvDb",
-							"script": "SiteTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> SiteTypeCvDb"
+							"script": "SiteTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> SiteTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15179,7 +15310,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "UnitsCvDb",
-							"script": "UnitsCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UnitsCvDb"
+							"script": "UnitsCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UnitsCvDb"
 						},
 						{
 							"dataset": {
@@ -15187,7 +15318,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "UsgsCategoryCvDb",
-							"script": "UsgsCategoryCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UsgsCategoryCvDb"
+							"script": "UsgsCategoryCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> UsgsCategoryCvDb"
 						},
 						{
 							"dataset": {
@@ -15195,7 +15326,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "VariableCvDb",
-							"script": "VariableCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableCvDb"
+							"script": "VariableCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableCvDb"
 						},
 						{
 							"dataset": {
@@ -15203,7 +15334,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "VariableSpecificCvDb",
-							"script": "VariableSpecificCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableSpecificCvDb"
+							"script": "VariableSpecificCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> VariableSpecificCvDb"
 						},
 						{
 							"dataset": {
@@ -15211,7 +15342,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "WaterAllocationBasisCvDb",
-							"script": "WaterAllocationBasisCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationBasisCvDb"
+							"script": "WaterAllocationBasisCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationBasisCvDb"
 						},
 						{
 							"dataset": {
@@ -15219,7 +15350,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "WaterAllocationTypeCvDb",
-							"script": "WaterAllocationTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationTypeCvDb"
+							"script": "WaterAllocationTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tState as string,\n\t\tDefinition as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tState = state,\n\t\tDefinition = definition,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterAllocationTypeCvDb"
 						},
 						{
 							"dataset": {
@@ -15227,7 +15358,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "WaterQualityIndicatorCvDb",
-							"script": "WaterQualityIndicatorCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterQualityIndicatorCvDb"
+							"script": "WaterQualityIndicatorCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterQualityIndicatorCvDb"
 						},
 						{
 							"dataset": {
@@ -15235,7 +15366,23 @@
 								"type": "DatasetReference"
 							},
 							"name": "WaterSourceTypeCvDb",
-							"script": "WaterSourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterSourceTypeCvDb"
+							"script": "WaterSourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> WaterSourceTypeCvDb"
+						},
+						{
+							"dataset": {
+								"referenceName": "Db_ApplicableResourceType",
+								"type": "DatasetReference"
+							},
+							"name": "ApplicableResourceTypeCvDb",
+							"script": "ApplicableResourceTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> ApplicableResourceTypeCvDb"
+						},
+						{
+							"dataset": {
+								"referenceName": "Db_CoordinateMethod",
+								"type": "DatasetReference"
+							},
+							"name": "CoordinateMethodCvDb",
+							"script": "CoordinateMethodCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CoordinateMethodCvDb"
 						}
 					],
 					"transformations": [
@@ -15270,6 +15417,8 @@
 				"[concat(variables('factoryId'), '/datasets/WaterAllocationTypeCsv')]",
 				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
 				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/ApplicableResourceTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/CoordinateMethodCsv')]",
 				"[concat(variables('factoryId'), '/datasets/Db_CropType')]",
 				"[concat(variables('factoryId'), '/datasets/Db_AggregationStatistic')]",
 				"[concat(variables('factoryId'), '/datasets/Db_ReportYearType')]",
@@ -15292,46 +15441,9 @@
 				"[concat(variables('factoryId'), '/datasets/Db_WaterAllocationBasis')]",
 				"[concat(variables('factoryId'), '/datasets/Db_WaterAllocationType')]",
 				"[concat(variables('factoryId'), '/datasets/Db_WaterQualityIndicator')]",
-				"[concat(variables('factoryId'), '/datasets/Db_WaterSourceType')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "CvData"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Db_CropType",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCvDb",
-							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
-						}
-					],
-					"transformations": []
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/Db_CropType')]"
+				"[concat(variables('factoryId'), '/datasets/Db_WaterSourceType')]",
+				"[concat(variables('factoryId'), '/datasets/Db_ApplicableResourceType')]",
+				"[concat(variables('factoryId'), '/datasets/Db_CoordinateMethod')]"
 			]
 		},
 		{
@@ -15533,7 +15645,7 @@
 					"transformations": [
 						{
 							"name": "DerivedPointsOfDiversion",
-							"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', 'Unknown'\r\n    ,POD_TYPE == 'A', 'Abandoned'\r\n    ,POD_TYPE == 'C', 'Sewage'\r\n    ,POD_TYPE == 'D', 'Drain'\r\n    ,POD_TYPE == 'F', 'Sewage'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'Sewage'\r\n    ,POD_TYPE == 'P', 'Sewage'\r\n    ,POD_TYPE == 'R', 'Point of Rediversion'\r\n    ,POD_TYPE == 'S', 'Surface'\r\n    ,POD_TYPE == 'T', 'Point of Return'\r\n    ,POD_TYPE == 'U', 'Underground'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = '5107',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG:4326') ~> DerivedPointsOfDiversion"
+							"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', ''\r\n    ,POD_TYPE == 'A', 'UT_A'\r\n    ,POD_TYPE == 'C', 'UT_CFNP'\r\n    ,POD_TYPE == 'D', 'UT_D'\r\n    ,POD_TYPE == 'F', 'UT_CFNP'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'UT_CFNP'\r\n    ,POD_TYPE == 'P', 'UT_CFNP'\r\n    ,POD_TYPE == 'R', 'UT_R'\r\n    ,POD_TYPE == 'S', 'UT_S'\r\n    ,POD_TYPE == 'T', 'UT_T'\r\n    ,POD_TYPE == 'U', 'UT_U'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = 'GPS',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG4326') ~> DerivedPointsOfDiversion"
 						},
 						{
 							"name": "SelectPointsOfDiversion",
@@ -15680,7 +15792,7 @@
 						},
 						{
 							"name": "DerivedMaster",
-							"script": "UTMaster derive(OrganizationUUID = 'UTWRE',\n\t\tVariableSpecificUUID = 'Allocation All',\n\t\tSiteUUID = 'UT_' + WRNUM,\n\t\tWaterSourceUUID = 'UT_' + WRNUM,\n\t\tDataPublicationDate = toString(currentDate()),\n\t\tDataPublicationDOI = '',\n\t\tAllocationBasisCV = '',\n\t\tAllocationNativeID = WRNUM,\n\t\tAllocationLegalStatusCV = case(WREX_STATUS == 'ABAN', ''\r\n    ,WREX_STATUS == 'ADEC', 'Adjudication Decree'\r\n    ,WREX_STATUS == 'AMEN', ''\r\n    ,WREX_STATUS == 'APP', 'Approved'\r\n    ,WREX_STATUS == 'CERT', 'Certificated'\r\n    ,WREX_STATUS == 'DIS', 'Disallowed'\r\n    ,WREX_STATUS == 'EXP', 'Expired'\r\n    ,WREX_STATUS == 'FORF', 'Forfeited'\r\n    ,WREX_STATUS == 'INV', ''\r\n    ,WREX_STATUS == 'LAP', 'Lapsed'\r\n    ,WREX_STATUS == 'LAPD', 'Lapsed(Destroyed)'\r\n    ,WREX_STATUS == 'NPR', 'No Proof Required'\r\n    ,WREX_STATUS == 'NUSE', 'Nonuse'\r\n    ,WREX_STATUS == 'PERF', 'Perfected'\r\n    ,WREX_STATUS == 'REJ', 'Rejected'\r\n    ,WREX_STATUS == 'REJD', 'Rejected(Destroyed)'\r\n    ,WREX_STATUS == 'RNUM', 'Renumbered'\r\n    ,WREX_STATUS == 'TERM', 'Terminated'\r\n    ,WREX_STATUS == 'UNAP', 'Unapproved'\r\n    ,WREX_STATUS == 'WD', 'Withdrawn'\r\n    ,WREX_STATUS == 'WDD', 'Withdrawn(Destroyed)'\r\n    ,WREX_STATUS == 'WUC', 'Water User\"s Claim'),\n\t\tAllocationTypeCV = case(TYPE_OF_RIGHT == 'ADEC', 'Adjudication Decree'\r\n    ,TYPE_OF_RIGHT == 'ADJC', ''\r\n    ,TYPE_OF_RIGHT == 'ADV', 'Adverse Use'\r\n    ,TYPE_OF_RIGHT == 'APPL', 'Application to Appropriate'\r\n    ,TYPE_OF_RIGHT == 'DEC', 'Decree'\r\n    ,TYPE_OF_RIGHT == 'DIL', 'Diligence Claim'\r\n    ,TYPE_OF_RIGHT == 'FEDR', 'Federal Reserved Water Right'\r\n    ,TYPE_OF_RIGHT == 'FIXD', 'Fixed-Time Application'\r\n    ,TYPE_OF_RIGHT == 'PAC', 'Pending Adjudication Claim'\r\n    ,TYPE_OF_RIGHT == 'SHAR', 'Water Company Shares'\r\n    ,TYPE_OF_RIGHT == 'TEMP', 'Temporary Application'\r\n    ,TYPE_OF_RIGHT == 'UGWC', 'Underground Water Claim'),\n\t\tAllocationApplicationDate = toString(toDate(DATE_FILED, 'yyyyMMdd')),\n\t\tAllocationPriorityDate = toString(toDate(DATE_PRIORITY, 'yyyyMMdd')),\n\t\tAllocationExpirationDate = toString(toDate(DATE_TERMINATED, 'yyyyMMdd')),\n\t\tAllocationChangeApplicationIndicator = '',\n\t\tLegacyAllocationIDs = '',\n\t\tAllocationCropDutyAmount = IRRIGATION_DEPLETION,\n\t\tAllocationAmount = WREX_CFS,\n\t\tAllocationMaximum = WREX_ACFT,\n\t\tPopulationServed = '',\n\t\tPowerGeneratedGWh = '',\n\t\tAllocationCommunityWaterSupplySystem = '',\n\t\tAllocationSDWISIdentifier = '',\n\t\tIrrigatedAcreage = '',\n\t\tAllocationAssociatedWithdrawalSiteIDs = '',\n\t\tAllocationAssociatedConsumptiveUseSiteIDs = '',\n\t\tWaterAllocationNativeURL = '',\n\t\tMethodUUID = 'UT_WaterAllocation') ~> DerivedMaster"
+							"script": "UTMaster derive(OrganizationUUID = 'UTWRE',\n\t\tVariableSpecificUUID = 'Allocation All',\n\t\tSiteUUID = 'UT_' + WRNUM,\n\t\tWaterSourceUUID = 'UT_' + WRNUM,\n\t\tDataPublicationDate = toString(currentDate()),\n\t\tDataPublicationDOI = '',\n\t\tAllocationBasisCV = '',\n\t\tAllocationNativeID = WRNUM,\n\t\tAllocationLegalStatusCV = case(WREX_STATUS == 'ABAN', ''\r\n    ,WREX_STATUS == 'ADEC', 'UT_ADEC'\r\n    ,WREX_STATUS == 'AMEN', ''\r\n    ,WREX_STATUS == 'APP', 'UT_APP'\r\n    ,WREX_STATUS == 'CERT', 'UT_CERT'\r\n    ,WREX_STATUS == 'DIS', 'UT_DIS'\r\n    ,WREX_STATUS == 'EXP', 'UT_EXP'\r\n    ,WREX_STATUS == 'FORF', 'UT_FORF'\r\n    ,WREX_STATUS == 'INV', ''\r\n    ,WREX_STATUS == 'LAP', 'UT_LAP'\r\n    ,WREX_STATUS == 'LAPD', 'UT_LAPD'\r\n    ,WREX_STATUS == 'NPR', 'UT_NPR'\r\n    ,WREX_STATUS == 'NUSE', 'UT_NUSE'\r\n    ,WREX_STATUS == 'PERF', 'UT_PERF'\r\n    ,WREX_STATUS == 'REJ', 'UT_REJ'\r\n    ,WREX_STATUS == 'REJD', 'UT_REJD'\r\n    ,WREX_STATUS == 'RNUM', 'UT_RNUM'\r\n    ,WREX_STATUS == 'TERM', 'UT_TERM'\r\n    ,WREX_STATUS == 'UNAP', 'UT_UNAP'\r\n    ,WREX_STATUS == 'WD', 'UT_WD'\r\n    ,WREX_STATUS == 'WDD', 'UT_WDD'\r\n    ,WREX_STATUS == 'WUC', 'UT_WUC'),\n\t\tAllocationTypeCV = case(TYPE_OF_RIGHT == 'ADEC', 'UT_ADEC'\r\n    ,TYPE_OF_RIGHT == 'ADJC', ''\r\n    ,TYPE_OF_RIGHT == 'ADV', 'UT_ADV'\r\n    ,TYPE_OF_RIGHT == 'APPL', 'UT_APPL'\r\n    ,TYPE_OF_RIGHT == 'DEC', 'UT_DEC'\r\n    ,TYPE_OF_RIGHT == 'DIL', 'UT_DIL'\r\n    ,TYPE_OF_RIGHT == 'FEDR', 'UT_FEDR'\r\n    ,TYPE_OF_RIGHT == 'FIXD', 'UT_FIXD'\r\n    ,TYPE_OF_RIGHT == 'PAC', 'UT_PAC'\r\n    ,TYPE_OF_RIGHT == 'SHAR', 'UT_SHAR'\r\n    ,TYPE_OF_RIGHT == 'TEMP', 'UT_TEMP'\r\n    ,TYPE_OF_RIGHT == 'UGWC', 'UT_UGWC'),\n\t\tAllocationApplicationDate = toString(toDate(DATE_FILED, 'yyyyMMdd')),\n\t\tAllocationPriorityDate = toString(toDate(DATE_PRIORITY, 'yyyyMMdd')),\n\t\tAllocationExpirationDate = toString(toDate(DATE_TERMINATED, 'yyyyMMdd')),\n\t\tAllocationChangeApplicationIndicator = '',\n\t\tLegacyAllocationIDs = '',\n\t\tAllocationCropDutyAmount = IRRIGATION_DEPLETION,\n\t\tAllocationAmount = WREX_CFS,\n\t\tAllocationMaximum = WREX_ACFT,\n\t\tPopulationServed = '',\n\t\tPowerGeneratedGWh = '',\n\t\tAllocationCommunityWaterSupplySystem = '',\n\t\tAllocationSDWISIdentifier = '',\n\t\tIrrigatedAcreage = '',\n\t\tAllocationAssociatedWithdrawalSiteIDs = '',\n\t\tAllocationAssociatedConsumptiveUseSiteIDs = '',\n\t\tWaterAllocationNativeURL = '',\n\t\tMethodUUID = 'UT_WaterAllocation') ~> DerivedMaster"
 						},
 						{
 							"name": "SelectMaster",
@@ -15756,7 +15868,7 @@
 					"transformations": [
 						{
 							"name": "DerivedMaster",
-							"script": "UTMaster derive(WaterSourceUUID = 'UT_' + WRNUM,\n\t\tWaterSourceNativeID = WRNUM,\n\t\tWaterSourceName = WREX_SOURCE,\n\t\tWaterSourceTypeCV = 'Unknown',\n\t\tWaterQualityIndicatorCV = 'Fresh',\n\t\tGNISFeatureNameCV = '',\n\t\tGeometry = '') ~> DerivedMaster"
+							"script": "UTMaster derive(WaterSourceUUID = 'UT_' + WRNUM,\n\t\tWaterSourceNativeID = WRNUM,\n\t\tWaterSourceName = WREX_SOURCE,\n\t\tWaterSourceTypeCV = 'unknown',\n\t\tWaterQualityIndicatorCV = 'Fresh',\n\t\tGNISFeatureNameCV = '',\n\t\tGeometry = '') ~> DerivedMaster"
 						},
 						{
 							"name": "SelectWaterSources",
@@ -15773,6 +15885,410 @@
 				"[concat(variables('factoryId'), '/datasets/UT_Master_Water_Rights_Exchange')]",
 				"[concat(variables('factoryId'), '/datasets/UT_WaterSources')]",
 				"[concat(variables('factoryId'), '/datasets/UT_NormalizedWaterSources')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ApplicableResourceTypeCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "ApplicableResourceType.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CoordinateMethodCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CoordinateMethod.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "CvData"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Db_CropType",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCvDb",
+							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
+						}
+					],
+					"transformations": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/Db_CropType')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LoadCVs_Debug')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_CropType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CropType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "CvDataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy_CropType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CvDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"CropTypeCSV": {},
+									"AggregationStatisticCSV": {},
+									"ReportYearTypeCSV": {},
+									"EpsgCodeCSV": {},
+									"GnisFeatureNameCSV": {},
+									"IrrigationMethodCSV": {},
+									"LegalStatusCSV": {},
+									"MethodTypeCSV": {},
+									"NaicsCodeCSV": {},
+									"NhdNetworkStatusCSV": {},
+									"NhdProductCSV": {},
+									"RegulatoryStatusCSV": {},
+									"ReportingUnitTypeCSV": {},
+									"ReportYearCSV": {},
+									"SiteTypeCSV": {},
+									"UnitsCSV": {},
+									"UsgsCategoryCSV": {},
+									"VariableCSV": {},
+									"VariableSpecificCSV": {},
+									"WaterAllocationBasisCSV": {},
+									"WaterAllocationTypeCSV": {},
+									"WaterQualityIndicatorCSV": {},
+									"WaterSourceTypeCSV": {},
+									"ApplicableResourceTypeCSV": {},
+									"CoordinateMethodCSV": {},
+									"CropTypeCvDb": {},
+									"AggregationStatisticCvDb": {},
+									"ReportYearTypeCvDb": {},
+									"EpsgCodeCvDb": {},
+									"GnisFeatureNameCvDb": {},
+									"IrrigationMethodCvDb": {},
+									"LegalStatusCvDb": {},
+									"MethodTypeCvDb": {},
+									"NaicsCodeCvDb": {},
+									"NhdNetworkStatusCvDb": {},
+									"NhdProductCvDb": {},
+									"RegulatoryStatusCvDb": {},
+									"ReportingUnitTypeCvDb": {},
+									"ReportYearCvDb": {},
+									"SiteTypeCvDb": {},
+									"UnitsCvDb": {},
+									"UsgsCategoryCvDb": {},
+									"VariableCvDb": {},
+									"VariableSpecificCvDb": {},
+									"WaterAllocationBasisCvDb": {},
+									"WaterAllocationTypeCvDb": {},
+									"WaterQualityIndicatorCvDb": {},
+									"WaterSourceTypeCvDb": {},
+									"ApplicableResourceTypeCvDb": {},
+									"CoordinateMethodCvDb": {}
+								}
+							},
+							"staging": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
+				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
+				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]"
 			]
 		}
 	]
