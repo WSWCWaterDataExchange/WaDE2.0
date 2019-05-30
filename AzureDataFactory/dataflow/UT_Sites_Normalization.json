@@ -37,7 +37,7 @@
 			"transformations": [
 				{
 					"name": "DerivedPointsOfDiversion",
-					"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', 'Unknown'\r\n    ,POD_TYPE == 'A', 'Abandoned'\r\n    ,POD_TYPE == 'C', 'Sewage'\r\n    ,POD_TYPE == 'D', 'Drain'\r\n    ,POD_TYPE == 'F', 'Sewage'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'Sewage'\r\n    ,POD_TYPE == 'P', 'Sewage'\r\n    ,POD_TYPE == 'R', 'Point of Rediversion'\r\n    ,POD_TYPE == 'S', 'Surface'\r\n    ,POD_TYPE == 'T', 'Point of Return'\r\n    ,POD_TYPE == 'U', 'Underground'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = '5107',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG:4326') ~> DerivedPointsOfDiversion"
+					"script": "UTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', ''\r\n    ,POD_TYPE == 'A', 'UT_A'\r\n    ,POD_TYPE == 'C', 'UT_CFNP'\r\n    ,POD_TYPE == 'D', 'UT_D'\r\n    ,POD_TYPE == 'F', 'UT_CFNP'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'UT_CFNP'\r\n    ,POD_TYPE == 'P', 'UT_CFNP'\r\n    ,POD_TYPE == 'R', 'UT_R'\r\n    ,POD_TYPE == 'S', 'UT_S'\r\n    ,POD_TYPE == 'T', 'UT_T'\r\n    ,POD_TYPE == 'U', 'UT_U'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = 'GPS',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG4326') ~> DerivedPointsOfDiversion"
 				},
 				{
 					"name": "SelectPointsOfDiversion",
