@@ -3992,6 +3992,185 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LoadCVs_Debug')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_CropType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CropType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "CvDataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy_CropType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CvDataFlow_Debug",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"CropTypeCSV": {},
+									"CropTypeCvDb": {}
+								}
+							},
+							"staging": {}
+						}
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
+				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
+				"[concat(variables('factoryId'), '/dataflows/CvDataFlow_Debug')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Needs Work - Load Water Allocation Data')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -15114,6 +15293,45 @@
 				"[concat(variables('factoryId'), '/datasets/Db_WaterAllocationType')]",
 				"[concat(variables('factoryId'), '/datasets/Db_WaterQualityIndicator')]",
 				"[concat(variables('factoryId'), '/datasets/Db_WaterSourceType')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "CvData"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Db_CropType",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCvDb",
+							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:false,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = name,\n\t\tTerm = term,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
+						}
+					],
+					"transformations": []
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
+				"[concat(variables('factoryId'), '/datasets/Db_CropType')]"
 			]
 		},
 		{
