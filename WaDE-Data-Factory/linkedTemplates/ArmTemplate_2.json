@@ -37,6 +37,27 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/ColoradoDownloadFile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "GitHub",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Colorado"
+				},
+				"annotations": [],
+				"type": "HttpFile",
+				"typeProperties": {
+					"relativeUrl": "/WSWCWaterDataExchange/WaDE2.0/raw/ImportWork/Design_docs/DBPopulate/CO_WaterAllocations_Basic.xlsx",
+					"requestMethod": "GET"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ColoradoOrganizationsFile')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -317,6 +338,73 @@
 					},
 					"folderPath": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_folderPath')]"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CoordinateMethodCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "CoordinateMethod.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		},
@@ -968,90 +1056,6 @@
 				],
 				"typeProperties": {
 					"tableName": "CVs.RegulatoryStatus"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Db_ReportYearCV')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WaDE Database",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DB_CVs_tables"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Name",
-						"type": "nchar"
-					},
-					{
-						"name": "Term",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Definition",
-						"type": "nvarchar"
-					},
-					{
-						"name": "State",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SourceVocabularyURI",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"tableName": "CVs.ReportYearCV"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Db_ReportYearType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WaDE Database",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "DB_CVs_tables"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "Name",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Term",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Definition",
-						"type": "nvarchar"
-					},
-					{
-						"name": "State",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SourceVocabularyURI",
-						"type": "nvarchar"
-					}
-				],
-				"typeProperties": {
-					"tableName": "CVs.ReportYearType"
 				}
 			},
 			"dependsOn": []

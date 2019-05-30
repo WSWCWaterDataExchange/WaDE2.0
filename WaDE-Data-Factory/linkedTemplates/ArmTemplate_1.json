@@ -13,6 +13,77 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/CVs_LegalStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "http://vocabulary.westernstateswater.org/legalstatus/",
+				"linkedServiceName": {
+					"referenceName": "CVsAPI",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "GetCVs_data"
+				},
+				"annotations": [],
+				"type": "HttpFile",
+				"structure": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"quoteChar": "\"",
+						"nullValue": "\\N",
+						"encodingName": null,
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": true
+					},
+					"relativeUrl": "/api/v1/legalstatus/?format=csv",
+					"requestMethod": "GET"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CVs_MethodType')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1350,27 +1421,6 @@
 						"firstRowAsHeader": true
 					},
 					"relativeUrl": "/api/v1/epsgcode/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ColoradoDownloadFile')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "GitHub",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Colorado"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"typeProperties": {
-					"relativeUrl": "/WSWCWaterDataExchange/WaDE2.0/raw/ImportWork/Design_docs/DBPopulate/CO_WaterAllocations_Basic.xlsx",
 					"requestMethod": "GET"
 				}
 			},

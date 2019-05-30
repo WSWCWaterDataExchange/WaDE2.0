@@ -7,6 +7,14 @@
 			"metadata": "Data Factory Name",
 			"defaultValue": "WaDE-Data-Factory"
 		},
+		"WaterMaster_properties_typeProperties_fileName": {
+			"type": "string",
+			"defaultValue": "WATER_MASTER.csv"
+		},
+		"WaterMaster_properties_typeProperties_folderPath": {
+			"type": "string",
+			"defaultValue": "utahwaterrights"
+		},
 		"test_netAmount_properties_typeProperties_fileName": {
 			"type": "string",
 			"defaultValue": "Net_new.csv"
@@ -20,6 +28,556 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterMaster')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureBlob",
+				"structure": [
+					{
+						"name": "WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "APPL_CLAIM_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "CERTIFICATE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "LAND_OWNERSHIP",
+						"type": "String"
+					},
+					{
+						"name": "WREX_CFS",
+						"type": "String"
+					},
+					{
+						"name": "WREX_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "WREX_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "WREX_SOURCE",
+						"type": "String"
+					},
+					{
+						"name": "WREX_COUNTY",
+						"type": "String"
+					},
+					{
+						"name": "COMMON_DESCRIPTION",
+						"type": "String"
+					},
+					{
+						"name": "DATE_FILED",
+						"type": "String"
+					},
+					{
+						"name": "TAKEN_BY_INITIALS",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PRIORITY",
+						"type": "String"
+					},
+					{
+						"name": "ADV_NEWSPAPER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PUB_BEGAN",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROOF_PUB",
+						"type": "String"
+					},
+					{
+						"name": "PROTESTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROTEST_END",
+						"type": "String"
+					},
+					{
+						"name": "MEMO_DECISION",
+						"type": "String"
+					},
+					{
+						"name": "DATE_APPROVED_REJECTED",
+						"type": "String"
+					},
+					{
+						"name": "APPROVED_REJECTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PROOF_DUE",
+						"type": "String"
+					},
+					{
+						"name": "DATE_EXTENSION_FILED",
+						"type": "String"
+					},
+					{
+						"name": "ELECTION_PROOF",
+						"type": "String"
+					},
+					{
+						"name": "DATE_ELECTION_PROOF",
+						"type": "String"
+					},
+					{
+						"name": "DATE_CERT_WUC_ISSUED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_TERMINATED",
+						"type": "String"
+					},
+					{
+						"name": "PDBOOK_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "TYPE_OF_RIGHT",
+						"type": "String"
+					},
+					{
+						"name": "WREX_STATUS",
+						"type": "String"
+					},
+					{
+						"name": "DOCUMENT_ENTERED",
+						"type": "String"
+					},
+					{
+						"name": "MAP_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RUSH_LETTER",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RENOVATED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_VERIFIED",
+						"type": "String"
+					},
+					{
+						"name": "VERIFIED_BY_INITIALS",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT1",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT2",
+						"type": "String"
+					},
+					{
+						"name": "ENDORSEMENT_COMMENT3",
+						"type": "String"
+					},
+					{
+						"name": "DATE_PUB_ENDED",
+						"type": "String"
+					},
+					{
+						"name": "MODIFIED_LOGON",
+						"type": "String"
+					},
+					{
+						"name": "DATE_RECON_REQUESTED",
+						"type": "String"
+					},
+					{
+						"name": "RECONSIDER_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "IRRIGATION_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "DOMESTIC_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPAL_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "MUNICIPAL_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "MINING_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "MINING_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "POWER_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "POWER_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_DIVERSION",
+						"type": "String"
+					},
+					{
+						"name": "OTHER_DEPLETION",
+						"type": "String"
+					},
+					{
+						"name": "EXNUM",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_BASE_WRNUM",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_CONTRACT_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED1",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED2",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_EVIDENCED3",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_CFS",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_SOURCE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_COUNTY",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_PORELEASE_SAME",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_CFS",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_ANDOR",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_ACFT",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_BEG_DATE",
+						"type": "String"
+					},
+					{
+						"name": "EXCHANGE_RELEASE_END_DATE",
+						"type": "String"
+					},
+					{
+						"name": "WATER_USES",
+						"type": "String"
+					},
+					{
+						"name": "DATE_WUCS_RECEIVED",
+						"type": "String"
+					},
+					{
+						"name": "MANUAL_EVALUATION",
+						"type": "String"
+					},
+					{
+						"name": "ACRE_FEET_EXPORTED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_HEARING_HELD",
+						"type": "String"
+					},
+					{
+						"name": "DIVERSION_DUTY",
+						"type": "String"
+					},
+					{
+						"name": "DEPLETION_DUTY",
+						"type": "String"
+					},
+					{
+						"name": "GROWING_SEASON",
+						"type": "String"
+					},
+					{
+						"name": "DATE_FIELD_REVIEW",
+						"type": "String"
+					},
+					{
+						"name": "AREA_CODE",
+						"type": "String"
+					},
+					{
+						"name": "ACTIVE_LITIGATION",
+						"type": "String"
+					},
+					{
+						"name": "DSYSDB_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "REPORT_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "PROOF_DUE_YEARS",
+						"type": "String"
+					},
+					{
+						"name": "PUBLIC_VIEW",
+						"type": "String"
+					},
+					{
+						"name": "WATER_USE_REPORTING",
+						"type": "String"
+					},
+					{
+						"name": "STREAM_ALT_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "DAM_PERMIT_REQUIRED",
+						"type": "String"
+					},
+					{
+						"name": "WR_SOLE_SUPPLY",
+						"type": "String"
+					},
+					{
+						"name": "DATE_LAPSING_LETTER",
+						"type": "String"
+					},
+					{
+						"name": "STOCK_COMPANY_ID",
+						"type": "String"
+					},
+					{
+						"name": "SHARES_OF_STOCK",
+						"type": "String"
+					},
+					{
+						"name": "OSE_SIGNATURE",
+						"type": "String"
+					},
+					{
+						"name": "CERT_SIGNATURE",
+						"type": "String"
+					},
+					{
+						"name": "PROOF_PROF_LICENSE_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "COUNTY_TAX_ID",
+						"type": "String"
+					},
+					{
+						"name": "LAST_MODIFIED_TYPE",
+						"type": "String"
+					},
+					{
+						"name": "LAST_MODIFIED_TABLE",
+						"type": "String"
+					},
+					{
+						"name": "FILE_DESTROYED",
+						"type": "String"
+					},
+					{
+						"name": "DATE_50YEAR_PERIOD",
+						"type": "String"
+					},
+					{
+						"name": "SUB_BASIN_NUMBER",
+						"type": "String"
+					},
+					{
+						"name": "SUB_BASIN_NAME",
+						"type": "String"
+					},
+					{
+						"name": "DIVDEP_DOCUMENT_ID",
+						"type": "String"
+					},
+					{
+						"name": "FULL_SUPPLY_EQUIVALENCE",
+						"type": "String"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "String"
+					},
+					{
+						"name": "SHARES_DISTRIBUTION",
+						"type": "String"
+					},
+					{
+						"name": "DECREE_CLASS",
+						"type": "String"
+					}
+				],
+				"typeProperties": {
+					"format": {
+						"type": "TextFormat",
+						"columnDelimiter": ",",
+						"rowDelimiter": "",
+						"quoteChar": "\"",
+						"nullValue": "\\N",
+						"encodingName": null,
+						"treatEmptyAsNull": true,
+						"skipLineCount": 0,
+						"firstRowAsHeader": true
+					},
+					"fileName": "[parameters('WaterMaster_properties_typeProperties_fileName')]",
+					"folderPath": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/WaterQualityIndicatorCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "WaterQualityIndicator.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterSourceTypeCsv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -323,140 +881,6 @@
 					"fileName": "[parameters('test_netAmount_properties_typeProperties_fileName')]",
 					"folderPath": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
 				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ApplicableResourceTypeCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "ApplicableResourceType.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CoordinateMethodCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "CoordinateMethod.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
 			},
 			"dependsOn": []
 		},
@@ -1562,10 +1986,45 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/ApplicableResourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CoordinateMethodCsv')]"
+				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
+				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "CvData"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Db_CropType",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCvDb",
+							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
+						}
+					],
+					"transformations": []
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_AggregatedAmounts_Normalization')]",
@@ -1692,7 +2151,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "UTReportingUnits",
-							"script": "source(output(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometery as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTReportingUnits",
+							"script": "source(output(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTReportingUnits",
 							"typeProperties": {}
 						}
 					],
@@ -1703,7 +2162,7 @@
 								"type": "DatasetReference"
 							},
 							"name": "NormalizedReportingUnits",
-							"script": "UTReportingUnits sink(input(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometery as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['reportingunits.csv']) ~> NormalizedReportingUnits"
+							"script": "UTReportingUnits sink(input(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['reportingunits.csv']) ~> NormalizedReportingUnits"
 						}
 					],
 					"transformations": []
@@ -1975,42 +2434,6 @@
 							"script": "SelectWaterSources, UTWaterSources union(byName: true)~> UnionWaterSources"
 						}
 					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"folder": {
-					"name": "CvData"
-				},
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCSV",
-							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV",
-							"typeProperties": {}
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Db_CropType",
-								"type": "DatasetReference"
-							},
-							"name": "CropTypeCvDb",
-							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
-						}
-					],
-					"transformations": []
 				}
 			},
 			"dependsOn": []
@@ -5549,10 +5972,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
 				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]",
-				"[concat(variables('factoryId'), '/datasets/ApplicableResourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CoordinateMethodCsv')]"
+				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]"
 			]
 		}
 	]

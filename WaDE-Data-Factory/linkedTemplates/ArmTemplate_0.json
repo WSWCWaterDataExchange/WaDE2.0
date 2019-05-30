@@ -439,6 +439,75 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ApplicableResourceTypeCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "ApplicableResourceType.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CO_netamount_call')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1142,79 +1211,6 @@
 						"firstRowAsHeader": true
 					},
 					"relativeUrl": "/api/v1/irrigationmethod/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_LegalStatus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/legalstatus/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/legalstatus/?format=csv",
 					"requestMethod": "GET"
 				}
 			},

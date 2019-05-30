@@ -308,12 +308,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"WaterMaster_properties_typeProperties_fileName": {
-						"value": "[parameters('WaterMaster_properties_typeProperties_fileName')]"
-					},
-					"WaterMaster_properties_typeProperties_folderPath": {
-						"value": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
 					}
 				}
 			},
@@ -334,6 +328,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"WaterMaster_properties_typeProperties_fileName": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_fileName')]"
+					},
+					"WaterMaster_properties_typeProperties_folderPath": {
+						"value": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
 					},
 					"test_netAmount_properties_typeProperties_fileName": {
 						"value": "[parameters('test_netAmount_properties_typeProperties_fileName')]"

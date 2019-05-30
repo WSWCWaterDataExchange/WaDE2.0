@@ -37,6 +37,140 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/NhdNetworkStatusCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "NhdNetworkStatus.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NhdProductCsv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "CvBlobs"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "NhdProduct.csv",
+						"folderPath": "cvimport",
+						"container": "cvimport"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "term",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "state",
+						"type": "String"
+					},
+					{
+						"name": "abbreviation",
+						"type": "String"
+					},
+					{
+						"name": "definition",
+						"type": "String"
+					},
+					{
+						"name": "category",
+						"type": "String"
+					},
+					{
+						"name": "provenance",
+						"type": "String"
+					},
+					{
+						"name": "provenance_uri",
+						"type": "String"
+					},
+					{
+						"name": "note",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/NormalizedOrganizationsFile')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2330,166 +2464,6 @@
 					},
 					{
 						"name": "DataMappingURL",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UT_NormalizedReportingUnits')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderIdentifier": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Utah"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": {
-							"value": "@dataset().FolderIdentifier",
-							"type": "Expression"
-						},
-						"container": "normalizedimports"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "ReportingUnitUUID",
-						"type": "String"
-					},
-					{
-						"name": "ReportingUnitNativeID",
-						"type": "String"
-					},
-					{
-						"name": "ReportingUnitName",
-						"type": "String"
-					},
-					{
-						"name": "ReportingUnitTypeCV",
-						"type": "String"
-					},
-					{
-						"name": "ReportingUnitUpdateDate",
-						"type": "String"
-					},
-					{
-						"name": "ReportingUnitProductVersion",
-						"type": "String"
-					},
-					{
-						"name": "StateCV",
-						"type": "String"
-					},
-					{
-						"name": "EPSGCodeCV",
-						"type": "String"
-					},
-					{
-						"name": "Geometery",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UT_NormalizedSites')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"FolderIdentifier": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Utah"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": {
-							"value": "@dataset().FolderIdentifier",
-							"type": "Expression"
-						},
-						"container": "normalizedimports"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "SiteUUID",
-						"type": "String"
-					},
-					{
-						"name": "SiteNativeID",
-						"type": "String"
-					},
-					{
-						"name": "SiteName",
-						"type": "String"
-					},
-					{
-						"name": "USGSSiteID",
-						"type": "String"
-					},
-					{
-						"name": "SiteTypeCV",
-						"type": "String"
-					},
-					{
-						"name": "Longitude",
-						"type": "String"
-					},
-					{
-						"name": "Latitude",
-						"type": "String"
-					},
-					{
-						"name": "Geometry",
-						"type": "String"
-					},
-					{
-						"name": "CoordinateMethodCV",
-						"type": "String"
-					},
-					{
-						"name": "CoordinateAccuracy",
-						"type": "String"
-					},
-					{
-						"name": "GNISCodeCV",
-						"type": "String"
-					},
-					{
-						"name": "EPSGCodeCV",
 						"type": "String"
 					}
 				]
