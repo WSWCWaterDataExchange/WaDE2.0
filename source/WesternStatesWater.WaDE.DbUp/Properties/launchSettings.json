@@ -2,7 +2,6 @@
   "profiles": {
     "WesternStatesWater.WaDE.DbUp": {
       "commandName": "Project",
-      "commandLineArgs": "rebuild",
       "environmentVariables": {
         "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;"
       }
