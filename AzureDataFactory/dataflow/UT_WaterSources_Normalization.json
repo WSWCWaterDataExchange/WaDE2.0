@@ -37,7 +37,7 @@
 			"transformations": [
 				{
 					"name": "DerivedMaster",
-					"script": "UTMaster derive(WaterSourceUUID = 'UT_' + WRNUM,\n\t\tWaterSourceNativeID = WRNUM,\n\t\tWaterSourceName = WREX_SOURCE,\n\t\tWaterSourceTypeCV = 'Unknown',\n\t\tWaterQualityIndicatorCV = 'Fresh',\n\t\tGNISFeatureNameCV = '',\n\t\tGeometry = '') ~> DerivedMaster"
+					"script": "UTMaster derive(WaterSourceUUID = 'UT_' + WRNUM,\n\t\tWaterSourceNativeID = WRNUM,\n\t\tWaterSourceName = WREX_SOURCE,\n\t\tWaterSourceTypeCV = 'unknown',\n\t\tWaterQualityIndicatorCV = 'Fresh',\n\t\tGNISFeatureNameCV = '',\n\t\tGeometry = '') ~> DerivedMaster"
 				},
 				{
 					"name": "SelectWaterSources",
