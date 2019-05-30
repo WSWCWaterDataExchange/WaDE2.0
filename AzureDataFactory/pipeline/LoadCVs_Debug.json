@@ -150,7 +150,7 @@
 				},
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "CvDataFlow",
+						"referenceName": "CvDataFlow_Debug",
 						"type": "DataFlowReference"
 					}
 				}
