@@ -16223,60 +16223,12 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "CvDataFlow",
+								"referenceName": "CvDataFlow_Debug",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
 									"CropTypeCSV": {},
-									"AggregationStatisticCSV": {},
-									"ReportYearTypeCSV": {},
-									"EpsgCodeCSV": {},
-									"GnisFeatureNameCSV": {},
-									"IrrigationMethodCSV": {},
-									"LegalStatusCSV": {},
-									"MethodTypeCSV": {},
-									"NaicsCodeCSV": {},
-									"NhdNetworkStatusCSV": {},
-									"NhdProductCSV": {},
-									"RegulatoryStatusCSV": {},
-									"ReportingUnitTypeCSV": {},
-									"ReportYearCSV": {},
-									"SiteTypeCSV": {},
-									"UnitsCSV": {},
-									"UsgsCategoryCSV": {},
-									"VariableCSV": {},
-									"VariableSpecificCSV": {},
-									"WaterAllocationBasisCSV": {},
-									"WaterAllocationTypeCSV": {},
-									"WaterQualityIndicatorCSV": {},
-									"WaterSourceTypeCSV": {},
-									"ApplicableResourceTypeCSV": {},
-									"CoordinateMethodCSV": {},
-									"CropTypeCvDb": {},
-									"AggregationStatisticCvDb": {},
-									"ReportYearTypeCvDb": {},
-									"EpsgCodeCvDb": {},
-									"GnisFeatureNameCvDb": {},
-									"IrrigationMethodCvDb": {},
-									"LegalStatusCvDb": {},
-									"MethodTypeCvDb": {},
-									"NaicsCodeCvDb": {},
-									"NhdNetworkStatusCvDb": {},
-									"NhdProductCvDb": {},
-									"RegulatoryStatusCvDb": {},
-									"ReportingUnitTypeCvDb": {},
-									"ReportYearCvDb": {},
-									"SiteTypeCvDb": {},
-									"UnitsCvDb": {},
-									"UsgsCategoryCvDb": {},
-									"VariableCvDb": {},
-									"VariableSpecificCvDb": {},
-									"WaterAllocationBasisCvDb": {},
-									"WaterAllocationTypeCvDb": {},
-									"WaterQualityIndicatorCvDb": {},
-									"WaterSourceTypeCvDb": {},
-									"ApplicableResourceTypeCvDb": {},
-									"CoordinateMethodCvDb": {}
+									"CropTypeCvDb": {}
 								}
 							},
 							"staging": {}
@@ -16288,7 +16240,7 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
 				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]"
+				"[concat(variables('factoryId'), '/dataflows/CvDataFlow_Debug')]"
 			]
 		}
 	]
