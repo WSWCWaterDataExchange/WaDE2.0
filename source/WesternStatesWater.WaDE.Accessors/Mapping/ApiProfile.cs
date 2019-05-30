@@ -82,6 +82,37 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date));
 
+            CreateMap<IGrouping<EF.OrganizationsDim, EF.SiteVariableAmountsFact>, AccessorApi.SiteVariableAmountsOrganization>()
+                .ForMember(a => a.OrganizationName, b => b.MapFrom(c => c.Key.OrganizationName))
+                .ForMember(a => a.OrganizationPurview, b => b.MapFrom(c => c.Key.OrganizationPurview))
+                .ForMember(a => a.OrganizationWebsite, b => b.MapFrom(c => c.Key.OrganizationWebsite))
+                .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.Key.OrganizationPhoneNumber))
+                .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.Key.OrganizationContactName))
+                .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.Key.OrganizationContactEmail))
+                .ForMember(a => a.OrganizationState, b => b.Ignore())
+                .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
+                .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
+                .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
+                .ForMember(a => a.SiteVariableAmounts, b => b.MapFrom(c => c));
+
+            CreateMap<EF.SiteVariableAmountsFact, AccessorApi.SiteVariableAmount>()
+                .ForMember(a => a.SiteName, b => b.MapFrom(c => c.Site.SiteName))
+                .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.Site.SiteNativeId))
+                .ForMember(a => a.SiteTypeCV, b => b.MapFrom(c => c.Site.SiteTypeCv))
+                .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Site.Longitude))
+                .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Site.Latitude))
+                .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.Site.CoordinateMethodCv))
+                .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
+                .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificId))
+                .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
+                .ForMember(a=>a.AllocationCommunityWaterSupplySystem, b=>b.MapFrom(c=>c.CommunityWaterSupplySystem))
+                .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
+                .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
+                .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
+                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a=>a.AllocationGNISIDCV, b=>b.Ignore())
+                .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore());
+
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
         }

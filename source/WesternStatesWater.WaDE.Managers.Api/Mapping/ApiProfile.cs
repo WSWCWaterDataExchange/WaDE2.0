@@ -17,6 +17,9 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.AggregatedAmountsOrganization, ManagerApi.AggregatedAmountsOrganization>();
             CreateMap<AccessorApi.AggregatedAmount, ManagerApi.AggregatedAmount>();
             CreateMap<AccessorApi.ReportingUnit, ManagerApi.ReportingUnit>();
+
+            CreateMap<AccessorApi.SiteVariableAmountsOrganization, ManagerApi.SiteVariableAmountsOrganization>();
+            CreateMap<AccessorApi.SiteVariableAmount, ManagerApi.SiteVariableAmount>();
         }
     }
 }

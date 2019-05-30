@@ -32,6 +32,9 @@ namespace WaDEApiFunctions
 
             builder.Services.AddTransient<ManagerApi.IAggregatedAmountsManager, AggregratedAmountsManager>();
             builder.Services.AddTransient<AccessorApi.IAggregatedAmountsAccessor, AggregratedAmountsAccessor>();
+
+            builder.Services.AddTransient<ManagerApi.ISiteVariableAmountsManager, SiteVariableAmountsManager>();
+            builder.Services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
         }
     }
 }
