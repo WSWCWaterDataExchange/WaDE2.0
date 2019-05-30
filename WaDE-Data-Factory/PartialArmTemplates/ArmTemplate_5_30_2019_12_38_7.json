@@ -1,0 +1,49 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "WaDE-Data-Factory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CvDataFlow_Debug')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "CvData"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCSV",
+							"script": "source(output(\n\t\tterm as string,\n\t\tname as string,\n\t\tstate as string,\n\t\tdefinition as string,\n\t\tcategory as string,\n\t\tprovenance as string,\n\t\tprovenance_uri as string,\n\t\tnote as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> CropTypeCSV"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Db_CropType",
+								"type": "DatasetReference"
+							},
+							"name": "CropTypeCvDb",
+							"script": "CropTypeCSV sink(input(\n\t\tName as string,\n\t\tTerm as string,\n\t\tDefinition as string,\n\t\tState as string,\n\t\tSourceVocabularyURI as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tformat: 'table',\n\tdeletable:false,\n\tinsertable:false,\n\tupdateable:true,\n\tupsertable:true,\n\tkeys:['term'],\n\tmapColumn(\n\t\tName = term,\n\t\tTerm = name,\n\t\tDefinition = definition,\n\t\tState = state,\n\t\tSourceVocabularyURI = provenance_uri\n\t)) ~> CropTypeCvDb"
+						}
+					]
+				}
+			}
+		}
+	]
+}
