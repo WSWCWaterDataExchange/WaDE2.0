@@ -28,43 +28,6 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": [
-			{
-				"name": "ReportingUnitUUID",
-				"type": "String"
-			},
-			{
-				"name": "ReportingUnitNativeID",
-				"type": "String"
-			},
-			{
-				"name": "ReportingUnitName",
-				"type": "String"
-			},
-			{
-				"name": "ReportingUnitTypeCV",
-				"type": "String"
-			},
-			{
-				"name": "ReportingUnitUpdateDate",
-				"type": "String"
-			},
-			{
-				"name": "ReportingUnitProductVersion",
-				"type": "String"
-			},
-			{
-				"name": "StateCV",
-				"type": "String"
-			},
-			{
-				"name": "EPSGCodeCV",
-				"type": "String"
-			},
-			{
-				"name": "Geometery",
-				"type": "String"
-			}
-		]
+		"schema": []
 	}
 }
