@@ -69,8 +69,8 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "Core.LoadOrganization";
-
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter();
                 runIdParam.ParameterName = "@RunId";
@@ -102,8 +102,8 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
                 cmd.CommandText = "Core.LoadWaterAllocation";
-
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter();
                 runIdParam.ParameterName = "@RunId";
@@ -136,6 +136,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadAggregatedAmounts";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -177,6 +178,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadMethods";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -218,6 +220,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadRegulatoryOverlays";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -259,6 +262,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadReportingUnits";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -300,6 +304,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadSites";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -341,6 +346,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadSiteSpecificAmounts";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -382,6 +388,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadVariables";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
@@ -423,6 +430,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 cmd.CommandText = "Core.LoadWaterSources";
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
 
                 var runIdParam = new SqlParameter
                 {
