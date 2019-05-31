@@ -2492,8 +2492,8 @@
 								"referenceName": "UT_NormalizedWaterAllocations",
 								"type": "DatasetReference"
 							},
-							"name": "sink1",
-							"script": "Select1 sink(input(\n\t\tOrganizationUUID as string,\n\t\tVariableSpecificUUID as string,\n\t\tSiteUUID as string,\n\t\tWaterSourceUUID as string,\n\t\tMethodUUID as string,\n\t\tPrimaryUseCategory as string,\n\t\tBeneficialUseCategory as string,\n\t\tDataPublicationDate as string,\n\t\tDataPublicationDOI as string,\n\t\tAllocationNativeID as string,\n\t\tAllocationOwner as string,\n\t\tAllocationBasisCV as string,\n\t\tAllocationLegalStatusCV as string,\n\t\tAllocationTypeCV as string,\n\t\tAllocationApplicationDate as string,\n\t\tAllocationPriorityDate as string,\n\t\tAllocationExpirationDate as string,\n\t\tAllocationChangeApplicationIndicator as string,\n\t\tLegacyAllocationIDs as string,\n\t\tAllocationTimeframeStart as string,\n\t\tAllocationTimeframeEnd as string,\n\t\tAllocationCropDutyAmount as string,\n\t\tAllocationAmount as string,\n\t\tAllocationMaximum as string,\n\t\tPopulationServed as string,\n\t\tPowerGeneratedGWh as string,\n\t\tIrrigatedAcreage as string,\n\t\tAllocationCommunityWaterSupplySystem as string,\n\t\tAllocationSDWISIdentifier as string,\n\t\tAllocationAssociatedWithdrawalSiteIDs as string,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['waterallocations.csv']) ~> sink1"
+							"name": "NormalizedWaterAllocations",
+							"script": "UnionWaterAllocations sink(input(\n\t\tOrganizationUUID as string,\n\t\tVariableSpecificUUID as string,\n\t\tSiteUUID as string,\n\t\tWaterSourceUUID as string,\n\t\tMethodUUID as string,\n\t\tPrimaryUseCategory as string,\n\t\tBeneficialUseCategory as string,\n\t\tDataPublicationDate as string,\n\t\tDataPublicationDOI as string,\n\t\tAllocationNativeID as string,\n\t\tAllocationOwner as string,\n\t\tAllocationBasisCV as string,\n\t\tAllocationLegalStatusCV as string,\n\t\tAllocationTypeCV as string,\n\t\tAllocationApplicationDate as string,\n\t\tAllocationPriorityDate as string,\n\t\tAllocationExpirationDate as string,\n\t\tAllocationChangeApplicationIndicator as string,\n\t\tLegacyAllocationIDs as string,\n\t\tAllocationTimeframeStart as string,\n\t\tAllocationTimeframeEnd as string,\n\t\tAllocationCropDutyAmount as string,\n\t\tAllocationAmount as string,\n\t\tAllocationMaximum as string,\n\t\tPopulationServed as string,\n\t\tPowerGeneratedGWh as string,\n\t\tIrrigatedAcreage as string,\n\t\tAllocationCommunityWaterSupplySystem as string,\n\t\tAllocationSDWISIdentifier as string,\n\t\tAllocationAssociatedWithdrawalSiteIDs as string,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['waterallocations.csv']) ~> NormalizedWaterAllocations"
 						}
 					],
 					"transformations": [
@@ -2542,20 +2542,8 @@
 							"script": "DerivedWaterUses select(mapColumn(\n\t\tAllocationNativeID,\n\t\tBeneficialUseCategory,\n\t\tPrimaryUseCategory\n\t))~> SelectWaterUses"
 						},
 						{
-							"name": "Join1",
-							"script": "SelectWaterUses, SelectMaster join(SelectWaterUses@AllocationNativeID == SelectMaster@AllocationNativeID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join1"
-						},
-						{
-							"name": "Join2",
-							"script": "Join1, SelectOwners join(SelectWaterUses@AllocationNativeID == SelectOwners@AllocationNativeID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join2"
-						},
-						{
-							"name": "Join3",
-							"script": "Join2, SelectIrrigation join(SelectWaterUses@AllocationNativeID == SelectIrrigation@AllocationNativeID,\n\tjoinType:'inner',\n\tbroadcast: 'none')~> Join3"
-						},
-						{
-							"name": "Select1",
-							"script": "Join3 select(mapColumn(\n\t\tBeneficialUseCategory,\n\t\tPrimaryUseCategory,\n\t\tOrganizationUUID = SelectMaster@OrganizationUUID,\n\t\tVariableSpecificUUID = SelectMaster@VariableSpecificUUID,\n\t\tSiteUUID = SelectMaster@SiteUUID,\n\t\tMethodUUID = SelectMaster@MethodUUID,\n\t\tWaterSourceUUID = SelectMaster@WaterSourceUUID,\n\t\tDataPublicationDate = SelectMaster@DataPublicationDate,\n\t\tDataPublicationDOI = SelectMaster@DataPublicationDOI,\n\t\tAllocationBasisCV = SelectMaster@AllocationBasisCV,\n\t\tAllocationNativeID = SelectMaster@AllocationNativeID,\n\t\tAllocationLegalStatusCV = SelectMaster@AllocationLegalStatusCV,\n\t\tAllocationTypeCV = SelectMaster@AllocationTypeCV,\n\t\tAllocationApplicationDate = SelectMaster@AllocationApplicationDate,\n\t\tAllocationPriorityDate = SelectMaster@AllocationPriorityDate,\n\t\tAllocationExpirationDate = SelectMaster@AllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator = SelectMaster@AllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs = SelectMaster@LegacyAllocationIDs,\n\t\tAllocationCropDutyAmount = SelectMaster@AllocationCropDutyAmount,\n\t\tAllocationAmount = SelectMaster@AllocationAmount,\n\t\tAllocationMaximum = SelectMaster@AllocationMaximum,\n\t\tPopulationServed = SelectMaster@PopulationServed,\n\t\tPowerGeneratedGWh = SelectMaster@PowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem = SelectMaster@AllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier = SelectMaster@AllocationSDWISIdentifier,\n\t\tIrrigatedAcreage = SelectMaster@IrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs = SelectMaster@AllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs = SelectMaster@AllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL = SelectMaster@WaterAllocationNativeURL,\n\t\tAllocationOwner,\n\t\tAllocationTimeframeStart,\n\t\tAllocationTimeframeEnd\n\t))~> Select1"
+							"name": "UnionWaterAllocations",
+							"script": "SelectWaterUses, SelectMaster, SelectOwners, SelectIrrigation union(byName: true)~> UnionWaterAllocations"
 						}
 					]
 				}
