@@ -62,7 +62,7 @@
 				"type": "String"
 			},
 			{
-				"name": "Geometery",
+				"name": "Geometry",
 				"type": "String"
 			}
 		]

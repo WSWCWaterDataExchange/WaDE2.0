@@ -39,6 +39,10 @@
 				"type": "String"
 			},
 			{
+				"name": "PrimaryUseCategory",
+				"type": "String"
+			},
+			{
 				"name": "WaterSourceUUID",
 				"type": "String"
 			},
