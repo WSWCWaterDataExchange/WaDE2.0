@@ -1462,6 +1462,10 @@
 						"type": "String"
 					},
 					{
+						"name": "PrimaryUseCategory",
+						"type": "String"
+					},
+					{
 						"name": "WaterSourceUUID",
 						"type": "String"
 					},
@@ -2268,6 +2272,10 @@
 					},
 					{
 						"name": "BeneficialUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "PrimaryUseCategory",
 						"type": "String"
 					},
 					{

@@ -13,6 +13,3541 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/LoadCVs')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy_AggregationStatistic",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_AggregationStatistic",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AggegationStatisticCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_ReportYearType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_ReportYearType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ReportYearTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_EPSGCode",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "/api/v1/epsgcode/?format=csv"
+							},
+							{
+								"name": "Destination",
+								"value": "CVs.EPSGCode"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_epsgcode",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "EpsgCodeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_GNISFeatureName",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "/api/v1/gnisfeaturename/?format=csv"
+							},
+							{
+								"name": "Destination",
+								"value": "CVs.GNISFeatureName"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_GnisFeatureName",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "GnisFeatureNameCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_CropType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CropType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CropTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_IrrigationMethod",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_IrrigationMethod",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "IrrigationMethodCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_LegalStatus",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_LegalStatus",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "LegalStatusCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_MethodType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_MethodType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "MethodTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_NAICSCode",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_NaicsCode",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "NaicsCodeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_NHDNetworkStatus",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_NHDNetworkStatus",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "NhdNetworkStatusCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_NHDProduct",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_NHDProduct",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "NhdProductCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_RegulatoryStatus",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_RegulatoryStatus",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "RegulatoryStatusCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_ReportingUnitType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_ReportingUnitType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ReportingUnitTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_ReportYear",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_ReportYear",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ReportYearCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_SiteType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_SiteType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SiteTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_Units",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_Units",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "UnitsCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_USGSCategory",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_UsgsCategory",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "UsgsCategoryCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_Variable",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_Variable",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "VariableCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_VariableSpecific",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_VariableSpecific",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "VariableSpecificCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_WaterAllocationBasis",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_WaterAllocationBasis",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "WaterAllocationBasisCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_WaterQualityIndicator",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_WaterQualityIndicator",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "WaterQualityIndicatorCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_WaterAllocationType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_WaterAllocationType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "WaterAllocationTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_WaterSourceType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_WaterSourceType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "WaterSourceTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "CvDataFlow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Copy_CropType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_AggregationStatistic",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_ReportYearType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_EPSGCode",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_GNISFeatureName",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_IrrigationMethod",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_LegalStatus",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_MethodType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_NAICSCode",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_NHDNetworkStatus",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_NHDProduct",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_RegulatoryStatus",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_ReportingUnitType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_ReportYear",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_SiteType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_Units",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_USGSCategory",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_Variable",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_VariableSpecific",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_WaterAllocationBasis",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_WaterQualityIndicator",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_WaterAllocationType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_WaterSourceType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_ApplicableResourceType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_CoordinateMethod",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "CvDataFlow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"CropTypeCSV": {},
+									"AggregationStatisticCSV": {},
+									"ReportYearTypeCSV": {},
+									"EpsgCodeCSV": {},
+									"GnisFeatureNameCSV": {},
+									"IrrigationMethodCSV": {},
+									"LegalStatusCSV": {},
+									"MethodTypeCSV": {},
+									"NaicsCodeCSV": {},
+									"NhdNetworkStatusCSV": {},
+									"NhdProductCSV": {},
+									"RegulatoryStatusCSV": {},
+									"ReportingUnitTypeCSV": {},
+									"ReportYearCSV": {},
+									"SiteTypeCSV": {},
+									"UnitsCSV": {},
+									"UsgsCategoryCSV": {},
+									"VariableCSV": {},
+									"VariableSpecificCSV": {},
+									"WaterAllocationBasisCSV": {},
+									"WaterAllocationTypeCSV": {},
+									"WaterQualityIndicatorCSV": {},
+									"WaterSourceTypeCSV": {},
+									"ApplicableResourceTypeCSV": {},
+									"CoordinateMethodCSV": {},
+									"CropTypeCvDb": {},
+									"AggregationStatisticCvDb": {},
+									"ReportYearTypeCvDb": {},
+									"EpsgCodeCvDb": {},
+									"GnisFeatureNameCvDb": {},
+									"IrrigationMethodCvDb": {},
+									"LegalStatusCvDb": {},
+									"MethodTypeCvDb": {},
+									"NaicsCodeCvDb": {},
+									"NhdNetworkStatusCvDb": {},
+									"NhdProductCvDb": {},
+									"RegulatoryStatusCvDb": {},
+									"ReportingUnitTypeCvDb": {},
+									"ReportYearCvDb": {},
+									"SiteTypeCvDb": {},
+									"UnitsCvDb": {},
+									"UsgsCategoryCvDb": {},
+									"VariableCvDb": {},
+									"VariableSpecificCvDb": {},
+									"WaterAllocationBasisCvDb": {},
+									"WaterAllocationTypeCvDb": {},
+									"WaterQualityIndicatorCvDb": {},
+									"WaterSourceTypeCvDb": {},
+									"ApplicableResourceTypeCvDb": {},
+									"CoordinateMethodCvDb": {}
+								}
+							},
+							"staging": {}
+						}
+					},
+					{
+						"name": "Copy_ApplicableResourceType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_ApplicableResourceType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ApplicableResourceTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_CoordinateMethod",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSetting"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSetting",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"name": "term",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"name": "name",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"name": "state",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "abbreviation"
+										},
+										"sink": {
+											"name": "abbreviation",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"name": "definition",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"name": "category",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"name": "provenance",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"name": "provenance_uri",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"name": "note",
+											"type": "String"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CoordinateMethod",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CoordinateMethodCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/LoadCVs_Debug')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -208,7 +3743,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "UT_WaterAllocation_Normalization",
+								"referenceName": "Debug_UT_WaterAllocation_Normalization",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -216,219 +3751,7 @@
 									"UTWaterUses": {},
 									"UTOwners": {},
 									"UTIrrigationMaster": {},
-									"NormalizedWaterAllocations": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_WaterSources_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_WaterSources_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTMaster": {},
-									"UTWaterSources": {},
-									"NormalizedWaterSources": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Sites_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Sites_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTPointsOfDiversion": {},
-									"UTConvertedPoints": {},
-									"NormalizedSites": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Methods_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Methods_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTMethods": {},
-									"NormalizedMethods": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Organizations_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Organizations_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTOrganizations": {},
-									"NormalizedOrganizations": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Variables_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Variables_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTVariables": {},
-									"NormalizedVariables": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_ReportingUnits_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_ReportingUnits_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTReportingUnits": {},
-									"NormalizedReportingUnits": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_AggregatedAmounts_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_AggregatedAmounts_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTAggregatedAmounts": {},
-									"NormalizedAggregatedAmounts": {
+									"sink1": {
 										"FolderIdentifier": {
 											"value": "@pipeline().RunId",
 											"type": "Expression"
@@ -908,7 +4231,9 @@
 					}
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/LoadCVs')]"
+			]
 		}
 	]
 }
