@@ -76,22 +76,26 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-
             var blobClient = storageAccount.CreateCloudBlobClient();
+            var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
 
-            CloudBlobContainer cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
             var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
+
             if (!await blob.ExistsAsync())
             {
                 return new List<T>();
             }
 
-            var csvConfig = new Configuration();
-            csvConfig.Delimiter = ",";
-            csvConfig.TrimOptions = TrimOptions.Trim;
-            csvConfig.IgnoreBlankLines = true;
-            csvConfig.IgnoreQuotes = false;
+            var csvConfig = new Configuration
+            {
+                Delimiter = ",",
+                TrimOptions = TrimOptions.Trim,
+                IgnoreBlankLines = true,
+                IgnoreQuotes = false
+            };
+
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
+            
             if (classMap != null)
             {
                 csvConfig.RegisterClassMap(classMap);
@@ -99,11 +103,36 @@ namespace WesternStatesWater.WaDE.Accessors
 
             var text = (await blob.DownloadTextAsync()).TrimStart(new char[] { '\uFEFF', '\u200B' });
 
-            var result = new List<T>();
+            //uncomment the badData stuff if you want to inspect the bad data
+            //var badData = new List<string>();
+            var goodData = new List<T>();
+
             using (var reader = new CsvReader(new CsvParser(new StringReader(text), csvConfig)))
             {
-                return reader.GetRecords<T>().ToList();
+                var isBad = false;
+
+                reader.Configuration.BadDataFound = x =>
+                {
+                    isBad = true;
+                    //badData.Add(x.RawRecord);
+                };
+
+                while (reader.Read())
+                {
+                    var record = reader.GetRecord<T>();
+
+                    if (!isBad)
+                    {
+                        goodData.Add(record);
+                    }
+
+                    isBad = false;
+                }
             }
+
+            goodData = goodData.Distinct().ToList();
+
+            return goodData;
         }
 
         public class DMYDateConverter : CsvHelper.TypeConversion.DateTimeConverter
