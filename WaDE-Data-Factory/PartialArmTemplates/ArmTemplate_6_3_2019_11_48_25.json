@@ -1,0 +1,1460 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory Name",
+			"defaultValue": "WaDE-Data-Factory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Colorado Normalization')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Move files from one folder to another folder",
+				"activities": [
+					{
+						"name": "Excel To Json",
+						"type": "AzureFunctionActivity",
+						"dependsOn": [
+							{
+								"activity": "DownloadColoradoWaterAllocationData",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"functionName": {
+								"value": "@concat('ExcelConversionToJson?container=colorado-import&fileName=colorado-raw.xlsx&folder=', pipeline().RunId)",
+								"type": "Expression"
+							},
+							"method": "GET"
+						},
+						"linkedServiceName": {
+							"referenceName": "WaDE Import Functions",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "DownloadColoradoWaterAllocationData",
+						"type": "Copy",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "HttpSource",
+								"httpRequestTimeout": "00:01:40"
+							},
+							"sink": {
+								"type": "BlobSink"
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ColoradoDownloadFile",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ColoradoRawFile",
+								"type": "DatasetReference",
+								"parameters": {
+									"FolderIdentifier": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Colorado Organization Normalization",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Excel To Json",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "BlobSource",
+								"recursive": true
+							},
+							"sink": {
+								"type": "BlobSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"OrganizationUID": "OrganizationUUID",
+									"OrganizationName": "OrganizationName",
+									"OrganizationPurview": "OrganizationPurview",
+									"OrganizationWebsite": "OrganizationWebsite",
+									"OrganizationPhoneNumber": "OrganizationPhoneNumber",
+									"OrganizationContactName": "OrganizationContactName",
+									"OrganizationContactEmail": "OrganizationContactEmail"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ColoradoOrganizationsFile",
+								"type": "DatasetReference",
+								"parameters": {
+									"FolderIdentifier": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "NormalizedOrganizationsFile",
+								"type": "DatasetReference",
+								"parameters": {
+									"FolderIdentifier": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Colorado Water Allocation Normalization",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "Excel To Json",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"source": {
+								"type": "BlobSource",
+								"recursive": true
+							},
+							"sink": {
+								"type": "BlobSink"
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"columnMappings": {
+									"OrganizationUID": "OrganizationUUID",
+									"AllocationUID": "AllocationUUID",
+									"NativeAllocationID": "AllocationNativeID",
+									"AllocationOwner": "AllocationOwner",
+									"AllocationBasisCV": "AllocationBasisCV",
+									"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
+									"AllocationApplicationDate": "AllocationApplicationDate",
+									"AllocationPriorityDate": "WaterAllocationPriorityDate",
+									"AllocationExpirationDate": "AllocationExpirationDate",
+									"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
+									"SiteUID": "SiteUUID",
+									"VariableSpecificUID": "VariableSpecificUUID",
+									"BeneficialUseCategory": "BeneficialUseCategory",
+									"AllocationPrimaryUseCategory": "PrimaryUseCategory",
+									"SourceUID": "WaterSourceUUID",
+									"MethodUID": "MethodUUID",
+									"TimeframeStart": "TimeframeStartDate",
+									"TimeframeEnd": "TimeframeEndDate",
+									"DataPublicationDate": "DataPublicationDate",
+									"ReportYearCV": "ReportYear",
+									"AllocationAmount": "AllocationAmount",
+									"AllocationMaximum": "AllocationMaximum",
+									"PopulationServed": "PopulationServed",
+									"PowerGeneratedGWh": "PowerGeneratedGWh",
+									"IrrigatedAcreage": "IrrigatedAcreage",
+									"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
+									"SDWISID": "SDWISIdentifier",
+									"AllocationCropDutyAmount": "AllocationCropDutyAmount",
+									"Latitude": "Latitude",
+									"Longitude": "Longitude"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ColoradoWaterAllocationFile",
+								"type": "DatasetReference",
+								"parameters": {
+									"FolderIdentifier": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "NormalizedWaterAllocationFile",
+								"type": "DatasetReference",
+								"parameters": {
+									"FileLocation": {
+										"value": "@pipeline().RunId",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Load Water Allocation Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Colorado Organization Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Colorado Water Allocation Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Load Normalized Data",
+								"type": "PipelineReference"
+							},
+							"parameters": {
+								"FolderLocation": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "State Normalization"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Load Normalized Data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Load Normalized Data')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Azure Function1",
+						"type": "AzureFunctionActivity",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"functionName": {
+								"value": "@concat('LoadWaterAllocationData?RunId=', pipeline().parameters.FolderLocation)",
+								"type": "Expression"
+							},
+							"method": "GET"
+						},
+						"linkedServiceName": {
+							"referenceName": "WaDE Import Functions",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [
+							{
+								"activity": "Azure Function1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"typeProperties": {
+							"expression": {
+								"value": "@not(equals(activity('CheckStatus').output.Status, 0))",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "CheckStatus",
+									"type": "AzureFunctionActivity",
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"typeProperties": {
+										"functionName": {
+											"value": "@concat('GetLoadWaterOrchestrationStatus?instanceId=', activity('Azure Function1').output.instanceId)",
+											"type": "Expression"
+										},
+										"method": "GET"
+									},
+									"linkedServiceName": {
+										"referenceName": "WaDE Import Functions",
+										"type": "LinkedServiceReference"
+									}
+								},
+								{
+									"name": "Is Import Running",
+									"type": "IfCondition",
+									"dependsOn": [
+										{
+											"activity": "CheckStatus",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"typeProperties": {
+										"expression": {
+											"value": "@equals(activity('CheckStatus').output.Status, 0)",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Wait for Import Completion",
+												"type": "Wait",
+												"typeProperties": {
+													"waitTimeInSeconds": 30
+												}
+											}
+										]
+									}
+								}
+							],
+							"timeout": "7.00:00:00"
+						}
+					},
+					{
+						"name": "Send Import Complete Notification",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "Until1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "SendNotificationEmail",
+								"type": "PipelineReference"
+							},
+							"parameters": {
+								"IsSuccess": {
+									"value": "@equals(activity('CheckStatus').output.Status, 1)",
+									"type": "Expression"
+								},
+								"FolderLocation": {
+									"value": "@pipeline().parameters.FolderLocation",
+									"type": "Expression"
+								}
+							}
+						}
+					}
+				],
+				"parameters": {
+					"FolderLocation": {
+						"type": "String"
+					}
+				}
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT Normalization')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Full normalization pipeline for UT.",
+				"activities": [
+					{
+						"name": "UT_WaterAllocation_Normalization",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Flatten Water Uses",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_WaterAllocation_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedWaterAllocations": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "Flatten Water Uses",
+						"description": "pre-process UT water uses",
+						"type": "AzureFunctionActivity",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
+							"method": "GET"
+						},
+						"linkedServiceName": {
+							"referenceName": "WaDE Import Functions",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "UT_WaterSources_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_WaterSources_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedWaterSources": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_Sites_Normalization",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "Convert Site Points",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_Sites_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedSites": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "Convert Site Points",
+						"type": "AzureFunctionActivity",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"functionName": "CoordinateProjection?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
+							"method": "GET"
+						},
+						"linkedServiceName": {
+							"referenceName": "WaDE Import Functions",
+							"type": "LinkedServiceReference"
+						}
+					},
+					{
+						"name": "Load Normalized Water Allocation Data",
+						"type": "ExecutePipeline",
+						"dependsOn": [
+							{
+								"activity": "UT_WaterAllocation_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_Sites_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_WaterSources_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_Methods_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_Organizations_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_Variables_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_ReportingUnits_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "UT_AggregatedAmounts_Normalization",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"typeProperties": {
+							"pipeline": {
+								"referenceName": "Load Normalized Data",
+								"type": "PipelineReference"
+							},
+							"waitOnCompletion": false,
+							"parameters": {
+								"FolderLocation": {
+									"value": "@pipeline().RunId",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_Methods_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_Methods_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedMethods": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_Organizations_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_Organizations_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedOrganizations": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_Variables_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_Variables_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedVariables": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_ReportingUnits_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_ReportingUnits_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedReportingUnits": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					},
+					{
+						"name": "UT_AggregatedAmounts_Normalization",
+						"type": "ExecuteDataFlow",
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "UT_AggregatedAmounts_Normalization",
+								"type": "DataFlowReference",
+								"datasetParameters": {
+									"NormalizedAggregatedAmounts": {
+										"FolderIdentifier": {
+											"value": "@pipeline().RunId",
+											"type": "Expression"
+										}
+									}
+								}
+							}
+						}
+					}
+				],
+				"folder": {
+					"name": "State Normalization"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/Load Normalized Data')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedAggregatedAmounts')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "BeneficialUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "PrimaryUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "MethodUUID",
+						"type": "String"
+					},
+					{
+						"name": "TimeframeStart",
+						"type": "String"
+					},
+					{
+						"name": "TimeframeEnd",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDate",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDOI",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearCV",
+						"type": "String"
+					},
+					{
+						"name": "Amount",
+						"type": "String"
+					},
+					{
+						"name": "PopulationServed",
+						"type": "String"
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "String"
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "String"
+					},
+					{
+						"name": "InterbasinTransferToID",
+						"type": "String"
+					},
+					{
+						"name": "InterbasinTransferFromID",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedMethods')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "MethodUUID",
+						"type": "String"
+					},
+					{
+						"name": "MethodName",
+						"type": "String"
+					},
+					{
+						"name": "MethodDescription",
+						"type": "String"
+					},
+					{
+						"name": "MethodNEMILink",
+						"type": "String"
+					},
+					{
+						"name": "ApplicableResourceTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "MethodTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "DataCoverageValue",
+						"type": "String"
+					},
+					{
+						"name": "DataQualityValueCV",
+						"type": "String"
+					},
+					{
+						"name": "DataConfidenceValue",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedOrganizations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPurview",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationWebsite",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationPhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactName",
+						"type": "String"
+					},
+					{
+						"name": "OrganizationContactEmail",
+						"type": "String"
+					},
+					{
+						"name": "DataMappingURL",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedReportingUnits')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "ReportingUnitUUID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitNativeID",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitName",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitUpdateDate",
+						"type": "String"
+					},
+					{
+						"name": "ReportingUnitProductVersion",
+						"type": "String"
+					},
+					{
+						"name": "StateCV",
+						"type": "String"
+					},
+					{
+						"name": "EPSGCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedSites')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "SiteUUID",
+						"type": "String"
+					},
+					{
+						"name": "SiteNativeID",
+						"type": "String"
+					},
+					{
+						"name": "SiteName",
+						"type": "String"
+					},
+					{
+						"name": "USGSSiteID",
+						"type": "String"
+					},
+					{
+						"name": "SiteTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "Longitude",
+						"type": "String"
+					},
+					{
+						"name": "Latitude",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					},
+					{
+						"name": "CoordinateMethodCV",
+						"type": "String"
+					},
+					{
+						"name": "CoordinateAccuracy",
+						"type": "String"
+					},
+					{
+						"name": "GNISCodeCV",
+						"type": "String"
+					},
+					{
+						"name": "EPSGCodeCV",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedVariables')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificCV",
+						"type": "String"
+					},
+					{
+						"name": "VariableCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationStatisticCV",
+						"type": "String"
+					},
+					{
+						"name": "AggregationInterval",
+						"type": "String"
+					},
+					{
+						"name": "AggregationIntervalUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearStartMonth",
+						"type": "String"
+					},
+					{
+						"name": "ReportYearTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "AmountUnitCV",
+						"type": "String"
+					},
+					{
+						"name": "MaximumAmountUnitCV",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterAllocations')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "OrganizationUUID",
+						"type": "String"
+					},
+					{
+						"name": "VariableSpecificUUID",
+						"type": "String"
+					},
+					{
+						"name": "SiteUUID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "MethodUUID",
+						"type": "String"
+					},
+					{
+						"name": "PrimaryUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "BeneficialUseCategory",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDate",
+						"type": "String"
+					},
+					{
+						"name": "DataPublicationDOI",
+						"type": "String"
+					},
+					{
+						"name": "AllocationNativeID",
+						"type": "String"
+					},
+					{
+						"name": "AllocationOwner",
+						"type": "String"
+					},
+					{
+						"name": "AllocationBasisCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationLegalStatusCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "AllocationApplicationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationPriorityDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationExpirationDate",
+						"type": "String"
+					},
+					{
+						"name": "AllocationChangeApplicationIndicator",
+						"type": "String"
+					},
+					{
+						"name": "LegacyAllocationIDs",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTimeframeStart",
+						"type": "String"
+					},
+					{
+						"name": "AllocationTimeframeEnd",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCropDutyAmount",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAmount",
+						"type": "String"
+					},
+					{
+						"name": "AllocationMaximum",
+						"type": "String"
+					},
+					{
+						"name": "PopulationServed",
+						"type": "String"
+					},
+					{
+						"name": "PowerGeneratedGWh",
+						"type": "String"
+					},
+					{
+						"name": "IrrigatedAcreage",
+						"type": "String"
+					},
+					{
+						"name": "AllocationCommunityWaterSupplySystem",
+						"type": "String"
+					},
+					{
+						"name": "AllocationSDWISIdentifier",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAssociatedWithdrawalSiteIDs",
+						"type": "String"
+					},
+					{
+						"name": "AllocationAssociatedConsumptiveUseSiteIDs",
+						"type": "String"
+					}
+				]
+			}
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterSources')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"FolderIdentifier": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Normalized"
+				},
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().FolderIdentifier",
+							"type": "Expression"
+						},
+						"container": "normalizedimports"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "WaterSourceUUID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceNativeID",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceName",
+						"type": "String"
+					},
+					{
+						"name": "WaterSourceTypeCV",
+						"type": "String"
+					},
+					{
+						"name": "WaterQualityIndicatorCV",
+						"type": "String"
+					},
+					{
+						"name": "GNISFeatureNameCV",
+						"type": "String"
+					},
+					{
+						"name": "Geometry",
+						"type": "String"
+					}
+				]
+			}
+		}
+	]
+}

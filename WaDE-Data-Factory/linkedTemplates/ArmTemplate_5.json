@@ -27,7 +27,7 @@
 					}
 				},
 				"folder": {
-					"name": "Utah"
+					"name": "Normalized"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -101,7 +101,7 @@
 					}
 				},
 				"folder": {
-					"name": "Utah"
+					"name": "Normalized"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -187,7 +187,7 @@
 					}
 				},
 				"folder": {
-					"name": "Utah"
+					"name": "Normalized"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -265,7 +265,7 @@
 					}
 				},
 				"folder": {
-					"name": "Utah"
+					"name": "Normalized"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
@@ -427,7 +427,7 @@
 					}
 				},
 				"folder": {
-					"name": "Utah"
+					"name": "Normalized"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
