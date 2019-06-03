@@ -11,12 +11,13 @@
 			}
 		},
 		"folder": {
-			"name": "Utah"
+			"name": "Normalized"
 		},
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "aggregratedamounts.csv",
 				"folderPath": {
 					"value": "@dataset().FolderIdentifier",
 					"type": "Expression"

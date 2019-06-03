@@ -188,7 +188,7 @@
 				],
 				"typeProperties": {
 					"pipeline": {
-						"referenceName": "Load Normalized Water Allocation Data",
+						"referenceName": "Load Normalized Data",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": false,

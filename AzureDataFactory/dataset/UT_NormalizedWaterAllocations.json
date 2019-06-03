@@ -11,7 +11,7 @@
 			}
 		},
 		"folder": {
-			"name": "Utah"
+			"name": "Normalized"
 		},
 		"type": "DelimitedText",
 		"typeProperties": {
