@@ -17,7 +17,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "aggregratedamounts.csv",
 				"folderPath": {
 					"value": "@dataset().FolderIdentifier",
 					"type": "Expression"
