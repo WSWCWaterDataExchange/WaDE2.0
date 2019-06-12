@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr>
+<tr class="altRow">
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -63,10 +63,10 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_PrimaryBeneficialUseID.html">PrimaryBeneficialUseID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_BeneficialUseID.html">BeneficialUseID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to beneficial use</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -227,7 +227,7 @@
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_WaterAllcationNativeURL.html">WaterAllcationNativeURL</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Refers back to the state URL that describes the water right</td><td> </td>
+</td><td> </td><td> </td><td>Refers back to the state URL that describes the water right e.g., https://www.waterrights.utah.gov/asp_apps/wrprint/wrprint.asp?wrnum=55-12888</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationAssociatedConsumptiveUseSiteIDs.html">AllocationAssociatedConsumptiveUseSiteIDs</a></td><td>NVarChar(500)</td><td>
@@ -256,11 +256,11 @@
 <br>
 <h2>Foreign Keys</h2>
 <table class="flat">
-<tr class="altRow">
+<tr>
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_BeneficialUses_dim.html">fk_AllocationAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>BeneficialUseID</td><td>PrimaryBeneficialUseID</td>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_BeneficialUses_dim.html">fk_AllocationAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_CustomerTypeCV.html">fk_AllocationAmounts_fact_CustomerTypeCV</a></td><td><a href="../tables/CVs_CustomerTypeCV.html">CVs.CustomerTypeCV</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>CustomerTypeCV</td>

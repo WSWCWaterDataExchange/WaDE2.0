@@ -30,7 +30,7 @@
 </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer</td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_Sites_dim_SiteUUID.html">SiteUUID</a></td><td>NVarChar(55)</td><td> </td><td> </td><td> </td><td>WaDE universal unique identifier for the sites across member states, can be alphanumeric</td><td> </td>
+<td> </td><td><a href="../columns/Core_Sites_dim_WaDESiteUUID.html">WaDESiteUUID</a></td><td>NVarChar(55)</td><td> </td><td> </td><td> </td><td>WaDE universal unique identifier for the sites across member states, can be alphanumeric</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_SiteNativeID.html">SiteNativeID</a></td><td>NVarChar(50)</td><td>
@@ -80,7 +80,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td
 <td> </td><td><a href="../columns/Core_Sites_dim_SiteNativeURL.html">SiteNativeURL</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>Refers to the URL of the site within the state</td><td> </td>
+</td><td> </td><td> </td><td>Refers to the URL of the site within the state for more information about it</td><td> </td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_Sites_dim_Geometry.html">Geometry</a></td><td>Geometry</td><td>
@@ -153,6 +153,15 @@ DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.</td><td> </td>
 </tr>
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Sites_dim_StateCV.html">StateCV</a></td><td class="FkCol">NChar(5)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">State that the site falls within</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
+</tr>
 </table>
 <br>
 <h2>Indexes</h2>
@@ -182,6 +191,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</td><td> </td
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_Sites_dim_fk_Sites_dim_SiteType.html">fk_Sites_dim_SiteType</a></td><td><a href="../tables/CVs_SiteType.html">CVs.SiteType</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td>Name</td><td>SiteTypeCV</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_Sites_dim_fk_Sites_dim_States.html">fk_Sites_dim_States</a></td><td><a href="../tables/CVs_States.html">CVs.States</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td>Name</td><td>StateCV</td>
 </tr>
 </table>
 <br>
