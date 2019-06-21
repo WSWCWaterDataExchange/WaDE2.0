@@ -382,6 +382,11 @@
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
+      <Fk deAc="3" nm="fk_AllocationAmounts_fact_SDWISIdentifier" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="SDWISIdentifier" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="AllocationSDWISIdentifierCV" prCl="Name"/>
+      </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_Sites_dim" prLkCl="SiteID" upAc="3">
         <PrTb mn="0" nm="Sites_dim" oe="1" sch="Core" zr="1"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
@@ -1177,7 +1182,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>Residential, Commercial, Industrial, Institutional, Combined, Unspecified </Cm>
       </Cl>
-      <Cl au="0" df="" nm="SDWISIdentifier" nu="1">
+      <Cl au="0" df="" nm="SDWISIdentifierCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</Cm>
       </Cl>
@@ -1238,6 +1243,11 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="ReportYearCV" prCl="Name"/>
+      </Fk>
+      <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_SDWISIdentifier" prLkCl="Name" upAc="3">
+        <PrTb mn="0" nm="SDWISIdentifier" oe="1" sch="CVs" zr="1"/>
+        <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="SDWISIdentifierCV" prCl="Name"/>
       </Fk>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_fact_Sites_dim" prLkCl="SiteID" upAc="3">
         <PrTb mn="0" nm="Sites_dim" oe="1" sch="Core" zr="0"/>
@@ -3419,7 +3429,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     </Notes>
     <Zones/>
   </Dgm>
-  <RnmMgr NxRnmId="881">
+  <RnmMgr NxRnmId="882">
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="METRICS" SupCls="Schema" SupNme="schemaA">
       <Rnm id="1" nNm="METRIC_ID" oNm="Id"/>
     </RnmCh>
@@ -5342,6 +5352,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm id="839" nNm="CommunityWaterSupplySystem" oNm="AllocationCommunityWaterSupplySystem"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm id="881" nNm="SDWISIdentifierCV" oNm="SDWISIdentifier"/>
       <Rnm id="840" nNm="SDWISIdentifier" oNm="AllocationSDWISIdentifier"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay_dim" SupCls="Schema" SupNme="Core">
@@ -5464,12 +5475,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.1_WaterAllocations" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.3_AggregatedAmounts" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="WaDE.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>

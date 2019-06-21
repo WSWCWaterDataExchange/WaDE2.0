@@ -212,10 +212,13 @@
 </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationSDWISIdentifierCV.html">AllocationSDWISIdentifierCV</a></td><td>NVarChar(250)</td><td>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationSDWISIdentifierCV.html">AllocationSDWISIdentifierCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td> </td>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">If the use is municipal, the data provider can add the SDWIS identifier for the CWS</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td>
 </tr>
 <tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationAssociatedWithdrawalSiteIDs.html">AllocationAssociatedWithdrawalSiteIDs</a></td><td>NVarChar(500)</td><td>
@@ -287,18 +290,21 @@
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Organizations_dim.html">fk_AllocationAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_SDWISIdentifier.html">fk_AllocationAmounts_fact_SDWISIdentifier</a></td><td><a href="../tables/CVs_SDWISIdentifier.html">CVs.SDWISIdentifier</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationSDWISIdentifierCV</td>
+</tr>
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Sites_dim.html">fk_AllocationAmounts_fact_Sites_dim</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Variables_dim.html">fk_AllocationAmounts_fact_Variables_dim</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterAllocationBasis.html">fk_AllocationAmounts_fact_WaterAllocationBasis</a></td><td><a href="../tables/CVs_WaterAllocationBasis.html">CVs.WaterAllocationBasis</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationBasisCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterRightType.html">fk_AllocationAmounts_fact_WaterRightType</a></td><td><a href="../tables/CVs_WaterAllocationType.html">CVs.WaterAllocationType</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationTypeCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterSources_dim.html">fk_AllocationAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
