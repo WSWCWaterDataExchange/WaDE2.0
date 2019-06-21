@@ -3110,10 +3110,6 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="145" y="798">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="527" y="1001">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="430" y="134">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="140" y="456">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="1050" y="361">Unique combination for each &#13;
 SiteVariableAmount record:&#13;
  &#13;
@@ -3128,6 +3124,10 @@ ReportYearCV</Note>
 The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
 The green table is the FACT table that changes over time and connects things together.&#13;
 Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
+      <Note bkCl="ffffffe6" x="145" y="798">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="527" y="1001">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="430" y="134">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="140" y="456">How: Methodology</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -5464,12 +5464,12 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.1_WaterAllocations" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.3_AggregatedAmounts" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="WaDE.6_InputTables" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
