@@ -29,7 +29,9 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Site.Geometry == null ? null : c.Site.Geometry.AsText()))
                 .ForMember(a => a.TimeframeStart, b => b.Ignore())
                 .ForMember(a => a.TimeframeEnd, b => b.Ignore());
-            CreateMap<EF.BeneficialUsesDim, AccessorApi.BeneficialUse>();
+            CreateMap<EF.BeneficialUsesDim, AccessorApi.BeneficialUse>()
+                .ForMember(a => a.USGSCategoryNameCV, b => b.MapFrom(c => c.UsgscategoryNameCv))
+                .ForMember(a => a.NAICSCodeNameCV, b => b.MapFrom(c => c.NaicscodeNameCv));
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.BeneficialUseUUID, b => b.MapFrom(c => c.BeneficialUse.BeneficialUseUuid))
                 .ForMember(a => a.BeneficialUseCategory, b => b.MapFrom(c => c.BeneficialUse.BeneficialUseCategory))
@@ -69,6 +71,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
                 .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.Select(d => d.BeneficialUse).Union(c.SelectMany(d => d.AggBridgeBeneficialUsesFact.Select(e => e.BeneficialUse))).Distinct()))
                 .ForMember(a => a.AggregatedAmounts, b => b.MapFrom(c => c));
 
             CreateMap<EF.AggregatedAmountsFact, AccessorApi.AggregatedAmount>()
@@ -80,7 +83,9 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.Variable, b => b.MapFrom(c => c.VariableSpecific.VariableCv))
                 .ForMember(a => a.ReportYear, b => b.MapFrom(c => c.ReportYearCv))
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))
-                .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date));
+                .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.AggBridgeBeneficialUsesFact.Select(d => d.BeneficialUse.BeneficialUseCategory)))
+                .ForMember(a => a.PrimaryUse, b => b.MapFrom(c => c.BeneficialUse.BeneficialUseCategory));
 
             CreateMap<IGrouping<EF.OrganizationsDim, EF.SiteVariableAmountsFact>, AccessorApi.SiteVariableAmountsOrganization>()
                 .ForMember(a => a.OrganizationName, b => b.MapFrom(c => c.Key.OrganizationName))
@@ -105,12 +110,12 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificId))
                 .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
-                .ForMember(a=>a.AllocationCommunityWaterSupplySystem, b=>b.MapFrom(c=>c.CommunityWaterSupplySystem))
+                .ForMember(a => a.AllocationCommunityWaterSupplySystem, b => b.MapFrom(c => c.CommunityWaterSupplySystem))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
                 .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
-                .ForMember(a=>a.AllocationGNISIDCV, b=>b.Ignore())
+                .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
                 .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore());
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
