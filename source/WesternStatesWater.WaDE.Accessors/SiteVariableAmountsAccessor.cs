@@ -55,7 +55,7 @@ namespace WesternStatesWater.WaDE.Accessors
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
                     var shape = reader.Read(geometry);
-                    query = query.Where(a => a.Site.Geometry != null && shape.Intersects(a.Site.Geometry));
+                    query = query.Where(a => a.Site.Geometry != null && a.Site.Geometry.Intersects(shape));
                 }
 
                 return await query
