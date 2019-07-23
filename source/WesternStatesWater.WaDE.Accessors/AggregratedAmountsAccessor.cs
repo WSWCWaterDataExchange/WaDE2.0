@@ -28,11 +28,11 @@ namespace WesternStatesWater.WaDE.Accessors
                 var query = db.AggregatedAmountsFact.AsNoTracking();
                 if (startDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date >= startDate);
+                    query = query.Where(a => a.TimeframeStart.Date >= startDate);
                 }
                 if (endDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date <= endDate);
+                    query = query.Where(a => a.TimeframeEnd.Date <= endDate);
                 }
                 if (!string.IsNullOrWhiteSpace(variableCV))
                 {
