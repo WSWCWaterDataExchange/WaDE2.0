@@ -24,7 +24,6 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-
                 var query = db.AggregatedAmountsFact.AsNoTracking();
                 if (filters.StartDate != null)
                 {
