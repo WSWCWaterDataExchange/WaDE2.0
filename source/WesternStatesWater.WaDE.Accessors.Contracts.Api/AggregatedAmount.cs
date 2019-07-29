@@ -5,6 +5,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class AggregatedAmount
     {
+        public long AggregatedAmountId { get; set; }
         public string Variable { get; set; }
         public string VariableSpecificTypeCV { get; set; }
         public string MethodUUID { get; set; }

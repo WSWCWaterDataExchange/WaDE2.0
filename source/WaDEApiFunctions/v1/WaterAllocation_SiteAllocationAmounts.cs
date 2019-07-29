@@ -30,17 +30,28 @@ namespace WaDEApiFunctions.v1
             var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
 
             var siteUuid = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
-            var beneficialUse = ((string)req.Query["BeneficialUse"]) ?? data?.beneficialUse;
-            var geometry = ((string)req.Query["Geometry"]) ?? data?.geometry;
+            var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
+            var beneficialUseCv = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
+            var usgsCategoryNameCV = ((string)req.Query["USGSCategoryNameCV"]) ?? data?.USGSCategoryNameCV;
+            var geometry = ((string)req.Query["SearchGeometry"]) ?? data?.searchGeometry;
             var startPriorityDate = ParseDate(((string)req.Query["StartPriorityDate"]) ?? data?.startPriorityDate);
             var endPriorityDate = ParseDate(((string)req.Query["EndPriorityDate"]) ?? data?.endPriorityDate);
 
-            if (string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(geometry))
+            if (string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUseCv) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return new BadRequestObjectResult("SiteUUID, BeneficialUse, or Geometry must be specified");
+                return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(siteUuid, beneficialUse, geometry, startPriorityDate, endPriorityDate);
+            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            {
+                BeneficialUseCv = beneficialUseCv,
+                Geometry = geometry,
+                SiteTypeCV = siteTypeCV,
+                SiteUuid = siteUuid,
+                UsgsCategoryNameCv = usgsCategoryNameCV,
+                StartPriorityDate = startPriorityDate,
+                EndPriorityDate = endPriorityDate
+            });
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -55,8 +66,10 @@ namespace WaDEApiFunctions.v1
             public string startPriorityDate { get; set; }
             public string endPriorityDate { get; set; }
             public string siteUUID { get; set; }
-            public string beneficialUse { get; set; }
-            public string geometry { get; set; }
+            public string siteTypeCV { get; set; }
+            public string USGSCategoryNameCV { get; set; }
+            public string beneficialUseCV { get; set; }
+            public string searchGeometry { get; set; }
         }
     }
 }

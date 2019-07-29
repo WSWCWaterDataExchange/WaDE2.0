@@ -28,7 +28,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.Site.GniscodeCv))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Site.Geometry == null ? null : c.Site.Geometry.AsText()))
                 .ForMember(a => a.TimeframeStart, b => b.Ignore())
-                .ForMember(a => a.TimeframeEnd, b => b.Ignore());
+                .ForMember(a => a.TimeframeEnd, b => b.Ignore())
+                .ForMember(a => a.BeneficialUses, b => b.Ignore());
             CreateMap<EF.BeneficialUsesDim, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.USGSCategoryNameCV, b => b.MapFrom(c => c.UsgscategoryNameCv))
                 .ForMember(a => a.NAICSCodeNameCV, b => b.MapFrom(c => c.NaicscodeNameCv));
@@ -57,6 +58,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
                 .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.Where(d=>d.PrimaryBeneficialUseId != null).Select(d => d.PrimaryBeneficialUse).Union(c.SelectMany(d => d.AllocationBridgeBeneficialUsesFact.Select(e => e.BeneficialUse))).Distinct()))
                 .ForMember(a => a.WaterAllocations, b => b.MapFrom(c => c));
 
             CreateMap<IGrouping<EF.OrganizationsDim, EF.AggregatedAmountsFact>, AccessorApi.AggregatedAmountsOrganization>()
@@ -84,7 +86,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportYear, b => b.MapFrom(c => c.ReportYearCv))
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
-                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.AggBridgeBeneficialUsesFact.Select(d => d.BeneficialUse.BeneficialUseCategory)))
+                .ForMember(a => a.BeneficialUses, b => b.Ignore())
                 .ForMember(a => a.PrimaryUse, b => b.MapFrom(c => c.BeneficialUse.BeneficialUseCategory));
 
             CreateMap<IGrouping<EF.OrganizationsDim, EF.SiteVariableAmountsFact>, AccessorApi.SiteVariableAmountsOrganization>()

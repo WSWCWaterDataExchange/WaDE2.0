@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
@@ -65,10 +66,39 @@ namespace WesternStatesWater.WaDE.Accessors
                     query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
                 }
 
-                return await query
+                var results = await query
                     .GroupBy(a => a.Organization)
                     .ProjectTo<AccessorApi.AggregatedAmountsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
+
+                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
+                Parallel.ForEach(results.SelectMany(a => a.AggregatedAmounts).Batch(10000), aggAmounts =>
+                {
+                    SetBeneficialUses(aggAmounts, allBeneficialUses);
+                });
+
+                return results;
+            }
+        }
+
+        private void SetBeneficialUses(IEnumerable<AccessorApi.AggregatedAmount> aggAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                var ids = aggAmounts.Select(a => a.AggregatedAmountId).ToArray();
+                var beneficialUses = db.AggBridgeBeneficialUsesFact
+                    .Where(a => ids.Contains(a.AggregatedAmountId))
+                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUseId })
+                    .ToList();
+                foreach (var aggAmount in aggAmounts)
+                {
+                    aggAmount.BeneficialUses = beneficialUses
+                        .Where(a => a.AggregatedAmountId == aggAmount.AggregatedAmountId)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Where(a => a != null)
+                        .Distinct()
+                        .ToList();
+                }
             }
         }
     }
