@@ -100,6 +100,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
                 .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.SelectMany(d => d.SitesBridgeBeneficialUsesFact.Select(e => e.BeneficialUse)).Distinct()))
                 .ForMember(a => a.SiteVariableAmounts, b => b.MapFrom(c => c));
 
             CreateMap<EF.SiteVariableAmountsFact, AccessorApi.SiteVariableAmount>()
@@ -118,7 +119,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
-                .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore());
+                .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore())
+                .ForMember(a => a.BeneficialUses, b => b.Ignore());
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));

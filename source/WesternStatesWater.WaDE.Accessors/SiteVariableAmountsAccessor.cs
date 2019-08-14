@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
@@ -20,48 +21,85 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.SiteVariableAmountsOrganization>> AccessorApi.ISiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(string variableCV, string variableSpecificCV, string beneficialUse, string siteUUID, string geometry, DateTime? startDate, DateTime? endDate)
+        async Task<IEnumerable<AccessorApi.SiteVariableAmountsOrganization>> AccessorApi.ISiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(AccessorApi.SiteVariableAmountsFilters filters)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
 
                 var query = db.SiteVariableAmountsFact.AsNoTracking();
-                if (startDate != null)
+                if (filters.TimeframeStartDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date >= startDate);
+                    query = query.Where(a => a.TimeframeStartNavigation.Date >= filters.TimeframeStartDate);
                 }
-                if (endDate != null)
+                if (filters.TimeframeEndDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date <= endDate);
+                    query = query.Where(a => a.TimeframeEndNavigation.Date <= filters.TimeframeEndDate);
                 }
-                if (!string.IsNullOrWhiteSpace(variableCV))
+                if (!string.IsNullOrWhiteSpace(filters.VariableCv))
                 {
-                    query = query.Where(a => a.VariableSpecific.VariableCv == variableCV);
+                    query = query.Where(a => a.VariableSpecific.VariableCv == filters.VariableCv);
                 }
-                if (!string.IsNullOrWhiteSpace(variableSpecificCV))
+                if (!string.IsNullOrWhiteSpace(filters.VariableSpecificCv))
                 {
-                    query = query.Where(a => a.VariableSpecific.VariableSpecificCv == variableSpecificCV);
+                    query = query.Where(a => a.VariableSpecific.VariableSpecificCv == filters.VariableSpecificCv);
                 }
-                if (!string.IsNullOrWhiteSpace(beneficialUse))
+                if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == beneficialUse));
+                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
                 }
-                if (!string.IsNullOrWhiteSpace(siteUUID))
+                if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
-                    query = query.Where(a => a.Site.SiteUuid == siteUUID);
+                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
                 }
-                if (!string.IsNullOrWhiteSpace(geometry))
+                if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
+                {
+                    query = query.Where(a => a.Site.SiteUuid == filters.SiteUuid);
+                }
+                if (!string.IsNullOrWhiteSpace(filters.SiteTypeCv))
+                {
+                    query = query.Where(a => a.Site.SiteTypeCv == filters.SiteTypeCv);
+                }
+                if (!string.IsNullOrWhiteSpace(filters.Geometry))
                 {
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
-                    var shape = reader.Read(geometry);
-                    query = query.Where(a => a.Site.Geometry != null && a.Site.Geometry.Intersects(shape));
+                    var shape = reader.Read(filters.Geometry);
+                    query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
                 }
 
-                return await query
+                var results = await query
                     .GroupBy(a => a.Organization)
                     .ProjectTo<AccessorApi.SiteVariableAmountsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
+
+                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
+                Parallel.ForEach(results.SelectMany(a => a.SiteVariableAmounts).Batch(10000), waterAllocations =>
+                {
+                    SetBeneficialUses(waterAllocations, allBeneficialUses);
+                });
+
+                return results;
+            }
+        }
+
+        private void SetBeneficialUses(IEnumerable<AccessorApi.SiteVariableAmount> siteVariableAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                var ids = siteVariableAmounts.Select(a => a.SiteVariableAmountId).ToArray();
+                var beneficialUses = db.SitesBridgeBeneficialUsesFact
+                    .Where(a => ids.Contains(a.SiteVariableAmountId))
+                    .Select(a => new { a.SiteVariableAmountId, a.BeneficialUseId })
+                    .ToList();
+                foreach (var siteVariableAmount in siteVariableAmounts)
+                {
+                    siteVariableAmount.BeneficialUses = beneficialUses
+                        .Where(a => a.SiteVariableAmountId == siteVariableAmount.SiteVariableAmountId)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Where(a => a != null)
+                        .Distinct()
+                        .ToList();
+                }
             }
         }
     }

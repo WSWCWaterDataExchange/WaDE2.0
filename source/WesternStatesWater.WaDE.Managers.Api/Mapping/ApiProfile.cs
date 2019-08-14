@@ -10,6 +10,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
         {
             CreateMap<ManagerApi.AggregatedAmountsFilters, AccessorApi.AggregatedAmountsFilters>();
             CreateMap<ManagerApi.SiteAllocationAmountsFilters, AccessorApi.SiteAllocationAmountsFilters>();
+            CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>();
 
             CreateMap<AccessorApi.BeneficialUse, ManagerApi.BeneficialUse>();
             CreateMap<AccessorApi.Method, ManagerApi.Method>();
