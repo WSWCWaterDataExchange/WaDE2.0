@@ -16,6 +16,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public List<ReportingUnit> ReportingUnits { get; set; }
         public List<VariableSpecific> VariableSpecifics { get; set; }
         public List<Method> Methods { get; set; }
+        public List<BeneficialUse> BeneficialUses { get; set; }
         public List<AggregatedAmount> AggregatedAmounts { get; set; }
     }
 }

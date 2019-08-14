@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
@@ -16,5 +17,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public double? PowerGeneratedGWh { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public DateTime? DataPublicationDate { get; set; }
+        public List<string> BeneficialUses { get; set; }
+        public string PrimaryUse { get; set; }
     }
 }

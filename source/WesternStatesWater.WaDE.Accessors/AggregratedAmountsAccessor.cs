@@ -1,6 +1,7 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
@@ -20,48 +21,84 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.AggregatedAmountsOrganization>> AccessorApi.IAggregatedAmountsAccessor.GetAggregatedAmountsAsync(string variableCV, string variableSpecificCV, string beneficialUse, string reportingUnitUUID, string geometry, DateTime? startDate, DateTime? endDate)
+        async Task<IEnumerable<AccessorApi.AggregatedAmountsOrganization>> AccessorApi.IAggregatedAmountsAccessor.GetAggregatedAmountsAsync(AccessorApi.AggregatedAmountsFilters filters)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-
                 var query = db.AggregatedAmountsFact.AsNoTracking();
-                if (startDate != null)
+                if (filters.StartDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date >= startDate);
+                    query = query.Where(a => a.TimeframeStart.Date >= filters.StartDate);
                 }
-                if (endDate != null)
+                if (filters.EndDate != null)
                 {
-                    query = query.Where(a => a.DataPublicationDateNavigation.Date <= endDate);
+                    query = query.Where(a => a.TimeframeEnd.Date <= filters.EndDate);
                 }
-                if (!string.IsNullOrWhiteSpace(variableCV))
+                if (!string.IsNullOrWhiteSpace(filters.VariableCV))
                 {
-                    query = query.Where(a => a.VariableSpecific.VariableCv == variableCV);
+                    query = query.Where(a => a.VariableSpecific.VariableCv == filters.VariableCV);
                 }
-                if (!string.IsNullOrWhiteSpace(variableSpecificCV))
+                if (!string.IsNullOrWhiteSpace(filters.VariableSpecificCV))
                 {
-                    query = query.Where(a => a.VariableSpecific.VariableSpecificCv == variableSpecificCV);
+                    query = query.Where(a => a.VariableSpecific.VariableSpecificCv == filters.VariableSpecificCV);
                 }
-                if (!string.IsNullOrWhiteSpace(beneficialUse))
+                if (!string.IsNullOrWhiteSpace(filters.BeneficialUse))
                 {
-                    query = query.Where(a => a.BeneficialUse.BeneficialUseCategory == beneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == beneficialUse));
+                    query = query.Where(a => a.BeneficialUse.BeneficialUseCategory == filters.BeneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUse));
                 }
-                if (!string.IsNullOrWhiteSpace(reportingUnitUUID))
+                if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
                 {
-                    query = query.Where(a => a.ReportingUnit.ReportingUnitUuid == reportingUnitUUID);
+                    query = query.Where(a => a.ReportingUnit.ReportingUnitUuid == filters.ReportingUnitUUID);
                 }
-                if (!string.IsNullOrWhiteSpace(geometry))
+                if (!string.IsNullOrWhiteSpace(filters.ReportingUnitTypeCV))
+                {
+                    query = query.Where(a => a.ReportingUnit.ReportingUnitTypeCv == filters.ReportingUnitTypeCV);
+                }
+                if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCV))
+                {
+                    query = query.Where(a => a.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.Geometry))
                 {
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
-                    var shape = reader.Read(geometry);
-                    query = query.Where(a => a.ReportingUnit.Geometry != null && shape.Intersects(a.ReportingUnit.Geometry));
+                    var shape = reader.Read(filters.Geometry);
+                    query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
                 }
 
-                return await query
+                var results = await query
                     .GroupBy(a => a.Organization)
                     .ProjectTo<AccessorApi.AggregatedAmountsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
+
+                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
+                Parallel.ForEach(results.SelectMany(a => a.AggregatedAmounts).Batch(10000), aggAmounts =>
+                {
+                    SetBeneficialUses(aggAmounts, allBeneficialUses);
+                });
+
+                return results;
+            }
+        }
+
+        private void SetBeneficialUses(IEnumerable<AccessorApi.AggregatedAmount> aggAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                var ids = aggAmounts.Select(a => a.AggregatedAmountId).ToArray();
+                var beneficialUses = db.AggBridgeBeneficialUsesFact
+                    .Where(a => ids.Contains(a.AggregatedAmountId))
+                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUseId })
+                    .ToList();
+                foreach (var aggAmount in aggAmounts)
+                {
+                    aggAmount.BeneficialUses = beneficialUses
+                        .Where(a => a.AggregatedAmountId == aggAmount.AggregatedAmountId)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Where(a => a != null)
+                        .Distinct()
+                        .ToList();
+                }
             }
         }
     }

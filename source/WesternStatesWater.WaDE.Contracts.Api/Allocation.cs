@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
+namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public class Allocation
     {
-        public long AllocationAmountId { get; set; }
         public string AllocationNativeID { get; set; }
         public string WaterSourceUUID { get; set; }
         public string AllocationOwner { get; set; }
