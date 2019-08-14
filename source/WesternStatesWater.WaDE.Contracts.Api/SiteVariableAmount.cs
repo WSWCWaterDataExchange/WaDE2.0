@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
@@ -30,5 +31,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string VariableSpecificTypeCV { get; set; }
         public string SiteUUID { get; set; }
         public string AssociatedNativeAllocationIDs { get; set; }
+        public List<string> BeneficialUses { get; set; }
     }
 }

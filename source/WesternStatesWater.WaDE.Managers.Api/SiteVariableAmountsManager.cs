@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Managers.Mapping;
@@ -16,10 +15,10 @@ namespace WesternStatesWater.WaDE.Managers.Api
         }
 
         public AccessorApi.ISiteVariableAmountsAccessor ApiSiteVariableAmountsAccessor { get; set; }
-        async Task<IEnumerable<Contracts.Api.SiteVariableAmountsOrganization>> ManagerApi.ISiteVariableAmountsManager.GetSiteVariableAmountsAsync(string variableCV, string variableSpecificCV, string beneficialUse, string siteUUID, string geometry, DateTime? startDate, DateTime? endDate)
+        async Task<IEnumerable<ManagerApi.SiteVariableAmountsOrganization>> ManagerApi.ISiteVariableAmountsManager.GetSiteVariableAmountsAsync(ManagerApi.SiteVariableAmountsFilters filters)
         {
-            var results = await ApiSiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, startDate, endDate);
-            return results.Select(a => a.Map<Contracts.Api.SiteVariableAmountsOrganization>());
+            var results = await ApiSiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(filters.Map<AccessorApi.SiteVariableAmountsFilters>());
+            return results.Select(a => a.Map<ManagerApi.SiteVariableAmountsOrganization>());
         }
     }
 }

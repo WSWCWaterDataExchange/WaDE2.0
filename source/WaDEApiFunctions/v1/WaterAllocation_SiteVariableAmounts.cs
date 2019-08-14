@@ -29,20 +29,34 @@ namespace WaDEApiFunctions.v1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
 
+            var siteUUID = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
+            var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
             var variableCV = ((string)req.Query["VariableCV"]) ?? data?.variableCV;
             var variableSpecificCV = ((string)req.Query["VariableSpecificCV"]) ?? data?.variableCV;
-            var beneficialUse = ((string)req.Query["BeneficialUse"]) ?? data?.beneficialUse;
+            var beneficialUse = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
+            var usgsCategoryNameCV = ((string)req.Query["UsgsCategoryNameCV"]) ?? data?.usgsCategoryNameCV;
             var startDate = ParseDate(((string)req.Query["StartDate"]) ?? data?.startDate);
             var endDate = ParseDate(((string)req.Query["EndDate"]) ?? data?.endDate);
-            var siteUUID = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
-            var geometry = ((string)req.Query["Geometry"]) ?? data?.geometry;
+            var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
 
-            if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry))
+            if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return new BadRequestObjectResult("VariableCV, VariableSpecificCV, BeneficialUse, SiteUUID or Geometry must be specified");
+                return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
 
-            var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, startDate, endDate);
+            var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
+            {
+                SiteUuid = siteUUID,
+                SiteTypeCv = siteTypeCV,
+                VariableCv = variableCV,
+                VariableSpecificCv = variableSpecificCV,
+                BeneficialUseCv = beneficialUse,
+                UsgsCategoryNameCv = usgsCategoryNameCV,
+                Geometry = geometry,
+                TimeframeStartDate = startDate,
+                TimeframeEndDate = endDate
+                
+            });
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
@@ -53,13 +67,15 @@ namespace WaDEApiFunctions.v1
 
         private class AggregratedAmountsRequestBody
         {
+            public string siteUUID { get; set; }
+            public string siteTypeCV { get; set; }
             public string variableCV { get; set; }
             public string variableSpecificCV { get; set; }
-            public string beneficialUse { get; set; }
+            public string beneficialUseCV { get; set; }
+            public string usgsCategoryNameCV { get; set; }
             public string startDate { get; set; }
             public string endDate { get; set; }
-            public string siteUUID { get; set; }
-            public string geometry { get; set; }
+            public string searchBoundary { get; set; }
         }
     }
 }

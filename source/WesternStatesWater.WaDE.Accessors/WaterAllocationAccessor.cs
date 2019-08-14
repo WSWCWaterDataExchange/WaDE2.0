@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Server;
+using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
@@ -25,41 +26,74 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(string siteUuid, string beneficialUse, string geometry, DateTime? startPriorityDate, DateTime? endPriorityDate)
+        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(AccessorApi.SiteAllocationAmountsFilters filters)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
 
                 var query = db.AllocationAmountsFact
                     .AsNoTracking();
-                if (startPriorityDate != null)
+                if (filters.StartPriorityDate != null)
                 {
-                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= startPriorityDate);
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
                 }
-                if (endPriorityDate != null)
+                if (filters.EndPriorityDate != null)
                 {
-                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= endPriorityDate);
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
                 }
-                if (!string.IsNullOrWhiteSpace(siteUuid))
+                if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
                 {
-                    query = query.Where(a => a.Site.SiteUuid == siteUuid);
+                    query = query.Where(a => a.Site.SiteUuid == filters.SiteUuid);
                 }
-                if (!string.IsNullOrWhiteSpace(beneficialUse))
+                if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == beneficialUse || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == beneficialUse));
+                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
                 }
-                if (!string.IsNullOrWhiteSpace(geometry))
+                if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
+                {
+                    query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.Geometry))
                 {
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
-                    var shape = reader.Read(geometry);
-                    query = query.Where(a => a.Site.Geometry != null && shape.Covers(a.Site.Geometry));
+                    var shape = reader.Read(filters.Geometry);
+                    query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
                 }
 
-                return await query
+                var results = await query
                     .GroupBy(a => a.Organization)
                     .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
+
+                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
+                Parallel.ForEach(results.SelectMany(a => a.WaterAllocations).Batch(10000), waterAllocations =>
+                {
+                    SetBeneficialUses(waterAllocations, allBeneficialUses);
+                });
+
+                return results;
+            }
+        }
+
+        private void SetBeneficialUses(IEnumerable<AccessorApi.Allocation> allocationAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                var ids = allocationAmounts.Select(a => a.AllocationAmountId).ToArray();
+                var beneficialUses = db.AllocationBridgeBeneficialUsesFact
+                    .Where(a => ids.Contains(a.AllocationAmountId))
+                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseId })
+                    .ToList();
+                foreach (var allocationAmount in allocationAmounts)
+                {
+                    allocationAmount.BeneficialUses = beneficialUses
+                        .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Where(a => a != null)
+                        .Distinct()
+                        .ToList();
+                }
             }
         }
 
