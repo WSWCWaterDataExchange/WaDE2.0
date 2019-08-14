@@ -150,6 +150,10 @@ BEGIN
             ,jaad.InterbasinTransferToID
             ,jaad.InterbasinTransferFromID
 			,jaad.RowNumber
+			--//////////////////////////
+			,jaad.CustomerTypeCV
+			,jaad.SDWISIdentifierCV
+			--//////////////////////////
         FROM
             #TempJoinedAggregatedAmountData jaad
             LEFT OUTER JOIN Core.BeneficialUses_dim bu ON jaad.PrimaryUseCategory = bu.BeneficialUseCategory
@@ -168,6 +172,11 @@ BEGIN
 		AND Target.TimeframeStartID = Source.TimeframeStartID
 		AND Target.TimeframeEndID = Source.TimeframeEndID
 		AND Target.ReportYearCV = Source.ReportYearCV
+		--////////////////////////////////////////////
+		AND Target.CustomerTypeCV = Source.CustomerTypeCV
+		AND Target.SDWISIdentifierCV = Source.SDWISIdentifierCV
+		--////////////////////////////////////////////
+
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationID
@@ -186,7 +195,12 @@ BEGIN
 			,PowerGeneratedGWh
 			,IrrigatedAcreage
 			,InterbasinTransferToID
-			,InterbasinTransferFromID)
+			,InterbasinTransferFromID
+			--////////////////////
+			,SDWISIdentifierCV
+			,CustomerTypeCV
+			--////////////////////
+			)
 		VALUES
 			(Source.OrganizationID
 			,Source.ReportingUnitID
@@ -204,7 +218,12 @@ BEGIN
 			,Source.PowerGeneratedGWh
 			,Source.IrrigatedAcreage
 			,Source.InterbasinTransferToID
-			,Source.InterbasinTransferFromID)
+			,Source.InterbasinTransferFromID
+			--////////////////////
+			,SDWISIdentifierCV
+			,CustomerTypeCV
+			--////////////////////
+			)
 		OUTPUT
 			inserted.AggregatedAmountID
 			,Source.RowNumber
