@@ -42,10 +42,7 @@ namespace CvLoader
                 ("watersourcetype", "watersourcetype"),
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
-                //-------------------------------------
-                ("CustomerTypeCV", "CustomerTypeCV"),
-                ("SDWISIdentifierCV", "SDWISIdentifierCV")
-                //--------------------------------------
+                
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
         }

@@ -1,5 +1,4 @@
-/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 5/2/2019 11:13:33 AM ******/
-CREATE PROCEDURE [Core].[LoadAggregatedAmounts]
+Alter PROCEDURE [Core].[LoadAggregatedAmounts]
 (
     @RunId NVARCHAR(250),
     @AggregatedAmountTable Core.AggregatedAmountTableType READONLY
@@ -58,10 +57,11 @@ BEGIN
 		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
         WHERE Amount IS NULL
+		
     )
     SELECT * INTO #TempErrorAggregatedAmountRecords FROM q1;
-
 	
+
     --if we have errors, insert them and bail out
     IF EXISTS(SELECT 1 FROM #TempErrorAggregatedAmountRecords) 
     BEGIN
@@ -69,8 +69,6 @@ BEGIN
         VALUES ('AggregatedAmounts', @RunId, (SELECT * FROM #TempErrorAggregatedAmountRecords FOR JSON PATH));
         RETURN 1;
     END
-
-	
 
     --set up missing Core.BeneficialUses_dim entries
     SELECT
@@ -153,7 +151,10 @@ BEGIN
             ,jaad.InterbasinTransferToID
             ,jaad.InterbasinTransferFromID
 			,jaad.RowNumber
-			
+			--//////////////////////////
+			,jaad.CustomerTypeCV
+			,jaad.SDWISIdentifierCV
+			--//////////////////////////
         FROM
             #TempJoinedAggregatedAmountData jaad
             LEFT OUTER JOIN Core.BeneficialUses_dim bu ON jaad.PrimaryUseCategory = bu.BeneficialUseCategory
@@ -172,7 +173,10 @@ BEGIN
 		AND Target.TimeframeStartID = Source.TimeframeStartID
 		AND Target.TimeframeEndID = Source.TimeframeEndID
 		AND Target.ReportYearCV = Source.ReportYearCV
-		
+		--////////////////////////////////////////////
+		AND Target.CustomerTypeCV = Source.CustomerTypeCV
+		AND Target.SDWISIdentifierCV = Source.SDWISIdentifierCV
+		--////////////////////////////////////////////
 
 	WHEN NOT MATCHED THEN
 		INSERT
@@ -193,6 +197,10 @@ BEGIN
 			,IrrigatedAcreage
 			,InterbasinTransferToID
 			,InterbasinTransferFromID
+			--////////////////////
+			,SDWISIdentifierCV
+			,CustomerTypeCV
+			--////////////////////
 			)
 		VALUES
 			(Source.OrganizationID
@@ -212,6 +220,10 @@ BEGIN
 			,Source.IrrigatedAcreage
 			,Source.InterbasinTransferToID
 			,Source.InterbasinTransferFromID
+			--////////////////////
+			,Source.SDWISIdentifierCV
+			,Source.CustomerTypeCV
+			--////////////////////
 			)
 		OUTPUT
 			inserted.AggregatedAmountID
@@ -232,3 +244,6 @@ BEGIN
 		bu.BeneficialUseID IS NOT NULL;
 	RETURN 0;
 END
+
+
+

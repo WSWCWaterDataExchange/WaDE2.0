@@ -20,6 +20,8 @@
     <None Remove="Scripts\001\022 ReportYearType Increase Length.sql" />
     <None Remove="Scripts\001\023 Aggregated Amounts Data Changes.sql" />
     <None Remove="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql" />
+    <None Remove="Scripts\001\025 Variables_dim changes.sql" />
+    <None Remove="Scripts\001\026 Core.LoadSiteAggregatedAmounts Update.sql" />
     <None Remove="Scripts\002 Table Types.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
@@ -34,6 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Scripts\001\026 Core.LoadSiteAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\025 Variables_dim changes.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
