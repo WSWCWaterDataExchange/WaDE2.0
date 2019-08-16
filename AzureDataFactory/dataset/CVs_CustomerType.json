@@ -1,0 +1,25 @@
+{
+	"name": "CVs_CustomerType",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CVsAPI",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GetCVs_data"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/api/v1/customertype/?format=csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

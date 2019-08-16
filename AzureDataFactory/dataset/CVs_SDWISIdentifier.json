@@ -1,0 +1,22 @@
+{
+	"name": "CVs_SDWISIdentifier",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CVsAPI",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/api/v1/sdwisidentifier/?format=csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

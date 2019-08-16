@@ -3450,8 +3450,8 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
@@ -3550,7 +3550,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "CustomerTypeCsv",
+						"referenceName": "CVs_CustomerType",
 						"type": "DatasetReference"
 					}
 				],
@@ -3577,8 +3577,8 @@
 					"source": {
 						"type": "DelimitedTextSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
@@ -3677,7 +3677,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "CustomerTypeCsv",
+						"referenceName": "CVs_SDWISIdentifier",
 						"type": "DatasetReference"
 					}
 				],
