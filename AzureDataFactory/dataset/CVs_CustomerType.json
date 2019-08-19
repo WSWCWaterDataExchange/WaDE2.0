@@ -20,6 +20,43 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "term",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "abbreviation",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "provenance",
+				"type": "String"
+			},
+			{
+				"name": "provenance_uri",
+				"type": "String"
+			},
+			{
+				"name": "note",
+				"type": "String"
+			}
+		]
 	}
 }
