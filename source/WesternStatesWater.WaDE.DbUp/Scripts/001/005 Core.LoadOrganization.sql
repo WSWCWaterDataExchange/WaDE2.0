@@ -37,9 +37,13 @@ BEGIN
 		FROM #TempOrganizationData
 		WHERE OrganizationContactEmail IS NULL
 		UNION ALL
-		SELECT 'DataMappingURL Not Valid' Reason, *
+		SELECT 'OrganizationDataMappingURL Not Valid' Reason, *
 		FROM #TempOrganizationData
-		WHERE DataMappingURL IS NULL
+		WHERE OrganizationDataMappingURL IS NULL
+		UNION ALL
+		SELECT 'State Not Valid' Reason, *
+		FROM #TempOrganizationData
+		WHERE State IS NULL
 	)
 	SELECT * INTO #TempErrorOrganizationRecords FROM q1;
 
@@ -63,7 +67,8 @@ BEGIN
 			,OrganizationPhoneNumber = Source.OrganizationPhoneNumber
 			,OrganizationContactName = Source.OrganizationContactName
 			,OrganizationContactEmail = Source.OrganizationContactEmail
-			,DataMappingURL = Source.DataMappingURL
+			,OrganizationDataMappingURL = Source.OrganizationDataMappingURL
+			,State=Source.State
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationUUID
@@ -73,7 +78,8 @@ BEGIN
 			,OrganizationPhoneNumber
 			,OrganizationContactName
 			,OrganizationContactEmail
-			,DataMappingURL)
+			,OrganizationDataMappingURL
+			,State)
 		VALUES
 			(Source.OrganizationUUID
 			,Source.OrganizationName
@@ -82,6 +88,7 @@ BEGIN
 			,Source.OrganizationPhoneNumber
 			,Source.OrganizationContactName
 			,Source.OrganizationContactEmail
-			,Source.DataMappingURL);
+			,Source.OrganizationDataMappingURL
+			,State);
 	RETURN 0;
 END
