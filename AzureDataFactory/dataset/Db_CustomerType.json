@@ -5,6 +5,9 @@
 			"referenceName": "WaDE Database",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
