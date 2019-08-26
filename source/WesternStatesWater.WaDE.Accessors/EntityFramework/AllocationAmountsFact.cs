@@ -35,12 +35,24 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public double? PowerGeneratedGwh { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
-        public string AllocationSdwisidentifier { get; set; }
+        public string AllocationSdwisidentifierCV { get; set; }
         public string AllocationAssociatedWithdrawalSiteIds { get; set; }
         public string AllocationAssociatedConsumptiveUseSiteIds { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }
         public string LegacyAllocationIds { get; set; }
         public string WaterAllocationNativeUrl { get; set; }
+
+        public string CropTypeCV { get; set; }
+
+        public string IrrigationMethodCV { get; set; }
+
+        public string CustomerTypeCV { get; set; }
+
+       
+
+        public string CommunityWaterSupplySystem { get; set; }
+
+        
 
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
@@ -55,6 +67,17 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual SitesDim Site { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
+
+        public virtual CropType CropType { get; set; }
+        public virtual CustomerType CustomerType { get; set; }
+
+        public virtual SDWISIdentifier SDWISIdentifier { get; set; }
+
+        public virtual IrrigationMethod IrrigationMethod { get; set; }
+        public virtual DateDim AllocationTimeFrameStartNavigation { get; set; }
+        public virtual DateDim AllocationTimeFrameEndNavigation { get; set; }
+
+
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
     }
 }

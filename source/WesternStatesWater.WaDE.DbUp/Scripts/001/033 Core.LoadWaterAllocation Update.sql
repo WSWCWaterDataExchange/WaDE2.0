@@ -17,34 +17,41 @@ BEGIN
 		,s.SiteID
 		,ws.WaterSourceID
 		,m.MethodID
+		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END CategoryCount
 	INTO
 		#TempJoinedWaterAllocationData
 	FROM
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
 		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
-		LEFT OUTER JOIN Core.Sites_dim s ON s.SiteUUID = wad.SiteUUID
+		LEFT OUTER JOIN Core.Sites_dim s ON s.WaDESiteUUID = wad.SiteUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
 
 		--///////////////////////////////////////////////////////////////s
-	Begin try
-					ALTER TABLE Core.AllocationAmounts_fact
-					ADD CHECK 
-					(
-					( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
-						OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
-						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
-					) = 1
-					)
-	End try
-	Begin catch
-					SELECT ERROR_MESSAGE() AS CrossGroupCheck INTO #TempJoinedAggregatedAmountData2
-	end catch;
+	--Begin try
+	--				ALTER TABLE Core.AllocationAmounts_fact
+	--				ADD CHECK 
+	--				(
+	--				( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+	--					OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+	--					OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
+	--				) = 1
+	--				)
+	--End try
+	--Begin catch
+	--				SELECT ERROR_MESSAGE() AS CrossGroupCheck INTO #TempJoinedAggregatedAmountData2
+	--end catch;
 	--/////////////////////////////////////////////////////////////////////////e
 
 
@@ -77,8 +84,8 @@ BEGIN
 		--//////////////////////////////s
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
-        FROM #TempJoinedAggregatedAmountData2
-        WHERE CrossGroupCheck IS NULL
+        FROM #TempJoinedWaterAllocationData
+        WHERE CategoryCount >1
 		--//////////////////////////////////e
 	)
 	SELECT * INTO #TempErrorWaterAllocationRecords FROM q1;
@@ -183,6 +190,11 @@ BEGIN
 			,wad.AllocationChangeApplicationIndicator
 			,wad.LegacyAllocationIDs
 			,wad.RowNumber
+			,wad.CropTypeCV
+			,wad.CustomerType
+			
+			,wad.IrrigationMethodCV
+			,wad.CommunityWaterSupplySystem
 		FROM
 			#TempJoinedWaterAllocationData wad
 			LEFT OUTER JOIN Core.BeneficialUses_dim bu ON bu.BeneficialUseCategory = wad.PrimaryUseCategory
@@ -231,7 +243,12 @@ BEGIN
 		,AllocationAssociatedWithdrawalSiteIDs
 		,AllocationAssociatedConsumptiveUseSiteIDs
 		,AllocationChangeApplicationIndicator
-		,LegacyAllocationIDs)
+		,LegacyAllocationIDs
+		,CropTypeCV
+		,CustomerTypeCV
+		
+		,IrrigationMethodCV
+		,CommunityWaterSupplySystem)
 	VALUES
 		(Source.OrganizationID
 		,Source.VariableSpecificID
@@ -262,7 +279,12 @@ BEGIN
 		,Source.AllocationAssociatedWithdrawalSiteIDs
 		,Source.AllocationAssociatedConsumptiveUseSiteIDs
 		,Source.AllocationChangeApplicationIndicator
-		,Source.LegacyAllocationIDs)
+		,Source.LegacyAllocationIDs
+		,Source.CropTypeCV
+		,Source.CustomerType
+		
+		,Source.IrrigationMethodCV
+		,Source.CommunityWaterSupplySystem)
 	OUTPUT
 		inserted.AllocationAmountID
 		,Source.RowNumber

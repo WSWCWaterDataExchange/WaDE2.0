@@ -17,6 +17,13 @@ BEGIN
 		,vb.VariableSpecificID
 		,mt.MethodID
         ,wt.WaterSourceID
+		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END CategoryCount
 	INTO
 		#TempJoinedAggregatedAmountData
     FROM
@@ -28,23 +35,23 @@ BEGIN
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 
 		--///////////////////////////////////////////////////////////////s
-	Begin try
-					ALTER TABLE Core.AggregatedAmounts_fact
-					ADD CHECK 
-					(
-					( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
-						OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
-						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
-					) = 1
-					)
-	End try
-	Begin catch
-					SELECT ERROR_MESSAGE() AS CrossGroupCheck INTO #TempJoinedAggregatedAmountData2
-	end catch;
+	--Begin try
+	--				ALTER TABLE Core.AggregatedAmounts_fact
+	--				ADD CHECK 
+	--				(
+	--				( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+	--					OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+	--					OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
+	--				) = 1
+	--				)
+	--End try
+	--Begin catch
+	--				SELECT ERROR_MESSAGE() AS CrossGroupCheck INTO #TempJoinedAggregatedAmountData2
+	--end catch;
 	--/////////////////////////////////////////////////////////////////////////e
 
     --data validation
@@ -80,8 +87,8 @@ BEGIN
 		--//////////////////////////////s
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
-        FROM #TempJoinedAggregatedAmountData2
-        WHERE CrossGroupCheck IS NULL
+        FROM #TempJoinedAggregatedAmountData
+        WHERE CategoryCount >1
 		--//////////////////////////////////e
 
     )
@@ -179,6 +186,13 @@ BEGIN
             ,jaad.InterbasinTransferToID
             ,jaad.InterbasinTransferFromID
 			,jaad.RowNumber
+			,jaad.AllocationCropDutyAmount
+			,jaad.CropTypeCV
+			,jaad.CustomerType
+			,jaad.IrrigationMethodCV
+			,jaad.CommunityWaterSupplySystem
+			,jaad.SDWISIdentifier
+			
 			
         FROM
             #TempJoinedAggregatedAmountData jaad
@@ -219,6 +233,12 @@ BEGIN
 			,IrrigatedAcreage
 			,InterbasinTransferToID
 			,InterbasinTransferFromID
+			,AllocationCropDutyAmount
+			,CropTypeCV
+			,CustomerTypeCV
+			,IrrigationMethodCV
+			,CommunityWaterSupplySystem
+			,SDWISIdentifierCV
 			)
 		VALUES
 			(Source.OrganizationID
@@ -238,6 +258,14 @@ BEGIN
 			,Source.IrrigatedAcreage
 			,Source.InterbasinTransferToID
 			,Source.InterbasinTransferFromID
+			,Source.AllocationCropDutyAmount
+			,Source.CropTypeCV
+			,Source.CustomerType
+			,Source.IrrigationMethodCV
+			,Source.CommunityWaterSupplySystem
+			,Source.SDWISIdentifier
+
+
 			)
 		OUTPUT
 			inserted.AggregatedAmountID

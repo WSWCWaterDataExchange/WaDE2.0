@@ -1,4 +1,5 @@
-Alter PROCEDURE [Core].[LoadSiteSpecificAmounts]
+
+ALTER PROCEDURE [Core].[LoadSiteSpecificAmounts]
 (
     @RunId NVARCHAR(250),
     @SiteSpecificAmountTable Core.SiteSpecificAmountTableType READONLY
@@ -17,53 +18,78 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
+		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+						THEN 0 ELSE 1 END
+					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END CategoryCount
+	/*--	,ct.Name as customerType_Name
+		,si.Name as SDWISIdentifier_Name
+		,crt.Name as CropType_Name
+		,ir.Name as Irrigation_Name  --*/
 	INTO
 		#TempJoinedSiteSpecificAmountData
     FROM
         #TempSiteSpecificAmountData ssa
 		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
-		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.SiteUUID
+		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.WaDESiteUUID
 		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
 		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
+		/*-- LEFT OUTER JOIN CVs.CustomerType ct ON ssa.CustomerType = ct.Name
+		LEFT OUTER JOIN CVs.SDWISIdentifier si ON ssa.SDWISIdentifier = si.Name
+		LEFT OUTER JOIN CVs.CropType crt ON ssa.CropTypeCV = crt.Name
+		LEFT OUTER JOIN CVs.IrrigationMethod ir ON ssa.IrrigationMethodCV = ir.Name; --*/
 
 		--///////////////////////////////////////////////////////////////s
-	Begin try
-					ALTER TABLE Core.SiteVariableAmounts_fact
-					ADD CHECK 
-					(
-					( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
-						OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
-						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
-						THEN 0 ELSE 1 END
-					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
-					) = 1
-					)
-	End try
-	Begin catch
-					SELECT ERROR_MESSAGE() AS CrossGroupCheck INTO #TempJoinedAggregatedAmountData2
-	end catch;
+	--				SELECT ERROR_MESSAGE() AS CrossGroupCheck 
+	--				INTO #TempSiteSpecificAmountData_CrossGroupCheck
+	
+	--Begin try
+	--				ALTER TABLE Core.SiteVariableAmounts_fact
+	--				ADD CHECK 
+	--				(
+	--				( CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
+	--					OR CustomerTypeCV IS NULL OR SDWISIdentifierCV IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
+	--					OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+	--					THEN 0 ELSE 1 END
+	--				+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END
+	--				) <= 1
+	--				)
+
+	--				Update #TempSiteSpecificAmountData_CrossGroupCheck
+	--				SET CrossGroupCheck=NULL
+	--End try
+	--Begin catch
+					
+	--				Update #TempSiteSpecificAmountData_CrossGroupCheck
+	--				SET CrossGroupCheck='NOT PASSED'
+	--end catch;
 	--/////////////////////////////////////////////////////////////////////////e
 
     --data validation
     WITH q1 AS
     (
+	--SELECT *
+	--from #TempSiteSpecificAmountData_CrossGroupCheck cross join (
         SELECT 'OrganizationID Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData
+        FROM #TempJoinedSiteSpecificAmountData 
         WHERE OrganizationID IS NULL
         UNION ALL
         SELECT 'SiteID Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData
+        FROM #TempJoinedSiteSpecificAmountData 
         WHERE SiteID IS NULL
         UNION ALL
         SELECT 'VariableSpecificID Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData
+        FROM #TempJoinedSiteSpecificAmountData 
         WHERE VariableSpecificID IS NULL
         UNION ALL
         SELECT 'WaterSourceID Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData
+        FROM #TempJoinedSiteSpecificAmountData 
         WHERE WaterSourceID IS NULL
         UNION ALL
         SELECT 'MethodID Not Valid' Reason, *
@@ -72,12 +98,17 @@ BEGIN
         UNION ALL
 		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
-        WHERE Amount IS NULL
-		--//////////////////////////////s
+        WHERE Amount IS NULL --) ID_ERRORS
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
-        FROM #TempJoinedAggregatedAmountData2
-        WHERE CrossGroupCheck IS NULL
+        FROM #TempJoinedSiteSpecificAmountData
+        WHERE CategoryCount > 1
+		--//////////////////////////////s
+		--UNION ALL
+		--SELECT 'Cross Group Not Valid' Reason, #TempSiteSpecificAmountData.*
+  --      FROM #TempSiteSpecificAmountData_CrossGroupCheck, #TempSiteSpecificAmountData
+  --      WHERE CrossGroupCheck IS NOT NULL 
+
 		--//////////////////////////////////e
     )
     SELECT * INTO #TempErrorSiteSpecificAmountRecords FROM q1;
@@ -174,6 +205,9 @@ BEGIN
             ,ssa.AssociatedNativeAllocationIDs
             ,ssa.[Geometry]
 			,ssa.RowNumber
+			,ssa.CustomerType
+			,ssa.AllocationCropDutyAmount
+			
         FROM
             #TempJoinedSiteSpecificAmountData ssa
             LEFT OUTER JOIN Core.BeneficialUses_dim bu ON ssa.PrimaryUseCategory = bu.BeneficialUseCategory
@@ -208,7 +242,9 @@ BEGIN
 			,IrrigationMethodCV
 			,CropTypeCV
 			,CommunityWaterSupplySystem
-			,SDWISIdentifier
+			,SDWISIdentifierCV
+			,CustomerTypeCV
+			,AllocationCropDutyAmount
 			,AssociatedNativeAllocationIDs
 			,[Geometry])
 		VALUES
@@ -231,6 +267,8 @@ BEGIN
 			,Source.CommunityWaterSupplySystem
 			,Source.SDWISIdentifier
 			,Source.AssociatedNativeAllocationIDs
+			,source.CustomerType
+			,Source.AllocationCropDutyAmount
 			,geometry::STGeomFromText(Source.[Geometry], 4326))
 		OUTPUT
 			inserted.SiteVariableAmountID
