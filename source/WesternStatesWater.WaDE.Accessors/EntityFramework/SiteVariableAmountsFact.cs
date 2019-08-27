@@ -32,7 +32,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string CommunityWaterSupplySystem { get; set; }
         public string AssociatedNativeAllocationIds { get; set; }
         public IGeometry Geometry { get; set; }
-
+       
         public double? AllocationCropDutyAmount { get; set; }
         
 
@@ -50,6 +50,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual ICollection<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
-       
+        
+
     }
 }

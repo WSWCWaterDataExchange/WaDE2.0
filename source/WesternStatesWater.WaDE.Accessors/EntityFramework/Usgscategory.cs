@@ -7,7 +7,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public Usgscategory()
         {
-            BeneficialUsesDim = new HashSet<BeneficialUsesDim>();
+            BeneficialUsesDim = new HashSet<BeneficialUsesCV>();
         }
 
         public string Name { get; set; }
@@ -16,6 +16,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string State { get; set; }
         public string SourceVocabularyUri { get; set; }
 
-        public virtual ICollection<BeneficialUsesDim> BeneficialUsesDim { get; set; }
+        public virtual ICollection<BeneficialUsesCV> BeneficialUsesDim { get; set; }
     }
 }

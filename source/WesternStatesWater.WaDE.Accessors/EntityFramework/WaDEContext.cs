@@ -20,7 +20,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual DbSet<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual DbSet<ApplicableResourceType> ApplicableResourceType { get; set; }
-        public virtual DbSet<BeneficialUsesDim> BeneficialUsesDim { get; set; }
+        public virtual DbSet<BeneficialUsesCV> BeneficialUsesDim { get; set; }
         public virtual DbSet<CoordinateMethod> CoordinateMethod { get; set; }
         public virtual DbSet<CropType> CropType { get; set; }
         public virtual DbSet<CustomerType> CustomerType { get; set; }
@@ -559,42 +559,40 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.Term).HasMaxLength(100);
             });
 
-            modelBuilder.Entity<BeneficialUsesDim>(entity =>
+            modelBuilder.Entity<BeneficialUsesCV>(entity =>
             {
-                entity.HasKey(e => e.BeneficialUseId)
+                entity.HasKey(e => e.Name)
                     .HasName("pkBeneficialUses_dim");
 
                 entity.ToTable("BeneficialUses_dim", "Core");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                
 
-                entity.Property(e => e.BeneficialUseCategory)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.BeneficialUseUuid)
-                    .HasColumnName("BeneficialUseUUID")
-                    .HasMaxLength(500);
+                entity.Property(e => e.Term)
+                    .HasColumnName("Term")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.NaicscodeNameCv)
-                    .HasColumnName("NAICSCodeNameCV")
-                    .HasMaxLength(250);
+                    .HasColumnName("NAICSCode")
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.PrimaryUseCategory).HasMaxLength(250);
+                entity.Property(e => e.State).HasMaxLength(100);
 
                 entity.Property(e => e.UsgscategoryNameCv)
-                    .HasColumnName("USGSCategoryNameCV")
-                    .HasMaxLength(250);
+                    .HasColumnName("USGSCategory")
+                    .HasMaxLength(100);
+                entity.Property(e => e.NaicscodeNameCv)
+                   .HasColumnName("NAICSCode")
+                   .HasMaxLength(100);
+                entity.Property(e => e.SourceVocabularyURI)
+                   .HasColumnName("SourceVocabularyURI")
+                   .HasMaxLength(100);
 
-                entity.HasOne(d => d.NaicscodeNameCvNavigation)
-                    .WithMany(p => p.BeneficialUsesDim)
-                    .HasForeignKey(d => d.NaicscodeNameCv)
-                    .HasConstraintName("fk_BeneficialUses_dim_NAICSCode");
-
-                entity.HasOne(d => d.UsgscategoryNameCvNavigation)
-                    .WithMany(p => p.BeneficialUsesDim)
-                    .HasForeignKey(d => d.UsgscategoryNameCv)
-                    .HasConstraintName("fk_BeneficialUses_dim_USGSCategory");
+                
             });
 
             modelBuilder.Entity<CoordinateMethod>(entity =>
@@ -1310,6 +1308,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.CropTypeCv)
                     .HasColumnName("CropTypeCV")
                     .HasMaxLength(100);
+
+               
 
                 entity.Property(e => e.CustomerTypeCv)
                    .HasColumnName("CustomerTypeCV")

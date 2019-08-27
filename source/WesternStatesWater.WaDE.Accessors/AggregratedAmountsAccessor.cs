@@ -44,7 +44,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUse))
                 {
-                    query = query.Where(a => a.BeneficialUse.BeneficialUseCategory == filters.BeneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUse));
+                    query = query.Where(a => a.BeneficialUse.Name == filters.BeneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUse));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
                 {
@@ -94,7 +94,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     aggAmount.BeneficialUses = beneficialUses
                         .Where(a => a.AggregatedAmountId == aggAmount.AggregatedAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseId)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();

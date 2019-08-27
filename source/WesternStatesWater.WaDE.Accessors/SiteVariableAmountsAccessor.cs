@@ -45,7 +45,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
+                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
@@ -95,7 +95,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     siteVariableAmount.BeneficialUses = beneficialUses
                         .Where(a => a.SiteVariableAmountId == siteVariableAmount.SiteVariableAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseId)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();

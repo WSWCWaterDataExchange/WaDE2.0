@@ -67,8 +67,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
          [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
-          [NullValues("")]
-          public string PrimaryUseCategory { get; set; }
+         [NullValues("")]
+        public string PrimaryUseCategory { get; set; }
+
+        
 
 
     }

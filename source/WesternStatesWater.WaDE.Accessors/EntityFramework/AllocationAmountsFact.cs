@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long? SiteId { get; set; }
         public long WaterSourceId { get; set; }
         public long MethodId { get; set; }
-        public long? PrimaryBeneficialUseId { get; set; }
+        public string PrimaryBeneficialUseId { get; set; }
         public long DataPublicationDateId { get; set; }
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }
@@ -63,7 +63,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DateDim DataPublicationDate { get; set; }
         public virtual MethodsDim Method { get; set; }
         public virtual OrganizationsDim Organization { get; set; }
-        public virtual BeneficialUsesDim PrimaryBeneficialUse { get; set; }
+        public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual SitesDim Site { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
