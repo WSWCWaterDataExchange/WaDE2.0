@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long? SiteId { get; set; }
         public long WaterSourceId { get; set; }
         public long MethodId { get; set; }
-        public string PrimaryBeneficialUseId { get; set; }
+        public string PrimaryUseCategoryCV { get; set; }
         public long DataPublicationDateId { get; set; }
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }

@@ -13,7 +13,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         }
 
         public long VariableSpecificId { get; set; }
-        public string VariableSpecificUuid { get; set; }
+        //public string VariableSpecificUuid { get; set; }
         public string VariableSpecificCv { get; set; }
         public string VariableCv { get; set; }
         public string AggregationStatisticCv { get; set; }

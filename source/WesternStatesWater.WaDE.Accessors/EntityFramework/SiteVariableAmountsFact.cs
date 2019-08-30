@@ -32,10 +32,10 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string CommunityWaterSupplySystem { get; set; }
         public string AssociatedNativeAllocationIds { get; set; }
         public IGeometry Geometry { get; set; }
-       
+        public string PrimaryUseCategoryCV { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
-        
 
+        public virtual BeneficialUsesCV BeneficialUse { get; set; }
         public virtual CropType CropTypeCvNavigation { get; set; }
         public virtual CustomerType CustomerTypeCvNavigation { get; set; }
         public virtual SDWISIdentifier SDWISIdentifierCvNavigation { get; set; }

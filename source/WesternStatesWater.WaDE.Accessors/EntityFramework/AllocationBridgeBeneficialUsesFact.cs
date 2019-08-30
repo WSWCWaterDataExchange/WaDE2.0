@@ -6,7 +6,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     public partial class AllocationBridgeBeneficialUsesFact
     {
         public long AllocationBridgeId { get; set; }
-        public string BeneficialUseId { get; set; }
+        public string BeneficialUseCategoryCV { get; set; }
         public long AllocationAmountId { get; set; }
 
         public virtual AllocationAmountsFact AllocationAmount { get; set; }

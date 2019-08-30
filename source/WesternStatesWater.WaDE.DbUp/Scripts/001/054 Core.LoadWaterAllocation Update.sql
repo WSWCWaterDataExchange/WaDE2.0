@@ -17,6 +17,7 @@ BEGIN
 		,s.SiteID
 		,ws.WaterSourceID
 		,m.MethodID
+		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
 						OR CustomerType IS NULL OR AllocationSDWISIdentifier IS NULL
 						THEN 0 ELSE 1 END
@@ -29,9 +30,10 @@ BEGIN
 	FROM
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
-		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
+		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificCV = wad.VariableSpecificUUID
 		LEFT OUTER JOIN Core.Sites_dim s ON s.WaDESiteUUID = wad.SiteUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
+		LEFT OUTER JOIN CVs.BeneficialUses bs ON bs.Name=wad.PrimaryUseCategory
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
 
 		
@@ -50,6 +52,10 @@ BEGIN
 		SELECT 'WaterSourceID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE WaterSourceID IS NULL
+		UNION ALL
+		SELECT 'PrimaryUseCategoryCV Not Valid' Reason, *
+		FROM #TempJoinedWaterAllocationData
+		WHERE PrimaryUseCategoryCV IS NULL
 		UNION ALL
 		SELECT 'MethodID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
@@ -89,31 +95,31 @@ BEGIN
 		#TempWaterAllocationData wad
 		CROSS APPLY STRING_SPLIT(wad.BeneficialUseCategory, ',') bu
 	WHERE
-		wad.BeneficialUseCategory IS NOT NULL
+		wad.PrimaryUseCategory IS NOT NULL
 		AND bu.[Value] IS NOT NULL
 		AND LEN(TRIM(bu.[Value])) > 0;
 
-	INSERT INTO
-		CVs.BeneficialUses(Name)
-    SELECT DISTINCT
-		bud.BeneficialUse
-    FROM
-		#TempBeneficialUsesData bud
-		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
-      WHERE
-		bu.Name IS NULL;
+	--INSERT INTO
+	--	CVs.BeneficialUses(Name)
+ --   SELECT DISTINCT
+	--	bud.BeneficialUse
+ --   FROM
+	--	#TempBeneficialUsesData bud
+	--	LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
+ --     WHERE
+	--	bu.Name IS NULL;
 
-	INSERT INTO
-		CVs.BeneficialUses(Name)
-	SELECT DISTINCT
-		wad.PrimaryUseCategory
-	FROM
-		#TempWaterAllocationData wad
-		LEFT OUTER JOIN CVs.BeneficialUses bu on bu.Name = wad.PrimaryUseCategory
-	WHERE
-		bu.Name IS NULL
-		AND wad.PrimaryUseCategory IS NOT NULL
-		AND LEN(TRIM(wad.PrimaryUseCategory)) > 0;
+	--INSERT INTO
+	--	CVs.BeneficialUses(Name)
+	--SELECT DISTINCT
+	--	wad.PrimaryUseCategory
+	--FROM
+	--	#TempWaterAllocationData wad
+	--	LEFT OUTER JOIN CVs.BeneficialUses bu on bu.Name = wad.PrimaryUseCategory
+	--WHERE
+	--	bu.Name IS NULL
+	--	AND wad.PrimaryUseCategory IS NOT NULL
+	--	AND LEN(TRIM(wad.PrimaryUseCategory)) > 0;
 
 	--set up missing Core.Date_dim entries
 	WITH q1 AS
@@ -145,7 +151,7 @@ BEGIN
 			,wad.SiteID
 			,wad.WaterSourceID
 			,wad.MethodID
-			,bu.Name
+			,wad.PrimaryUseCategory
 			,DataPublicationDateID = dpub.DateID
 			,wad.DataPublicationDOI
 			,wad.AllocationNativeID
@@ -178,7 +184,7 @@ BEGIN
 			,wad.CommunityWaterSupplySystem
 		FROM
 			#TempJoinedWaterAllocationData wad
-			LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = wad.PrimaryUseCategory
+			--LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = wad.PrimaryUseCategory
 			LEFT OUTER JOIN Core.Date_dim dPub ON dPub.[Date] = wad.DataPublicationDate
 			LEFT OUTER JOIN Core.Date_dim dApp ON dApp.[Date] = wad.AllocationApplicationDate
 			LEFT OUTER JOIN Core.Date_dim dPri ON dPri.[Date] = wad.AllocationPriorityDate
@@ -192,7 +198,7 @@ BEGIN
 		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
 		AND ISNULL(Target.AllocationNativeID, '') = ISNULL(Source.AllocationNativeID, '')
 		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
-		AND ISNULL(Target.PrimaryBeneficialUseID, '') = ISNULL(Source.Name, '')
+		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
 	WHEN NOT MATCHED THEN
 	INSERT
 		(OrganizationID
@@ -200,7 +206,7 @@ BEGIN
 		,SiteID
 		,WaterSourceID
 		,MethodID
-		,PrimaryBeneficialUseID
+		,PrimaryUseCategoryCV
 		,DataPublicationDateID
 		,DataPublicationDOI
 		,AllocationNativeID
@@ -220,7 +226,7 @@ BEGIN
 		,PowerGeneratedGWh
 		,IrrigatedAcreage
 		,AllocationCommunityWaterSupplySystem
-		,AllocationSDWISIdentifierCV
+		,SDWISIdentifierCV
 		,AllocationAssociatedWithdrawalSiteIDs
 		,AllocationAssociatedConsumptiveUseSiteIDs
 		,AllocationChangeApplicationIndicator
@@ -236,7 +242,7 @@ BEGIN
 		,Source.SiteID
 		,Source.WaterSourceID
 		,Source.MethodID
-		,Source.Name
+		,Source.PrimaryUseCategory
 		,Source.DataPublicationDateID
 		,Source.DataPublicationDOI
 		,Source.AllocationNativeID
@@ -266,6 +272,7 @@ BEGIN
 		
 		,Source.IrrigationMethodCV
 		,Source.CommunityWaterSupplySystem)
+		
 	OUTPUT
 		inserted.AllocationAmountID
 		,Source.RowNumber
@@ -273,7 +280,7 @@ BEGIN
 		#AllocationAmountRecords;
 	
 	--insert into Core.AllocationBridge_BeneficialUses_fact
-	INSERT INTO Core.AllocationBridge_BeneficialUses_fact (BeneficialUseID, AllocationAmountID)
+	INSERT INTO Core.AllocationBridge_BeneficialUses_fact (BeneficialUseCV, AllocationAmountID)
 	SELECT DISTINCT
 		bu.Name
 		,aar.AllocationAmountID

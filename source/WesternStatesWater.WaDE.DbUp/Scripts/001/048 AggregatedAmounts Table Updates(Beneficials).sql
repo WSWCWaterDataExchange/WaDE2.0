@@ -5,10 +5,20 @@ drop constraint fK_AggregatedAmounts_fact_BeneficialUses_dim;
 ALTER TABLE Core.AggregatedAmounts_fact
 Alter column BeneficialUseID nvarchar(100) Null;
 
---EXEC sp_rename 'Core.AggregatedAmounts_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
 Update Core.AggregatedAmounts_fact
-set BeneficialUseID=Null;
+set BeneficialUseID='Irrigation';
+
+ALTER TABLE Core.AggregatedAmounts_fact
+Alter column BeneficialUseID nvarchar(100) NOT Null;
+
+EXEC sp_rename 'Core.AggregatedAmounts_fact.BeneficialUseID', 'PrimaryUseCategoryCV', 'Column';
+
 ALTER TABLE Core.AggregatedAmounts_fact
 add constraint FK_AggregatedAmounts_BeneficialUses
-Foreign key (BeneficialUseID)
+Foreign key (PrimaryUseCategoryCV)
 References CVs.BeneficialUses (Name);
+
+
+
+
+

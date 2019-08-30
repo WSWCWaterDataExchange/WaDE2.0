@@ -7,9 +7,11 @@ State nvarchar(250) Null,
 SourceVocabularyURI nvarchar(250) Null,
 USGSCategory nvarchar(250) Null,
 NAICSCode nvarchar(250) Null,
-Primary Key (BeneficialUseCategory)
+Primary Key (Name)
 );
 
+INSERT INTO Cvs.BeneficialUses (Name,Term,Definition,State, SourceVocabularyURI,USGSCategory,NAICSCode)
+Values('Irrigation','','','','','','');
 
 
 

@@ -17,6 +17,7 @@ BEGIN
 		,vb.VariableSpecificID
 		,mt.MethodID
         ,wt.WaterSourceID
+		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
 						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
 						THEN 0 ELSE 1 END
@@ -30,8 +31,9 @@ BEGIN
         #TempAggregatedAmountData aad
 		LEFT OUTER JOIN Core.Organizations_dim og ON aad.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.ReportingUnits_dim ru ON aad.ReportingUnitUUID = ru.ReportingUnitUUID
-        LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
+       LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificCV
         LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
+	    LEFT OUTER JOIN CVs.BeneficialUses bs ON aad.PrimaryUseCategory = bs.Name
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 
 		
@@ -50,9 +52,9 @@ BEGIN
         FROM #TempJoinedAggregatedAmountData
         WHERE VariableSpecificID IS NULL
         UNION ALL
-		SELECT 'BeneficialUseCategory Not Valid' Reason, *
+		SELECT 'PrimaryUseCategory Not valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
-        WHERE BeneficialUseCategory IS NULL
+        WHERE PrimaryUseCategoryCV IS NULL
         UNION ALL
 		SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
@@ -96,31 +98,31 @@ BEGIN
         #TempAggregatedAmountData aad
         CROSS APPLY STRING_SPLIT(aad.BeneficialUseCategory, ',') bu
     WHERE
-        aad.BeneficialUseCategory IS NOT NULL
+        aad.PrimaryUseCategory IS NOT NULL
         AND bu.[Value] IS NOT NULL
         AND LEN(TRIM(bu.[Value])) > 0;
     
-    INSERT INTO
-        CVs.BeneficialUses(Name)
-    SELECT DISTINCT
-        bud.BeneficialUse
-    FROM
-        #TempBeneficialUsesData bud
-        LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
-    WHERE
-        bu.Name IS NULL;
+    --INSERT INTO
+    --    CVs.BeneficialUses(Name)
+    --SELECT DISTINCT
+    --    bud.BeneficialUse
+    --FROM
+    --    #TempBeneficialUsesData bud
+    --    LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
+    --WHERE
+    --    bu.Name IS NULL;
 
-    INSERT INTO
-        CVs.BeneficialUses(Name)
-    SELECT DISTINCT
-        aad.PrimaryUseCategory
-    FROM
-        #TempAggregatedAmountData aad
-        LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = aad.PrimaryUseCategory
-    WHERE
-        bu.Name IS NULL
-        AND aad.PrimaryUseCategory IS NOT NULL
-        AND LEN(TRIM(aad.PrimaryUseCategory)) > 0;
+    --INSERT INTO
+    --    CVs.BeneficialUses(Name)
+    --SELECT DISTINCT
+    --    aad.PrimaryUseCategory
+    --FROM
+    --    #TempAggregatedAmountData aad
+    --    LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = aad.PrimaryUseCategory
+    --WHERE
+    --    bu.Name IS NULL
+    --    AND aad.PrimaryUseCategory IS NOT NULL
+    --    AND LEN(TRIM(aad.PrimaryUseCategory)) > 0;
     
     --set up missing Core.Date_dim entries
     WITH q1 AS
@@ -152,7 +154,7 @@ BEGIN
             jaad.OrganizationID
 			,jaad.ReportingUnitID
             ,jaad.VariableSpecificID
-            ,bu.Name
+            ,jaad.PrimaryUseCategory
             ,jaad.WaterSourceID
             ,jaad.MethodID
             ,TimeframeStartID = ds.DateID
@@ -177,22 +179,27 @@ BEGIN
 			
         FROM
             #TempJoinedAggregatedAmountData jaad
-            LEFT OUTER JOIN CVs.BeneficialUses bu ON jaad.PrimaryUseCategory = bu.Name
+           -- LEFT OUTER JOIN CVs.BeneficialUses bu ON jaad.PrimaryUseCategory = bu.Name
             LEFT OUTER JOIN Core.Date_dim ds ON jaad.TimeframeStart = ds.[Date]
             LEFT OUTER JOIN Core.Date_dim de ON jaad.TimeframeEnd = de.[Date]
             LEFT OUTER JOIN Core.Date_dim dp ON jaad.DataPublicationDate = dp.[Date]
     )
     MERGE INTO Core.AggregatedAmounts_fact AS Target
 	USING q1 AS Source ON
-		Target.OrganizationID = Source.OrganizationID
-		AND Target.ReportingUnitID = Source.ReportingUnitID
-		AND Target.VariableSpecificID = Source.VariableSpecificID
-		AND Target.BeneficialUseID = Source.Name
-		AND Target.WaterSourceID = Source.WaterSourceID
-		AND Target.MethodID = Source.MethodID
-		AND Target.TimeframeStartID = Source.TimeframeStartID
-		AND Target.TimeframeEndID = Source.TimeframeEndID
-		AND Target.ReportYearCV = Source.ReportYearCV
+		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
+		AND ISNULL(Target.WaterSourceID, '') = ISNULL(Source.WaterSourceID, '')
+		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
+		AND ISNULL(Target.TimeframeStartID, '') = ISNULL(Source.TimeframeStartID, '')
+		AND ISNULL(Target.TimeframeEndID, '') = ISNULL(Source.TimeframeEndID, '')
+		AND ISNULL(Target.ReportYearCV, '') = ISNULL(Source.ReportYearCV, '')
+		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
+
+		AND ISNULL(Target.ReportingUnitID,'') = ISNULL(Source.ReportingUnitID,'')
+		
+		
+		
+		AND ISNULL(Target.MethodID,'') = ISNULL(Source.MethodID,'')
+		
 		
 
 	WHEN NOT MATCHED THEN
@@ -200,7 +207,7 @@ BEGIN
 			(OrganizationID
 			,ReportingUnitID
 			,VariableSpecificID
-			,BeneficialUseID
+			,PrimaryUseCategoryCV
 			,WaterSourceID
 			,MethodID
 			,TimeframeStartID
@@ -225,7 +232,7 @@ BEGIN
 			(Source.OrganizationID
 			,Source.ReportingUnitID
 			,Source.VariableSpecificID
-			,Source.Name
+			,Source.PrimaryUseCategory
 			,Source.WaterSourceID
 			,Source.MethodID
 			,Source.TimeframeStartID
@@ -255,7 +262,7 @@ BEGIN
 			#AggregatedAmountRecords;
     
 	--insert into Core.AggBridge_BeneficialUses_fact
-	INSERT INTO Core.AggBridge_BeneficialUses_fact (BeneficialUseID, AggregatedAmountID)
+	INSERT INTO Core.AggBridge_BeneficialUses_fact (BeneficialUseCV, AggregatedAmountID)
 	SELECT DISTINCT
 		bu.Name
 		,aar.AggregatedAmountID

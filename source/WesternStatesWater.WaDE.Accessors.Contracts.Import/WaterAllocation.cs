@@ -23,6 +23,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
+
         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
@@ -88,20 +89,23 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
 
         [NullValues("")]
-        public string WaterAllocationNativeURL { get; set; }
-
-        [NullValues("")]
-        public string CropTypeCV { get; set; }
-
-        [NullValues("")]
         public string CustomerTypeCV { get; set; }
 
         [NullValues("")]
         public string IrrigationMethodCV { get; set; }
 
-        
+        [NullValues("")]
+        public string CropTypeCV { get; set; }
+
+        [NullValues("")]
+        public string WaterAllocationNativeURL { get; set; }
+
+       
+
 
         [NullValues("")]
         public string CommunityWaterSupplySystem { get; set; }
+
+        
     }
 }

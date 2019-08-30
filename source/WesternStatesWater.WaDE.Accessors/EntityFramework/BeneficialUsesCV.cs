@@ -12,6 +12,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
             AllocationBridgeBeneficialUsesFact = new HashSet<AllocationBridgeBeneficialUsesFact>();
             SitesBridgeBeneficialUsesFact = new HashSet<SitesBridgeBeneficialUsesFact>();
+            SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
             
         }
 
@@ -32,7 +33,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual ICollection<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
+        public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
 
-       
+
     }
 }

@@ -1,17 +1,9 @@
 
---ALTER TABLE Core.SiteVariableAmounts_fact
---drop constraint fK_AggregatedAmounts_fact_BeneficialUses_dim;
+Alter TABLE Core.SiteVariableAmounts_fact
+ADD PrimaryUseCategoryCV nvarchar(100) Null
 
---Alter TABLE Core.SiteVariableAmounts_fact
---add BeneficialUseID nvarchar(100) Null;
 
---EXEC sp_rename 'Core.AggregatedAmounts_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
---Update Core.AggregatedAmounts_fact
---set BeneficialUseID=Null;
---ALTER TABLE Core.SiteVariableAmounts_fact
---add constraint FK_SiteVariableAmounts_BeneficialUses
---Foreign key (BeneficialUseID)
---References CVs.BeneficialUses (Name);
+
 
 -------------------------------------------------------------------
 
@@ -22,13 +14,20 @@ drop constraint fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim;
 Alter TABLE Core.SitesBridge_BeneficialUses_fact
 alter column BeneficialUseID nvarchar(100) Null;
 
---EXEC sp_rename 'Core.AggregatedAmounts_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
 Update Core.SitesBridge_BeneficialUses_fact
-set BeneficialUseID=Null;
+set BeneficialUseID='Irrigation';
+
+Alter TABLE Core.SitesBridge_BeneficialUses_fact
+alter column BeneficialUseID nvarchar(100) NOT Null;
+
+EXEC sp_rename 'Core.SitesBridge_BeneficialUses_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
+
 ALTER TABLE Core.SitesBridge_BeneficialUses_fact
 add constraint FK_SiteBridge_BeneficialUses
-Foreign key (BeneficialUseID)
+Foreign key (BeneficialUseCV)
 References CVs.BeneficialUses (Name);
+
+
 
 ---------------------------------------------------------------------
 
@@ -38,11 +37,18 @@ drop constraint fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim;
 Alter TABLE Core.AggBridge_BeneficialUses_fact
 alter column BeneficialUseID nvarchar(100) Null;
 
---EXEC sp_rename 'Core.AggregatedAmounts_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
 Update Core.AggBridge_BeneficialUses_fact
-set BeneficialUseID=Null;
+set BeneficialUseID='Irrigation';
+
+Alter TABLE Core.AggBridge_BeneficialUses_fact
+alter column BeneficialUseID nvarchar(100) NOT Null;
+
+EXEC sp_rename 'Core.AggBridge_BeneficialUses_fact.BeneficialUseID', 'BeneficialUseCV', 'Column';
+
 ALTER TABLE Core.AggBridge_BeneficialUses_fact
 add constraint FK_AggBridge_BeneficialUses
-Foreign key (BeneficialUseID)
+Foreign key (BeneficialUseCV)
 References CVs.BeneficialUses (Name);
+
+
 

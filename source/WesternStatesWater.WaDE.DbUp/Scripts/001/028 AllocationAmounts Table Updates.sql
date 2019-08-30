@@ -21,7 +21,11 @@ add CustomerTypeCV NVARCHAR(100) NULL
 ALTER TABLE Core.AllocationAmounts_fact
 alter column AllocationSDWISIdentifier NVARCHAR(100) NULL
 
-EXEC sp_rename  'Core.AllocationAmounts_fact.AllocationSDWISIdentifier', 'AllocationSDWISIdentifierCV', 'Column'
+Update Core.AllocationAmounts_fact
+set AllocationSDWISIdentifier=Null
+
+EXEC sp_rename  'Core.AllocationAmounts_fact.AllocationSDWISIdentifier', 'SDWISIdentifierCV', 'Column'
+
 
 --add the FKs
 ALTER TABLE Core.AllocationAmounts_fact
@@ -29,7 +33,7 @@ ADD CONSTRAINT FK_AllocationAmounts_CustomerType
 FOREIGN KEY (CustomerTypeCV)
 REFERENCES CVs.CustomerType (Name),
 CONSTRAINT FK_AllocationAmounts_SDWISIdentifier
-FOREIGN KEY (AllocationSDWISIdentifierCV)
+FOREIGN KEY (SDWISIdentifierCV)
 REFERENCES CVs.SDWISIdentifier (Name)
 
 --add CommunityWaterSupplySystem column to Core.AllocationAmounts_fact

@@ -47,9 +47,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string CropTypeCV { get; set; }
 
         [NullValues("")]
-        public string CustomerTypeCV { get; set; }
-
-        [NullValues("")]
         public string CommunityWaterSupplySystem { get; set; }
 
         [NullValues("")]
@@ -61,16 +58,20 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string Geometry { get; set; }
 
-        [NullValues("")]
-        public string AllocationCropDutyAmount { get; set; }
-
          [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
          [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
-        
+        [NullValues("")]
+        public string CustomerTypeCV { get; set; }
+
+        [NullValues("")]
+        public string AllocationCropDutyAmount { get; set; }
+
+
+
 
 
     }

@@ -18,6 +18,7 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
+		,bs.Name
 		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
 						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
 						THEN 0 ELSE 1 END
@@ -32,16 +33,16 @@ BEGIN
         #TempSiteSpecificAmountData ssa
 		LEFT OUTER JOIN Core.Organizations_dim og ON ssa.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.Sites_dim st ON ssa.SiteUUID = st.WaDESiteUUID
-		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
+		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificCV
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
+		LEFT OUTER JOIN CVs.BeneficialUses bs ON ssa.PrimaryUseCategory=bs.Name
 		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
 	
 
     --data validation
     WITH q1 AS
     (
-	--SELECT *
-	--from #TempSiteSpecificAmountData_CrossGroupCheck cross join (
+	
         SELECT 'OrganizationID Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData 
         WHERE OrganizationID IS NULL
@@ -58,13 +59,17 @@ BEGIN
         FROM #TempJoinedSiteSpecificAmountData 
         WHERE WaterSourceID IS NULL
         UNION ALL
+        SELECT 'PrimaryUseCategory Not Valid' Reason, *
+        FROM #TempJoinedSiteSpecificAmountData 
+        WHERE PrimaryUseCategory IS NULL
+        UNION ALL
         SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
         WHERE MethodID IS NULL
         UNION ALL
 		SELECT 'Amount Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
-        WHERE Amount IS NULL --) ID_ERRORS
+        WHERE Amount IS NULL 
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
@@ -77,7 +82,7 @@ BEGIN
     IF EXISTS(SELECT 1 FROM #TempErrorSiteSpecificAmountRecords) 
     BEGIN
         INSERT INTO Core.ImportErrors ([Type], [RunId], [Data])
-        VALUES ('SiteSpecificAmounts', @RunId, (SELECT * FROM #TempErrorSiteSpecificAmountRecords FOR JSON PATH));
+        VALUES ('SiteSpecificAmounts', @RunId, (SELECT * FROM #TempErrorSiteSpecificAmountRecords order by rownumber FOR JSON PATH));
         RETURN 1;
     END
 
@@ -91,31 +96,31 @@ BEGIN
         #TempSiteSpecificAmountData ssa
         CROSS APPLY STRING_SPLIT(ssa.BeneficialUseCategory, ',') bu
     WHERE
-        ssa.BeneficialUseCategory IS NOT NULL
+        ssa.PrimaryUseCategory IS NOT NULL
         AND bu.[Value] IS NOT NULL
         AND LEN(TRIM(bu.[Value])) > 0;
 
-	INSERT INTO
-        CVs.BeneficialUses(Name)
-    SELECT DISTINCT
-        bud.BeneficialUse
-    FROM
-        #TempBeneficialUsesData bud
-        LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
-    WHERE
-        bu.Name IS NULL;
+	--INSERT INTO
+ --       CVs.BeneficialUses(Name)
+ --   SELECT DISTINCT
+ --       bud.BeneficialUse
+ --   FROM
+ --       #TempBeneficialUsesData bud
+ --       LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
+ --   WHERE
+ --       bu.Name IS NULL;
 
-    INSERT INTO
-        CVs.BeneficialUses(Name)
-    SELECT DISTINCT
-        ssa.PrimaryUseCategory
-    FROM
-        #TempSiteSpecificAmountData ssa
-        LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = ssa.PrimaryUseCategory
-    WHERE
-        bu.Name IS NULL
-        AND ssa.PrimaryUseCategory IS NOT NULL
-        AND LEN(TRIM(ssa.PrimaryUseCategory)) > 0;
+ --   INSERT INTO
+ --       CVs.BeneficialUses(Name)
+ --   SELECT DISTINCT
+ --       ssa.PrimaryUseCategory
+ --   FROM
+ --       #TempSiteSpecificAmountData ssa
+ --       LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = ssa.PrimaryUseCategory
+ --   WHERE
+ --       bu.Name IS NULL
+ --       AND ssa.PrimaryUseCategory IS NOT NULL
+ --       AND LEN(TRIM(ssa.PrimaryUseCategory)) > 0;
     
     --set up missing Core.Date_dim entries
     WITH q1 AS
@@ -146,7 +151,7 @@ BEGIN
         SELECT
             ssa.OrganizationID
             ,ssa.SiteID
-            ,ssa.VariableSpecificID
+           ,ssa.VariableSpecificID
             ,ssa.WaterSourceID
             ,ssa.MethodID
 			,TimeframeStart = ds.DateID
@@ -167,10 +172,11 @@ BEGIN
 			,ssa.RowNumber
 			,ssa.CustomerType
 			,ssa.AllocationCropDutyAmount
+			,ssa.PrimaryUseCategory
 			
         FROM
             #TempJoinedSiteSpecificAmountData ssa
-            LEFT OUTER JOIN CVs.BeneficialUses bu ON ssa.PrimaryUseCategory = bu.Name
+           -- LEFT OUTER JOIN CVs.BeneficialUses bu ON ssa.PrimaryUseCategory = bu.Name
             LEFT OUTER JOIN Core.Date_dim ds ON ssa.TimeframeStart = ds.[Date]
             LEFT OUTER JOIN Core.Date_dim de ON ssa.TimeframeEnd = de.[Date]
             LEFT OUTER JOIN Core.Date_dim dp ON ssa.DataPublicationDate = dp.[Date]
@@ -183,6 +189,7 @@ BEGIN
 		AND ISNULL(Target.TimeframeStart, '') = ISNULL(Source.TimeframeStart, '')
 		AND ISNULL(Target.TimeframeEnd, '') = ISNULL(Source.TimeframeEnd, '')
 		AND ISNULL(Target.ReportYearCV, '') = ISNULL(Source.ReportYearCV, '')
+		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationID
@@ -206,6 +213,7 @@ BEGIN
 			,CustomerTypeCV
 			,AllocationCropDutyAmount
 			,AssociatedNativeAllocationIDs
+			,PrimaryUseCategoryCV
 			,[Geometry])
 		VALUES
 			(Source.OrganizationID
@@ -229,6 +237,7 @@ BEGIN
 			,Source.AssociatedNativeAllocationIDs
 			,source.CustomerType
 			,Source.AllocationCropDutyAmount
+			,Source.PrimaryUseCategory
 			,geometry::STGeomFromText(Source.[Geometry], 4326))
 		OUTPUT
 			inserted.SiteVariableAmountID
@@ -237,7 +246,7 @@ BEGIN
 			#SiteVariableAmountRecords;
     
     --insert into Core.SitesBridge_BeneficialUses_fact
-	INSERT INTO Core.SitesBridge_BeneficialUses_fact (BeneficialUseID, SiteVariableAmountID)
+	INSERT INTO Core.SitesBridge_BeneficialUses_fact (BeneficialUseCV, SiteVariableAmountID)
 	SELECT DISTINCT
 		bu.Name
 		,sva.SiteVariableAmountID

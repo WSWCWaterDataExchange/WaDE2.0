@@ -88,13 +88,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = aggAmounts.Select(a => a.AggregatedAmountId).ToArray();
                 var beneficialUses = db.AggBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.AggregatedAmountId))
-                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUseId })
+                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUseCategoryCV })
                     .ToList();
                 foreach (var aggAmount in aggAmounts)
                 {
                     aggAmount.BeneficialUses = beneficialUses
                         .Where(a => a.AggregatedAmountId == aggAmount.AggregatedAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseId)?.Name)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCategoryCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();
