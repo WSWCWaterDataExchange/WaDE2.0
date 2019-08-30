@@ -1073,6 +1073,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
       <Cl au="0" df="" nm="PrimaryUseCategoryCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>If multiple beneficial uses are specified, add primary use category	</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
@@ -2705,6 +2706,10 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="BeneficialUseCategoryCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="PrimaryUseCategoryCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>If multiple beneficial uses are specified, add primary use category	</Cm>
+      </Cl>
       <Cl au="0" df="" nm="WaterSourceNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to water source</Cm>
@@ -2881,7 +2886,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="979" y="1255"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="18" y="256"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="510" y="1241"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="502" y="497"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="502" y="496"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="565" y="303"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="47" y="1065"/>
     <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="1013" y="62"/>
@@ -2912,7 +2917,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="713" x2="713" y1="1241" y2="1170"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="713" x2="713" y1="1241" y2="1169"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
@@ -2923,19 +2928,19 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="397" x2="455" y1="375" y2="375"/>
-        <positionableLine lineRole="CHILD_LINE" x1="502" x2="463" y1="567" y2="567"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="459" x2="459" y1="563" y2="379"/>
+        <positionableLine lineRole="CHILD_LINE" x1="502" x2="463" y1="566" y2="566"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="459" x2="459" y1="562" y2="379"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1148" x2="1148" y1="1255" y2="1047"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1001" x2="1144" y1="1043" y2="1043"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1148" x2="1148" y1="1255" y2="1046"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1001" x2="1144" y1="1042" y2="1042"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="766" x2="766" y1="497" y2="406"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="766" x2="766" y1="496" y2="406"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
@@ -2994,7 +2999,7 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="34" y="157"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="508" y="319"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="45" y="854"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SiteVariableAmounts_fact" x="520" y="494"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SiteVariableAmounts_fact" x="519" y="494"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1058" y="655"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="523" y="1068"/>
     <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="933" y="134"/>
@@ -3006,27 +3011,27 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="706" x2="706" y1="494" y2="422"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="705" x2="705" y1="494" y2="422"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="931" y1="679" y2="679"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="679" y2="679"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="931" y1="745" y2="745"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="745" y2="745"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="931" y1="712" y2="712"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="712" y2="712"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="416" x2="520" y1="678" y2="678"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="416" x2="519" y1="678" y2="678"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -3036,20 +3041,20 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="388" x2="520" y1="906" y2="906"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="388" x2="519" y1="906" y2="906"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="413" x2="456" y1="337" y2="337"/>
-        <positionableLine lineRole="CHILD_LINE" x1="520" x2="464" y1="576" y2="576"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="460" x2="460" y1="572" y2="341"/>
+        <positionableLine lineRole="PARENT_LINE" x1="413" x2="455" y1="337" y2="337"/>
+        <positionableLine lineRole="CHILD_LINE" x1="519" x2="463" y1="576" y2="576"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="459" x2="459" y1="572" y2="341"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="1128" x2="1128" y1="1067" y2="854"/>
-        <positionableLine lineRole="CHILD_LINE" x1="931" x2="1124" y1="850" y2="850"/>
+        <positionableLine lineRole="CHILD_LINE" x1="930" x2="1124" y1="850" y2="850"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -3099,7 +3104,7 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="42" y="971"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1051" y="1032"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="45" y="202"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggregatedAmounts_fact" x="572" y="421"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggregatedAmounts_fact" x="572" y="420"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1114" y="576"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="542" y="1006"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="53" y="580"/>
@@ -3107,7 +3112,7 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="938" y="43"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="724" x2="724" y1="421" y2="344"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="724" x2="724" y1="420" y2="344"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
@@ -3138,27 +3143,27 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="736" x2="736" y1="1006" y2="904"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="736" x2="736" y1="1006" y2="903"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_ReportingUnits_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="433" x2="491" y1="1067" y2="1067"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="499" y1="783" y2="783"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="495" x2="495" y1="787" y2="1063"/>
+        <positionableLine lineRole="CHILD_LINE" x1="572" x2="499" y1="782" y2="782"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="495" x2="495" y1="786" y2="1063"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="PARENT_LINE" x1="424" x2="494" y1="306" y2="306"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="502" y1="520" y2="520"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="498" x2="498" y1="516" y2="310"/>
+        <positionableLine lineRole="CHILD_LINE" x1="572" x2="502" y1="519" y2="519"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="498" x2="498" y1="515" y2="310"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="1032" y2="783"/>
-        <positionableLine lineRole="CHILD_LINE" x1="983" x2="1213" y1="779" y2="779"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="1032" y2="782"/>
+        <positionableLine lineRole="CHILD_LINE" x1="983" x2="1213" y1="778" y2="778"/>
       </positionableLines>
     </FkGl>
     <Notes>
@@ -3338,8 +3343,8 @@ We will make a join with each controlled field using the "Name" unique primary k
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="AggregatedAmounts_fact" x="1092" y="112"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts_fact" x="25" y="106"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts_fact" x="582" y="109"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts_fact" x="25" y="105"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts_fact" x="581" y="108"/>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits_fact" x="1121" y="577"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites_dim" x="592" y="613"/>
     <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables_dim" x="4" y="1002"/>
@@ -5414,10 +5419,11 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
   </OpenEditors>
   <TreePaths>
