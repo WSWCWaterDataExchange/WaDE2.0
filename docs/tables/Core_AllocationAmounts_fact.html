@@ -63,10 +63,10 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_BeneficialUseID.html">BeneficialUseID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_PrimaryUseCategoryCV.html">PrimaryUseCategoryCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to beneficial use</td><td class="FkCol">
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">If multiple beneficial uses are specified, add primary use category	</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -263,31 +263,31 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_BeneficialUses_dim.html">fk_AllocationAmounts_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
-</tr>
-<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_CustomerTypeCV.html">fk_AllocationAmounts_fact_CustomerTypeCV</a></td><td><a href="../tables/CVs_CustomerTypeCV.html">CVs.CustomerTypeCV</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>CustomerTypeCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_appl.html">fk_AllocationAmounts_fact_Date_dim_appl</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationApplicationDate</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_expir.html">fk_AllocationAmounts_fact_Date_dim_expir</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationExpirationDate</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_priority.html">fk_AllocationAmounts_fact_Date_dim_priority</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationPriorityDate</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_pub.html">fk_AllocationAmounts_fact_Date_dim_pub</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_LegalStatus.html">fk_AllocationAmounts_fact_LegalStatus</a></td><td><a href="../tables/CVs_LegalStatus.html">CVs.LegalStatus</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationLegalStatusCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Methods_dim.html">fk_AllocationAmounts_fact_Methods_dim</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Organizations_dim.html">fk_AllocationAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+</tr>
+<tr>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_PrimaryUseCategory.html">fk_AllocationAmounts_fact_PrimaryUseCategory</a></td><td><a href="../tables/CVs_PrimaryUseCategory.html">CVs.PrimaryUseCategory</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>PrimaryUseCategoryCV</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_SDWISIdentifier.html">fk_AllocationAmounts_fact_SDWISIdentifier</a></td><td><a href="../tables/CVs_SDWISIdentifier.html">CVs.SDWISIdentifier</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationSDWISIdentifierCV</td>

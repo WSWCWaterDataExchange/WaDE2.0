@@ -27,13 +27,16 @@
 </td><td class="PkCol"><a href="../columns/Core_SitesBridge_BeneficialUses_fact_SiteBridgeID.html">SiteBridgeID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer</td><td class="PkCol"> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_SitesBridge_BeneficialUses_fact_BeneficialUseID.html">BeneficialUseID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the beneficial use</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_SitesBridge_BeneficialUses_fact_SiteVariableAmountID.html">SiteVariableAmountID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the site variable amount</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_SitesBridge_BeneficialUses_fact_SiteVariableAmountID.html">SiteVariableAmountID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the site variable amount</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_SitesBridge_BeneficialUses_fact_BeneficialUseCategoryCV.html">BeneficialUseCategoryCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -51,7 +54,7 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_SitesBridge_BeneficialUses_fact_fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim.html">fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_SitesBridge_BeneficialUses_fact.html">Core.SitesBridge_BeneficialUses_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
+<td><a href="../foreignKeys/Core_SitesBridge_BeneficialUses_fact_fk_SitesBridge_BeneficialUses_fact_BeneficialUseCategory.html">fk_SitesBridge_BeneficialUses_fact_BeneficialUseCategory</a></td><td><a href="../tables/CVs_BeneficialUseCategory.html">CVs.BeneficialUseCategory</a></td><td><a href="../tables/Core_SitesBridge_BeneficialUses_fact.html">Core.SitesBridge_BeneficialUses_fact</a></td><td>Name</td><td>BeneficialUseCategoryCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_SitesBridge_BeneficialUses_fact_fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact.html">fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact</a></td><td><a href="../tables/Core_SiteVariableAmounts_fact.html">Core.SiteVariableAmounts_fact</a></td><td><a href="../tables/Core_SitesBridge_BeneficialUses_fact.html">Core.SitesBridge_BeneficialUses_fact</a></td><td>SiteVariableAmountID</td><td>SiteVariableAmountID</td>

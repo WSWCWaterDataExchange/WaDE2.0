@@ -30,13 +30,16 @@
 </td><td class="PkCol"> </td><td class="PkCol">Internal unique identifier integer</td><td class="PkCol"> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggBridge_BeneficialUses_fact_BeneficialUseID.html">BeneficialUseID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the beneficial use</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggBridge_BeneficialUses_fact_AggregatedAmountID.html">AggregatedAmountID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the aggregated variable amount</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggBridge_BeneficialUses_fact_AggregatedAmountID.html">AggregatedAmountID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Foreign key identifier for the aggregated variable amount</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggBridge_BeneficialUses_fact_BeneficialUseCategoryCV.html">BeneficialUseCategoryCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Beneficial uses associated with the allocation (e.g. irrigation, municipal, commercial, thermoelectric, industrial, stockwater, fire suppression, snow-making, etc.). Can be one or more uses assigned per water right. Preference is to list the uses without abbrieviations, separated by commas.</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -57,7 +60,7 @@
 <td><a href="../foreignKeys/Core_AggBridge_BeneficialUses_fact_fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact.html">fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td><a href="../tables/Core_AggBridge_BeneficialUses_fact.html">Core.AggBridge_BeneficialUses_fact</a></td><td>AggregatedAmountID</td><td>AggregatedAmountID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_AggBridge_BeneficialUses_fact_fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim.html">fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim</a></td><td><a href="../tables/Core_BeneficialUses_dim.html">Core.BeneficialUses_dim</a></td><td><a href="../tables/Core_AggBridge_BeneficialUses_fact.html">Core.AggBridge_BeneficialUses_fact</a></td><td>BeneficialUseID</td><td>BeneficialUseID</td>
+<td><a href="../foreignKeys/Core_AggBridge_BeneficialUses_fact_fk_AggBridge_BeneficialUses_fact_BeneficialUseCategory.html">fk_AggBridge_BeneficialUses_fact_BeneficialUseCategory</a></td><td><a href="../tables/CVs_BeneficialUseCategory.html">CVs.BeneficialUseCategory</a></td><td><a href="../tables/Core_AggBridge_BeneficialUses_fact.html">Core.AggBridge_BeneficialUses_fact</a></td><td>Name</td><td>BeneficialUseCategoryCV</td>
 </tr>
 </table>
 <br>
