@@ -47,7 +47,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
+                    query = query.Where(a => a.PrimaryBeneficialUse.Name == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
@@ -83,13 +83,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = allocationAmounts.Select(a => a.AllocationAmountId).ToArray();
                 var beneficialUses = db.AllocationBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.AllocationAmountId))
-                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseId })
+                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseCategoryCV })
                     .ToList();
                 foreach (var allocationAmount in allocationAmounts)
                 {
                     allocationAmount.BeneficialUses = beneficialUses
                         .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCategoryCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();

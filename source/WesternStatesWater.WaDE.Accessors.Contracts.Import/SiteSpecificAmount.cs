@@ -58,10 +58,21 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string Geometry { get; set; }
 
-        [NullValues("")]
+         [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
-        [NullValues("")]
+         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
+
+        [NullValues("")]
+        public string CustomerTypeCV { get; set; }
+
+        [NullValues("")]
+        public string AllocationCropDutyAmount { get; set; }
+
+
+
+
+
     }
 }

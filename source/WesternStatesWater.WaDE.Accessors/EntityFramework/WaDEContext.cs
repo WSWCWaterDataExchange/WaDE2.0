@@ -20,9 +20,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual DbSet<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual DbSet<ApplicableResourceType> ApplicableResourceType { get; set; }
-        public virtual DbSet<BeneficialUsesDim> BeneficialUsesDim { get; set; }
+        public virtual DbSet<BeneficialUsesCV> BeneficialUsesCV { get; set; }
         public virtual DbSet<CoordinateMethod> CoordinateMethod { get; set; }
         public virtual DbSet<CropType> CropType { get; set; }
+        public virtual DbSet<CustomerType> CustomerType { get; set; }
+        public virtual DbSet<SDWISIdentifier> SDWISIdentifier { get; set; }
         public virtual DbSet<DataQualityValue> DataQualityValue { get; set; }
         public virtual DbSet<DateDim> DateDim { get; set; }
         public virtual DbSet<Epsgcode> Epsgcode { get; set; }
@@ -32,7 +34,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<LegalStatus> LegalStatus { get; set; }
         public virtual DbSet<MethodType> MethodType { get; set; }
         public virtual DbSet<MethodsDim> MethodsDim { get; set; }
-        public virtual DbSet<Naicscode> Naicscode { get; set; }
+        //public virtual DbSet<Naicscode> Naicscode { get; set; }
         public virtual DbSet<NhdnetworkStatus> NhdnetworkStatus { get; set; }
         public virtual DbSet<Nhdproduct> Nhdproduct { get; set; }
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
@@ -49,7 +51,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<SitesDim> SitesDim { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Units> Units { get; set; }
-        public virtual DbSet<Usgscategory> Usgscategory { get; set; }
+       // public virtual DbSet<Usgscategory> Usgscategory { get; set; }
         public virtual DbSet<Variable> Variable { get; set; }
         public virtual DbSet<VariableSpecific> VariableSpecific { get; set; }
         public virtual DbSet<VariablesDim> VariablesDim { get; set; }
@@ -90,7 +92,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AggregatedAmountId).HasColumnName("AggregatedAmountID");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCV");
 
                 entity.HasOne(d => d.AggregatedAmount)
                     .WithMany(p => p.AggBridgeBeneficialUsesFact)
@@ -100,9 +102,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.AggBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseId)
+                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_AggBridge_BeneficialUses_fact_BeneficialUses_dim");
+                    .HasConstraintName("fk_AggBridge_BeneficialUses_fact_BeneficialUses");
             });
 
             modelBuilder.Entity<AggregatedAmountsFact>(entity =>
@@ -114,7 +116,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AggregatedAmountId).HasColumnName("AggregatedAmountID");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                entity.Property(e => e.PrimaryUseCategoryCV).HasColumnName("PrimaryUseCategoryCV");
 
                 entity.Property(e => e.DataPublicationDoi)
                     .HasColumnName("DataPublicationDOI")
@@ -127,6 +129,43 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.InterbasinTransferToId)
                     .HasColumnName("InterbasinTransferToID")
                     .HasMaxLength(100);
+
+                ////////////////////////////////////////////////
+                entity.Property(e => e.CropTypeCV)
+                   .HasColumnName("CropTypeCV")
+                   .HasMaxLength(100);
+
+                entity.Property(e => e.CustomerTypeCV)
+                   .HasColumnName("CustomerTypeCV")
+                   .HasMaxLength(100);
+
+                entity.Property(e => e.IrrigationMethodCV)
+                   .HasColumnName("IrrigationMethodCV")
+                   .HasMaxLength(100);
+
+                entity.Property(e => e.SDWISIdentifierCV)
+                   .HasColumnName("SDWISIdentifierCV")
+                   .HasMaxLength(100);
+
+                entity.Property(e => e.CommunityWaterSupplySystem)
+                  .HasColumnName("CommunityWaterSupplySystem")
+                  .HasMaxLength(250);
+
+                entity.Property(e => e.TimeframeEndId).HasColumnName("TimeframeStartID");
+
+                entity.Property(e => e.TimeframeStartId).HasColumnName("TimeframeEndID");
+
+                entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
+
+                entity.Property(e => e.DataPublicationDate).HasColumnName("DataPublicationDate");
+
+                entity.Property(e => e.Amount).HasColumnName("Amount");
+
+                entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
+
+                entity.Property(e => e.AllocationCropDutyAmount).HasColumnName("AllocationCropDutyAmount");
+
+                //////////////////////////////////////////////////
 
                 entity.Property(e => e.MethodId).HasColumnName("MethodID");
 
@@ -150,9 +189,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.AggregatedAmountsFact)
-                    .HasForeignKey(d => d.BeneficialUseId)
+                    .HasForeignKey(d => d.PrimaryUseCategoryCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_AggregatedAmounts_fact_BeneficialUses_dim");
+                    .HasConstraintName("fk_AggregatedAmounts_fact_BeneficialUses");
 
                 entity.HasOne(d => d.DataPublicationDateNavigation)
                     .WithMany(p => p.AggregatedAmountsFactDataPublicationDateNavigation)
@@ -203,6 +242,32 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.WaterSourceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AggregatedAmounts_fact_WaterSources_dim");
+
+
+                entity.HasOne(d => d.CropType)
+                  .WithMany(p => p.AggregatedAmountsFact)
+                  .HasForeignKey(d => d.CropTypeCV)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("fk_AggregatedAmounts_fact_CropType");
+
+                entity.HasOne(d => d.IrrigationMethod)
+                       .WithMany(p => p.AggregatedAmountsFact)
+                       .HasForeignKey(d => d.IrrigationMethodCV)
+                       .HasConstraintName("fk_AggregatedAmounts_fact_IrrigationMethod");
+
+                entity.HasOne(d => d.CustomerType)
+                       .WithMany(p => p.AggregatedAmountsFact)
+                       .HasForeignKey(d => d.CustomerTypeCV)
+                       .OnDelete(DeleteBehavior.ClientSetNull)
+                       .HasConstraintName("fk_AggregatedAmounts_CustomerType");
+
+                entity.HasOne(d => d.SDWISIdentifier)
+                       .WithMany(p => p.AggregatedAmountsFact)
+                       .HasForeignKey(d => d.SDWISIdentifierCV)
+                       .OnDelete(DeleteBehavior.ClientSetNull)
+                       .HasConstraintName("fk_AggregatedAmounts_fact_SDWISIdentifier");
+
+
             });
 
             modelBuilder.Entity<AggregationStatistic>(entity =>
@@ -264,9 +329,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AllocationOwner).HasMaxLength(250);
 
-                entity.Property(e => e.AllocationSdwisidentifier)
-                    .HasColumnName("AllocationSDWISIdentifier")
-                    .HasMaxLength(250);
+                entity.Property(e => e.AllocationSdwisidentifierCV)
+                    .HasColumnName("AllocationSDWISIdentifierCV")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.AllocationTimeframeEnd).HasMaxLength(5);
 
@@ -277,6 +342,41 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
 
                 entity.Property(e => e.DataPublicationDateId).HasColumnName("DataPublicationDateID");
+
+                //////////////////////////////////////////////////////////////////////////////
+                entity.Property(e => e.AllocationApplicationDate).HasColumnName("AllocationApplicationDate");
+                entity.Property(e => e.AllocationPriorityDate).HasColumnName("AllocationPriorityDate");
+                entity.Property(e => e.AllocationExpirationDate).HasColumnName("AllocationExpirationDate");
+                entity.Property(e => e.AllocationTimeframeStart).HasColumnName("AllocationTimeframeStart");
+                entity.Property(e => e.AllocationCropDutyAmount).HasColumnName("AllocationCropDutyAmount");
+                entity.Property(e => e.AllocationAmount).HasColumnName("AllocationAmount");
+                entity.Property(e => e.AllocationMaximum).HasColumnName("AllocationMaximum");
+                entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
+                entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
+                entity.Property(e => e.AllocationCommunityWaterSupplySystem).HasColumnName("AllocationCommunityWaterSupplySystem");
+                entity.Property(e => e.AllocationTimeframeEnd).HasColumnName("AllocationTimeframeEnd");
+                entity.Property(e => e.AllocationChangeApplicationIndicator).HasColumnName("AllocationChangeApplicationIndicator");
+                entity.Property(e => e.AllocationOwner)
+                    .HasColumnName("AllocationOwner")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.AllocationTypeCv)
+                   .HasColumnName("AllocationTypeCV")
+                   .HasMaxLength(250);
+
+                entity.Property(e => e.CommunityWaterSupplySystem).HasColumnName("CommunityWaterSupplySystem").HasMaxLength(250);
+                entity.Property(e => e.CropTypeCV)
+                                  .HasColumnName("CropTypeCV")
+                                  .HasMaxLength(100);
+
+                entity.Property(e => e.CustomerTypeCV)
+                   .HasColumnName("CustomerTypeCV")
+                   .HasMaxLength(100);
+                entity.Property(e => e.IrrigationMethodCV)
+                                   .HasColumnName("IrrigationMethodCV")
+                                   .HasMaxLength(100);
+
+                ///////////////////////////////////////////////////////////////////////////////
 
                 entity.Property(e => e.DataPublicationDoi)
                     .HasColumnName("DataPublicationDOI")
@@ -292,7 +392,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.PowerGeneratedGwh).HasColumnName("PowerGeneratedGWh");
 
-                entity.Property(e => e.PrimaryBeneficialUseId).HasColumnName("PrimaryBeneficialUseID");
+                entity.Property(e => e.PrimaryUseCategoryCV).HasColumnName("PrimaryUseCategoryCV");
 
                 entity.Property(e => e.SiteId).HasColumnName("SiteID");
 
@@ -330,6 +430,20 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_Date_dim_priority");
 
+                //////////////////////////////////
+                // 
+                entity.HasOne(d => d.AllocationTimeFrameStartNavigation)
+                    .WithMany(p => p.AllocationAmountsFactTimeframeStart)
+                    .HasForeignKey(d => d.AllocationTimeframeStart)
+                    .HasConstraintName("FK_AllocationTimeFrameStart_Date_dim");
+
+                entity.HasOne(d => d.AllocationTimeFrameEndNavigation)
+                    .WithMany(p => p.AllocationAmountsFactTimeframeEnd)
+                    .HasForeignKey(d => d.AllocationTimeframeEnd)
+                    .HasConstraintName("FK_AllocationTimeFrameEnd_Date_dim");
+
+                //////////////////////////////////
+
                 entity.HasOne(d => d.AllocationTypeCvNavigation)
                     .WithMany(p => p.AllocationAmountsFact)
                     .HasForeignKey(d => d.AllocationTypeCv)
@@ -355,8 +469,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.PrimaryBeneficialUse)
                     .WithMany(p => p.AllocationAmountsFact)
-                    .HasForeignKey(d => d.PrimaryBeneficialUseId)
-                    .HasConstraintName("fk_AllocationAmounts_fact_BeneficialUses_dim");
+                    .HasForeignKey(d => d.PrimaryUseCategoryCV)
+                    .HasConstraintName("fk_AllocationAmounts_fact_BeneficialUses");
 
                 entity.HasOne(d => d.Site)
                     .WithMany(p => p.AllocationAmountsFact)
@@ -374,6 +488,30 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.WaterSourceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_WaterSources_dim");
+
+                entity.HasOne(d => d.CropType)
+                   .WithMany(p => p.AllocationAmountsFact)
+                   .HasForeignKey(d => d.CropTypeCV)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_AllocationAmounts_fact_CropType");
+
+                entity.HasOne(d => d.IrrigationMethod)
+                       .WithMany(p => p.AllocationAmountsFact)
+                       .HasForeignKey(d => d.IrrigationMethodCV)
+                       .HasConstraintName("fk_AllocationAmounts_fact_IrrigationMethod");
+
+                entity.HasOne(d => d.CustomerType)
+                       .WithMany(p => p.AllocationAmountsFact)
+                       .HasForeignKey(d => d.CustomerTypeCV)
+                       .OnDelete(DeleteBehavior.ClientSetNull)
+                       .HasConstraintName("fk_AllocationAmounts_CustomerType");
+
+                entity.HasOne(d => d.SDWISIdentifier)
+                       .WithMany(p => p.AllocationAmountsFact)
+                       .HasForeignKey(d => d.AllocationSdwisidentifierCV)
+                       .OnDelete(DeleteBehavior.ClientSetNull)
+                       .HasConstraintName("fk_AllocationAmounts_fact_SDWISIdentifier");
+
             });
 
             modelBuilder.Entity<AllocationBridgeBeneficialUsesFact>(entity =>
@@ -386,7 +524,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AllocationAmountId).HasColumnName("AllocationAmountID");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCV");
 
                 entity.HasOne(d => d.AllocationAmount)
                     .WithMany(p => p.AllocationBridgeBeneficialUsesFact)
@@ -396,9 +534,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.AllocationBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseId)
+                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses_dim");
+                    .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses");
             });
 
             modelBuilder.Entity<ApplicableResourceType>(entity =>
@@ -421,42 +559,40 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.Term).HasMaxLength(100);
             });
 
-            modelBuilder.Entity<BeneficialUsesDim>(entity =>
+            modelBuilder.Entity<BeneficialUsesCV>(entity =>
             {
-                entity.HasKey(e => e.BeneficialUseId)
+                entity.HasKey(e => e.Name)
                     .HasName("pkBeneficialUses_dim");
 
                 entity.ToTable("BeneficialUses_dim", "Core");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                
 
-                entity.Property(e => e.BeneficialUseCategory)
+                entity.Property(e => e.Name)
                     .IsRequired()
-                    .HasMaxLength(500);
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.BeneficialUseUuid)
-                    .HasColumnName("BeneficialUseUUID")
-                    .HasMaxLength(500);
+                entity.Property(e => e.Term)
+                    .HasColumnName("Term")
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.NaicscodeNameCv)
-                    .HasColumnName("NAICSCodeNameCV")
-                    .HasMaxLength(250);
+                    .HasColumnName("NAICSCode")
+                    .HasMaxLength(100);
 
-                entity.Property(e => e.PrimaryUseCategory).HasMaxLength(250);
+                entity.Property(e => e.State).HasMaxLength(100);
 
                 entity.Property(e => e.UsgscategoryNameCv)
-                    .HasColumnName("USGSCategoryNameCV")
-                    .HasMaxLength(250);
+                    .HasColumnName("USGSCategory")
+                    .HasMaxLength(100);
+                entity.Property(e => e.NaicscodeNameCv)
+                   .HasColumnName("NAICSCode")
+                   .HasMaxLength(100);
+                entity.Property(e => e.SourceVocabularyURI)
+                   .HasColumnName("SourceVocabularyURI")
+                   .HasMaxLength(100);
 
-                entity.HasOne(d => d.NaicscodeNameCvNavigation)
-                    .WithMany(p => p.BeneficialUsesDim)
-                    .HasForeignKey(d => d.NaicscodeNameCv)
-                    .HasConstraintName("fk_BeneficialUses_dim_NAICSCode");
-
-                entity.HasOne(d => d.UsgscategoryNameCvNavigation)
-                    .WithMany(p => p.BeneficialUsesDim)
-                    .HasForeignKey(d => d.UsgscategoryNameCv)
-                    .HasConstraintName("fk_BeneficialUses_dim_USGSCategory");
+                
             });
 
             modelBuilder.Entity<CoordinateMethod>(entity =>
@@ -486,6 +622,50 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasName("pkCropType");
 
                 entity.ToTable("CropType", "CVs");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Definition).HasMaxLength(4000);
+
+                entity.Property(e => e.SourceVocabularyUri)
+                    .HasColumnName("SourceVocabularyURI")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.State).HasMaxLength(250);
+
+                entity.Property(e => e.Term).HasMaxLength(250);
+            });
+
+            modelBuilder.Entity<CustomerType>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("pkcustomerType");
+
+                entity.ToTable("CustomerType", "CVs");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Definition).HasMaxLength(4000);
+
+                entity.Property(e => e.SourceVocabularyUri)
+                    .HasColumnName("SourceVocabularyURI")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.State).HasMaxLength(250);
+
+                entity.Property(e => e.Term).HasMaxLength(250);
+            });
+
+            modelBuilder.Entity<SDWISIdentifier>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("pksdwisIdentifier");
+
+                entity.ToTable("SDWISIdentifier", "CVs");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
@@ -731,27 +911,27 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("fk_Methods_dim_MethodType");
             });
 
-            modelBuilder.Entity<Naicscode>(entity =>
-            {
-                entity.HasKey(e => e.Name)
-                    .HasName("pkNAICSCode");
+            //modelBuilder.Entity<Naicscode>(entity =>
+            //{
+            //    entity.HasKey(e => e.Name)
+            //        .HasName("pkNAICSCode");
 
-                entity.ToTable("NAICSCode", "CVs");
+            //    entity.ToTable("NAICSCode", "CVs");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(250)
-                    .ValueGeneratedNever();
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(250)
+            //        .ValueGeneratedNever();
 
-                entity.Property(e => e.SourceVocabularyUri)
-                    .HasColumnName("SourceVocabularyURI")
-                    .HasMaxLength(250);
+            //    entity.Property(e => e.SourceVocabularyUri)
+            //        .HasColumnName("SourceVocabularyURI")
+            //        .HasMaxLength(250);
 
-                entity.Property(e => e.State).HasMaxLength(250);
+            //    entity.Property(e => e.State).HasMaxLength(250);
 
-                entity.Property(e => e.Term)
-                    .IsRequired()
-                    .HasMaxLength(250);
-            });
+            //    entity.Property(e => e.Term)
+            //        .IsRequired()
+            //        .HasMaxLength(250);
+            //});
 
             modelBuilder.Entity<NhdnetworkStatus>(entity =>
             {
@@ -833,10 +1013,15 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("OrganizationUUID")
                     .HasMaxLength(250);
 
-                entity.Property(e => e.DataMappingUrl)
+                entity.Property(e => e.OrganizationDataMappingUrl)
                     .IsRequired()
-                    .HasColumnName("DataMappingURL")
+                    .HasColumnName("OrganizationDataMappingURL")
                     .HasMaxLength(250);
+
+                entity.Property(e => e.State)
+                   .IsRequired()
+                   .HasColumnName("State")
+                   .HasMaxLength(2);
 
                 entity.Property(e => e.OrganizationWebsite)
                     .IsRequired()
@@ -1118,11 +1303,21 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("AssociatedNativeAllocationIDs")
                     .HasMaxLength(500);
 
-                entity.Property(e => e.CommunityWaterSupplySystem).HasMaxLength(250);
+                entity.Property(e => e.CommunityWaterSupplySystem).HasColumnName("CommunityWaterSupplySystem").HasMaxLength(250);
 
                 entity.Property(e => e.CropTypeCv)
                     .HasColumnName("CropTypeCV")
                     .HasMaxLength(100);
+
+               
+
+                entity.Property(e => e.CustomerTypeCv)
+                   .HasColumnName("CustomerTypeCV")
+                   .HasMaxLength(100);
+
+                entity.Property(e => e.SDWISIdentifierCv)
+                   .HasColumnName("SDWISIdentifierCv")
+                   .HasMaxLength(100);
 
                 entity.Property(e => e.DataPublicationDoi)
                     .HasColumnName("DataPublicationDOI")
@@ -1136,6 +1331,16 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.MethodId).HasColumnName("MethodID");
 
+                ///////////////////////////////////////////////////////////////
+                entity.Property(e => e.TimeframeEnd).HasColumnName("TimeFrameEnd");
+                entity.Property(e => e.TimeframeStart).HasColumnName("TimeFrameStart");
+                entity.Property(e => e.DataPublicationDate).HasColumnName("DataPublicationDate");
+                entity.Property(e => e.Amount).HasColumnName("Amount");
+                entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
+                entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
+                entity.Property(e => e.AllocationCropDutyAmount).HasColumnName("AllocationCropDutyAmount");
+                //////////////////////////////////////////////////////////////
+
                 entity.Property(e => e.OrganizationId).HasColumnName("OrganizationID");
 
                 entity.Property(e => e.PowerGeneratedGwh).HasColumnName("PowerGeneratedGWh");
@@ -1144,9 +1349,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("ReportYearCV")
                     .HasMaxLength(4);
 
-                entity.Property(e => e.Sdwisidentifier)
-                    .HasColumnName("SDWISIdentifier")
-                    .HasMaxLength(250);
+                entity.Property(e => e.PrimaryUseCategoryCV)
+                   .HasColumnName("PrimaryUseCategoryCV")
+                   .HasMaxLength(100);
+
+
 
                 entity.Property(e => e.SiteId).HasColumnName("SiteID");
 
@@ -1154,9 +1361,16 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.WaterSourceId).HasColumnName("WaterSourceID");
 
+                entity.HasOne(d => d.BeneficialUse)
+                  .WithMany(p => p.SiteVariableAmountsFact)
+                  .HasForeignKey(d => d.PrimaryUseCategoryCV)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("fk_SiteVariableAmounts_BeneficialUses");
+
                 entity.HasOne(d => d.CropTypeCvNavigation)
                     .WithMany(p => p.SiteVariableAmountsFact)
                     .HasForeignKey(d => d.CropTypeCv)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SiteVariableAmounts_fact_CropType");
 
                 entity.HasOne(d => d.DataPublicationDateNavigation)
@@ -1216,6 +1430,18 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.WaterSourceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SiteVariableAmounts_fact_WaterSources_dim");
+
+                entity.HasOne(d => d.CustomerTypeCvNavigation)
+                       .WithMany(p => p.SiteVariableAmountsFact)
+                   .HasForeignKey(d => d.CustomerTypeCv)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_SiteVariableAmounts_CustomerType");
+
+                entity.HasOne(d => d.SDWISIdentifierCvNavigation)
+                   .WithMany(p => p.SiteVariableAmountsFact)
+                   .HasForeignKey(d => d.SDWISIdentifierCv)
+                   .OnDelete(DeleteBehavior.ClientSetNull)
+                   .HasConstraintName("fk_SiteVariableAmounts_fact_SDWISIdentifier");
             });
 
             modelBuilder.Entity<SitesBridgeBeneficialUsesFact>(entity =>
@@ -1227,15 +1453,15 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.SiteBridgeId).HasColumnName("SiteBridgeID");
 
-                entity.Property(e => e.BeneficialUseId).HasColumnName("BeneficialUseID");
+                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCategoryCV");
 
                 entity.Property(e => e.SiteVariableAmountId).HasColumnName("SiteVariableAmountID");
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.SitesBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseId)
+                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_SitesBridge_BeneficialUses_fact_BeneficialUses_dim");
+                    .HasConstraintName("fk_SitesBridge_BeneficialUses_fact_BeneficialUses");
 
                 entity.HasOne(d => d.SiteVariableAmount)
                     .WithMany(p => p.SitesBridgeBeneficialUsesFact)
@@ -1295,7 +1521,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.SiteUuid)
                     .IsRequired()
-                    .HasColumnName("SiteUUID")
+                    .HasColumnName("WaDESiteUUID")
                     .HasMaxLength(55);
 
                 entity.Property(e => e.UsgssiteId)
@@ -1383,27 +1609,27 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<Usgscategory>(entity =>
-            {
-                entity.HasKey(e => e.Name)
-                    .HasName("pkUSGSCategory");
+            //modelBuilder.Entity<Usgscategory>(entity =>
+            //{
+            //    entity.HasKey(e => e.Name)
+            //        .HasName("pkUSGSCategory");
 
-                entity.ToTable("USGSCategory", "CVs");
+            //    entity.ToTable("USGSCategory", "CVs");
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(250)
-                    .ValueGeneratedNever();
+            //    entity.Property(e => e.Name)
+            //        .HasMaxLength(250)
+            //        .ValueGeneratedNever();
 
-                entity.Property(e => e.SourceVocabularyUri)
-                    .HasColumnName("SourceVocabularyURI")
-                    .HasMaxLength(250);
+            //    entity.Property(e => e.SourceVocabularyUri)
+            //        .HasColumnName("SourceVocabularyURI")
+            //        .HasMaxLength(250);
 
-                entity.Property(e => e.State).HasMaxLength(250);
+            //    entity.Property(e => e.State).HasMaxLength(250);
 
-                entity.Property(e => e.Term)
-                    .IsRequired()
-                    .HasMaxLength(250);
-            });
+            //    entity.Property(e => e.Term)
+            //        .IsRequired()
+            //        .HasMaxLength(250);
+            //});
 
             modelBuilder.Entity<Variable>(entity =>
             {
@@ -1505,9 +1731,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("VariableSpecificCV")
                     .HasMaxLength(250);
 
-                entity.Property(e => e.VariableSpecificUuid)
-                    .HasColumnName("VariableSpecificUUID")
-                    .HasMaxLength(250);
+                //entity.Property(e => e.VariableSpecificUuid)
+                //    .HasColumnName("VariableSpecificUUID")
+                //    .HasMaxLength(250);
 
                 entity.HasOne(d => d.AggregationIntervalUnitCvNavigation)
                     .WithMany(p => p.VariablesDimAggregationIntervalUnitCvNavigation)

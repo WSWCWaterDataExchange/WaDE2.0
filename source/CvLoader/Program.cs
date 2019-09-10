@@ -41,7 +41,8 @@ namespace CvLoader
                 ("waterallocationtype", "waterallocationtype"),
                 ("watersourcetype", "watersourcetype"),
                 ("applicableresourcetype", "applicableresourcetype"),
-                ("coordinatemethod", "coordinatemethod")
+                ("coordinatemethod", "coordinatemethod"),
+                
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
         }

@@ -4,11 +4,12 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class Variable
     {
-        [NullValues("")]
-        public string VariableSpecificUUID { get; set; }
 
         [NullValues("")]
         public string VariableSpecificCV { get; set; }
+
+        [NullValues("")]
+        public string VariableSpecificUUID { get; set; }
 
         [NullValues("")]
         public string VariableCV { get; set; }

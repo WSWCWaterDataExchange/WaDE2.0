@@ -16,8 +16,49 @@
     <None Remove="Scripts\001\019 Core.LoadSites Drop NHDMetadataID.sql" />
     <None Remove="Scripts\001\020 CoreSitesTableType Drop NHDMetadataID.sql" />
     <None Remove="Scripts\001\021 WaterSources Increase Length.sql" />
-    <None Remove="Scripts\001\022 Core.Sites_dim Updates.sql" />
     <None Remove="Scripts\001\022 ReportYearType Increase Length.sql" />
+    <None Remove="Scripts\001\023 Core.Sites_dim Updates.sql" />
+    <None Remove="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql" />
+    <None Remove="Scripts\001\025 Aggregated Amounts Data Changes.sql" />
+    <None Remove="Scripts\001\026 Variables_dim Changes.sql" />
+    <None Remove="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql" />
+    <None Remove="Scripts\001\028 AggregatedAmounts Table Update.sql" />
+    <None Remove="Scripts\001\028 AllocationAmounts Table Updates.sql" />
+    <None Remove="Scripts\001\030 SiteVariableAmounts Table Updates.sql" />
+    <None Remove="Scripts\001\031 Core.LoadAggregatedAmounts Update.sql" />
+    <None Remove="Scripts\001\032 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\001\033 Core.LoadWaterAllocation Update.sql" />
+    <None Remove="Scripts\001\034 DataOrganizations State Column Addition.sql" />
+    <None Remove="Scripts\001\035 DataOrganizations Changing State Column.sql" />
+    <None Remove="Scripts\001\036 VariableTableType Update.sql" />
+    <None Remove="Scripts\001\037 Core.LoadVariables Update.sql" />
+    <None Remove="Scripts\001\038 Core.LoadSites Update.sql" />
+    <None Remove="Scripts\001\039 SiteTableType Update.sql" />
+    <None Remove="Scripts\001\040 Core.LoadOrganization Update.sql" />
+    <None Remove="Scripts\001\041 OrganizationType Update.sql" />
+    <None Remove="Scripts\001\042 SiteSpecificAmountTableType Update.sql" />
+    <None Remove="Scripts\001\043 AggregatedAmountTableType Update .sql" />
+    <None Remove="Scripts\001\044 WaterAllocationAmountTableType.sql" />
+    <None Remove="Scripts\001\045 CVs.BenefialUses Table Creation.sql" />
+    <None Remove="Scripts\001\046 AllocationAmounts Table Updates(Beneficials).sql" />
+    <None Remove="Scripts\001\047 AllocationBridge_beneficialUses Table Updates(Beneficials).sql" />
+    <None Remove="Scripts\001\048 AggregatedAmounts Table Updates(Beneficials).sql" />
+    <None Remove="Scripts\001\049 SiteSpecific Table Updates(Beneficials).sql" />
+    <None Remove="Scripts\001\050 Changing Fact and Bridge Tables to NOT NULL.sql" />
+    <None Remove="Scripts\001\050 Core.BeneficialUses and CVs Tables Drop.sql" />
+    <None Remove="Scripts\001\051 SiteSpecificAmountTableType Update (BeneficialUse).sql" />
+    <None Remove="Scripts\001\052 AggregatedAmountTableType Update  (BeneficialUse).sql" />
+    <None Remove="Scripts\001\053 WaterAllocationAmountTableType (BeneficialUses).sql" />
+    <None Remove="Scripts\001\054 Core.LoadWaterAllocation Update.sql" />
+    <None Remove="Scripts\001\055 Core .LoadAggregatedAmounts Update.sql" />
+    <None Remove="Scripts\001\056 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\001\057 VariableSpecificUUID coming back.sql" />
+    <None Remove="Scripts\001\058 VariableSpecificUUID coming back 2.sql" />
+    <None Remove="Scripts\001\059 Core.LoadVariables Update.sql" />
+    <None Remove="Scripts\001\060 VariableTableType Update.sql" />
+    <None Remove="Scripts\001\061 Core.LoadAggregatedAmounts Update.sql" />
+    <None Remove="Scripts\001\062 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\001\063 Core.LoadWaterAllocation Update.sql" />
     <None Remove="Scripts\002 Table Types.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
@@ -32,7 +73,117 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Scripts\001\022 Core.Sites_dim Updates.sql">
+    <EmbeddedResource Include="Scripts\001\058 VariableSpecificUUID coming back 2.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\063 Core.LoadWaterAllocation Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\061 Core.LoadAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\062 Core.LoadSiteSpecificAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\059 Core.LoadVariables Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\060 VariableTableType Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\057 VariableSpecificUUID coming back.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\050 Changing Fact and Bridge Tables to NOT NULL.sql" />
+    <EmbeddedResource Include="Scripts\001\051 SiteSpecificAmountTableType Update %28BeneficialUse%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\052 AggregatedAmountTableType Update  %28BeneficialUse%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\053 WaterAllocationAmountTableType %28BeneficialUses%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\056 Core.LoadSiteSpecificAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\054 Core.LoadWaterAllocation Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\048 AggregatedAmounts Table Updates%28Beneficials%29.sql" />
+    <EmbeddedResource Include="Scripts\001\049 SiteSpecific Table Updates%28Beneficials%29.sql" />
+    <EmbeddedResource Include="Scripts\001\050 Core.BeneficialUses and CVs Tables Drop.sql" />
+    <EmbeddedResource Include="Scripts\001\055 Core .LoadAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\047 AllocationBridge_beneficialUses Table Updates%28Beneficials%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\045 CVs.BenefialUses Table Creation.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\043 AggregatedAmountTableType Update .sql" />
+    <EmbeddedResource Include="Scripts\001\044 WaterAllocationAmountTableType.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\042 SiteSpecificAmountTableType Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\041 OrganizationType Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\040 Core.LoadOrganization Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\039 SiteTableType Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\038 Core.LoadSites Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\037 Core.LoadVariables Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\036 VariableTableType Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\034 DataOrganizations State Column Addition.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\035 DataOrganizations Changing State Column.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\033 Core.LoadWaterAllocation Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\032 Core.LoadSiteSpecificAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\031 Core.LoadAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\030 SiteVariableAmounts Table Updates.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\028 AllocationAmounts Table Updates.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\028 AggregatedAmounts Table Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\026 Variables_dim Changes.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\025 Aggregated Amounts Data Changes.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\023 Core.Sites_dim Updates.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\001 Schema and Tables.sql">
@@ -101,12 +252,34 @@
     <EmbeddedResource Include="Scripts\001\012 Core.LoadWaterSources.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\046 AllocationAmounts Table Updates%28Beneficials%29.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dbup" Version="4.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Scripts\001\043 AggregatedAmountTableType Update .sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Scripts\001\050 Changing Fact and Bridge Tables to NOT NULL.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Scripts\001\049 SiteSpecific Table Updates%28Beneficials%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Scripts\001\050 Core.BeneficialUses and CVs Tables Drop.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Scripts\001\048 AggregatedAmounts Table Updates%28Beneficials%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Scripts\001\046 AllocationAmounts Table Updates%28Beneficials%29.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
