@@ -8,6 +8,7 @@
 		"folder": {
 			"name": "CvBlobs"
 		},
+		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
@@ -55,5 +56,6 @@
 				"type": "String"
 			}
 		]
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

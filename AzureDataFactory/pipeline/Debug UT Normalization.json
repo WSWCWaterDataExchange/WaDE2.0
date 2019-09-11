@@ -6,6 +6,7 @@
 			{
 				"name": "UT_WaterAllocation_Normalization",
 				"type": "ExecuteDataFlow",
+				"dependsOn": [],
 				"policy": {
 					"timeout": "7.00:00:00",
 					"retry": 0,
@@ -13,6 +14,7 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "Debug_UT_WaterAllocation_Normalization",
@@ -31,6 +33,8 @@
 		],
 		"folder": {
 			"name": "State Normalization"
-		}
-	}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
 }

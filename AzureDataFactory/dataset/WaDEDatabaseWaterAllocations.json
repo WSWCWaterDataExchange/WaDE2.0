@@ -8,6 +8,7 @@
 		"folder": {
 			"name": "DB_CVs_tables"
 		},
+		"annotations": [],
 		"type": "AzureSqlTable",
 		"structure": [
 			{
