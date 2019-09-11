@@ -1,0 +1,65 @@
+{
+	"name": "UT_Methods",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_Methods.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "MethodUUID",
+				"type": "String"
+			},
+			{
+				"name": "MethodName",
+				"type": "String"
+			},
+			{
+				"name": "MethodDescription",
+				"type": "String"
+			},
+			{
+				"name": "MethodNEMILink",
+				"type": "String"
+			},
+			{
+				"name": "ApplicableResourceTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "MethodTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "DataCoverageValue",
+				"type": "String"
+			},
+			{
+				"name": "DataQualityValueCV",
+				"type": "String"
+			},
+			{
+				"name": "DataConfidenceValue",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

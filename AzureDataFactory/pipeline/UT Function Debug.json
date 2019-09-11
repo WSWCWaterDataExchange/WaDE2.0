@@ -1,0 +1,31 @@
+{
+	"name": "UT Function Debug",
+	"properties": {
+		"description": "Call various azure functions for debugging purposes.",
+		"activities": [
+			{
+				"name": "Flatten Water Uses",
+				"description": "pre-process UT water uses",
+				"type": "AzureFunctionActivity",
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"typeProperties": {
+					"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
+					"method": "GET"
+				},
+				"linkedServiceName": {
+					"referenceName": "WaDE Import Functions",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"folder": {
+			"name": "State Normalization"
+		}
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"name": "CVsAPI",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "http://vocabulary.westernstateswater.org",
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "http://vocabulary.westernstateswater.org",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
