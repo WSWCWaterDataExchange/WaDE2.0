@@ -1,0 +1,196 @@
+{
+	"name": "Needs Work - Load Water Allocation Data",
+	"properties": {
+		"activities": [
+			{
+				"name": "Load Organizations",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000,
+						"sqlWriterStoredProcedureName": "[Core].[LoadOrganization]",
+						"sqlWriterTableType": "Core.OrganizationTableType",
+						"storedProcedureParameters": {
+							"RunId": {
+								"type": "String"
+							}
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"OrganizationUUID": "OrganizationUUID",
+							"OrganizationName": "OrganizationName",
+							"OrganizationPurview": "OrganizationPurview",
+							"OrganizationWebsite": "OrganizationWebsite",
+							"OrganizationPhoneNumber": "OrganizationPhoneNumber",
+							"OrganizationContactName": "OrganizationContactName",
+							"OrganizationContactEmail": "OrganizationContactEmail"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NormalizedOrganizationsFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FolderIdentifier": {
+								"value": "@pipeline().parameters.FolderLocation",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "WaDEDatabaseOrganizations",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Load Water Allocations",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Load Organizations",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "BlobSource",
+						"recursive": true
+					},
+					"sink": {
+						"type": "SqlSink",
+						"writeBatchSize": 10000,
+						"sqlWriterStoredProcedureName": "[Core].[LoadWaterAllocation]",
+						"sqlWriterTableType": "Core.WaterAllocationTableType",
+						"storedProcedureParameters": {
+							"RunId": {
+								"type": "String",
+								"value": {
+									"value": "@activity('Load Organizations').output",
+									"type": "Expression"
+								}
+							}
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"columnMappings": {
+							"OrganizationUUID": "OrganizationUUID",
+							"AllocationUUID": "AllocationUUID",
+							"AllocationNativeID": "AllocationNativeID",
+							"AllocationOwner": "AllocationOwner",
+							"AllocationBasisCV": "AllocationBasisCV",
+							"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
+							"AllocationApplicationDate": "AllocationApplicationDate",
+							"WaterAllocationPriorityDate": "AllocationPriorityDate",
+							"AllocationExpirationDate": "AllocationExpirationDate",
+							"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
+							"SiteUUID": "SiteUUID",
+							"VariableSpecificUUID": "VariableSpecificUUID",
+							"BeneficialUseCategory": "BeneficialUseCategory",
+							"PrimaryUseCategory": "PrimaryUseCategory",
+							"WaterSourceUUID": "WaterSourceUUID",
+							"MethodUUID": "MethodUUID",
+							"TimeframeStartDate": "TimeframeStartDate",
+							"TimeframeEndDate": "TimeframeEndDate",
+							"DataPublicationDate": "DataPublicationDate",
+							"ReportYear": "ReportYear",
+							"AllocationCropDutyAmount": "AllocationCropDutyAmount",
+							"AllocationAmount": "AllocationAmount",
+							"AllocationMaximum": "AllocationMaximum",
+							"PopulationServed": "PopulationServed",
+							"PowerGeneratedGWh": "PowerGeneratedGWh",
+							"IrrigatedAcreage": "IrrigatedAcreage",
+							"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
+							"SDWISIdentifier": "SDWISIdentifier"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "NormalizedWaterAllocationFile",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileLocation": {
+								"value": "@activity('Load Organizations').output",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "WaDEDatabaseWaterAllocations",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Load Water Allocations",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://prod-96.westus.logic.azure.com:443/workflows/c948a258cc4b48cd936c57cfd052cc07/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oAwqpJmcBBp9Yt20MWYBqqwXo4-zLDjadBOaupCqBHg",
+					"method": "POST",
+					"body": {
+						"value": "@concat('{\"RunId\":\"', pipeline().parameters.FolderLocation, '\"}')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"FolderLocation": {
+				"type": "String"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
