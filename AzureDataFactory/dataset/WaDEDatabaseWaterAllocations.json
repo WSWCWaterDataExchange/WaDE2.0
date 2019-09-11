@@ -1,0 +1,188 @@
+{
+	"name": "WaDEDatabaseWaterAllocations",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WaDE Database",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "DB_CVs_tables"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"structure": [
+			{
+				"name": "OrganizationUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationNativeID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationOwner",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationBasisCV",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationLegalStatusCodeCV",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationApplicationDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationPriorityDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationExpirationDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationChangeApplicationIndicator",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "SiteUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "VariableSpecificUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "BeneficialUseCategory",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "PrimaryUseCategory",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "WaterSourceUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "MethodUUID",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "TimeframeStartDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "TimeframeEndDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "DataPublicationDate",
+				"type": "DateTime",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "ReportYear",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "AllocationCropDutyAmount",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "AllocationAmount",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "AllocationMaximum",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "PopulationServed",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "PowerGeneratedGWh",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "IrrigatedAcreage",
+				"type": "Double",
+				"precision": 15,
+				"scale": 255
+			},
+			{
+				"name": "AllocationCommunityWaterSupplySystem",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			},
+			{
+				"name": "SDWISIdentifier",
+				"type": "String",
+				"precision": 255,
+				"scale": 255
+			}
+		],
+		"typeProperties": {
+			"tableName": "WaterAllocationTable"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,64 @@
+{
+	"name": "UT_NormalizedWaterSources",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"FolderIdentifier": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "Normalized"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": {
+					"value": "@dataset().FolderIdentifier",
+					"type": "Expression"
+				},
+				"container": "normalizedimports"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "WaterSourceUUID",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceNativeID",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceName",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceTypeCV",
+				"type": "String"
+			},
+			{
+				"name": "WaterQualityIndicatorCV",
+				"type": "String"
+			},
+			{
+				"name": "GNISFeatureNameCV",
+				"type": "String"
+			},
+			{
+				"name": "Geometry",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,31 @@
+{
+	"name": "UT_Methods_Normalization",
+	"properties": {
+		"folder": {
+			"name": "Utah"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "UT_Methods",
+						"type": "DatasetReference"
+					},
+					"name": "UTMethods"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "UT_NormalizedMethods",
+						"type": "DatasetReference"
+					},
+					"name": "NormalizedMethods"
+				}
+			],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tMethodUUID as string,\n\t\tMethodName as string,\n\t\tMethodDescription as string,\n\t\tMethodNEMILink as string,\n\t\tApplicableResourceTypeCV as string,\n\t\tMethodTypeCV as string,\n\t\tDataCoverageValue as string,\n\t\tDataQualityValueCV as string,\n\t\tDataConfidenceValue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTMethods\nUTMethods sink(input(\n\t\tMethodUUID as string,\n\t\tMethodName as string,\n\t\tMethodDescription as string,\n\t\tMethodNEMILink as string,\n\t\tApplicableResourceTypeCV as string,\n\t\tMethodTypeCV as string,\n\t\tDataCoverageValue as string,\n\t\tDataQualityValueCV as string,\n\t\tDataConfidenceValue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['methods.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedMethods"
+		}
+	}
+}

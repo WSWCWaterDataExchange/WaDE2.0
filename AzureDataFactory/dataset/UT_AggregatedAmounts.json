@@ -1,0 +1,101 @@
+{
+	"name": "UT_AggregatedAmounts",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Utah"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "UT_AggregatedAmounts.csv",
+				"folderPath": "Uploads",
+				"container": "utahwaterrights"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "OrganizationUUID",
+				"type": "String"
+			},
+			{
+				"name": "ReportingUnitUUID",
+				"type": "String"
+			},
+			{
+				"name": "VariableSpecificUUID",
+				"type": "String"
+			},
+			{
+				"name": "BeneficialUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "PrimaryUseCategory",
+				"type": "String"
+			},
+			{
+				"name": "WaterSourceUUID",
+				"type": "String"
+			},
+			{
+				"name": "MethodUUID",
+				"type": "String"
+			},
+			{
+				"name": "TimeframeStart",
+				"type": "String"
+			},
+			{
+				"name": "TimeframeEnd",
+				"type": "String"
+			},
+			{
+				"name": "DataPublicationDate",
+				"type": "String"
+			},
+			{
+				"name": "DataPublicationDOI",
+				"type": "String"
+			},
+			{
+				"name": "ReportYearCV",
+				"type": "String"
+			},
+			{
+				"name": "Amount",
+				"type": "String"
+			},
+			{
+				"name": "PopulationServed",
+				"type": "String"
+			},
+			{
+				"name": "PowerGeneratedGWh",
+				"type": "String"
+			},
+			{
+				"name": "IrrigatedAcreage",
+				"type": "String"
+			},
+			{
+				"name": "InterbasinTransferToID",
+				"type": "String"
+			},
+			{
+				"name": "InterbasinTransferFromID",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

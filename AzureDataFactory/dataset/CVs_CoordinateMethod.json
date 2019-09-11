@@ -1,0 +1,67 @@
+{
+	"name": "CVs_CoordinateMethod",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "CVsAPI",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "GetCVs_data"
+		},
+		"type": "HttpFile",
+		"structure": [
+			{
+				"name": "term",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "abbreviation",
+				"type": "String"
+			},
+			{
+				"name": "definition",
+				"type": "String"
+			},
+			{
+				"name": "category",
+				"type": "String"
+			},
+			{
+				"name": "provenance",
+				"type": "String"
+			},
+			{
+				"name": "provenance_uri",
+				"type": "String"
+			},
+			{
+				"name": "note",
+				"type": "String"
+			}
+		],
+		"typeProperties": {
+			"format": {
+				"type": "TextFormat",
+				"columnDelimiter": ",",
+				"rowDelimiter": "",
+				"quoteChar": "\"",
+				"nullValue": "\\N",
+				"encodingName": null,
+				"treatEmptyAsNull": true,
+				"skipLineCount": 0,
+				"firstRowAsHeader": true
+			},
+			"relativeUrl": "/api/v1/coordinatemethod/?format=csv",
+			"requestMethod": "GET"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
