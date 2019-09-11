@@ -1,6 +1,7 @@
 {
 	"name": "ColoradoWaterAllocationFileArrived",
 	"properties": {
+		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
