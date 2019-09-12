@@ -57,17 +57,17 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         public DateTime? AllocationTimeframeEnd { get; set; }
 
-        public double? AllocationCropDutyAmount { get; set; }
+        public string AllocationCropDutyAmount { get; set; }
 
-        public double? AllocationAmount { get; set; }
+        public string AllocationAmount { get; set; }
 
-        public double? AllocationMaximum { get; set; }
+        public string AllocationMaximum { get; set; }
 
-        public long? PopulationServed { get; set; }
+        public string PopulationServed { get; set; }
 
-        public double? PowerGeneratedGWh { get; set; }
+        public string PowerGeneratedGWh { get; set; }
 
-        public double? IrrigatedAcreage { get; set; }
+        public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]
         public string AllocationCommunityWaterSupplySystem { get; set; }

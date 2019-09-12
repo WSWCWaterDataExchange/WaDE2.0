@@ -84,6 +84,18 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadRegulatoryOverlays(runId, regulatoryOverlays);
         }
 
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryReportingUnits(string runId)
+        {
+            var regulatoryReportingUnits = await ImportWaterAllocationFileAccessor.GetRegulatoryReportingUnits(runId);
+
+            if (!regulatoryReportingUnits.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadRegulatoryReportingUnits(runId, regulatoryReportingUnits);
+        }
+
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId)
         {
             var reportingUnits = await ImportWaterAllocationFileAccessor.GetReportingUnits(runId);

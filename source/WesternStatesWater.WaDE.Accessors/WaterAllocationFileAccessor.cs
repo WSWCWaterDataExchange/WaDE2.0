@@ -52,6 +52,13 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetNormalizedData<AccessorImport.ReportingUnit>(runId, "reportingunits.csv");
         }
 
+        async Task<List<AccessorImport.RegulatoryReportingUnits>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryReportingUnits(string runId)
+        {
+            return await GetNormalizedData<AccessorImport.RegulatoryReportingUnits>(runId, "regulatoryreportingunits.csv");
+        }
+
+       
+
         async Task<List<AccessorImport.Site>> AccessorImport.IWaterAllocationFileAccessor.GetSites(string runId)
         {
             return await GetNormalizedData<AccessorImport.Site>(runId, "sites.csv");

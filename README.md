@@ -42,5 +42,16 @@ How to import data into the database, locally?
 12.	The import function should run successfully. 
 
 
+How to setup the SQL DB?
+
+1. Download WaDE2.0.bacpac from the Google Drive.
+2. Open the Microsoft SQL Server Management Studio.
+3. After conncting to the SQL Server, right click on the DataBases and choose Import Data-tier Application.
+4. Click on Next button, browse the bacpac file.
+5. You can change the database name and other settings if required, if not, keep clicking on Next button and the database will be imported.
+
+
+
+
 
 

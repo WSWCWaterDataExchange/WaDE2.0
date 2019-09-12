@@ -14,5 +14,6 @@ namespace WesternStatesWater.WaDE.Contracts.Import
         Task<bool> LoadSiteSpecificAmounts(string runId);
         Task<bool> LoadVariables(string runId);
         Task<bool> LoadWaterSources(string runId);
+        Task<bool> LoadRegulatoryReportingUnits(string runId);
     }
 }

@@ -1,5 +1,4 @@
-/****** Object:  StoredProcedure [Core].[LoadReportingUnits]    Script Date: 5/2/2019 11:13:33 AM ******/
-CREATE PROCEDURE [Core].[LoadReportingUnits]
+Alter PROCEDURE [Core].[LoadReportingUnits]
 (
     @RunId NVARCHAR(250),
     @ReportingUnitTable Core.ReportingUnitTableType READONLY
