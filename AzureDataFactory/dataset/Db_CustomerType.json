@@ -36,5 +36,6 @@
 			"schema": "CVs",
 			"table": "CustomerType"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }

@@ -13,6 +13,7 @@
 		"folder": {
 			"name": "Colorado"
 		},
+		"annotations": [],
 		"type": "AzureBlob",
 		"typeProperties": {
 			"format": {

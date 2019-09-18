@@ -12,8 +12,7 @@
 						"referenceName": "UT_ReportingUnits",
 						"type": "DatasetReference"
 					},
-					"name": "UTReportingUnits",
-					"script": "source(output(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTReportingUnits"
+					"name": "UTReportingUnits"
 				}
 			],
 			"sinks": [
@@ -22,10 +21,11 @@
 						"referenceName": "UT_NormalizedReportingUnits",
 						"type": "DatasetReference"
 					},
-					"name": "NormalizedReportingUnits",
-					"script": "UTReportingUnits sink(input(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['reportingunits.csv']) ~> NormalizedReportingUnits"
+					"name": "NormalizedReportingUnits"
 				}
-			]
+			],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTReportingUnits\nUTReportingUnits sink(input(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['reportingunits.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedReportingUnits"
 		}
 	}
 }
