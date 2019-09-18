@@ -289,6 +289,48 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadRegulatoryReportingUnits(string runId, IEnumerable<AccessorImport.RegulatoryReportingUnits> LoadRegulatoryReportingUnits)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadRegulatoryReportingUnits";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var regulatoryParam = new SqlParameter
+                {
+                    ParameterName = "@RegulatoryReportingUnitsTableType",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = LoadRegulatoryReportingUnits.Select(ConvertObjectToSqlDataRecords<AccessorImport.RegulatoryReportingUnits>.Convert).ToList(),
+                    TypeName = "Core.RegulatoryReportingUnitsTableType"
+                };
+
+                cmd.Parameters.Add(regulatoryParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
+        }
+
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadReportingUnits(string runId, IEnumerable<AccessorImport.ReportingUnit> reportingUnits)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))

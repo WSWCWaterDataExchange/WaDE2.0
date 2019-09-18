@@ -17,7 +17,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AggregationStatisticCV { get; set; }
 
-        public double AggregationInterval { get; set; }
+        public string AggregationInterval { get; set; }
 
         [NullValues("")]
         public string AggregationIntervalUnitCV { get; set; }

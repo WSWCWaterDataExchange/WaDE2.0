@@ -1,3 +1,4 @@
+
 alter PROCEDURE [Core].[LoadAggregatedAmounts]
 (
     @RunId NVARCHAR(250),

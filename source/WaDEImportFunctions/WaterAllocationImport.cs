@@ -56,7 +56,8 @@ namespace WaDEImportFunctions
                 await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
                 ,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterAllocation, runId)
                 ,await context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
-            };
+                ,await  context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryReportingUnits, runId)
+        };
 
             foreach (var result in results)
             {
@@ -67,6 +68,11 @@ namespace WaDEImportFunctions
             {
                 throw new Exception("Failure Loading Fact Data");
             }
+
+
+          
+
+           
 
             return new OkObjectResult(new { status = "success" });
         }
@@ -101,6 +107,18 @@ namespace WaDEImportFunctions
 
             return result;
         }
+
+        [FunctionName(FunctionNames.LoadRegulatoryReportingUnits)]
+        public async Task<StatusHelper> LoadRegulatoryReportingUnits([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        {
+            var runId = context.GetInput<string>();
+            var result = new StatusHelper { Name = FunctionNames.LoadRegulatoryReportingUnits, Status = await WaterAllocationManager.LoadRegulatoryReportingUnits(runId) };
+
+            log.LogInformation(JsonConvert.SerializeObject(result));
+
+            return result;
+        }
+
 
         [FunctionName(FunctionNames.LoadReportingUnits)]
         public async Task<StatusHelper> LoadReportingUnits([ActivityTrigger] DurableActivityContextBase context, ILogger log)
@@ -228,6 +246,7 @@ namespace WaDEImportFunctions
         public const string LoadWaterAllocation = "LoadWaterAllocation";
         public const string LoadAggregatedAmounts = "LoadAggregatedAmounts";
         public const string LoadRegulatoryOverlays = "LoadRegulatoryOverlays";
+        public const string LoadRegulatoryReportingUnits = "LoadRegulatoryReportingUnits";
         public const string LoadReportingUnits = "LoadReportingUnits";
         public const string LoadSiteSpecificAmounts = "LoadSiteSpecificAmounts";
         public const string LoadVariables = "LoadVariables";

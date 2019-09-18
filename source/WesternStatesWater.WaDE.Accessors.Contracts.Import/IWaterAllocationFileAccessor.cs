@@ -10,6 +10,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         Task<List<AggregatedAmount>> GetAggregatedAmounts(string runId);
         Task<List<Method>> GetMethods(string runId);
         Task<List<RegulatoryOverlay>> GetRegulatoryOverlays(string runId);
+
+        Task<List<RegulatoryReportingUnits>> GetRegulatoryReportingUnits(string runId);
         Task<List<ReportingUnit>> GetReportingUnits(string runId);
         Task<List<Site>> GetSites(string runId);
         Task<List<SiteSpecificAmount>> GetSiteSpecificAmounts(string runId);

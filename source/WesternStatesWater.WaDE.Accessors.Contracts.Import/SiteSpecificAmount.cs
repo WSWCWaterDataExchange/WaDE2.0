@@ -32,13 +32,13 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string ReportYearCV { get; set; }
 
-        public double Amount { get; set; }
+        public string Amount { get; set; }
 
-        public long? PopulationServed { get; set; }
+        public string PopulationServed { get; set; }
 
-        public double? PowerGeneratedGWh { get; set; }
+        public string PowerGeneratedGWh { get; set; }
 
-        public double? IrrigatedAcreage { get; set; }
+        public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]
         public string IrrigationMethodCV { get; set; }
