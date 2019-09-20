@@ -30,7 +30,7 @@ namespace WaDEImportFunctions
 
             var parallelTasks = new List<Task<StatusHelper>>
             {
-                context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
+                 context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
                 ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
@@ -69,21 +69,49 @@ namespace WaDEImportFunctions
                 throw new Exception("Failure Loading Fact Data");
             }
 
-
-          
-
-           
-
             return new OkObjectResult(new { status = "success" });
         }
 
-        [FunctionName(FunctionNames.LoadOrganizations)]
-        public async Task<StatusHelper> LoadOrganizations([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        private const int OrganizationsBatchCount = 5000;
+        private async Task<StatusHelper> LoadData(DurableOrchestrationContextBase context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
         {
             var runId = context.GetInput<string>();
-            var result = new StatusHelper { Name = FunctionNames.LoadOrganizations, Status = await WaterAllocationManager.LoadOrganizations(runId) };
-            log.LogInformation(JsonConvert.SerializeObject(result));
+            var lineCount = await context.CallActivityAsync<long>(countFunctionName, runId);
+            var processed = 0L;
+            while (processed < lineCount)
+            {
+                var status = await context.CallActivityAsync<StatusHelper>(batchFunctionName, new BatchData { RunId = runId, StartIndex = processed, Count = recordCount });
+                if (!status.Status)
+                {
+                    return new StatusHelper { Name = currFunctionName, Status = false };
+                }
+                processed += recordCount;
+            }
+            return new StatusHelper { Name = currFunctionName, Status = true };
+        }
+
+        [FunctionName(FunctionNames.LoadOrganizations)]
+        public async Task<StatusHelper> LoadOrganizations([ActivityTrigger] DurableOrchestrationContextBase context, ILogger log)
+        {
+            return await LoadData(context, FunctionNames.LoadOrganizations, FunctionNames.GetOrganizationsCount, FunctionNames.LoadOrganizationsBatch, OrganizationsBatchCount, log);
+        }
+
+        [FunctionName(FunctionNames.LoadOrganizationsBatch)]
+        public async Task<StatusHelper> LoadOrganizationsBatch([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        {
+            var batchData = context.GetInput<BatchData>();
+            var result = new StatusHelper { Name = FunctionNames.LoadOrganizationsBatch, Status = await WaterAllocationManager.LoadOrganizations(batchData.RunId, batchData.StartIndex, batchData.Count) };
+            log.LogInformation($"Organization Batch [{batchData.StartIndex}] - {JsonConvert.SerializeObject(result)}");
             return result;
+        }
+
+        [FunctionName(FunctionNames.GetOrganizationsCount)]
+        public async Task<int> GetOrganizationsCount([ActivityTrigger] DurableActivityContextBase context, ILogger log)
+        {
+            var runId = context.GetInput<string>();
+            var count = await WaterAllocationManager.GetOrganizationsCount(runId);
+            log.LogInformation($"Organization Count - {count}");
+            return count;
         }
 
         [FunctionName(FunctionNames.LoadAggregatedAmounts)]
@@ -234,12 +262,23 @@ namespace WaDEImportFunctions
         }
     }
 
+    internal class BatchData
+    {
+        public string RunId { get; set; }
+        public long StartIndex { get; set; }
+        public int Count { get; set; }
+    }
+
     internal static class FunctionNames
     {
         public const string LoadWaterAllocationData = "LoadWaterAllocationData";
         public const string LoadWaterAllocationDataOrchestration = "LoadWaterAllocationDataOrchestration";
         public const string GetLoadWaterOrchestrationStatus = "GetLoadWaterOrchestrationStatus";
+
         public const string LoadOrganizations = "LoadOrganizations";
+        public const string LoadOrganizationsBatch = "LoadOrganizationsBatch";
+        public const string GetOrganizationsCount = "GetOrganizationsCount";
+
         public const string LoadSites = "LoadSites";
         public const string LoadWaterSources = "LoadWaterSources";
         public const string LoadMethods = "LoadMethods";

@@ -22,9 +22,9 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private IConfiguration Configuration { get; set; }
 
-        async Task<List<AccessorImport.Organization>> AccessorImport.IWaterAllocationFileAccessor.GetOrganizations(string runId)
+        async Task<List<AccessorImport.Organization>> AccessorImport.IWaterAllocationFileAccessor.GetOrganizations(string runId, int startIndex, int count)
         {
-            return await GetNormalizedData<AccessorImport.Organization>(runId, "organizations.csv");
+            return await GetNormalizedData<AccessorImport.Organization>(runId, "organizations.csv", startIndex, count);
         }
 
         async Task<List<AccessorImport.WaterAllocation>> AccessorImport.IWaterAllocationFileAccessor.GetWaterAllocations(string runId)
@@ -79,7 +79,7 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetNormalizedData<AccessorImport.WaterSource>(runId, "watersources.csv");
         }
 
-        private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, ClassMap<T> classMap = null)
+        private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, int startIndex = 0, int count = int.MaxValue)
         {
             var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
             var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
@@ -102,44 +102,54 @@ namespace WesternStatesWater.WaDE.Accessors
             };
 
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
-            
-            if (classMap != null)
+
+            var stream = await blob.OpenReadAsync();
+            var skippedCount = 0;
+            using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
             {
-                csvConfig.RegisterClassMap(classMap);
+                while(skippedCount < startIndex)
+                {
+                    reader
+                }
+                return reader.GetRecords<T>().Skip(startIndex).Take(count).ToList();
+            }
+        }
+
+        private async Task<int> GetRecordCount(string runId, string fileName)
+        {
+            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
+            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+            var blobClient = storageAccount.CreateCloudBlobClient();
+            var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+
+            var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
+
+            if (!await blob.ExistsAsync())
+            {
+                return 0;
             }
 
-            var text = (await blob.DownloadTextAsync()).TrimStart(new char[] { '\uFEFF', '\u200B' });
-
-            //uncomment the badData stuff if you want to inspect the bad data
-            //var badData = new List<string>();
-            var goodData = new List<T>();
-
-            using (var reader = new CsvReader(new CsvParser(new StringReader(text), csvConfig)))
+            var csvConfig = new Configuration
             {
-                var isBad = false;
+                Delimiter = ",",
+                TrimOptions = TrimOptions.Trim,
+                IgnoreBlankLines = true,
+                IgnoreQuotes = false
+            };
 
-                reader.Configuration.BadDataFound = x =>
-                {
-                    isBad = true;
-                    //badData.Add(x.RawRecord);
-                };
+            csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
+            var stream = await blob.OpenReadAsync();
+
+            var count = 0;
+            using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
+            {
                 while (reader.Read())
                 {
-                    var record = reader.GetRecord<T>();
-
-                    if (!isBad)
-                    {
-                        goodData.Add(record);
-                    }
-
-                    isBad = false;
+                    count++;
                 }
             }
-
-            goodData = goodData.Distinct().ToList();
-
-            return goodData;
+            return count;
         }
 
         public class DMYDateConverter : CsvHelper.TypeConversion.DateTimeConverter

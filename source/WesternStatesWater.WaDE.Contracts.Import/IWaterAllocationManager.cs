@@ -4,7 +4,8 @@ namespace WesternStatesWater.WaDE.Contracts.Import
 {
     public interface IWaterAllocationManager
     {
-        Task<bool> LoadOrganizations(string runId);
+        Task<bool> LoadOrganizations(string runId, int startIndex, int count);
+        Task<int> GetOrganizationsCount(string runId);
         Task<bool> LoadWaterAllocations(string runId);
         Task<bool> LoadAggregatedAmounts(string runId);
         Task<bool> LoadMethods(string runId);

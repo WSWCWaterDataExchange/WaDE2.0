@@ -16,14 +16,19 @@ namespace WesternStatesWater.WaDE.Managers.Import
         public AccessorImport.IWaterAllocationAccessor ImportWaterAllocationAccessor { get; set; }
         public AccessorImport.IWaterAllocationFileAccessor ImportWaterAllocationFileAccessor { get; set; }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId, int startIndex, int count)
         {
-            var orgs = await ImportWaterAllocationFileAccessor.GetOrganizations(runId);
+            var orgs = await ImportWaterAllocationFileAccessor.GetOrganizations(runId, startIndex, count);
             if (!orgs.Any())
             {
                 return true;
             }
             return await ImportWaterAllocationAccessor.LoadOrganizations(runId, orgs);
+        }
+
+        async Task<int> ManagerImport.IWaterAllocationManager.GetOrganizationsCount(string runId)
+        {
+            return await ImportWaterAllocationFileAccessor.GetOrganizationsCount(runId);
         }
 
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterAllocations(string runId)
