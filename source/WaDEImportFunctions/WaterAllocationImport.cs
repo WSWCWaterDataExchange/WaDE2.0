@@ -30,13 +30,13 @@ namespace WaDEImportFunctions
 
             var parallelTasks = new List<Task<StatusHelper>>
             {
-                 context.CallActivityAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
-                ,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
+                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadSites, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
+                //,context.CallActivityAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
             };
 
             var parallelResults = await Task.WhenAll(parallelTasks);
@@ -72,12 +72,12 @@ namespace WaDEImportFunctions
             return new OkObjectResult(new { status = "success" });
         }
 
-        private const int OrganizationsBatchCount = 5000;
+        private const int OrganizationsBatchCount = 25000;
         private async Task<StatusHelper> LoadData(DurableOrchestrationContextBase context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
         {
             var runId = context.GetInput<string>();
             var lineCount = await context.CallActivityAsync<long>(countFunctionName, runId);
-            var processed = 0L;
+            var processed = 0;
             while (processed < lineCount)
             {
                 var status = await context.CallActivityAsync<StatusHelper>(batchFunctionName, new BatchData { RunId = runId, StartIndex = processed, Count = recordCount });
@@ -90,8 +90,10 @@ namespace WaDEImportFunctions
             return new StatusHelper { Name = currFunctionName, Status = true };
         }
 
+
+
         [FunctionName(FunctionNames.LoadOrganizations)]
-        public async Task<StatusHelper> LoadOrganizations([ActivityTrigger] DurableOrchestrationContextBase context, ILogger log)
+        public async Task<StatusHelper> LoadOrganizations([OrchestrationTrigger] DurableOrchestrationContextBase context, ILogger log)
         {
             return await LoadData(context, FunctionNames.LoadOrganizations, FunctionNames.GetOrganizationsCount, FunctionNames.LoadOrganizationsBatch, OrganizationsBatchCount, log);
         }
@@ -113,6 +115,8 @@ namespace WaDEImportFunctions
             log.LogInformation($"Organization Count - {count}");
             return count;
         }
+
+
 
         [FunctionName(FunctionNames.LoadAggregatedAmounts)]
         public async Task<StatusHelper> LoadAggregatedAmounts([ActivityTrigger] DurableActivityContextBase context, ILogger log)
@@ -265,7 +269,7 @@ namespace WaDEImportFunctions
     internal class BatchData
     {
         public string RunId { get; set; }
-        public long StartIndex { get; set; }
+        public int StartIndex { get; set; }
         public int Count { get; set; }
     }
 

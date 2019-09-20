@@ -27,6 +27,11 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetNormalizedData<AccessorImport.Organization>(runId, "organizations.csv", startIndex, count);
         }
 
+        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetOrganizationsCount(string runId)
+        {
+            return await GetRecordCount(runId, "organizations.csv");
+        }
+
         async Task<List<AccessorImport.WaterAllocation>> AccessorImport.IWaterAllocationFileAccessor.GetWaterAllocations(string runId)
         {
             return await GetNormalizedData<AccessorImport.WaterAllocation>(runId, "waterallocations.csv");
@@ -103,15 +108,31 @@ namespace WesternStatesWater.WaDE.Accessors
 
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
-            var stream = await blob.OpenReadAsync();
-            var skippedCount = 0;
-            using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
+            using (var stream = await blob.OpenReadAsync())
             {
-                while(skippedCount < startIndex)
+                var currIndex = 0;
+                var results = new List<T>();
+
+                using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
                 {
-                    reader
+                    while (reader.Read())
+                    {
+                        if (currIndex >= startIndex + count)
+                        {
+                            break;
+                        }
+                        if (currIndex >= startIndex)
+                        {
+                            results.Add(reader.GetRecord<T>());
+                        }
+                        else if(currIndex == 0)
+                        {
+                            reader.GetRecord<T>(); //If we don't read the first record, CSVHelper errors
+                        }
+                        currIndex++;
+                    }
                 }
-                return reader.GetRecords<T>().Skip(startIndex).Take(count).ToList();
+                return results;
             }
         }
 
@@ -139,17 +160,18 @@ namespace WesternStatesWater.WaDE.Accessors
 
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
-            var stream = await blob.OpenReadAsync();
-
-            var count = 0;
-            using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
+            using (var stream = await blob.OpenReadAsync())
             {
-                while (reader.Read())
+                var count = -1; //account for the header
+                using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
                 {
-                    count++;
+                    while (reader.Read())
+                    {
+                        count++;
+                    }
                 }
+                return count == -1 ? 0 : count;
             }
-            return count;
         }
 
         public class DMYDateConverter : CsvHelper.TypeConversion.DateTimeConverter
