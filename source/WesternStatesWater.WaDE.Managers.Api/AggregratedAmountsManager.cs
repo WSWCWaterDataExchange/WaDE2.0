@@ -16,10 +16,10 @@ namespace WesternStatesWater.WaDE.Managers.Api
         }
 
         public AccessorApi.IAggregatedAmountsAccessor ApiAggregratedAmountsAccessor { get; set; }
-        async Task<IEnumerable<Contracts.Api.AggregatedAmountsOrganization>> ManagerApi.IAggregatedAmountsManager.GetAggregatedAmountsAsync(ManagerApi.AggregatedAmountsFilters filters)
+        async Task<IEnumerable<ManagerApi.AggregatedAmountsOrganization>> ManagerApi.IAggregatedAmountsManager.GetAggregatedAmountsAsync(ManagerApi.AggregatedAmountsFilters filters)
         {
             var results = await ApiAggregratedAmountsAccessor.GetAggregatedAmountsAsync(filters.Map<AccessorApi.AggregatedAmountsFilters>());
-            return results.Select(a => a.Map<Contracts.Api.AggregatedAmountsOrganization>());
+            return results.Select(a => a.Map<ManagerApi.AggregatedAmountsOrganization>());
         }
     }
 }
