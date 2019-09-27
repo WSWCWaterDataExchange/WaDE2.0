@@ -83,13 +83,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = allocationAmounts.Select(a => a.AllocationAmountId).ToArray();
                 var beneficialUses = db.AllocationBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.AllocationAmountId))
-                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseCategoryCV })
+                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseCV })
                     .ToList();
                 foreach (var allocationAmount in allocationAmounts)
                 {
                     allocationAmount.BeneficialUses = beneficialUses
                         .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCategoryCV)?.Name)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();
