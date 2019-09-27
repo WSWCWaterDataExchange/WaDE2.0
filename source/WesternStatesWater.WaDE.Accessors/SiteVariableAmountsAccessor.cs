@@ -89,13 +89,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = siteVariableAmounts.Select(a => a.SiteVariableAmountId).ToArray();
                 var beneficialUses = db.SitesBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.SiteVariableAmountId))
-                    .Select(a => new { a.SiteVariableAmountId, a.BeneficialUseCategoryCV })
+                    .Select(a => new { a.SiteVariableAmountId, a.BeneficialUseCV })
                     .ToList();
                 foreach (var siteVariableAmount in siteVariableAmounts)
                 {
                     siteVariableAmount.BeneficialUses = beneficialUses
                         .Where(a => a.SiteVariableAmountId == siteVariableAmount.SiteVariableAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCategoryCV)?.Name)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();

@@ -35,7 +35,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public double? PowerGeneratedGwh { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
-        public string AllocationSdwisidentifierCV { get; set; }
+        public string SdwisidentifierCV { get; set; }
         public string AllocationAssociatedWithdrawalSiteIds { get; set; }
         public string AllocationAssociatedConsumptiveUseSiteIds { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }

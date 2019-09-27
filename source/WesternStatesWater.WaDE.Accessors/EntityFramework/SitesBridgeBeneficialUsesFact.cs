@@ -6,7 +6,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     public partial class SitesBridgeBeneficialUsesFact
     {
         public long SiteBridgeId { get; set; }
-        public string BeneficialUseCategoryCV { get; set; }
+        public string BeneficialUseCV { get; set; }
         public long SiteVariableAmountId { get; set; }
 
         public virtual BeneficialUsesCV BeneficialUse { get; set; }

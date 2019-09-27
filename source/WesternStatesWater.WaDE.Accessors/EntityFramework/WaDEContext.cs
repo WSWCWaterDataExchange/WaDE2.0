@@ -92,7 +92,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AggregatedAmountId).HasColumnName("AggregatedAmountID");
 
-                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCV");
+                entity.Property(e => e.BeneficialUseCV).HasColumnName("BeneficialUseCV");
 
                 entity.HasOne(d => d.AggregatedAmount)
                     .WithMany(p => p.AggBridgeBeneficialUsesFact)
@@ -102,7 +102,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.AggBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
+                    .HasForeignKey(d => d.BeneficialUseCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AggBridge_BeneficialUses_fact_BeneficialUses");
             });
@@ -329,8 +329,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AllocationOwner).HasMaxLength(250);
 
-                entity.Property(e => e.AllocationSdwisidentifierCV)
-                    .HasColumnName("AllocationSDWISIdentifierCV")
+                entity.Property(e => e.SdwisidentifierCV)
+                    .HasColumnName("SDWISIdentifierCV")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.AllocationTimeframeEnd).HasMaxLength(5);
@@ -508,7 +508,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.SDWISIdentifier)
                        .WithMany(p => p.AllocationAmountsFact)
-                       .HasForeignKey(d => d.AllocationSdwisidentifierCV)
+                       .HasForeignKey(d => d.SdwisidentifierCV)
                        .OnDelete(DeleteBehavior.ClientSetNull)
                        .HasConstraintName("fk_AllocationAmounts_fact_SDWISIdentifier");
 
@@ -524,7 +524,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.AllocationAmountId).HasColumnName("AllocationAmountID");
 
-                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCV");
+                entity.Property(e => e.BeneficialUseCV).HasColumnName("BeneficialUseCV");
 
                 entity.HasOne(d => d.AllocationAmount)
                     .WithMany(p => p.AllocationBridgeBeneficialUsesFact)
@@ -534,7 +534,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.AllocationBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
+                    .HasForeignKey(d => d.BeneficialUseCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses");
             });
@@ -562,9 +562,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             modelBuilder.Entity<BeneficialUsesCV>(entity =>
             {
                 entity.HasKey(e => e.Name)
-                    .HasName("pkBeneficialUses_dim");
+                    .HasName("PK__Benefici__737584F7133E924E");
 
-                entity.ToTable("BeneficialUses_dim", "Core");
+                entity.ToTable("BeneficialUses", "CVs");
 
                 
 
@@ -576,8 +576,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("Term")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.NaicscodeNameCv)
-                    .HasColumnName("NAICSCode")
+                entity.Property(e => e.Definition)
+                    .HasColumnName("Definition")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.State).HasMaxLength(100);
@@ -1453,13 +1453,13 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.SiteBridgeId).HasColumnName("SiteBridgeID");
 
-                entity.Property(e => e.BeneficialUseCategoryCV).HasColumnName("BeneficialUseCategoryCV");
+                entity.Property(e => e.BeneficialUseCV).HasColumnName("BeneficialUseCV");
 
                 entity.Property(e => e.SiteVariableAmountId).HasColumnName("SiteVariableAmountID");
 
                 entity.HasOne(d => d.BeneficialUse)
                     .WithMany(p => p.SitesBridgeBeneficialUsesFact)
-                    .HasForeignKey(d => d.BeneficialUseCategoryCV)
+                    .HasForeignKey(d => d.BeneficialUseCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SitesBridge_BeneficialUses_fact_BeneficialUses");
 
