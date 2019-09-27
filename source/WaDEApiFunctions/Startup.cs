@@ -35,6 +35,9 @@ namespace WaDEApiFunctions
 
             builder.Services.AddTransient<ManagerApi.ISiteVariableAmountsManager, SiteVariableAmountsManager>();
             builder.Services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
+
+            builder.Services.AddTransient<ManagerApi.IRegulatoryOverlayManager, RegulatoryOverlayManager>();
+            builder.Services.AddTransient<AccessorApi.IRegulatoryOverlayAccessor, RegulatoryOverlayAccessor>();
         }
     }
 }

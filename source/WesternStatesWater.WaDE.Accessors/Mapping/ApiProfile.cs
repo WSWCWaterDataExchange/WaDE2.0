@@ -27,6 +27,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.Site.CoordinateMethodCv))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.Site.GniscodeCv))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Site.Geometry == null ? null : c.Site.Geometry.AsText()))
+                .ForMember(a => a.AllocationSDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifier.Name))
                 .ForMember(a => a.TimeframeStart, b => b.Ignore())
                 .ForMember(a => a.TimeframeEnd, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore());
@@ -34,10 +35,13 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.USGSCategory, b => b.MapFrom(c => c.UsgscategoryNameCv))
                 .ForMember(a => a.NAICSCode, b => b.MapFrom(c => c.NaicscodeNameCv));
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
-                
                 .ForMember(a => a.Name, b => b.MapFrom(c => c.BeneficialUse.Name))
                 .ForMember(a => a.USGSCategory, b => b.MapFrom(c => c.BeneficialUse.UsgscategoryNameCv))
-                .ForMember(a => a.NAICSCode, b => b.MapFrom(c => c.BeneficialUse.NaicscodeNameCv));
+                .ForMember(a => a.NAICSCode, b => b.MapFrom(c => c.BeneficialUse.NaicscodeNameCv))
+                .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))
+                .ForMember(a => a.State, b => b.MapFrom(c => c.BeneficialUse.State))
+                .ForMember(a => a.Definition, b => b.MapFrom(c => c.BeneficialUse.Definition))
+                .ForMember(a => a.SourceVocabularyURI, b => b.MapFrom(c => c.BeneficialUse.SourceVocabularyURI));
             CreateMap<EF.MethodsDim, AccessorApi.Method>()
                 .ForMember(a => a.ApplicableResourceType, b => b.MapFrom(c => c.ApplicableResourceTypeCv))
                 .ForMember(a => a.DataQualityValue, b => b.MapFrom(c => c.DataQualityValueCv));
@@ -54,11 +58,11 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.Key.OrganizationPhoneNumber))
                 .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.Key.OrganizationContactName))
                 .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.Key.OrganizationContactEmail))
-                .ForMember(a => a.OrganizationState, b => b.Ignore())
+                .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.Key.State))
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
                 .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
-                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.Where(d=>d.PrimaryUseCategoryCV != null).Select(d => d.PrimaryBeneficialUse).Union(c.SelectMany(d => d.AllocationBridgeBeneficialUsesFact.Select(e => e.BeneficialUse))).Distinct()))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.Where(d => d.PrimaryUseCategoryCV != null).Select(d => d.PrimaryBeneficialUse).Union(c.SelectMany(d => d.AllocationBridgeBeneficialUsesFact.Select(e => e.BeneficialUse))).Distinct()))
                 .ForMember(a => a.WaterAllocations, b => b.MapFrom(c => c));
 
             CreateMap<IGrouping<EF.OrganizationsDim, EF.AggregatedAmountsFact>, AccessorApi.AggregatedAmountsOrganization>()
@@ -68,7 +72,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.Key.OrganizationPhoneNumber))
                 .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.Key.OrganizationContactName))
                 .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.Key.OrganizationContactEmail))
-                .ForMember(a => a.OrganizationState, b => b.Ignore())
+                .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.Key.State))
                 .ForMember(a => a.ReportingUnits, b => b.MapFrom(c => c.Select(d => d.ReportingUnit).Distinct()))
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
@@ -96,7 +100,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.Key.OrganizationPhoneNumber))
                 .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.Key.OrganizationContactName))
                 .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.Key.OrganizationContactEmail))
-                .ForMember(a => a.OrganizationState, b => b.Ignore())
+                .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.Key.State))
                 .ForMember(a => a.WaterSources, b => b.MapFrom(c => c.Select(d => d.WaterSource).Distinct()))
                 .ForMember(a => a.VariableSpecifics, b => b.MapFrom(c => c.Select(d => d.VariableSpecific).Distinct()))
                 .ForMember(a => a.Methods, b => b.MapFrom(c => c.Select(d => d.Method).Distinct()))
@@ -117,6 +121,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
                 .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
+                .ForMember(a => a.SDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifierCv))
                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
                 .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore())
@@ -124,6 +129,21 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
+
+            CreateMap<IGrouping<EF.OrganizationsDim, EF.RegulatoryReportingUnitsFact>, AccessorApi.RegulatoryReportingUnitsOrganization>()
+                .ForMember(a => a.OrganizationName, b => b.MapFrom(c => c.Key.OrganizationName))
+                .ForMember(a => a.OrganizationPurview, b => b.MapFrom(c => c.Key.OrganizationPurview))
+                .ForMember(a => a.OrganizationWebsite, b => b.MapFrom(c => c.Key.OrganizationWebsite))
+                .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.Key.OrganizationPhoneNumber))
+                .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.Key.OrganizationContactName))
+                .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.Key.OrganizationContactEmail))
+                .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.Key.State))
+                .ForMember(a => a.RegulatoryOverlays, b => b.MapFrom(c => c.Select(d => d.RegulatoryOverlay).Distinct()))
+                .ForMember(a => a.ReportingUnitsRegulatory, b => b.MapFrom(c => c.Select(d => d.ReportingUnit).Distinct()));
+
+            CreateMap<EF.RegulatoryOverlayDim, AccessorApi.RegulatoryOverlay>();
+            CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnitRegulatory>()
+                .ForMember(a => a.Geometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
         }
     }
 }

@@ -2,7 +2,6 @@
 {
     public class BeneficialUse
     {
-       
         public string Term { get; set; }
         public string State { get; set; }
         public string Definition{ get; set; }
