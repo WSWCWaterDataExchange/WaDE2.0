@@ -8,22 +8,29 @@ A.	Site Allocation Amounts
 Test 1: Beneficial use of Irrigation with end priority date 1890
 
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Irrigation&EndPriorityDate=01%2F01%2F1890
+
 Response: Works
 
 Test 2: Reservoir water allocated for Fire in Colorado
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?SiteTypeCV=Reservoir&BeneficialUseCV=Fire&SearchGeometry=Colorado 
+
 Response: 500 currently unable to handle this request.
 
 2.2: Add priority end date (if it helps)
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?SiteTypeCV=Reservoir&BeneficialUseCV=Fire&SearchGeometry=Colorado&EndPriorityDate=01/01/1890
+
 Response: 500 currently unable to handle this request.
 
 Test 3: Reservoir site type with Domestic beneficial use
+
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?SiteTypeCV=Reservoir&BeneficialUseCV=Domestic
+
 Response: 500 currently unable to handle this request.
 
 Test 4. Beneficial use Fire in Colorado with priority end date 1990
+
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?SiteTypeCV=Reservoir&BeneficialUseCV=Fire&SearchGeometry=Colorado&EndPriorityDate=01/01/1990
+
 Response: 500 currently unable to handle this request.
 Test 5. Beneficial use Evaporative from Reservoirs in Colorado
 https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?SiteTypeCV=Reservoir&BeneficialUseCV=Evaporative&SearchGeometry=Colorado
