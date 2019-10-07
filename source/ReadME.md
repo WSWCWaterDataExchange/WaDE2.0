@@ -19,28 +19,34 @@ https://dotnet.microsoft.com/download/dotnet-core/2.2
 7. Make sure SQL server is started. 
 In Search bar -> write “services” -> go to SQL Server -> double click on it ->start
   
+
 ![](Images/sqlservices_start.png)
  
 
 8. Start the SQL server management studio (SSMS). 
 Make sure you can connect to database engine using Windows Authentication (here "RABBIT" is my PC)
+
+![](Images/ssms.png)
   
 9. Import WaDE2.0.bacpac to SQL data base
 	In SSMS, right click on Databases - > Import Data-tier applications - > 
 	(Renamed WaDE2.0 to WaDE2)
-1
+
+1  ![](Images/importBacpac1.png)
+
+2 ![](Images/importBacpac2.png)
 
  
-
 9.2 
 (This and #9.3 below are not really important once the current WaDE db copy is fixed to include ‘Surveyed’ in the CoordinateMethod CV)
 
 In SSMS, WaDE2 - > Tables -> CVs.CoordinateMethod
 Add a new row for “Surveyed” Coordinate method
- 
+ ![](Images/sitesAddSurveyed.png)
 
 9.3 Similarly insert into table “CVs.WaterAllocationBasis”, a row for “Unknown”
  
+![](Images/allocationBasisUnknown.png)
 
 10. Initialize storage emulator
 10.1 Start command line as administrator 
