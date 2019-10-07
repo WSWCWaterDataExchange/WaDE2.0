@@ -19,7 +19,7 @@ https://dotnet.microsoft.com/download/dotnet-core/2.2
 7. Make sure SQL server is started. 
 In Search bar -> write “services” -> go to SQL Server -> double click on it ->start
   
-
+![](Images/sqlservices_start.png)
  
 
 8. Start the SQL server management studio (SSMS). 
