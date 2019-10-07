@@ -53,6 +53,7 @@ Add a new row for “Surveyed” Coordinate method
 10.2 Specify the SQL server to init (here "RABBIT" is my PC)
 "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" init /server RABBIT\SQLEXPRESS
  
+ ![](Images/stemulatorInit.png)
 
 11. Start Storage emulator (Same command line as in # 10)
 "C:\Program Files (x86)\Microsoft SDKs\Azure\Storage Emulator\AzureStorageEmulator.exe" start
@@ -60,17 +61,18 @@ Add a new row for “Surveyed” Coordinate method
 12. Open Storage explorer 
 12.1 Open Connect Dialog 
 12.2 For “How do you want to connect to your storage account or service?”, select “Attach to a local emulator”
- 
+
+![](Images/storageEmulatorCon.png)
 
 13. Create a blob container “normalizedimports” in the storage emulator.
 In storage explorer, expand Storage Accounts, and right click on Local-1 (key) -> Blob Containers - > Create blob container ->
 Specify container name “normalizedimports”
- 
+
+![](Images/blobCont.png)
  
 14. While ‘normalizedimports’ is selected, select Upload -> Upload folder, and choose the folder where the input csv files are located, and upload the input data to the storage emulator.
  
-
-
+![](Images/uplodaFolder.png)
 
 15. Get the WaDE API source codes from https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/develop 
 
@@ -78,20 +80,26 @@ Specify container name “normalizedimports”
 
 17. In Visual Studio Solution Explorer, under projects “WaDEApiFunctions” and “WaDEImportFunctions”, edit the file ‘local.settings.json’ to add connection string for the local database  
  
- 
+![](Images/conString.png)
+![](Images/conString2.png)
 
 18. Build the Visual Studio Solution 
- 
+
+![](Images/build.png)
 
 19. In Visual Studio, load WaDEImportFunctions and run
 (If prompted by Windows, allow Windows firewall access the functions)
- 
+
+![](Images/run.png)
+
 Wait till you get the following screen
- 
+
+![](Images/run2.png)
 
 20. Open a web browser and go to the following link (“NewColoradoDataFiles” is the folder uploaded into the storage emulator)
 http://localhost:7071/api/LoadWaterAllocationData?runid=NewColoradoDataFiles
 If everything goes well, you will see a screen like the following
- 
+
+![](Images/successScreen.png)
 
 Go to the SSMS and check the WaDE2 tables to see the uploaded values.
