@@ -1,7 +1,7 @@
 
 
 ## Steps to Set up WaDE 2.0 Envionment (data importer and database) on a local machine 
-Written and tested by Tseganeh Gichamo, PhD
+Written and tested by Tseganeh Gichamo
 
 1. Download and install MS SQL Server 2017 Express
 (I installed the ‘basic’ package)
