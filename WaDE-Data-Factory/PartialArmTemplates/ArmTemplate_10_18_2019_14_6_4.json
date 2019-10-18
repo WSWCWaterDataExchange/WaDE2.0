@@ -6,404 +6,12 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "WaDE-Data-Factory"
-		},
-		"AzureBlobStorage_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage'"
-		},
-		"Blob_CO_Amounts_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Blob_CO_Amounts'"
-		},
-		"WaDE Database_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'WaDE Database'"
-		},
-		"WaDE Import Functions_functionKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'functionKey' of 'WaDE Import Functions'"
-		},
-		"ColoradoOrganizationsFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/Organizations.json')"
-		},
-		"ColoradoOrganizationsFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "colorado-import"
-		},
-		"ColoradoRawFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/colorado-raw.xlsx')"
-		},
-		"ColoradoRawFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "colorado-import"
-		},
-		"ColoradoWaterAllocationFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/WaterAllocations.json')"
-		},
-		"ColoradoWaterAllocationFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "colorado-import"
-		},
-		"DestinationDataset_5oi_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"DestinationDataset_5oi_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "colorado-import"
-		},
-		"DestinationDataset_j78_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"DestinationDataset_j78_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "utahwaterrights"
-		},
-		"NormalizedOrganizationsFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FolderIdentifier, '/organizations.csv')"
-		},
-		"NormalizedOrganizationsFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "normalizedimports"
-		},
-		"NormalizedWaterAllocationFile_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "@concat(dataset().FileLocation, '/waterallocations.csv')"
-		},
-		"NormalizedWaterAllocationFile_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "normalizedimports"
-		},
-		"SourceDataset_j78_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "WATER_MASTER.csv"
-		},
-		"SourceDataset_j78_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "utahwaterrights"
-		},
-		"WaterMaster_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "WATER_MASTER.csv"
-		},
-		"WaterMaster_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "utahwaterrights"
-		},
-		"test_netAmount_properties_typeProperties_fileName": {
-			"type": "string",
-			"defaultValue": "Net_new.csv"
-		},
-		"test_netAmount_properties_typeProperties_folderPath": {
-			"type": "string",
-			"defaultValue": "cvimport"
-		},
-		"CVsAPI_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "http://vocabulary.westernstateswater.org"
-		},
-		"DataColorado_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://data.colorado.gov"
-		},
-		"GitHub_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "http://github.com"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/Colorado Normalization')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Move files from one folder to another folder",
-				"activities": [
-					{
-						"name": "Excel To Json",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [
-							{
-								"activity": "DownloadColoradoWaterAllocationData",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": {
-								"value": "@concat('ExcelConversionToJson?container=colorado-import&fileName=colorado-raw.xlsx&folder=', pipeline().RunId)",
-								"type": "Expression"
-							},
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "DownloadColoradoWaterAllocationData",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoDownloadFile",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ColoradoRawFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Colorado Organization Normalization",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Excel To Json",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUID": "OrganizationUUID",
-									"OrganizationName": "OrganizationName",
-									"OrganizationPurview": "OrganizationPurview",
-									"OrganizationWebsite": "OrganizationWebsite",
-									"OrganizationPhoneNumber": "OrganizationPhoneNumber",
-									"OrganizationContactName": "OrganizationContactName",
-									"OrganizationContactEmail": "OrganizationContactEmail"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoOrganizationsFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NormalizedOrganizationsFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Colorado Water Allocation Normalization",
-						"type": "Copy",
-						"dependsOn": [
-							{
-								"activity": "Excel To Json",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "BlobSource",
-								"recursive": true
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"OrganizationUID": "OrganizationUUID",
-									"AllocationUID": "AllocationUUID",
-									"NativeAllocationID": "AllocationNativeID",
-									"AllocationOwner": "AllocationOwner",
-									"AllocationBasisCV": "AllocationBasisCV",
-									"AllocationLegalStatusCodeCV": "AllocationLegalStatusCodeCV",
-									"AllocationApplicationDate": "AllocationApplicationDate",
-									"AllocationPriorityDate": "WaterAllocationPriorityDate",
-									"AllocationExpirationDate": "AllocationExpirationDate",
-									"AllocationChangeApplicationIndicator": "AllocationChangeApplicationIndicator",
-									"SiteUID": "SiteUUID",
-									"VariableSpecificUID": "VariableSpecificUUID",
-									"BeneficialUseCategory": "BeneficialUseCategory",
-									"AllocationPrimaryUseCategory": "PrimaryUseCategory",
-									"SourceUID": "WaterSourceUUID",
-									"MethodUID": "MethodUUID",
-									"TimeframeStart": "TimeframeStartDate",
-									"TimeframeEnd": "TimeframeEndDate",
-									"DataPublicationDate": "DataPublicationDate",
-									"ReportYearCV": "ReportYear",
-									"AllocationAmount": "AllocationAmount",
-									"AllocationMaximum": "AllocationMaximum",
-									"PopulationServed": "PopulationServed",
-									"PowerGeneratedGWh": "PowerGeneratedGWh",
-									"IrrigatedAcreage": "IrrigatedAcreage",
-									"AllocationCommunityWaterSupplySystem": "AllocationCommunityWaterSupplySystem",
-									"SDWISID": "SDWISIdentifier",
-									"AllocationCropDutyAmount": "AllocationCropDutyAmount",
-									"Latitude": "Latitude",
-									"Longitude": "Longitude"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ColoradoWaterAllocationFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FolderIdentifier": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "NormalizedWaterAllocationFile",
-								"type": "DatasetReference",
-								"parameters": {
-									"FileLocation": {
-										"value": "@pipeline().RunId",
-										"type": "Expression"
-									}
-								}
-							}
-						]
-					},
-					{
-						"name": "Load Water Allocation Data",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Colorado Organization Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "Colorado Water Allocation Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Load Normalized Data",
-								"type": "PipelineReference"
-							},
-							"parameters": {
-								"FolderLocation": {
-									"value": "@pipeline().RunId",
-									"type": "Expression"
-								}
-							}
-						}
-					}
-				],
-				"folder": {
-					"name": "State Normalization"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Import Functions')]",
-				"[concat(variables('factoryId'), '/datasets/ColoradoDownloadFile')]",
-				"[concat(variables('factoryId'), '/datasets/ColoradoRawFile')]",
-				"[concat(variables('factoryId'), '/datasets/ColoradoOrganizationsFile')]",
-				"[concat(variables('factoryId'), '/datasets/NormalizedOrganizationsFile')]",
-				"[concat(variables('factoryId'), '/datasets/ColoradoWaterAllocationFile')]",
-				"[concat(variables('factoryId'), '/datasets/NormalizedWaterAllocationFile')]",
-				"[concat(variables('factoryId'), '/pipelines/Load Normalized Data')]"
-			]
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CopyPipeline_j78')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -444,15 +52,13 @@
 						"inputs": [
 							{
 								"referenceName": "SourceDataset_j78",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "DestinationDataset_j78",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -462,80 +68,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/SourceDataset_j78')]",
 				"[concat(variables('factoryId'), '/datasets/DestinationDataset_j78')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Copy_CO_Amonts')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_5oi",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "/api/views/a8zw-bjth/rows.csv?accessType=DOWNLOAD&api_foundry=true"
-							},
-							{
-								"name": "Destination",
-								"value": "colorado-import/"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"columnMappings": {
-									"WDID": "Prop_0",
-									"Structure Name": "Prop_1",
-									"Structure Type": "Prop_2",
-									"Water Source": "Prop_3",
-									"GNIS ID": "Prop_4",
-									"Stream Mile": "Prop_5",
-									"DIV": "Prop_6",
-									"WD": "Prop_7",
-									"County": "Prop_8"
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_5oi",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_5oi",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_5oi')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_5oi')]"
 			]
 		},
 		{
@@ -561,12 +93,7 @@
 							"dataflow": {
 								"referenceName": "Debug_UT_WaterAllocation_Normalization",
 								"type": "DataFlowReference",
-								"parameters": {},
 								"datasetParameters": {
-									"UTMaster": {},
-									"UTWaterUses": {},
-									"UTOwners": {},
-									"UTIrrigationMaster": {},
 									"NormalizedWaterAllocations": {
 										"FolderIdentifier": {
 											"value": "@pipeline().RunId",
@@ -574,8 +101,7 @@
 										}
 									}
 								}
-							},
-							"staging": {}
+							}
 						}
 					}
 				],
@@ -586,156 +112,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/Debug_UT_WaterAllocation_Normalization')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Load Normalized Data')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Azure Function1",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": {
-								"value": "@concat('LoadWaterAllocationData?RunId=', pipeline().parameters.FolderLocation)",
-								"type": "Expression"
-							},
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Until1",
-						"type": "Until",
-						"dependsOn": [
-							{
-								"activity": "Azure Function1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"expression": {
-								"value": "@not(equals(activity('CheckStatus').output.Status, 0))",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "CheckStatus",
-									"type": "AzureFunctionActivity",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "7.00:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"functionName": {
-											"value": "@concat('GetLoadWaterOrchestrationStatus?instanceId=', activity('Azure Function1').output.instanceId)",
-											"type": "Expression"
-										},
-										"method": "GET",
-										"headers": {}
-									},
-									"linkedServiceName": {
-										"referenceName": "WaDE Import Functions",
-										"type": "LinkedServiceReference"
-									}
-								},
-								{
-									"name": "Is Import Running",
-									"type": "IfCondition",
-									"dependsOn": [
-										{
-											"activity": "CheckStatus",
-											"dependencyConditions": [
-												"Succeeded"
-											]
-										}
-									],
-									"userProperties": [],
-									"typeProperties": {
-										"expression": {
-											"value": "@equals(activity('CheckStatus').output.Status, 0)",
-											"type": "Expression"
-										},
-										"ifTrueActivities": [
-											{
-												"name": "Wait for Import Completion",
-												"type": "Wait",
-												"dependsOn": [],
-												"userProperties": [],
-												"typeProperties": {
-													"waitTimeInSeconds": 30
-												}
-											}
-										]
-									}
-								}
-							],
-							"timeout": "7.00:00:00"
-						}
-					},
-					{
-						"name": "Send Import Complete Notification",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "Until1",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "SendNotificationEmail",
-								"type": "PipelineReference"
-							},
-							"parameters": {
-								"IsSuccess": {
-									"value": "@equals(activity('CheckStatus').output.Status, 1)",
-									"type": "Expression"
-								},
-								"FolderLocation": {
-									"value": "@pipeline().parameters.FolderLocation",
-									"type": "Expression"
-								}
-							}
-						}
-					}
-				],
-				"parameters": {
-					"FolderLocation": {
-						"type": "String"
-					}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Import Functions')]",
-				"[concat(variables('factoryId'), '/pipelines/SendNotificationEmail')]"
 			]
 		},
 		{
@@ -855,15 +231,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_AggregationStatistic",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "AggegationStatisticCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -987,15 +361,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_ReportYearType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ReportYearTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1119,15 +491,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_epsgcode",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "EpsgCodeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1260,15 +630,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_GnisFeatureName",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "GnisFeatureNameCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1392,15 +760,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_CropType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1524,15 +890,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_IrrigationMethod",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "IrrigationMethodCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1656,15 +1020,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_LegalStatus",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "LegalStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1788,15 +1150,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_MethodType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "MethodTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -1920,15 +1280,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_NaicsCode",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "NaicsCodeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2052,15 +1410,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_NHDNetworkStatus",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "NhdNetworkStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2184,15 +1540,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_NHDProduct",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "NhdProductCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2316,15 +1670,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_RegulatoryStatus",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "RegulatoryStatusCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2448,15 +1800,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_ReportingUnitType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ReportingUnitTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2580,15 +1930,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_ReportYear",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ReportYearCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2712,15 +2060,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_SiteType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "SiteTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2844,15 +2190,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_Units",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "UnitsCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -2976,15 +2320,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_UsgsCategory",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "UsgsCategoryCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3108,15 +2450,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_Variable",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "VariableCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3240,15 +2580,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_VariableSpecific",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "VariableSpecificCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3372,15 +2710,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_WaterAllocationBasis",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "WaterAllocationBasisCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3504,15 +2840,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_WaterQualityIndicator",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "WaterQualityIndicatorCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3636,15 +2970,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_WaterAllocationType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "WaterAllocationTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3768,15 +3100,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_WaterSourceType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "WaterSourceTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -3958,66 +3288,8 @@
 						"typeProperties": {
 							"dataflow": {
 								"referenceName": "CvDataFlow",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CropTypeCSV": {},
-									"AggregationStatisticCSV": {},
-									"ReportYearTypeCSV": {},
-									"EpsgCodeCSV": {},
-									"GnisFeatureNameCSV": {},
-									"IrrigationMethodCSV": {},
-									"LegalStatusCSV": {},
-									"MethodTypeCSV": {},
-									"NaicsCodeCSV": {},
-									"NhdNetworkStatusCSV": {},
-									"NhdProductCSV": {},
-									"RegulatoryStatusCSV": {},
-									"ReportingUnitTypeCSV": {},
-									"ReportYearCSV": {},
-									"SiteTypeCSV": {},
-									"UnitsCSV": {},
-									"UsgsCategoryCSV": {},
-									"VariableCSV": {},
-									"VariableSpecificCSV": {},
-									"WaterAllocationBasisCSV": {},
-									"WaterAllocationTypeCSV": {},
-									"WaterQualityIndicatorCSV": {},
-									"WaterSourceTypeCSV": {},
-									"ApplicableResourceTypeCSV": {},
-									"CoordinateMethodCSV": {},
-									"CustomerTypeCSV": {},
-									"SDWISIdentifierCSV": {},
-									"CropTypeCvDb": {},
-									"AggregationStatisticCvDb": {},
-									"ReportYearTypeCvDb": {},
-									"EpsgCodeCvDb": {},
-									"GnisFeatureNameCvDb": {},
-									"IrrigationMethodCvDb": {},
-									"LegalStatusCvDb": {},
-									"MethodTypeCvDb": {},
-									"NaicsCodeCvDb": {},
-									"NhdNetworkStatusCvDb": {},
-									"NhdProductCvDb": {},
-									"RegulatoryStatusCvDb": {},
-									"ReportingUnitTypeCvDb": {},
-									"ReportYearCvDb": {},
-									"SiteTypeCvDb": {},
-									"UnitsCvDb": {},
-									"UsgsCategoryCvDb": {},
-									"VariableCvDb": {},
-									"VariableSpecificCvDb": {},
-									"WaterAllocationBasisCvDb": {},
-									"WaterAllocationTypeCvDb": {},
-									"WaterQualityIndicatorCvDb": {},
-									"WaterSourceTypeCvDb": {},
-									"ApplicableResourceTypeCvDb": {},
-									"CoordinateMethodCvDb": {},
-									"CustomerTypeCvDb": {},
-									"SDWISIdentifierCvDb": {}
-								}
-							},
-							"staging": {}
+								"type": "DataFlowReference"
+							}
 						}
 					},
 					{
@@ -4140,15 +3412,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_ApplicableResourceType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "ApplicableResourceTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -4272,15 +3542,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_CoordinateMethod",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "CoordinateMethodCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -4401,15 +3669,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_CustomerType",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "CustomerTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -4530,15 +3796,13 @@
 						"inputs": [
 							{
 								"referenceName": "CVs_SDWISIdentifier",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						],
 						"outputs": [
 							{
 								"referenceName": "SDWISIdentifierCsv",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					}
@@ -4546,240 +3810,36 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/CVs_AggregationStatistic')]",
 				"[concat(variables('factoryId'), '/datasets/AggegationStatisticCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportYearType')]",
 				"[concat(variables('factoryId'), '/datasets/ReportYearTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_epsgcode')]",
 				"[concat(variables('factoryId'), '/datasets/EpsgCodeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_GnisFeatureName')]",
 				"[concat(variables('factoryId'), '/datasets/GnisFeatureNameCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
 				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_IrrigationMethod')]",
 				"[concat(variables('factoryId'), '/datasets/IrrigationMethodCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_LegalStatus')]",
 				"[concat(variables('factoryId'), '/datasets/LegalStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_MethodType')]",
 				"[concat(variables('factoryId'), '/datasets/MethodTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NaicsCode')]",
 				"[concat(variables('factoryId'), '/datasets/NaicsCodeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NHDNetworkStatus')]",
 				"[concat(variables('factoryId'), '/datasets/NhdNetworkStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_NHDProduct')]",
 				"[concat(variables('factoryId'), '/datasets/NhdProductCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_RegulatoryStatus')]",
 				"[concat(variables('factoryId'), '/datasets/RegulatoryStatusCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportingUnitType')]",
 				"[concat(variables('factoryId'), '/datasets/ReportingUnitTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ReportYear')]",
 				"[concat(variables('factoryId'), '/datasets/ReportYearCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_SiteType')]",
 				"[concat(variables('factoryId'), '/datasets/SiteTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_Units')]",
 				"[concat(variables('factoryId'), '/datasets/UnitsCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_UsgsCategory')]",
 				"[concat(variables('factoryId'), '/datasets/UsgsCategoryCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_Variable')]",
 				"[concat(variables('factoryId'), '/datasets/VariableCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_VariableSpecific')]",
 				"[concat(variables('factoryId'), '/datasets/VariableSpecificCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationBasis')]",
 				"[concat(variables('factoryId'), '/datasets/WaterAllocationBasisCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterQualityIndicator')]",
 				"[concat(variables('factoryId'), '/datasets/WaterQualityIndicatorCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterAllocationType')]",
 				"[concat(variables('factoryId'), '/datasets/WaterAllocationTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_WaterSourceType')]",
 				"[concat(variables('factoryId'), '/datasets/WaterSourceTypeCsv')]",
 				"[concat(variables('factoryId'), '/dataflows/CvDataFlow')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_ApplicableResourceType')]",
 				"[concat(variables('factoryId'), '/datasets/ApplicableResourceTypeCsv')]",
-				"[concat(variables('factoryId'), '/datasets/CVs_CoordinateMethod')]",
 				"[concat(variables('factoryId'), '/datasets/CoordinateMethodCsv')]",
 				"[concat(variables('factoryId'), '/datasets/CVs_CustomerType')]",
 				"[concat(variables('factoryId'), '/datasets/CustomerTypeCsv')]",
 				"[concat(variables('factoryId'), '/datasets/CVs_SDWISIdentifier')]",
 				"[concat(variables('factoryId'), '/datasets/SDWISIdentifierCsv')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LoadCVs_Debug')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy_CropType",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"enableSkipIncompatibleRow": true,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "term"
-										},
-										"sink": {
-											"name": "term",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "name"
-										},
-										"sink": {
-											"name": "name",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "state"
-										},
-										"sink": {
-											"name": "state",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "abbreviation"
-										},
-										"sink": {
-											"name": "abbreviation",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "definition"
-										},
-										"sink": {
-											"name": "definition",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "category"
-										},
-										"sink": {
-											"name": "category",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance"
-										},
-										"sink": {
-											"name": "provenance",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "provenance_uri"
-										},
-										"sink": {
-											"name": "provenance_uri",
-											"type": "String"
-										}
-									},
-									{
-										"source": {
-											"name": "note"
-										},
-										"sink": {
-											"name": "note",
-											"type": "String"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "CVs_CropType",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CropTypeCsv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					},
-					{
-						"name": "CvDataFlow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Copy_CropType",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "CvDataFlow_Debug",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"CropTypeCSV": {},
-									"CropTypeCvDb": {}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/CVs_CropType')]",
-				"[concat(variables('factoryId'), '/datasets/CropTypeCsv')]",
-				"[concat(variables('factoryId'), '/dataflows/CvDataFlow_Debug')]"
 			]
 		},
 		{
@@ -4845,8 +3905,7 @@
 						"outputs": [
 							{
 								"referenceName": "WaDEDatabaseOrganizations",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -4939,8 +3998,7 @@
 						"outputs": [
 							{
 								"referenceName": "WaDEDatabaseWaterAllocations",
-								"type": "DatasetReference",
-								"parameters": {}
+								"type": "DatasetReference"
 							}
 						]
 					},
@@ -4966,7 +4024,6 @@
 						"typeProperties": {
 							"url": "https://prod-96.westus.logic.azure.com:443/workflows/c948a258cc4b48cd936c57cfd052cc07/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oAwqpJmcBBp9Yt20MWYBqqwXo4-zLDjadBOaupCqBHg",
 							"method": "POST",
-							"headers": {},
 							"body": {
 								"value": "@concat('{\"RunId\":\"', pipeline().parameters.FolderLocation, '\"}')",
 								"type": "Expression"
@@ -4986,57 +4043,6 @@
 				"[concat(variables('factoryId'), '/datasets/WaDEDatabaseOrganizations')]",
 				"[concat(variables('factoryId'), '/datasets/NormalizedWaterAllocationFile')]",
 				"[concat(variables('factoryId'), '/datasets/WaDEDatabaseWaterAllocations')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/NetAmount')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "NEtAmount",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "HttpSource",
-								"httpRequestTimeout": "00:01:40"
-							},
-							"sink": {
-								"type": "BlobSink"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "CO_netamount_call",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "test_netAmount",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/CO_netamount_call')]",
-				"[concat(variables('factoryId'), '/datasets/test_netAmount')]"
 			]
 		},
 		{
@@ -5060,7 +4066,6 @@
 						"typeProperties": {
 							"url": "https://prod-96.westus.logic.azure.com:443/workflows/c948a258cc4b48cd936c57cfd052cc07/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=oAwqpJmcBBp9Yt20MWYBqqwXo4-zLDjadBOaupCqBHg",
 							"method": "POST",
-							"headers": {},
 							"body": {
 								"value": "@concat('{\"RunId\":\"', pipeline().parameters.FolderLocation, '\", \"success\":', \n if(pipeline().parameters.IsSuccess, 'true', 'false') ,'}')",
 								"type": "Expression"
@@ -5079,444 +4084,6 @@
 				"annotations": []
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UT Function Debug')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Call various azure functions for debugging purposes.",
-				"activities": [
-					{
-						"name": "Flatten Water Uses",
-						"description": "pre-process UT water uses",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					}
-				],
-				"folder": {
-					"name": "State Normalization"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Import Functions')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/UT Normalization')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "Full normalization pipeline for UT.",
-				"activities": [
-					{
-						"name": "UT_WaterAllocation_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Flatten Water Uses",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_WaterAllocation_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTMaster": {},
-									"UTWaterUses": {},
-									"UTOwners": {},
-									"UTIrrigationMaster": {},
-									"NormalizedWaterAllocations": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "Flatten Water Uses",
-						"description": "pre-process UT water uses",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": "Flatten?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Water_Uses.csv&destinationFileName=UT_Flat_Uses.csv&keyCol=WRNUM&valueCol=USE_TYPE",
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "UT_WaterSources_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_WaterSources_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTMaster": {},
-									"UTWaterSources": {},
-									"NormalizedWaterSources": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Sites_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [
-							{
-								"activity": "Convert Site Points",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Sites_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTPointsOfDiversion": {},
-									"UTConvertedPoints": {},
-									"NormalizedSites": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "Convert Site Points",
-						"type": "AzureFunctionActivity",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"functionName": "CoordinateProjection?container=utahwaterrights&folder=Uploads&sourceFileName=UT_Points_of_Diversion.csv&destinationFileName=UT_Converted_Points.csv&xValueCol=X_UTM&yValueCol=Y_UTM",
-							"method": "GET",
-							"headers": {}
-						},
-						"linkedServiceName": {
-							"referenceName": "WaDE Import Functions",
-							"type": "LinkedServiceReference"
-						}
-					},
-					{
-						"name": "Load Normalized Water Allocation Data",
-						"type": "ExecutePipeline",
-						"dependsOn": [
-							{
-								"activity": "UT_WaterAllocation_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_Sites_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_WaterSources_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_Methods_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_Organizations_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_Variables_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_ReportingUnits_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							},
-							{
-								"activity": "UT_AggregatedAmounts_Normalization",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"pipeline": {
-								"referenceName": "Load Normalized Data",
-								"type": "PipelineReference"
-							},
-							"waitOnCompletion": false,
-							"parameters": {
-								"FolderLocation": {
-									"value": "@pipeline().RunId",
-									"type": "Expression"
-								}
-							}
-						}
-					},
-					{
-						"name": "UT_Methods_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Methods_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTMethods": {},
-									"NormalizedMethods": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Organizations_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Organizations_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTOrganizations": {},
-									"NormalizedOrganizations": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_Variables_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_Variables_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTVariables": {},
-									"NormalizedVariables": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_ReportingUnits_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_ReportingUnits_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTReportingUnits": {},
-									"NormalizedReportingUnits": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					},
-					{
-						"name": "UT_AggregatedAmounts_Normalization",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "UT_AggregatedAmounts_Normalization",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"UTAggregatedAmounts": {},
-									"NormalizedAggregatedAmounts": {
-										"FolderIdentifier": {
-											"value": "@pipeline().RunId",
-											"type": "Expression"
-										}
-									}
-								}
-							},
-							"staging": {}
-						}
-					}
-				],
-				"folder": {
-					"name": "State Normalization"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/UT_WaterAllocation_Normalization')]",
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Import Functions')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_WaterSources_Normalization')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_Sites_Normalization')]",
-				"[concat(variables('factoryId'), '/pipelines/Load Normalized Data')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_Methods_Normalization')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_Organizations_Normalization')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_Variables_Normalization')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_ReportingUnits_Normalization')]",
-				"[concat(variables('factoryId'), '/dataflows/UT_AggregatedAmounts_Normalization')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AggegationStatisticCsv')]",
@@ -5579,9 +4146,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ApplicableResourceTypeCsv')]",
@@ -5648,506 +4213,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CO_netamount_call')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DataColorado",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Colorado"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "WDID",
-						"type": "String"
-					},
-					{
-						"name": "Structure Name",
-						"type": "String"
-					},
-					{
-						"name": "Structure Type",
-						"type": "String"
-					},
-					{
-						"name": "Water Source",
-						"type": "String"
-					},
-					{
-						"name": "GNIS ID",
-						"type": "String"
-					},
-					{
-						"name": "Stream Mile",
-						"type": "String"
-					},
-					{
-						"name": "DIV",
-						"type": "String"
-					},
-					{
-						"name": "WD",
-						"type": "String"
-					},
-					{
-						"name": "County",
-						"type": "String"
-					},
-					{
-						"name": "Q10",
-						"type": "String"
-					},
-					{
-						"name": "Q40",
-						"type": "String"
-					},
-					{
-						"name": "Q160",
-						"type": "String"
-					},
-					{
-						"name": "Section",
-						"type": "String"
-					},
-					{
-						"name": "Township",
-						"type": "String"
-					},
-					{
-						"name": "Range",
-						"type": "String"
-					},
-					{
-						"name": "PM",
-						"type": "String"
-					},
-					{
-						"name": "CoordsEW",
-						"type": "String"
-					},
-					{
-						"name": "CoordsEW Dir",
-						"type": "String"
-					},
-					{
-						"name": "CoordsNS",
-						"type": "String"
-					},
-					{
-						"name": "CoordsNS Dir",
-						"type": "String"
-					},
-					{
-						"name": "UTM x",
-						"type": "String"
-					},
-					{
-						"name": "UTM y",
-						"type": "String"
-					},
-					{
-						"name": "Latitude",
-						"type": "String"
-					},
-					{
-						"name": "Longitude",
-						"type": "String"
-					},
-					{
-						"name": "Location Accuracy",
-						"type": "String"
-					},
-					{
-						"name": "Adjudication Date",
-						"type": "String"
-					},
-					{
-						"name": "Previous Adj Date",
-						"type": "String"
-					},
-					{
-						"name": "Appropriation Date",
-						"type": "String"
-					},
-					{
-						"name": "Admin No",
-						"type": "String"
-					},
-					{
-						"name": "Order No",
-						"type": "String"
-					},
-					{
-						"name": "Priority No",
-						"type": "String"
-					},
-					{
-						"name": "Associated Case Numbers",
-						"type": "String"
-					},
-					{
-						"name": "Decreed Uses",
-						"type": "String"
-					},
-					{
-						"name": "Net Absolute",
-						"type": "String"
-					},
-					{
-						"name": "Net Conditional",
-						"type": "String"
-					},
-					{
-						"name": "Net APEX Absolute",
-						"type": "String"
-					},
-					{
-						"name": "Net APEX Conditional",
-						"type": "String"
-					},
-					{
-						"name": "Decreed Units",
-						"type": "String"
-					},
-					{
-						"name": "Seasonal Limits",
-						"type": "String"
-					},
-					{
-						"name": "Comments",
-						"type": "String"
-					},
-					{
-						"name": "Modified",
-						"type": "String"
-					},
-					{
-						"name": "More Information",
-						"type": "String"
-					},
-					{
-						"name": "Location",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "\n",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/views/a8zw-bjth/rows.csv?accessType=DOWNLOAD&api_foundry=true",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DataColorado')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_AggregationStatistic')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/aggregationstatistic/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_ApplicableResourceType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/applicableresourcetype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_CoordinateMethod')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/coordinatemethod/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_CropType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/croptype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/croptype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CVs_CustomerType')]",
@@ -6212,880 +4278,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_DataQualityValue')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/dataqualityvalue/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_GnisFeatureName')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/gnisfeaturename/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/gnisfeaturename/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_IrrigationMethod')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/irrigationmethod/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/irrigationmethod/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_LegalStatus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/legalstatus/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/legalstatus/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_MethodType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/methodtype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/methodtype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_NHDNetworkStatus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/nhdnetworkstatus/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/nhdnetworkstatus/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_NHDProduct')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/nhdproduct/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/nhdproduct/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_NaicsCode')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/naicscode/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/naicscode/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_RegulatoryStatus')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/regulatorystatus/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/regulatorystatus/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_ReportYear')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/reportyear/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/reportyear/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_ReportYearType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/reportyeartype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/reportyeartype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_ReportingUnitType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/reportingunittype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/reportingunittype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CVs_SDWISIdentifier')]",
@@ -7150,829 +4343,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_SiteType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/sitetype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/sitetype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_States')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/states/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_Units')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/units/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/units/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_UsgsCategory')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/usgscategory/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/usgscategory/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_Variable')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/variable/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/variable/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_VariableSpecific')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/variable/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/variablespecific/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_WaterAllocationBasis')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/waterallocationbasis/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/waterallocationbasis/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_WaterAllocationType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/waterallocationtype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/waterallocationtype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_WaterQualityIndicator')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/waterqualityindicator/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/waterqualityindicator/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_WaterSourceType')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org/watersourcetype/",
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/watersourcetype/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVs_epsgcode')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "CVsAPI",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "GetCVs_data"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/v1/epsgcode/?format=csv",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/CVsAPI')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ColoradoDownloadFile')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "GitHub",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Colorado"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"typeProperties": {
-					"relativeUrl": "/WSWCWaterDataExchange/WaDE2.0/raw/ImportWork/Design_docs/DBPopulate/CO_WaterAllocations_Basic.xlsx",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/GitHub')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ColoradoOrganizationsFile')]",
@@ -8029,15 +4400,13 @@
 						"filePattern": "arrayOfObjects"
 					},
 					"fileName": {
-						"value": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_fileName')]",
+						"value": "@concat(dataset().FolderIdentifier, '/Organizations.json')",
 						"type": "Expression"
 					},
-					"folderPath": "[parameters('ColoradoOrganizationsFile_properties_typeProperties_folderPath')]"
+					"folderPath": "colorado-import"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ColoradoRawFile')]",
@@ -8069,15 +4438,13 @@
 						"firstRowAsHeader": false
 					},
 					"fileName": {
-						"value": "[parameters('ColoradoRawFile_properties_typeProperties_fileName')]",
+						"value": "@concat(dataset().FolderIdentifier, '/colorado-raw.xlsx')",
 						"type": "Expression"
 					},
-					"folderPath": "[parameters('ColoradoRawFile_properties_typeProperties_folderPath')]"
+					"folderPath": "colorado-import"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ColoradoWaterAllocationFile')]",
@@ -8254,15 +4621,13 @@
 						"filePattern": "arrayOfObjects"
 					},
 					"fileName": {
-						"value": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_fileName')]",
+						"value": "@concat(dataset().FolderIdentifier, '/WaterAllocations.json')",
 						"type": "Expression"
 					},
-					"folderPath": "[parameters('ColoradoWaterAllocationFile_properties_typeProperties_folderPath')]"
+					"folderPath": "colorado-import"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CoordinateMethodCsv')]",
@@ -8329,9 +4694,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CropTypeCsv')]",
@@ -8395,9 +4758,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CustomerTypeCsv')]",
@@ -8451,9 +4812,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_AggregationStatistic')]",
@@ -8498,9 +4857,7 @@
 					"tableName": "CVs.AggregationStatistic"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_ApplicableResourceType')]",
@@ -8542,9 +4899,7 @@
 					"tableName": "CVs.ApplicableResourceType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_CoordinateMethod')]",
@@ -8586,9 +4941,7 @@
 					"tableName": "CVs.CoordinateMethod"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_CropType')]",
@@ -8630,9 +4983,7 @@
 					"tableName": "CVs.CropType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_CustomerType')]",
@@ -8675,9 +5026,7 @@
 					"table": "CustomerType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_DataQualityValue')]",
@@ -8719,9 +5068,7 @@
 					"tableName": "CVs.DataQualityValue"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_EPSGCode')]",
@@ -8763,9 +5110,7 @@
 					"tableName": "CVs.EPSGCode"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_GNISFeatureName')]",
@@ -8807,9 +5152,7 @@
 					"tableName": "CVs.GNISFeatureName"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_IrrigationMethod')]",
@@ -8851,9 +5194,7 @@
 					"tableName": "CVs.IrrigationMethod"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_LegalStatus')]",
@@ -8895,9 +5236,7 @@
 					"tableName": "CVs.LegalStatus"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_MethodType')]",
@@ -8939,9 +5278,7 @@
 					"tableName": "CVs.MethodType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_NAICSCode')]",
@@ -8983,9 +5320,7 @@
 					"tableName": "CVs.NAICSCode"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_NHDNetworkStatus')]",
@@ -9027,9 +5362,7 @@
 					"tableName": "CVs.NHDNetworkStatus"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_NHDProduct')]",
@@ -9071,9 +5404,7 @@
 					"tableName": "CVs.NHDProduct"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_RegulatoryStatus')]",
@@ -9118,9 +5449,7 @@
 					"tableName": "CVs.RegulatoryStatus"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_ReportYearCV')]",
@@ -9162,9 +5491,7 @@
 					"tableName": "CVs.ReportYearCV"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_ReportYearType')]",
@@ -9206,9 +5533,7 @@
 					"tableName": "CVs.ReportYearType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_ReportingUnitType')]",
@@ -9250,9 +5575,7 @@
 					"tableName": "CVs.ReportingUnitType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_SDWISIdentifier')]",
@@ -9295,9 +5618,7 @@
 					"table": "SDWISIdentifier"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_SiteType')]",
@@ -9339,9 +5660,7 @@
 					"tableName": "CVs.SiteType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_USGSCategory')]",
@@ -9383,9 +5702,7 @@
 					"tableName": "CVs.USGSCategory"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_Units')]",
@@ -9427,9 +5744,7 @@
 					"tableName": "CVs.Units"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_Variable')]",
@@ -9471,9 +5786,7 @@
 					"tableName": "CVs.Variable"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_VariableSpecific')]",
@@ -9515,9 +5828,7 @@
 					"tableName": "CVs.VariableSpecific"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_WaterAllocationBasis')]",
@@ -9559,9 +5870,7 @@
 					"tableName": "CVs.WaterAllocationBasis"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_WaterAllocationType')]",
@@ -9603,9 +5912,7 @@
 					"tableName": "CVs.WaterAllocationType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_WaterQualityIndicator')]",
@@ -9647,9 +5954,7 @@
 					"tableName": "CVs.WaterQualityIndicator"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_WaterSourceType')]",
@@ -9691,76 +5996,7 @@
 					"tableName": "CVs.WaterSourceType"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_5oi')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Blob_CO_Amounts",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureBlob",
-				"structure": [
-					{
-						"name": "Prop_0",
-						"type": "String"
-					},
-					{
-						"name": "Prop_1",
-						"type": "String"
-					},
-					{
-						"name": "Prop_2",
-						"type": "String"
-					},
-					{
-						"name": "Prop_3",
-						"type": "String"
-					},
-					{
-						"name": "Prop_4",
-						"type": "String"
-					},
-					{
-						"name": "Prop_5",
-						"type": "String"
-					},
-					{
-						"name": "Prop_6",
-						"type": "String"
-					},
-					{
-						"name": "Prop_7",
-						"type": "String"
-					},
-					{
-						"name": "Prop_8",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "",
-						"nullValue": "\\N",
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": false
-					},
-					"fileName": "[parameters('DestinationDataset_5oi_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('DestinationDataset_5oi_properties_typeProperties_folderPath')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Blob_CO_Amounts')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_j78')]",
@@ -9783,13 +6019,11 @@
 						"skipLineCount": 0,
 						"firstRowAsHeader": false
 					},
-					"fileName": "[parameters('DestinationDataset_j78_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('DestinationDataset_j78_properties_typeProperties_folderPath')]"
+					"fileName": "",
+					"folderPath": "utahwaterrights"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/EpsgCodeCsv')]",
@@ -9856,9 +6090,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/GnisFeatureNameCsv')]",
@@ -9925,9 +6157,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/IrrigationMethodCsv')]",
@@ -9994,9 +6224,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LegalStatusCsv')]",
@@ -10063,9 +6291,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/MethodTypeCsv')]",
@@ -10132,9 +6358,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NaicsCodeCsv')]",
@@ -10201,9 +6425,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NhdNetworkStatusCsv')]",
@@ -10270,9 +6492,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NhdProductCsv')]",
@@ -10339,9 +6559,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NormalizedOrganizationsFile')]",
@@ -10404,15 +6622,13 @@
 						"firstRowAsHeader": true
 					},
 					"fileName": {
-						"value": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_fileName')]",
+						"value": "@concat(dataset().FolderIdentifier, '/organizations.csv')",
 						"type": "Expression"
 					},
-					"folderPath": "[parameters('NormalizedOrganizationsFile_properties_typeProperties_folderPath')]"
+					"folderPath": "normalizedimports"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/NormalizedWaterAllocationFile')]",
@@ -10564,15 +6780,13 @@
 						"firstRowAsHeader": true
 					},
 					"fileName": {
-						"value": "[parameters('NormalizedWaterAllocationFile_properties_typeProperties_fileName')]",
+						"value": "@concat(dataset().FileLocation, '/waterallocations.csv')",
 						"type": "Expression"
 					},
-					"folderPath": "[parameters('NormalizedWaterAllocationFile_properties_typeProperties_folderPath')]"
+					"folderPath": "normalizedimports"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/RegulatoryStatusCsv')]",
@@ -10639,9 +6853,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ReportYearCsv')]",
@@ -10708,9 +6920,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ReportYearTypeCsv')]",
@@ -10777,9 +6987,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ReportingUnitTypeCsv')]",
@@ -10846,9 +7054,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SDWISIdentifierCsv')]",
@@ -10915,9 +7121,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SiteTypeCsv')]",
@@ -10984,214 +7188,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_5oi')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DataColorado",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "HttpFile",
-				"structure": [
-					{
-						"name": "WDID",
-						"type": "String"
-					},
-					{
-						"name": "Structure Name",
-						"type": "String"
-					},
-					{
-						"name": "Structure Type",
-						"type": "String"
-					},
-					{
-						"name": "Water Source",
-						"type": "String"
-					},
-					{
-						"name": "GNIS ID",
-						"type": "String"
-					},
-					{
-						"name": "Stream Mile",
-						"type": "String"
-					},
-					{
-						"name": "DIV",
-						"type": "String"
-					},
-					{
-						"name": "WD",
-						"type": "String"
-					},
-					{
-						"name": "County",
-						"type": "String"
-					},
-					{
-						"name": "Q10",
-						"type": "String"
-					},
-					{
-						"name": "Q40",
-						"type": "String"
-					},
-					{
-						"name": "Q160",
-						"type": "String"
-					},
-					{
-						"name": "Section",
-						"type": "String"
-					},
-					{
-						"name": "Township",
-						"type": "String"
-					},
-					{
-						"name": "Range",
-						"type": "String"
-					},
-					{
-						"name": "PM",
-						"type": "String"
-					},
-					{
-						"name": "CoordsEW",
-						"type": "String"
-					},
-					{
-						"name": "CoordsEW Dir",
-						"type": "String"
-					},
-					{
-						"name": "CoordsNS",
-						"type": "String"
-					},
-					{
-						"name": "CoordsNS Dir",
-						"type": "String"
-					},
-					{
-						"name": "UTM x",
-						"type": "String"
-					},
-					{
-						"name": "UTM y",
-						"type": "String"
-					},
-					{
-						"name": "Latitude",
-						"type": "String"
-					},
-					{
-						"name": "Longitude",
-						"type": "String"
-					},
-					{
-						"name": "Location Accuracy",
-						"type": "String"
-					},
-					{
-						"name": "Adjudication Date",
-						"type": "String"
-					},
-					{
-						"name": "Previous Adj Date",
-						"type": "String"
-					},
-					{
-						"name": "Appropriation Date",
-						"type": "String"
-					},
-					{
-						"name": "Admin No",
-						"type": "String"
-					},
-					{
-						"name": "Order No",
-						"type": "String"
-					},
-					{
-						"name": "Priority No",
-						"type": "String"
-					},
-					{
-						"name": "Associated Case Numbers",
-						"type": "String"
-					},
-					{
-						"name": "Decreed Uses",
-						"type": "String"
-					},
-					{
-						"name": "Net Absolute",
-						"type": "String"
-					},
-					{
-						"name": "Net Conditional",
-						"type": "String"
-					},
-					{
-						"name": "Net APEX Absolute",
-						"type": "String"
-					},
-					{
-						"name": "Net APEX Conditional",
-						"type": "String"
-					},
-					{
-						"name": "Decreed Units",
-						"type": "String"
-					},
-					{
-						"name": "Seasonal Limits",
-						"type": "String"
-					},
-					{
-						"name": "Comments",
-						"type": "String"
-					},
-					{
-						"name": "Modified",
-						"type": "String"
-					},
-					{
-						"name": "More Information",
-						"type": "String"
-					},
-					{
-						"name": "Location",
-						"type": "String"
-					}
-				],
-				"typeProperties": {
-					"format": {
-						"type": "TextFormat",
-						"columnDelimiter": ",",
-						"rowDelimiter": "\n",
-						"quoteChar": "\"",
-						"nullValue": "\\N",
-						"encodingName": null,
-						"treatEmptyAsNull": true,
-						"skipLineCount": 0,
-						"firstRowAsHeader": true
-					},
-					"relativeUrl": "/api/views/a8zw-bjth/rows.csv?accessType=DOWNLOAD&api_foundry=true",
-					"requestMethod": "GET"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DataColorado')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_j78')]",
@@ -11670,13 +7667,11 @@
 						"skipLineCount": 0,
 						"firstRowAsHeader": true
 					},
-					"fileName": "[parameters('SourceDataset_j78_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('SourceDataset_j78_properties_typeProperties_folderPath')]"
+					"fileName": "WATER_MASTER.csv",
+					"folderPath": "utahwaterrights"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_AggregatedAmounts')]",
@@ -11779,9 +7774,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Converted_Points')]",
@@ -11828,9 +7821,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Flat_Uses')]",
@@ -11869,9 +7860,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Irrigation_Master')]",
@@ -11938,9 +7927,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Master_Water_Rights_Exchange')]",
@@ -12423,9 +8410,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Methods')]",
@@ -12492,9 +8477,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedAggregatedAmounts')]",
@@ -12604,9 +8587,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedMethods')]",
@@ -12680,9 +8661,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedOrganizations')]",
@@ -12752,9 +8731,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedReportingUnits')]",
@@ -12828,9 +8805,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedSites')]",
@@ -12916,9 +8891,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedVariables')]",
@@ -12996,9 +8969,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterAllocations')]",
@@ -13160,9 +9131,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_NormalizedWaterSources')]",
@@ -13228,9 +9197,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Organizations')]",
@@ -13293,9 +9260,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Owners')]",
@@ -13426,9 +9391,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Points_of_Diversion')]",
@@ -13543,9 +9506,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_ReportingUnits')]",
@@ -13612,9 +9573,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Variables')]",
@@ -13685,9 +9644,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_WaterSources')]",
@@ -13746,9 +9703,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UT_Water_Uses')]",
@@ -13963,9 +9918,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UnitsCsv')]",
@@ -14032,9 +9985,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/UsgsCategoryCsv')]",
@@ -14101,9 +10052,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/VariableCsv')]",
@@ -14170,9 +10119,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/VariableSpecificCsv')]",
@@ -14239,9 +10186,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseOrganizations')]",
@@ -14305,9 +10250,7 @@
 					"tableName": "OrganizationTable"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaDEDatabaseWaterAllocations')]",
@@ -14497,9 +10440,7 @@
 					"tableName": "WaterAllocationTable"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WaDE Database')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterAllocationBasisCsv')]",
@@ -14566,9 +10507,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterAllocationTypeCsv')]",
@@ -14635,9 +10574,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterMaster')]",
@@ -15116,13 +11053,11 @@
 						"skipLineCount": 0,
 						"firstRowAsHeader": true
 					},
-					"fileName": "[parameters('WaterMaster_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('WaterMaster_properties_typeProperties_folderPath')]"
+					"fileName": "WATER_MASTER.csv",
+					"folderPath": "utahwaterrights"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterQualityIndicatorCsv')]",
@@ -15189,9 +11124,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WaterSourceTypeCsv')]",
@@ -15258,9 +11191,7 @@
 					}
 				]
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/test_netAmount')]",
@@ -15495,201 +11426,11 @@
 						"skipLineCount": 1,
 						"firstRowAsHeader": false
 					},
-					"fileName": "[parameters('test_netAmount_properties_typeProperties_fileName')]",
-					"folderPath": "[parameters('test_netAmount_properties_typeProperties_folderPath')]"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage_connectionString')]"
+					"fileName": "Net_new.csv",
+					"folderPath": "cvimport"
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Blob_CO_Amounts')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('Blob_CO_Amounts_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CVsAPI')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "http://vocabulary.westernstateswater.org",
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('CVsAPI_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DataColorado')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('DataColorado_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/GitHub')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('GitHub_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WaDE Database')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"parameters": {
-					"databaseServer": {
-						"type": "String",
-						"defaultValue": "wade-qa-server.database.windows.net"
-					}
-				},
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"connectionString": "[parameters('WaDE Database_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/WaDE Import Functions')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureFunction",
-				"typeProperties": {
-					"functionAppUrl": "https://wadeimportfunctions.azurewebsites.net",
-					"functionKey": {
-						"type": "SecureString",
-						"value": "[parameters('WaDE Import Functions_functionKey')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ColoradoWaterAllocationFileArrived')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "Colorado Normalization",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2019-03-27T03:00:00Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"minutes": [
-								0
-							],
-							"hours": [
-								6
-							],
-							"weekDays": [
-								"Monday"
-							]
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/Colorado Normalization')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Load_CVs')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "LoadCVs",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "ScheduleTrigger",
-				"typeProperties": {
-					"recurrence": {
-						"frequency": "Week",
-						"interval": 1,
-						"startTime": "2019-04-09T21:19:00Z",
-						"timeZone": "UTC",
-						"schedule": {
-							"hours": [
-								10
-							],
-							"weekDays": [
-								"Monday",
-								"Friday"
-							]
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/LoadCVs')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/CvDataFlow')]",
@@ -15707,216 +11448,189 @@
 								"referenceName": "CropTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "CropTypeCSV",
-							"typeProperties": {}
+							"name": "CropTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "AggegationStatisticCsv",
 								"type": "DatasetReference"
 							},
-							"name": "AggregationStatisticCSV",
-							"typeProperties": {}
+							"name": "AggregationStatisticCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "ReportYearTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "ReportYearTypeCSV",
-							"typeProperties": {}
+							"name": "ReportYearTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "EpsgCodeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "EpsgCodeCSV",
-							"typeProperties": {}
+							"name": "EpsgCodeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "GnisFeatureNameCsv",
 								"type": "DatasetReference"
 							},
-							"name": "GnisFeatureNameCSV",
-							"typeProperties": {}
+							"name": "GnisFeatureNameCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "IrrigationMethodCsv",
 								"type": "DatasetReference"
 							},
-							"name": "IrrigationMethodCSV",
-							"typeProperties": {}
+							"name": "IrrigationMethodCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "LegalStatusCsv",
 								"type": "DatasetReference"
 							},
-							"name": "LegalStatusCSV",
-							"typeProperties": {}
+							"name": "LegalStatusCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "MethodTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "MethodTypeCSV",
-							"typeProperties": {}
+							"name": "MethodTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "NaicsCodeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "NaicsCodeCSV",
-							"typeProperties": {}
+							"name": "NaicsCodeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "NhdNetworkStatusCsv",
 								"type": "DatasetReference"
 							},
-							"name": "NhdNetworkStatusCSV",
-							"typeProperties": {}
+							"name": "NhdNetworkStatusCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "NhdProductCsv",
 								"type": "DatasetReference"
 							},
-							"name": "NhdProductCSV",
-							"typeProperties": {}
+							"name": "NhdProductCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "RegulatoryStatusCsv",
 								"type": "DatasetReference"
 							},
-							"name": "RegulatoryStatusCSV",
-							"typeProperties": {}
+							"name": "RegulatoryStatusCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "ReportingUnitTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "ReportingUnitTypeCSV",
-							"typeProperties": {}
+							"name": "ReportingUnitTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "ReportYearCsv",
 								"type": "DatasetReference"
 							},
-							"name": "ReportYearCSV",
-							"typeProperties": {}
+							"name": "ReportYearCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "SiteTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "SiteTypeCSV",
-							"typeProperties": {}
+							"name": "SiteTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "UnitsCsv",
 								"type": "DatasetReference"
 							},
-							"name": "UnitsCSV",
-							"typeProperties": {}
+							"name": "UnitsCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "UsgsCategoryCsv",
 								"type": "DatasetReference"
 							},
-							"name": "UsgsCategoryCSV",
-							"typeProperties": {}
+							"name": "UsgsCategoryCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "VariableCsv",
 								"type": "DatasetReference"
 							},
-							"name": "VariableCSV",
-							"typeProperties": {}
+							"name": "VariableCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "VariableSpecificCsv",
 								"type": "DatasetReference"
 							},
-							"name": "VariableSpecificCSV",
-							"typeProperties": {}
+							"name": "VariableSpecificCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "WaterAllocationBasisCsv",
 								"type": "DatasetReference"
 							},
-							"name": "WaterAllocationBasisCSV",
-							"typeProperties": {}
+							"name": "WaterAllocationBasisCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "WaterAllocationTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "WaterAllocationTypeCSV",
-							"typeProperties": {}
+							"name": "WaterAllocationTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "WaterQualityIndicatorCsv",
 								"type": "DatasetReference"
 							},
-							"name": "WaterQualityIndicatorCSV",
-							"typeProperties": {}
+							"name": "WaterQualityIndicatorCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "WaterSourceTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "WaterSourceTypeCSV",
-							"typeProperties": {}
+							"name": "WaterSourceTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "ApplicableResourceTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "ApplicableResourceTypeCSV",
-							"typeProperties": {}
+							"name": "ApplicableResourceTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "CoordinateMethodCsv",
 								"type": "DatasetReference"
 							},
-							"name": "CoordinateMethodCSV",
-							"typeProperties": {}
+							"name": "CoordinateMethodCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "CustomerTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "CustomerTypeCSV",
-							"typeProperties": {}
+							"name": "CustomerTypeCSV"
 						},
 						{
 							"dataset": {
 								"referenceName": "SDWISIdentifierCsv",
 								"type": "DatasetReference"
 							},
-							"name": "SDWISIdentifierCSV",
-							"typeProperties": {}
+							"name": "SDWISIdentifierCSV"
 						}
 					],
 					"sinks": [
@@ -16191,8 +11905,7 @@
 								"referenceName": "CropTypeCsv",
 								"type": "DatasetReference"
 							},
-							"name": "CropTypeCSV",
-							"typeProperties": {}
+							"name": "CropTypeCSV"
 						}
 					],
 					"sinks": [
@@ -16229,32 +11942,28 @@
 								"referenceName": "UT_Master_Water_Rights_Exchange",
 								"type": "DatasetReference"
 							},
-							"name": "UTMaster",
-							"typeProperties": {}
+							"name": "UTMaster"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Flat_Uses",
 								"type": "DatasetReference"
 							},
-							"name": "UTWaterUses",
-							"typeProperties": {}
+							"name": "UTWaterUses"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Owners",
 								"type": "DatasetReference"
 							},
-							"name": "UTOwners",
-							"typeProperties": {}
+							"name": "UTOwners"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Irrigation_Master",
 								"type": "DatasetReference"
 							},
-							"name": "UTIrrigationMaster",
-							"typeProperties": {}
+							"name": "UTIrrigationMaster"
 						}
 					],
 					"sinks": [
@@ -16331,8 +12040,7 @@
 								"referenceName": "UT_AggregatedAmounts",
 								"type": "DatasetReference"
 							},
-							"name": "UTAggregatedAmounts",
-							"typeProperties": {}
+							"name": "UTAggregatedAmounts"
 						}
 					],
 					"sinks": [
@@ -16369,8 +12077,7 @@
 								"referenceName": "UT_Methods",
 								"type": "DatasetReference"
 							},
-							"name": "UTMethods",
-							"typeProperties": {}
+							"name": "UTMethods"
 						}
 					],
 					"sinks": [
@@ -16407,8 +12114,7 @@
 								"referenceName": "UT_Organizations",
 								"type": "DatasetReference"
 							},
-							"name": "UTOrganizations",
-							"typeProperties": {}
+							"name": "UTOrganizations"
 						}
 					],
 					"sinks": [
@@ -16445,8 +12151,7 @@
 								"referenceName": "UT_ReportingUnits",
 								"type": "DatasetReference"
 							},
-							"name": "UTReportingUnits",
-							"typeProperties": {}
+							"name": "UTReportingUnits"
 						}
 					],
 					"sinks": [
@@ -16483,16 +12188,14 @@
 								"referenceName": "UT_Points_of_Diversion",
 								"type": "DatasetReference"
 							},
-							"name": "UTPointsOfDiversion",
-							"typeProperties": {}
+							"name": "UTPointsOfDiversion"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Converted_Points",
 								"type": "DatasetReference"
 							},
-							"name": "UTConvertedPoints",
-							"typeProperties": {}
+							"name": "UTConvertedPoints"
 						}
 					],
 					"sinks": [
@@ -16543,8 +12246,7 @@
 								"referenceName": "UT_Variables",
 								"type": "DatasetReference"
 							},
-							"name": "UTVariables",
-							"typeProperties": {}
+							"name": "UTVariables"
 						}
 					],
 					"sinks": [
@@ -16581,32 +12283,28 @@
 								"referenceName": "UT_Master_Water_Rights_Exchange",
 								"type": "DatasetReference"
 							},
-							"name": "UTMaster",
-							"typeProperties": {}
+							"name": "UTMaster"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Flat_Uses",
 								"type": "DatasetReference"
 							},
-							"name": "UTWaterUses",
-							"typeProperties": {}
+							"name": "UTWaterUses"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Owners",
 								"type": "DatasetReference"
 							},
-							"name": "UTOwners",
-							"typeProperties": {}
+							"name": "UTOwners"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_Irrigation_Master",
 								"type": "DatasetReference"
 							},
-							"name": "UTIrrigationMaster",
-							"typeProperties": {}
+							"name": "UTIrrigationMaster"
 						}
 					],
 					"sinks": [
@@ -16683,16 +12381,14 @@
 								"referenceName": "UT_Master_Water_Rights_Exchange",
 								"type": "DatasetReference"
 							},
-							"name": "UTMaster",
-							"typeProperties": {}
+							"name": "UTMaster"
 						},
 						{
 							"dataset": {
 								"referenceName": "UT_WaterSources",
 								"type": "DatasetReference"
 							},
-							"name": "UTWaterSources",
-							"typeProperties": {}
+							"name": "UTWaterSources"
 						}
 					],
 					"sinks": [

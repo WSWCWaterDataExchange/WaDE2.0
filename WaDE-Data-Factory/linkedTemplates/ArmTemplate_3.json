@@ -4,7 +4,7 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory Name",
+			"metadata": "Data Factory name",
 			"defaultValue": "WaDE-Data-Factory"
 		},
 		"DestinationDataset_5oi_properties_typeProperties_fileName": {
@@ -28,6 +28,177 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NAICSCode')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NAICSCode"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NHDNetworkStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NHDNetworkStatus"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_NHDProduct')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.NHDProduct"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_RegulatoryStatus')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"databaseServer": "wade-qa-server.database.windows.net"
+					}
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"tableName": "CVs.RegulatoryStatus"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Db_ReportYearCV')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -150,6 +321,49 @@
 				],
 				"typeProperties": {
 					"tableName": "CVs.ReportingUnitType"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Db_SDWISIdentifier')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WaDE Database",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "DB_CVs_tables"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Term",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Definition",
+						"type": "nvarchar"
+					},
+					{
+						"name": "State",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SourceVocabularyURI",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "CVs",
+					"table": "SDWISIdentifier"
 				}
 			},
 			"dependsOn": []
@@ -642,341 +856,6 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": "EpsgCode.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/GnisFeatureNameCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "GnisFeatureName.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/IrrigationMethodCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "IrrigationMethod.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LegalStatusCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "LegalStatus.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/MethodTypeCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "MethodType.csv",
-						"folderPath": "cvimport",
-						"container": "cvimport"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "term",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "state",
-						"type": "String"
-					},
-					{
-						"name": "abbreviation",
-						"type": "String"
-					},
-					{
-						"name": "definition",
-						"type": "String"
-					},
-					{
-						"name": "category",
-						"type": "String"
-					},
-					{
-						"name": "provenance",
-						"type": "String"
-					},
-					{
-						"name": "provenance_uri",
-						"type": "String"
-					},
-					{
-						"name": "note",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/NaicsCodeCsv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "CvBlobs"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "NaicsCode.csv",
 						"folderPath": "cvimport",
 						"container": "cvimport"
 					},

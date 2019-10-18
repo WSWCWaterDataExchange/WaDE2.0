@@ -4,7 +4,7 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory Name",
+			"metadata": "Data Factory name",
 			"defaultValue": "WaDE-Data-Factory"
 		}
 	},
@@ -12,6 +12,316 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Organizations_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_Organizations",
+								"type": "DatasetReference"
+							},
+							"name": "UTOrganizations",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedOrganizations",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedOrganizations"
+						}
+					],
+					"transformations": [],
+					"script": "\n\nsource(output(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTOrganizations\nUTOrganizations sink(input(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['organizations.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedOrganizations"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_ReportingUnits_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_ReportingUnits",
+								"type": "DatasetReference"
+							},
+							"name": "UTReportingUnits",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedReportingUnits",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedReportingUnits"
+						}
+					],
+					"transformations": [],
+					"script": "\n\nsource(output(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTReportingUnits\nUTReportingUnits sink(input(\n\t\tReportingUnitUUID as string,\n\t\tReportingUnitNativeID as string,\n\t\tReportingUnitName as string,\n\t\tReportingUnitTypeCV as string,\n\t\tReportingUnitUpdateDate as string,\n\t\tReportingUnitProductVersion as string,\n\t\tStateCV as string,\n\t\tEPSGCodeCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['reportingunits.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedReportingUnits"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Sites_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_Points_of_Diversion",
+								"type": "DatasetReference"
+							},
+							"name": "UTPointsOfDiversion",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "UT_Converted_Points",
+								"type": "DatasetReference"
+							},
+							"name": "UTConvertedPoints",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedSites",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedSites"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedPointsOfDiversion"
+						},
+						{
+							"name": "SelectPointsOfDiversion"
+						},
+						{
+							"name": "JoinConvertedPoints"
+						},
+						{
+							"name": "SelectJoined"
+						}
+					],
+					"script": "\n\nsource(output(\n\t\tWRCHEX as string,\n\t\tPOD_TYPE as string,\n\t\tNS_DIRECTION as string,\n\t\tNS_DISTANCE as string,\n\t\tEW_DIRECTION as string,\n\t\tEW_DISTANCE as string,\n\t\tSECTION_CORNER as string,\n\t\tSTR as string,\n\t\tDIVERTING_WORKS as string,\n\t\tPOD_COMMENT as string,\n\t\tWELL_DIAMETER as string,\n\t\tWELL_DEPTH1 as string,\n\t\tWELL_DEPTH2 as string,\n\t\tWELL_YEAR_DRILLED as string,\n\t\tWELL_LOG as string,\n\t\tWIN as string,\n\t\tX_UTM as string,\n\t\tY_UTM as string,\n\t\tELEVATION as string,\n\t\trecordId as string,\n\t\tMANUAL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTPointsOfDiversion\nsource(output(\n\t\tXCoord as string,\n\t\tYCoord as string,\n\t\tLatitude as string,\n\t\tLongitude as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTConvertedPoints\nUTPointsOfDiversion derive(SiteUUID = 'UT_' + WRCHEX,\n\t\tSiteNativeID = WRCHEX,\n\t\tSiteName = 'UT_' + WRCHEX,\n\t\tUSGSSiteID = '',\n\t\tSiteTypeCV = case(POD_TYPE == '', ''\r\n    ,POD_TYPE == 'A', 'UT_A'\r\n    ,POD_TYPE == 'C', 'UT_CFNP'\r\n    ,POD_TYPE == 'D', 'UT_D'\r\n    ,POD_TYPE == 'F', 'UT_CFNP'\r\n    ,POD_TYPE == 'G', 'Spring'\r\n    ,POD_TYPE == 'N', 'UT_CFNP'\r\n    ,POD_TYPE == 'P', 'UT_CFNP'\r\n    ,POD_TYPE == 'R', 'UT_R'\r\n    ,POD_TYPE == 'S', 'UT_S'\r\n    ,POD_TYPE == 'T', 'UT_T'\r\n    ,POD_TYPE == 'U', 'UT_U'),\n\t\tGeometry = '',\n\t\tCoordinateMethodCV = 'GPS',\n\t\tCoordinateAccuracy = '',\n\t\tGNISCodeCV = '',\n\t\tEPSGCodeCV = 'EPSG4326') ~> DerivedPointsOfDiversion\nDerivedPointsOfDiversion select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tXCoord = X_UTM,\n\t\tYCoord = Y_UTM\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectPointsOfDiversion\nSelectPointsOfDiversion, UTConvertedPoints join(SelectPointsOfDiversion@XCoord == UTConvertedPoints@XCoord\n\t&& SelectPointsOfDiversion@YCoord == UTConvertedPoints@YCoord,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinConvertedPoints\nJoinConvertedPoints select(mapColumn(\n\t\tSiteUUID,\n\t\tSiteNativeID,\n\t\tSiteName,\n\t\tUSGSSiteID,\n\t\tSiteTypeCV,\n\t\tGeometry,\n\t\tCoordinateMethodCV,\n\t\tCoordinateAccuracy,\n\t\tGNISCodeCV,\n\t\tEPSGCodeCV,\n\t\tLatitude,\n\t\tLongitude\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectJoined\nSelectJoined sink(input(\n\t\tSiteUUID as string,\n\t\tSiteNativeID as string,\n\t\tSiteName as string,\n\t\tUSGSSiteID as string,\n\t\tSiteTypeCV as string,\n\t\tLongitude as string,\n\t\tLatitude as string,\n\t\tGeometry as string,\n\t\tCoordinateMethodCV as string,\n\t\tCoordinateAccuracy as string,\n\t\tGNISCodeCV as string,\n\t\tEPSGCodeCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['sites.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedSites"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_Variables_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_Variables",
+								"type": "DatasetReference"
+							},
+							"name": "UTVariables",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedVariables",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedVariables"
+						}
+					],
+					"transformations": [],
+					"script": "\n\nsource(output(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTVariables\nUTVariables sink(input(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['variables.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedVariables"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_WaterAllocation_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_Master_Water_Rights_Exchange",
+								"type": "DatasetReference"
+							},
+							"name": "UTMaster",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "UT_Flat_Uses",
+								"type": "DatasetReference"
+							},
+							"name": "UTWaterUses",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "UT_Owners",
+								"type": "DatasetReference"
+							},
+							"name": "UTOwners",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "UT_Irrigation_Master",
+								"type": "DatasetReference"
+							},
+							"name": "UTIrrigationMaster",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedWaterAllocations",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedWaterAllocations"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedWaterUses"
+						},
+						{
+							"name": "JoinWaterUses"
+						},
+						{
+							"name": "JoinOwners"
+						},
+						{
+							"name": "JoinIrrigation"
+						},
+						{
+							"name": "DerivedOwners"
+						},
+						{
+							"name": "DerivedIrrigation"
+						},
+						{
+							"name": "DerivedMaster"
+						},
+						{
+							"name": "SelectMaster"
+						},
+						{
+							"name": "SelectOwners"
+						},
+						{
+							"name": "SelectIrrigation"
+						},
+						{
+							"name": "SelectWaterUses"
+						},
+						{
+							"name": "UnionWaterAllocations"
+						}
+					],
+					"script": "\n\nsource(output(\n\t\tWRNUM as string,\n\t\tAPPL_CLAIM_NUMBER as string,\n\t\tCERTIFICATE_NUMBER as string,\n\t\tLAND_OWNERSHIP as string,\n\t\tWREX_CFS as string,\n\t\tWREX_ANDOR as string,\n\t\tWREX_ACFT as string,\n\t\tWREX_SOURCE as string,\n\t\tWREX_COUNTY as string,\n\t\tCOMMON_DESCRIPTION as string,\n\t\tDATE_FILED as string,\n\t\tTAKEN_BY_INITIALS as string,\n\t\tDATE_PRIORITY as string,\n\t\tADV_NEWSPAPER as string,\n\t\tDATE_PUB_BEGAN as string,\n\t\tDATE_PROOF_PUB as string,\n\t\tPROTESTED as string,\n\t\tDATE_PROTEST_END as string,\n\t\tMEMO_DECISION as string,\n\t\tDATE_APPROVED_REJECTED as string,\n\t\tAPPROVED_REJECTED as string,\n\t\tDATE_PROOF_DUE as string,\n\t\tDATE_EXTENSION_FILED as string,\n\t\tELECTION_PROOF as string,\n\t\tDATE_ELECTION_PROOF as string,\n\t\tDATE_CERT_WUC_ISSUED as string,\n\t\tDATE_TERMINATED as string,\n\t\tPDBOOK_NUMBER as string,\n\t\tTYPE_OF_RIGHT as string,\n\t\tWREX_STATUS as string,\n\t\tDOCUMENT_ENTERED as string,\n\t\tMAP_NUMBER as string,\n\t\tDATE_RUSH_LETTER as string,\n\t\tDATE_RENOVATED as string,\n\t\tDATE_VERIFIED as string,\n\t\tVERIFIED_BY_INITIALS as string,\n\t\tENDORSEMENT_COMMENT1 as string,\n\t\tENDORSEMENT_COMMENT2 as string,\n\t\tENDORSEMENT_COMMENT3 as string,\n\t\tDATE_PUB_ENDED as string,\n\t\tMODIFIED_LOGON as string,\n\t\tDATE_RECON_REQUESTED as string,\n\t\tRECONSIDER_TYPE as string,\n\t\tIRRIGATION_DIVERSION as string,\n\t\tIRRIGATION_DEPLETION as string,\n\t\tSTOCK_DIVERSION as string,\n\t\tSTOCK_DEPLETION as string,\n\t\tDOMESTIC_DIVERSION as string,\n\t\tDOMESTIC_DEPLETION as string,\n\t\tMUNICIPAL_DIVERSION as string,\n\t\tMUNICIPAL_DEPLETION as string,\n\t\tMINING_DIVERSION as string,\n\t\tMINING_DEPLETION as string,\n\t\tPOWER_DIVERSION as string,\n\t\tPOWER_DEPLETION as string,\n\t\tOTHER_DIVERSION as string,\n\t\tOTHER_DEPLETION as string,\n\t\tEXNUM as string,\n\t\tEXCHANGE_BASE_WRNUM as string,\n\t\tEXCHANGE_CONTRACT_NUMBER as string,\n\t\tEXCHANGE_EVIDENCED1 as string,\n\t\tEXCHANGE_EVIDENCED2 as string,\n\t\tEXCHANGE_EVIDENCED3 as string,\n\t\tEXCHANGE_CFS as string,\n\t\tEXCHANGE_ANDOR as string,\n\t\tEXCHANGE_ACFT as string,\n\t\tEXCHANGE_BEG_DATE as string,\n\t\tEXCHANGE_END_DATE as string,\n\t\tEXCHANGE_SOURCE as string,\n\t\tEXCHANGE_COUNTY as string,\n\t\tEXCHANGE_PORELEASE_SAME as string,\n\t\tEXCHANGE_RELEASE_CFS as string,\n\t\tEXCHANGE_RELEASE_ANDOR as string,\n\t\tEXCHANGE_RELEASE_ACFT as string,\n\t\tEXCHANGE_RELEASE_BEG_DATE as string,\n\t\tEXCHANGE_RELEASE_END_DATE as string,\n\t\tWATER_USES as string,\n\t\tDATE_WUCS_RECEIVED as string,\n\t\tMANUAL_EVALUATION as string,\n\t\tACRE_FEET_EXPORTED as string,\n\t\tDATE_HEARING_HELD as string,\n\t\tDIVERSION_DUTY as string,\n\t\tDEPLETION_DUTY as string,\n\t\tGROWING_SEASON as string,\n\t\tDATE_FIELD_REVIEW as string,\n\t\tAREA_CODE as string,\n\t\tACTIVE_LITIGATION as string,\n\t\tDSYSDB_NUMBER as string,\n\t\tREPORT_TYPE as string,\n\t\tPROOF_DUE_YEARS as string,\n\t\tPUBLIC_VIEW as string,\n\t\tWATER_USE_REPORTING as string,\n\t\tSTREAM_ALT_REQUIRED as string,\n\t\tDAM_PERMIT_REQUIRED as string,\n\t\tWR_SOLE_SUPPLY as string,\n\t\tDATE_LAPSING_LETTER as string,\n\t\tSTOCK_COMPANY_ID as string,\n\t\tSHARES_OF_STOCK as string,\n\t\tOSE_SIGNATURE as string,\n\t\tCERT_SIGNATURE as string,\n\t\tPROOF_PROF_LICENSE_NUMBER as string,\n\t\tCOUNTY_TAX_ID as string,\n\t\tLAST_MODIFIED_TYPE as string,\n\t\tLAST_MODIFIED_TABLE as string,\n\t\tFILE_DESTROYED as string,\n\t\tDATE_50YEAR_PERIOD as string,\n\t\tSUB_BASIN_NUMBER as string,\n\t\tSUB_BASIN_NAME as string,\n\t\tDIVDEP_DOCUMENT_ID as string,\n\t\tFULL_SUPPLY_EQUIVALENCE as string,\n\t\tRECORD_ID as string,\n\t\tSHARES_DISTRIBUTION as string,\n\t\tDECREE_CLASS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTMaster\nsource(output(\n\t\tId as string,\n\t\tValue as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTWaterUses\nsource(output(\n\t\tWRCHEX as string,\n\t\tOWNER_NAME as string,\n\t\tOWNER_ADDRESS as string,\n\t\tOWNER_CITY as string,\n\t\tOWNER_STATE as string,\n\t\tOWNER_ZIPCODE as string,\n\t\tOWNER_INTEREST as string,\n\t\tOWNER_PHONE as string,\n\t\tOWNER_REMARKS as string,\n\t\tOWNER_CARE_OF as string,\n\t\tOWNER_EMAIL_ADDRESS as string,\n\t\tOWNER_FIRST_NAME as string,\n\t\tOWNER_LAST_NAME as string,\n\t\tOWNER_TITLE as string,\n\t\tOWNER_ADDRESS1 as string,\n\t\tOWNER_ADDRESS2 as string,\n\t\tOWNER_ADDRESS3 as string,\n\t\tDATE_WUC_SIGNED as string,\n\t\tBAD_ADDRESS as string,\n\t\tPUBLIC_WATER_SUPPLIER as string,\n\t\tTITLE_CONFLICT as string,\n\t\tTITLE_CONFLICT_COMMENTS as string,\n\t\tOWNER_TYPE as string,\n\t\tATTORNEY_RECORD_ID as string,\n\t\trecordId as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTOwners\nsource(output(\n\t\tWRNUM as string,\n\t\tGROUP_IDNUM as string,\n\t\tUSE_IDNUM as string,\n\t\tIRRIGATION_ACREAGE as string,\n\t\tSOLE_SUPPLY as string,\n\t\tDIVERSION_LIMIT as string,\n\t\tUSE_BEG_DATE as string,\n\t\tUSE_END_DATE as string,\n\t\tIRRIGATION_COMMENTS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTIrrigationMaster\nJoinWaterUses derive(BeneficialUseCategory = replace(replace(replace(replace(replace(replace(Value, 'OTH', 'Other'), 'POW', 'Power'), 'MUN', 'Mining'), 'STK', 'Stockwatering') , 'IRR', 'Irrigation'), 'DOM', 'Domestic'),\n\t\tPrimaryUseCategory = '') ~> DerivedWaterUses\nSelectMaster, UTWaterUses join(AllocationNativeID == Id,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinWaterUses\nSelectMaster, UTOwners join(AllocationNativeID == WRCHEX,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinOwners\nSelectMaster, UTIrrigationMaster join(AllocationNativeID == WRNUM,\n\tjoinType:'left',\n\tbroadcast: 'none')~> JoinIrrigation\nJoinOwners derive(AllocationOwner = OWNER_LAST_NAME + ', ' + OWNER_FIRST_NAME) ~> DerivedOwners\nJoinIrrigation derive(AllocationTimeframeStart = USE_BEG_DATE,\n\t\tAllocationTimeframeEnd = USE_END_DATE) ~> DerivedIrrigation\nUTMaster derive(OrganizationUUID = 'UTWRE',\n\t\tVariableSpecificUUID = 'Allocation All',\n\t\tSiteUUID = 'UT_' + WRNUM,\n\t\tWaterSourceUUID = 'UT_' + WRNUM,\n\t\tDataPublicationDate = toString(currentDate()),\n\t\tDataPublicationDOI = '',\n\t\tAllocationBasisCV = '',\n\t\tAllocationNativeID = WRNUM,\n\t\tAllocationLegalStatusCV = case(WREX_STATUS == 'ABAN', ''\r\n    ,WREX_STATUS == 'ADEC', 'UT_ADEC'\r\n    ,WREX_STATUS == 'AMEN', ''\r\n    ,WREX_STATUS == 'APP', 'UT_APP'\r\n    ,WREX_STATUS == 'CERT', 'UT_CERT'\r\n    ,WREX_STATUS == 'DIS', 'UT_DIS'\r\n    ,WREX_STATUS == 'EXP', 'UT_EXP'\r\n    ,WREX_STATUS == 'FORF', 'UT_FORF'\r\n    ,WREX_STATUS == 'INV', ''\r\n    ,WREX_STATUS == 'LAP', 'UT_LAP'\r\n    ,WREX_STATUS == 'LAPD', 'UT_LAPD'\r\n    ,WREX_STATUS == 'NPR', 'UT_NPR'\r\n    ,WREX_STATUS == 'NUSE', 'UT_NUSE'\r\n    ,WREX_STATUS == 'PERF', 'UT_PERF'\r\n    ,WREX_STATUS == 'REJ', 'UT_REJ'\r\n    ,WREX_STATUS == 'REJD', 'UT_REJD'\r\n    ,WREX_STATUS == 'RNUM', 'UT_RNUM'\r\n    ,WREX_STATUS == 'TERM', 'UT_TERM'\r\n    ,WREX_STATUS == 'UNAP', 'UT_UNAP'\r\n    ,WREX_STATUS == 'WD', 'UT_WD'\r\n    ,WREX_STATUS == 'WDD', 'UT_WDD'\r\n    ,WREX_STATUS == 'WUC', 'UT_WUC'),\n\t\tAllocationTypeCV = case(TYPE_OF_RIGHT == 'ADEC', 'UT_ADEC'\r\n    ,TYPE_OF_RIGHT == 'ADJC', ''\r\n    ,TYPE_OF_RIGHT == 'ADV', 'UT_ADV'\r\n    ,TYPE_OF_RIGHT == 'APPL', 'UT_APPL'\r\n    ,TYPE_OF_RIGHT == 'DEC', 'UT_DEC'\r\n    ,TYPE_OF_RIGHT == 'DIL', 'UT_DIL'\r\n    ,TYPE_OF_RIGHT == 'FEDR', 'UT_FEDR'\r\n    ,TYPE_OF_RIGHT == 'FIXD', 'UT_FIXD'\r\n    ,TYPE_OF_RIGHT == 'PAC', 'UT_PAC'\r\n    ,TYPE_OF_RIGHT == 'SHAR', 'UT_SHAR'\r\n    ,TYPE_OF_RIGHT == 'TEMP', 'UT_TEMP'\r\n    ,TYPE_OF_RIGHT == 'UGWC', 'UT_UGWC'),\n\t\tAllocationApplicationDate = toString(toDate(DATE_FILED, 'yyyyMMdd')),\n\t\tAllocationPriorityDate = toString(toDate(DATE_PRIORITY, 'yyyyMMdd')),\n\t\tAllocationExpirationDate = toString(toDate(DATE_TERMINATED, 'yyyyMMdd')),\n\t\tAllocationChangeApplicationIndicator = '',\n\t\tLegacyAllocationIDs = '',\n\t\tAllocationCropDutyAmount = IRRIGATION_DEPLETION,\n\t\tAllocationAmount = WREX_CFS,\n\t\tAllocationMaximum = WREX_ACFT,\n\t\tPopulationServed = '',\n\t\tPowerGeneratedGWh = '',\n\t\tAllocationCommunityWaterSupplySystem = '',\n\t\tAllocationSDWISIdentifier = '',\n\t\tIrrigatedAcreage = '',\n\t\tAllocationAssociatedWithdrawalSiteIDs = '',\n\t\tAllocationAssociatedConsumptiveUseSiteIDs = '',\n\t\tWaterAllocationNativeURL = '',\n\t\tMethodUUID = 'UT_WaterAllocation') ~> DerivedMaster\nDerivedMaster select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tMethodUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectMaster\nDerivedOwners select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tMethodUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tAllocationOwner\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectOwners\nDerivedIrrigation select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tMethodUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tAllocationTimeframeStart,\n\t\tAllocationTimeframeEnd\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectIrrigation\nDerivedWaterUses select(mapColumn(\n\t\tOrganizationUUID,\n\t\tVariableSpecificUUID,\n\t\tSiteUUID,\n\t\tWaterSourceUUID,\n\t\tDataPublicationDate,\n\t\tDataPublicationDOI,\n\t\tAllocationBasisCV,\n\t\tAllocationNativeID,\n\t\tAllocationLegalStatusCV,\n\t\tAllocationTypeCV,\n\t\tAllocationApplicationDate,\n\t\tAllocationPriorityDate,\n\t\tAllocationExpirationDate,\n\t\tAllocationChangeApplicationIndicator,\n\t\tLegacyAllocationIDs,\n\t\tAllocationCropDutyAmount,\n\t\tAllocationAmount,\n\t\tAllocationMaximum,\n\t\tPopulationServed,\n\t\tPowerGeneratedGWh,\n\t\tAllocationCommunityWaterSupplySystem,\n\t\tAllocationSDWISIdentifier,\n\t\tIrrigatedAcreage,\n\t\tAllocationAssociatedWithdrawalSiteIDs,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs,\n\t\tWaterAllocationNativeURL,\n\t\tBeneficialUseCategory,\n\t\tPrimaryUseCategory,\n\t\tMethodUUID\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectWaterUses\nSelectWaterUses, SelectMaster, SelectOwners, SelectIrrigation union(byName: true)~> UnionWaterAllocations\nUnionWaterAllocations sink(input(\n\t\tOrganizationUUID as string,\n\t\tVariableSpecificUUID as string,\n\t\tSiteUUID as string,\n\t\tWaterSourceUUID as string,\n\t\tMethodUUID as string,\n\t\tPrimaryUseCategory as string,\n\t\tBeneficialUseCategory as string,\n\t\tDataPublicationDate as string,\n\t\tDataPublicationDOI as string,\n\t\tAllocationNativeID as string,\n\t\tAllocationOwner as string,\n\t\tAllocationBasisCV as string,\n\t\tAllocationLegalStatusCV as string,\n\t\tAllocationTypeCV as string,\n\t\tAllocationApplicationDate as string,\n\t\tAllocationPriorityDate as string,\n\t\tAllocationExpirationDate as string,\n\t\tAllocationChangeApplicationIndicator as string,\n\t\tLegacyAllocationIDs as string,\n\t\tAllocationTimeframeStart as string,\n\t\tAllocationTimeframeEnd as string,\n\t\tAllocationCropDutyAmount as string,\n\t\tAllocationAmount as string,\n\t\tAllocationMaximum as string,\n\t\tPopulationServed as string,\n\t\tPowerGeneratedGWh as string,\n\t\tIrrigatedAcreage as string,\n\t\tAllocationCommunityWaterSupplySystem as string,\n\t\tAllocationSDWISIdentifier as string,\n\t\tAllocationAssociatedWithdrawalSiteIDs as string,\n\t\tAllocationAssociatedConsumptiveUseSiteIDs as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['waterallocations.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedWaterAllocations"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UT_WaterSources_Normalization')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "Utah"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "UT_Master_Water_Rights_Exchange",
+								"type": "DatasetReference"
+							},
+							"name": "UTMaster",
+							"typeProperties": {}
+						},
+						{
+							"dataset": {
+								"referenceName": "UT_WaterSources",
+								"type": "DatasetReference"
+							},
+							"name": "UTWaterSources",
+							"typeProperties": {}
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "UT_NormalizedWaterSources",
+								"type": "DatasetReference"
+							},
+							"name": "NormalizedWaterSources"
+						}
+					],
+					"transformations": [
+						{
+							"name": "DerivedMaster"
+						},
+						{
+							"name": "SelectWaterSources"
+						},
+						{
+							"name": "UnionWaterSources"
+						}
+					],
+					"script": "\n\nsource(output(\n\t\tWRNUM as string,\n\t\tAPPL_CLAIM_NUMBER as string,\n\t\tCERTIFICATE_NUMBER as string,\n\t\tLAND_OWNERSHIP as string,\n\t\tWREX_CFS as string,\n\t\tWREX_ANDOR as string,\n\t\tWREX_ACFT as string,\n\t\tWREX_SOURCE as string,\n\t\tWREX_COUNTY as string,\n\t\tCOMMON_DESCRIPTION as string,\n\t\tDATE_FILED as string,\n\t\tTAKEN_BY_INITIALS as string,\n\t\tDATE_PRIORITY as string,\n\t\tADV_NEWSPAPER as string,\n\t\tDATE_PUB_BEGAN as string,\n\t\tDATE_PROOF_PUB as string,\n\t\tPROTESTED as string,\n\t\tDATE_PROTEST_END as string,\n\t\tMEMO_DECISION as string,\n\t\tDATE_APPROVED_REJECTED as string,\n\t\tAPPROVED_REJECTED as string,\n\t\tDATE_PROOF_DUE as string,\n\t\tDATE_EXTENSION_FILED as string,\n\t\tELECTION_PROOF as string,\n\t\tDATE_ELECTION_PROOF as string,\n\t\tDATE_CERT_WUC_ISSUED as string,\n\t\tDATE_TERMINATED as string,\n\t\tPDBOOK_NUMBER as string,\n\t\tTYPE_OF_RIGHT as string,\n\t\tWREX_STATUS as string,\n\t\tDOCUMENT_ENTERED as string,\n\t\tMAP_NUMBER as string,\n\t\tDATE_RUSH_LETTER as string,\n\t\tDATE_RENOVATED as string,\n\t\tDATE_VERIFIED as string,\n\t\tVERIFIED_BY_INITIALS as string,\n\t\tENDORSEMENT_COMMENT1 as string,\n\t\tENDORSEMENT_COMMENT2 as string,\n\t\tENDORSEMENT_COMMENT3 as string,\n\t\tDATE_PUB_ENDED as string,\n\t\tMODIFIED_LOGON as string,\n\t\tDATE_RECON_REQUESTED as string,\n\t\tRECONSIDER_TYPE as string,\n\t\tIRRIGATION_DIVERSION as string,\n\t\tIRRIGATION_DEPLETION as string,\n\t\tSTOCK_DIVERSION as string,\n\t\tSTOCK_DEPLETION as string,\n\t\tDOMESTIC_DIVERSION as string,\n\t\tDOMESTIC_DEPLETION as string,\n\t\tMUNICIPAL_DIVERSION as string,\n\t\tMUNICIPAL_DEPLETION as string,\n\t\tMINING_DIVERSION as string,\n\t\tMINING_DEPLETION as string,\n\t\tPOWER_DIVERSION as string,\n\t\tPOWER_DEPLETION as string,\n\t\tOTHER_DIVERSION as string,\n\t\tOTHER_DEPLETION as string,\n\t\tEXNUM as string,\n\t\tEXCHANGE_BASE_WRNUM as string,\n\t\tEXCHANGE_CONTRACT_NUMBER as string,\n\t\tEXCHANGE_EVIDENCED1 as string,\n\t\tEXCHANGE_EVIDENCED2 as string,\n\t\tEXCHANGE_EVIDENCED3 as string,\n\t\tEXCHANGE_CFS as string,\n\t\tEXCHANGE_ANDOR as string,\n\t\tEXCHANGE_ACFT as string,\n\t\tEXCHANGE_BEG_DATE as string,\n\t\tEXCHANGE_END_DATE as string,\n\t\tEXCHANGE_SOURCE as string,\n\t\tEXCHANGE_COUNTY as string,\n\t\tEXCHANGE_PORELEASE_SAME as string,\n\t\tEXCHANGE_RELEASE_CFS as string,\n\t\tEXCHANGE_RELEASE_ANDOR as string,\n\t\tEXCHANGE_RELEASE_ACFT as string,\n\t\tEXCHANGE_RELEASE_BEG_DATE as string,\n\t\tEXCHANGE_RELEASE_END_DATE as string,\n\t\tWATER_USES as string,\n\t\tDATE_WUCS_RECEIVED as string,\n\t\tMANUAL_EVALUATION as string,\n\t\tACRE_FEET_EXPORTED as string,\n\t\tDATE_HEARING_HELD as string,\n\t\tDIVERSION_DUTY as string,\n\t\tDEPLETION_DUTY as string,\n\t\tGROWING_SEASON as string,\n\t\tDATE_FIELD_REVIEW as string,\n\t\tAREA_CODE as string,\n\t\tACTIVE_LITIGATION as string,\n\t\tDSYSDB_NUMBER as string,\n\t\tREPORT_TYPE as string,\n\t\tPROOF_DUE_YEARS as string,\n\t\tPUBLIC_VIEW as string,\n\t\tWATER_USE_REPORTING as string,\n\t\tSTREAM_ALT_REQUIRED as string,\n\t\tDAM_PERMIT_REQUIRED as string,\n\t\tWR_SOLE_SUPPLY as string,\n\t\tDATE_LAPSING_LETTER as string,\n\t\tSTOCK_COMPANY_ID as string,\n\t\tSHARES_OF_STOCK as string,\n\t\tOSE_SIGNATURE as string,\n\t\tCERT_SIGNATURE as string,\n\t\tPROOF_PROF_LICENSE_NUMBER as string,\n\t\tCOUNTY_TAX_ID as string,\n\t\tLAST_MODIFIED_TYPE as string,\n\t\tLAST_MODIFIED_TABLE as string,\n\t\tFILE_DESTROYED as string,\n\t\tDATE_50YEAR_PERIOD as string,\n\t\tSUB_BASIN_NUMBER as string,\n\t\tSUB_BASIN_NAME as string,\n\t\tDIVDEP_DOCUMENT_ID as string,\n\t\tFULL_SUPPLY_EQUIVALENCE as string,\n\t\tRECORD_ID as string,\n\t\tSHARES_DISTRIBUTION as string,\n\t\tDECREE_CLASS as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTMaster\nsource(output(\n\t\tWaterSourceUUID as string,\n\t\tWaterSourceNativeID as string,\n\t\tWaterSourceName as string,\n\t\tWaterSourceTypeCV as string,\n\t\tWaterQualityIndicatorCV as string,\n\t\tGNISFeatureNameCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTWaterSources\nUTMaster derive(WaterSourceUUID = 'UT_' + WRNUM,\n\t\tWaterSourceNativeID = WRNUM,\n\t\tWaterSourceName = WREX_SOURCE,\n\t\tWaterSourceTypeCV = 'unknown',\n\t\tWaterQualityIndicatorCV = 'Fresh',\n\t\tGNISFeatureNameCV = '',\n\t\tGeometry = '') ~> DerivedMaster\nDerivedMaster select(mapColumn(\n\t\tWaterSourceUUID,\n\t\tWaterSourceNativeID,\n\t\tWaterSourceName,\n\t\tWaterSourceTypeCV,\n\t\tWaterQualityIndicatorCV,\n\t\tGNISFeatureNameCV,\n\t\tGeometry\n\t),\n\tskipDuplicateMapInputs: false,\n\tskipDuplicateMapOutputs: false) ~> SelectWaterSources\nSelectWaterSources, UTWaterSources union(byName: true)~> UnionWaterSources\nUnionWaterSources sink(input(\n\t\tWaterSourceUUID as string,\n\t\tWaterSourceNativeID as string,\n\t\tWaterSourceName as string,\n\t\tWaterSourceTypeCV as string,\n\t\tWaterQualityIndicatorCV as string,\n\t\tGNISFeatureNameCV as string,\n\t\tGeometry as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['watersources.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedWaterSources"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Debug UT Normalization')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -86,10 +396,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -209,10 +519,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -350,10 +660,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -482,10 +792,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -614,10 +924,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -746,10 +1056,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -878,10 +1188,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1010,10 +1320,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1142,10 +1452,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1274,10 +1584,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1406,10 +1716,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1538,10 +1848,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1670,10 +1980,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1802,10 +2112,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -1934,10 +2244,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2066,10 +2376,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2198,10 +2508,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2330,10 +2640,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2462,10 +2772,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2594,10 +2904,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2726,10 +3036,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2858,10 +3168,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -2990,10 +3300,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -3255,6 +3565,18 @@
 								"dependencyConditions": [
 									"Succeeded"
 								]
+							},
+							{
+								"activity": "Copy_CustomerType",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							},
+							{
+								"activity": "Copy_SDWISIdentifier",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
 						],
 						"policy": {
@@ -3296,6 +3618,8 @@
 									"WaterSourceTypeCSV": {},
 									"ApplicableResourceTypeCSV": {},
 									"CoordinateMethodCSV": {},
+									"CustomerTypeCSV": {},
+									"SDWISIdentifierCSV": {},
 									"CropTypeCvDb": {},
 									"AggregationStatisticCvDb": {},
 									"ReportYearTypeCvDb": {},
@@ -3320,7 +3644,9 @@
 									"WaterQualityIndicatorCvDb": {},
 									"WaterSourceTypeCvDb": {},
 									"ApplicableResourceTypeCvDb": {},
-									"CoordinateMethodCvDb": {}
+									"CoordinateMethodCvDb": {},
+									"CustomerTypeCvDb": {},
+									"SDWISIdentifierCvDb": {}
 								}
 							},
 							"staging": {}
@@ -3346,10 +3672,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -3478,10 +3804,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -3589,6 +3915,264 @@
 								"parameters": {}
 							}
 						]
+					},
+					{
+						"name": "Copy_CustomerType",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 1
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 2
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 3
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 4
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 5
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 6
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 7
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 8
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_CustomerType",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "CustomerTypeCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					},
+					{
+						"name": "Copy_SDWISIdentifier",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".csv"
+								}
+							},
+							"enableStaging": false,
+							"enableSkipIncompatibleRow": true,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "term"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 1
+										}
+									},
+									{
+										"source": {
+											"name": "name"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 2
+										}
+									},
+									{
+										"source": {
+											"name": "state"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 3
+										}
+									},
+									{
+										"source": {
+											"name": "definition"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 4
+										}
+									},
+									{
+										"source": {
+											"name": "category"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 5
+										}
+									},
+									{
+										"source": {
+											"name": "provenance"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 6
+										}
+									},
+									{
+										"source": {
+											"name": "provenance_uri"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 7
+										}
+									},
+									{
+										"source": {
+											"name": "note"
+										},
+										"sink": {
+											"type": "String",
+											"ordinal": 8
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "CVs_SDWISIdentifier",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "SDWISIdentifierCsv",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"annotations": []
@@ -3621,10 +4205,10 @@
 							"sink": {
 								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSetting"
+									"type": "AzureBlobStorageWriteSettings"
 								},
 								"formatSettings": {
-									"type": "DelimitedTextWriteSetting",
+									"type": "DelimitedTextWriteSettings",
 									"quoteAllText": true,
 									"fileExtension": ".csv"
 								}
@@ -4155,7 +4739,14 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/UT_WaterAllocation_Normalization')]",
+				"[concat(variables('factoryId'), '/dataflows/UT_WaterSources_Normalization')]",
+				"[concat(variables('factoryId'), '/dataflows/UT_Sites_Normalization')]",
+				"[concat(variables('factoryId'), '/dataflows/UT_Organizations_Normalization')]",
+				"[concat(variables('factoryId'), '/dataflows/UT_Variables_Normalization')]",
+				"[concat(variables('factoryId'), '/dataflows/UT_ReportingUnits_Normalization')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ColoradoWaterAllocationFileArrived')]",
