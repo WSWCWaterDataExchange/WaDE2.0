@@ -29,6 +29,7 @@
     </None>
   </ItemGroup>
   <PropertyGroup>               
-    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>
+    <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>               
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 </Project>
