@@ -45,7 +45,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
+                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
@@ -89,13 +89,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = siteVariableAmounts.Select(a => a.SiteVariableAmountId).ToArray();
                 var beneficialUses = db.SitesBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.SiteVariableAmountId))
-                    .Select(a => new { a.SiteVariableAmountId, a.BeneficialUseId })
+                    .Select(a => new { a.SiteVariableAmountId, a.BeneficialUseCV })
                     .ToList();
                 foreach (var siteVariableAmount in siteVariableAmounts)
                 {
                     siteVariableAmount.BeneficialUses = beneficialUses
                         .Where(a => a.SiteVariableAmountId == siteVariableAmount.SiteVariableAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();

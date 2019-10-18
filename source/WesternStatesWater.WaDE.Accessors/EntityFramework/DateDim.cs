@@ -10,6 +10,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             AggregatedAmountsFactDataPublicationDateNavigation = new HashSet<AggregatedAmountsFact>();
             AggregatedAmountsFactTimeframeEnd = new HashSet<AggregatedAmountsFact>();
             AggregatedAmountsFactTimeframeStart = new HashSet<AggregatedAmountsFact>();
+           AllocationAmountsFactTimeframeEnd = new HashSet<AllocationAmountsFact>();
+            AllocationAmountsFactTimeframeStart = new HashSet<AllocationAmountsFact>();
             AllocationAmountsFactAllocationApplicationDateNavigation = new HashSet<AllocationAmountsFact>();
             AllocationAmountsFactAllocationExpirationDateNavigation = new HashSet<AllocationAmountsFact>();
             AllocationAmountsFactAllocationPriorityDateNavigation = new HashSet<AllocationAmountsFact>();
@@ -27,6 +29,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFactDataPublicationDateNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFactTimeframeEnd { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFactTimeframeStart { get; set; }
+        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactTimeframeEnd { get; set; }
+        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactTimeframeStart { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactAllocationApplicationDateNavigation { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactAllocationExpirationDateNavigation { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFactAllocationPriorityDateNavigation { get; set; }

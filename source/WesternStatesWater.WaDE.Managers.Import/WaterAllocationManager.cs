@@ -16,9 +16,9 @@ namespace WesternStatesWater.WaDE.Managers.Import
         public AccessorImport.IWaterAllocationAccessor ImportWaterAllocationAccessor { get; set; }
         public AccessorImport.IWaterAllocationFileAccessor ImportWaterAllocationFileAccessor { get; set; }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId)
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId, int startIndex, int count)
         {
-            var orgs = await ImportWaterAllocationFileAccessor.GetOrganizations(runId);
+            var orgs = await ImportWaterAllocationFileAccessor.GetOrganizations(runId, startIndex, count);
             if (!orgs.Any())
             {
                 return true;
@@ -26,9 +26,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadOrganizations(runId, orgs);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterAllocations(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetOrganizationsCount(string runId)
         {
-            var waterAllocations = await ImportWaterAllocationFileAccessor.GetWaterAllocations(runId);
+            return await ImportWaterAllocationFileAccessor.GetOrganizationsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterAllocations(string runId, int startIndex, int count)
+        {
+            var waterAllocations = await ImportWaterAllocationFileAccessor.GetWaterAllocations(runId, startIndex, count);
             if (!waterAllocations.Any())
             {
                 return true;
@@ -36,9 +41,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadWaterAllocation(runId, waterAllocations);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadAggregatedAmounts(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetWaterAllocationsCount(string runId)
         {
-            var aggregatedAmounts = await ImportWaterAllocationFileAccessor.GetAggregatedAmounts(runId);
+            return await ImportWaterAllocationFileAccessor.GetWaterAllocationsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadAggregatedAmounts(string runId, int startIndex, int count)
+        {
+            var aggregatedAmounts = await ImportWaterAllocationFileAccessor.GetAggregatedAmounts(runId, startIndex, count);
 
             if (!aggregatedAmounts.Any())
             {
@@ -48,9 +58,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadAggregatedAmounts(runId, aggregatedAmounts);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterSources(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetAggregatedAmountsCount(string runId)
         {
-            var waterSources = await ImportWaterAllocationFileAccessor.GetWaterSources(runId);
+            return await ImportWaterAllocationFileAccessor.GetAggregatedAmountsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadWaterSources(string runId, int startIndex, int count)
+        {
+            var waterSources = await ImportWaterAllocationFileAccessor.GetWaterSources(runId, startIndex, count);
 
             if (!waterSources.Any())
             {
@@ -60,9 +75,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadWaterSources(runId, waterSources);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetWaterSourcesCount(string runId)
         {
-            var methods = await ImportWaterAllocationFileAccessor.GetMethods(runId);
+            return await ImportWaterAllocationFileAccessor.GetWaterSourcesCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId, int startIndex, int count)
+        {
+            var methods = await ImportWaterAllocationFileAccessor.GetMethods(runId, startIndex, count);
 
             if (!methods.Any())
             {
@@ -72,9 +92,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadMethods(runId, methods);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryOverlays(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetMethodsCount(string runId)
         {
-            var regulatoryOverlays = await ImportWaterAllocationFileAccessor.GetRegulatoryOverlays(runId);
+            return await ImportWaterAllocationFileAccessor.GetMethodsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryOverlays(string runId, int startIndex, int count)
+        {
+            var regulatoryOverlays = await ImportWaterAllocationFileAccessor.GetRegulatoryOverlays(runId, startIndex, count);
 
             if (!regulatoryOverlays.Any())
             {
@@ -84,9 +109,31 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadRegulatoryOverlays(runId, regulatoryOverlays);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetRegulatoryOverlaysCount(string runId)
         {
-            var reportingUnits = await ImportWaterAllocationFileAccessor.GetReportingUnits(runId);
+            return await ImportWaterAllocationFileAccessor.GetRegulatoryOverlaysCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadRegulatoryReportingUnits(string runId, int startIndex, int count)
+        {
+            var regulatoryReportingUnits = await ImportWaterAllocationFileAccessor.GetRegulatoryReportingUnits(runId, startIndex, count);
+
+            if (!regulatoryReportingUnits.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadRegulatoryReportingUnits(runId, regulatoryReportingUnits);
+        }
+
+        async Task<int> ManagerImport.IWaterAllocationManager.GetRegulatoryReportingUnitsCount(string runId)
+        {
+            return await ImportWaterAllocationFileAccessor.GetRegulatoryReportingUnitsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadReportingUnits(string runId, int startIndex, int count)
+        {
+            var reportingUnits = await ImportWaterAllocationFileAccessor.GetReportingUnits(runId, startIndex, count);
 
             if (!reportingUnits.Any())
             {
@@ -96,9 +143,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadReportingUnits(runId, reportingUnits);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSites(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetReportingUnitsCount(string runId)
         {
-            var sites = await ImportWaterAllocationFileAccessor.GetSites(runId);
+            return await ImportWaterAllocationFileAccessor.GetReportingUnitsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSites(string runId, int startIndex, int count)
+        {
+            var sites = await ImportWaterAllocationFileAccessor.GetSites(runId, startIndex, count);
 
             if (!sites.Any())
             {
@@ -108,9 +160,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadSites(runId, sites);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSiteSpecificAmounts(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetSitesCount(string runId)
         {
-            var siteSpecificAmounts = await ImportWaterAllocationFileAccessor.GetSiteSpecificAmounts(runId);
+            return await ImportWaterAllocationFileAccessor.GetSitesCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadSiteSpecificAmounts(string runId, int startIndex, int count)
+        {
+            var siteSpecificAmounts = await ImportWaterAllocationFileAccessor.GetSiteSpecificAmounts(runId, startIndex, count);
 
             if (!siteSpecificAmounts.Any())
             {
@@ -120,9 +177,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationAccessor.LoadSiteSpecificAmounts(runId, siteSpecificAmounts);
         }
 
-        async Task<bool> ManagerImport.IWaterAllocationManager.LoadVariables(string runId)
+        async Task<int> ManagerImport.IWaterAllocationManager.GetSiteSpecificAmountsCount(string runId)
         {
-            var variables = await ImportWaterAllocationFileAccessor.GetVariables(runId);
+            return await ImportWaterAllocationFileAccessor.GetSiteSpecificAmountsCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadVariables(string runId, int startIndex, int count)
+        {
+            var variables = await ImportWaterAllocationFileAccessor.GetVariables(runId, startIndex, count);
 
             if (!variables.Any())
             {
@@ -130,6 +192,11 @@ namespace WesternStatesWater.WaDE.Managers.Import
             }
 
             return await ImportWaterAllocationAccessor.LoadVariables(runId, variables);
+        }
+
+        async Task<int> ManagerImport.IWaterAllocationManager.GetVariablesCount(string runId)
+        {
+            return await ImportWaterAllocationFileAccessor.GetVariablesCount(runId);
         }
     }
 }

@@ -25,7 +25,6 @@ namespace CvLoader
                 ("irrigationmethod", "irrigationmethod"),
                 ("legalstatus", "legalstatus"),
                 ("methodtype", "methodtype"),
-                ("naicscode", "naicscode"),
                 ("nhdnetworkstatus", "nhdnetworkstatus"),
                 ("nhdproduct", "nhdproduct"),
                 ("regulatorystatus", "regulatorystatus"),
@@ -33,7 +32,6 @@ namespace CvLoader
                 ("reportyear", "reportyearcv"),
                 ("sitetype", "sitetype"),
                 ("units", "units"),
-                ("usgscategory", "usgscategory"),
                 ("variable", "variable"),
                 ("variablespecific", "variablespecific"),
                 ("waterallocationbasis", "waterallocationbasis"),
@@ -41,7 +39,8 @@ namespace CvLoader
                 ("waterallocationtype", "waterallocationtype"),
                 ("watersourcetype", "watersourcetype"),
                 ("applicableresourcetype", "applicableresourcetype"),
-                ("coordinatemethod", "coordinatemethod")
+                ("coordinatemethod", "coordinatemethod"),
+                
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
         }

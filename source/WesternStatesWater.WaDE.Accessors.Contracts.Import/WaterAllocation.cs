@@ -23,6 +23,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
+
         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
@@ -56,23 +57,23 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         public DateTime? AllocationTimeframeEnd { get; set; }
 
-        public double? AllocationCropDutyAmount { get; set; }
+        public string AllocationCropDutyAmount { get; set; }
 
-        public double? AllocationAmount { get; set; }
+        public string AllocationAmount { get; set; }
 
-        public double? AllocationMaximum { get; set; }
+        public string AllocationMaximum { get; set; }
 
-        public long? PopulationServed { get; set; }
+        public string PopulationServed { get; set; }
 
-        public double? PowerGeneratedGWh { get; set; }
+        public string PowerGeneratedGWh { get; set; }
 
-        public double? IrrigatedAcreage { get; set; }
+        public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]
         public string AllocationCommunityWaterSupplySystem { get; set; }
 
         [NullValues("")]
-        public string AllocationSDWISIdentifier { get; set; }
+        public string AllocationSDWISIdentifierCV { get; set; }
 
         [NullValues("")]
         public string AllocationAssociatedWithdrawalSiteIDs { get; set; }
@@ -85,5 +86,26 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string LegacyAllocationIDs { get; set; }
+
+
+        [NullValues("")]
+        public string CustomerTypeCV { get; set; }
+
+        [NullValues("")]
+        public string IrrigationMethodCV { get; set; }
+
+        [NullValues("")]
+        public string CropTypeCV { get; set; }
+
+        [NullValues("")]
+        public string WaterAllocationNativeURL { get; set; }
+
+       
+
+
+        [NullValues("")]
+        public string CommunityWaterSupplySystem { get; set; }
+
+        
     }
 }

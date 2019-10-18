@@ -61,6 +61,7 @@ BEGIN
     )
     SELECT * INTO #TempErrorAggregatedAmountRecords FROM q1;
 
+	
     --if we have errors, insert them and bail out
     IF EXISTS(SELECT 1 FROM #TempErrorAggregatedAmountRecords) 
     BEGIN
@@ -68,6 +69,8 @@ BEGIN
         VALUES ('AggregatedAmounts', @RunId, (SELECT * FROM #TempErrorAggregatedAmountRecords FOR JSON PATH));
         RETURN 1;
     END
+
+	
 
     --set up missing Core.BeneficialUses_dim entries
     SELECT
@@ -150,6 +153,7 @@ BEGIN
             ,jaad.InterbasinTransferToID
             ,jaad.InterbasinTransferFromID
 			,jaad.RowNumber
+			
         FROM
             #TempJoinedAggregatedAmountData jaad
             LEFT OUTER JOIN Core.BeneficialUses_dim bu ON jaad.PrimaryUseCategory = bu.BeneficialUseCategory
@@ -168,6 +172,8 @@ BEGIN
 		AND Target.TimeframeStartID = Source.TimeframeStartID
 		AND Target.TimeframeEndID = Source.TimeframeEndID
 		AND Target.ReportYearCV = Source.ReportYearCV
+		
+
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationID
@@ -186,7 +192,8 @@ BEGIN
 			,PowerGeneratedGWh
 			,IrrigatedAcreage
 			,InterbasinTransferToID
-			,InterbasinTransferFromID)
+			,InterbasinTransferFromID
+			)
 		VALUES
 			(Source.OrganizationID
 			,Source.ReportingUnitID
@@ -204,7 +211,8 @@ BEGIN
 			,Source.PowerGeneratedGWh
 			,Source.IrrigatedAcreage
 			,Source.InterbasinTransferToID
-			,Source.InterbasinTransferFromID)
+			,Source.InterbasinTransferFromID
+			)
 		OUTPUT
 			inserted.AggregatedAmountID
 			,Source.RowNumber

@@ -135,6 +135,10 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 var flattenedRawMap = new FlattenedRawMap(keyCol, valueCol);
 
                 csv.Configuration.RegisterClassMap(flattenedRawMap);
+                ///////////////////////////////////////////////////
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.MissingFieldFound = null;
+                ///////////////////////////////////////////////////////
 
                 rawRecords = csv.GetRecords<FlattenedRaw>().ToList();
             }

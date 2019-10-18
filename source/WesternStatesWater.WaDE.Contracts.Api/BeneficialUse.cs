@@ -2,9 +2,12 @@
 {
     public class BeneficialUse
     {
-        public string BeneficialUseUUID { get; set; }
-        public string BeneficialUseCategory { get; set; }
-        public string USGSCategoryNameCV { get; set; }
-        public string NAICSCodeNameCV { get; set; }
+        public string Term { get; set; }
+        public string State { get; set; }
+        public string Definition { get; set; }
+        public string Name { get; set; }
+        public string SourceVocabularyURI { get; set; }
+        public string USGSCategory { get; set; }
+        public string NAICSCode { get; set; }
     }
 }

@@ -27,6 +27,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string EpsgcodeCv { get; set; }
         public string NhdnetworkStatusCv { get; set; }
         public string NhdproductCv { get; set; }
+        public string StateCv { get; set; }
 
         public virtual CoordinateMethod CoordinateMethodCvNavigation { get; set; }
         public virtual Epsgcode EpsgcodeCvNavigation { get; set; }
@@ -34,6 +35,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual NhdnetworkStatus NhdnetworkStatusCvNavigation { get; set; }
         public virtual Nhdproduct NhdproductCvNavigation { get; set; }
         public virtual SiteType SiteTypeCvNavigation { get; set; }
+        public virtual State StateCVNavigation { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
     }

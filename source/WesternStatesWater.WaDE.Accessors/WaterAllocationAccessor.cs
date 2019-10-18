@@ -47,7 +47,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.PrimaryBeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.BeneficialUseCategory == filters.BeneficialUseCv));
+                    query = query.Where(a => a.PrimaryBeneficialUse.Name == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
@@ -83,13 +83,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 var ids = allocationAmounts.Select(a => a.AllocationAmountId).ToArray();
                 var beneficialUses = db.AllocationBridgeBeneficialUsesFact
                     .Where(a => ids.Contains(a.AllocationAmountId))
-                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseId })
+                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseCV })
                     .ToList();
                 foreach (var allocationAmount in allocationAmounts)
                 {
                     allocationAmount.BeneficialUses = beneficialUses
                         .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.BeneficialUseID == a.BeneficialUseId)?.BeneficialUseCategory)
+                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();
@@ -270,6 +270,48 @@ namespace WesternStatesWater.WaDE.Accessors
                     SqlDbType = SqlDbType.Structured,
                     Value = regulatoryOverlays.Select(ConvertObjectToSqlDataRecords<AccessorImport.RegulatoryOverlay>.Convert).ToList(),
                     TypeName = "Core.RegulatoryOverlayTableType"
+                };
+
+                cmd.Parameters.Add(regulatoryParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
+        }
+
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadRegulatoryReportingUnits(string runId, IEnumerable<AccessorImport.RegulatoryReportingUnits> LoadRegulatoryReportingUnits)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadRegulatoryReportingUnits";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var regulatoryParam = new SqlParameter
+                {
+                    ParameterName = "@RegulatoryReportingUnitsTableType",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = LoadRegulatoryReportingUnits.Select(ConvertObjectToSqlDataRecords<AccessorImport.RegulatoryReportingUnits>.Convert).ToList(),
+                    TypeName = "Core.RegulatoryReportingUnitsTableType"
                 };
 
                 cmd.Parameters.Add(regulatoryParam);

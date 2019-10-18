@@ -12,8 +12,7 @@
 						"referenceName": "UT_Variables",
 						"type": "DatasetReference"
 					},
-					"name": "UTVariables",
-					"script": "source(output(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTVariables"
+					"name": "UTVariables"
 				}
 			],
 			"sinks": [
@@ -22,10 +21,11 @@
 						"referenceName": "UT_NormalizedVariables",
 						"type": "DatasetReference"
 					},
-					"name": "NormalizedVariables",
-					"script": "UTVariables sink(input(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['variables.csv']) ~> NormalizedVariables"
+					"name": "NormalizedVariables"
 				}
-			]
+			],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTVariables\nUTVariables sink(input(\n\t\tVariableSpecificUUID as string,\n\t\tVariableSpecificCV as string,\n\t\tVariableCV as string,\n\t\tAggregationStatisticCV as string,\n\t\tAggregationInterval as string,\n\t\tAggregationIntervalUnitCV as string,\n\t\tReportYearStartMonth as string,\n\t\tReportYearTypeCV as string,\n\t\tAmountUnitCV as string,\n\t\tMaximumAmountUnitCV as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['variables.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedVariables"
 		}
 	}
 }

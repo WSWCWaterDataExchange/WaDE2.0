@@ -8,6 +8,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public IrrigationMethod()
         {
             SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
+            AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
+            AggregatedAmountsFact = new HashSet<AggregatedAmountsFact>();
         }
 
         public string Name { get; set; }
@@ -17,5 +19,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string SourceVocabularyUri { get; set; }
 
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
+
+        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
+       
+        public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
+
+
     }
 }

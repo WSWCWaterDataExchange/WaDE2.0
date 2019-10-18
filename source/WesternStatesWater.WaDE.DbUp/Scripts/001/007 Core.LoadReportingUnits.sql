@@ -10,28 +10,50 @@ BEGIN
     INTO #TempReportingUnitData
     FROM @ReportingUnitTable;
 
+	 SELECT
+        jru.*
+        ,ep.Name epname
+		,ru.Name runame
+		,st.Name stname
+		
+		
+	INTO
+		#TempJoinedReportingUnitData
+    FROM
+        #TempReportingUnitData jru
+		LEFT OUTER JOIN CVs.EPSGCode ep ON jru.EPSGCodeCV = ep.Name
+		LEFT OUTER JOIN CVs.ReportingUnitType ru ON jru.ReportingUnitTypeCV = ru.Name
+        LEFT OUTER JOIN CVs.State st ON jru.StateCV = st.Name;
+       
+
     --data validation
     WITH q1 AS
     (
         SELECT 'ReportingUnitUUID Not Valid' Reason, *
-        FROM #TempReportingUnitData
+        FROM #TempJoinedReportingUnitData
         WHERE ReportingUnitUUID IS NULL
         UNION ALL
         SELECT 'ReportingUnitNativeID Not Valid' Reason, *
-        FROM #TempReportingUnitData
+        FROM #TempJoinedReportingUnitData
         WHERE ReportingUnitNativeID IS NULL
         UNION ALL
         SELECT 'ReportingUnitName Not Valid' Reason, *
-        FROM #TempReportingUnitData
+        FROM #TempJoinedReportingUnitData
         WHERE ReportingUnitName IS NULL
         UNION ALL
         SELECT 'ReportingUnitTypeCV Not Valid' Reason, *
-        FROM #TempReportingUnitData
+        FROM #TempJoinedReportingUnitData
         WHERE ReportingUnitTypeCV IS NULL
         UNION ALL
         SELECT 'StateCV Not Valid' Reason, *
-        FROM #TempReportingUnitData
+        FROM #TempJoinedReportingUnitData
         WHERE StateCV IS NULL
+		UNION ALL
+		SELECT 'EPSGCode Not Valid' Reason, *
+        FROM #TempJoinedReportingUnitData
+        WHERE EPSGCodeCV IS NULL
+
+
     )
     SELECT * INTO #TempErrorReportingUnitRecords FROM q1;
 
@@ -42,7 +64,8 @@ BEGIN
         VALUES ('ReportingUnits', @RunId, (SELECT * FROM #TempErrorReportingUnitRecords FOR JSON PATH));
         RETURN 1;
     END
-	
+
+
     --merge the data
     MERGE INTO Core.ReportingUnits_dim AS Target USING #TempReportingUnitData AS Source ON
 		Target.ReportingUnitUUID = Source.ReportingUnitUUID

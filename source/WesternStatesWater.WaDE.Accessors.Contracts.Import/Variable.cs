@@ -4,11 +4,12 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class Variable
     {
-        [NullValues("")]
-        public string VariableSpecificUUID { get; set; }
 
         [NullValues("")]
         public string VariableSpecificCV { get; set; }
+
+        [NullValues("")]
+        public string VariableSpecificUUID { get; set; }
 
         [NullValues("")]
         public string VariableCV { get; set; }
@@ -16,7 +17,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AggregationStatisticCV { get; set; }
 
-        public double AggregationInterval { get; set; }
+        public string AggregationInterval { get; set; }
 
         [NullValues("")]
         public string AggregationIntervalUnitCV { get; set; }

@@ -12,8 +12,7 @@
 						"referenceName": "UT_Organizations",
 						"type": "DatasetReference"
 					},
-					"name": "UTOrganizations",
-					"script": "source(output(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTOrganizations"
+					"name": "UTOrganizations"
 				}
 			],
 			"sinks": [
@@ -22,10 +21,11 @@
 						"referenceName": "UT_NormalizedOrganizations",
 						"type": "DatasetReference"
 					},
-					"name": "NormalizedOrganizations",
-					"script": "UTOrganizations sink(input(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionBy('hash', 1),\n\tpartitionFileNames:['organizations.csv']) ~> NormalizedOrganizations"
+					"name": "NormalizedOrganizations"
 				}
-			]
+			],
+			"transformations": [],
+			"script": "\n\nsource(output(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false) ~> UTOrganizations\nUTOrganizations sink(input(\n\t\tOrganizationUUID as string,\n\t\tOrganizationName as string,\n\t\tOrganizationPurview as string,\n\t\tOrganizationWebsite as string,\n\t\tOrganizationPhoneNumber as string,\n\t\tOrganizationContactName as string,\n\t\tOrganizationContactEmail as string,\n\t\tDataMappingURL as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['organizations.csv'],\n\tpartitionBy('hash', 1)) ~> NormalizedOrganizations"
 		}
 	}
 }
