@@ -3,7 +3,10 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "WaDE Database",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"databaseServer": "wade-qa-server.database.windows.net"
+			}
 		},
 		"folder": {
 			"name": "DB_CVs_tables"
