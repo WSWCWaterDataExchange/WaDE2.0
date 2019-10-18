@@ -236,11 +236,6 @@ namespace WesternStatesWater.WaDE.DbUp
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Success!");
             Console.ResetColor();
-
-            if (Environment.UserInteractive)
-            {
-                Console.ReadLine();
-            }
         }
     }
 }
