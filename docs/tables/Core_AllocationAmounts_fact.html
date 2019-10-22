@@ -42,27 +42,18 @@
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_SiteID.html">SiteID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Internal unique identifier integer</td><td class="FkCol">
-<p class="boolImg">
-<img src="../images/ok12d.gif"></p>
-</td>
-</tr>
-<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_WaterSourceID.html">WaterSourceID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to water source</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_MethodID.html">MethodID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">A unique identifierfor each database instance that implements the table</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_PrimaryUseCategoryCV.html">PrimaryUseCategoryCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -71,26 +62,26 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_DataPublicationDateID.html">DataPublicationDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date that these data were published by the data provider	</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_DataPublicationDOI.html">DataPublicationDOI</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>a unique digital object identifier into the original dataset</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationNativeID.html">AllocationNativeID</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Unique identifier for the allocation as-is in the member states, can be alphanumeric	</td><td> </td>
 </tr>
-<tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationApplicationDate.html">AllocationApplicationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationApplicationDateID.html">AllocationApplicationDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date of the original filing on the allocation	
@@ -99,15 +90,15 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationPriorityDate.html">AllocationPriorityDate</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Priority Date given to the allocation	
+<tr>
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationPriorityDateID.html">AllocationPriorityDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Priority Date given to the allocation	
 </td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationExpirationDate.html">AllocationExpirationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<tr class="altRow">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationExpirationDateID.html">AllocationExpirationDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">If the allocation is temporary, add the expiration date	</td><td class="FkCol">
@@ -115,13 +106,13 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationOwner.html">AllocationOwner</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationBasisCV.html">AllocationBasisCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -130,7 +121,7 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationLegalStatusCV.html">AllocationLegalStatusCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -139,7 +130,7 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationTypeCV.html">AllocationTypeCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -148,61 +139,61 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationTimeframeStart.html">AllocationTimeframeStart</a></td><td>NVarChar(5)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Start month/day for the allocation each year in MM/DD</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationTimeframeEnd.html">AllocationTimeframeEnd</a></td><td>NVarChar(5)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>End month/day for the allocation each year in MM/DD</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationCropDutyAmount.html">AllocationCropDutyAmount</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Duty amount per acre in feet, if available</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationAmount.html">AllocationAmount</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The allocation amount</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationMaximum.html">AllocationMaximum</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Amount of the allocation maximum or cap</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_PopulationServed.html">PopulationServed</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Population served by the aggregated variable amount, If municipal or community water supply is a specified beneficial use</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_PowerGeneratedGWh.html">PowerGeneratedGWh</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>GWh to be generated by the aggregated variable amount, if thermoelectric is a specified beneficial use	</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_IrrigatedAcreage.html">IrrigatedAcreage</a></td><td>Float</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Number of acres irrigated by the aggregated variable amount, if irrigation or agriculture is a specified beneficial use</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationCommunityWaterSupplySystem.html">AllocationCommunityWaterSupplySystem</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the use is municipal, the data provider can add the SDWIS identifier for the CWS. Only for site specific data. Leave it null for aggregate data</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_CustomerTypeCV.html">CustomerTypeCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -211,7 +202,7 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AllocationAmounts_fact_AllocationSDWISIdentifierCV.html">AllocationSDWISIdentifierCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -220,31 +211,31 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationAssociatedWithdrawalSiteIDs.html">AllocationAssociatedWithdrawalSiteIDs</a></td><td>NVarChar(500)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If this water allocation has one or more associate diversions, add the diversion IDs as comma separated list</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_WaterAllcationNativeURL.html">WaterAllcationNativeURL</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Refers back to the state URL that describes the water right e.g., https://www.waterrights.utah.gov/asp_apps/wrprint/wrprint.asp?wrnum=55-12888</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationAssociatedConsumptiveUseSiteIDs.html">AllocationAssociatedConsumptiveUseSiteIDs</a></td><td>NVarChar(500)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If this water allocation has one or more associate consumptive uses, add the consumptive use IDs as comma separated list</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_AllocationChangeApplicationIndicator.html">AllocationChangeApplicationIndicator</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Indicate if this allocation was the result of a change application</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AllocationAmounts_fact_LegacyAllocationIDs.html">LegacyAllocationIDs</a></td><td>NVarChar(250)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -263,48 +254,45 @@
 <td class="header">Name</td><td class="header">Parent Table</td><td class="header">Child Table</td><td class="header">Parent Columns</td><td class="header">Child Columns</td>
 </tr>
 <tr>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_BeneficialUseCategory.html">fk_AllocationAmounts_fact_BeneficialUseCategory</a></td><td><a href="../tables/CVs_BeneficialUseCategory.html">CVs.BeneficialUseCategory</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>PrimaryUseCategoryCV</td>
+</tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_CustomerTypeCV.html">fk_AllocationAmounts_fact_CustomerTypeCV</a></td><td><a href="../tables/CVs_CustomerTypeCV.html">CVs.CustomerTypeCV</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>CustomerTypeCV</td>
 </tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_appl.html">fk_AllocationAmounts_fact_Date_dim_appl</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationApplicationDate</td>
-</tr>
 <tr>
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_expir.html">fk_AllocationAmounts_fact_Date_dim_expir</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationExpirationDate</td>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_appl.html">fk_AllocationAmounts_fact_Date_dim_appl</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationApplicationDateID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_priority.html">fk_AllocationAmounts_fact_Date_dim_priority</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationPriorityDate</td>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_expir.html">fk_AllocationAmounts_fact_Date_dim_expir</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationExpirationDateID</td>
 </tr>
 <tr>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_priority.html">fk_AllocationAmounts_fact_Date_dim_priority</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>AllocationPriorityDateID</td>
+</tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Date_dim_pub.html">fk_AllocationAmounts_fact_Date_dim_pub</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_LegalStatus.html">fk_AllocationAmounts_fact_LegalStatus</a></td><td><a href="../tables/CVs_LegalStatus.html">CVs.LegalStatus</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationLegalStatusCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Methods_dim.html">fk_AllocationAmounts_fact_Methods_dim</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Organizations_dim.html">fk_AllocationAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
-</tr>
 <tr>
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_PrimaryUseCategory.html">fk_AllocationAmounts_fact_PrimaryUseCategory</a></td><td><a href="../tables/CVs_PrimaryUseCategory.html">CVs.PrimaryUseCategory</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>PrimaryUseCategoryCV</td>
+<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Organizations_dim.html">fk_AllocationAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_SDWISIdentifier.html">fk_AllocationAmounts_fact_SDWISIdentifier</a></td><td><a href="../tables/CVs_SDWISIdentifier.html">CVs.SDWISIdentifier</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationSDWISIdentifierCV</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Sites_dim.html">fk_AllocationAmounts_fact_Sites_dim</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>SiteID</td><td>SiteID</td>
-</tr>
-<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_Variables_dim.html">fk_AllocationAmounts_fact_Variables_dim</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>VariableSpecificID</td><td>VariableSpecificID</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterAllocationBasis.html">fk_AllocationAmounts_fact_WaterAllocationBasis</a></td><td><a href="../tables/CVs_WaterAllocationBasis.html">CVs.WaterAllocationBasis</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationBasisCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterRightType.html">fk_AllocationAmounts_fact_WaterRightType</a></td><td><a href="../tables/CVs_WaterAllocationType.html">CVs.WaterAllocationType</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>Name</td><td>AllocationTypeCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AllocationAmounts_fact_fk_AllocationAmounts_fact_WaterSources_dim.html">fk_AllocationAmounts_fact_WaterSources_dim</a></td><td><a href="../tables/Core_WaterSources_dim.html">Core.WaterSources_dim</a></td><td><a href="../tables/Core_AllocationAmounts_fact.html">Core.AllocationAmounts_fact</a></td><td>WaterSourceID</td><td>WaterSourceID</td>
 </tr>
 </table>
