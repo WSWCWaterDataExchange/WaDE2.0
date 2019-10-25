@@ -26,6 +26,9 @@
     <None Update="settings.znaminimianji.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="settings.tdo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj" />
