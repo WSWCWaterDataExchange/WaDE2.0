@@ -7,13 +7,13 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public AllocationAmountsFact()
         {
             AllocationBridgeBeneficialUsesFact = new HashSet<AllocationBridgeBeneficialUsesFact>();
-            SitesBridgeAllocationFact = new HashSet<SitesBridgeAllocationFact>();
+            AllocationBridgeSitesFact = new HashSet<AllocationBridgeSitesFact>();
         }
 
         public long AllocationAmountId { get; set; }
         public long OrganizationId { get; set; }
         public long VariableSpecificId { get; set; }
-        public long? SiteId { get; set; }
+        // public long? SiteId { get; set; }
         public long WaterSourceId { get; set; }
         public long MethodId { get; set; }
         public string PrimaryUseCategoryCV { get; set; }
@@ -66,6 +66,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DateDim AllocationTimeFrameStartNavigation { get; set; }
         public virtual DateDim AllocationTimeFrameEndNavigation { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
-        public virtual ICollection<SitesBridgeAllocationFact> SitesBridgeAllocationFact { get; set;}
+        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;}
     }
 }
