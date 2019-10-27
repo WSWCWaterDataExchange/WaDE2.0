@@ -19,6 +19,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<AggregationStatistic> AggregationStatistic { get; set; }
         public virtual DbSet<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual DbSet<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
+        public virtual DbSet<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set; }
         public virtual DbSet<ApplicableResourceType> ApplicableResourceType { get; set; }
         public virtual DbSet<BeneficialUsesCV> BeneficialUsesCV { get; set; }
         public virtual DbSet<CoordinateMethod> CoordinateMethod { get; set; }
@@ -537,6 +538,31 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.BeneficialUseCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses");
+            });
+
+            modeilBuilder.Entity<AllocationBridgeSitesFact>(entity => 
+            {
+                entity.HasKey(e => e.AllocationBridgeId);
+
+                entity.ToTable("AllocationBridge_Sites_fact", "Core");
+
+                entity.Property(e => e.AllocationBridgeId).HasColumnName("AllocationBridgeID");
+
+                entity.Property(e => e.AllocationAmountId).HasColumnName("AllocationAmountID");
+
+                entity.Property(e => e.SiteId).HasColumnName("SiteID");
+
+                entity.HasOne(d => d.AllocationAmount)
+                    .WithMany(p => p.AllocationBridgeSitesFact)
+                    .HasForeignKey(d => d.AllocationAmountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AllocationBridge_Sites_fact_AllocationAmounts_fact");
+
+                entity.HasOne(d => d.Site)
+                    .WithMany(p => p.AllocationBridgeSitesFact)
+                    .HasForeignKey(d => d.SiteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AllocationBridge_Sites_fact_Sites");
             });
 
             modelBuilder.Entity<ApplicableResourceType>(entity =>

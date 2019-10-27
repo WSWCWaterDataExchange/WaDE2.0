@@ -14,7 +14,7 @@ BEGIN
 		wad.*
 		,o.OrganizationID
 		,v.VariableSpecificID
-		,s.SiteID
+		-- ,s.SiteID
 		,ws.WaterSourceID
 		,m.MethodID
 		,bs.Name PrimaryUseCategoryCV
@@ -31,7 +31,7 @@ BEGIN
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
 		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
-		LEFT OUTER JOIN Core.Sites_dim s ON s.WaDESiteUUID = wad.SiteUUID
+		-- LEFT OUTER JOIN Core.Sites_dim s ON s.WaDESiteUUID = wad.SiteUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON bs.Name=wad.PrimaryUseCategory
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
@@ -121,6 +121,21 @@ BEGIN
 	--	AND wad.PrimaryUseCategory IS NOT NULL
 	--	AND LEN(TRIM(wad.PrimaryUseCategory)) > 0;
 
+	--set up missing Core.Sites_dim entries
+	SELECT
+		wad.RowNumber
+		,Site = TRIM(s.[Value]) 
+	INTO
+		#TempSitesData
+	FROM
+		#TempWaterAllocationData wad
+		CROSS APPLY STRING_SPLIT(wad.SiteUUID, ',') s
+	WHERE
+		wad.SiteUUID IS NOT NULL
+		AND s.[Value] IS NOT NULL
+		AND LEN(TRIM(s.[Value])) > 0;
+
+
 	--set up missing Core.Date_dim entries
 	WITH q1 AS
 	(
@@ -148,7 +163,7 @@ BEGIN
 		SELECT
 			wad.OrganizationID
 			,wad.VariableSpecificID
-			,wad.SiteID
+			-- ,wad.SiteID
 			,wad.WaterSourceID
 			,wad.MethodID
 			,wad.PrimaryUseCategory
@@ -195,7 +210,7 @@ BEGIN
 	MERGE INTO Core.AllocationAmounts_fact AS Target
 	USING q1 AS Source ON
 		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
-		AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
+		-- AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
 		AND ISNULL(Target.AllocationNativeID, '') = ISNULL(Source.AllocationNativeID, '')
 		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
 		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
@@ -203,7 +218,7 @@ BEGIN
 	INSERT
 		(OrganizationID
 		,VariableSpecificID
-		,SiteID
+		-- ,SiteID
 		,WaterSourceID
 		,MethodID
 		,PrimaryUseCategoryCV
@@ -239,7 +254,7 @@ BEGIN
 	VALUES
 		(Source.OrganizationID
 		,Source.VariableSpecificID
-		,Source.SiteID
+		-- ,Source.SiteID
 		,Source.WaterSourceID
 		,Source.MethodID
 		,Source.PrimaryUseCategory
@@ -292,6 +307,17 @@ BEGIN
 		bu.Name IS NOT NULL;
 	RETURN 0;
 
-
+	--insert into Core.AllocationBridge_Sites_fact
+	INSERT INTO Core.AllocationBridge_Sites_fact (SiteId, AllocationAmountID)
+	SELECT DISTINCT
+		s.SiteID
+		,aar.AllocationAmountID
+	FROM
+		#AllocationAmountRecords aar
+		LEFT OUTER JOIN #TempSitesData siteData ON siteData.RowNumber = aar.RowNumber
+		LEFT OUTER JOIN Sites_dim s ON s.SiteID = siteData.SiteId
+	WHERE
+		s.SiteID IS NOT NULL;
+	RETURN 0;
 
 END
