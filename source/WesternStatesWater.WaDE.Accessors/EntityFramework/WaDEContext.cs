@@ -395,7 +395,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.PrimaryUseCategoryCV).HasColumnName("PrimaryUseCategoryCV");
 
-                entity.Property(e => e.SiteId).HasColumnName("SiteID");
+                // entity.Property(e => e.SiteId).HasColumnName("SiteID");
 
                 entity.Property(e => e.VariableSpecificId).HasColumnName("VariableSpecificID");
 
@@ -473,10 +473,10 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.PrimaryUseCategoryCV)
                     .HasConstraintName("fk_AllocationAmounts_fact_BeneficialUses");
 
-                entity.HasOne(d => d.Site)
-                    .WithMany(p => p.AllocationAmountsFact)
-                    .HasForeignKey(d => d.SiteId)
-                    .HasConstraintName("fk_AllocationAmounts_fact_Sites_dim");
+                // entity.HasOne(d => d.Site)
+                //     .WithMany(p => p.AllocationAmountsFact)
+                //     .HasForeignKey(d => d.SiteId)
+                //     .HasConstraintName("fk_AllocationAmounts_fact_Sites");
 
                 entity.HasOne(d => d.VariableSpecific)
                     .WithMany(p => p.AllocationAmountsFact)
@@ -540,7 +540,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses");
             });
 
-            modeilBuilder.Entity<AllocationBridgeSitesFact>(entity => 
+            modelBuilder.Entity<AllocationBridgeSitesFact>(entity => 
             {
                 entity.HasKey(e => e.AllocationBridgeId);
 
