@@ -24,36 +24,39 @@
 <td class="PkCol">
 <p class="boolImg">
 <img src="../images/pkb16.gif"></p>
-</td><td class="PkCol"><a href="../columns/Input_ReportingUnits_dim_ReportingUnitNativeID.html">ReportingUnitNativeID</a></td><td class="PkCol">NVarChar(250)</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol">the reporting unit native identifer in each memeber state</td><td class="PkCol"> </td>
+</td><td class="PkCol"><a href="../columns/Input_ReportingUnits_dim_ReportingUnitUUID.html">ReportingUnitUUID</a></td><td class="PkCol">BigInt</td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td><td class="PkCol"> </td>
 </tr>
 <tr class="altRow">
-<td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitName.html">ReportingUnitName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</td><td> </td>
+<td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitNativeID.html">ReportingUnitNativeID</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>the reporting unit native identifer in each memeber state</td><td> </td>
 </tr>
 <tr>
-<td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitTypeCV.html">ReportingUnitTypeCV</a></td><td>NVarChar(20)</td><td> </td><td> </td><td> </td><td>The type of reporting unit - county, HUC, or a custom delineation.</td><td> </td>
+<td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitName.html">ReportingUnitName</a></td><td>NVarChar(250)</td><td> </td><td> </td><td> </td><td>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</td><td> </td>
 </tr>
 <tr class="altRow">
+<td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitTypeCV.html">ReportingUnitTypeCV</a></td><td>NVarChar(20)</td><td> </td><td> </td><td> </td><td>The type of reporting unit - county, HUC, or a custom delineation.</td><td> </td>
+</tr>
+<tr>
 <td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitUpdateDate.html">ReportingUnitUpdateDate</a></td><td>Date</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>Date that the last reporting unit product version was released.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Input_ReportingUnits_dim_ReportingUnitProductVersion.html">ReportingUnitProductVersion</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>The reporting unit product version number. Could be a release of the HUC or County layer, or internal to the data provider.</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Input_ReportingUnits_dim_StateCV.html">StateCV</a></td><td>NVarChar(50)</td><td> </td><td> </td><td> </td><td>Abbrieviated state identifier.</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Input_ReportingUnits_dim_EPSGCodeCV.html">EPSGCodeCV</a></td><td>NVarChar(50)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>EPSG Code for projection, with a preference for WGS_1984, EPSG of 4326</td><td> </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Input_ReportingUnits_dim_Geometry.html">Geometry</a></td><td>Geometry</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
