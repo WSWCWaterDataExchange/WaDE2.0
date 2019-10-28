@@ -17,3 +17,9 @@ ALTER TABLE [Core].[AllocationBridge_Sites_fact]  WITH CHECK ADD  CONSTRAINT [FK
 REFERENCES [Core].[Sites_Dim] ([SiteID])
 
 ALTER TABLE [Core].[AllocationBridge_Sites_fact] CHECK CONSTRAINT [FK_AllocationBridge_Sites]
+
+-- drop SiteID column on AllocationAmounts table
+ALTER TABLE [Core].[AllocationAmounts_fact] DROP CONSTRAINT [fk_AllocationAmounts_fact_Sites_dim];
+
+ALTER TABLE [Core].[AllocationAmounts_fact] DROP COLUMN [SiteID];
+
