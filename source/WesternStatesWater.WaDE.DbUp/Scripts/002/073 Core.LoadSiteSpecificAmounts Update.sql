@@ -241,13 +241,13 @@ BEGIN
         WHEN MATCHED THEN
 	        UPDATE SET
             OrganizationID = Source.OrganizationID,
-            SiteId = Source.SiteId,
+            SiteID = Source.SiteId,
             VariableSpecificID = Source.VariableSpecificID,
             WaterSourceID = Source.WaterSourceID,
-            MethoID = Source.MethodID,
+            MethodID = Source.MethodID,
             TimeframeStart = Source.TimeframeStart,
 			TimeframeEnd = Source.TimeframeEnd,
-            DatePublicationDate = Source.DataPublicationDate,
+            DataPublicationDate = Source.DataPublicationDate,
             DataPublicationDOI = Source.DataPublicationDOI,
             ReportYearCV = Source.ReportYearCV,
             Amount = Source.Amount,
@@ -257,12 +257,12 @@ BEGIN
 			IrrigationMethodCV = Source.IrrigationMethodCV,
 			CropTypeCV = Source.CropTypeCV,
 			CommunityWaterSupplySystem = Source.CommunityWaterSupplySystem,
-			SDWISIdentifier = Source.SDWISIdentifier,
+			SDWISIdentifierCV = Source.SDWISIdentifier,
 			AssociatedNativeAllocationIDs = Source.AssociatedNativeAllocationIDs,
-			CustomerType = source.CustomerType,
+			CustomerTypeCV = source.CustomerType,
 			AllocationCropDutyAmount = Source.AllocationCropDutyAmount,
-			PrimaryUseCategory = Source.PrimaryUseCategory,
-			Geometry = geometry::STGeomFromText(Source.[Geometry], 4326),
+			PrimaryUseCategoryCV = Source.PrimaryUseCategory,
+			Geometry = geometry::STGeomFromText(Source.[Geometry], 4326)
 		OUTPUT
 			inserted.SiteVariableAmountID
 			,Source.RowNumber
@@ -280,7 +280,7 @@ BEGIN
 		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
 	WHERE
 		bu.Name IS NOT NULL AND
-        NOT EXISTS(SELECT 1 from Core.SitesBridge_BeneficialUses_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.BeneficialUseCV = bu.Name);
+        NOT EXISTS(SELECT 1 from Core.SitesBridge_BeneficialUses_fact innerAB where innerAB.SiteVariableAmountID = sva.SiteVariableAmountID and innerAB.BeneficialUseCV = bu.Name);
 
 	RETURN 0;
 END

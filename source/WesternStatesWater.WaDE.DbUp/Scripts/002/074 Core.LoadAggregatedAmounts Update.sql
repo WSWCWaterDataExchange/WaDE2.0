@@ -258,7 +258,7 @@ BEGIN
             OrganizationID = Source.OrganizationID,
 			ReportingUnitID = Source.ReportingUnitID,
 			VariableSpecificID = Source.VariableSpecificID,
-			PrimaryUseCategory = Source.PrimaryUseCategory,
+			PrimaryUseCategoryCV = Source.PrimaryUseCategory,
 			WaterSourceID = Source.WaterSourceID,
 			MethodID = Source.MethodID,
 			TimeframeStartID = Source.TimeframeStartID,
@@ -274,11 +274,10 @@ BEGIN
 			InterbasinTransferFromID = Source.InterbasinTransferFromID,
 			AllocationCropDutyAmount = Source.AllocationCropDutyAmount,
 			CropTypeCV = Source.CropTypeCV,
-			CustomerType = Source.CustomerType,
-			SIrrigationMethodCV = ource.IrrigationMethodCV,
+			CustomerTypeCV = Source.CustomerType,
+			IrrigationMethodCV = Source.IrrigationMethodCV,
 			CommunityWaterSupplySystem = Source.CommunityWaterSupplySystem,
-			SDWISIdentifier = Source.SDWISIdentifier,
-			)
+			SDWISIdentifierCV = Source.SDWISIdentifier
 		OUTPUT
 			inserted.AggregatedAmountID
 			,Source.RowNumber
@@ -296,7 +295,7 @@ BEGIN
 		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
 	WHERE
 		bu.Name IS NOT NULL AND
-        NOT EXISTS(SELECT 1 from Core.AggBridge_BeneficialUses_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.BeneficialUseCV = bu.Name);
+        NOT EXISTS(SELECT 1 from Core.AggBridge_BeneficialUses_fact innerAB where innerAB.AggregatedAmountID = aar.AggregatedAmountID and innerAB.BeneficialUseCV = bu.Name);
 
 	RETURN 0;
 END
