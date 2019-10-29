@@ -55,7 +55,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual MethodsDim Method { get; set; }
         public virtual OrganizationsDim Organization { get; set; }
         public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
-        //public virtual SitesDim Site { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual CropType CropType { get; set; }
