@@ -57,7 +57,6 @@ BEGIN
 		wad.*
 		,o.OrganizationID
 		,v.VariableSpecificID
-		-- ,s.SiteID
 		,ws.WaterSourceID
 		,m.MethodID
 		,bs.Name PrimaryUseCategoryCV
@@ -74,13 +73,10 @@ BEGIN
 		#TempWaterAllocationData wad
 		LEFT OUTER JOIN Core.Organizations_dim o ON o.OrganizationUUID = wad.OrganizationUUID
 		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
-		-- LEFT OUTER JOIN Core.Sites_dim s ON s.WaDESiteUUID = wad.SiteUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON bs.Name=wad.PrimaryUseCategory
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID;
-
 		
-
 	--data validation
 	WITH q1 AS
 	(
@@ -167,17 +163,15 @@ BEGIN
 	--set up missing Core.Sites_dim entries
 	SELECT
 		wad.RowNumber
-		,Site = TRIM(s.[Value]) 
+		,SiteUUID = TRIM(s.[Value]) 
 	INTO
 		#TempSitesData
 	FROM
 		#TempWaterAllocationData wad
 		CROSS APPLY STRING_SPLIT(wad.SiteUUID, ',') s
 	WHERE
-		wad.SiteUUID IS NOT NULL
-		AND s.[Value] IS NOT NULL
+		s.[Value] IS NOT NULL
 		AND LEN(TRIM(s.[Value])) > 0;
-
 
 	--set up missing Core.Date_dim entries
 	WITH q1 AS
@@ -206,7 +200,6 @@ BEGIN
 		SELECT
 			wad.OrganizationID
 			,wad.VariableSpecificID
-			-- ,wad.SiteID
 			,wad.WaterSourceID
 			,wad.MethodID
 			,wad.PrimaryUseCategory
@@ -253,7 +246,6 @@ BEGIN
 	MERGE INTO Core.AllocationAmounts_fact AS Target
 	USING q1 AS Source ON
 		ISNULL(Target.OrganizationID, '') = ISNULL(Source.OrganizationID, '')
-		-- AND ISNULL(Target.SiteID, '') = ISNULL(Source.SiteID, '')
 		AND ISNULL(Target.AllocationNativeID, '') = ISNULL(Source.AllocationNativeID, '')
 		AND ISNULL(Target.VariableSpecificID, '') = ISNULL(Source.VariableSpecificID, '')
 		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
@@ -261,7 +253,6 @@ BEGIN
 	INSERT
 		(OrganizationID
 		,VariableSpecificID
-		-- ,SiteID
 		,WaterSourceID
 		,MethodID
 		,PrimaryUseCategoryCV
@@ -297,7 +288,6 @@ BEGIN
 	VALUES
 		(Source.OrganizationID
 		,Source.VariableSpecificID
-		-- ,Source.SiteID
 		,Source.WaterSourceID
 		,Source.MethodID
 		,Source.PrimaryUseCategory
@@ -327,15 +317,50 @@ BEGIN
 		,Source.LegacyAllocationIDs
 		,Source.CropTypeCV
 		,Source.CustomerType
-		
 		,Source.IrrigationMethodCV
 		,Source.CommunityWaterSupplySystem)
+	WHEN MATCHED THEN
+	  UPDATE SET
+		OrganizationID = Source.OrganizationID,
+		VariableSpecificID = Source.VariableSpecificID,
+		WaterSourceID = Source.WaterSourceID,
+		MethodID = Source.MethodID,
+		PrimaryUseCategoryCV = Source.PrimaryUseCategory,
+		DataPublicationDateID = Source.DataPublicationDateID,
+		DataPublicationDOI = Source.DataPublicationDOI,
+		AllocationNativeID = Source.AllocationNativeID,
+		AllocationApplicationDate = Source.AllocationApplicationDate,
+		AllocationPriorityDate = Source.AllocationPriorityDate,
+		AllocationExpirationDate = Source.AllocationExpirationDate,
+		AllocationOwner = Source.AllocationOwner,
+		AllocationBasisCV = Source.AllocationBasisCV,
+		AllocationLegalStatusCV = Source.AllocationLegalStatusCV,
+		AllocationTypeCV = Source.AllocationTypeCV,
+		AllocationTimeframeStart = Source.AllocationTimeframeStart,
+		AllocationTimeframeEnd = Source.AllocationTimeframeEnd,
+		AllocationCropDutyAmount = Source.AllocationCropDutyAmount,
+		AllocationAmount = Source.AllocationAmount,
+		AllocationMaximum = Source.AllocationMaximum,
+		PopulationServed = Source.PopulationServed,
+		PowerGeneratedGWh = Source.PowerGeneratedGWh,
+		IrrigatedAcreage = Source.IrrigatedAcreage,
+		AllocationCommunityWaterSupplySystem = Source.AllocationCommunityWaterSupplySystem,
+		SDWISIdentifierCV = Source.AllocationSDWISIdentifier,
+		AllocationAssociatedWithdrawalSiteIDs = Source.AllocationAssociatedWithdrawalSiteIDs,
+		AllocationAssociatedConsumptiveUseSiteIDs = Source.AllocationAssociatedConsumptiveUseSiteIDs,
+		AllocationChangeApplicationIndicator = Source.AllocationChangeApplicationIndicator,
+		LegacyAllocationIDs = Source.LegacyAllocationIDs,
+		CropTypeCV = Source.CropTypeCV,
+		CustomerTypeCV = Source.CustomerType,
+		IrrigationMethodCV = Source.IrrigationMethodCV,
+		CommunityWaterSupplySystem = Source.CommunityWaterSupplySystem
 		
 	OUTPUT
 		inserted.AllocationAmountID
 		,Source.RowNumber
 	INTO
 		#AllocationAmountRecords;
+
 	
 	--insert into Core.AllocationBridge_BeneficialUses_fact
 	INSERT INTO Core.AllocationBridge_BeneficialUses_fact (BeneficialUseCV, AllocationAmountID)
@@ -347,20 +372,24 @@ BEGIN
 		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
 		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
 	WHERE
-		bu.Name IS NOT NULL;
-	RETURN 0;
+		bu.Name IS NOT NULL AND
+		NOT EXISTS(SELECT 1 from Core.AllocationBridge_BeneficialUses_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.BeneficialUseCV = bu.Name);
 
 	--insert into Core.AllocationBridge_Sites_fact
-	INSERT INTO Core.AllocationBridge_Sites_fact (SiteId, AllocationAmountID)
+	INSERT INTO Core.AllocationBridge_Sites_fact (SiteID, AllocationAmountID)
 	SELECT DISTINCT
 		s.SiteID
 		,aar.AllocationAmountID
 	FROM
 		#AllocationAmountRecords aar
 		LEFT OUTER JOIN #TempSitesData siteData ON siteData.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN Sites_dim s ON s.SiteID = siteData.SiteId
+		LEFT OUTER JOIN Sites_dim s ON s.WaDESiteUUID = siteData.SiteUUID
 	WHERE
-		s.SiteID IS NOT NULL;
+		s.SiteID IS NOT NULL AND
+		NOT EXISTS(SELECT 1 from Core.AllocationBridge_Sites_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.SiteID = s.SiteID);
 	RETURN 0;
 
 END
+GO
+
+
