@@ -43,7 +43,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
                 {
-                    query = query.Where(a => a.Site.SiteUuid == filters.SiteUuid);
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.Site.SiteUuid == filters.SiteUuid));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
@@ -53,13 +53,13 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
                 }
-                if (!string.IsNullOrWhiteSpace(filters.Geometry))
-                {
-                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    WKTReader reader = new WKTReader(geometryFactory);
-                    var shape = reader.Read(filters.Geometry);
-                    query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
-                }
+                // if (!string.IsNullOrWhiteSpace(filters.Geometry))
+                // {
+                //     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                //     WKTReader reader = new WKTReader(geometryFactory);
+                //     var shape = reader.Read(filters.Geometry);
+                //     query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
+                // }
 
                 var results = await query
                     .GroupBy(a => a.Organization)

@@ -473,11 +473,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.PrimaryUseCategoryCV)
                     .HasConstraintName("fk_AllocationAmounts_fact_BeneficialUses");
 
-                // entity.HasOne(d => d.Site)
-                //     .WithMany(p => p.AllocationAmountsFact)
-                //     .HasForeignKey(d => d.SiteId)
-                //     .HasConstraintName("fk_AllocationAmounts_fact_Sites");
-
                 entity.HasOne(d => d.VariableSpecific)
                     .WithMany(p => p.AllocationAmountsFact)
                     .HasForeignKey(d => d.VariableSpecificId)
