@@ -28,6 +28,15 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.BeneficialUsesCV, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.USGSCategory, b => b.MapFrom(c => c.UsgscategoryNameCv))
                 .ForMember(a => a.NAICSCode, b => b.MapFrom(c => c.NaicscodeNameCv));
+
+            CreateMap<EF.SitesDim, AccessorApi.Site>()
+                 .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.SiteNativeId))
+                 .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Latitude))
+                 .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
+                 .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
+                 .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.GniscodeCv))
+                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
+
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))
                 .ForMember(a => a.State, b => b.MapFrom(c => c.BeneficialUse.State))
