@@ -72,6 +72,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 Parallel.ForEach(results.SelectMany(a => a.WaterAllocations).Batch(10000), waterAllocations =>
                 {
                     SetBeneficialUses(waterAllocations, allBeneficialUses);
+                    SetSites(waterAllocations);
                 });
 
                 return results;
@@ -95,6 +96,23 @@ namespace WesternStatesWater.WaDE.Accessors
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();
+                }
+            }
+        }
+
+        private void SetSites(IEnumerable<AccessorApi.Allocation> allocationAmounts)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                foreach (var allocationAmount in allocationAmounts)
+                {
+                    var sites = db.AllocationBridgeSitesFact
+                        .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
+                        .Select(a => a.Site)
+                        .ProjectTo<AccessorApi.Site>(Mapping.DtoMapper.Configuration)
+                        .ToList();
+
+                    allocationAmount.Sites = sites; 
                 }
             }
         }
