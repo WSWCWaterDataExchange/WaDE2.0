@@ -18,6 +18,9 @@ REFERENCES [Core].[Sites_Dim] ([SiteID])
 
 ALTER TABLE [Core].[AllocationBridge_Sites_fact] CHECK CONSTRAINT [FK_AllocationBridge_Sites]
 
+-- migrate data
+INSERT INTO [Core].[AllocationBridge_Sites_fact] (AllocationAmountID, SiteID) SELECT AllocationAmountID, SiteID FROM [Core].[AllocationAmounts_fact] WHERE SiteID IS NOT NULL
+
 -- drop SiteID column on AllocationAmounts table
 ALTER TABLE [Core].[AllocationAmounts_fact] DROP CONSTRAINT [fk_AllocationAmounts_fact_Sites_dim];
 
