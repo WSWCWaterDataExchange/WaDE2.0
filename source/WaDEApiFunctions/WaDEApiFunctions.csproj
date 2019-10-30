@@ -27,6 +27,9 @@
     <None Update="settings.znaminimianji.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="settings.tdo.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <PropertyGroup>               
     <PublishWithAspNetCoreTargetManifest>false</PublishWithAspNetCoreTargetManifest>               

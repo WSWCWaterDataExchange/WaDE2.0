@@ -14,6 +14,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<ManagerApi.RegulatoryOverlayFilters, AccessorApi.RegulatoryOverlayFilters>();
 
             CreateMap<AccessorApi.BeneficialUse, ManagerApi.BeneficialUse>();
+            CreateMap<AccessorApi.Site, ManagerApi.Site>();
             CreateMap<AccessorApi.Method, ManagerApi.Method>();
             CreateMap<AccessorApi.VariableSpecific, ManagerApi.VariableSpecific>();
             CreateMap<AccessorApi.WaterSource, ManagerApi.WaterSource>();

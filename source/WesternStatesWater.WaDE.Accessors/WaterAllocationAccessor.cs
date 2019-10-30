@@ -43,7 +43,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
                 {
-                    query = query.Where(a => a.Site.SiteUuid == filters.SiteUuid);
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.Site.SiteUuid == filters.SiteUuid));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
@@ -58,7 +58,9 @@ namespace WesternStatesWater.WaDE.Accessors
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                     WKTReader reader = new WKTReader(geometryFactory);
                     var shape = reader.Read(filters.Geometry);
-                    query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
+                    query = query.Where(
+                        a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
+                        a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
                 }
 
                 var results = await query
@@ -70,6 +72,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 Parallel.ForEach(results.SelectMany(a => a.WaterAllocations).Batch(10000), waterAllocations =>
                 {
                     SetBeneficialUses(waterAllocations, allBeneficialUses);
+                    SetSites(waterAllocations);
                 });
 
                 return results;
@@ -93,6 +96,23 @@ namespace WesternStatesWater.WaDE.Accessors
                         .Where(a => a != null)
                         .Distinct()
                         .ToList();
+                }
+            }
+        }
+
+        private void SetSites(IEnumerable<AccessorApi.Allocation> allocationAmounts)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                foreach (var allocationAmount in allocationAmounts)
+                {
+                    var sites = db.AllocationBridgeSitesFact
+                        .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
+                        .Select(a => a.Site)
+                        .ProjectTo<AccessorApi.Site>(Mapping.DtoMapper.Configuration)
+                        .ToList();
+
+                    allocationAmount.Sites = sites; 
                 }
             }
         }
