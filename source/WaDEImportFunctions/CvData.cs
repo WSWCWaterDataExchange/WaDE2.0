@@ -52,7 +52,7 @@ namespace WaDEImportFunctions
                 ("watersourcetype", "watersourcetype"),
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
-
+                ("beneficialusecategory", "BeneficialUses"),
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
 

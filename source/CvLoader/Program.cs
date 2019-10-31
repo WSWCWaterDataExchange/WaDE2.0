@@ -15,6 +15,7 @@ namespace CvLoader
     {
         static async Task Main(string[] args)
         {
+
             var cvData = new List<(string Name, string Table)>()
             {
                 ("aggregationstatistic", "AggregationStatistic"),
@@ -40,7 +41,7 @@ namespace CvLoader
                 ("watersourcetype", "watersourcetype"),
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
-                
+                ("beneficialusecategory", "BeneficialUses"),
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
         }
