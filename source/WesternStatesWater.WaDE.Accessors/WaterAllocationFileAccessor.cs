@@ -153,6 +153,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 TrimOptions = TrimOptions.Trim,
                 IgnoreBlankLines = true,
                 IgnoreQuotes = false,
+                
                 BadDataFound = (a) =>
                 {
                     isRecordBad = true;
