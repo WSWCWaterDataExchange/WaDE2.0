@@ -7,7 +7,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public SitesDim()
         {
-            AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
+            AllocationBridgeSitesFact = new HashSet<AllocationBridgeSitesFact>();
             SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
         }
 
@@ -36,7 +36,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual Nhdproduct NhdproductCvNavigation { get; set; }
         public virtual SiteType SiteTypeCvNavigation { get; set; }
         public virtual State StateCVNavigation { get; set; }
-        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
+        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;  }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
     }
 }

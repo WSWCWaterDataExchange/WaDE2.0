@@ -66,7 +66,13 @@
     <None Remove="Scripts\001\067 Core.LoadRegulatoryReportingUnits.sql" />
     <None Remove="Scripts\001\068 Core.LoadRegulatoryReportingUnits Update.sql" />
     <None Remove="Scripts\001\069 AggregatedAmountBeneficialUse View Drop.sql" />
+    <None Remove="Scripts\001\070 Core.AllocationBridgeSitesTable Create.sql" />
+    <None Remove="Scripts\001\071 Core.LoadWaterAllocation Update.sql" />
+    <None Remove="Scripts\001\072 Input Tables Drop.sql" />
     <None Remove="Scripts\002 Table Types.sql" />
+    <None Remove="Scripts\002\073 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\002\074 Core.LoadAggregatedAmounts Update.sql" />
+    <None Remove="Scripts\002\075 Core.WaterAllocationBridgeIndexCreation.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
@@ -278,6 +284,24 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\046 AllocationAmounts Table Updates%28Beneficials%29.sql" />
+    <EmbeddedResource Include="Scripts\002\073 Core.LoadSiteSpecificAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\002\075 Core.WaterAllocationBridgeIndexCreation.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\002\074 Core.LoadAggregatedAmounts Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\070 Core.AllocationBridgeSitesTable Create.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\071 Core.LoadWaterAllocation Update.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\001\072 Input Tables Drop.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

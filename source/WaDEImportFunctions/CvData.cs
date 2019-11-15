@@ -1,20 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.Azure.WebJobs;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
-namespace CvLoader
+namespace WaDEImportFunctions
 {
-    class Program
+    public class CvData
     {
-        static async Task Main(string[] args)
+        public CvData(IConfiguration configuration)
         {
+            Configuration = configuration;
+        }
+
+        private IConfiguration Configuration { get; set; }
+
+        [FunctionName("CvDataUpdate")]
+        public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")]string myQueueItem, ILogger log)
+        {
+            //This is a quick and dirty process.  It should be converted at some point to a proper call chain (or moved into a working azure data factory process)
+            log.LogInformation($"Updating All CV Data");
 
             var cvData = new List<(string Name, string Table)>()
             {
@@ -43,22 +54,24 @@ namespace CvLoader
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
             };
-            await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
+            await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
+
+            log.LogInformation($"Completed Updating All CV Data");
         }
 
-        private static async Task ProcessCvTable(string name, string table)
+        private async Task ProcessCvTable(string name, string table, ILogger log)
         {
             var data = await FetchData(name);
             var records = ParseData(data);
-            await LoadData(table, records);
+            await LoadData(table, records, log);
         }
 
-        private static async Task<string> FetchData(string name)
+        private async Task<string> FetchData(string name)
         {
             return await new WebClient().DownloadStringTaskAsync($"http://vocabulary.westernstateswater.org/api/v1/{name}/?format=csv");
         }
 
-        private static List<dynamic> ParseData(string data)
+        private List<dynamic> ParseData(string data)
         {
             using (var reader = new CsvHelper.CsvReader(new StringReader(data)))
             {
@@ -66,15 +79,13 @@ namespace CvLoader
             }
         }
 
-        private static async Task LoadData(string table, List<dynamic> data)
+        private async Task LoadData(string table, List<dynamic> data, ILogger log)
         {
-            var config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string> { { "ConnectionStrings:WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" } })
-                .Build();
-
-            using (var db = new WaDEContext(config))
+            log.LogInformation($"Updating CV Table [{table}]");
+            using (var db = new WaDEContext(Configuration))
             using (var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }, TransactionScopeAsyncFlowOption.Enabled))
             {
+                //This method is very slow doing this one record at a time.  It should be updated to be able to do multiple records in one command.
                 foreach (var record in data)
                 {
                     var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
@@ -93,8 +104,8 @@ namespace CvLoader
 
                 }
                 ts.Complete();
-
             }
+            log.LogInformation($"Completed Updating CV Table [{table}]");
         }
     }
 }

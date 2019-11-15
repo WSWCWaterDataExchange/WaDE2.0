@@ -10,28 +10,26 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 * Use cases and SQL queries to test the design
 
 ## Conceptual workflow of the next WaDE 2.0 system
-![](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
+[Link](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
 
+## FAQ
+**How to import data into the database, locally?**
 
-How to import data into the database, locally?
-1.	Head to the https://github.com/WSWCWaterDataExchange/WaDE2.0 and clone it with the VS.
+1. Head to the [source repo](https://github.com/WSWCWaterDataExchange/WaDE2.0) and clone it with the VS.
+   * Under the repository name, click Clone or download.
+   * In the Clone with HTTPs section, click the copy icon to copy the clone URL for the repository.
+   * Open Git Bash.
+   * Change the current working directory to the location where you want the cloned directory to be made.
+   * Type git clone, and then paste the URL you copied.
+   * Press Enter. Your local clone will be created.
 
-		Under the repository name, click Clone or download.
-		In the Clone with HTTPs section, click the copy icon to copy the clone URL for the repository.
-		Open Git Bash.
-		Change the current working directory to the location where you want the cloned directory to be made.
-		Type git clone, and then paste the URL you copied.
-		Press Enter. Your local clone will be created.
-
-2.	Download Microsoft Azure Storage Explorer from https://azure.microsoft.com/en-us/features/storage-explorer/ link and run it.
-3.	Download Microsoft Azure Storage Emulator from https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator link and run it.
+2.	Download and install [Microsoft Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/).
+3.	Download and install [Microsoft Azure Storage Emulator](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-emulator).
 4.	In the Microsoft Azure Storage Explorer window, head to the Storage Accounts/local-1 (key)/Blob Containers/normalizedimports and then the folder which is related to the import data.
 5.	Make sure that the Csv file fields are in a good format. 
-
-		Check if the Csv file fields order, matches the order of the fields in the related type table. 
-		To check this, open the Microsoft SQL Server Management Studio, head to the Databases/WaDE2/programmability/Types/User-Defined Table Types and check the related table type.
-
-		Make sure that the foreign key relationships are holding (if a value which is a foreign key, is going to be inserted, make sure it exists in the reference table as well).
+   * Check if the Csv file fields order, matches the order of the fields in the related type table. 
+   * To check this, open the Microsoft SQL Server Management Studio, head to the Databases/WaDE2/programmability/Types/User-Defined Table Types and check the related table type.
+   * Make sure that the foreign key relationships are holding (if a value which is a foreign key, is going to be inserted, make sure it exists in the reference table as well).
 
 6.	If you want to add a new Csv file, you can upload it through the Explorer window.
 7.	Load the startup section of VS with WaDEImportFunctions and run it.
@@ -42,7 +40,7 @@ How to import data into the database, locally?
 12.	The import function should run successfully. 
 
 
-How to setup the SQL DB?
+**How to setup the SQL DB?**
 
 1. Download WaDE2.0.bacpac from the Google Drive.
 2. Open the Microsoft SQL Server Management Studio.
@@ -50,8 +48,11 @@ How to setup the SQL DB?
 4. Click on Next button, browse the bacpac file.
 5. You can change the database name and other settings if required, if not, keep clicking on Next button and the database will be imported.
 
+**How to update CV data in QA and Production?**
 
+CV data updates automatically every night at 02:00 UTC.
+To manually trigger an update mid-day:
 
-
-
-
+1. Go to the Azure Portal and select the "AutoUpdateCvData" logic app in either the QA or Production resource group.
+2. At the top of the Overview page, click "Run Trigger" followed by "Recurrence".
+3. The update will start within a couple minutes.

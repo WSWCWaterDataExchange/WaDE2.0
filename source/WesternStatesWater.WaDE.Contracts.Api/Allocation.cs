@@ -28,12 +28,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string AllocationSDWISIdentifier { get; set; }
         public string MethodUUID { get; set; }
         public string VariableSpecificTypeCV { get; set; }
-        public string NativeSiteID { get; set; }
-        public double? Longitude { get; set; }
-        public double? Latitude { get; set; }
-        public string SiteGeometry { get; set; }
-        public string CoordinateMethodCV { get; set; }
-        public string AllocationGNISIDCV { get; set; }
+        public List<Site> Sites { get; set; }
         public List<string> BeneficialUses { get; set; }
     }
 }
