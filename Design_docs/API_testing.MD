@@ -169,6 +169,19 @@ https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agricultu
 
 Response: Works 
 
+Test 10
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture&ReportingUnitTypeCV=County
+
+Response: Works returns UT
+
+Test 11
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitTypeCV=County
+
+Response: Works returns UT and NM
+
+
 ## D. Agg Regulatory Overlay
 
 Observation1: RegulatoryOverlayUUID is not in the controlled vocabulary list (http://vocabulary.westernstateswater.org/
