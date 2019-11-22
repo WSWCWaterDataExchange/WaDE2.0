@@ -55,6 +55,18 @@ Response: Works
 
 Conclusion: Search Geometry “Colorado” doesn’t exist? 
 
+Test 6
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Irrigation&EndPriorityDate=01/01/1850
+
+Response: Works for all the three states currently in WaDE: UT, CO, OK
+
+Test 6
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Mining&EndPriorityDate=01/01/1850
+
+Response: Works gets UT and OK
+
 ## B.	Site Variable Amounts 
 
 Test 1. 
@@ -94,6 +106,13 @@ This search also seems to require the user to know what SiteUUID they are lookin
  
 Conclusion: All valid searches seem to give out empty string [ ]
 
+Test 5 
+
+https://wade-api-qa.azure-api.net/v1/SiteVariableAmounts?BeneficialUseCV=Agriculture
+
+Response: [ ] (Empty string)
+
+
 ## C.	Aggregated Amounts
 
 Test 1. 
@@ -132,6 +151,23 @@ https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitUUID=1501000
 
 Response: Works
 
+Test 7
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitTypeCV=SubArea
+
+Response: Worlks returns UT aggregated amounts
+
+Test 8
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture
+
+Response: Works retuns UT with agriculture ben uses
+
+Test 9
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture&ReportingUnitTypeCV=SubArea
+
+Response: Works 
 
 ## D. Agg Regulatory Overlay
 
