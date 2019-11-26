@@ -19,15 +19,15 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long DataPublicationDateId { get; set; }
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }
-        public long? AllocationApplicationDate { get; set; }
-        public long AllocationPriorityDate { get; set; }
-        public long? AllocationExpirationDate { get; set; }
+        public long? AllocationApplicationDateID { get; set; }
+        public long AllocationPriorityDateID { get; set; }
+        public long? AllocationExpirationDateID { get; set; }
         public string AllocationOwner { get; set; }
         public string AllocationBasisCv { get; set; }
         public string AllocationLegalStatusCv { get; set; }
         public string AllocationTypeCv { get; set; }
-        public long? AllocationTimeframeStart { get; set; }
-        public long? AllocationTimeframeEnd { get; set; }
+        public long? AllocationTimeframeStartID { get; set; }
+        public long? AllocationTimeframeEndID { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }

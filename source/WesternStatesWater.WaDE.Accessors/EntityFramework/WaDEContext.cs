@@ -158,7 +158,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
 
-                entity.Property(e => e.DataPublicationDate).HasColumnName("DataPublicationDate");
+                entity.Property(e => e.DataPublicationDateID).HasColumnName("DataPublicationDateID");
 
                 entity.Property(e => e.Amount).HasColumnName("Amount");
 
@@ -196,7 +196,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.DataPublicationDateNavigation)
                     .WithMany(p => p.AggregatedAmountsFactDataPublicationDateNavigation)
-                    .HasForeignKey(d => d.DataPublicationDate)
+                    .HasForeignKey(d => d.DataPublicationDateID)
                     .HasConstraintName("fk_AggregatedAmounts_Date_dim_end_pub");
 
                 entity.HasOne(d => d.Method)
@@ -334,9 +334,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("SDWISIdentifierCV")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.AllocationTimeframeEnd).HasMaxLength(5);
+                entity.Property(e => e.AllocationTimeframeEndID).HasMaxLength(5);
 
-                entity.Property(e => e.AllocationTimeframeStart).HasMaxLength(5);
+                entity.Property(e => e.AllocationTimeframeStartID).HasMaxLength(5);
 
                 entity.Property(e => e.AllocationTypeCv)
                     .HasColumnName("AllocationTypeCV")
@@ -345,17 +345,17 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.DataPublicationDateId).HasColumnName("DataPublicationDateID");
 
                 //////////////////////////////////////////////////////////////////////////////
-                entity.Property(e => e.AllocationApplicationDate).HasColumnName("AllocationApplicationDate");
-                entity.Property(e => e.AllocationPriorityDate).HasColumnName("AllocationPriorityDate");
-                entity.Property(e => e.AllocationExpirationDate).HasColumnName("AllocationExpirationDate");
-                entity.Property(e => e.AllocationTimeframeStart).HasColumnName("AllocationTimeframeStart");
+                entity.Property(e => e.AllocationApplicationDateID).HasColumnName("AllocationApplicationDateID");
+                entity.Property(e => e.AllocationPriorityDateID).HasColumnName("AllocationPriorityDateID");
+                entity.Property(e => e.AllocationExpirationDateID).HasColumnName("AllocationExpirationDateID");
+                entity.Property(e => e.AllocationTimeframeStartID).HasColumnName("AllocationTimeframeStartID");
                 entity.Property(e => e.AllocationCropDutyAmount).HasColumnName("AllocationCropDutyAmount");
                 entity.Property(e => e.AllocationAmount).HasColumnName("AllocationAmount");
                 entity.Property(e => e.AllocationMaximum).HasColumnName("AllocationMaximum");
                 entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
                 entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
                 entity.Property(e => e.AllocationCommunityWaterSupplySystem).HasColumnName("AllocationCommunityWaterSupplySystem");
-                entity.Property(e => e.AllocationTimeframeEnd).HasColumnName("AllocationTimeframeEnd");
+                entity.Property(e => e.AllocationTimeframeEndID).HasColumnName("AllocationTimeframeEndID");
                 entity.Property(e => e.AllocationChangeApplicationIndicator).HasColumnName("AllocationChangeApplicationIndicator");
                 entity.Property(e => e.AllocationOwner)
                     .HasColumnName("AllocationOwner")
@@ -405,7 +405,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.AllocationApplicationDateNavigation)
                     .WithMany(p => p.AllocationAmountsFactAllocationApplicationDateNavigation)
-                    .HasForeignKey(d => d.AllocationApplicationDate)
+                    .HasForeignKey(d => d.AllocationApplicationDateID)
                     .HasConstraintName("fk_AllocationAmounts_fact_Date_dim_appl");
 
                 entity.HasOne(d => d.AllocationBasisCvNavigation)
@@ -415,7 +415,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.AllocationExpirationDateNavigation)
                     .WithMany(p => p.AllocationAmountsFactAllocationExpirationDateNavigation)
-                    .HasForeignKey(d => d.AllocationExpirationDate)
+                    .HasForeignKey(d => d.AllocationExpirationDateID)
                     .HasConstraintName("fk_AllocationAmounts_fact_Date_dim_expir");
 
                 entity.HasOne(d => d.AllocationLegalStatusCvNavigation)
@@ -425,7 +425,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.AllocationPriorityDateNavigation)
                     .WithMany(p => p.AllocationAmountsFactAllocationPriorityDateNavigation)
-                    .HasForeignKey(d => d.AllocationPriorityDate)
+                    .HasForeignKey(d => d.AllocationPriorityDateID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_Date_dim_priority");
 
@@ -433,12 +433,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 // 
                 entity.HasOne(d => d.AllocationTimeFrameStartNavigation)
                     .WithMany(p => p.AllocationAmountsFactTimeframeStart)
-                    .HasForeignKey(d => d.AllocationTimeframeStart)
+                    .HasForeignKey(d => d.AllocationTimeframeStartID)
                     .HasConstraintName("FK_AllocationTimeFrameStart_Date_dim");
 
                 entity.HasOne(d => d.AllocationTimeFrameEndNavigation)
                     .WithMany(p => p.AllocationAmountsFactTimeframeEnd)
-                    .HasForeignKey(d => d.AllocationTimeframeEnd)
+                    .HasForeignKey(d => d.AllocationTimeframeEndID)
                     .HasConstraintName("FK_AllocationTimeFrameEnd_Date_dim");
 
                 //////////////////////////////////
@@ -1351,9 +1351,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.MethodId).HasColumnName("MethodID");
 
                 ///////////////////////////////////////////////////////////////
-                entity.Property(e => e.TimeframeEnd).HasColumnName("TimeFrameEnd");
-                entity.Property(e => e.TimeframeStart).HasColumnName("TimeFrameStart");
-                entity.Property(e => e.DataPublicationDate).HasColumnName("DataPublicationDate");
+                entity.Property(e => e.TimeframeEndID).HasColumnName("TimeFrameEndID");
+                entity.Property(e => e.TimeframeStartID).HasColumnName("TimeFrameStartID");
+                entity.Property(e => e.DataPublicationDateID).HasColumnName("DataPublicationDateID");
                 entity.Property(e => e.Amount).HasColumnName("Amount");
                 entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
                 entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
@@ -1392,7 +1392,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.DataPublicationDateNavigation)
                     .WithMany(p => p.SiteVariableAmountsFactDataPublicationDateNavigation)
-                    .HasForeignKey(d => d.DataPublicationDate)
+                    .HasForeignKey(d => d.DataPublicationDateID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SiteVariableAmounts_Date_dim_pub");
 
@@ -1426,13 +1426,13 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.HasOne(d => d.TimeframeEndNavigation)
                     .WithMany(p => p.SiteVariableAmountsFactTimeframeEndNavigation)
-                    .HasForeignKey(d => d.TimeframeEnd)
+                    .HasForeignKey(d => d.TimeframeEndID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SiteVariableAmounts_Date_dim_end");
 
                 entity.HasOne(d => d.TimeframeStartNavigation)
                     .WithMany(p => p.SiteVariableAmountsFactTimeframeStartNavigation)
-                    .HasForeignKey(d => d.TimeframeStart)
+                    .HasForeignKey(d => d.TimeframeStartID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_SiteVariableAmounts_Date_dim_start");
 
