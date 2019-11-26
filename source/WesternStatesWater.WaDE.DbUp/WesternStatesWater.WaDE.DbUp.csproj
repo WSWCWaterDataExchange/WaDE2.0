@@ -74,6 +74,7 @@
     <None Remove="Scripts\002\074 Core.LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\002\075 Core.WaterAllocationBridgeIndexCreation.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
+    <None Remove="Scripts\003\001. Core.PrimaryUseCategory.Nullable.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -302,6 +303,7 @@
     <EmbeddedResource Include="Scripts\001\072 Input Tables Drop.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\003\001. Core.PrimaryUseCategory.Nullable.sql" />
   </ItemGroup>
 
   <ItemGroup>
