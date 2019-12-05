@@ -5,7 +5,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
     public class Site
     {
         [NullValues("")]
-        public string WaDESiteUUID { get; set; }
+        public string SiteUUID { get; set; }
 
         [NullValues("")]
         public string SiteNativeID { get; set; }

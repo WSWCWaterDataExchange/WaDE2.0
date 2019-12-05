@@ -1538,8 +1538,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.SiteUuid)
                     .IsRequired()
-                    .HasColumnName("WaDESiteUUID")
-                    .HasMaxLength(55);
+                    .HasColumnName("SiteUUID")
+                    .HasMaxLength(200);
 
                 entity.Property(e => e.UsgssiteId)
                     .HasColumnName("USGSSiteID")
