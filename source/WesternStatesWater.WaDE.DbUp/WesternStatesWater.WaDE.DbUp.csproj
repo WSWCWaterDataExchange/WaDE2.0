@@ -78,6 +78,7 @@
     <None Remove="Scripts\003\002 Core.RemoveWadeFromWaDESiteUUID.sql" />
     <None Remove="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
     <None Remove="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
+    <None Remove="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -310,6 +311,7 @@
     <EmbeddedResource Include="Scripts\003\002 Core.RemoveWadeFromWaDESiteUUID.sql" />
     <EmbeddedResource Include="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
     <EmbeddedResource Include="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
+    <EmbeddedResource Include="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
   </ItemGroup>
 
   <ItemGroup>
