@@ -79,6 +79,10 @@
     <None Remove="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
     <None Remove="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
     <None Remove="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
+    <None Remove="Scripts\003\006 Core.LoadAggregatedAmounts Updates.sql" />
+    <None Remove="Scripts\003\007 Core.LoadSites Update.sql" />
+    <None Remove="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -312,6 +316,10 @@
     <EmbeddedResource Include="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
     <EmbeddedResource Include="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
     <EmbeddedResource Include="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
+    <EmbeddedResource Include="Scripts\003\006 Core.LoadAggregatedAmounts Updates.sql" />
+    <EmbeddedResource Include="Scripts\003\007 Core.LoadSites Update.sql" />
+    <EmbeddedResource Include="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
+    <EmbeddedResource Include="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
   </ItemGroup>
 
   <ItemGroup>
