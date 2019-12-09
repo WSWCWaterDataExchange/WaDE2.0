@@ -1,5 +1,48 @@
-﻿USE [Wade2.0]
+﻿CREATE TYPE [Core].[WaterAllocationTableType_new] AS TABLE(
+	[OrganizationUUID] [nvarchar](250) NULL,
+	[VariableSpecificUUID] [nvarchar](250) NULL,
+	[SiteUUID] [nvarchar](1000) NULL,
+	[WaterSourceUUID] [nvarchar](250) NULL,
+	[MethodUUID] [nvarchar](250) NULL,
+	[BeneficialUseCategory] [nvarchar](500) NULL,
+	[PrimaryUseCategory] [nvarchar](250) NULL,
+	[DataPublicationDATE] [date] NULL,
+	[DataPublicationDOI] [nvarchar](100) NULL,
+	[AllocationNativeID] [nvarchar](250) NULL,
+	[AllocationApplicationDate] [date] NULL,
+	[AllocationPriorityDate] [date] NULL,
+	[AllocationExpirationDate] [date] NULL,
+	[AllocationOwner] [nvarchar](250) NULL,
+	[AllocationBasisCV] [nvarchar](250) NULL,
+	[AllocationLegalStatusCV] [varchar](250) NULL,
+	[AllocationTypeCV] [nvarchar](250) NULL,
+	[AllocationTimeframeStart] [date] NULL,
+	[AllocationTimeframeEnd] [date] NULL,
+	[AllocationCropDutyAmount] [float] NULL,
+	[AllocationAmount] [float] NULL,
+	[AllocationMaximum] [float] NULL,
+	[PopulationServed] [bigint] NULL,
+	[GeneratedPowerCapacityMW] [float] NULL,
+	[IrrigatedAcreage] [float] NULL,
+	[AllocationCommunityWaterSupplySystem] [nvarchar](250) NULL,
+	[AllocationSDWISIdentifier] [nvarchar](250) NULL,
+	[AllocationAssociatedWithdrawalSiteIDs] [nvarchar](500) NULL,
+	[AllocationAssociatedConsumptiveUseSiteIDs] [nvarchar](500) NULL,
+	[AllocationChangeApplicationIndicator] [nvarchar](250) NULL,
+	[LegacyAllocationIDs] [nvarchar](250) NULL,
+	[CustomerType] [nvarchar](100) NULL,
+	[IrrigationMethodCV] [nvarchar](100) NULL,
+	[CropTypeCV] [nvarchar](100) NULL,
+	[WaterAllocationNativeURL] [nvarchar](250) NULL,
+	[CommunityWaterSupplySystem] [nvarchar](250) NULL
+)
 GO
+
+
+EXEC Core.UpdateUUDT 'Core', 'WaterAllocationTableType';
+GO
+
+
 /****** Object:  StoredProcedure [Core].[LoadWaterAllocation]    Script Date: 12/6/2019 9:17:21 AM ******/
 SET ANSI_NULLS ON
 GO
@@ -30,7 +73,7 @@ BEGIN
 					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
 						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
 						THEN 0 ELSE 1 END
-					+ CASE WHEN PowerGeneratedGWh IS NULL THEN 0 ELSE 1 END CategoryCount
+					+ CASE WHEN GeneratedPowerCapacityMW IS NULL THEN 0 ELSE 1 END CategoryCount
 	INTO
 		#TempJoinedWaterAllocationData
 	FROM
@@ -55,10 +98,6 @@ BEGIN
 		SELECT 'WaterSourceID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE WaterSourceID IS NULL
-		UNION ALL
-		SELECT 'PrimaryUseCategoryCV Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE PrimaryUseCategoryCV IS NULL
 		UNION ALL
 		SELECT 'MethodID Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
@@ -183,7 +222,7 @@ BEGIN
 			,wad.AllocationAmount
 			,wad.AllocationMaximum
 			,wad.PopulationServed
-			,wad.PowerGeneratedGWh
+			,wad.GeneratedPowerCapacityMW
 			,wad.IrrigatedAcreage
 			,wad.AllocationCommunityWaterSupplySystem
 			,wad.AllocationSDWISIdentifier
@@ -271,7 +310,7 @@ BEGIN
 		,Source.AllocationAmount
 		,Source.AllocationMaximum
 		,Source.PopulationServed
-		,Source.PowerGeneratedGWh
+		,Source.GeneratedPowerCapacityMW
 		,Source.IrrigatedAcreage
 		,Source.AllocationCommunityWaterSupplySystem
 		,Source.AllocationSDWISIdentifier
@@ -306,7 +345,7 @@ BEGIN
 		AllocationAmount = Source.AllocationAmount,
 		AllocationMaximum = Source.AllocationMaximum,
 		PopulationServed = Source.PopulationServed,
-		GeneratedPowerCapacityMW = Source.PowerGeneratedGWh,
+		GeneratedPowerCapacityMW = Source.GeneratedPowerCapacityMW,
 		IrrigatedAcreage = Source.IrrigatedAcreage,
 		AllocationCommunityWaterSupplySystem = Source.AllocationCommunityWaterSupplySystem,
 		SDWISIdentifierCV = Source.AllocationSDWISIdentifier,

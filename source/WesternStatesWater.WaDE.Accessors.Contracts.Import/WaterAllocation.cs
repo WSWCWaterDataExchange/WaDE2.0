@@ -65,7 +65,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         public string PopulationServed { get; set; }
 
-        public string PowerGeneratedGWh { get; set; }
+        public string GeneratedPowerCapacityMW { get; set; }
 
         public string IrrigatedAcreage { get; set; }
 

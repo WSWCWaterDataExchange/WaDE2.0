@@ -185,6 +185,8 @@ namespace WesternStatesWater.WaDE.Accessors
 
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadAggregatedAmounts(string runId, IEnumerable<AccessorImport.AggregatedAmount> aggregatedAmounts)
         {
+            var count = aggregatedAmounts.Where(a => string.IsNullOrWhiteSpace(a.PrimaryUseCategory)).ToArray();
+            
             using (var db = new EntityFramework.WaDEContext(Configuration))
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {

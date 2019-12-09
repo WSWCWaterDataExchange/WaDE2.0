@@ -65,10 +65,6 @@ BEGIN
         FROM #TempJoinedSiteSpecificAmountData 
         WHERE WaterSourceID IS NULL
         UNION ALL
-        SELECT 'PrimaryUseCategory Not Valid' Reason, *
-        FROM #TempJoinedSiteSpecificAmountData 
-        WHERE PrimaryUseCategory IS NULL
-        UNION ALL
         SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData
         WHERE MethodID IS NULL

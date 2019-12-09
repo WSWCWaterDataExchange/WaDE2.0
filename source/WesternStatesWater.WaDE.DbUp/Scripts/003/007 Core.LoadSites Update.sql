@@ -1,5 +1,23 @@
-﻿USE [Wade2.0]
+﻿CREATE TYPE [Core].[SiteTableType_new] AS TABLE(
+	[SiteUUID] [nvarchar](200) NULL,
+	[SiteNativeID] [nvarchar](50) NULL,
+	[SiteName] [nvarchar](500) NULL,
+	[USGSSiteID] [nvarchar](250) NULL,
+	[SiteTypeCV] [nvarchar](100) NULL,
+	[Longitude] [nvarchar](100) NULL,
+	[Latitude] [nvarchar](100) NULL,
+	[Geometry] [nvarchar](max) NULL,
+	[CoordinateMethodCV] [nvarchar](100) NULL,
+	[CoordinateAccuracy] [nvarchar](255) NULL,
+	[GNISCodeCV] [nvarchar](50) NULL,
+	[EPSGCodeCV] [nvarchar](50) NULL
+)
 GO
+
+EXEC Core.UpdateUUDT 'Core', 'SiteTableType';
+GO
+
+
 /****** Object:  StoredProcedure [Core].[LoadSites]    Script Date: 12/6/2019 9:13:49 AM ******/
 SET ANSI_NULLS ON
 GO
@@ -20,9 +38,9 @@ BEGIN
     --data validation
     WITH q1 AS
     (
-        SELECT 'WaDESiteUUID Not Valid' Reason, *
+        SELECT 'SiteUUID Not Valid' Reason, *
         FROM #TempSiteData
-        WHERE WaDESiteUUID IS NULL
+        WHERE SiteUUID IS NULL
         UNION ALL
         SELECT 'SiteName Not Valid' Reason, *
         FROM #TempSiteData
@@ -48,7 +66,7 @@ BEGIN
 
     --merge the data
     MERGE INTO Core.Sites_dim AS Target USING #TempSiteData AS Source
-		ON Target.SiteUUID = Source.WaDESiteUUID
+		ON Target.SiteUUID = Source.SiteUUID
     WHEN MATCHED THEN
         UPDATE SET
             SiteNativeID = Source.SiteNativeID
@@ -81,7 +99,7 @@ BEGIN
 			,EPSGCodeCV
             )
         VALUES
-            (Source.WaDESiteUUID
+            (Source.SiteUUID
             ,Source.SiteNativeID
             ,Source.SiteName
             ,Source.USGSSiteID

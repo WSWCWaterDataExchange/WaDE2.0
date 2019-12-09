@@ -1,6 +1,6 @@
 ﻿USE [Wade2.0]
 GO
-/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 12/6/2019 9:10:36 AM ******/
+/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 12/6/2019 2:21:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -38,7 +38,7 @@ BEGIN
         #TempAggregatedAmountData aad
 		LEFT OUTER JOIN Core.Organizations_dim og ON aad.OrganizationUUID = og.OrganizationUUID
 		LEFT OUTER JOIN Core.ReportingUnits_dim ru ON aad.ReportingUnitUUID = ru.ReportingUnitUUID
-       LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
+        LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
         LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
 	    LEFT OUTER JOIN CVs.BeneficialUses bs ON aad.PrimaryUseCategory = bs.Name
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
@@ -58,11 +58,7 @@ BEGIN
         SELECT 'VariableSpecificID Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
         WHERE VariableSpecificID IS NULL
-        UNION ALL
-		SELECT 'PrimaryUseCategory Not valid' Reason, *
-        FROM #TempJoinedAggregatedAmountData
-        WHERE PrimaryUseCategoryCV IS NULL
-        UNION ALL
+		 UNION ALL
 		SELECT 'MethodID Not Valid' Reason, *
         FROM #TempJoinedAggregatedAmountData
         WHERE MethodID IS NULL
@@ -200,15 +196,9 @@ BEGIN
 		AND ISNULL(Target.TimeframeEndID, '') = ISNULL(Source.TimeframeEndID, '')
 		AND ISNULL(Target.ReportYearCV, '') = ISNULL(Source.ReportYearCV, '')
 		AND ISNULL(Target.PrimaryUseCategoryCV, '') = ISNULL(Source.PrimaryUseCategory, '')
-
 		AND ISNULL(Target.ReportingUnitID,'') = ISNULL(Source.ReportingUnitID,'')
-		
-		
-		
 		AND ISNULL(Target.MethodID,'') = ISNULL(Source.MethodID,'')
 		
-		
-
 	WHEN NOT MATCHED THEN
 		INSERT
 			(OrganizationID

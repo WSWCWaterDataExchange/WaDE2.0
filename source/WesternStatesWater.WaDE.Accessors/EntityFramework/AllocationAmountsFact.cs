@@ -32,7 +32,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }
         public long? PopulationServed { get; set; }
-        public double? PowerGeneratedGwh { get; set; }
+        public double? GeneratedPowerCapacityMW { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
         public string SdwisidentifierCV { get; set; }
