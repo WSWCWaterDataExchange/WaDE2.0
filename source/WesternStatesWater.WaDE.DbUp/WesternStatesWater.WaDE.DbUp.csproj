@@ -83,6 +83,8 @@
     <None Remove="Scripts\003\007 Core.LoadSites Update.sql" />
     <None Remove="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
     <None Remove="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
+    <None Remove="Scripts\003\010 Core.Sites_dim NewColumns.sql" />
+    <None Remove="Scripts\003\011 Core.LoadSites NewColumns.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -320,6 +322,8 @@
     <EmbeddedResource Include="Scripts\003\007 Core.LoadSites Update.sql" />
     <EmbeddedResource Include="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
     <EmbeddedResource Include="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
+    <EmbeddedResource Include="Scripts\003\010 Core.Sites_dim NewColumns.sql" />
+    <EmbeddedResource Include="Scripts\003\011 Core.LoadSites NewColumns.sql" />
   </ItemGroup>
 
   <ItemGroup>

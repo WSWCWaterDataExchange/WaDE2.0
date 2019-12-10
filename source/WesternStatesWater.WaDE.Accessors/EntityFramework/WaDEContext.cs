@@ -52,7 +52,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<SitesDim> SitesDim { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Units> Units { get; set; }
-       // public virtual DbSet<Usgscategory> Usgscategory { get; set; }
+        // public virtual DbSet<Usgscategory> Usgscategory { get; set; }
         public virtual DbSet<Variable> Variable { get; set; }
         public virtual DbSet<VariableSpecific> VariableSpecific { get; set; }
         public virtual DbSet<VariablesDim> VariablesDim { get; set; }
@@ -63,7 +63,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
 
         private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
-        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -533,7 +533,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("FK_AllocationBridge_BeneficialUses_fact_BeneficialUses");
             });
 
-            modelBuilder.Entity<AllocationBridgeSitesFact>(entity => 
+            modelBuilder.Entity<AllocationBridgeSitesFact>(entity =>
             {
                 entity.HasKey(e => e.AllocationBridgeId);
 
@@ -585,7 +585,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.ToTable("BeneficialUses", "CVs");
 
-                
+
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -611,7 +611,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                    .HasColumnName("SourceVocabularyURI")
                    .HasMaxLength(100);
 
-                
+
             });
 
             modelBuilder.Entity<CoordinateMethod>(entity =>
@@ -1328,7 +1328,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("CropTypeCV")
                     .HasMaxLength(100);
 
-               
+
 
                 entity.Property(e => e.CustomerTypeCv)
                    .HasColumnName("CustomerTypeCV")
@@ -1540,6 +1540,18 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .IsRequired()
                     .HasColumnName("SiteUUID")
                     .HasMaxLength(200);
+
+                entity.Property(e => e.HUC8)
+                    .HasColumnName("HUC8")
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.HUC12)
+                    .HasColumnName("HUC12")
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.County)
+                    .HasColumnName("County")
+                    .HasMaxLength(20);
 
                 entity.Property(e => e.UsgssiteId)
                     .HasColumnName("USGSSiteID")

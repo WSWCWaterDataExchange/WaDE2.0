@@ -28,6 +28,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string NhdnetworkStatusCv { get; set; }
         public string NhdproductCv { get; set; }
         public string StateCv { get; set; }
+        public string HUC8 { get; set; }
+        public string HUC12 { get; set; }
+        public string County { get; set; }
 
         public virtual CoordinateMethod CoordinateMethodCvNavigation { get; set; }
         public virtual Epsgcode EpsgcodeCvNavigation { get; set; }
