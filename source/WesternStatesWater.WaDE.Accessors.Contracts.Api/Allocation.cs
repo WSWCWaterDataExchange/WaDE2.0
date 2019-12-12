@@ -24,7 +24,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }
         public long? PopulationServed { get; set; }
-        public double? PowerGeneratedGWh { get; set; }
+        public double? GeneratedPowerCapacityMW { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
         public string AllocationSDWISIdentifier { get; set; }
         public string MethodUUID { get; set; }

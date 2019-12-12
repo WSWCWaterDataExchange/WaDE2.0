@@ -19,7 +19,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long MethodId { get; set; }
         public long? TimeframeStartId { get; set; }
         public long? TimeframeEndId { get; set; }
-        public long? DataPublicationDate { get; set; }
+        public long? DataPublicationDateID { get; set; }
         public string DataPublicationDoi { get; set; }
         public string ReportYearCv { get; set; }
         public double Amount { get; set; }
