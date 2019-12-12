@@ -36,6 +36,7 @@ namespace WaDEApiFunctions.v1
             var statutoryEndDate = ParseDate(((string)req.Query["StatutoryEndDate"]) ?? data?.statutoryEndDate);
             var regulatoryStatusCV = ((string)req.Query["RegulatoryStatusCV"]) ?? data?.regulatoryStatusCV;
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
+            var state = ((string)req.Query["State"]) ?? data?.state;
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) && string.IsNullOrWhiteSpace(regulatoryOverlayUUID) && string.IsNullOrWhiteSpace(organizationUUID) && string.IsNullOrWhiteSpace(regulatoryStatusCV) && string.IsNullOrWhiteSpace(geometry))
             {
@@ -50,7 +51,8 @@ namespace WaDEApiFunctions.v1
                 StatutoryEffectiveDate = statutoryEffectiveDate,
                 StatutoryEndDate = statutoryEndDate,
                 RegulatoryStatusCV = regulatoryStatusCV,
-                Geometry = geometry
+                Geometry = geometry,
+                State = state
             });
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -69,6 +71,7 @@ namespace WaDEApiFunctions.v1
             public string statutoryEndDate { get; set; }
             public string regulatoryStatusCV { get; set; }
             public string searchBoundary { get; set; }
+            public string state { get; set; }
         }
     }
 }

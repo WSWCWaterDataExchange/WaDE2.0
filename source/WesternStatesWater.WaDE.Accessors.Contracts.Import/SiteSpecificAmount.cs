@@ -10,7 +10,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string SiteUUID { get; set; }
-        
+
         [NullValues("")]
         public string VariableSpecificUUID { get; set; }
 
@@ -58,10 +58,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string Geometry { get; set; }
 
-         [NullValues("")]
+        [NullValues("")]
         public string BeneficialUseCategory { get; set; }
 
-         [NullValues("")]
+        [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
         [NullValues("")]
@@ -70,9 +70,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AllocationCropDutyAmount { get; set; }
 
-
-
-
-
+        [NullValues("")]
+        public string PowerType { get; set; }
     }
 }

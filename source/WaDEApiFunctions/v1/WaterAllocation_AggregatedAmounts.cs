@@ -38,6 +38,7 @@ namespace WaDEApiFunctions.v1
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
             var reportingUnitTypeCV = ((string)req.Query["ReportingUnitTypeCV"]) ?? data?.reportingUnitTypeCV;
             var usgsCategoryNameCV = ((string)req.Query["UsgsCategoryNameCV"]) ?? data?.usgsCategoryNameCV;
+            var state = ((string)req.Query["State"]) ?? data?.state;
 
             if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(reportingUnitUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(reportingUnitTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -54,7 +55,8 @@ namespace WaDEApiFunctions.v1
                 VariableCV = variableCV,
                 VariableSpecificCV = variableSpecificCV,
                 StartDate = startDate,
-                EndDate = endDate
+                EndDate = endDate,
+                State = state
             });
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -75,6 +77,7 @@ namespace WaDEApiFunctions.v1
             public string searchBoundary { get; set; }
             public string reportingUnitTypeCV { get; set; }
             public string usgsCategoryNameCV { get; set; }
+            public string state { get; set; }
         }
     }
 }

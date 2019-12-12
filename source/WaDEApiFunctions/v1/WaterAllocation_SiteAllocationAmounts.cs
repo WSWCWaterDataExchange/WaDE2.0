@@ -36,6 +36,10 @@ namespace WaDEApiFunctions.v1
             var geometry = ((string)req.Query["SearchGeometry"]) ?? data?.searchGeometry;
             var startPriorityDate = ParseDate(((string)req.Query["StartPriorityDate"]) ?? data?.startPriorityDate);
             var endPriorityDate = ParseDate(((string)req.Query["EndPriorityDate"]) ?? data?.endPriorityDate);
+            var huc8 = ((string)req.Query["HUC8"]) ?? data?.huc8;
+            var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
+            var county = ((string)req.Query["County"]) ?? data?.county;
+            var state = ((string)req.Query["State"]) ?? data?.state;
 
             if (string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUseCv) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -50,7 +54,11 @@ namespace WaDEApiFunctions.v1
                 SiteUuid = siteUuid,
                 UsgsCategoryNameCv = usgsCategoryNameCV,
                 StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate
+                EndPriorityDate = endPriorityDate,
+                HUC8 = huc8,
+                HUC12 = huc12,
+                County = county,
+                State = state
             });
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
@@ -70,6 +78,10 @@ namespace WaDEApiFunctions.v1
             public string USGSCategoryNameCV { get; set; }
             public string beneficialUseCV { get; set; }
             public string searchGeometry { get; set; }
+            public string huc8 { get; set; }
+            public string huc12 { get; set; }
+            public string county { get; set; }
+            public string state { get; set; }
         }
     }
 }

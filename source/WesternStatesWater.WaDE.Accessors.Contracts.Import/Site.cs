@@ -39,5 +39,14 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string EPSGCodeCV { get; set; }
+
+        [NullValues("")]
+        public string HUC8 { get; set; }
+
+        [NullValues("")]
+        public string HUC12 { get; set; }
+
+        [NullValues("")]
+        public string County { get; set; }
     }
 }

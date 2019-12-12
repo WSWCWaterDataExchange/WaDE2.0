@@ -1,0 +1,11 @@
+﻿ALTER TABLE [Core].Sites_dim
+ADD [HUC8] NVARCHAR (20) NULL
+GO
+
+ALTER TABLE [Core].Sites_dim
+ADD [HUC12] NVARCHAR (20) NULL
+GO
+
+ALTER TABLE [Core].Sites_dim
+ADD [County] NVARCHAR (20) NULL
+GO

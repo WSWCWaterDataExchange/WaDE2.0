@@ -62,6 +62,22 @@ namespace WesternStatesWater.WaDE.Accessors
                         a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
                         a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
                 }
+                if (!string.IsNullOrWhiteSpace(filters.HUC8))
+                {
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.HUC8 == filters.HUC8));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.HUC12))
+                {
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.HUC12 == filters.HUC12));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.County))
+                {
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.County == filters.County));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.State))
+                {
+                    query = query.Where(a => a.Organization.State == filters.State);
+                }
 
                 var results = await query
                     .GroupBy(a => a.Organization)
@@ -112,7 +128,7 @@ namespace WesternStatesWater.WaDE.Accessors
                         .ProjectTo<AccessorApi.Site>(Mapping.DtoMapper.Configuration)
                         .ToList();
 
-                    allocationAmount.Sites = sites; 
+                    allocationAmount.Sites = sites;
                 }
             }
         }
@@ -186,7 +202,7 @@ namespace WesternStatesWater.WaDE.Accessors
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadAggregatedAmounts(string runId, IEnumerable<AccessorImport.AggregatedAmount> aggregatedAmounts)
         {
             var count = aggregatedAmounts.Where(a => string.IsNullOrWhiteSpace(a.PrimaryUseCategory)).ToArray();
-            
+
             using (var db = new EntityFramework.WaDEContext(Configuration))
             using (var cmd = db.Database.GetDbConnection().CreateCommand())
             {
