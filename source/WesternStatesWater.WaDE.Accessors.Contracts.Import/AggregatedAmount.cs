@@ -20,10 +20,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
-
-        
-
-        
         [NullValues("")]
         public string MethodUUID { get; set; }
 
@@ -56,8 +52,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string InterbasinTransferFromID { get; set; }
 
-        
-
         [NullValues("")]
         public string CustomerTypeCV { get; set; }
 
@@ -76,12 +70,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string SDWISIdentifierCV { get; set; }
 
-       
-
-       
-
-       
-
-       
+        [NullValues("")]
+        public string PowerType { get; set; }
     }
 }
