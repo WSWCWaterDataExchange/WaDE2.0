@@ -56,13 +56,13 @@ BEGIN
         ,wt.WaterSourceID
 		,mt.MethodID
 		,bs.Name
-		,CASE WHEN PopulationServed IS NULL OR CommunityWaterSupplySystem IS NULL 
-						OR CustomerType IS NULL OR SDWISIdentifier IS NULL
+		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
+						AND CustomerType IS NULL AND SDWISIdentifier IS NULL
 						THEN 0 ELSE 1 END
-					+ CASE WHEN IrrigatedAcreage IS NULL OR CropTypeCV IS NULL 
-						OR IrrigationMethodCV IS NULL OR AllocationCropDutyAmount IS NULL
+					+ CASE WHEN IrrigatedAcreage IS NULL AND CropTypeCV IS NULL 
+						AND IrrigationMethodCV IS NULL AND AllocationCropDutyAmount IS NULL
 						THEN 0 ELSE 1 END
-					+ CASE WHEN PowerGeneratedGWh IS NULL OR PowerType IS NULL
+					+ CASE WHEN PowerGeneratedGWh IS NULL AND PowerType IS NULL
 						THEN 0 ELSE 1 END CategoryCount
 	
 	INTO
