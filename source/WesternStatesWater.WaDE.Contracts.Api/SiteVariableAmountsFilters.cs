@@ -16,5 +16,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string HUC8 { get; set; }
         public string HUC12 { get; set; }
         public string County { get; set; }
+        public string State { get; set; }
     }
 }

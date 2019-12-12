@@ -78,6 +78,10 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     query = query.Where(a => a.Site.County == filters.County);
                 }
+                if (!string.IsNullOrWhiteSpace(filters.State))
+                {
+                    query = query.Where(a => a.Organization.State == filters.State);
+                }
 
                 var results = await query
                     .GroupBy(a => a.Organization)

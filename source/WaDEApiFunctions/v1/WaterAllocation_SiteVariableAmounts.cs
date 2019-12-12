@@ -38,9 +38,10 @@ namespace WaDEApiFunctions.v1
             var startDate = ParseDate(((string)req.Query["StartDate"]) ?? data?.startDate);
             var endDate = ParseDate(((string)req.Query["EndDate"]) ?? data?.endDate);
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
-            var huc8 = ((string)req.Query["HUC8"]) ?? data?.HUC8;
-            var huc12 = ((string)req.Query["HUC12"]) ?? data?.HUC12;
-            var county = ((string)req.Query["County"]) ?? data?.County;
+            var huc8 = ((string)req.Query["HUC8"]) ?? data?.huc8;
+            var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
+            var county = ((string)req.Query["County"]) ?? data?.county;
+            var state = ((string)req.Query["State"]) ?? data?.state;
 
             if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -60,8 +61,8 @@ namespace WaDEApiFunctions.v1
                 TimeframeEndDate = endDate,
                 HUC8 = huc8,
                 HUC12 = huc12,
-                County = county
-
+                County = county,
+                State = state
             });
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -82,9 +83,10 @@ namespace WaDEApiFunctions.v1
             public string startDate { get; set; }
             public string endDate { get; set; }
             public string searchBoundary { get; set; }
-            public string HUC8 { get; set; }
-            public string HUC12 { get; set; }
-            public string County { get; set; }
+            public string huc8 { get; set; }
+            public string huc12 { get; set; }
+            public string county { get; set; }
+            public string state { get; set; }
         }
     }
 }

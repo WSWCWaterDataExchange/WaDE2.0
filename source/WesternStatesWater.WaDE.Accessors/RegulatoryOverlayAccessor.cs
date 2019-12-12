@@ -55,6 +55,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     var shape = reader.Read(filters.Geometry);
                     query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
                 }
+                if (!string.IsNullOrWhiteSpace(filters.State))
+                {
+                    query = query.Where(a => a.Organization.State == filters.State);
+                }
 
                 var results = await query
                     .GroupBy(a => a.Organization)
