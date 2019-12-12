@@ -35,7 +35,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<LegalStatus> LegalStatus { get; set; }
         public virtual DbSet<MethodType> MethodType { get; set; }
         public virtual DbSet<MethodsDim> MethodsDim { get; set; }
-        //public virtual DbSet<Naicscode> Naicscode { get; set; }
         public virtual DbSet<NhdnetworkStatus> NhdnetworkStatus { get; set; }
         public virtual DbSet<Nhdproduct> Nhdproduct { get; set; }
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
@@ -52,7 +51,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<SitesDim> SitesDim { get; set; }
         public virtual DbSet<State> State { get; set; }
         public virtual DbSet<Units> Units { get; set; }
-        // public virtual DbSet<Usgscategory> Usgscategory { get; set; }
         public virtual DbSet<Variable> Variable { get; set; }
         public virtual DbSet<VariableSpecific> VariableSpecific { get; set; }
         public virtual DbSet<VariablesDim> VariablesDim { get; set; }
