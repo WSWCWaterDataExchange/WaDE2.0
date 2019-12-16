@@ -1,6 +1,4 @@
-﻿USE [Wade2.0]
-GO
-/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 12/6/2019 2:21:17 PM ******/
+﻿/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 12/6/2019 2:21:17 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
