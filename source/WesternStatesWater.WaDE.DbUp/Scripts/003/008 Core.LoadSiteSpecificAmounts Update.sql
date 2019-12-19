@@ -1,6 +1,4 @@
-﻿USE [Wade2.0]
-GO
-/****** Object:  StoredProcedure [Core].[LoadSiteSpecificAmounts]    Script Date: 12/6/2019 9:14:41 AM ******/
+﻿/****** Object:  StoredProcedure [Core].[LoadSiteSpecificAmounts]    Script Date: 12/6/2019 9:14:41 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
