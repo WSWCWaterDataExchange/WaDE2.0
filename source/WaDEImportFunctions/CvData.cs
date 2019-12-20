@@ -53,6 +53,8 @@ namespace WaDEImportFunctions
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
+                ("sdwisidentifier", "SDWISIdentifier"),
+                ("powertype", "PowerType")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
 

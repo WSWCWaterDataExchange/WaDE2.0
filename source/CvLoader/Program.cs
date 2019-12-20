@@ -42,8 +42,12 @@ namespace CvLoader
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
+                ("sdwisidentifier", "SDWISIdentifier"),
+                ("powertype", "PowerType")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
+            Console.WriteLine("Done running CvLoader");
+            Console.ReadKey();
         }
 
         private static async Task ProcessCvTable(string name, string table)
