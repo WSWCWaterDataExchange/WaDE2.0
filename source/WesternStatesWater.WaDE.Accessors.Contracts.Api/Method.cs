@@ -2,6 +2,7 @@
 {
     public class Method
     {
+        public long MethodId { get; set; }
         public string MethodUUID { get; set; }
         public string MethodName { get; set; }
         public string MethodDescription { get; set; }

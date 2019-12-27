@@ -8,6 +8,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
     {
         public ApiProfile()
         {
+
             CreateMap<ManagerApi.AggregatedAmountsFilters, AccessorApi.AggregatedAmountsFilters>();
             CreateMap<ManagerApi.SiteAllocationAmountsFilters, AccessorApi.SiteAllocationAmountsFilters>();
             CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>();
@@ -20,6 +21,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.WaterSource, ManagerApi.WaterSource>();
             CreateMap<AccessorApi.ReportingUnit, ManagerApi.ReportingUnit>();
 
+            CreateMap<AccessorApi.WaterAllocations, ManagerApi.WaterAllocations>();
             CreateMap<AccessorApi.WaterAllocationOrganization, ManagerApi.WaterAllocationOrganization>();
             CreateMap<AccessorApi.Allocation, ManagerApi.Allocation>();
 

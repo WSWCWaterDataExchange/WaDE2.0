@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CvLoader", "CvLoader\CvLoad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuplicateRecordCleanup", "DuplicateRecordCleanup\DuplicateRecordCleanup.csproj", "{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiPerfTest", "ApiPerfTest\ApiPerfTest.csproj", "{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +136,7 @@ Global
 		{304BDD8F-5088-458E-9CFB-9D06929700D5} = {21B09963-0085-489E-AC9E-3D5B95E3F4C0}
 		{FC968246-0B5F-402A-8864-D27D69A1C045} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
+		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}

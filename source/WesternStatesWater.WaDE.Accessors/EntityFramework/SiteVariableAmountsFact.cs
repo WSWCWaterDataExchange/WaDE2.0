@@ -35,7 +35,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string PrimaryUseCategoryCV { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
 
-        public virtual BeneficialUsesCV BeneficialUse { get; set; }
+        public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual CropType CropTypeCvNavigation { get; set; }
         public virtual CustomerType CustomerTypeCvNavigation { get; set; }
         public virtual SDWISIdentifier SDWISIdentifierCvNavigation { get; set; }

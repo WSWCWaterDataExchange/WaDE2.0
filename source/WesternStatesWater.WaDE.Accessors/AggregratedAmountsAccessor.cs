@@ -26,6 +26,7 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 var query = db.AggregatedAmountsFact.AsNoTracking();
+
                 if (filters.StartDate != null)
                 {
                     query = query.Where(a => a.TimeframeStart.Date >= filters.StartDate);
@@ -44,7 +45,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUse))
                 {
-                    query = query.Where(a => a.BeneficialUse.Name == filters.BeneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUse));
+                    query = query.Where(a => a.PrimaryBeneficialUse.Name == filters.BeneficialUse || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUse));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
                 {
@@ -56,7 +57,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCV))
                 {
-                    query = query.Where(a => a.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV));
+                    query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV || a.AggBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCV));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.Geometry))
                 {

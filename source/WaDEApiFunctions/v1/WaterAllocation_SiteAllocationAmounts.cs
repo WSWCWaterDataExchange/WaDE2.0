@@ -40,6 +40,18 @@ namespace WaDEApiFunctions.v1
             var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
             var county = ((string)req.Query["County"]) ?? data?.county;
             var state = ((string)req.Query["State"]) ?? data?.state;
+            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 10000;
+
+            if (startIndex < 0)
+            {
+                return new BadRequestObjectResult("Start index must be 0 or greater.");
+            }
+
+            if (recordCount < 1 || recordCount > 10000)
+            {
+                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+            }
 
             if (string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUseCv) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -59,7 +71,7 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            });
+            }, startIndex, recordCount);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -67,6 +79,11 @@ namespace WaDEApiFunctions.v1
         private static DateTime? ParseDate(string value)
         {
             return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
+        }
+
+        private static int? ParseInt(string value)
+        {
+            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class SiteAllocationAmountsRequestBody
@@ -82,6 +99,8 @@ namespace WaDEApiFunctions.v1
             public string huc12 { get; set; }
             public string county { get; set; }
             public string state { get; set; }
+            public string startIndex { get; set; }
+            public string recordCount { get; set; }
         }
     }
 }

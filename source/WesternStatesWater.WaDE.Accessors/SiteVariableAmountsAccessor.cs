@@ -45,11 +45,11 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
+                    query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
-                    query = query.Where(a => a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                    query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.SitesBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
                 {

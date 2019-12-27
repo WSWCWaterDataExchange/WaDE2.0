@@ -67,7 +67,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
                 //uncomment the next line to get the SQL commands that are being executed
-                //optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+                optionsBuilder.UseLoggerFactory(MyLoggerFactory);
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
                 {
                     x.UseNetTopologySuite();
@@ -186,7 +186,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.WaterSourceId).HasColumnName("WaterSourceID");
 
-                entity.HasOne(d => d.BeneficialUse)
+                entity.HasOne(d => d.PrimaryBeneficialUse)
                     .WithMany(p => p.AggregatedAmountsFact)
                     .HasForeignKey(d => d.PrimaryUseCategoryCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1376,7 +1376,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.WaterSourceId).HasColumnName("WaterSourceID");
 
-                entity.HasOne(d => d.BeneficialUse)
+                entity.HasOne(d => d.PrimaryBeneficialUse)
                   .WithMany(p => p.SiteVariableAmountsFact)
                   .HasForeignKey(d => d.PrimaryUseCategoryCV)
                   .OnDelete(DeleteBehavior.ClientSetNull)
@@ -1586,6 +1586,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .WithMany(p => p.SitesDim)
                     .HasForeignKey(d => d.SiteTypeCv)
                     .HasConstraintName("fk_Sites_dim_SiteType");
+
+                entity.HasOne(d => d.StateCVNavigation)
+                    .WithMany(p => p.SitesDims)
+                    .HasForeignKey(d => d.StateCv)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Sites_dim_StateCV");
             });
 
             modelBuilder.Entity<State>(entity =>
