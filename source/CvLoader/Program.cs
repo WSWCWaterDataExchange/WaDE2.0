@@ -43,7 +43,8 @@ namespace CvLoader
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
                 ("sdwisidentifier", "SDWISIdentifier"),
-                ("powertype", "PowerType")
+                ("powertype", "PowerType"),
+                ("states", "State")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
             Console.WriteLine("Done running CvLoader");
@@ -81,7 +82,7 @@ namespace CvLoader
             {
                 foreach (var record in data)
                 {
-                    var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
+                    var name = table == "reportyearcv" ? record.name.Substring(0, 4) : (record.name as string).Replace("'", "''");
                     var sql = $@"MERGE CVs.{table} AS target
     USING (SELECT '{record.term}' Term, '{name}' Name, '{record.state}' State, '{record.provenance_uri}' Source, '{record.definition}' Def) AS source
         ON target.Name = source.Name
