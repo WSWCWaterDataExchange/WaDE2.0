@@ -92,7 +92,7 @@ namespace WaDEImportFunctions
                 //This method is very slow doing this one record at a time.  It should be updated to be able to do multiple records in one command.
                 foreach (var record in data)
                 {
-                    var name = table == "reportyearcv" ? record.name.Substring(0, 4) : (record.name as string).Replace("'", "''");
+                    var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
                     var sql = $@"MERGE CVs.{table} AS target
     USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def) AS source
         ON target.Name = source.Name
