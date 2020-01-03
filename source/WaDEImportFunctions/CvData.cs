@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -54,7 +55,8 @@ namespace WaDEImportFunctions
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
                 ("sdwisidentifier", "SDWISIdentifier"),
-                ("powertype", "PowerType")
+                ("powertype", "PowerType"),
+                ("states", "State")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
 
@@ -92,7 +94,7 @@ namespace WaDEImportFunctions
                 {
                     var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
                     var sql = $@"MERGE CVs.{table} AS target
-    USING (SELECT '{record.term}' Term, '{name}' Name, '{record.state}' State, '{record.provenance_uri}' Source, '{record.definition}' Def) AS source
+    USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def) AS source
         ON target.Name = source.Name
     WHEN MATCHED THEN UPDATE
         SET term = source.term,
@@ -102,7 +104,12 @@ namespace WaDEImportFunctions
     WHEN NOT MATCHED THEN 
         INSERT (name, term, state, sourceVocabularyURI, definition) 
         VALUES (source.name, source.term, source.state, source.source, source.def);";
-                    await db.Database.ExecuteSqlCommandAsync(sql);
+                    await db.Database.ExecuteSqlCommandAsync(sql,
+                        new SqlParameter("@p0", record.term),
+                            new SqlParameter("@p1", name),
+                            new SqlParameter("@p2", record.state),
+                            new SqlParameter("@p3", record.provenance_uri),
+                            new SqlParameter("@p4", record.definition));
 
                 }
                 ts.Complete();
