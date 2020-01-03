@@ -37,6 +37,18 @@ namespace WaDEApiFunctions.v1
             var regulatoryStatusCV = ((string)req.Query["RegulatoryStatusCV"]) ?? data?.regulatoryStatusCV;
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
             var state = ((string)req.Query["State"]) ?? data?.state;
+            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+
+            if (startIndex < 0)
+            {
+                return new BadRequestObjectResult("Start index must be 0 or greater.");
+            }
+
+            if (recordCount < 1 || recordCount > 10000)
+            {
+                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+            }
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) && string.IsNullOrWhiteSpace(regulatoryOverlayUUID) && string.IsNullOrWhiteSpace(organizationUUID) && string.IsNullOrWhiteSpace(regulatoryStatusCV) && string.IsNullOrWhiteSpace(geometry))
             {
@@ -53,13 +65,18 @@ namespace WaDEApiFunctions.v1
                 RegulatoryStatusCV = regulatoryStatusCV,
                 Geometry = geometry,
                 State = state
-            });
+            }, startIndex, recordCount);
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
         private static DateTime? ParseDate(string value)
         {
             return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
+        }
+
+        private static int? ParseInt(string value)
+        {
+            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class RegulatoryOverlayRequestBody
@@ -72,6 +89,8 @@ namespace WaDEApiFunctions.v1
             public string regulatoryStatusCV { get; set; }
             public string searchBoundary { get; set; }
             public string state { get; set; }
+            public string startIndex { get; set; }
+            public string recordCount { get; set; }
         }
     }
 }

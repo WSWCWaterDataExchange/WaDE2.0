@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public interface IWaterAllocationManager
     {
-        Task<IEnumerable<WaterAllocationOrganization>> GetSiteAllocationAmountsAsync(SiteAllocationAmountsFilters filters);
+        Task<WaterAllocations> GetSiteAllocationAmountsAsync(SiteAllocationAmountsFilters filters, int startIndex, int recordCount);
     }
 }

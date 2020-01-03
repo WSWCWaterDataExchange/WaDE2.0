@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.0" />
+    <PackageReference Include="JustMock" Version="2019.3.910.4" />
     <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.3" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.4.0" />
@@ -18,6 +20,32 @@
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Api\WesternStatesWater.WaDE.Accessors.Contracts.Api.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj" />
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="ImportData\ImportData.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ImportData.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="ImportData\ImportData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ImportData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+    <None Update="settings.nwilkinson.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -20,10 +20,13 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string MethodUUID { get; set; }
 
+        [NullValues("")]
         public DateTime? TimeframeStart { get; set; }
 
+        [NullValues("")]
         public DateTime? TimeframeEnd { get; set; }
 
+        [NullValues("")]
         public DateTime? DataPublicationDate { get; set; }
 
         [NullValues("")]
@@ -32,12 +35,16 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string ReportYearCV { get; set; }
 
+        [NullValues("")]
         public string Amount { get; set; }
 
+        [NullValues("")]
         public string PopulationServed { get; set; }
 
+        [NullValues("")]
         public string PowerGeneratedGWh { get; set; }
 
+        [NullValues("")]
         public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]

@@ -2,6 +2,7 @@
 {
     public class WaterSource
     {
+        public long WaterSourceId { get; set; }
         public string WaterSourceName { get; set; }
         public string WaterSourceNativeID { get; set; }
         public string WaterSourceUUID { get; set; }

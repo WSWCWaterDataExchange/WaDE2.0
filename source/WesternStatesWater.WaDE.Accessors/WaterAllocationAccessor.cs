@@ -9,30 +9,38 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Data.Common;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
+using System.Data.Sql;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
     public class WaterAllocationAccessor : AccessorApi.IWaterAllocationAccessor, AccessorImport.IWaterAllocationAccessor
     {
-        public WaterAllocationAccessor(IConfiguration configuration)
+        public WaterAllocationAccessor(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            Logger = loggerFactory.CreateLogger<WaterAllocationAccessor>();
         }
 
-        private IConfiguration Configuration { get; set; }
+        private ILogger Logger { get; }
+        private IConfiguration Configuration { get; }
 
-        async Task<IEnumerable<AccessorApi.WaterAllocationOrganization>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(AccessorApi.SiteAllocationAmountsFilters filters)
+        async Task<AccessorApi.WaterAllocations> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(AccessorApi.SiteAllocationAmountsFilters filters, int startIndex, int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
+                var sw = Stopwatch.StartNew();
+                var query = db.AllocationAmountsFact.AsNoTracking();
 
-                var query = db.AllocationAmountsFact
-                    .AsNoTracking();
                 if (filters.StartPriorityDate != null)
                 {
                     query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
@@ -47,7 +55,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
                 {
-                    query = query.Where(a => a.PrimaryBeneficialUse.Name == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.Name == filters.BeneficialUseCv));
+                    query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
                 }
                 if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
                 {
@@ -79,58 +87,153 @@ namespace WesternStatesWater.WaDE.Accessors
                     query = query.Where(a => a.Organization.State == filters.State);
                 }
 
+                var totalCount = query.Count();
+
                 var results = await query
-                    .GroupBy(a => a.Organization)
+                    .Skip(startIndex)
+                    .Take(recordCount)
+                    .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var allocationIds = results.Select(a => a.AllocationAmountId).ToList();
+
+                var sitesTask = db.AllocationBridgeSitesFact
+                    .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                    .Select(a=> new {a.AllocationAmountId, a.Site})
+                    .ToListAsync();
+
+                var beneficialUseTask = db.AllocationBridgeBeneficialUsesFact
+                    .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                    .Select(a => new { a.AllocationAmountId, a.BeneficialUse })
+                    .ToListAsync();
+
+                var orgIds = results.Select(a => a.OrganizationId).ToHashSet();
+                var orgsTask = db.OrganizationsDim
+                    .Where(a => orgIds.Contains(a.OrganizationId))
                     .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
-                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
-                Parallel.ForEach(results.SelectMany(a => a.WaterAllocations).Batch(10000), waterAllocations =>
-                {
-                    SetBeneficialUses(waterAllocations, allBeneficialUses);
-                    SetSites(waterAllocations);
-                });
+                var waterSourceIds = results.Select(a => a.WaterSourceId).ToHashSet();
+                var waterSourceTask = db.WaterSourcesDim
+                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                    .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
 
-                return results;
+                var variableSpecificIds = results.Select(a => a.VariableSpecificId).ToHashSet();
+                var variableSpecificTask = db.VariablesDim
+                    .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                    .ProjectTo<AccessorApi.VariableSpecific>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var methodIds = results.Select(a => a.MethodId).ToHashSet();
+                var methodTask = db.MethodsDim
+                    .Where(a => methodIds.Contains(a.MethodId))
+                    .ProjectTo<AccessorApi.Method>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
+                var beneficialUses = (await beneficialUseTask).Select(a => (a.AllocationAmountId, a.BeneficialUse)).ToList();
+                var waterSources = await waterSourceTask;
+                var variableSpecifics = await variableSpecificTask;
+                var methods = await methodTask;
+
+                var waterAllocationOrganizations = new List<AccessorApi.WaterAllocationOrganization>();
+                foreach (var org in await orgsTask)
+                {
+                    ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites);
+                    waterAllocationOrganizations.Add(org);
+                }
+
+                sw.Stop();
+                Logger.LogInformation($"Completed WaterAllocation [{sw.ElapsedMilliseconds } ms]");
+                return new AccessorApi.WaterAllocations
+                {
+                    TotalWaterAllocationsCount = totalCount,
+                    Organizations = waterAllocationOrganizations
+                };
             }
         }
 
-        private void SetBeneficialUses(IEnumerable<AccessorApi.Allocation> allocationAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        private static void ProcessWaterAllocationOrganization(AccessorApi.WaterAllocationOrganization org,
+            List<AllocationHelper> results, 
+            List<AccessorApi.WaterSource> waterSources,
+            List<AccessorApi.VariableSpecific> variableSpecifics, 
+            List<AccessorApi.Method> methods,
+            List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
+            List<(long AllocationAmountId, SitesDim Site)> sites)
         {
-            using (var db = new EntityFramework.WaDEContext(Configuration))
+            var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
+
+            var allocationIds = allocations.Select(a => a.AllocationAmountId).ToHashSet();
+            var waterSourceIds = allocations.Select(a => a.WaterSourceId).ToHashSet();
+            var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
+            var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
+
+            org.WaterSources = waterSources
+                .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                .Map<List<AccessorApi.WaterSource>>();
+
+            org.VariableSpecifics = variableSpecifics
+                .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                .Map<List<AccessorApi.VariableSpecific>>();
+
+            org.Methods = methods
+                .Where(a => methodIds.Contains(a.MethodId))
+                .Map<List<AccessorApi.Method>>();
+
+            org.BeneficialUses = beneficialUses
+                .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                .Select(a => a.BeneficialUse)
+                .DistinctBy(a => a.Name)
+                .Map<List<AccessorApi.BeneficialUse>>();
+
+            org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
+
+            foreach (var waterAllocation in org.WaterAllocations)
             {
-                var ids = allocationAmounts.Select(a => a.AllocationAmountId).ToArray();
-                var beneficialUses = db.AllocationBridgeBeneficialUsesFact
-                    .Where(a => ids.Contains(a.AllocationAmountId))
-                    .Select(a => new { a.AllocationAmountId, a.BeneficialUseCV })
-                    .ToList();
-                foreach (var allocationAmount in allocationAmounts)
-                {
-                    allocationAmount.BeneficialUses = beneficialUses
-                        .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
-                        .Where(a => a != null)
-                        .Distinct()
-                        .ToList();
-                }
+                waterAllocation.BeneficialUses = beneficialUses
+                    .Where(a => a.AllocationAmountId == waterAllocation.AllocationAmountId)
+                    .Select(a => a.BeneficialUse.Name).ToList();
+
+                waterAllocation.Sites = sites
+                    .Where(a => a.AllocationAmountId == waterAllocation.AllocationAmountId)
+                    .Select(a => a.Site)
+                    .Map<List<AccessorApi.Site>>();
             }
         }
 
-        private void SetSites(IEnumerable<AccessorApi.Allocation> allocationAmounts)
+        internal class AllocationHelper
         {
-            using (var db = new EntityFramework.WaDEContext(Configuration))
-            {
-                foreach (var allocationAmount in allocationAmounts)
-                {
-                    var sites = db.AllocationBridgeSitesFact
-                        .Where(a => a.AllocationAmountId == allocationAmount.AllocationAmountId)
-                        .Select(a => a.Site)
-                        .ProjectTo<AccessorApi.Site>(Mapping.DtoMapper.Configuration)
-                        .ToList();
+            public long OrganizationId { get; set; }
+            public long AllocationAmountId { get; set; }
+            public string AllocationNativeID { get; set; }
+            public long WaterSourceId { get; set; }
+            public string WaterSourceUUID { get; set; }
+            public string AllocationOwner { get; set; }
+            public DateTime? AllocationApplicationDate { get; set; }
+            public DateTime AllocationPriorityDate { get; set; }
+            public string AllocationLegalStatusCodeCV { get; set; }
+            public DateTime? AllocationExpirationDate { get; set; }
+            public string AllocationChangeApplicationIndicator { get; set; }
+            public string LegacyAllocationIDs { get; set; }
+            public double? AllocationAcreage { get; set; }
+            public string AllocationBasisCV { get; set; }
+            public DateTime? TimeframeStart { get; set; }
+            public DateTime? TimeframeEnd { get; set; }
+            public DateTime? DataPublicationDate { get; set; }
+            public double? AllocationCropDutyAmount { get; set; }
+            public double? AllocationAmount { get; set; }
+            public double? AllocationMaximum { get; set; }
+            public long? PopulationServed { get; set; }
+            public double? GeneratedPowerCapacityMW { get; set; }
+            public string AllocationCommunityWaterSupplySystem { get; set; }
+            public string AllocationSDWISIdentifier { get; set; }
+            public long MethodId { get; set; }
+            public string MethodUUID { get; set; }
+            public long VariableSpecificId { get; set; }
+            public string VariableSpecificTypeCV { get; set; }
+            public string PrimaryUseCategoryCV { get; set; }
 
-                    allocationAmount.Sites = sites;
-                }
-            }
         }
 
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadOrganizations(string runId, IEnumerable<AccessorImport.Organization> organizations)

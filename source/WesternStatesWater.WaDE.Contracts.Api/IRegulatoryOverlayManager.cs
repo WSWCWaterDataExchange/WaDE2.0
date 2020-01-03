@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public interface IRegulatoryOverlayManager
     {
-        Task<IEnumerable<RegulatoryReportingUnitsOrganization>> GetRegulatoryReportingUnitsAsync(RegulatoryOverlayFilters filters);
+        Task<RegulatoryReportingUnits> GetRegulatoryReportingUnitsAsync(RegulatoryOverlayFilters filters, int startIndex, int recordCount);
     }
 }

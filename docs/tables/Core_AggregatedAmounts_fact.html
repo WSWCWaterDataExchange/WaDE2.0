@@ -87,7 +87,7 @@
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_DataPublicationDate.html">DataPublicationDate</a></td><td class="FkCol">BigInt</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_DataPublicationDateID.html">DataPublicationDateID</a></td><td class="FkCol">BigInt</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Date that these data were published by the data provider	</td><td class="FkCol">
@@ -201,28 +201,28 @@
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end.html">fk_AggregatedAmounts_Date_dim_end</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeEndID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDate</td>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_end_pub.html">fk_AggregatedAmounts_Date_dim_end_pub</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_Date_dim_start.html">fk_AggregatedAmounts_Date_dim_start</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>DateID</td><td>TimeframeStartID</td>
 </tr>
 <tr class="altRow">
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_BeneficialUseCategory.html">fk_AggregatedAmounts_fact_BeneficialUseCategory</a></td><td><a href="../tables/CVs_BeneficialUseCategory.html">CVs.BeneficialUseCategory</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>PrimaryUseCategoryCV</td>
+</tr>
+<tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_CropType.html">fk_AggregatedAmounts_fact_CropType</a></td><td><a href="../tables/CVs_CropType.html">CVs.CropType</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>CropTypeCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_CustomerTypeCV.html">fk_AggregatedAmounts_fact_CustomerTypeCV</a></td><td><a href="../tables/CVs_CustomerTypeCV.html">CVs.CustomerTypeCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>CustomerTypeCV</td>
 </tr>
-<tr class="altRow">
+<tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_IrrigationMethod.html">fk_AggregatedAmounts_fact_IrrigationMethod</a></td><td><a href="../tables/CVs_IrrigationMethod.html">CVs.IrrigationMethod</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>IrrigationMethodCV</td>
 </tr>
-<tr>
+<tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Methods_dim.html">fk_AggregatedAmounts_fact_Methods_dim</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>MethodID</td><td>MethodID</td>
 </tr>
-<tr class="altRow">
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
-</tr>
 <tr>
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_PrimaryUseCategory.html">fk_AggregatedAmounts_fact_PrimaryUseCategory</a></td><td><a href="../tables/CVs_PrimaryUseCategory.html">CVs.PrimaryUseCategory</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>PrimaryUseCategoryCV</td>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>

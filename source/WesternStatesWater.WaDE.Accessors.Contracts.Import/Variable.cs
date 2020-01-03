@@ -4,7 +4,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
     public class Variable
     {
-
         [NullValues("")]
         public string VariableSpecificCV { get; set; }
 
@@ -17,6 +16,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AggregationStatisticCV { get; set; }
 
+        [NullValues("")]
         public string AggregationInterval { get; set; }
 
         [NullValues("")]

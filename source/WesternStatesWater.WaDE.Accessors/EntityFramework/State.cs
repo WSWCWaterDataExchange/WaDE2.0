@@ -8,6 +8,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public State()
         {
             ReportingUnitsDim = new HashSet<ReportingUnitsDim>();
+            SitesDims = new HashSet<SitesDim>();
         }
 
         public string Name { get; set; }
@@ -17,5 +18,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string SourceVocabularyUri { get; set; }
 
         public virtual ICollection<ReportingUnitsDim> ReportingUnitsDim { get; set; }
+        public virtual ICollection<SitesDim> SitesDims { get; set; }
     }
 }
