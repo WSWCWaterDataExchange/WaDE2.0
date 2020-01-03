@@ -5,6 +5,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public interface IAggregatedAmountsAccessor
     {
-        Task<IEnumerable<AggregatedAmountsOrganization>> GetAggregatedAmountsAsync(AggregatedAmountsFilters filters);
+        Task<AggregatedAmounts> GetAggregatedAmountsAsync(AggregatedAmountsFilters filters, int startIndex, int recordCount);
     }
 }

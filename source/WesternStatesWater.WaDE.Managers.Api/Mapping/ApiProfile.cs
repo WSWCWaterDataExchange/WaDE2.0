@@ -25,9 +25,11 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.WaterAllocationOrganization, ManagerApi.WaterAllocationOrganization>();
             CreateMap<AccessorApi.Allocation, ManagerApi.Allocation>();
 
+            CreateMap<AccessorApi.AggregatedAmounts, ManagerApi.AggregatedAmounts>();
             CreateMap<AccessorApi.AggregatedAmountsOrganization, ManagerApi.AggregatedAmountsOrganization>();
             CreateMap<AccessorApi.AggregatedAmount, ManagerApi.AggregatedAmount>();
 
+            CreateMap<AccessorApi.SiteVariableAmounts, ManagerApi.SiteVariableAmounts>();
             CreateMap<AccessorApi.SiteVariableAmountsOrganization, ManagerApi.SiteVariableAmountsOrganization>();
             CreateMap<AccessorApi.SiteVariableAmount, ManagerApi.SiteVariableAmount>();
 

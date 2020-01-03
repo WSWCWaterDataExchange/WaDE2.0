@@ -39,6 +39,18 @@ namespace WaDEApiFunctions.v1
             var reportingUnitTypeCV = ((string)req.Query["ReportingUnitTypeCV"]) ?? data?.reportingUnitTypeCV;
             var usgsCategoryNameCV = ((string)req.Query["UsgsCategoryNameCV"]) ?? data?.usgsCategoryNameCV;
             var state = ((string)req.Query["State"]) ?? data?.state;
+            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+
+            if (startIndex < 0)
+            {
+                return new BadRequestObjectResult("Start index must be 0 or greater.");
+            }
+
+            if (recordCount < 1 || recordCount > 10000)
+            {
+                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+            }
 
             if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(reportingUnitUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(reportingUnitTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -57,13 +69,18 @@ namespace WaDEApiFunctions.v1
                 StartDate = startDate,
                 EndDate = endDate,
                 State = state
-            });
+            }, startIndex, recordCount);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
         private static DateTime? ParseDate(string value)
         {
             return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
+        }
+
+        private static int? ParseInt(string value)
+        {
+            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class AggregratedAmountsRequestBody
@@ -78,6 +95,8 @@ namespace WaDEApiFunctions.v1
             public string reportingUnitTypeCV { get; set; }
             public string usgsCategoryNameCV { get; set; }
             public string state { get; set; }
+            public string startIndex { get; set; }
+            public string recordCount { get; set; }
         }
     }
 }

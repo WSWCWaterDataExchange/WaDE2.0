@@ -39,7 +39,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public string CommunityWaterSupplySystem { get; set; }
 
-        public string AllocationCropDutyAmount { get; set; }
+        public double? AllocationCropDutyAmount { get; set; }
 
         public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual DateDim DataPublicationDateNavigation { get; set; }

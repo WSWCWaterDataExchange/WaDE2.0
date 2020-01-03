@@ -28,7 +28,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string OrganizationDataMappingURL { get; set; }
 
-        
+        [NullValues("")]
         public string State { get; set; }
     }
 }

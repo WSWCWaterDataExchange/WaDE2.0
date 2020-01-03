@@ -4,7 +4,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public class WaterAllocations
     {
-        public int TotalCount { get; set; }
-        public IEnumerable<WaterAllocationOrganization> WaterAllocationOrganizations { get; set; }
+        public int TotalWaterAllocationsCount { get; set; }
+        public IEnumerable<WaterAllocationOrganization> Organizations { get; set; }
     }
 }

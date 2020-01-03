@@ -1,30 +1,37 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
     public class AggregratedAmountsAccessor : AccessorApi.IAggregatedAmountsAccessor
     {
-        public AggregratedAmountsAccessor(IConfiguration configuration)
+        public AggregratedAmountsAccessor(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
             Configuration = configuration;
+            Logger = loggerFactory.CreateLogger<AggregratedAmountsAccessor>();
         }
 
+        private ILogger Logger { get; }
         private IConfiguration Configuration { get; set; }
 
-        async Task<IEnumerable<AccessorApi.AggregatedAmountsOrganization>> AccessorApi.IAggregatedAmountsAccessor.GetAggregatedAmountsAsync(AccessorApi.AggregatedAmountsFilters filters)
+        async Task<AccessorApi.AggregatedAmounts> AccessorApi.IAggregatedAmountsAccessor.GetAggregatedAmountsAsync(AccessorApi.AggregatedAmountsFilters filters, int startIndex, int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
+                var sw = Stopwatch.StartNew();
                 var query = db.AggregatedAmountsFact.AsNoTracking();
 
                 if (filters.StartDate != null)
@@ -71,40 +78,139 @@ namespace WesternStatesWater.WaDE.Accessors
                     query = query.Where(a => a.Organization.State == filters.State);
                 }
 
+                var totalCount = query.Count();
+
                 var results = await query
-                    .GroupBy(a => a.Organization)
+                    .Skip(startIndex)
+                    .Take(recordCount)
+                    .ProjectTo<AggregatedHelper>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var aggregatedIds = results.Select(a => a.AggregatedAmountId).ToList();
+
+                var beneficialUseTask = db.AggBridgeBeneficialUsesFact
+                    .Where(a => aggregatedIds.Contains(a.AggregatedAmountId))
+                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUse })
+                    .ToListAsync();
+
+                var orgIds = results.Select(a => a.OrganizationId).ToHashSet();
+                var orgsTask = db.OrganizationsDim
+                    .Where(a => orgIds.Contains(a.OrganizationId))
                     .ProjectTo<AccessorApi.AggregatedAmountsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
-                var allBeneficialUses = results.SelectMany(a => a.BeneficialUses).ToList();
-                Parallel.ForEach(results.SelectMany(a => a.AggregatedAmounts).Batch(10000), aggAmounts =>
-                {
-                    SetBeneficialUses(aggAmounts, allBeneficialUses);
-                });
+                var waterSourceIds = results.Select(a => a.WaterSourceId).ToHashSet();
+                var waterSourceTask = db.WaterSourcesDim
+                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                    .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
 
-                return results;
+                var reportingUnitIds = results.Select(a => a.ReportingUnitId).ToHashSet();
+                var reportingUnitsTask = db.WaterSourcesDim
+                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                    .ProjectTo<AccessorApi.ReportingUnit>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var methodIds = results.Select(a => a.MethodId).ToHashSet();
+                var methodTask = db.MethodsDim
+                    .Where(a => methodIds.Contains(a.MethodId))
+                    .ProjectTo<AccessorApi.Method>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var variableSpecificIds = results.Select(a => a.VariableSpecificId).ToHashSet();
+                var variableSpecificTask = db.VariablesDim
+                    .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                    .ProjectTo<AccessorApi.VariableSpecific>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var beneficialUses = (await beneficialUseTask).Select(a => (a.AggregatedAmountId, a.BeneficialUse)).ToList();
+                var waterSources = await waterSourceTask;
+                var variableSpecifics = await variableSpecificTask;
+                var methods = await methodTask;
+                var reportingUnits = await reportingUnitsTask;
+
+                var waterAllocationOrganizations = new List<AccessorApi.AggregatedAmountsOrganization>();
+                foreach (var org in await orgsTask)
+                {
+                    ProcessAggregatedAmountsOrganization(org, results, waterSources, variableSpecifics, reportingUnits, methods, beneficialUses);
+                    waterAllocationOrganizations.Add(org);
+                }
+
+                sw.Stop();
+                Logger.LogInformation($"Completed AggregatedAmounts [{sw.ElapsedMilliseconds } ms]");
+                return new AccessorApi.AggregatedAmounts
+                {
+                    TotalAggregatedAmountsCount = totalCount,
+                    Organizations = waterAllocationOrganizations
+                };
             }
         }
 
-        private void SetBeneficialUses(IEnumerable<AccessorApi.AggregatedAmount> aggAmounts, List<AccessorApi.BeneficialUse> allBeneficialUses)
+        private static void ProcessAggregatedAmountsOrganization(AccessorApi.AggregatedAmountsOrganization org, List<AggregatedHelper> results,
+            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.ReportingUnit> reportingUnits, List<AccessorApi.Method> methods, List<(long AggregatedAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses)
         {
-            using (var db = new EntityFramework.WaDEContext(Configuration))
+            var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
+
+            var allocationIds = allocations.Select(a => a.AggregatedAmountId).ToHashSet();
+            var waterSourceIds = allocations.Select(a => a.WaterSourceId).ToHashSet();
+            var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
+            var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
+
+            org.WaterSources = waterSources
+                .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                .Map<List<AccessorApi.WaterSource>>();
+
+            org.VariableSpecifics = variableSpecifics
+                .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                .Map<List<AccessorApi.VariableSpecific>>();
+
+            org.ReportingUnits = reportingUnits
+                .Where(a => variableSpecificIds.Contains(a.ReportingUnitId))
+                .Map<List<AccessorApi.ReportingUnit>>();
+
+            org.Methods = methods
+                .Where(a => methodIds.Contains(a.MethodId))
+                .Map<List<AccessorApi.Method>>();
+
+            org.BeneficialUses = beneficialUses
+                .Where(a => allocationIds.Contains(a.AggregatedAmountId))
+                .Select(a => a.BeneficialUse)
+                .DistinctBy(a => a.Name)
+                .Map<List<AccessorApi.BeneficialUse>>();
+
+            org.AggregatedAmounts = allocations.Map<List<AccessorApi.AggregatedAmount>>();
+
+            foreach (var waterAllocation in org.AggregatedAmounts)
             {
-                var ids = aggAmounts.Select(a => a.AggregatedAmountId).ToArray();
-                var beneficialUses = db.AggBridgeBeneficialUsesFact
-                    .Where(a => ids.Contains(a.AggregatedAmountId))
-                    .Select(a => new { a.AggregatedAmountId, a.BeneficialUseCV })
-                    .ToList();
-                foreach (var aggAmount in aggAmounts)
-                {
-                    aggAmount.BeneficialUses = beneficialUses
-                        .Where(a => a.AggregatedAmountId == aggAmount.AggregatedAmountId)
-                        .Select(a => allBeneficialUses.FirstOrDefault(b => b.Name == a.BeneficialUseCV)?.Name)
-                        .Where(a => a != null)
-                        .Distinct()
-                        .ToList();
-                }
+                waterAllocation.BeneficialUses = beneficialUses
+                    .Where(a => a.AggregatedAmountId == waterAllocation.AggregatedAmountId)
+                    .Select(a => a.BeneficialUse.Name).ToList();
             }
+        }
+
+        internal class AggregatedHelper
+        {
+            public long AggregatedAmountId { get; set; }
+            public string Variable { get; set; }
+            public string VariableSpecificTypeCV { get; set; }
+            public string MethodUUID { get; set; }
+            public string ReportYear { get; set; }
+            public DateTime? TimeframeStart { get; set; }
+            public DateTime? TimeframeEnd { get; set; }
+            public string WaterSourceUUID { get; set; }
+            public string ReportingUnitUUID { get; set; }
+            public double Amount { get; set; }
+            public long? PopulationServed { get; set; }
+            public double? PowerGeneratedGWh { get; set; }
+            public double? IrrigatedAcreage { get; set; }
+            public DateTime? DataPublicationDate { get; set; }
+            public string PrimaryUse { get; set; }
+
+            public long OrganizationId { get; set; }
+            public long WaterSourceId { get; set; }
+            public long ReportingUnitId { get; set; }
+            public long MethodId { get; set; }
+            public long VariableSpecificId { get; set; }
         }
     }
 }

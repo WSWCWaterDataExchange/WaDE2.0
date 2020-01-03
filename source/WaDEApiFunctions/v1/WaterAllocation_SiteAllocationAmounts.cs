@@ -41,7 +41,7 @@ namespace WaDEApiFunctions.v1
             var county = ((string)req.Query["County"]) ?? data?.county;
             var state = ((string)req.Query["State"]) ?? data?.state;
             var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 10000;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
             if (startIndex < 0)
             {

@@ -4,7 +4,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class RegulatoryOverlay
     {
-        public string RegulatoryOverlayID { get; set; }
+        public long RegulatoryOverlayID { get; set; }
         public string RegulatoryStatusCV { get; set; }
         public string OversightAgency { get; set; }
         public string RegulatoryDescription { get; set; }

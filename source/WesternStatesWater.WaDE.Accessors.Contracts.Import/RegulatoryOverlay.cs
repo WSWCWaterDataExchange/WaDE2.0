@@ -29,8 +29,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string RegulatoryStatuteLink { get; set; }
 
+        [NullValues("")]
         public DateTime? StatutoryEffectiveDate { get; set; }
 
+        [NullValues("")]
         public DateTime? StatutoryEndDate { get; set; }
     }
 }

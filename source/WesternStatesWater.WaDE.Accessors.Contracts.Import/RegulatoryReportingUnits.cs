@@ -16,7 +16,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string DataPublicationDateID { get; set; }
-
-       
     }
 }

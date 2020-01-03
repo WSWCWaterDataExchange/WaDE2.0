@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
 
@@ -134,36 +135,28 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, int startIndex, int count)
         {
-            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
-
-            var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
-
-            if (!await blob.ExistsAsync())
+            var stream = await FileStreamFactory.GetStreamAsync(Configuration, runId, fileName);
+            if (stream == null)
             {
                 return new List<T>();
             }
-
-            bool isRecordBad = false;
-            var csvConfig = new Configuration
+            using (stream)
             {
-                Delimiter = ",",
-                TrimOptions = TrimOptions.Trim,
-                IgnoreBlankLines = true,
-                IgnoreQuotes = false,
-                
-                BadDataFound = (a) =>
+                bool isRecordBad = false;
+                var csvConfig = new Configuration
                 {
-                    isRecordBad = true;
-                }
-            };
+                    Delimiter = ",",
+                    TrimOptions = TrimOptions.Trim,
+                    IgnoreBlankLines = true,
+                    IgnoreQuotes = false,
+                    BadDataFound = (a) =>
+                    {
+                        isRecordBad = true;
+                    }
+                };
 
-            csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
+                csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
-            using (var stream = await blob.OpenReadAsync())
-            {
                 var currIndex = 0;
                 var results = new List<T>();
 
@@ -267,5 +260,39 @@ namespace WesternStatesWater.WaDE.Accessors
                 return newDate;
             }
         }
+
+        private class FileStreamFactoryImpl : IFileStreamFactory
+        {
+            public async Task<Stream> GetStreamAsync(IConfiguration configuration, string runId, string fileName)
+            {
+                var storageConnectionString = configuration.GetConnectionString("AzureStorage");
+                var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
+                var blobClient = storageAccount.CreateCloudBlobClient();
+                var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+
+                var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
+
+                if (!await blob.ExistsAsync())
+                {
+                    return null;
+                }
+
+                return await blob.OpenReadAsync();
+            }
+        }
+
+        private IFileStreamFactory _fileStreamFactory;
+        internal IFileStreamFactory FileStreamFactory
+        {
+            get => _fileStreamFactory ?? (_fileStreamFactory = new FileStreamFactoryImpl());
+            set => _fileStreamFactory = value;
+        }
     }
+
+    internal interface IFileStreamFactory
+    {
+        Task<Stream> GetStreamAsync(IConfiguration configuration, string runId, string fileName);
+    }
+
+
 }

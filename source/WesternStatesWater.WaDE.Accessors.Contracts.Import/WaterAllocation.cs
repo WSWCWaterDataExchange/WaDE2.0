@@ -34,10 +34,13 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AllocationNativeID { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationApplicationDate { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationPriorityDate { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationExpirationDate { get; set; }
 
         [NullValues("")]
@@ -52,20 +55,28 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AllocationTypeCV { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationTimeframeStart { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationTimeframeEnd { get; set; }
 
+        [NullValues("")]
         public string AllocationCropDutyAmount { get; set; }
 
+        [NullValues("")]
         public string AllocationAmount { get; set; }
 
+        [NullValues("")]
         public string AllocationMaximum { get; set; }
 
+        [NullValues("")]
         public string PopulationServed { get; set; }
-
+        
+        [NullValues("")]
         public string GeneratedPowerCapacityMW { get; set; }
-
+        
+        [NullValues("")]
         public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]

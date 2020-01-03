@@ -71,7 +71,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
                 {
                     x.UseNetTopologySuite();
-                    x.EnableRetryOnFailure();
+                    //x.EnableRetryOnFailure();
                 });
             }
         }

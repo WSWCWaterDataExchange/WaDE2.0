@@ -56,8 +56,11 @@ namespace ApiPerfTest
         {
             return new List<(string Name, string Url)>
             {
-                //("Allocation_SiteUuid", "https://wadeapiperf.azurewebsites.net/api/v1/SiteAllocationAmounts?SiteUUID=UT_01-1080&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q=="),
-                ("Allocation_SiteType", "https://wadeapiperf.azurewebsites.net/api/v1/SiteAllocationAmounts?SiteTypeCV=Surface&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q==")
+                ("Allocation_SiteUuid", "https://wadeapiperf.azurewebsites.net/api/v1/SiteAllocationAmounts?SiteUUID=UT_01-1080&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q=="),
+                ("Allocation_SiteType", "https://wadeapiperf.azurewebsites.net/api/v1/SiteAllocationAmounts?SiteTypeCV=Surface&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q=="),
+                ("AggregatedAmounts_BeneficialUse", "https://wadeapiperf.azurewebsites.net/api/v1/AggregatedAmounts?BeneficialUseCV=Irrigation&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q=="),
+                ("RegulatoryOverlay_OrganizationUUID", "https://wadeapiperf.azurewebsites.net/api/v1/AggRegulatoryOverlay?OrganizationUUID=blah&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q=="),
+                ("SiteVariableAmounts_BeneficialUse", "https://wadeapiperf.azurewebsites.net/api/v1/SiteVariableAmounts?BeneficialUseCV=Irrigation&code=xdrUbG2/F/fd5vhOEh0pO0LEwNqWJeAZzUQiMuKSitzLmsJRYQax8Q==")
             };
         }
     }

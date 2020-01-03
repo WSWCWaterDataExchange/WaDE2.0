@@ -42,6 +42,8 @@ namespace WaDEApiFunctions.v1
             var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
             var county = ((string)req.Query["County"]) ?? data?.county;
             var state = ((string)req.Query["State"]) ?? data?.state;
+            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
             if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
@@ -63,13 +65,18 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            });
+            }, startIndex, recordCount);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
         private static DateTime? ParseDate(string value)
         {
             return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
+        }
+
+        private static int? ParseInt(string value)
+        {
+            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class AggregratedAmountsRequestBody
@@ -87,6 +94,8 @@ namespace WaDEApiFunctions.v1
             public string huc12 { get; set; }
             public string county { get; set; }
             public string state { get; set; }
+            public string startIndex { get; set; }
+            public string recordCount { get; set; }
         }
     }
 }
