@@ -21,5 +21,11 @@ namespace WesternStatesWater.WaDE.Managers.Api
             var results = await ApiWaterAllocationAccessor.GetSiteAllocationAmountsAsync(filters.Map<AccessorApi.SiteAllocationAmountsFilters>(), startIndex, recordCount);
             return results.Map<ManagerApi.WaterAllocations>();
         }
+        
+        async Task<IEnumerable<ManagerApi.WaterAllocationDigest>> ManagerApi.IWaterAllocationManager.GetSiteAllocationAmountsDigestAsync(ManagerApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
+        {
+            var results = await ApiWaterAllocationAccessor.GetSiteAllocationAmountsDigestAsync(filters.Map<AccessorApi.SiteAllocationAmountsDigestFilters>(), startIndex, recordCount);
+            return results.Map<IEnumerable<ManagerApi.WaterAllocationDigest>>();
+        }
     }
 }

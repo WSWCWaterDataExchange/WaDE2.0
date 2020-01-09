@@ -41,6 +41,27 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
         }
 
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(1);
+            result.First().SitesLight.Should().BeEmpty();
+        }
+
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {
             return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);

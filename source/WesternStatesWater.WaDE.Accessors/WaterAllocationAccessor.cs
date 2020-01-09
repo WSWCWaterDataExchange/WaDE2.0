@@ -147,10 +147,91 @@ namespace WesternStatesWater.WaDE.Accessors
                 sw.Stop();
                 Logger.LogInformation($"Completed WaterAllocation [{sw.ElapsedMilliseconds } ms]");
                 return new AccessorApi.WaterAllocations
-                {
+                {   
                     TotalWaterAllocationsCount = totalCount,
                     Organizations = waterAllocationOrganizations
                 };
+            }
+        }
+
+        async Task<IEnumerable<AccessorApi.WaterAllocationsDigest>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsDigestAsync(AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                var sw = Stopwatch.StartNew();
+                var query = db.AllocationAmountsFact.AsNoTracking();
+
+                if (filters.StartPriorityDate != null)
+                {
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
+                }
+                if (filters.EndPriorityDate != null)
+                {
+                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
+                }
+                if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
+                {
+                    query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
+                {
+                    query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.Geometry))
+                {
+                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                    WKTReader reader = new WKTReader(geometryFactory);
+                    var shape = reader.Read(filters.Geometry);
+                    query = query.Where(
+                        a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
+                        a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
+                }
+                if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
+                {
+                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.AllocationAmount.Organization.OrganizationUuid == filters.OrganizationUUID));
+                }
+
+                var totalCount = query.Count();
+
+                var results = await query
+                    .Skip(startIndex)
+                    .Take(recordCount)
+                    .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+
+                var allocationIds = results.Select(a => a.AllocationAmountId).ToList();
+
+                var sitesTask = db.AllocationBridgeSitesFact
+                    .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                    .Select(a => new { a.AllocationAmountId, a.Site })
+                    .ToListAsync();
+
+                var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
+                var waterAllocationsLight = new List<AccessorApi.WaterAllocationsDigest>();
+                foreach (var allocationAmounts in results) 
+                {
+                    var record = new AccessorApi.WaterAllocationsDigest
+                    {
+                        AllocationAmount = allocationAmounts.AllocationAmount,
+                        AllocationMaximum = allocationAmounts.AllocationMaximum,
+                        AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
+                    };
+
+                    var sitesLigth = new List<AccessorApi.SiteDigest>();
+                    sitesLigth.AddRange(sites.Where(x => x.AllocationAmountId == allocationAmounts.AllocationAmountId)
+                        .Select(x => new AccessorApi.SiteDigest { 
+                            Latitude = x.Site.Latitude,
+                            Longitude = x.Site.Longitude,
+                            SiteUUID = x.Site.SiteUuid
+                        }));
+
+                    record.SitesLight = sitesLigth;
+                    waterAllocationsLight.Add(record);
+                }
+
+                sw.Stop();
+                Logger.LogInformation($"Completed WaterAllocationLight [{sw.ElapsedMilliseconds } ms]");
+                return waterAllocationsLight;
             }
         }
 
