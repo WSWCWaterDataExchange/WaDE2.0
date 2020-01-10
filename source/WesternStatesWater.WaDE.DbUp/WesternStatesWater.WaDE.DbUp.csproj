@@ -93,6 +93,8 @@
     <None Remove="Scripts\003\018 Core.LoadWaterAllocations AddPowerType.sql" />
     <None Remove="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
     <None Remove="Scripts\003\020 Add Performance Indexes.sql" />
+    <None Remove="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
+    <None Remove="Scripts\003\022 Revert AllocationFacts TimeframeStart and TimeframeEnd In Sproc LoadWaterAllocation.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -338,6 +340,8 @@
     <EmbeddedResource Include="Scripts\003\016 Core.AggregatedAmounts_fact AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\003\017 Core.LoadAggregatedAmounts AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\003\018 Core.LoadWaterAllocations AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\022 Revert AllocationFacts TimeframeStart and TimeframeEnd In Sproc LoadWaterAllocation.sql" />
+    <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
   </ItemGroup>

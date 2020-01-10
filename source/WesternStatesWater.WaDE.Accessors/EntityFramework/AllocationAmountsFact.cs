@@ -26,8 +26,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string AllocationBasisCv { get; set; }
         public string AllocationLegalStatusCv { get; set; }
         public string AllocationTypeCv { get; set; }
-        public long? AllocationTimeframeStartID { get; set; }
-        public long? AllocationTimeframeEndID { get; set; }
+        public string AllocationTimeframeStart { get; set; }
+        public string AllocationTimeframeEnd { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }
@@ -61,8 +61,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual CustomerType CustomerType { get; set; }
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual IrrigationMethod IrrigationMethod { get; set; }
-        public virtual DateDim AllocationTimeFrameStartNavigation { get; set; }
-        public virtual DateDim AllocationTimeFrameEndNavigation { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;}
     }
