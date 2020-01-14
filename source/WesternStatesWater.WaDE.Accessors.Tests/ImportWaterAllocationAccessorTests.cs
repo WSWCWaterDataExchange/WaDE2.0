@@ -32,6 +32,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             DateDim dataPublicationDate;
             DateDim allocationPriorityDate;
             WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 organization = await OrganizationsDimBuilder.Load(db);
@@ -49,6 +52,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
             var sut = CreateWaterAllocationAccessor();
@@ -67,7 +72,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.MethodId.Should().Be(method.MethodId);
                 dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
                 dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
-
+                dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
+                dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
                 db.ImportErrors.Should().HaveCount(0);
             }
         }

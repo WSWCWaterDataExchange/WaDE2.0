@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -26,7 +27,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string AllocationBasisCv { get; set; }
         public string AllocationLegalStatusCv { get; set; }
         public string AllocationTypeCv { get; set; }
+        [MaxLength(5)]
         public string AllocationTimeframeStart { get; set; }
+        [MaxLength(5)]
         public string AllocationTimeframeEnd { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
         public double? AllocationAmount { get; set; }
