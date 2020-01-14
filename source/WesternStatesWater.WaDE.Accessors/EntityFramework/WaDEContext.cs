@@ -332,10 +332,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("SDWISIdentifierCV")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.AllocationTimeframeEndID).HasMaxLength(5);
-
-                entity.Property(e => e.AllocationTimeframeStartID).HasMaxLength(5);
-
                 entity.Property(e => e.AllocationTypeCv)
                     .HasColumnName("AllocationTypeCV")
                     .HasMaxLength(250);
@@ -346,14 +342,14 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.AllocationApplicationDateID).HasColumnName("AllocationApplicationDateID");
                 entity.Property(e => e.AllocationPriorityDateID).HasColumnName("AllocationPriorityDateID");
                 entity.Property(e => e.AllocationExpirationDateID).HasColumnName("AllocationExpirationDateID");
-                entity.Property(e => e.AllocationTimeframeStartID).HasColumnName("AllocationTimeframeStartID");
+                entity.Property(e => e.AllocationTimeframeStart).HasColumnName("AllocationTimeframeStart");
                 entity.Property(e => e.AllocationCropDutyAmount).HasColumnName("AllocationCropDutyAmount");
                 entity.Property(e => e.AllocationAmount).HasColumnName("AllocationAmount");
                 entity.Property(e => e.AllocationMaximum).HasColumnName("AllocationMaximum");
                 entity.Property(e => e.PopulationServed).HasColumnName("PopulationServed");
                 entity.Property(e => e.IrrigatedAcreage).HasColumnName("IrrigatedAcreage");
                 entity.Property(e => e.AllocationCommunityWaterSupplySystem).HasColumnName("AllocationCommunityWaterSupplySystem");
-                entity.Property(e => e.AllocationTimeframeEndID).HasColumnName("AllocationTimeframeEndID");
+                entity.Property(e => e.AllocationTimeframeEnd).HasColumnName("AllocationTimeframeEnd");
                 entity.Property(e => e.AllocationChangeApplicationIndicator).HasColumnName("AllocationChangeApplicationIndicator");
                 entity.Property(e => e.AllocationOwner)
                     .HasColumnName("AllocationOwner")
@@ -426,20 +422,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.AllocationPriorityDateID)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_Date_dim_priority");
-
-                //////////////////////////////////
-                // 
-                entity.HasOne(d => d.AllocationTimeFrameStartNavigation)
-                    .WithMany(p => p.AllocationAmountsFactTimeframeStart)
-                    .HasForeignKey(d => d.AllocationTimeframeStartID)
-                    .HasConstraintName("FK_AllocationTimeFrameStart_Date_dim");
-
-                entity.HasOne(d => d.AllocationTimeFrameEndNavigation)
-                    .WithMany(p => p.AllocationAmountsFactTimeframeEnd)
-                    .HasForeignKey(d => d.AllocationTimeframeEndID)
-                    .HasConstraintName("FK_AllocationTimeFrameEnd_Date_dim");
-
-                //////////////////////////////////
 
                 entity.HasOne(d => d.AllocationTypeCvNavigation)
                     .WithMany(p => p.AllocationAmountsFact)

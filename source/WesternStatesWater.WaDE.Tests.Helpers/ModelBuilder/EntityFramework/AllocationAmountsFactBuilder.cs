@@ -30,8 +30,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.AllocationBasisCv, f => opts.WaterAllocationBasis?.Name)
                 .RuleFor(a => a.AllocationLegalStatusCv, f => opts.LegalStatus?.Name)
                 .RuleFor(a => a.AllocationTypeCv, f => opts.WaterAllocationType?.Name)
-                .RuleFor(a => a.AllocationTimeframeStartID, f => opts.AllocationTimeframeStartDate?.DateId)
-                .RuleFor(a => a.AllocationTimeframeEndID, f => opts.AllocationTimeframeEndDate?.DateId)
+                .RuleFor(a => a.AllocationTimeframeEnd, f => opts.AllocationTimeframeStartDate?.Date.ToString("mm/dd"))
+                .RuleFor(a => a.AllocationTimeframeEnd, f => opts.AllocationTimeframeEndDate?.Date.ToString("mm/dd"))
                 .RuleFor(a => a.AllocationAmount, f => f.Random.Double(0, 1000))
                 .RuleFor(a => a.AllocationMaximum, f => f.Random.Double(0, 1000))
                 ;

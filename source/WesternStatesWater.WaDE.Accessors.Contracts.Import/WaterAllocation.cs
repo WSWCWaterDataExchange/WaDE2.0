@@ -1,5 +1,6 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
@@ -56,10 +57,12 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationTypeCV { get; set; }
 
         [NullValues("")]
-        public DateTime? AllocationTimeframeStart { get; set; }
+        [MaxLength(5)]
+        public string AllocationTimeframeStart { get; set; }
 
         [NullValues("")]
-        public DateTime? AllocationTimeframeEnd { get; set; }
+        [MaxLength(5)]
+        public string AllocationTimeframeEnd { get; set; }
 
         [NullValues("")]
         public string AllocationCropDutyAmount { get; set; }
