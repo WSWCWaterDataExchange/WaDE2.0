@@ -59,9 +59,39 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
 
             result.Count().Should().Be(1);
-            result.First().SitesLight.Should().BeEmpty();
+            result.First().Sites.Should().BeEmpty();
         }
 
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters_WithSites()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            AllocationBridgeSitesFact allocationBridgeSitesFact;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+
+                allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db, 
+                    new AllocationBridgeSitesFactBuilderOptions 
+                    { 
+                        AllocationAmountsFact = allocationAmountsFact 
+                    });
+
+                allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(1);
+            result.First().Sites.Should().NotBeEmpty();
+        }
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {
             return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);

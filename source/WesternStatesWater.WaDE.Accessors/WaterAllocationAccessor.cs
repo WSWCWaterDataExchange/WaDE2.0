@@ -225,7 +225,7 @@ namespace WesternStatesWater.WaDE.Accessors
                             SiteUUID = x.Site.SiteUuid
                         }));
 
-                    record.SitesLight = sitesLigth;
+                    record.Sites = sitesLigth;
                     waterAllocationsLight.Add(record);
                 }
 
