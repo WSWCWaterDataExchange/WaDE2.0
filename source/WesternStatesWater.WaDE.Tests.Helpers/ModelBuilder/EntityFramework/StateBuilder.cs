@@ -17,7 +17,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(2))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(10))
-                .RuleFor(a => a.State1, f => f.Address.StateAbbr())
+                .RuleFor(a => a.State1, f => f.Random.AlphaNumeric(10))
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
@@ -29,6 +29,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static async Task<State> Load(WaDEContext db, StateBuilderOptions opts)
         {
             var item = Create(opts);
+
+            var exists = db.State.Find(item.Name);
+            if (exists != null) return exists; // State Private Key 'Name' is only 2 chars...Faker generates the same key alot...if that happens dont let the test break, just reuse the existing state
 
             db.State.Add(item);
             await db.SaveChangesAsync();

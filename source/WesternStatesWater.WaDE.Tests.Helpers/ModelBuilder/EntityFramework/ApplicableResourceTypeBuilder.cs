@@ -23,7 +23,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static string GenerateName()
         {
-            return new Faker().Random.Word();
+            return new Faker().Random.AlphaNumeric(100);
         }
 
         public static async Task<ApplicableResourceType> Load(WaDEContext db)
