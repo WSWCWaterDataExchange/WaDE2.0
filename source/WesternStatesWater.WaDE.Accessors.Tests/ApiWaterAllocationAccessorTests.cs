@@ -41,6 +41,107 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
         }
 
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(1);
+            result.First().Sites.Should().BeEmpty();
+        }
+
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters_WithSites()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            AllocationBridgeSitesFact allocationBridgeSitesFact;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+
+                allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db, 
+                    new AllocationBridgeSitesFactBuilderOptions 
+                    { 
+                        AllocationAmountsFact = allocationAmountsFact 
+                    });
+
+                allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(1);
+            result.First().Sites.Should().NotBeEmpty();
+            result.First().Sites.Count().Should().Be(1);
+        }
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters_NoMatch()
+        {
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(0);            
+        }
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsDygestAsync_NoFilters_WithSites_Many()
+        {
+            var configuration = Configuration.GetConfiguration();
+            var count = 0;
+
+            AllocationAmountsFact allocationAmountsFact;
+            AllocationBridgeSitesFact allocationBridgeSitesFact;
+            using (var db = new WaDEContext(configuration))
+            {                
+                while (count++ < 10)
+                {
+                    allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                    allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+
+                    allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db,
+                        new AllocationBridgeSitesFactBuilderOptions
+                        {
+                            AllocationAmountsFact = allocationAmountsFact
+                        });
+
+                    allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
+                }
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Count().Should().Be(count-1);
+
+            result.ElementAt(6).Sites.Should().NotBeEmpty();
+            result.ElementAt(6).Sites.Count().Should().Be(1);
+        }
+
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {
             return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);

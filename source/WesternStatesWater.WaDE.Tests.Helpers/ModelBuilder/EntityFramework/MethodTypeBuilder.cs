@@ -38,7 +38,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static string GenerateName()
         {
-            return new Faker().Random.Word();
+            return new Faker().Random.AlphaNumeric(50);
         }
     }
 

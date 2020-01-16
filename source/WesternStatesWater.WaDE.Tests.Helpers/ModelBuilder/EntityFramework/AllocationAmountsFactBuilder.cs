@@ -79,6 +79,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
+
+        public static long GenerateId()
+        {
+            return (new Faker()).Random.Long(1);
+        }
     }
 
     public class AllocationAmountsFactBuilderOptions
