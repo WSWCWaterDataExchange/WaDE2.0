@@ -67,6 +67,102 @@ https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Minin
 
 Response: Works gets UT and OK
 
+Test 7
+
+using 'SiteAllocationAmountsDigest' (simplified version of the call) for organization Washington State Department of Ecology
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1850&OrganizationUUID=WSDE
+
+OK. Returns 11 rows of data
+
+Test 8
+
+use organization only
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?OrganizationUUID=WSDE
+
+Works. Returns rows of data for Washington.
+
+Test 9 
+
+Try other states
+
+Works for OWRD (OR), OWRB (OK), NDSWC (ND), CODWR (CO)
+
+Test 10
+
+Like Test 7 but Change to recent end priority date
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1950&OrganizationUUID=WSDE
+
+wade-api-qa.azure-api.net is currently unable to handle this request.
+HTTP ERROR 500
+
+Test 11
+
+Organization CODWR with end priority date 1950
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1950&OrganizationUUID=CODWR
+
+wade-api-qa.azure-api.net is currently unable to handle this request.
+HTTP ERROR 500
+
+Test 12
+
+Add beneficial use to 'Test 7'
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?BeneficialUseCV=Mining&EndPriorityDate=01/01/1890
+
+OK. Returns samples for UT and OR
+
+Test 13
+
+Recent end priority date with BeneficialUseCV=Mining
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?BeneficialUseCV=Mining&EndPriorityDate=01/01/1950
+
+Works. Returns samples for UT and OR
+
+Test 14
+
+Using state filter with water allocations
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1890&State=WA
+
+OK. Works
+
+Test 15
+
+Test other states OR, OK, UT, CO, SD
+
+OK. Works
+
+Test 15 
+
+Recent end priority date 1950 with allocation amounts
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1950&State=OK
+
+Works. Gets larger number of rows for OK. 
+
+Test 16 
+
+Like 15 but with different state
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1950&State=WA
+
+Works. 
+
+Test 17 
+
+Just the state no other filter
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?State=WA
+
+Works.
+
+Also works for other states OR, OK, CO, UT, ND
+
 ## B.	Site Variable Amounts 
 
 Test 1. 
