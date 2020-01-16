@@ -53,7 +53,15 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(siteUuid) && string.IsNullOrWhiteSpace(beneficialUseCv) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
+            if (string.IsNullOrWhiteSpace(siteUuid) && 
+                string.IsNullOrWhiteSpace(beneficialUseCv) && 
+                string.IsNullOrWhiteSpace(geometry) && 
+                string.IsNullOrWhiteSpace(siteTypeCV) && 
+                string.IsNullOrWhiteSpace(usgsCategoryNameCV) && 
+                string.IsNullOrWhiteSpace(huc8) &&
+                string.IsNullOrWhiteSpace(huc12) &&
+                string.IsNullOrWhiteSpace(county) &&
+                string.IsNullOrWhiteSpace(state))
             {
                 return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
@@ -105,7 +113,11 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(organizationUUID) && string.IsNullOrWhiteSpace(beneficialUseCv) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
+            if (string.IsNullOrWhiteSpace(organizationUUID) && 
+                string.IsNullOrWhiteSpace(beneficialUseCv) && 
+                string.IsNullOrWhiteSpace(geometry) && 
+                string.IsNullOrWhiteSpace(siteTypeCV) && 
+                string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
                 return new BadRequestObjectResult("At least one filter parameter must be specified");
             }

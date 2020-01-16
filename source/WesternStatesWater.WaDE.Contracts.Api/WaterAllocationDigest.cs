@@ -8,6 +8,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public DateTime AllocationPriorityDate { get; set; }
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }
-        public IEnumerable<SiteDigest> SitesLight { get; set; }
+        public IEnumerable<SiteDigest> Sites { get; set; }
     }
 }

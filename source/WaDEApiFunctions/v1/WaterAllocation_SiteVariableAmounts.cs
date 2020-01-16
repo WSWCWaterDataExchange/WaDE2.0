@@ -45,7 +45,17 @@ namespace WaDEApiFunctions.v1
             var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
             var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
-            if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
+            if (string.IsNullOrWhiteSpace(variableCV) && 
+                string.IsNullOrWhiteSpace(variableSpecificCV) && 
+                string.IsNullOrWhiteSpace(beneficialUse) && 
+                string.IsNullOrWhiteSpace(siteUUID) && 
+                string.IsNullOrWhiteSpace(geometry) && 
+                string.IsNullOrWhiteSpace(siteTypeCV) && 
+                string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
+                string.IsNullOrWhiteSpace(huc8) &&
+                string.IsNullOrWhiteSpace(huc12) &&
+                string.IsNullOrWhiteSpace(county) &&
+                string.IsNullOrWhiteSpace(state))
             {
                 return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
