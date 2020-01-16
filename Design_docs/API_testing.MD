@@ -163,6 +163,14 @@ Works.
 
 Also works for other states OR, OK, CO, UT, ND
 
+Test 18
+
+Specify index in search
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1890&State=WA&StartIndex=1000
+
+Works.
+
 ## B.	Site Variable Amounts 
 
 Test 1. 
