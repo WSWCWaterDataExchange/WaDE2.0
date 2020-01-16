@@ -13,6 +13,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<ManagerApi.SiteAllocationAmountsFilters, AccessorApi.SiteAllocationAmountsFilters>();
             CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>();
             CreateMap<ManagerApi.RegulatoryOverlayFilters, AccessorApi.RegulatoryOverlayFilters>();
+            CreateMap<ManagerApi.SiteAllocationAmountsDigestFilters, AccessorApi.SiteAllocationAmountsDigestFilters>();
 
             CreateMap<AccessorApi.BeneficialUse, ManagerApi.BeneficialUse>();
             CreateMap<AccessorApi.Site, ManagerApi.Site>();
@@ -36,6 +37,9 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.RegulatoryReportingUnitsOrganization, ManagerApi.RegulatoryReportingUnitsOrganization>();
             CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>();
             CreateMap<AccessorApi.ReportingUnitRegulatory, ManagerApi.ReportingUnitRegulatory>();
+
+            CreateMap<AccessorApi.WaterAllocationsDigest, ManagerApi.WaterAllocationDigest>();
+            CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();
         }
     }
 }

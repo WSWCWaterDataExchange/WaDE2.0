@@ -50,7 +50,12 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(reportingUnitUUID) && string.IsNullOrWhiteSpace(regulatoryOverlayUUID) && string.IsNullOrWhiteSpace(organizationUUID) && string.IsNullOrWhiteSpace(regulatoryStatusCV) && string.IsNullOrWhiteSpace(geometry))
+            if (string.IsNullOrWhiteSpace(reportingUnitUUID) && 
+                string.IsNullOrWhiteSpace(regulatoryOverlayUUID) && 
+                string.IsNullOrWhiteSpace(organizationUUID) && 
+                string.IsNullOrWhiteSpace(regulatoryStatusCV) && 
+                string.IsNullOrWhiteSpace(geometry) &&
+                string.IsNullOrWhiteSpace(state))
             {
                 return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
