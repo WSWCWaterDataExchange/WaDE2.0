@@ -161,7 +161,7 @@ https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?State=WA
 
 Works.
 
-Also works for other states OR, OK, CO, UT, ND
+Also works for other states OR, OK, CO, UT, ND, AZ
 
 Test 18
 
