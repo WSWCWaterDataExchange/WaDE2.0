@@ -171,6 +171,14 @@ https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01
 
 Works.
 
+Test 19
+
+Specify record length in search
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?OrganizationUUID=WSDE&StartIndex=0&RecordCount=10
+
+Works.
+
 ## B.	Site Variable Amounts 
 
 Test 1. 
