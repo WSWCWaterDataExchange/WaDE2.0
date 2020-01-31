@@ -92,6 +92,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
+                    .OrderBy(a => a.SiteVariableAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<SiteVariableAmountHelper>(Mapping.DtoMapper.Configuration)

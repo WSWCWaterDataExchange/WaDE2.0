@@ -70,6 +70,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
+                    .OrderBy(a => a.BridgeId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<ReportingUnitRegulatoryHelper>(Mapping.DtoMapper.Configuration)

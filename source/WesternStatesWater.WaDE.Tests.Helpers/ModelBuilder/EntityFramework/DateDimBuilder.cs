@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Bogus;
+using Microsoft.EntityFrameworkCore.Internal;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
@@ -27,10 +29,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             var item = Create(opts);
 
-            db.DateDim.Add(item);
-            await db.SaveChangesAsync();
+            var matchingDate = db.DateDim.FirstOrDefault(a => a.Date == item.Date);
 
-            return item;
+            if (matchingDate == null)
+            {
+                db.DateDim.Add(item);
+                await db.SaveChangesAsync();
+                matchingDate = item;
+            }
+
+            return matchingDate;
         }
 
         public static long GenerateId()

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Bogus;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
@@ -30,10 +31,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             var item = Create(opts);
 
-            db.ReportingUnitType.Add(item);
-            await db.SaveChangesAsync();
+            var matching = db.ReportingUnitType.FirstOrDefault(a => a.Name == item.Name);
 
-            return item;
+            if (matching == null)
+            {
+                db.ReportingUnitType.Add(item);
+                await db.SaveChangesAsync();
+                matching = item;
+            }
+
+            return matching;
         }
 
         public static string GenerateName()

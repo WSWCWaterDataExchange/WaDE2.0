@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
@@ -11,7 +12,7 @@ using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
     [TestClass]
-    public class AggregratedAmountsAccessorTests : DbTestBase
+    public class ApiAggregratedAmountsAccessorTests : DbTestBase
     {
         private readonly ILoggerFactory loggerFactory = new LoggerFactory();
 
@@ -26,7 +27,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 aggregatedAmount.AggregatedAmountId.Should().NotBe(0);
             }
-            
+
             var filters = new AggregatedAmountsFilters();
 
             var sut = CreateAggregatedAmountsAccessor();
@@ -41,46 +42,84 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.AggregatedAmounts[0].AggregatedAmountId.Should().Be(aggregatedAmount.AggregatedAmountId);
         }
 
+        [TestMethod]
+        public async Task GetAggregatedAmountsAsync_Paging()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    await AggregatedAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new AggregatedAmountsFilters();
+
+            var alreadyRetrieved = new List<long>();
+
+            for (var i = 1; i <= 5; i++)
+            {
+                var sut = CreateAggregatedAmountsAccessor();
+                var pagedResults = await sut.GetAggregatedAmountsAsync(filters, Utility.NthTriangle(i - 1), i);
+                pagedResults.TotalAggregatedAmountsCount.Should().Be(15);
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.AggregatedAmounts).Select(a => a.AggregatedAmountId).ToList();
+                waterAllocations.Should().HaveCount(i);
+                foreach (var waterAllocation in waterAllocations)
+                {
+                    alreadyRetrieved.Should().NotContain(waterAllocation);
+                    alreadyRetrieved.Add(waterAllocation);
+                }
+            }
+
+            alreadyRetrieved.Should().OnlyHaveUniqueItems().And.HaveCount(15);
+        }
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsAsync_Paging_RequestMoreThanExists()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 3; i++)
+                {
+                    await AggregatedAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new AggregatedAmountsFilters();
+
+            var sut = CreateAggregatedAmountsAccessor();
+            var pagedResults = await sut.GetAggregatedAmountsAsync(filters, 1, 10);
+            pagedResults.TotalAggregatedAmountsCount.Should().Be(3);
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.AggregatedAmounts).Select(a => a.AggregatedAmountId).ToList();
+            waterAllocations.Should().HaveCount(2);
+        }
+
+        [TestMethod]
+        public async Task GetAggregatedAmountsAsync_Paging_RequestAfterLast()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 3; i++)
+                {
+                    await AggregatedAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new AggregatedAmountsFilters();
+
+            var sut = CreateAggregatedAmountsAccessor();
+            var pagedResults = await sut.GetAggregatedAmountsAsync(filters, 4, 10);
+            pagedResults.TotalAggregatedAmountsCount.Should().Be(3);
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.AggregatedAmounts).Select(a => a.AggregatedAmountId).ToList();
+            waterAllocations.Should().HaveCount(0);
+        }
+
         private IAggregatedAmountsAccessor CreateAggregatedAmountsAccessor()
         {
             return new AggregratedAmountsAccessor(Configuration.GetConfiguration(), loggerFactory);
-        }
-    }
-
-    [TestClass]
-    public class WaterAllocationAccessorTests : DbTestBase
-    {
-        private readonly ILoggerFactory LoggerFactory = new LoggerFactory();
-
-        [TestMethod]
-        public async Task GetAggregatedAmountsAsync_NoFilters()
-        {
-            var configuration = Configuration.GetConfiguration();
-            AllocationAmountsFact allocationAmountsFact;
-            using (var db = new WaDEContext(configuration))
-            {
-                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
-
-                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
-            }
-
-            var filters = new SiteAllocationAmountsFilters();
-
-            var sut = CreateWaterAllocationAccessor();
-            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
-
-            result.TotalWaterAllocationsCount.Should().Be(1);
-            result.Organizations.Should().HaveCount(1);
-
-            var org = result.Organizations.Single();
-            org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
-            org.WaterAllocations.Should().HaveCount(1);
-            org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-        }
-
-        private IWaterAllocationAccessor CreateWaterAllocationAccessor()
-        {
-            return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);
         }
     }
 }
