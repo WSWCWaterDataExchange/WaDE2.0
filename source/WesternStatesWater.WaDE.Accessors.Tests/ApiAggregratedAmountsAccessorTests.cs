@@ -76,6 +76,32 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task GetAggregatedAmountsAsync_Paging_Consistency()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    await AggregatedAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new AggregatedAmountsFilters();
+
+            var sut = CreateAggregatedAmountsAccessor();
+            var baseResults = (await sut.GetAggregatedAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.AggregatedAmounts).Select(a => a.AggregatedAmountId).ToList();
+
+            for (var i = 0; i < 14; i++)
+            {
+                var pagedResults = await sut.GetAggregatedAmountsAsync(filters, i, 2);
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.AggregatedAmounts).Select(a => a.AggregatedAmountId).ToList();
+                waterAllocations.Should().HaveCount(2);
+                waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
+            }
+        }
+
+        [TestMethod]
         public async Task GetAggregatedAmountsAsync_Paging_RequestMoreThanExists()
         {
             var configuration = Configuration.GetConfiguration();

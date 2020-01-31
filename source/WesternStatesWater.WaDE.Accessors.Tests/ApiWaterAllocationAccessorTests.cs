@@ -76,6 +76,32 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task GetSiteAllocationAmountsAsync_Paging_Consistency()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    await AllocationAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new SiteAllocationAmountsFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var baseResults = (await sut.GetSiteAllocationAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+
+            for (var i = 0; i < 14; i++)
+            {
+                var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, i, 2);
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+                waterAllocations.Should().HaveCount(2);
+                waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
+            }
+        }
+
+        [TestMethod]
         public async Task GetSiteAllocationAmountsAsync_Paging_RequestMoreThanExists()
         {
             var configuration = Configuration.GetConfiguration();
@@ -167,6 +193,32 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
 
             alreadyRetrieved.Should().OnlyHaveUniqueItems().And.HaveCount(15);
+        }
+
+        [TestMethod]
+        public async Task GetSiteAllocationAmountsDigestAsync_Paging_Consistency()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    await AllocationAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var baseResults = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, 15)).Select(a => a.AllocationAmountId).ToList();
+
+            for (var i = 0; i < 14; i++)
+            {
+                var pagedResults = await sut.GetSiteAllocationAmountsDigestAsync(filters, i, 2);
+                var waterAllocations = pagedResults.Select(a => a.AllocationAmountId).ToList();
+                waterAllocations.Should().HaveCount(2);
+                waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
+            }
         }
 
         [TestMethod]
