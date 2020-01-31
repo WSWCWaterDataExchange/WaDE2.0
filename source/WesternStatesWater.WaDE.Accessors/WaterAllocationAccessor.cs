@@ -90,6 +90,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
+                    .OrderBy(a => a.AllocationAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
@@ -194,6 +195,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
+                    .OrderBy(a=>a.AllocationAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
@@ -212,6 +214,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 {
                     var record = new AccessorApi.WaterAllocationsDigest
                     {
+                        AllocationAmountId = allocationAmounts.AllocationAmountId,
                         AllocationAmount = allocationAmounts.AllocationAmount,
                         AllocationMaximum = allocationAmounts.AllocationMaximum,
                         AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
