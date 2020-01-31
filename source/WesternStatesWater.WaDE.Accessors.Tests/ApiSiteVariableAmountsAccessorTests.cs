@@ -17,7 +17,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         private readonly ILoggerFactory LoggerFactory = new LoggerFactory();
 
         [TestMethod]
-        public async Task GetAggregatedAmountsAsync_NoFilters()
+        public async Task GetSiteVariableAmountsAsync_NoFilters()
         {
             var configuration = Configuration.GetConfiguration();
             SiteVariableAmountsFact siteVariableAmountsFact;
@@ -43,7 +43,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
-        public async Task GetAggregatedAmountsAsync_Paging()
+        public async Task GetSiteVariableAmountsAsync_Paging()
         {
             var configuration = Configuration.GetConfiguration();
             using (var db = new WaDEContext(configuration))
@@ -76,7 +76,33 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
-        public async Task GetAggregatedAmountsAsync_Paging_RequestMoreThanExists()
+        public async Task GetSiteVariableAmountsAsync_Paging_Consistency()
+        {
+            var configuration = Configuration.GetConfiguration();
+            using (var db = new WaDEContext(configuration))
+            {
+                for (var i = 0; i < 15; i++)
+                {
+                    await SiteVariableAmountsFactBuilder.Load(db);
+                }
+            }
+
+            var filters = new SiteVariableAmountsFilters();
+
+            var sut = CreateSiteVariableAmountsAccessor();
+            var baseResults = (await sut.GetSiteVariableAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.SiteVariableAmounts).Select(a => a.SiteVariableAmountId).ToList();
+
+            for (var i = 0; i < 14; i++)
+            {
+                var pagedResults = await sut.GetSiteVariableAmountsAsync(filters, i, 2);
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.SiteVariableAmounts).Select(a => a.SiteVariableAmountId).ToList();
+                waterAllocations.Should().HaveCount(2);
+                waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
+            }
+        }
+
+        [TestMethod]
+        public async Task GetSiteVariableAmountsAsync_Paging_RequestMoreThanExists()
         {
             var configuration = Configuration.GetConfiguration();
             using (var db = new WaDEContext(configuration))
@@ -97,7 +123,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
-        public async Task GetAggregatedAmountsAsync_Paging_RequestAfterLast()
+        public async Task GetSiteVariableAmountsAsync_Paging_RequestAfterLast()
         {
             var configuration = Configuration.GetConfiguration();
             using (var db = new WaDEContext(configuration))
