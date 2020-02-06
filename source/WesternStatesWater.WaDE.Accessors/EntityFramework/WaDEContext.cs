@@ -67,7 +67,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
                 //uncomment the next line to get the SQL commands that are being executed
-                optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+                //optionsBuilder.UseLoggerFactory(MyLoggerFactory);
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
                 {
                     x.UseNetTopologySuite();

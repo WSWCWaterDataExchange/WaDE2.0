@@ -16,7 +16,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string Name { get; set; }
         [MaxLength(2)]
         public string Term { get; set; }
-        [MaxLength(10)]
+        [MaxLength(20)]
         public string Definition { get; set; }
         [MaxLength(10)]
         public string State1 { get; set; }
