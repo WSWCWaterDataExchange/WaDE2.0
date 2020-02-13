@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -338,6 +339,86 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             result.ElementAt(6).Sites.Should().NotBeEmpty();
             result.ElementAt(6).Sites.Count().Should().Be(1);
+        }
+
+        [TestMethod]
+        public async Task GetSiteAllocationAmountsDigestAsync_OrganizationUuidFilter_WithSite()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            SitesDim site;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+
+                site = await SitesDimBuilder.Load(db);
+
+                await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                {
+                    AllocationAmountsFact = allocationAmountsFact,
+                    SitesDim = site
+                });
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters
+            {
+                OrganizationUUID = allocationAmountsFact.Organization.OrganizationUuid
+            };
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue)).ToList();
+
+            result.Should().HaveCount(1);
+            result.First().Sites.Should().HaveCount(1);
+            result.First().Sites.First().SiteUUID.Should().Be(site.SiteUuid);
+        }
+
+        [TestMethod]
+        public async Task GetSiteAllocationAmountsDigestAsync_OrganizationUuidFilter_NoMatch()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            SitesDim site;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters
+            {
+                OrganizationUUID = new Faker().Random.AlphaNumeric(10)
+            };
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
+
+            result.Should().BeEmpty();
+        }
+
+        [TestMethod]
+        public async Task GetSiteAllocationAmountsDigestAsync_OrganizationUuidFilter_NoSites()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+            }
+
+            var filters = new SiteAllocationAmountsDigestFilters
+            {
+                OrganizationUUID = allocationAmountsFact.Organization.OrganizationUuid
+            };
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue)).ToList();
+
+            result.Should().HaveCount(1);
+            result.First().Sites.Should().BeEmpty();
         }
 
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
