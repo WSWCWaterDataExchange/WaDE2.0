@@ -189,10 +189,8 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
                 if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
                 {
-                    query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.AllocationAmount.Organization.OrganizationUuid == filters.OrganizationUUID));
+                    query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
                 }
-
-                var totalCount = query.Count();
 
                 var results = await query
                     .OrderBy(a=>a.AllocationAmountId)
@@ -220,15 +218,15 @@ namespace WesternStatesWater.WaDE.Accessors
                         AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
                     };
 
-                    var sitesLigth = new List<AccessorApi.SiteDigest>();
-                    sitesLigth.AddRange(sites.Where(x => x.AllocationAmountId == allocationAmounts.AllocationAmountId)
+                    var sights = new List<AccessorApi.SiteDigest>();
+                    sights.AddRange(sites.Where(x => x.AllocationAmountId == allocationAmounts.AllocationAmountId)
                         .Select(x => new AccessorApi.SiteDigest { 
                             Latitude = x.Site.Latitude,
                             Longitude = x.Site.Longitude,
                             SiteUUID = x.Site.SiteUuid
                         }));
 
-                    record.Sites = sitesLigth;
+                    record.Sites = sights;
                     waterAllocationsLight.Add(record);
                 }
 
