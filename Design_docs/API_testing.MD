@@ -55,6 +55,130 @@ Response: Works
 
 Conclusion: Search Geometry “Colorado” doesn’t exist? 
 
+Test 6
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Irrigation&EndPriorityDate=01/01/1850
+
+Response: Works for all the three states currently in WaDE: UT, CO, OK
+
+Test 6
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?BeneficialUseCV=Mining&EndPriorityDate=01/01/1850
+
+Response: Works gets UT and OK
+
+Test 7
+
+using 'SiteAllocationAmountsDigest' (simplified version of the call) for organization Washington State Department of Ecology
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1850&OrganizationUUID=WSDE
+
+OK. Returns 11 rows of data
+
+Test 8
+
+use organization only
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?OrganizationUUID=WSDE
+
+Works. Returns rows of data for Washington.
+
+Test 9 
+
+Try other states
+
+Works for OWRD (OR), OWRB (OK), NDSWC (ND), CODWR (CO)
+
+Test 10
+
+Like Test 7 but Change to recent end priority date
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1950&OrganizationUUID=WSDE
+
+wade-api-qa.azure-api.net is currently unable to handle this request.
+HTTP ERROR 500
+
+Test 11
+
+Organization CODWR with end priority date 1950
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?EndPriorityDate=01/01/1950&OrganizationUUID=CODWR
+
+wade-api-qa.azure-api.net is currently unable to handle this request.
+HTTP ERROR 500
+
+Test 12
+
+Add beneficial use to 'Test 7'
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?BeneficialUseCV=Mining&EndPriorityDate=01/01/1890
+
+OK. Returns samples for UT and OR
+
+Test 13
+
+Recent end priority date with BeneficialUseCV=Mining
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?BeneficialUseCV=Mining&EndPriorityDate=01/01/1950
+
+Works. Returns samples for UT and OR
+
+Test 14
+
+Using state filter with water allocations
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1890&State=WA
+
+OK. Works
+
+Test 15
+
+Test other states OR, OK, UT, CO, SD
+
+OK. Works
+
+Test 15 
+
+Recent end priority date 1950 with allocation amounts
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1950&State=OK
+
+Works. Gets larger number of rows for OK. 
+
+Test 16 
+
+Like 15 but with different state
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1950&State=WA
+
+Works. 
+
+Test 17 
+
+Just the state no other filter
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?State=WA
+
+Works.
+
+Also works for other states OR, OK, CO, UT, ND, AZ
+
+Test 18
+
+Specify index in search
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmounts?EndPriorityDate=01/01/1890&State=WA&StartIndex=1000
+
+Works.
+
+Test 19
+
+Specify record length in search
+
+https://wade-api-qa.azure-api.net/v1/SiteAllocationAmountsDigest?OrganizationUUID=WSDE&StartIndex=0&RecordCount=10
+
+Works.
+
 ## B.	Site Variable Amounts 
 
 Test 1. 
@@ -94,6 +218,13 @@ This search also seems to require the user to know what SiteUUID they are lookin
  
 Conclusion: All valid searches seem to give out empty string [ ]
 
+Test 5 
+
+https://wade-api-qa.azure-api.net/v1/SiteVariableAmounts?BeneficialUseCV=Agriculture
+
+Response: [ ] (Empty string)
+
+
 ## C.	Aggregated Amounts
 
 Test 1. 
@@ -131,6 +262,36 @@ Test 6
 https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitUUID=15010003
 
 Response: Works
+
+Test 7
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitTypeCV=SubArea
+
+Response: Worlks returns UT aggregated amounts
+
+Test 8
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture
+
+Response: Works retuns UT with agriculture ben uses
+
+Test 9
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture&ReportingUnitTypeCV=SubArea
+
+Response: Works 
+
+Test 10
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?BeneficialUseCV=Agriculture&ReportingUnitTypeCV=County
+
+Response: Works returns UT
+
+Test 11
+
+https://wade-api-qa.azure-api.net/v1/AggregatedAmounts?ReportingUnitTypeCV=County
+
+Response: Works returns UT and NM
 
 
 ## D. Agg Regulatory Overlay

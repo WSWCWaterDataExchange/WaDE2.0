@@ -17,6 +17,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string ReportingUnitTypeCV { get; set; }
 
+        [NullValues("")]
         public DateTime? ReportingUnitUpdateDate { get; set; }
 
         [NullValues("")]

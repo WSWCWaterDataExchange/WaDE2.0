@@ -14,12 +14,12 @@ namespace WesternStatesWater.WaDE.Managers.Api
             ApiRegulatoryOverlayAccessor = apiAggregratedAmountsAccessor;
         }
 
-        public AccessorApi.IRegulatoryOverlayAccessor ApiRegulatoryOverlayAccessor { get; set; }
+        private AccessorApi.IRegulatoryOverlayAccessor ApiRegulatoryOverlayAccessor { get; set; }
 
-        async Task<IEnumerable<ManagerApi.RegulatoryReportingUnitsOrganization>> ManagerApi.IRegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(ManagerApi.RegulatoryOverlayFilters filters)
+        async Task<ManagerApi.RegulatoryReportingUnits> ManagerApi.IRegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(ManagerApi.RegulatoryOverlayFilters filters, int startIndex, int recordCount)
         {
-            var results = await ApiRegulatoryOverlayAccessor.GetRegulatoryReportingUnitsAsync(filters.Map<AccessorApi.RegulatoryOverlayFilters>());
-            return results.Select(a => a.Map<ManagerApi.RegulatoryReportingUnitsOrganization>());
+            var results = await ApiRegulatoryOverlayAccessor.GetRegulatoryReportingUnitsAsync(filters.Map<AccessorApi.RegulatoryOverlayFilters>(), startIndex, recordCount);
+            return results.Map<ManagerApi.RegulatoryReportingUnits>();
         }
     }
 }

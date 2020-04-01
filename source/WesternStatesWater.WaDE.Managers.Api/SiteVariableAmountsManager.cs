@@ -15,10 +15,10 @@ namespace WesternStatesWater.WaDE.Managers.Api
         }
 
         public AccessorApi.ISiteVariableAmountsAccessor ApiSiteVariableAmountsAccessor { get; set; }
-        async Task<IEnumerable<ManagerApi.SiteVariableAmountsOrganization>> ManagerApi.ISiteVariableAmountsManager.GetSiteVariableAmountsAsync(ManagerApi.SiteVariableAmountsFilters filters)
+        async Task<ManagerApi.SiteVariableAmounts> ManagerApi.ISiteVariableAmountsManager.GetSiteVariableAmountsAsync(ManagerApi.SiteVariableAmountsFilters filters, int startIndex, int recordCount)
         {
-            var results = await ApiSiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(filters.Map<AccessorApi.SiteVariableAmountsFilters>());
-            return results.Select(a => a.Map<ManagerApi.SiteVariableAmountsOrganization>());
+            var results = await ApiSiteVariableAmountsAccessor.GetSiteVariableAmountsAsync(filters.Map<AccessorApi.SiteVariableAmountsFilters>(), startIndex, recordCount);
+            return results.Map<ManagerApi.SiteVariableAmounts>();
         }
     }
 }

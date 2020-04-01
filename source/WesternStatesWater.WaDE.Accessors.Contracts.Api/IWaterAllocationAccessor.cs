@@ -5,6 +5,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public interface IWaterAllocationAccessor
     {
-        Task<IEnumerable<WaterAllocationOrganization>> GetSiteAllocationAmountsAsync(SiteAllocationAmountsFilters filters);
+        Task<WaterAllocations> GetSiteAllocationAmountsAsync(SiteAllocationAmountsFilters filters, int startIndex, int recordCount);
+        Task<IEnumerable<WaterAllocationsDigest>> GetSiteAllocationAmountsDigestAsync(SiteAllocationAmountsDigestFilters siteAllocationAmountsLightFilters, int startIndex, int recordCount);
     }
 }

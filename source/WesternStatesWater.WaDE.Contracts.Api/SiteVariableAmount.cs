@@ -32,5 +32,8 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string SiteUUID { get; set; }
         public string AssociatedNativeAllocationIDs { get; set; }
         public List<string> BeneficialUses { get; set; }
+        public string HUC8 { get; set; }
+        public string HUC12 { get; set; }
+        public string County { get; set; }
     }
 }

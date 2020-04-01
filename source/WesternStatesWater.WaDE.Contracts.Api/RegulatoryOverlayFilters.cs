@@ -11,5 +11,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public DateTime? StatutoryEndDate { get; set; }
         public string RegulatoryStatusCV { get; set; }
         public string Geometry { get; set; }
+        public string State { get; set; }
     }
 }

@@ -3,7 +3,7 @@
     "WesternStatesWater.WaDE.DbUp": {
       "commandName": "Project",
       "environmentVariables": {
-        "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;Integrated Security=True;"
+        "WadeDatabase": "Server=.; Initial Catalog=WaDE2Test; Integrated Security=true"
       }
     }
   }

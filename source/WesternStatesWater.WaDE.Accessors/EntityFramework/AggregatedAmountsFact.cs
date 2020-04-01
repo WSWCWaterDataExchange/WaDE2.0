@@ -19,7 +19,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long MethodId { get; set; }
         public long? TimeframeStartId { get; set; }
         public long? TimeframeEndId { get; set; }
-        public long? DataPublicationDate { get; set; }
+        public long? DataPublicationDateID { get; set; }
         public string DataPublicationDoi { get; set; }
         public string ReportYearCv { get; set; }
         public double Amount { get; set; }
@@ -39,9 +39,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public string CommunityWaterSupplySystem { get; set; }
 
-        public string AllocationCropDutyAmount { get; set; }
+        public double? AllocationCropDutyAmount { get; set; }
 
-        public virtual BeneficialUsesCV BeneficialUse { get; set; }
+        public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual DateDim DataPublicationDateNavigation { get; set; }
         public virtual MethodsDim Method { get; set; }
         public virtual OrganizationsDim Organization { get; set; }

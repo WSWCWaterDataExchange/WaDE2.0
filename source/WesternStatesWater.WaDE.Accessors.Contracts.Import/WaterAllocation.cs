@@ -1,5 +1,6 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
@@ -22,8 +23,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string BeneficialUseCategory { get; set; }
-
-
+        
         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
@@ -35,10 +35,13 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AllocationNativeID { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationApplicationDate { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationPriorityDate { get; set; }
 
+        [NullValues("")]
         public DateTime? AllocationExpirationDate { get; set; }
 
         [NullValues("")]
@@ -53,20 +56,30 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string AllocationTypeCV { get; set; }
 
-        public DateTime? AllocationTimeframeStart { get; set; }
+        [NullValues("")]
+        [MaxLength(5)]
+        public string AllocationTimeframeStart { get; set; }
 
-        public DateTime? AllocationTimeframeEnd { get; set; }
+        [NullValues("")]
+        [MaxLength(5)]
+        public string AllocationTimeframeEnd { get; set; }
 
+        [NullValues("")]
         public string AllocationCropDutyAmount { get; set; }
 
+        [NullValues("")]
         public string AllocationAmount { get; set; }
 
+        [NullValues("")]
         public string AllocationMaximum { get; set; }
 
+        [NullValues("")]
         public string PopulationServed { get; set; }
-
-        public string PowerGeneratedGWh { get; set; }
-
+        
+        [NullValues("")]
+        public string GeneratedPowerCapacityMW { get; set; }
+        
+        [NullValues("")]
         public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]
@@ -87,7 +100,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string LegacyAllocationIDs { get; set; }
 
-
         [NullValues("")]
         public string CustomerTypeCV { get; set; }
 
@@ -100,12 +112,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string WaterAllocationNativeURL { get; set; }
 
-       
-
-
         [NullValues("")]
         public string CommunityWaterSupplySystem { get; set; }
 
-        
+        [NullValues("")]
+        public string PowerType { get; set; }
     }
 }

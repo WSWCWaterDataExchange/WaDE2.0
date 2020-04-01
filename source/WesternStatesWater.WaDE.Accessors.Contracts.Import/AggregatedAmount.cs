@@ -20,20 +20,19 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string PrimaryUseCategory { get; set; }
 
-
-        
-
-        
         [NullValues("")]
         public string MethodUUID { get; set; }
 
         [NullValues("")]
         public string WaterSourceUUID { get; set; }
 
+        [NullValues("")]
         public DateTime? TimeframeStart { get; set; }
 
+        [NullValues("")]
         public DateTime? TimeframeEnd { get; set; }
 
+        [NullValues("")]
         public DateTime? DataPublicationDate { get; set; }
 
         [NullValues("")]
@@ -42,12 +41,16 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string ReportYearCV { get; set; }
 
+        [NullValues("")]
         public string Amount { get; set; }
 
+        [NullValues("")]
         public string PopulationServed { get; set; }
 
+        [NullValues("")]
         public string PowerGeneratedGWh { get; set; }
-
+        
+        [NullValues("")]
         public string IrrigatedAcreage { get; set; }
 
         [NullValues("")]
@@ -55,8 +58,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string InterbasinTransferFromID { get; set; }
-
-        
 
         [NullValues("")]
         public string CustomerTypeCV { get; set; }
@@ -76,12 +77,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         [NullValues("")]
         public string SDWISIdentifierCV { get; set; }
 
-       
-
-       
-
-       
-
-       
+        [NullValues("")]
+        public string PowerType { get; set; }
     }
 }

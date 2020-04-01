@@ -11,5 +11,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string SiteGeometry { get; set; }
         public string CoordinateMethodCV { get; set; }
         public string AllocationGNISIDCV { get; set; }
+        public string HUC8 { get; set; }
+        public string HUC12 { get; set; }
+        public string County { get; set; }
     }
 }

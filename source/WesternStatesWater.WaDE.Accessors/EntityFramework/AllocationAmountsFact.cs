@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -19,20 +20,22 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long DataPublicationDateId { get; set; }
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }
-        public long? AllocationApplicationDate { get; set; }
-        public long AllocationPriorityDate { get; set; }
-        public long? AllocationExpirationDate { get; set; }
+        public long? AllocationApplicationDateID { get; set; }
+        public long AllocationPriorityDateID { get; set; }
+        public long? AllocationExpirationDateID { get; set; }
         public string AllocationOwner { get; set; }
         public string AllocationBasisCv { get; set; }
         public string AllocationLegalStatusCv { get; set; }
         public string AllocationTypeCv { get; set; }
-        public long? AllocationTimeframeStart { get; set; }
-        public long? AllocationTimeframeEnd { get; set; }
+        [MaxLength(5)]
+        public string AllocationTimeframeStart { get; set; }
+        [MaxLength(5)]
+        public string AllocationTimeframeEnd { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
         public double? AllocationAmount { get; set; }
         public double? AllocationMaximum { get; set; }
         public long? PopulationServed { get; set; }
-        public double? PowerGeneratedGwh { get; set; }
+        public double? GeneratedPowerCapacityMW { get; set; }
         public double? IrrigatedAcreage { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
         public string SdwisidentifierCV { get; set; }
@@ -61,8 +64,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual CustomerType CustomerType { get; set; }
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual IrrigationMethod IrrigationMethod { get; set; }
-        public virtual DateDim AllocationTimeFrameStartNavigation { get; set; }
-        public virtual DateDim AllocationTimeFrameEndNavigation { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;}
     }

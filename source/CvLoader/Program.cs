@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -42,8 +43,13 @@ namespace CvLoader
                 ("applicableresourcetype", "applicableresourcetype"),
                 ("coordinatemethod", "coordinatemethod"),
                 ("beneficialusecategory", "BeneficialUses"),
+                ("sdwisidentifier", "SDWISIdentifier"),
+                ("powertype", "PowerType"),
+                ("states", "State")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
+            Console.WriteLine("Done running CvLoader");
+            Console.ReadKey();
         }
 
         private static async Task ProcessCvTable(string name, string table)
@@ -75,11 +81,15 @@ namespace CvLoader
             using (var db = new WaDEContext(config))
             using (var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }, TransactionScopeAsyncFlowOption.Enabled))
             {
-                foreach (var record in data)
+                Console.WriteLine($"Updating table {table}");
+                int row = 0;
+                try
                 {
-                    var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
-                    var sql = $@"MERGE CVs.{table} AS target
-    USING (SELECT '{record.term}' Term, '{name}' Name, '{record.state}' State, '{record.provenance_uri}' Source, '{record.definition}' Def) AS source
+                    foreach (var record in data)
+                    {
+                        var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
+                        var sql = $@"MERGE CVs.{table} AS target
+    USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def) AS source
         ON target.Name = source.Name
     WHEN MATCHED THEN UPDATE
         SET term = source.term,
@@ -89,11 +99,22 @@ namespace CvLoader
     WHEN NOT MATCHED THEN 
         INSERT (name, term, state, sourceVocabularyURI, definition) 
         VALUES (source.name, source.term, source.state, source.source, source.def);";
-                    await db.Database.ExecuteSqlCommandAsync(sql);
-
+                        var count = await db.Database.ExecuteSqlCommandAsync(sql,
+                            new SqlParameter("@p0", record.term),
+                            new SqlParameter("@p1", name),
+                            new SqlParameter("@p2", record.state),
+                            new SqlParameter("@p3", record.provenance_uri),
+                            new SqlParameter("@p4", record.definition));
+                        row++;
+                    }
+                    ts.Complete();
                 }
-                ts.Complete();
-
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error on table {table} in row {row} with message {ex.Message}");
+                    Console.ResetColor();
+                }
             }
         }
     }

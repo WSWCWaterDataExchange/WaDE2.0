@@ -74,6 +74,28 @@
     <None Remove="Scripts\002\074 Core.LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\002\075 Core.WaterAllocationBridgeIndexCreation.sql" />
     <None Remove="Scripts\003 Core.LoadAggregatedAmounts.sql" />
+    <None Remove="Scripts\003\001 Core.RenameDateForeignKeyColumns.sql" />
+    <None Remove="Scripts\003\002 Core.RemoveWadeFromWaDESiteUUID.sql" />
+    <None Remove="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
+    <None Remove="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
+    <None Remove="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
+    <None Remove="Scripts\003\006 Core.LoadAggregatedAmounts Updates.sql" />
+    <None Remove="Scripts\003\007 Core.LoadSites Update.sql" />
+    <None Remove="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
+    <None Remove="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
+    <None Remove="Scripts\003\010 Core.Sites_dim NewColumns.sql" />
+    <None Remove="Scripts\003\011 Core.LoadSites NewColumns.sql" />
+    <None Remove="Scripts\003\013 CVs.PowerType CreateTable.sql" />
+    <None Remove="Scripts\003\014 Core.AllocationAmounts_fact AddPowerType.sql" />
+    <None Remove="Scripts\003\015 Core.SiteVariableAmounts_fact AddPowerType.sql" />
+    <None Remove="Scripts\003\016 Core.AggregatedAmounts_fact AddPowerType.sql" />
+    <None Remove="Scripts\003\017 Core.LoadAggregatedAmounts AddPowerType.sql" />
+    <None Remove="Scripts\003\018 Core.LoadWaterAllocations AddPowerType.sql" />
+    <None Remove="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
+    <None Remove="Scripts\003\020 Add Performance Indexes.sql" />
+    <None Remove="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
+    <None Remove="Scripts\003\022 Revert AllocationFacts TimeframeStart and TimeframeEnd In Sproc LoadWaterAllocation.sql" />
+    <None Remove="Scripts\003\023 Core.State CV Definition Length.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -302,6 +324,28 @@
     <EmbeddedResource Include="Scripts\001\072 Input Tables Drop.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\003\001 Core.RenameDateForeignKeyColumns.sql" />
+    <EmbeddedResource Include="Scripts\003\002 Core.RemoveWadeFromWaDESiteUUID.sql" />
+    <EmbeddedResource Include="Scripts\003\023 Core.State CV Definition Length.sql" />
+    <EmbeddedResource Include="Scripts\003\003 Core.PrimaryUseCategoryNullable.sql" />
+    <EmbeddedResource Include="Scripts\003\004 Core.ExtendSiteUUIDLength.sql" />
+    <EmbeddedResource Include="Scripts\003\005 Core.AllocationAmountsFact.GeneratedPowerGWhRename.sql" />
+    <EmbeddedResource Include="Scripts\003\006 Core.LoadAggregatedAmounts Updates.sql" />
+    <EmbeddedResource Include="Scripts\003\007 Core.LoadSites Update.sql" />
+    <EmbeddedResource Include="Scripts\003\008 Core.LoadSiteSpecificAmounts Update.sql" />
+    <EmbeddedResource Include="Scripts\003\009 Core.LoadWaterAllocation Update.sql" />
+    <EmbeddedResource Include="Scripts\003\010 Core.Sites_dim NewColumns.sql" />
+    <EmbeddedResource Include="Scripts\003\011 Core.LoadSites NewColumns.sql" />
+    <EmbeddedResource Include="Scripts\003\013 CVs.PowerType CreateTable.sql" />
+    <EmbeddedResource Include="Scripts\003\014 Core.AllocationAmounts_fact AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\015 Core.SiteVariableAmounts_fact AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\016 Core.AggregatedAmounts_fact AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\017 Core.LoadAggregatedAmounts AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\018 Core.LoadWaterAllocations AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\003\022 Revert AllocationFacts TimeframeStart and TimeframeEnd In Sproc LoadWaterAllocation.sql" />
+    <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
+    <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
+    <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
   </ItemGroup>
 
   <ItemGroup>

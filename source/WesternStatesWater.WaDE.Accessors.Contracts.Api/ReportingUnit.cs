@@ -4,6 +4,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class ReportingUnit
     {
+        public long ReportingUnitId { get; set; }
         public string ReportingUnitNativeID { get; set; }
         public string ReportingUnitUUID { get; set; }
         public string ReportingUnitName { get; set; }

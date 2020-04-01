@@ -4,6 +4,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class SiteVariableAmountsOrganization
     {
+        public long OrganizationId { get; set; }
         public string OrganizationName { get; set; }
         public string OrganizationPurview { get; set; }
         public string OrganizationWebsite { get; set; }

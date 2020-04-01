@@ -38,8 +38,24 @@ namespace WaDEApiFunctions.v1
             var startDate = ParseDate(((string)req.Query["StartDate"]) ?? data?.startDate);
             var endDate = ParseDate(((string)req.Query["EndDate"]) ?? data?.endDate);
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
+            var huc8 = ((string)req.Query["HUC8"]) ?? data?.huc8;
+            var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
+            var county = ((string)req.Query["County"]) ?? data?.county;
+            var state = ((string)req.Query["State"]) ?? data?.state;
+            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
-            if (string.IsNullOrWhiteSpace(variableCV) && string.IsNullOrWhiteSpace(variableSpecificCV) && string.IsNullOrWhiteSpace(beneficialUse) && string.IsNullOrWhiteSpace(siteUUID) && string.IsNullOrWhiteSpace(geometry) && string.IsNullOrWhiteSpace(siteTypeCV) && string.IsNullOrWhiteSpace(usgsCategoryNameCV))
+            if (string.IsNullOrWhiteSpace(variableCV) && 
+                string.IsNullOrWhiteSpace(variableSpecificCV) && 
+                string.IsNullOrWhiteSpace(beneficialUse) && 
+                string.IsNullOrWhiteSpace(siteUUID) && 
+                string.IsNullOrWhiteSpace(geometry) && 
+                string.IsNullOrWhiteSpace(siteTypeCV) && 
+                string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
+                string.IsNullOrWhiteSpace(huc8) &&
+                string.IsNullOrWhiteSpace(huc12) &&
+                string.IsNullOrWhiteSpace(county) &&
+                string.IsNullOrWhiteSpace(state))
             {
                 return new BadRequestObjectResult("At least one filter parameter must be specified");
             }
@@ -54,15 +70,23 @@ namespace WaDEApiFunctions.v1
                 UsgsCategoryNameCv = usgsCategoryNameCV,
                 Geometry = geometry,
                 TimeframeStartDate = startDate,
-                TimeframeEndDate = endDate
-                
-            });
+                TimeframeEndDate = endDate,
+                HUC8 = huc8,
+                HUC12 = huc12,
+                County = county,
+                State = state
+            }, startIndex, recordCount);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
         private static DateTime? ParseDate(string value)
         {
             return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
+        }
+
+        private static int? ParseInt(string value)
+        {
+            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class AggregratedAmountsRequestBody
@@ -76,6 +100,12 @@ namespace WaDEApiFunctions.v1
             public string startDate { get; set; }
             public string endDate { get; set; }
             public string searchBoundary { get; set; }
+            public string huc8 { get; set; }
+            public string huc12 { get; set; }
+            public string county { get; set; }
+            public string state { get; set; }
+            public string startIndex { get; set; }
+            public string recordCount { get; set; }
         }
     }
 }
