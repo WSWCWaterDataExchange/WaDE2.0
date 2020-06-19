@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using System.IO;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;

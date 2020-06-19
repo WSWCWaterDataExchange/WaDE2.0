@@ -1,8 +1,8 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.Azure.Storage;
+using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
