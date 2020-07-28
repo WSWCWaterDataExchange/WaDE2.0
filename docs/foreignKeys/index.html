@@ -50,7 +50,7 @@
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingAreaID</td><td>ReportingAreaID</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportYearCV.html">fk_AggregatedAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYearCV</td>
@@ -122,25 +122,25 @@
 <td><a href="../foreignKeys/Core_Methods_dim_fk_Methods_dim_MethodType.html">fk_Methods_dim_MethodType</a></td><td><a href="../tables/CVs_MethodType.html">CVs.MethodType</a></td><td><a href="../tables/Core_Methods_dim.html">Core.Methods_dim</a></td><td>Name</td><td>MethodTypeCV</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Date_dim.html">fk_RegulatoryReportingUnits_fact_Date_dim</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
+<td><a href="../foreignKeys/Core_RegulatoryReportingAreas_fact_fk_RegulatoryReportingUnits_fact_Date_dim.html">fk_RegulatoryReportingUnits_fact_Date_dim</a></td><td><a href="../tables/Core_Date_dim.html">Core.Date_dim</a></td><td><a href="../tables/Core_RegulatoryReportingAreas_fact.html">Core.RegulatoryReportingAreas_fact</a></td><td>DateID</td><td>DataPublicationDateID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_Organizations_dim.html">fk_RegulatoryReportingUnits_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
+<td><a href="../foreignKeys/Core_RegulatoryReportingAreas_fact_fk_RegulatoryReportingUnits_fact_Organizations_dim.html">fk_RegulatoryReportingUnits_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_RegulatoryReportingAreas_fact.html">Core.RegulatoryReportingAreas_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim.html">fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryOverlay_dim.html">Core.RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
+<td><a href="../foreignKeys/Core_RegulatoryReportingAreas_fact_fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim.html">fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryOverlay_dim.html">Core.RegulatoryOverlay_dim</a></td><td><a href="../tables/Core_RegulatoryReportingAreas_fact.html">Core.RegulatoryReportingAreas_fact</a></td><td>RegulatoryOverlayID</td><td>RegulatoryOverlayID</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_RegulatoryReportingUnits_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_RegulatoryReportingUnits_fact.html">Core.RegulatoryReportingUnits_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/Core_RegulatoryReportingAreas_fact_fk_RegulatoryReportingUnits_fact_ReportingUnits_dim.html">fk_RegulatoryReportingUnits_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td><a href="../tables/Core_RegulatoryReportingAreas_fact.html">Core.RegulatoryReportingAreas_fact</a></td><td>ReportingAreaID</td><td>ReportingAreaID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_ReportingUnits_dim_fk_ReportingUnits_dim_EPSGCode.html">fk_ReportingUnits_dim_EPSGCode</a></td><td><a href="../tables/CVs_EPSGCode.html">CVs.EPSGCode</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td>Name</td><td>EPSGCodeCV</td>
+<td><a href="../foreignKeys/Core_ReportingAreas_dim_fk_ReportingUnits_dim_EPSGCode.html">fk_ReportingUnits_dim_EPSGCode</a></td><td><a href="../tables/CVs_EPSGCode.html">CVs.EPSGCode</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td>Name</td><td>EPSGCodeCV</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_ReportingUnits_dim_fk_ReportingUnits_dim_ReportingUnitType.html">fk_ReportingUnits_dim_ReportingUnitType</a></td><td><a href="../tables/CVs_ReportingUnitType.html">CVs.ReportingUnitType</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td>Name</td><td>ReportingUnitTypeCV</td>
+<td><a href="../foreignKeys/Core_ReportingAreas_dim_fk_ReportingUnits_dim_ReportingUnitType.html">fk_ReportingUnits_dim_ReportingUnitType</a></td><td><a href="../tables/CVs_ReportingUnitType.html">CVs.ReportingUnitType</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td>Name</td><td>ReportingAreaTypeCV</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_ReportingUnits_dim_fk_ReportingUnits_dim_State.html">fk_ReportingUnits_dim_State</a></td><td><a href="../tables/CVs_States.html">CVs.States</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td>Name</td><td>StateCV</td>
+<td><a href="../foreignKeys/Core_ReportingAreas_dim_fk_ReportingUnits_dim_State.html">fk_ReportingUnits_dim_State</a></td><td><a href="../tables/CVs_States.html">CVs.States</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td>Name</td><td>StateCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Sites_dim_fk_Sites_dim_CoordinateMethod.html">fk_Sites_dim_CoordinateMethod</a></td><td><a href="../tables/CVs_CoordinateMethod.html">CVs.CoordinateMethod</a></td><td><a href="../tables/Core_Sites_dim.html">Core.Sites_dim</a></td><td>Name</td><td>CoordinateMethodCV</td>
@@ -236,13 +236,13 @@
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_ReportYearType.html">fk_Variables_dim_ReportYearType</a></td><td><a href="../tables/CVs_ReportYearType.html">CVs.ReportYearType</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>ReportYearTypeCV</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AmountUnitCV</td>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>FlowUnitCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_interval.html">fk_Variables_dim_Units_interval</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationIntervalUnitCV</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>MaximumAmountUnitCV</td>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VolumeUnitCV</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Variable.html">fk_Variables_dim_Variable</a></td><td><a href="../tables/CVs_Variable.html">CVs.Variable</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableCV</td>

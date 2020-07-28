@@ -2,7 +2,7 @@
   <VerLbl/>
   <VerNotes/>
   <DefTblOpts/>
-  <DocFolder>C:\Users\adela\OneDrive\Desktop\docs</DocFolder>
+  <DocFolder>C:\All_WaDE_docs\GitHub\WaDE2.0\docs</DocFolder>
   <Sch Cm="" nm="Core">
     <Tbl UsSo="1" nm="AggBridge_BeneficialUses_fact">
       <TblOpts/>
@@ -43,7 +43,7 @@
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the organization</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifier to the reporting unit</Cm>
       </Cl>
@@ -114,6 +114,10 @@
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>If the amount of water used is associated with an irrigated acreage of a specific crop type, this can be added. These would be Wheat, Alfalfa, Corn, Hay, etc.</Cm>
       </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>number of Livestock Served by this water</Cm>
+      </Cl>
       <Cl au="0" df="" nm="IrrigationMethodCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>The irrigation method used by the irrigator. This could be Flood, Sprinkler, Micro-drip, Laser-leveled Flood, Combination, or Unspecified</Cm>
@@ -171,10 +175,10 @@
         <CdTb mn="1" nm="AggregatedAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_AggregatedAmounts_fact_ReportingUnits_dim" prLkCl="ReportingUnitID" upAc="3">
-        <PrTb mn="0" nm="ReportingUnits_dim" oe="1" sch="Core" zr="0"/>
+      <Fk deAc="3" nm="fk_AggregatedAmounts_fact_ReportingUnits_dim" prLkCl="ReportingAreaID" upAc="3">
+        <PrTb mn="0" nm="ReportingAreas_dim" oe="1" sch="Core" zr="0"/>
         <CdTb mn="1" nm="AggregatedAmounts_fact" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
+        <ClPr cdCl="ReportingAreaID" prCl="ReportingAreaID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AggregatedAmounts_fact_ReportYearCV" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="ReportYearCV" oe="1" sch="CVs" zr="1"/>
@@ -243,7 +247,7 @@
         <Cm>Date of the original filing on the allocation	
 </Cm>
       </Cl>
-      <Cl au="0" df="" nm="AllocationPriorityDateID" nu="0">
+      <Cl au="0" df="" nm="AllocationPriorityDateID" nu="1">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Priority Date given to the allocation	
 </Cm>
@@ -253,7 +257,7 @@
         <Cm>If the allocation is temporary, add the expiration date	</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationOwner" nu="1">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="500" sc="null" sg="1" un="0"/>
         <Cm>Name of the owner, entity with the allocation. If multiple owners, truncate after five.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AllocationBasisCV" nu="1">
@@ -280,11 +284,11 @@
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Duty amount per acre in feet, if available</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AllocationAmount" nu="1">
+      <Cl au="0" df="" nm="AllocationFlow" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The allocation amount</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AllocationMaximum" nu="1">
+      <Cl au="0" df="" nm="AllocationVolume" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
@@ -332,6 +336,17 @@
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>If this allocation was the result of a change application, add the legacy allocation IDs as a comma separated list	</Cm>
       </Cl>
+      <Cl au="0" df="" nm="ExemptOfVolumeFlowPriority" nu="1">
+        <DT arr="0" ds="Boolean" en="" id="16" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>if yes, then amount flow, volume, and priority dates  can be null. This case represents groundwater rights in Arizona outside the AMA and INA areas</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The number of livestock the water rights is watering</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockSpeciesCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_BeneficialUseCategory" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="BeneficialUseCategory" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
@@ -353,7 +368,7 @@
         <ClPr cdCl="AllocationExpirationDateID" prCl="DateID"/>
       </Fk>
       <Fk deAc="3" nm="fk_AllocationAmounts_fact_Date_dim_priority" prLkCl="DateID" upAc="3">
-        <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
+        <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="1"/>
         <CdTb mn="1" nm="AllocationAmounts_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="AllocationPriorityDateID" prCl="DateID"/>
       </Fk>
@@ -566,7 +581,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <Cm>Internal unique identifierfor each database instance that implements the table</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodUUID" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>A unique identifier composed of the OrgID and the method name</Cm>
       </Cl>
       <Cl au="0" df="" nm="MethodName" nu="0">
@@ -635,10 +650,6 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Name corresponding to unique organization ID (i.e. Utah Division of Water Resources)	</Cm>
       </Cl>
-      <Cl au="0" df="" nm="StateCV" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
-        <Cm>State name where the organization belongs to</Cm>
-      </Cl>
       <Cl au="0" df="" nm="OrganizationPurview" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>A description of the purview of the agency (i.e. water rights, consumptive use, etc.) </Cm>
@@ -665,6 +676,10 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <Cl au="0" df="" nm="OrganizationDataMappingURL" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>A URL to WaDE GitHb repository page that describes the original data source and the conceptual mapping logic to map it into WaDE schema </Cm>
+      </Cl>
+      <Cl au="0" df="" nm="StateCV" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>State name where the organization belongs to</Cm>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis/>
@@ -719,9 +734,9 @@ examples: Underground Water Claim, Federal Reserved Water Right
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="RegulatoryReportingUnits_fact">
+    <Tbl UsSo="1" nm="RegulatoryReportingAreas_fact">
       <TblOpts/>
-      <Pk ClNs="BridgeID" nm="pkRegulatoryReportingUnits_fact"/>
+      <Pk ClNs="BridgeID" nm="pkRegulatoryReportingAreas_fact"/>
       <Cl au="0" df="" nm="BridgeID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
@@ -734,7 +749,7 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto RegulatoryOverlay</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitID" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>foreign key unique identifierto reporting unit</Cm>
       </Cl>
@@ -744,56 +759,56 @@ examples: Underground Water Claim, Federal Reserved Water Right
       </Cl>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_Date_dim" prLkCl="DateID" upAc="3">
         <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
+        <CdTb mn="1" nm="RegulatoryReportingAreas_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="DataPublicationDateID" prCl="DateID"/>
       </Fk>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_Organizations_dim" prLkCl="OrganizationID" upAc="3">
         <PrTb mn="0" nm="Organizations_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
+        <CdTb mn="1" nm="RegulatoryReportingAreas_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="OrganizationID" prCl="OrganizationID"/>
       </Fk>
       <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim" prLkCl="RegulatoryOverlayID" upAc="3">
         <PrTb mn="0" nm="RegulatoryOverlay_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
+        <CdTb mn="1" nm="RegulatoryReportingAreas_fact" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="RegulatoryOverlayID" prCl="RegulatoryOverlayID"/>
       </Fk>
-      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" prLkCl="ReportingUnitID" upAc="3">
-        <PrTb mn="0" nm="ReportingUnits_dim" oe="1" sch="Core" zr="0"/>
-        <CdTb mn="1" nm="RegulatoryReportingUnits_fact" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="ReportingUnitID" prCl="ReportingUnitID"/>
+      <Fk deAc="3" nm="fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" prLkCl="ReportingAreaID" upAc="3">
+        <PrTb mn="0" nm="ReportingAreas_dim" oe="1" sch="Core" zr="0"/>
+        <CdTb mn="1" nm="RegulatoryReportingAreas_fact" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="ReportingAreaID" prCl="ReportingAreaID"/>
       </Fk>
       <UniqueConstraints/>
       <SchTrHis/>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportingUnits_dim">
-      <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
+    <Tbl UsSo="1" nm="ReportingAreas_dim">
+      <Cm>The area for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
-      <Pk ClNs="ReportingUnitID" nm="pkReportingUnits_dim"/>
-      <Cl au="1" df="" nm="ReportingUnitID" nu="0">
+      <Pk ClNs="ReportingAreaID" nm="pkReportingAreas_dim"/>
+      <Cl au="1" df="" nm="ReportingAreaID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitUUID" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaUUID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>A reporting unit is the geospatial area that is used to aggregate the water supply, withdrawal, or consumptive use. The ReportingUnitID is the unique identification number for the geospatial area. It could be a 5-digit FIPs code for a county, a 12-digit code for a HUC (or fewer digits), or a custom number created by the data provider. The data provider should concatenate their OrganizationID + custom identifier to ensure this number is unique.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitNativeID" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>the reporting unit native identifer in each memeber state</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitName" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitTypeCV" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaTypeCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>The type of reporting unit - county, HUC, or a custom delineation.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitUpdateDate" nu="1">
+      <Cl au="0" df="" nm="ReportingAreaUpdateDate" nu="1">
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that the last reporting unit product version was released.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitProductVersion" nu="1">
+      <Cl au="0" df="" nm="ReportingAreaProductVersion" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>The reporting unit product version number. Could be a release of the HUC or County layer, or internal to the data provider.</Cm>
       </Cl>
@@ -811,17 +826,17 @@ examples: Underground Water Claim, Federal Reserved Water Right
       </Cl>
       <Fk deAc="3" nm="fk_ReportingUnits_dim_EPSGCode" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="EPSGCode" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="ReportingUnits_dim" oe="0" sch="Core" zr="1"/>
+        <CdTb mn="1" nm="ReportingAreas_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="EPSGCodeCV" prCl="Name"/>
       </Fk>
       <Fk deAc="3" nm="fk_ReportingUnits_dim_ReportingUnitType" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="ReportingUnitType" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="ReportingUnits_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="ReportingUnitTypeCV" prCl="Name"/>
+        <CdTb mn="1" nm="ReportingAreas_dim" oe="0" sch="Core" zr="1"/>
+        <ClPr cdCl="ReportingAreaTypeCV" prCl="Name"/>
       </Fk>
       <Fk deAc="3" nm="fk_ReportingUnits_dim_State" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="States" oe="1" sch="CVs" zr="0"/>
-        <CdTb mn="1" nm="ReportingUnits_dim" oe="0" sch="Core" zr="1"/>
+        <CdTb mn="1" nm="ReportingAreas_dim" oe="0" sch="Core" zr="1"/>
         <ClPr cdCl="StateCV" prCl="Name"/>
       </Fk>
       <UniqueConstraints/>
@@ -837,8 +852,8 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Internal unique identifier integer</Cm>
       </Cl>
-      <Cl au="0" df="" nm="WaDESiteUUID" nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="55" sc="null" sg="1" un="0"/>
+      <Cl au="0" df="" nm="SiteUUID" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="200" sc="null" sg="1" un="0"/>
         <Cm>WaDE universal unique identifier for the sites across member states, can be alphanumeric</Cm>
       </Cl>
       <Cl au="0" df="" nm="SiteNativeID" nu="1">
@@ -857,13 +872,17 @@ examples: Underground Water Claim, Federal Reserved Water Right
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>Ditch, Reservoir, well</Cm>
       </Cl>
-      <Cl au="0" df="" nm="Longitude" nu="1">
+      <Cl au="0" df="" nm="PODorPOUSite" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>In indicator to the Point of Use (POD) or Point of Diversion (POU)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="Longitude" nu="0">
         <DT arr="0" ds="Double" en="" id="8" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section
 
 DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="Latitude" nu="1">
+      <Cl au="0" df="" nm="Latitude" nu="0">
         <DT arr="0" ds="Double" en="" id="8" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Latitude coordinate to six significant digits, WGS 84. Note: these can be the centroid of a PLSS Section  DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       </Cl>
@@ -919,6 +938,18 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="StateCV" nu="1">
         <DT arr="0" ds="NChar" en="" id="722" ln="5" sc="null" sg="1" un="0"/>
         <Cm>State that the site falls within</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="HUC8" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Hydrologic unit codes (HUC)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="HUC12" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>Hydrologic unit codes (HUC)</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="County" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+        <Cm>County</Cm>
       </Cl>
       <Fk deAc="3" nm="fk_Sites_dim_CoordinateMethod" prLkCl="Name&#9;" upAc="3">
         <PrTb mn="0" nm="CoordinateMethod" oe="1" sch="CVs" zr="0"/>
@@ -1161,6 +1192,9 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="Geometry" en="" id="779" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Well-Known Text (WKT): The GIS objects supported by PostGIS are a superset of the "Simple Features" defined by the OpenGIS Consortium (OGC). PostGIS supports all the objects and functions specified in the OGC "Simple Features for SQL" specification.</Cm>
       </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
       <Fk deAc="3" nm="fk_SiteVariableAmounts_Date_dim_end" prLkCl="DateID" upAc="3">
         <PrTb mn="0" nm="Date_dim" oe="1" sch="Core" zr="0"/>
         <CdTb mn="1" nm="SiteVariableAmounts_fact" oe="0" sch="Core" zr="1"/>
@@ -1263,7 +1297,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</Cm>
       </Cl>
       <Cl au="0" df="" nm="AggregationIntervalUnitCV " nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>The aggregation unit (e.g., day ,month, year).</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYearStartMonth " nu="0">
@@ -1271,14 +1305,14 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <Cm>The month of the beginning of the data provider's annual reporting period in MM-DD</Cm>
       </Cl>
       <Cl au="0" df="" nm="ReportYearTypeCV " nu="0">
-        <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AmountUnitCV" nu="0">
+      <Cl au="0" df="" nm="FlowUnitCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Unit of the site-specific ariable amount</Cm>
       </Cl>
-      <Cl au="0" df="" nm="MaximumAmountUnitCV" nu="1">
+      <Cl au="0" df="" nm="VolumeUnitCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
@@ -1295,7 +1329,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Fk deAc="3" nm="fk_Variables_dim_Units" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="Units" oe="1" sch="CVs" zr="0"/>
         <CdTb mn="1" nm="Variables_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="AmountUnitCV" prCl="Name"/>
+        <ClPr cdCl="FlowUnitCV" prCl="Name"/>
       </Fk>
       <Fk deAc="3" nm="fk_Variables_dim_Units_interval" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="Units" oe="1" sch="CVs" zr="0"/>
@@ -1305,7 +1339,7 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Fk deAc="3" nm="fk_Variables_dim_Units_max" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="Units" oe="1" sch="CVs" zr="1"/>
         <CdTb mn="1" nm="Variables_dim" oe="0" sch="Core" zr="1"/>
-        <ClPr cdCl="MaximumAmountUnitCV" prCl="Name"/>
+        <ClPr cdCl="VolumeUnitCV" prCl="Name"/>
       </Fk>
       <Fk deAc="3" nm="fk_Variables_dim_Variable" prLkCl="Name" upAc="3">
         <PrTb mn="0" nm="Variable" oe="1" sch="CVs" zr="0"/>
@@ -1558,6 +1592,10 @@ END</src>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Six-digit NAICs Code associated with the primary beneficial use category	</Cm>
       </Cl>
+      <Cl au="0" df="" nm="WaDEBeneficialUse" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+        <Cm>This term is created and mapped by WaDE team to faciliate data visualizations and queries across state boundaies</Cm>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="Core" stB="BeneficialUseCategory"/>
@@ -1748,6 +1786,28 @@ END</src>
         <StPr stA="WaDE2_star" stB="CVs_LegalStatus"/>
       </SchTrHis>
     </Tbl>
+    <Tbl UsSo="1" nm="LivestockSpecies">
+      <Cm>Cattle, sheep</Cm>
+      <TblOpts/>
+      <Pk ClNs="Name" nm="pkLivestockSpecies"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
+    </Tbl>
     <Tbl UsSo="1" nm="MethodType">
       <Cm>A term to describe how the actual amount was determined (i.e. calculated, measured, estimated, or reported).</Cm>
       <TblOpts/>
@@ -1843,6 +1903,28 @@ END</src>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="CVs_NHDProduct"/>
       </SchTrHis>
+    </Tbl>
+    <Tbl UsSo="1" nm="PowerType">
+      <Cm>Thermal, hydro</Cm>
+      <TblOpts/>
+      <Pk ClNs="Name" nm="pkPowerType"/>
+      <Cl au="0" df="" nm="Name" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Term" nu="0">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="Definition" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="5000" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="State" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="SourceVocabularyURI" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <UniqueConstraints/>
+      <SchTrHis/>
     </Tbl>
     <Tbl UsSo="1" nm="RegulatoryStatus">
       <Cm>A term to indicate the status of the regulation (i.e., whether it is currently initiated/in effect)</Cm>
@@ -2285,6 +2367,15 @@ END</src>
       <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="PowerTypeCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="25" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockSpecies" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="AggregatedAmounts_VariableTable"/>
@@ -2360,11 +2451,11 @@ END</src>
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Duty amount per acre in feet, if available</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AllocationAmount" nu="1">
+      <Cl au="0" df="" nm="AllocationFlow" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>The allocation amount</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AllocationMaximum" nu="1">
+      <Cl au="0" df="" nm="AllocationVolume" nu="1">
         <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
@@ -2398,6 +2489,17 @@ END</src>
       </Cl>
       <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+        <Cm>The count of LivestockServed</Cm>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockSpecies" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+        <Cm>LivestockSpecies </Cm>
+      </Cl>
+      <Cl au="0" df="" nm="PowerType" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
       </Cl>
       <UniqueConstraints/>
       <SchTrHis>
@@ -2463,7 +2565,7 @@ END</src>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Name corresponding to unique organization ID (i.e. Utah Division of Water Resources)	</Cm>
       </Cl>
-      <Cl au="0" df="" nm="State" nu="0">
+      <Cl au="0" df="" nm="StateCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>State name where the organization belongs to</Cm>
       </Cl>
@@ -2568,30 +2670,30 @@ END</src>
         <StPr stA="WaDE2_star" stB="RegulatoryReportingUnits_VariableTable"/>
       </SchTrHis>
     </Tbl>
-    <Tbl UsSo="1" nm="ReportingUnits">
-      <Cm>The Unit for which the Allocation or Estimate is being reported</Cm>
+    <Tbl UsSo="1" nm="ReportingAreas">
+      <Cm>The Area for which the Allocation or Estimate is being reported</Cm>
       <TblOpts/>
-      <Pk ClNs="ReportingUnitUUID" nm="pkReportingUnits"/>
-      <Cl au="0" df="" nm="ReportingUnitUUID" nu="0">
+      <Pk ClNs="ReportingAreaUUID" nm="pkReportingAreas"/>
+      <Cl au="0" df="" nm="ReportingAreaUUID" nu="0">
         <DT arr="0" ds="BigInt" en="" id="-5" ln="null" sc="null" sg="1" un="0"/>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitNativeID" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaNativeID" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>the reporting unit native identifer in each memeber state</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitName" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaName" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>The reporting unit name. All HUCs and Counties have a name as part of a WaDE controlled vocabulary. If the reporting unit is a custom geospatial area, the data provider should include names wherever possible.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitTypeCV" nu="0">
+      <Cl au="0" df="" nm="ReportingAreaTypeCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
         <Cm>The type of reporting unit - county, HUC, or a custom delineation.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitUpdateDate" nu="1">
+      <Cl au="0" df="" nm="ReportingAreaUpdateDate" nu="1">
         <DT arr="0" ds="Date" en="" id="91" ln="null" sc="null" sg="1" un="0"/>
         <Cm>Date that the last reporting unit product version was released.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="ReportingUnitProductVersion" nu="1">
+      <Cl au="0" df="" nm="ReportingAreaProductVersion" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="100" sc="null" sg="1" un="0"/>
         <Cm>The reporting unit product version number. Could be a release of the HUC or County layer, or internal to the data provider.</Cm>
       </Cl>
@@ -2688,6 +2790,18 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
         <Cm>If the location is indexed to a NHD product, this provides the Measure number that provides the event's location on a reach.	</Cm>
       </Cl>
+      <Cl au="0" df="" nm="PODorPOUSite" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="HUC8" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="HUC12" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="County" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="20" sc="null" sg="1" un="0"/>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="Sites_dim_input"/>
@@ -2779,6 +2893,15 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <Cl au="0" df="" nm="DataPublicationDOI" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
       </Cl>
+      <Cl au="0" df="" nm="PowerTypeCV" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockSpecies" nu="1">
+        <DT arr="0" ds="NVarChar" en="" id="724" ln="50" sc="null" sg="1" un="0"/>
+      </Cl>
+      <Cl au="0" df="" nm="LivestockServed" nu="1">
+        <DT arr="0" ds="Float" en="" id="6" ln="null" sc="null" sg="1" un="0"/>
+      </Cl>
       <UniqueConstraints/>
       <SchTrHis>
         <StPr stA="WaDE2_star" stB="SiteVariableAmounts_VariableTable"/>
@@ -2819,11 +2942,11 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
         <DT arr="0" ds="NVarChar" en="" id="724" ln="10" sc="null" sg="1" un="0"/>
         <Cm>The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</Cm>
       </Cl>
-      <Cl au="0" df="" nm="AmountUnitCV" nu="0">
+      <Cl au="0" df="" nm="FlowUnitCV" nu="0">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="250" sc="null" sg="1" un="0"/>
         <Cm>Unit of the site-specific ariable amount</Cm>
       </Cl>
-      <Cl au="0" df="" nm="MaximumAmountUnitCV" nu="1">
+      <Cl au="0" df="" nm="VolumeUnitCV" nu="1">
         <DT arr="0" ds="NVarChar" en="" id="724" ln="255" sc="null" sg="1" un="0"/>
         <Cm>Amount of the allocation maximum or cap</Cm>
       </Cl>
@@ -2892,14 +3015,14 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="147" y="646"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="134" y="646"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1269" y="722"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1100" y="1259"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="139" y="259"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="631" y="1245"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1118" y="1299"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="134" y="274"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="657" y="1296"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="AllocationAmounts_fact" x="637" y="512"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="AllocationBridge_BeneficialUses_fact" x="686" y="307"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="76" y="1136"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="140" y="1160"/>
     <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="1134" y="66"/>
     <TbGl bkCl="ffa3cc51" sch="Core" tbl="Sites_WaterAllocations_fact" x="267" y="951"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
@@ -2925,30 +3048,30 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1269" x2="1136" y1="742" y2="742"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1269" x2="1136" y1="739" y2="739"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="522" x2="637" y1="781" y2="781"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="509" x2="637" y1="781" y2="781"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="834" x2="834" y1="1245" y2="1166"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="860" x2="860" y1="1296" y2="1223"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="518" x2="590" y1="378" y2="378"/>
+        <positionableLine lineRole="PARENT_LINE" x1="513" x2="590" y1="393" y2="393"/>
         <positionableLine lineRole="CHILD_LINE" x1="637" x2="598" y1="582" y2="582"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="594" x2="594" y1="578" y2="382"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="594" x2="594" y1="578" y2="397"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AllocationAmounts_fact.fk_AllocationAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1269" x2="1269" y1="1259" y2="1062"/>
-        <positionableLine lineRole="CHILD_LINE" x1="1136" x2="1265" y1="1058" y2="1058"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1287" x2="1287" y1="1299" y2="1062"/>
+        <positionableLine lineRole="CHILD_LINE" x1="1136" x2="1283" y1="1058" y2="1058"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AllocationBridge_BeneficialUses_fact.fk_AllocationBridge_BeneficialUses_fact_AllocationAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
@@ -2969,14 +3092,21 @@ DMS - with six significant figures. Seconds to 100ths of a second.</Cm>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.Sites_WaterAllocations_fact.fk_Sites_WaterAllocations_fact_Sites_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="384" x2="384" y1="1136" y2="1054"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="448" x2="448" y1="1160" y2="1054"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="100" y="1074">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="250" y="596">How: Methodology</Note>
       <Note bkCl="ffffffe6" x="933" y="1030">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="1215" y="330">Unique combination for each &#13;
+      <Note bkCl="ffffffe6" x="140" y="583">How: the method of how water was estimated</Note>
+      <Note bkCl="ffffffe6" x="157" y="18">SiteWaterAllocationData: Water Rights
+
+The brown tables are the dimensions tables (look us) that are mostly static over time. 
+
+The green table is the FACT table that changes over time and connects things together.
+
+Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
+      <Note bkCl="ffffffe6" x="47" y="1083">Where: Location of diversion or use for water right</Note>
+      <Note bkCl="ffffffe6" x="1218" y="294">Unique combination for each &#13;
 AllocationAmount record: &#13;
 &#13;
 OrganizationID&#13;
@@ -2985,13 +3115,7 @@ AllocationNativeID&#13;
 VariableISpecificID&#13;
 BenificialUseID&#13;
 </Note>
-      <Note bkCl="ffffffe6" x="134" y="17">GetSiteWaterAllocationData: Water Rights
-The brown tables are the dimensions tables (look us) that are mostly static over time. 
-
-The green table is the FACT table that changes over time and connects things together.
-
-Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
-      <Note bkCl="ffffffe6" x="186" y="167">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="158" y="208">What: Variable and its metadata</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3017,79 +3141,85 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="41" y="539"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1001" y="1067"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="34" y="157"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="505" y="312"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="45" y="854"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SiteVariableAmounts_fact" x="519" y="492"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1058" y="655"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="523" y="1068"/>
-    <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="933" y="134"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="44" y="565"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1041" y="1142"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="69" y="173"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SitesBridge_BeneficialUses_fact" x="540" y="328"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Sites_dim" x="75" y="913"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="SiteVariableAmounts_fact" x="554" y="508"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1093" y="671"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="552" y="1134"/>
+    <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="968" y="150"/>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="933" x2="718" y1="236" y2="236"/>
-        <positionableLine lineRole="CHILD_LINE" x1="714" x2="714" y1="312" y2="240"/>
+        <positionableLine lineRole="PARENT_LINE" x1="968" x2="753" y1="252" y2="252"/>
+        <positionableLine lineRole="CHILD_LINE" x1="749" x2="749" y1="328" y2="256"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SitesBridge_BeneficialUses_fact.fk_SitesBridge_BeneficialUses_fact_SiteVariableAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="705" x2="705" y1="492" y2="415"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="740" x2="740" y1="508" y2="431"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="679" y2="679"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1093" x2="965" y1="695" y2="695"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="745" y2="745"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1093" x2="965" y1="761" y2="761"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1058" x2="930" y1="712" y2="712"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1093" x2="965" y1="728" y2="728"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="933" x2="901" y1="277" y2="277"/>
-        <positionableLine lineRole="CHILD_LINE" x1="897" x2="897" y1="492" y2="281"/>
+        <positionableLine lineRole="PARENT_LINE" x1="968" x2="936" y1="293" y2="293"/>
+        <positionableLine lineRole="CHILD_LINE" x1="932" x2="932" y1="508" y2="297"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="416" x2="519" y1="678" y2="678"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="419" x2="554" y1="704" y2="704"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="735" x2="735" y1="1068" y2="975"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="764" x2="764" y1="1134" y2="1010"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Sites_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="388" x2="519" y1="906" y2="906"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="418" x2="554" y1="965" y2="965"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="413" x2="455" y1="337" y2="337"/>
-        <positionableLine lineRole="CHILD_LINE" x1="519" x2="463" y1="574" y2="574"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="459" x2="459" y1="570" y2="341"/>
+        <positionableLine lineRole="PARENT_LINE" x1="448" x2="490" y1="353" y2="353"/>
+        <positionableLine lineRole="CHILD_LINE" x1="554" x2="498" y1="590" y2="590"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="494" x2="494" y1="586" y2="357"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.SiteVariableAmounts_fact.fk_SiteVariableAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1128" x2="1128" y1="1067" y2="852"/>
-        <positionableLine lineRole="CHILD_LINE" x1="930" x2="1124" y1="848" y2="848"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1168" x2="1168" y1="1142" y2="868"/>
+        <positionableLine lineRole="CHILD_LINE" x1="965" x2="1164" y1="864" y2="864"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="558" y="131">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="140" y="456">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="1050" y="361">Unique combination for each &#13;
+      <Note bkCl="ffffffe6" x="102" y="114">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="35" y="494">How: the method of how water use/diversion was estimated</Note>
+      <Note bkCl="ffffffe6" x="378" y="14">SiteVariableData: site specific Use&#13;
+&#13;
+The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
+The green table is the FACT table that changes over time and connects things together.&#13;
+Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
+      <Note bkCl="ffffffe6" x="93" y="848">Where: Location of diversion or use</Note>
+      <Note bkCl="ffffffe6" x="1076" y="371">Unique combination for each &#13;
 SiteVariableAmount record:&#13;
  &#13;
 OrganizationID&#13;
@@ -3099,12 +3229,7 @@ BenificialUseID&#13;
 TimeFrameStartID&#13;
 TimeFrameEndID&#13;
 ReportYearCV</Note>
-      <Note bkCl="ffffffe6" x="382" y="9">GetSiteVariableData: site specific Use&#13;
-The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
-The green table is the FACT table that changes over time and connects things together.&#13;
-Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
-      <Note bkCl="ffffffe6" x="145" y="798">Where: Location</Note>
-      <Note bkCl="ffffffe6" x="527" y="1001">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="571" y="1069">Who: data provider</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3130,87 +3255,81 @@ Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabula
       <DbTableRectangleFill>HeaderFooterFill</DbTableRectangleFill>
       <svg path=""/>
     </DiaProps>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="42" y="971"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1051" y="1032"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="45" y="201"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggregatedAmounts_fact" x="572" y="419"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1114" y="576"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="542" y="1006"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="53" y="580"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="558" y="229"/>
-    <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="938" y="43"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingAreas_dim" x="53" y="1052"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="WaterSources_dim" x="1051" y="1061"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Variables_dim" x="46" y="222"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggregatedAmounts_fact" x="573" y="440"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="1115" y="597"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="562" y="1053"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="Methods_dim" x="44" y="620"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="AggBridge_BeneficialUses_fact" x="548" y="223"/>
+    <TbGl bkCl="ff4c78ff" sch="CVs" tbl="BeneficialUseCategory" x="951" y="64"/>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_AggregatedAmounts_fact" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="724" x2="724" y1="419" y2="332"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="708" x2="708" y1="440" y2="326"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AggBridge_BeneficialUses_fact.fk_AggBridge_BeneficialUses_fact_BeneficialUseCategory" parentEdge="WEST" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="938" x2="742" y1="132" y2="132"/>
-        <positionableLine lineRole="CHILD_LINE" x1="738" x2="738" y1="229" y2="136"/>
+        <positionableLine lineRole="PARENT_LINE" x1="951" x2="732" y1="153" y2="153"/>
+        <positionableLine lineRole="CHILD_LINE" x1="728" x2="728" y1="223" y2="157"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_end" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1114" x2="983" y1="599" y2="599"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1115" x2="984" y1="620" y2="620"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_end_pub" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1114" x2="983" y1="654" y2="654"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1115" x2="984" y1="675" y2="675"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_Date_dim_start" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="1114" x2="983" y1="625" y2="625"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="1115" x2="984" y1="646" y2="646"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_BeneficialUseCategory" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="960" x2="960" y1="222" y2="419"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="973" x2="973" y1="262" y2="440"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Methods_dim" parentEdge="EAST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="428" x2="572" y1="673" y2="673"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="419" x2="573" y1="713" y2="713"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="736" x2="736" y1="1006" y2="902"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="756" x2="756" y1="1053" y2="942"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_ReportingUnits_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="433" x2="491" y1="1067" y2="1067"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="499" y1="781" y2="781"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="495" x2="495" y1="785" y2="1063"/>
+        <positionableLine lineRole="PARENT_LINE" x1="448" x2="517" y1="1193" y2="1193"/>
+        <positionableLine lineRole="CHILD_LINE" x1="573" x2="525" y1="802" y2="802"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="521" x2="521" y1="806" y2="1189"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_Variables_dim" parentEdge="EAST" positioner="ThreeLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="424" x2="494" y1="305" y2="305"/>
-        <positionableLine lineRole="CHILD_LINE" x1="572" x2="502" y1="518" y2="518"/>
-        <positionableLine lineRole="MIDDLE_LINE" x1="498" x2="498" y1="514" y2="309"/>
+        <positionableLine lineRole="PARENT_LINE" x1="425" x2="495" y1="326" y2="326"/>
+        <positionableLine lineRole="CHILD_LINE" x1="573" x2="503" y1="539" y2="539"/>
+        <positionableLine lineRole="MIDDLE_LINE" x1="499" x2="499" y1="535" y2="330"/>
       </positionableLines>
     </FkGl>
     <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.AggregatedAmounts_fact.fk_AggregatedAmounts_fact_WaterSources_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="1032" y2="781"/>
-        <positionableLine lineRole="CHILD_LINE" x1="983" x2="1213" y1="777" y2="777"/>
+        <positionableLine lineRole="PARENT_LINE" x1="1217" x2="1217" y1="1061" y2="802"/>
+        <positionableLine lineRole="CHILD_LINE" x1="984" x2="1213" y1="798" y2="798"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="90" y="143">What: Variable and its metadata</Note>
-      <Note bkCl="ffffffe6" x="152" y="512">How: Methodology</Note>
-      <Note bkCl="ffffffe6" x="803" y="946">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="745" y="354">When: Date and value</Note>
-      <Note bkCl="ffffffe6" x="195" y="913">Where</Note>
-      <Note bkCl="ffffffe6" x="147" y="18">GetAggVariableData: Aggregate use&#13;
-The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
-The green table is the FACT table that changes over time and connects things together.&#13;
-Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
-      <Note bkCl="ffffffe6" x="1164" y="285">Unique combination for each &#13;
+      <Note bkCl="ffffffe6" x="91" y="164">What: Variable and its metadata</Note>
+      <Note bkCl="ffffffe6" x="780" y="996">Who: data provider</Note>
+      <Note bkCl="ffffffe6" x="738" y="376">When: Date and value</Note>
+      <Note bkCl="ffffffe6" x="1066" y="287">Unique combination for each &#13;
 AggregatedAmounts record: &#13;
 &#13;
 OrganizationID&#13;
@@ -3222,6 +3341,13 @@ TimeFrameStartID&#13;
 TimeFrameEndID&#13;
 ReportYearCV&#13;
 </Note>
+      <Note bkCl="ffffffe6" x="35" y="559">How: the method of how water use or supply etc was estimated</Note>
+      <Note bkCl="ffffffe6" x="201" y="7">AggVariableData: Aggregate use&#13;
+&#13;
+The brown tables are the dimensions tables (look us) that are mostly static over time. &#13;
+The green table is the FACT table that changes over time and connects things together.&#13;
+Fields that end with CV are controlled terms (look ups). See 5_ControlldVocabulary schema</Note>
+      <Note bkCl="ffffffe6" x="13" y="988">Where: the geosptail area where water use, supply etc is used at</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3248,35 +3374,41 @@ ReportYearCV&#13;
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="RegulatoryOverlay_dim" x="974" y="169"/>
-    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingUnits_dim" x="39" y="478"/>
-    <TbGl bkCl="ffa3cc51" sch="Core" tbl="RegulatoryReportingUnits_fact" x="490" y="208"/>
+    <TbGl bkCl="ffcc8e51" sch="Core" tbl="ReportingAreas_dim" x="37" y="494"/>
+    <TbGl bkCl="ffa3cc51" sch="Core" tbl="RegulatoryReportingAreas_fact" x="490" y="208"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Organizations_dim" x="504" y="489"/>
     <TbGl bkCl="ffcc8e51" sch="Core" tbl="Date_dim" x="554" y="27"/>
-    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_Date_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="NORTH" nm="Core.RegulatoryReportingAreas_fact.fk_RegulatoryReportingUnits_fact_Date_dim" parentEdge="SOUTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="651" x2="651" y1="130" y2="208"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="SOUTH" nm="Core.RegulatoryReportingAreas_fact.fk_RegulatoryReportingUnits_fact_Organizations_dim" parentEdge="NORTH" positioner="OneLineUserLinkPositioner">
       <positionableLines>
         <positionableLine lineRole="SINGLE_LINE" x1="644" x2="644" y1="489" y2="349"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="EAST" nm="Core.RegulatoryReportingAreas_fact.fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim" parentEdge="WEST" positioner="OneLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="SINGLE_LINE" x1="974" x2="807" y1="302" y2="302"/>
+        <positionableLine lineRole="SINGLE_LINE" x1="974" x2="812" y1="302" y2="302"/>
       </positionableLines>
     </FkGl>
-    <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.RegulatoryReportingUnits_fact.fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
+    <FkGl bkCl="ff000000" childEdge="WEST" nm="Core.RegulatoryReportingAreas_fact.fk_RegulatoryReportingUnits_fact_ReportingUnits_dim" parentEdge="NORTH" positioner="TwoLineUserLinkPositioner">
       <positionableLines>
-        <positionableLine lineRole="PARENT_LINE" x1="288" x2="288" y1="478" y2="281"/>
-        <positionableLine lineRole="CHILD_LINE" x1="490" x2="292" y1="277" y2="277"/>
+        <positionableLine lineRole="PARENT_LINE" x1="286" x2="286" y1="494" y2="281"/>
+        <positionableLine lineRole="CHILD_LINE" x1="490" x2="290" y1="277" y2="277"/>
       </positionableLines>
     </FkGl>
     <Notes>
-      <Note bkCl="ffffffe6" x="107" y="413">Where: Location</Note>
+      <Note bkCl="ffffffe6" x="106" y="429">Where: Location</Note>
       <Note bkCl="ffffffe6" x="684" y="413">Who: data provider</Note>
-      <Note bkCl="ffffffe6" x="25" y="38">GetAggRegulatoryOverlay: regulatory&#13;
+      <Note bkCl="ffffffe6" x="992" y="498">Unique combination for each &#13;
+AggregatedAmounts record: &#13;
+OrganizationID&#13;
+ReporitngUnitID&#13;
+RegulatoryOverlayID</Note>
+      <Note bkCl="ffffffe6" x="25" y="38">AggRegulatoryOverlay: regulatory&#13;
+&#13;
 The brown tables are the dimensions tables (look us) &#13;
 that are mostly static over time. &#13;
 &#13;
@@ -3285,11 +3417,6 @@ over time and connects things together.&#13;
 &#13;
 Fields that end with CV are controlled terms (look ups). &#13;
 See 5_ControlldVocabulary schema</Note>
-      <Note bkCl="ffffffe6" x="967" y="515">Unique combination for each &#13;
-AggregatedAmounts record: &#13;
-OrganizationID&#13;
-ReporitngUnitID&#13;
-RegulatoryOverlayID</Note>
     </Notes>
     <Zones/>
   </Dgm>
@@ -3344,7 +3471,9 @@ RegulatoryOverlayID</Note>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="ApplicableResourceType" x="776" y="1099"/>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="CustomerTypeCV" x="1159" y="1101"/>
     <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="BeneficialUseCategory" x="29" y="1262"/>
-    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="SDWISIdentifier" x="776" y="1258"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="SDWISIdentifier" x="402" y="1277"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="LivestockSpecies" x="1174" y="1274"/>
+    <TbGl bkCl="ffbfb2ff" sch="CVs" tbl="PowerType" x="783" y="1274"/>
     <Notes>
       <Note bkCl="ffffffe6" x="87" y="11">The 30 tables have identical fiels (except the benifical uses table) to faciliate their implementation in the next WaDE Master Controlled Vocabulary Registry similair to this one. &#13;
 http://vocabulary.wamdam.org/&#13;
@@ -3376,16 +3505,16 @@ We will make a join with each controlled field using the "Name" unique primary k
       <svg path=""/>
     </DiaProps>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="AggregatedAmounts" x="1091" y="105"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts" x="25" y="104"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="AllocationAmounts" x="26" y="103"/>
     <TbGl bkCl="ffe57e7e" sch="Input" tbl="SiteVariableAmounts" x="581" y="105"/>
-    <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits" x="1099" y="575"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites" x="602" y="593"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables" x="6" y="1000"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Organizations" x="787" y="1000"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods" x="397" y="999"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="RegulatoryOverlay" x="1097" y="723"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources" x="31" y="744"/>
-    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingUnits" x="1174" y="1012"/>
+    <TbGl bkCl="ffe57e7e" sch="Input" tbl="RegulatoryReportingUnits" x="612" y="666"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Sites" x="1185" y="623"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Variables" x="23" y="1094"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Organizations" x="824" y="1102"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="Methods" x="427" y="1093"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="RegulatoryOverlay" x="611" y="816"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="WaterSources" x="35" y="784"/>
+    <TbGl bkCl="ff7ec3e5" sch="Input" tbl="ReportingAreas" x="1227" y="1102"/>
     <Notes>
       <Note bkCl="ffffffe6" x="195" y="10">Each of the tables in red represent the dynamic input data strucutre a WaDE data type as it will be needed from each memebr state
 The tables in orange are mostly static metadata tables. Each state will poulate them one time and then will reuse them into the red tables. 
@@ -3478,19 +3607,19 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SUMMARY_ALLOCATION" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="SOURCE_TYPE" oNm="WFS_FEATURE_REF"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="REPORT_UNIT_ID" oNm="REPORT_DATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="REPRTING_UNIT_NAME" oNm="REPRTING_YEAR"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="REPORTING_UNIT_TYPE" oNm="REPORT_NAME"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="STATE" oNm="REPORT_LINK"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="schemaA">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="schemaA">
       <Rnm nNm="COUNTRY_FIPS" oNm="YEAR_TYPE"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="GEOSPATIAL_REF" SupCls="Schema" SupNme="schemaA">
@@ -3715,15 +3844,15 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="Reporting_Areas" oNm="Reporting_Area"/>
       <Rnm nNm="Reporting_Area" oNm="REPORTING_UNIT"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="DataValues">
       <Rnm nNm="ReportingAreaID" oNm="Reporting_Area_ID"/>
       <Rnm nNm="Reporting_Area_ID" oNm="REPORT_UNIT_ID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="DataValues">
       <Rnm nNm="LU_ReportingAreaType" oNm="Reporting_Area_TYPE"/>
       <Rnm nNm="Reporting_Area_TYPE" oNm="REPORTING_UNIT_TYPE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="DataValues">
       <Rnm nNm="Reporting_Area_NAME" oNm="REPRTING_UNIT_NAME"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Aggregated_ConsumptiveUSE" SupCls="Schema" SupNme="DataValues">
@@ -3921,7 +4050,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedRegulatories" SupCls="Schema" SupNme="DataValues">
       <Rnm nNm="LU_RegulatoryStatus" oNm="REGULATORY_STATUS"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="DataValues">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="DataValues">
       <Rnm nNm="COUNTY_FIPS" oNm="COUNTRY_FIPS"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedVariableMetadata" SupCls="Schema" SupNme="DataValues">
@@ -4191,14 +4320,14 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="S_AVAILABILITY_METRIC" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="AvailabilityMetricID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="StateCV" oNm="State"/>
       <Rnm nNm="State" oNm="STATE"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="CountyFIPS" oNm="COUNTY_FIPS"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="HUCIdentifier" oNm="HUCCode"/>
       <Rnm nNm="HUCCode" oNm="HUC8Code"/>
       <Rnm nNm="HUC8Code" oNm="HUC"/>
@@ -4216,7 +4345,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="ReportingYear" oNm="ReportYear"/>
       <Rnm nNm="ReportYear" oNm="REPRTING_YEAR"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitName" oNm="ReportUnitName"/>
       <Rnm nNm="ReportUnitName" oNm="ReportUnitNameCV"/>
       <Rnm nNm="ReportUnitNameCV" oNm="ReportingUnitNameCV"/>
@@ -4276,27 +4405,28 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="LU_BeneficialUse1" oNm="LU_BeneficialUse"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Core" SupCls="" SupNme="">
+      <Rnm nNm="ReportingAreas_dim" oNm="ReportingUnits_dim"/>
       <Rnm nNm="ReportingUnits_dim" oNm="ReportingUnits"/>
       <Rnm nNm="ReportingUnits" oNm="ReportUnits"/>
       <Rnm nNm="ReportUnits" oNm="ReportingUnits"/>
       <Rnm nNm="ReportingUnits" oNm="ReportingAreas"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitUID" oNm="ReportingUnitCode"/>
       <Rnm nNm="ReportingUnitCode" oNm="ReportUnitCode"/>
       <Rnm nNm="ReportUnitCode" oNm="ReportUnitIdentifier"/>
       <Rnm nNm="ReportUnitIdentifier" oNm="ReportingUnitCode"/>
       <Rnm nNm="ReportingUnitCode" oNm="ReportingAreaCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitID" oNm="ReportUnitID"/>
       <Rnm nNm="ReportUnitID" oNm="ReportingUnitID"/>
       <Rnm nNm="ReportingUnitID" oNm="ReportingAreaID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitVersion" oNm="ReportingAreaVersion"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitTypeCV" oNm="ReportUnitTypeCV"/>
       <Rnm nNm="ReportUnitTypeCV" oNm="ReportingUnitType"/>
       <Rnm nNm="ReportingUnitType" oNm="LU_ReportingUnitType"/>
@@ -4535,7 +4665,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="BeneficialUses_dim" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="IrrigatedAcreage" oNm="Acres_irrigated"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="VerticalDatumEPSGCodeCV" oNm="VerticalDatumEPSGCode"/>
       <Rnm nNm="VerticalDatumEPSGCode" oNm="VerticalDatum"/>
     </RnmCh>
@@ -4544,12 +4674,12 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="AllocationAmounts" oNm="WaterAllocationAmounts"/>
       <Rnm nNm="WaterAllocationAmounts" oNm="AllocationAmounts"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitUpdateDate" oNm="ReportUnitUpdateDate"/>
       <Rnm nNm="ReportUnitUpdateDate" oNm="ReportingUnitUpdateDate"/>
       <Rnm nNm="ReportingUnitUpdateDate" oNm="HUCUpdateDate"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportingUnitProductVersion" oNm="ReportUnitProductVersion"/>
       <Rnm nNm="ReportUnitProductVersion" oNm="ReportingUnitProductVersion"/>
       <Rnm nNm="ReportingUnitProductVersion" oNm="HUCProductVersion"/>
@@ -4592,10 +4722,10 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="ReportYearTypeCV" oNm="ReportYearType"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="EPSGCodeCV" oNm="EPSGCode"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="GNISCodeCV" oNm="GNIS_code"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableMetadata" SupCls="Schema" SupNme="WaDE">
@@ -4658,10 +4788,10 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variable" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="Name" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="InterbasinTransferFromID" oNm="UpstreamBasinIdentifier"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE">
       <Rnm nNm="InterbasinTransferToID" oNm="DownstreamBasinIdentifier"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="WaDE">
@@ -4760,10 +4890,10 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="DateID" oNm="TimeID"/>
       <Rnm nNm="TimeID" oNm="Id"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm nNm="OrganizationCV" oNm="OrganizationID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm nNm="NHDMetadataCV" oNm="NHDMetadataID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites" SupCls="Schema" SupNme="WaDE2_star">
@@ -4899,6 +5029,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="BeneficialUses" oNm="AmountMetadataID"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Core" SupCls="" SupNme="">
+      <Rnm nNm="RegulatoryReportingAreas_fact" oNm="RegulatoryReportingUnits_fact"/>
       <Rnm nNm="RegulatoryReportingUnits_fact" oNm="RegulatoryReportingUnits"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts" SupCls="Schema" SupNme="WaDE2_star">
@@ -5020,7 +5151,7 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm nNm="OrganizationUUID" oNm="OrganizationUID"/>
     </RnmCh>
-    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingUnits" SupCls="Schema" SupNme="WaDE2_star">
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="WaDE2_star">
       <Rnm nNm="ReportingUnitUUID" oNm="ReportingUnitUID"/>
     </RnmCh>
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryOverlay" SupCls="Schema" SupNme="WaDE2_star">
@@ -5248,6 +5379,7 @@ Some tables like the Allocations table might change over time but much slowly</N
       <Rnm nNm="Variables_dim" oNm="Variables_dim_input"/>
     </RnmCh>
     <RnmCh ObjCls="Table" ParCls="Schema" ParNme="Input" SupCls="" SupNme="">
+      <Rnm nNm="ReportingAreas" oNm="ReportingUnits"/>
       <Rnm nNm="ReportingUnits" oNm="ReportingUnits_dim"/>
       <Rnm nNm="ReportingUnits_dim" oNm="ReportingUnits_dim_Input"/>
     </RnmCh>
@@ -5510,6 +5642,103 @@ Some tables like the Allocations table might change over time but much slowly</N
     <RnmCh ObjCls="Column" ParCls="Table" ParNme="SiteVariableAmounts_fact" SupCls="Schema" SupNme="Core">
       <Rnm nNm="TimeframeStartID" oNm="TimeframeStart"/>
     </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="StateCV" oNm="State"/>
+      <Rnm nNm="State" oNm="StateCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Sites_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="SiteUUID" oNm="WaDESiteUUID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ExemptOfVolumeFlowPriority" oNm="ExemptOfAmountLimit"/>
+      <Rnm nNm="ExemptOfAmountLimit" oNm="AmountExcempt"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="AllocationFlow" oNm="AllocationAmount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="AllocationVolume" oNm="AllocationMaxVolume"/>
+      <Rnm nNm="AllocationMaxVolume" oNm="AllocationMaximum"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="LivestockServed" oNm="LivestockCount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaID" oNm="ReportingUnitID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaUUID" oNm="ReportingUnitUUID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaNativeID" oNm="ReportingUnitNativeID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaName" oNm="ReportingUnitName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaTypeCV" oNm="ReportingUnitTypeCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaUpdateDate" oNm="ReportingUnitUpdateDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaProductVersion" oNm="ReportingUnitProductVersion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="FlowUnitCV" oNm="AmountUnitCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables_dim" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="VolumeUnitCV" oNm="MaximumVolumeUnitCV"/>
+      <Rnm nNm="MaximumVolumeUnitCV" oNm="MaximumAmountUnitCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AggregatedAmounts_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaID" oNm="ReportingUnitID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="RegulatoryReportingAreas_fact" SupCls="Schema" SupNme="Core">
+      <Rnm nNm="ReportingAreaID" oNm="ReportingUnitID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
+      <Rnm nNm="PowerType" oNm="SDWISIdentifier_dup_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Table" ParCls="Schema" ParNme="CVs" SupCls="" SupNme="">
+      <Rnm nNm="LivestockSpecies" oNm="LivestockSpecies "/>
+      <Rnm nNm="LivestockSpecies " oNm="SDWISIdentifier_dup"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaUUID" oNm="ReportingUnitUUID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaNativeID" oNm="ReportingUnitNativeID"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaName" oNm="ReportingUnitName"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaTypeCV" oNm="ReportingUnitTypeCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaUpdateDate" oNm="ReportingUnitUpdateDate"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="ReportingAreas" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="ReportingAreaProductVersion" oNm="ReportingUnitProductVersion"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="AllocationFlow" oNm="AllocationVolume"/>
+      <Rnm nNm="AllocationVolume" oNm="AllocationAmount"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="AllocationAmounts" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="AllocationVolume" oNm="AllocationVolumed"/>
+      <Rnm nNm="AllocationVolumed" oNm="AllocationMaximum"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Organizations" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="StateCV" oNm="State"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="FlowUnitCV" oNm="AmountUnitCV"/>
+    </RnmCh>
+    <RnmCh ObjCls="Column" ParCls="Table" ParNme="Variables" SupCls="Schema" SupNme="Input">
+      <Rnm nNm="VolumeUnitCV" oNm="MaximumAmountUnitCV"/>
+    </RnmCh>
   </RnmMgr>
   <DbDocOptionMgr>
     <BasicOptionMgr>
@@ -5527,22 +5756,32 @@ Some tables like the Allocations table might change over time but much slowly</N
     </BasicOptionMgr>
   </DbDocOptionMgr>
   <OpenEditors>
-    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="1"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
-    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="0"/>
     <OpenEditor ClsNm="Diagram" fqn="null.5_ContreolledVocabulary" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.3_AggregatedAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.4_RegulatoryInfo" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.1_WaterAllocations" selected="1"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.2_SiteSpecificAmounts" selected="0"/>
+    <OpenEditor ClsNm="Diagram" fqn="null.6_InputTables" selected="0"/>
   </OpenEditors>
   <TreePaths>
     <TreePath/>
     <TreePath>/Schemas (3)</TreePath>
     <TreePath>/Schemas (3)/CVs</TreePath>
-    <TreePath>/Schemas (3)/CVs/Tables (30)</TreePath>
-    <TreePath>/Schemas (3)/CVs/Tables (30)/BeneficialUseCategory</TreePath>
+    <TreePath>/Schemas (3)/CVs/Tables (32)</TreePath>
+    <TreePath>/Schemas (3)/CVs/Tables (32)/BeneficialUseCategory</TreePath>
     <TreePath>/Schemas (3)/Input</TreePath>
     <TreePath>/Schemas (3)/Input/Tables (11)</TreePath>
+    <TreePath>/Schemas (3)/Input/Views (0)</TreePath>
+    <TreePath>/Schemas (3)/Input/Procedures (0)</TreePath>
     <TreePath>/Diagrams (6)</TreePath>
+    <TreePath>/Diagrams (6)/1_WaterAllocations</TreePath>
+    <TreePath>/Diagrams (6)/1_WaterAllocations/Notes (6)</TreePath>
+    <TreePath>/Diagrams (6)/2_SiteSpecificAmounts</TreePath>
+    <TreePath>/Diagrams (6)/2_SiteSpecificAmounts/Notes (6)</TreePath>
+    <TreePath>/Diagrams (6)/3_AggregatedAmounts</TreePath>
+    <TreePath>/Diagrams (6)/3_AggregatedAmounts/Notes (7)</TreePath>
+    <TreePath>/Diagrams (6)/4_RegulatoryInfo</TreePath>
+    <TreePath>/Diagrams (6)/4_RegulatoryInfo/Notes (4)</TreePath>
   </TreePaths>
   <SqlTexts/>
 </Db>

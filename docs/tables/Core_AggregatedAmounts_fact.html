@@ -36,7 +36,7 @@
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_ReportingUnitID.html">ReportingUnitID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the reporting unit</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_ReportingAreaID.html">ReportingAreaID</a></td><td class="FkCol">BigInt</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">foreign key unique identifier to the reporting unit</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -165,6 +165,12 @@
 </td>
 </tr>
 <tr>
+<td> </td><td><a href="../columns/Core_AggregatedAmounts_fact_LivestockServed.html">LivestockServed</a></td><td>Float</td><td>
+<p class="boolImg">
+<img src="../images/ok12d.gif"></p>
+</td><td> </td><td> </td><td>number of Livestock Served by this water</td><td> </td>
+</tr>
+<tr class="altRow">
 <td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_AggregatedAmounts_fact_IrrigationMethodCV.html">IrrigationMethodCV</a></td><td class="FkCol">NVarChar(100)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -173,13 +179,13 @@
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
-<tr class="altRow">
+<tr>
 <td> </td><td><a href="../columns/Core_AggregatedAmounts_fact_InterbasinTransferToID.html">InterbasinTransferToID</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td> </td><td> </td><td>If the data provider has a water use type for the reporting unit that is designated an interbasin transfer, they may add the receiving basin here.	</td><td> </td>
 </tr>
-<tr>
+<tr class="altRow">
 <td> </td><td><a href="../columns/Core_AggregatedAmounts_fact_InterbasinTransferFromID.html">InterbasinTransferFromID</a></td><td>NVarChar(100)</td><td>
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
@@ -225,7 +231,7 @@
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_Organizations_dim.html">fk_AggregatedAmounts_fact_Organizations_dim</a></td><td><a href="../tables/Core_Organizations_dim.html">Core.Organizations_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>OrganizationID</td><td>OrganizationID</td>
 </tr>
 <tr class="altRow">
-<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingUnits_dim.html">Core.ReportingUnits_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingUnitID</td><td>ReportingUnitID</td>
+<td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportingUnits_dim.html">fk_AggregatedAmounts_fact_ReportingUnits_dim</a></td><td><a href="../tables/Core_ReportingAreas_dim.html">Core.ReportingAreas_dim</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>ReportingAreaID</td><td>ReportingAreaID</td>
 </tr>
 <tr>
 <td><a href="../foreignKeys/Core_AggregatedAmounts_fact_fk_AggregatedAmounts_fact_ReportYearCV.html">fk_AggregatedAmounts_fact_ReportYearCV</a></td><td><a href="../tables/CVs_ReportYearCV.html">CVs.ReportYearCV</a></td><td><a href="../tables/Core_AggregatedAmounts_fact.html">Core.AggregatedAmounts_fact</a></td><td>Name</td><td>ReportYearCV</td>

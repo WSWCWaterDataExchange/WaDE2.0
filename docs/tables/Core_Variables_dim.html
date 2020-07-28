@@ -17,7 +17,7 @@
 </div>
 <h2>Columns</h2>
 <table class="flat">
-<tr class="altRow">
+<tr>
 <td class="header">PK</td><td class="header">Name</td><td class="header">Data Type</td><td class="header">NULL</td><td class="header">Auto</td><td class="header">Default</td><td class="header">Comment</td><td class="header">FK</td>
 </tr>
 <tr>
@@ -54,7 +54,7 @@
 <td> </td><td><a href="../columns/Core_Variables_dim_AggregationInterval_.html">AggregationInterval </a></td><td>Numeric(10, 1)</td><td> </td><td> </td><td> </td><td>The interval associated with the aggregation unit. For example, if the data are provided in 15 minute intervals, the interval would be 4 and the aggregation unit would be hourly.</td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td class="FkCol">NVarChar(50)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The aggregation unit (e.g., day ,month, year).</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AggregationIntervalUnitCV_.html">AggregationIntervalUnitCV </a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The aggregation unit (e.g., day ,month, year).</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
@@ -63,19 +63,19 @@
 <td> </td><td><a href="../columns/Core_Variables_dim_ReportYearStartMonth_.html">ReportYearStartMonth </a></td><td>NVarChar(10)</td><td> </td><td> </td><td> </td><td>The month of the beginning of the data provider's annual reporting period in MM-DD</td><td> </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td class="FkCol">NVarChar(10)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_ReportYearTypeCV_.html">ReportYearTypeCV </a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">The annual reporting period for this datatype. Could be a "water year," "irrigation year," a calendar year, or other variant.</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr class="altRow">
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_AmountUnitCV.html">AmountUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Unit of the site-specific ariable amount</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_FlowUnitCV.html">FlowUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Unit of the site-specific ariable amount</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td>
 </tr>
 <tr>
-<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_MaximumAmountUnitCV.html">MaximumAmountUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
+<td class="FkCol"> </td><td class="FkCol"><a href="../columns/Core_Variables_dim_VolumeUnitCV.html">VolumeUnitCV</a></td><td class="FkCol">NVarChar(250)</td><td class="FkCol">
 <p class="boolImg">
 <img src="../images/ok12d.gif"></p>
 </td><td class="FkCol"> </td><td class="FkCol"> </td><td class="FkCol">Amount of the allocation maximum or cap</td><td class="FkCol">
@@ -102,13 +102,13 @@
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_ReportYearType.html">fk_Variables_dim_ReportYearType</a></td><td><a href="../tables/CVs_ReportYearType.html">CVs.ReportYearType</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>ReportYearTypeCV</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AmountUnitCV</td>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units.html">fk_Variables_dim_Units</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>FlowUnitCV</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_interval.html">fk_Variables_dim_Units_interval</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>AggregationIntervalUnitCV</td>
 </tr>
 <tr>
-<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>MaximumAmountUnitCV</td>
+<td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Units_max.html">fk_Variables_dim_Units_max</a></td><td><a href="../tables/CVs_Units.html">CVs.Units</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VolumeUnitCV</td>
 </tr>
 <tr class="altRow">
 <td><a href="../foreignKeys/Core_Variables_dim_fk_Variables_dim_Variable.html">fk_Variables_dim_Variable</a></td><td><a href="../tables/CVs_Variable.html">CVs.Variable</a></td><td><a href="../tables/Core_Variables_dim.html">Core.Variables_dim</a></td><td>Name</td><td>VariableCV</td>
