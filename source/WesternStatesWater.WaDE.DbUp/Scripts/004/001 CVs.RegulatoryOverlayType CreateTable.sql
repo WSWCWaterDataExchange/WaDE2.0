@@ -5,7 +5,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [CVs].[RegulatoryOverlayType](
-	[Name] [nvarchar](50) NOT NULL,
+	[Name] [nvarchar](100) NOT NULL,
 	[Term] [nvarchar](250) NOT NULL,
 	[Definition] [nvarchar](4000) NULL,
 	[State] [nvarchar](250) NULL,
