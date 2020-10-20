@@ -24,7 +24,7 @@ FETCH NEXT
 FROM @GetName into @Name
 WHILE @@FETCH_STATUS = 0
 BEGIN
-	SET @SQL = N'ALTER TABLE [CVs.[' + @Name + '] ADD [WaDEName] NVARCHAR(150) NULL'
+	SET @SQL = N'ALTER TABLE [CVs].[' + @Name + '] ADD [WaDEName] NVARCHAR(150) NULL'
     PRINT @SQL
 	EXEC Sp_executesql @SQL
 	FETCH NEXT
