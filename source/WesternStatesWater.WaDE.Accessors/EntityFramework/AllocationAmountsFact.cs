@@ -21,7 +21,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }
         public long? AllocationApplicationDateID { get; set; }
-        public long AllocationPriorityDateID { get; set; }
+        public long? AllocationPriorityDateID { get; set; }
         public long? AllocationExpirationDateID { get; set; }
         public string AllocationOwner { get; set; }
         public string AllocationBasisCv { get; set; }

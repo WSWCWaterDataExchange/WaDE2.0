@@ -44,7 +44,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dataPublicationDate = await DateDimBuilder.Load(db);
                 allocationPriorityDate = await DateDimBuilder.Load(db);
 
-                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions{RecordType = WaterAllocationRecordType.None});
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
@@ -57,7 +57,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
 
             var sut = CreateWaterAllocationAccessor();
-            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] {waterAllocation});
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
 
@@ -97,7 +97,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dataPublicationDate = await DateDimBuilder.Load(db);
                 allocationPriorityDate = await DateDimBuilder.Load(db);
 
-                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions{RecordType = WaterAllocationRecordType.Civilian});
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.Civilian });
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
@@ -122,6 +122,85 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var importError = db.ImportErrors.Single();
                 importError.RunId.Should().Be(runId);
                 importError.Data.Should().Contain("Cross Group Not Valid");
+            }
+        }
+
+        [TestMethod]
+        [DynamicData(nameof(TestDataExemptOfPriorityFlow))]
+        public async Task LoadWaterAllocation_ExemptOfPriorityFlow(bool exemptOfPriorityFlow, DateTime? priorityDate, string allocationFlow_CFS, string allocationVolume_AF)
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.AllocationPriorityDate = priorityDate;
+                //waterAllocation.AllocationFlow_CFS = allocationFlow_CFS;
+                //waterAllocation.AllocationVolume_AF = allocationVolume_AF;
+                // TODO Added exempt flow
+
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.SingleAsync();
+
+                dbAllocationAmount.AllocationAmountId.Should().NotBe(0);
+                dbAllocationAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbAllocationAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbAllocationAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
+                dbAllocationAmount.MethodId.Should().Be(method.MethodId);
+                dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
+                if (priorityDate.HasValue)
+                {
+                    dbAllocationAmount.AllocationPriorityDateID.Should().BeGreaterThan(0);
+                }
+                else
+                {
+                    dbAllocationAmount.AllocationPriorityDateID.Should().BeNull();
+                }
+
+                dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
+                dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        protected static IEnumerable<object[]> TestDataExemptOfPriorityFlow
+        {
+            get
+            {
+                return new[]
+                {
+                    new object[] { true, null, null, null },
+                    new object[] { true, DateTime.Now, null, null },
+                };
             }
         }
 

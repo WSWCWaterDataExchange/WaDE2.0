@@ -1,4 +1,5 @@
-﻿EXEC sp_rename '[Core].[AllocationAmounts_fact].AllocationMaximum', 'AllocationVolume_AF', 'COLUMN';
+﻿ALTER TABLE [Core].[AllocationAmounts_fact]
+ALTER COLUMN [AllocationPriorityDateID] BIGINT NULL
 GO
 
 CREATE TYPE [Core].[WaterAllocationTableType_new] AS TABLE(
@@ -15,7 +16,7 @@ CREATE TYPE [Core].[WaterAllocationTableType_new] AS TABLE(
 	[AllocationApplicationDate] [date] NULL,
 	[AllocationPriorityDate] [date] NULL,
 	[AllocationExpirationDate] [date] NULL,
-	[AllocationOwner] [nvarchar](250) NULL,
+	[AllocationOwner] [nvarchar](500) NULL,
 	[AllocationBasisCV] [nvarchar](250) NULL,
 	[AllocationLegalStatusCV] [varchar](250) NULL,
 	[AllocationTypeCV] [nvarchar](250) NULL,
@@ -108,10 +109,6 @@ BEGIN
 		SELECT 'DataPublicationDate Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE DataPublicationDate IS NULL
-		UNION ALL
-		SELECT 'AllocationPriorityDate Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationPriorityDate IS NULL
 		--//////////////////////////////s
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
