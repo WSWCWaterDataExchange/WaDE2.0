@@ -1547,6 +1547,10 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("USGSSiteID")
                     .HasMaxLength(250);
 
+                entity.Property(e => e.PODorPOUSite)
+                    .HasColumnName("PODorPOUSite")
+                    .HasMaxLength(50);
+
                 entity.HasOne(d => d.CoordinateMethodCvNavigation)
                     .WithMany(p => p.SitesDim)
                     .HasForeignKey(d => d.CoordinateMethodCv)
