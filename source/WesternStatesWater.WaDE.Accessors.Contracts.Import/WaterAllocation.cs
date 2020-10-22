@@ -117,5 +117,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string PowerType { get; set; }
+
+        [NullValues("")]
+        public bool? ExemptOfVolumeFlowPriority { get; set; }
     }
 }

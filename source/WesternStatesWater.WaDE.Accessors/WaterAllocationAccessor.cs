@@ -315,7 +315,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public long VariableSpecificId { get; set; }
             public string VariableSpecificTypeCV { get; set; }
             public string PrimaryUseCategoryCV { get; set; }
-
+            public bool ExemptOfVolumeFlowPriority { get; set; }
         }
 
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadOrganizations(string runId, IEnumerable<AccessorImport.Organization> organizations)
@@ -785,6 +785,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     else if (prop.PropertyType == typeof(long) || prop.PropertyType == typeof(long?))
                     {
                         tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.BigInt));
+                    }
+                    else if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Bit));
                     }
                     else
                     {

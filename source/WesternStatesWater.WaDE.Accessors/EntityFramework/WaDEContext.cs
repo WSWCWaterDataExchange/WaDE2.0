@@ -351,6 +351,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.AllocationCommunityWaterSupplySystem).HasColumnName("AllocationCommunityWaterSupplySystem");
                 entity.Property(e => e.AllocationTimeframeEnd).HasColumnName("AllocationTimeframeEnd");
                 entity.Property(e => e.AllocationChangeApplicationIndicator).HasColumnName("AllocationChangeApplicationIndicator");
+                entity.Property(e => e.ExemptOfVolumeFlowPriority).HasColumnName("ExemptOfVolumeFlowPriority");
                 entity.Property(e => e.AllocationOwner)
                     .HasColumnName("AllocationOwner")
                     .HasMaxLength(250);

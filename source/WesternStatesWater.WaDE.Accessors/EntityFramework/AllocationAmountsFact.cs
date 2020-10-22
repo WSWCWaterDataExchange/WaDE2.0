@@ -48,6 +48,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string IrrigationMethodCV { get; set; }
         public string CustomerTypeCV { get; set; }
         public string CommunityWaterSupplySystem { get; set; }
+        public bool? ExemptOfVolumeFlowPriority { get; set; }
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
         public virtual DateDim AllocationExpirationDateNavigation { get; set; }

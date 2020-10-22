@@ -36,5 +36,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public List<string> BeneficialUses { get; set; }
 
         public long OrganizationId { get; set; }
+        public bool ExemptOfVolumeFlowPriority { get; set; }
     }
 }
