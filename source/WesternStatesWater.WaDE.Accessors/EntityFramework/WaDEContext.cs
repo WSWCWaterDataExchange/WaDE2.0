@@ -1060,6 +1060,15 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("RegulatoryStatusCV")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.RegulatoryOverlayTypeCV)
+                    .HasColumnName("RegulatoryOverlayTypeCV")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.WaterSourceTypeCV)
+                    .IsRequired()
+                    .HasColumnName("WaterSourceTypeCV")
+                    .HasMaxLength(100);
+
                 entity.Property(e => e.RegulatoryStatute).HasMaxLength(500);
 
                 entity.Property(e => e.RegulatoryStatuteLink).HasMaxLength(500);

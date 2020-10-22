@@ -21,6 +21,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string RegulatoryStatuteLink { get; set; }
         public DateTime StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
+        public string RegulatoryOverlayTypeCV { get; set; }
+        public string WaterSourceTypeCV { get; set; }
 
         public virtual ICollection<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
     }
