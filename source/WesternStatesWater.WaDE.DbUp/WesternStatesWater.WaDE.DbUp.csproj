@@ -99,6 +99,7 @@
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
     <None Remove="Scripts\004\004 Core.AllocationAmounts_fact Rename AllocationAmount.sql" />
+    <None Remove="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -350,6 +351,7 @@
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
     <EmbeddedResource Include="Scripts\004\004 Core.AllocationAmounts_fact Rename AllocationAmount.sql" />
+    <EmbeddedResource Include="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
   </ItemGroup>
 
   <ItemGroup>
