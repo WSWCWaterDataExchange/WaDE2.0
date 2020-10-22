@@ -213,7 +213,7 @@ namespace WesternStatesWater.WaDE.Accessors
                     var record = new AccessorApi.WaterAllocationsDigest
                     {
                         AllocationAmountId = allocationAmounts.AllocationAmountId,
-                        AllocationAmount = allocationAmounts.AllocationAmount,
+                        AllocationFlow_CFS = allocationAmounts.AllocationFlow_CFS,
                         AllocationMaximum = allocationAmounts.AllocationMaximum,
                         AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
                     };
@@ -304,7 +304,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public DateTime? TimeframeEnd { get; set; }
             public DateTime? DataPublicationDate { get; set; }
             public double? AllocationCropDutyAmount { get; set; }
-            public double? AllocationAmount { get; set; }
+            public double? AllocationFlow_CFS { get; set; }
             public double? AllocationMaximum { get; set; }
             public long? PopulationServed { get; set; }
             public double? GeneratedPowerCapacityMW { get; set; }

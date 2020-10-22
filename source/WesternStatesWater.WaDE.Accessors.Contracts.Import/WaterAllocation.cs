@@ -68,7 +68,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationCropDutyAmount { get; set; }
 
         [NullValues("")]
-        public string AllocationAmount { get; set; }
+        public string AllocationFlow_CFS { get; set; }
 
         [NullValues("")]
         public string AllocationMaximum { get; set; }

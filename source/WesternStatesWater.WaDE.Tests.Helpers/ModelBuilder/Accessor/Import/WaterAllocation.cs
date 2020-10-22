@@ -32,7 +32,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.AllocationOwner, f => f.Name.FullName())
                 .RuleFor(a => a.AllocationTimeframeStart, f => f.Random.AlphaNumeric(5))
                 .RuleFor(a => a.AllocationTimeframeEnd, f => f.Random.AlphaNumeric(5))
-                .RuleFor(a => a.AllocationAmount, f => f.Random.Double(0, 10000).ToString())
+                .RuleFor(a => a.AllocationFlow_CFS, f => f.Random.Double(0, 10000).ToString())
                 .RuleFor(a => a.AllocationMaximum, f => f.Random.Double(0, 10000).ToString())
                 .RuleFor(a => a.AllocationCommunityWaterSupplySystem, f => f.Address.City())
                 ;

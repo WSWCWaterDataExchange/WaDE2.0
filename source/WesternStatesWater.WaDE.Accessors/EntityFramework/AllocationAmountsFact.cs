@@ -32,7 +32,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         [MaxLength(5)]
         public string AllocationTimeframeEnd { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
-        public double? AllocationAmount { get; set; }
+        public double? AllocationFlow_CFS { get; set; }
         public double? AllocationMaximum { get; set; }
         public long? PopulationServed { get; set; }
         public double? GeneratedPowerCapacityMW { get; set; }
