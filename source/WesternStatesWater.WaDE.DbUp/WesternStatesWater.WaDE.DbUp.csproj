@@ -97,6 +97,8 @@
     <None Remove="Scripts\003\022 Revert AllocationFacts TimeframeStart and TimeframeEnd In Sproc LoadWaterAllocation.sql" />
     <None Remove="Scripts\003\023 Core.State CV Definition Length.sql" />
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
+    <None Remove="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
+    <None Remove="Scripts\004\002 CVs.WaDEName.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -346,6 +348,8 @@
     <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
+    <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
   </ItemGroup>
 
   <ItemGroup>
