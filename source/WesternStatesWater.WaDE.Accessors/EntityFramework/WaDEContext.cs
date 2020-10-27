@@ -39,6 +39,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<Nhdproduct> Nhdproduct { get; set; }
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
         public virtual DbSet<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
+        public virtual DbSet<RegulatoryOverlayType> RegulatoryOverlayType { get; set; }
         public virtual DbSet<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
@@ -1065,9 +1066,20 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(100);
 
                 entity.Property(e => e.WaterSourceTypeCV)
-                    .IsRequired()
                     .HasColumnName("WaterSourceTypeCV")
                     .HasMaxLength(100);
+
+                entity.HasOne(d => d.WaterSourceType)
+                    .WithMany(p => p.RegulatoryOverlayDim)
+                    .HasForeignKey(d => d.WaterSourceTypeCV)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RegulatoryOverlay_dim_WaterSourceTypeCV");
+
+                entity.HasOne(d => d.RegulatoryOverlayType)
+                    .WithMany(p => p.RegulatoryOverlayDim)
+                    .HasForeignKey(d => d.RegulatoryOverlayTypeCV)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_RegulatoryOverlay_dim_RegulatoryOverlayTypeCV");
 
                 entity.Property(e => e.RegulatoryStatute).HasMaxLength(500);
 
@@ -1076,6 +1088,30 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.StatutoryEffectiveDate).HasColumnType("date");
 
                 entity.Property(e => e.StatutoryEndDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<RegulatoryOverlayType>(entity =>
+            {
+                entity.HasKey(e => e.Name)
+                    .HasName("PK_CVs.RegulatoryOverlayType");
+
+                entity.ToTable("RegulatoryOverlayType", "CVs");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(100)
+                    .ValueGeneratedNever();
+
+                entity.Property(e => e.Definition).HasMaxLength(4000);
+
+                entity.Property(e => e.SourceVocabularyUri)
+                    .HasColumnName("SourceVocabularyURI")
+                    .HasMaxLength(250);
+
+                entity.Property(e => e.State).HasMaxLength(250);
+
+                entity.Property(e => e.Term)
+                    .IsRequired()
+                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<RegulatoryReportingUnitsFact>(entity =>
