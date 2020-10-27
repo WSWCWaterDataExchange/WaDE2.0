@@ -6,12 +6,8 @@ DELETE FROM [Core].[Sites_dim]
 WHERE Longitude is NULL OR Latitude IS NULL
 GO
 
-ALTER TABLE [Core].[Sites_dim]
-ALTER COLUMN [Longitude] float NOT NULL
-GO
-
-ALTER TABLE [Core].[Sites_dim]
-ALTER COLUMN [Latitude] float NOT NULL
+UPDATE [Core].[Sites_dim]
+SET [PODorPOUSite] = 'POD'
 GO
 
 
@@ -71,6 +67,11 @@ BEGIN
         SELECT 'EPSGCodeCV Not Valid' Reason, *
         FROM #TempSiteData
         WHERE EPSGCodeCV IS NULL
+        UNION ALL
+        SELECT 'PODorPOUSite found POD record with missing longitude and latitude' Reason, *
+        FROM #TempSiteData
+        WHERE PODorPOUSite = 'POD' AND 
+             (Longitude IS NULL AND Latitude IS NULL)
     )
     SELECT * INTO #TempErrorSiteRecords FROM q1;
 
