@@ -99,6 +99,8 @@
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <None Remove="Scripts\004\002 CVs.WaDEName.sql" />
+    <None Remove="Scripts\004\011. Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
+    <None Remove="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -350,6 +352,8 @@
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
+    <EmbeddedResource Include="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
+    <EmbeddedResource Include="Scripts\004\011. Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
   </ItemGroup>
 
   <ItemGroup>
