@@ -81,7 +81,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
-                    .OrderBy(a=>a.AggregatedAmountId)
+                    .OrderBy(a => a.AggregatedAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<AggregatedHelper>(Mapping.DtoMapper.Configuration)
@@ -107,8 +107,8 @@ namespace WesternStatesWater.WaDE.Accessors
                     .ToListAsync();
 
                 var reportingUnitIds = results.Select(a => a.ReportingUnitId).ToHashSet();
-                var reportingUnitsTask = db.WaterSourcesDim
-                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                var reportingUnitsTask = db.ReportingUnitsDim
+                    .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
                     .ProjectTo<AccessorApi.ReportingUnit>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
@@ -156,6 +156,7 @@ namespace WesternStatesWater.WaDE.Accessors
             var waterSourceIds = allocations.Select(a => a.WaterSourceId).ToHashSet();
             var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
             var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
+            var reportingUnitIds = allocations.Select(a => a.ReportingUnitId).ToHashSet();
 
             org.WaterSources = waterSources
                 .Where(a => waterSourceIds.Contains(a.WaterSourceId))
@@ -166,7 +167,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 .Map<List<AccessorApi.VariableSpecific>>();
 
             org.ReportingUnits = reportingUnits
-                .Where(a => variableSpecificIds.Contains(a.ReportingUnitId))
+                .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
                 .Map<List<AccessorApi.ReportingUnit>>();
 
             org.Methods = methods
