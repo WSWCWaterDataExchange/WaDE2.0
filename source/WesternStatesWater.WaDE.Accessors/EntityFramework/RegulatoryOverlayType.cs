@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class WaterSourceType
+    public class RegulatoryOverlayType
     {
-        public WaterSourceType()
+        public RegulatoryOverlayType()
         {
-            WaterSourcesDim = new HashSet<WaterSourcesDim>();
+            RegulatoryOverlayDim = new HashSet<RegulatoryOverlayDim>();
         }
 
         public string Name { get; set; }
@@ -15,8 +14,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string Definition { get; set; }
         public string State { get; set; }
         public string SourceVocabularyUri { get; set; }
-
-        public virtual ICollection<WaterSourcesDim> WaterSourcesDim { get; set; }
 
         public virtual ICollection<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
     }

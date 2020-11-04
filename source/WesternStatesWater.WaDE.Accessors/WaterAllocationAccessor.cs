@@ -213,8 +213,8 @@ namespace WesternStatesWater.WaDE.Accessors
                     var record = new AccessorApi.WaterAllocationsDigest
                     {
                         AllocationAmountId = allocationAmounts.AllocationAmountId,
-                        AllocationAmount = allocationAmounts.AllocationAmount,
-                        AllocationMaximum = allocationAmounts.AllocationMaximum,
+                        AllocationFlow_CFS = allocationAmounts.AllocationFlow_CFS,
+                        AllocationVolume_AF = allocationAmounts.AllocationVolume_AF,
                         AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
                     };
 
@@ -304,8 +304,8 @@ namespace WesternStatesWater.WaDE.Accessors
             public DateTime? TimeframeEnd { get; set; }
             public DateTime? DataPublicationDate { get; set; }
             public double? AllocationCropDutyAmount { get; set; }
-            public double? AllocationAmount { get; set; }
-            public double? AllocationMaximum { get; set; }
+            public double? AllocationFlow_CFS { get; set; }
+            public double? AllocationVolume_AF { get; set; }
             public long? PopulationServed { get; set; }
             public double? GeneratedPowerCapacityMW { get; set; }
             public string AllocationCommunityWaterSupplySystem { get; set; }
@@ -315,7 +315,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public long VariableSpecificId { get; set; }
             public string VariableSpecificTypeCV { get; set; }
             public string PrimaryUseCategoryCV { get; set; }
-
+            public bool ExemptOfVolumeFlowPriority { get; set; }
         }
 
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadOrganizations(string runId, IEnumerable<AccessorImport.Organization> organizations)
@@ -785,6 +785,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     else if (prop.PropertyType == typeof(long) || prop.PropertyType == typeof(long?))
                     {
                         tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.BigInt));
+                    }
+                    else if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Bit));
                     }
                     else
                     {
