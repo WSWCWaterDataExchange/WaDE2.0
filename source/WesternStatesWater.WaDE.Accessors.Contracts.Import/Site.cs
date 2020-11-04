@@ -48,5 +48,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string County { get; set; }
+
+        [NullValues("")]
+        public string PODorPOUSite { get; set; }
     }
 }

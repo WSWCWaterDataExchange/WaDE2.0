@@ -34,5 +34,11 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public DateTime? StatutoryEndDate { get; set; }
+
+        [NullValues("")]
+        public string RegulatoryOverlayTypeCV { get; set; }
+
+        [NullValues("")]
+        public string WaterSourceTypeCV { get; set; }
     }
 }

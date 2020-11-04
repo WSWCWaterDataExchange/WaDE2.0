@@ -38,6 +38,8 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>();
             CreateMap<AccessorApi.ReportingUnitRegulatory, ManagerApi.ReportingUnitRegulatory>();
 
+            CreateMap<AccessorApi.RegulatoryReportingUnits, ManagerApi.RegulatoryReportingUnits>();
+
             CreateMap<AccessorApi.WaterAllocationsDigest, ManagerApi.WaterAllocationDigest>();
             CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();
         }
