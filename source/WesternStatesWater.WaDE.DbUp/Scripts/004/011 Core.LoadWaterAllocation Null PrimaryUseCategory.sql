@@ -61,16 +61,17 @@ BEGIN
 		SELECT 'DataPublicationDate Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE DataPublicationDate IS NULL
-		UNION ALL
-		SELECT 'AllocationPriorityDate Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE AllocationPriorityDate IS NULL
 		--//////////////////////////////s
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
         FROM #TempJoinedWaterAllocationData
         WHERE CategoryCount >1
 		--//////////////////////////////////e
+		UNION ALL
+		SELECT 'Allocation Not Exempt of Volume Flow Priority' Reason, *
+		FROM #TempJoinedWaterAllocationData
+		WHERE (ExemptOfVolumeFlowPriority IS NULL OR ExemptOfVolumeFlowPriority = 0) AND 
+			  (AllocationFlow_CFS IS NULL OR AllocationVolume_AF IS NULL OR AllocationPriorityDate IS NULL)
 	)
 	SELECT * INTO #TempErrorWaterAllocationRecords FROM q1;
 
@@ -173,8 +174,8 @@ BEGIN
 			,wad.AllocationTimeframeStart
 			,wad.AllocationTimeframeEnd
 			,wad.AllocationCropDutyAmount
-			,wad.AllocationAmount
-			,wad.AllocationMaximum
+			,wad.AllocationFlow_CFS
+			,wad.AllocationVolume_AF
 			,wad.PopulationServed
 			,wad.GeneratedPowerCapacityMW
 			,wad.IrrigatedAcreage
@@ -190,6 +191,7 @@ BEGIN
 			,wad.IrrigationMethodCV
 			,wad.CommunityWaterSupplySystem
 			,wad.PowerType
+			,wad.ExemptOfVolumeFlowPriority
 		FROM
 			#TempJoinedWaterAllocationData wad
 			--LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = wad.PrimaryUseCategory
@@ -224,8 +226,8 @@ BEGIN
 		,AllocationTimeframeStart
 		,AllocationTimeframeEnd
 		,AllocationCropDutyAmount
-		,AllocationAmount
-		,AllocationMaximum
+		,AllocationFlow_CFS
+		,AllocationVolume_AF
 		,PopulationServed
 		,GeneratedPowerCapacityMW
 		,IrrigatedAcreage
@@ -239,7 +241,8 @@ BEGIN
 		,CustomerTypeCV
 		,IrrigationMethodCV
 		,CommunityWaterSupplySystem
-		,PowerType)
+		,PowerType
+		,ExemptOfVolumeFlowPriority)
 	VALUES
 		(Source.OrganizationID
 		,Source.VariableSpecificID
@@ -259,8 +262,8 @@ BEGIN
 		,Source.AllocationTimeframeStart
 		,Source.AllocationTimeframeEnd
 		,Source.AllocationCropDutyAmount
-		,Source.AllocationAmount
-		,Source.AllocationMaximum
+		,Source.AllocationFlow_CFS
+		,Source.AllocationVolume_AF
 		,Source.PopulationServed
 		,Source.GeneratedPowerCapacityMW
 		,Source.IrrigatedAcreage
@@ -274,7 +277,8 @@ BEGIN
 		,Source.CustomerType
 		,Source.IrrigationMethodCV
 		,Source.CommunityWaterSupplySystem
-		,Source.PowerType)
+		,Source.PowerType
+		,Source.ExemptOfVolumeFlowPriority)
 	WHEN MATCHED THEN
 	  UPDATE SET
 		OrganizationID = Source.OrganizationID,
@@ -295,8 +299,8 @@ BEGIN
 		AllocationTimeframeStart = Source.AllocationTimeframeStart,
 		AllocationTimeframeEnd = Source.AllocationTimeframeEnd,
 		AllocationCropDutyAmount = Source.AllocationCropDutyAmount,
-		AllocationAmount = Source.AllocationAmount,
-		AllocationMaximum = Source.AllocationMaximum,
+		AllocationFlow_CFS = Source.AllocationFlow_CFS,
+		AllocationVolume_AF = Source.AllocationVolume_AF,
 		PopulationServed = Source.PopulationServed,
 		GeneratedPowerCapacityMW = Source.GeneratedPowerCapacityMW,
 		IrrigatedAcreage = Source.IrrigatedAcreage,
@@ -310,7 +314,8 @@ BEGIN
 		CustomerTypeCV = Source.CustomerType,
 		IrrigationMethodCV = Source.IrrigationMethodCV,
 		CommunityWaterSupplySystem = Source.CommunityWaterSupplySystem,
-		PowerType = Source.PowerType		
+		PowerType = Source.PowerType,
+		ExemptOfVolumeFlowPriority = Source.ExemptOfVolumeFlowPriority
 	OUTPUT
 		inserted.AllocationAmountID
 		,Source.RowNumber
