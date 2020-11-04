@@ -46,6 +46,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string HUC12 { get; set; }
         [MaxLength(20)]
         public string County { get; set; }
+        [MaxLength(50)]
+        public string PODorPOUSite { get; set; }
 
         public virtual CoordinateMethod CoordinateMethodCvNavigation { get; set; }
         public virtual Epsgcode EpsgcodeCvNavigation { get; set; }

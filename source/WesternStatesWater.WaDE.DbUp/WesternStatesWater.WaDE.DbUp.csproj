@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
@@ -99,6 +99,14 @@
     <None Remove="Scripts\004 Core.LoadMethods.sql" />
     <None Remove="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <None Remove="Scripts\004\002 CVs.WaDEName.sql" />
+    <None Remove="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
+    <None Remove="Scripts\004\004 Core.AllocationAmounts_fact Rename AllocationAmount.sql" />
+    <None Remove="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
+    <None Remove="Scripts\004\006 Core.AllocationAmounts_fact Update AllocationOwner Size.sql" />
+    <None Remove="Scripts\004\007 Core.AllocationAmounts_fact AllocationPriorityDateID Nullable.sql" />
+    <None Remove="Scripts\004\008 Core.AllocationAmounts_fact ExemptOfVolumeFlowPriority.sql" />
+    <None Remove="Scripts\004\009 Core.RegulatoryOverlay_dim Updates.sql" />
+    <None Remove="Scripts\004\010 Core.Sites_dim Updates.sql" />
     <None Remove="Scripts\004\011. Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
     <None Remove="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
@@ -352,6 +360,14 @@
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
+    <EmbeddedResource Include="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
+    <EmbeddedResource Include="Scripts\004\004 Core.AllocationAmounts_fact Rename AllocationAmount.sql" />
+    <EmbeddedResource Include="Scripts\004\009 Core.RegulatoryOverlay_dim Updates.sql" />
+    <EmbeddedResource Include="Scripts\004\010 Core.Sites_dim Updates.sql" />
+    <EmbeddedResource Include="Scripts\004\008 Core.AllocationAmounts_fact ExemptOfVolumeFlowPriority.sql" />
+    <EmbeddedResource Include="Scripts\004\007 Core.AllocationAmounts_fact AllocationPriorityDateID Nullable.sql" />
+    <EmbeddedResource Include="Scripts\004\006 Core.AllocationAmounts_fact Update AllocationOwner Size.sql" />
+    <EmbeddedResource Include="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
     <EmbeddedResource Include="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <EmbeddedResource Include="Scripts\004\011. Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
   </ItemGroup>
