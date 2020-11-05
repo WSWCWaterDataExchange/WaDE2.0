@@ -244,7 +244,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 db.ImportErrors.Should().HaveCount(errorCount + 1);
                 var error = await db.ImportErrors.LastAsync();
                 error.Data.Should().Contain("Allocation Not Exempt of Volume Flow Priority");
-                
+
             }
         }
 
@@ -296,6 +296,248 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     new object[] { null, null, "1000.75", "30.123456"},
                     new object[] { null, DateTime.Now, null, "30.123456"},
                 };
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadWaterAllocation_LoadAllocationBridge_PrimaryUseCategoryCV_Populated()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            BeneficialUsesCV beneficialUsesCV;
+            BeneficialUsesCV primaryUseCategoryCV;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                beneficialUsesCV = await BeneficalUsesBuilder.Load(db);
+                primaryUseCategoryCV = await BeneficalUsesBuilder.Load(db);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.PrimaryUseCategory = primaryUseCategoryCV.Name;
+
+                waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.SingleAsync();
+                dbAllocationAmount.Should().NotBeNull();
+                dbAllocationAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategoryCV.Name);
+
+                var dbAllocationBridge = await db.AllocationBridgeBeneficialUsesFact.SingleAsync();
+                dbAllocationBridge.Should().NotBeNull();
+                dbAllocationBridge.AllocationAmountId.Should().BeGreaterThan(0);
+                dbAllocationBridge.BeneficialUseCV.Should().Be(beneficialUsesCV.Name);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadWaterAllocation_LoadAllocationBridge_PrimaryUseCategoryCV_Null()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            BeneficialUsesCV beneficialUsesCV;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                beneficialUsesCV = await BeneficalUsesBuilder.Load(db);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.PrimaryUseCategory = null;
+
+                waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.SingleAsync();
+                dbAllocationAmount.Should().NotBeNull();
+                dbAllocationAmount.PrimaryUseCategoryCV.Should().BeNull();
+
+                var dbAllocationBridge = await db.AllocationBridgeBeneficialUsesFact.SingleAsync();
+                dbAllocationBridge.Should().NotBeNull();
+                dbAllocationBridge.AllocationBridgeId.Should().BeGreaterThan(0);
+                dbAllocationBridge.AllocationAmountId.Should().Be(dbAllocationBridge.AllocationAmountId);
+                dbAllocationBridge.BeneficialUseCV.Should().Be(beneficialUsesCV.Name);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadWaterAllocation_LoadAggBridge_PrimaryUseCategoryCV_Populated()
+        {
+            OrganizationsDim organization;
+            ReportingUnitsDim reportingUnit;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            AggregatedAmount aggregateAmount;
+            BeneficialUsesCV beneficialUsesCV;
+            BeneficialUsesCV primaryUseCategoryCV;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                reportingUnit = await ReportingUnitsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                beneficialUsesCV = await BeneficalUsesBuilder.Load(db);
+                primaryUseCategoryCV = await BeneficalUsesBuilder.Load(db);
+
+                aggregateAmount = AggregatedAmountBuilder.Create();
+
+                aggregateAmount.PrimaryUseCategory = primaryUseCategoryCV.Name;
+
+                aggregateAmount.ReportingUnitUUID = reportingUnit.ReportingUnitUuid;
+                aggregateAmount.BeneficialUseCategory = beneficialUsesCV.Name;
+                aggregateAmount.OrganizationUUID = organization.OrganizationUuid;
+                aggregateAmount.VariableSpecificUUID = variable.VariableSpecificUuid;
+                aggregateAmount.WaterSourceUUID = waterSource.WaterSourceUuid;
+                aggregateAmount.MethodUUID = method.MethodUuid;
+                aggregateAmount.DataPublicationDate = dataPublicationDate.Date;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+
+            var result = await sut.LoadAggregatedAmounts((new Faker()).Random.AlphaNumeric(10), new[] { aggregateAmount });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAggregateAmount = await db.AggregatedAmountsFact.SingleAsync();
+                dbAggregateAmount.Should().NotBeNull();
+
+                dbAggregateAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategoryCV.Name);
+
+                var dbAggBridge = await db.AggBridgeBeneficialUsesFact.SingleAsync();
+                dbAggBridge.Should().NotBeNull();
+                dbAggBridge.AggBridgeId.Should().BeGreaterThan(0);
+                dbAggBridge.AggregatedAmountId.Should().Be(dbAggregateAmount.AggregatedAmountId);
+                dbAggBridge.BeneficialUseCV.Should().Be(beneficialUsesCV.Name);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadWaterAllocation_LoadAggBridge_PrimaryUseCategoryCV_Null()
+        {
+            OrganizationsDim organization;
+            ReportingUnitsDim reportingUnit;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            AggregatedAmount aggregateAmount;
+            BeneficialUsesCV beneficialUsesCV;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                reportingUnit = await ReportingUnitsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                beneficialUsesCV = await BeneficalUsesBuilder.Load(db);
+
+                aggregateAmount = AggregatedAmountBuilder.Create();
+
+                aggregateAmount.PrimaryUseCategory = null;
+
+                aggregateAmount.ReportingUnitUUID = reportingUnit.ReportingUnitUuid;
+                aggregateAmount.BeneficialUseCategory = beneficialUsesCV.Name;
+                aggregateAmount.OrganizationUUID = organization.OrganizationUuid;
+                aggregateAmount.VariableSpecificUUID = variable.VariableSpecificUuid;
+                aggregateAmount.WaterSourceUUID = waterSource.WaterSourceUuid;
+                aggregateAmount.MethodUUID = method.MethodUuid;
+                aggregateAmount.DataPublicationDate = dataPublicationDate.Date;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+
+            var result = await sut.LoadAggregatedAmounts((new Faker()).Random.AlphaNumeric(10), new[] { aggregateAmount });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAggregateAmount = await db.AggregatedAmountsFact.SingleAsync();
+                dbAggregateAmount.Should().NotBeNull();
+                dbAggregateAmount.PrimaryUseCategoryCV.Should().BeNull();
+
+                var dbAggBridge = await db.AggBridgeBeneficialUsesFact.SingleAsync();
+                dbAggBridge.Should().NotBeNull();
+                dbAggBridge.AggBridgeId.Should().BeGreaterThan(0);
+                dbAggBridge.AggregatedAmountId.Should().Be(dbAggregateAmount.AggregatedAmountId);
+                dbAggBridge.BeneficialUseCV.Should().Be(beneficialUsesCV.Name);
+
+                db.ImportErrors.Should().HaveCount(0);
             }
         }
 
