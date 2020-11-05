@@ -14,5 +14,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string RegulatoryOverlayTypeCV { get; set; }
         public string WaterSourceTypeCV { get; set; }
 
+        public string RegulatoryOverlayUUID { get; set; }
     }
 }
