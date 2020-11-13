@@ -545,5 +545,143 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);
         }
+
+        [TestMethod]
+        public async Task LoadSiteSpecificAmounts_SimpleLoad_Agriculture()
+        {
+            OrganizationsDim organization;
+            SitesDim site;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            SiteSpecificAmount siteSpecificAmount;
+            BeneficialUsesCV beneficialUses;
+            BeneficialUsesCV primaryUseCategory;
+            ReportYearCv reportYear;
+            SDWISIdentifier sdwisIdentifier;
+            CustomerType customerType;
+            CropType cropType;
+            IrrigationMethod irrigationMethod;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                site = await SitesDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                beneficialUses = await BeneficalUsesBuilder.Load(db);
+                primaryUseCategory = await BeneficalUsesBuilder.Load(db);
+                reportYear = await ReportYearCvBuilder.Load(db);
+                sdwisIdentifier = await SDWISIdentifierBuilder.Load(db);
+                customerType = await CustomerTypeBuilder.Load(db);
+                cropType = await CropTypeBuilder.Load(db);
+                irrigationMethod = await IrrigationMethodBuilder.Load(db);
+
+                siteSpecificAmount = SiteSpecificAmountBuilder.Create(new SiteSpecificAmountBuilderOptions
+                {
+                    RecordType = SiteSpecificRecordType.Ag,
+                    Method = method,
+                    Organization = organization,
+                    Site = site,
+                    Variable = variable,
+                    WaterSource = waterSource,
+                    BeneficialUse = beneficialUses,
+                    PrimaryUseCategory = primaryUseCategory,
+                    ReportYear = reportYear,
+                    SDWISIdentifier = sdwisIdentifier,
+                    CustomerType = customerType,
+                    CropType = cropType,
+                    IrrigationMethod = irrigationMethod
+                });
+            }
+
+            // Civilian
+            siteSpecificAmount.PopulationServed.Should().BeNull();
+            siteSpecificAmount.CommunityWaterSupplySystem.Should().BeNull();
+            siteSpecificAmount.CustomerTypeCV.Should().BeNull();
+            siteSpecificAmount.SDWISIdentifier.Should().BeNull();
+            ////////////
+
+            // Ag
+            siteSpecificAmount.IrrigatedAcreage.Should().NotBeNullOrEmpty();
+            siteSpecificAmount.CropTypeCV.Should().NotBeNullOrEmpty();
+            siteSpecificAmount.IrrigationMethodCV.Should().NotBeNullOrEmpty();
+            siteSpecificAmount.AllocationCropDutyAmount.Should().NotBeNullOrEmpty();
+
+            // Power
+            siteSpecificAmount.PowerGeneratedGWh.Should().BeNull();
+            siteSpecificAmount.PowerType.Should().BeNull();
+
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSiteVariableAmount = await db.SiteVariableAmountsFact.SingleAsync();
+
+                dbSiteVariableAmount.OrganizationId.Should().NotBe(organization.OrganizationId);
+                dbSiteVariableAmount.Site.Should().Be(site.SiteId);
+                dbSiteVariableAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbSiteVariableAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
+                dbSiteVariableAmount.MethodId.Should().Be(method.MethodId);
+                dbSiteVariableAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategory.Name);
+                dbSiteVariableAmount.ReportYearCv.Should().Be(reportYear.Name);
+
+                dbSiteVariableAmount.IrrigatedAcreage.Should().Be(double.Parse(siteSpecificAmount.IrrigatedAcreage));
+                dbSiteVariableAmount.CropTypeCv.Should().Be(cropType.Name);
+                dbSiteVariableAmount.IrrigationMethodCv.Should().Be(irrigationMethod.Name);
+                dbSiteVariableAmount.AllocationCropDutyAmount.Should().Be(double.Parse(siteSpecificAmount.AllocationCropDutyAmount));
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadRegulatoryReportingUnits_SimpleLoad()
+        {
+            OrganizationsDim organization;
+            RegulatoryOverlayDim regulatoryOverlay;
+            ReportingUnitsDim reportingUnit;
+            DateDim date;
+
+            RegulatoryReportingUnits regulatoryReportingUnit;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                reportingUnit = await ReportingUnitsDimBuilder.Load(db);
+                date = await DateDimBuilder.Load(db);
+
+                regulatoryReportingUnit = RegulatoryReportingUnitBuilder.Create(new RegulatoryReportingUnitBuilderOptions
+                {
+                    Organization = organization,
+                    RegulatoryOverlay = regulatoryOverlay,
+                    ReportingUnit = reportingUnit,
+                    DatePublication = date
+                });
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadRegulatoryReportingUnits((new Faker()).Random.AlphaNumeric(10), new[] { regulatoryReportingUnit });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryReportingUnit = await db.RegulatoryReportingUnitsFact.SingleAsync();
+
+                dbRegulatoryReportingUnit.DataPublicationDateId.Should().Be(date.DateId);
+                dbRegulatoryReportingUnit.OrganizationId.Should().Be(organization.OrganizationId);
+                dbRegulatoryReportingUnit.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+                dbRegulatoryReportingUnit.ReportingUnitId.Should().Be(reportingUnit.ReportingUnitId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
     }
 }

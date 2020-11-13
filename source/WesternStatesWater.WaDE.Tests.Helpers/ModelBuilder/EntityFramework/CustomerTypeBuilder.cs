@@ -4,16 +4,16 @@ using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
-    public static class CropTypeBuilder
+    public static class CustomerTypeBuilder
     {
-        public static CropType Create()
+        public static CustomerType Create()
         {
-            return Create(new CropTypeBuilderOptions());
+            return Create(new CustomerTypeBuilderOptions());
         }
 
-        public static CropType Create(CropTypeBuilderOptions opts)
+        public static CustomerType Create(CustomerTypeBuilderOptions opts)
         {
-            return new Faker<CropType>()
+            return new Faker<CustomerType>()
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
@@ -21,16 +21,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
-        public static async Task<CropType> Load(WaDEContext db)
+        public static async Task<CustomerType> Load(WaDEContext db)
         {
-            return await Load(db, new CropTypeBuilderOptions());
+            return await Load(db, new CustomerTypeBuilderOptions());
         }
 
-        public static async Task<CropType> Load(WaDEContext db, CropTypeBuilderOptions opts)
+        public static async Task<CustomerType> Load(WaDEContext db, CustomerTypeBuilderOptions opts)
         {
             var item = Create(opts);
 
-            db.CropType.Add(item);
+            db.CustomerType.Add(item);
             await db.SaveChangesAsync();
 
             return item;
@@ -42,7 +42,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         }
     }
 
-    public class CropTypeBuilderOptions
+    public class CustomerTypeBuilderOptions
     {
 
     }

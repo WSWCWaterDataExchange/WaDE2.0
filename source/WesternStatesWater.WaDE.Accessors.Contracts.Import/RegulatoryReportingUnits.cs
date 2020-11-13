@@ -6,15 +6,15 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
     public class RegulatoryReportingUnits
     {
         [NullValues("")]
-        public string OrganizationName { get; set; }
+        public string OrganizationUUID { get; set; }
 
         [NullValues("")]
-        public string RegulatoryOverlayName { get; set; }
+        public string RegulatoryOverlayUUID { get; set; }
 
         [NullValues("")]
-        public string ReportingUnitName { get; set; }
+        public string ReportingUnitUUID { get; set; }
 
         [NullValues("")]
-        public string DataPublicationDateID { get; set; }
+        public string DataPublicationDate { get; set; }
     }
 }
