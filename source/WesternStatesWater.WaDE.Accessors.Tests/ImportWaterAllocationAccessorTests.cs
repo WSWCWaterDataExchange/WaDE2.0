@@ -671,23 +671,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            // Civilian
-            siteSpecificAmount.PopulationServed.Should().BeNull();
-            siteSpecificAmount.CommunityWaterSupplySystem.Should().BeNull();
-            siteSpecificAmount.CustomerTypeCV.Should().BeNull();
-            siteSpecificAmount.SDWISIdentifier.Should().BeNull();
-            ////////////
-
             // Ag
             siteSpecificAmount.IrrigatedAcreage.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.CropTypeCV.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.IrrigationMethodCV.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.AllocationCropDutyAmount.Should().NotBeNullOrEmpty("Required field");
-
-            // Power
-            siteSpecificAmount.PowerGeneratedGWh.Should().BeNull();
-            siteSpecificAmount.PowerType.Should().BeNull();
-
 
             var sut = CreateWaterAllocationAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
