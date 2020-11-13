@@ -152,8 +152,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                   .HasColumnName("CommunityWaterSupplySystem")
                   .HasMaxLength(250);
 
-                entity.Property(e => e.PowerTypeCV)
-                    .HasColumnName("PowerTypeCV")
+                entity.Property(e => e.PowerType)
+                    .HasColumnName("PowerType")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.TimeframeEndId).HasColumnName("TimeframeStartID");
@@ -272,9 +272,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                        .OnDelete(DeleteBehavior.ClientSetNull)
                        .HasConstraintName("fk_AggregatedAmounts_fact_SDWISIdentifier");
 
-                entity.HasOne(d => d.PowerType)
+                entity.HasOne(d => d.PowerTypeCV)
                     .WithMany(p => p.AggregatedAmountsFact)
-                    .HasForeignKey(d => d.PowerTypeCV)
+                    .HasForeignKey(d => d.PowerType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AggregatedAmounts_fact_PowerTypeCV");
             });
@@ -382,8 +382,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                                    .HasColumnName("IrrigationMethodCV")
                                    .HasMaxLength(100);
 
-                entity.Property(e => e.PowerTypeCV)
-                    .HasColumnName("PowerTypeCV")
+                entity.Property(e => e.PowerType)
+                    .HasColumnName("PowerType")
                     .HasMaxLength(50);
 
                 ///////////////////////////////////////////////////////////////////////////////
@@ -501,9 +501,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                        .OnDelete(DeleteBehavior.ClientSetNull)
                        .HasConstraintName("fk_AllocationAmounts_fact_SDWISIdentifier");
                 
-                entity.HasOne(d => d.PowerType)
+                entity.HasOne(d => d.PowerTypeCV)
                     .WithMany(p => p.AllocationAmountsFact)
-                    .HasForeignKey(d => d.PowerTypeCV)
+                    .HasForeignKey(d => d.PowerType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_PowerTypeCV");
             });

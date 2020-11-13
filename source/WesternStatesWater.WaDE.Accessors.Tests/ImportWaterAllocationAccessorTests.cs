@@ -547,7 +547,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
-        public async Task LoadSiteSpecificAmounts_SimpleLoad_Agriculture()
+        public async Task LoadSiteSpecificAmounts_SimpleLoad_Civilian()
         {
             OrganizationsDim organization;
             SitesDim site;
@@ -558,10 +558,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             BeneficialUsesCV beneficialUses;
             BeneficialUsesCV primaryUseCategory;
             ReportYearCv reportYear;
-            SDWISIdentifier sdwisIdentifier;
+            DateDim publicationDate;
             CustomerType customerType;
-            CropType cropType;
-            IrrigationMethod irrigationMethod;
+            SDWISIdentifier sdwisIdentifier;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
@@ -573,24 +572,100 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 beneficialUses = await BeneficalUsesBuilder.Load(db);
                 primaryUseCategory = await BeneficalUsesBuilder.Load(db);
                 reportYear = await ReportYearCvBuilder.Load(db);
-                sdwisIdentifier = await SDWISIdentifierBuilder.Load(db);
+                publicationDate = await DateDimBuilder.Load(db);
                 customerType = await CustomerTypeBuilder.Load(db);
-                cropType = await CropTypeBuilder.Load(db);
-                irrigationMethod = await IrrigationMethodBuilder.Load(db);
+                sdwisIdentifier = await SDWISIdentifierBuilder.Load(db);
 
                 siteSpecificAmount = SiteSpecificAmountBuilder.Create(new SiteSpecificAmountBuilderOptions
                 {
-                    RecordType = SiteSpecificRecordType.Ag,
+                    RecordType = SiteSpecificRecordType.Civilian,
                     Method = method,
                     Organization = organization,
+                    DataPublicationDate = publicationDate,
                     Site = site,
                     Variable = variable,
                     WaterSource = waterSource,
                     BeneficialUse = beneficialUses,
                     PrimaryUseCategory = primaryUseCategory,
                     ReportYear = reportYear,
-                    SDWISIdentifier = sdwisIdentifier,
                     CustomerType = customerType,
+                    SDWISIdentifier = sdwisIdentifier
+                });
+            }
+
+            siteSpecificAmount.PopulationServed.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.CommunityWaterSupplySystem.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.CustomerTypeCV.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.SDWISIdentifier.Should().NotBeNullOrEmpty("Required field");
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSiteVariableAmount = await db.SiteVariableAmountsFact.SingleAsync();
+
+                dbSiteVariableAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbSiteVariableAmount.SiteId.Should().Be(site.SiteId);
+                dbSiteVariableAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbSiteVariableAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
+                dbSiteVariableAmount.MethodId.Should().Be(method.MethodId);
+                dbSiteVariableAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategory.Name);
+                dbSiteVariableAmount.ReportYearCv.Should().Be(reportYear.Name);
+
+                dbSiteVariableAmount.PopulationServed.Should().Be(long.Parse(siteSpecificAmount.PopulationServed));
+                dbSiteVariableAmount.CommunityWaterSupplySystem.Should().Be(siteSpecificAmount.CommunityWaterSupplySystem);
+                dbSiteVariableAmount.CustomerTypeCv.Should().Be(customerType.Name);
+                dbSiteVariableAmount.SDWISIdentifierCv.Should().Be(sdwisIdentifier.Name);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSiteSpecificAmounts_SimpleLoad_Agriculture()
+        {
+            OrganizationsDim organization;
+            SitesDim site;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            SiteSpecificAmount siteSpecificAmount;
+            BeneficialUsesCV beneficialUses;
+            BeneficialUsesCV primaryUseCategory;
+            ReportYearCv reportYear;
+            CropType cropType;
+            IrrigationMethod irrigationMethod;
+            DateDim publicationDate;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                site = await SitesDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                beneficialUses = await BeneficalUsesBuilder.Load(db);
+                primaryUseCategory = await BeneficalUsesBuilder.Load(db);
+                reportYear = await ReportYearCvBuilder.Load(db);
+                cropType = await CropTypeBuilder.Load(db);
+                irrigationMethod = await IrrigationMethodBuilder.Load(db);
+                publicationDate = await DateDimBuilder.Load(db);
+
+                siteSpecificAmount = SiteSpecificAmountBuilder.Create(new SiteSpecificAmountBuilderOptions
+                {
+                    RecordType = SiteSpecificRecordType.Ag,
+                    Method = method,
+                    Organization = organization,
+                    DataPublicationDate = publicationDate,
+                    Site = site,
+                    Variable = variable,
+                    WaterSource = waterSource,
+                    BeneficialUse = beneficialUses,
+                    PrimaryUseCategory = primaryUseCategory,
+                    ReportYear = reportYear,
                     CropType = cropType,
                     IrrigationMethod = irrigationMethod
                 });
@@ -604,10 +679,10 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             ////////////
 
             // Ag
-            siteSpecificAmount.IrrigatedAcreage.Should().NotBeNullOrEmpty();
-            siteSpecificAmount.CropTypeCV.Should().NotBeNullOrEmpty();
-            siteSpecificAmount.IrrigationMethodCV.Should().NotBeNullOrEmpty();
-            siteSpecificAmount.AllocationCropDutyAmount.Should().NotBeNullOrEmpty();
+            siteSpecificAmount.IrrigatedAcreage.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.CropTypeCV.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.IrrigationMethodCV.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.AllocationCropDutyAmount.Should().NotBeNullOrEmpty("Required field");
 
             // Power
             siteSpecificAmount.PowerGeneratedGWh.Should().BeNull();
@@ -623,8 +698,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 var dbSiteVariableAmount = await db.SiteVariableAmountsFact.SingleAsync();
 
-                dbSiteVariableAmount.OrganizationId.Should().NotBe(organization.OrganizationId);
-                dbSiteVariableAmount.Site.Should().Be(site.SiteId);
+                dbSiteVariableAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbSiteVariableAmount.SiteId.Should().Be(site.SiteId);
                 dbSiteVariableAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
                 dbSiteVariableAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
                 dbSiteVariableAmount.MethodId.Should().Be(method.MethodId);
@@ -635,6 +710,77 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbSiteVariableAmount.CropTypeCv.Should().Be(cropType.Name);
                 dbSiteVariableAmount.IrrigationMethodCv.Should().Be(irrigationMethod.Name);
                 dbSiteVariableAmount.AllocationCropDutyAmount.Should().Be(double.Parse(siteSpecificAmount.AllocationCropDutyAmount));
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSiteSpecificAmounts_SimpleLoad_Power()
+        {
+            OrganizationsDim organization;
+            SitesDim site;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            SiteSpecificAmount siteSpecificAmount;
+            BeneficialUsesCV beneficialUses;
+            BeneficialUsesCV primaryUseCategory;
+            ReportYearCv reportYear;
+            DateDim publicationDate;
+            PowerType powerType;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                site = await SitesDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                beneficialUses = await BeneficalUsesBuilder.Load(db);
+                primaryUseCategory = await BeneficalUsesBuilder.Load(db);
+                reportYear = await ReportYearCvBuilder.Load(db);
+                publicationDate = await DateDimBuilder.Load(db);
+                powerType = await PowerTypeBuilder.Load(db);
+
+                siteSpecificAmount = SiteSpecificAmountBuilder.Create(new SiteSpecificAmountBuilderOptions
+                {
+                    RecordType = SiteSpecificRecordType.Power,
+                    Method = method,
+                    Organization = organization,
+                    DataPublicationDate = publicationDate,
+                    Site = site,
+                    Variable = variable,
+                    WaterSource = waterSource,
+                    BeneficialUse = beneficialUses,
+                    PrimaryUseCategory = primaryUseCategory,
+                    ReportYear = reportYear,
+                    PowerType = powerType
+                });
+            }
+
+            siteSpecificAmount.PowerGeneratedGWh.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.PowerType.Should().NotBeNullOrEmpty("Required field");
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSiteVariableAmount = await db.SiteVariableAmountsFact.SingleAsync();
+
+                dbSiteVariableAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbSiteVariableAmount.SiteId.Should().Be(site.SiteId);
+                dbSiteVariableAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbSiteVariableAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
+                dbSiteVariableAmount.MethodId.Should().Be(method.MethodId);
+                dbSiteVariableAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategory.Name);
+                dbSiteVariableAmount.ReportYearCv.Should().Be(reportYear.Name);
+
+                dbSiteVariableAmount.PowerGeneratedGwh.Should().Be(double.Parse(siteSpecificAmount.PowerGeneratedGWh));
+                dbSiteVariableAmount.PowerType.Should().Be(powerType.Name);
 
                 db.ImportErrors.Should().HaveCount(0);
             }

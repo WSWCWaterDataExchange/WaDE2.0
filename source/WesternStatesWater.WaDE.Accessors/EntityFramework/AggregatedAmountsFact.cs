@@ -41,7 +41,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public double? AllocationCropDutyAmount { get; set; }
 
-        public string PowerTypeCV { get; set; }
+        public string PowerType { get; set; }
 
         public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual DateDim DataPublicationDateNavigation { get; set; }
@@ -58,7 +58,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual CustomerType CustomerType { get; set; }
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual CropType CropType { get; set; }
-        public virtual PowerType PowerType { get; set; }
+        public virtual PowerType PowerTypeCV { get; set; }
         public virtual ICollection<AggBridgeBeneficialUsesFact> AggBridgeBeneficialUsesFact { get; set; }
     }
 }

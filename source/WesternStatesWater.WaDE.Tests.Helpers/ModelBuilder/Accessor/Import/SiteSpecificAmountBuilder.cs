@@ -21,7 +21,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.WaterSourceUUID, f => opts?.WaterSource?.WaterSourceUuid ?? f.Random.Uuid().ToString())
                 .RuleFor(a => a.DataPublicationDate, f => opts?.DataPublicationDate?.Date ?? f.Date.Past(5))
                 .RuleFor(a => a.ReportYearCV, f => opts?.ReportYear?.Name ?? f.Random.Word())
-                .RuleFor(a => a.IrrigationMethodCV, f => opts?.IrrigationMethod?.Name ?? f.Random.Word())
                 .RuleFor(a => a.BeneficialUseCategory, f => opts?.BeneficialUse?.Name ?? f.Random.Word())
                 .RuleFor(a => a.PrimaryUseCategory, f => opts?.PrimaryUseCategory?.Name ?? f.Random.Word())
                 .RuleFor(a => a.TimeframeStart, f => f.Date.Past(5))
@@ -53,7 +52,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 case SiteSpecificRecordType.Power:
                     faker
                         .RuleFor(a => a.PowerGeneratedGWh, f => f.Random.Number(1000000).ToString())
-                        .RuleFor(a => a.PowerType, f => f.Random.Word())
+                        .RuleFor(a => a.PowerType, f => opts?.PowerType?.Name ?? f.Random.Word())
                         ;
                     break;
             }
@@ -80,6 +79,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
         public BeneficialUsesCV BeneficialUse { get; set; }
         public BeneficialUsesCV PrimaryUseCategory { get; set; }
         public SDWISIdentifier SDWISIdentifier { get; set; }
+        public PowerType PowerType { get; set; }
     }
 
     public enum SiteSpecificRecordType
