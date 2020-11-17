@@ -20,7 +20,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             WKTReader shapeMaker = new WKTReader(geometryFactory);                        
 
             var faker = new Faker<SitesDim>()
-                .RuleFor(a => a.SiteUuid, f => f.Random.AlphaNumeric(200))
+                .RuleFor(a => a.SiteUuid, f => f.Random.AlphaNumeric(55))
                 .RuleFor(a => a.SiteNativeId, f => f.Random.AlphaNumeric(50))
                 .RuleFor(a => a.SiteName, f => f.Random.AlphaNumeric(500))
                 .RuleFor(a => a.UsgssiteId, f => f.Random.AlphaNumeric(250))
