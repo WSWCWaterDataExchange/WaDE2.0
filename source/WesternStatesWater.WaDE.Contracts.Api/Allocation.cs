@@ -9,7 +9,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string WaterSourceUUID { get; set; }
         public string AllocationOwner { get; set; }
         public DateTime? AllocationApplicationDate { get; set; }
-        public DateTime AllocationPriorityDate { get; set; }
+        public DateTime? AllocationPriorityDate { get; set; }
         public string AllocationLegalStatusCodeCV { get; set; }
         public DateTime? AllocationExpirationDate { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }
@@ -30,5 +30,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string VariableSpecificTypeCV { get; set; }
         public List<Site> Sites { get; set; }
         public List<string> BeneficialUses { get; set; }
+        public bool ExemptOfVolumeFlowPriority { get; set; }
     }
 }
