@@ -11,7 +11,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string WaterSourceUUID { get; set; }
         public string AllocationOwner { get; set; }
         public DateTime? AllocationApplicationDate { get; set; }
-        public DateTime AllocationPriorityDate { get; set; }
+        public DateTime? AllocationPriorityDate { get; set; }
         public string AllocationLegalStatusCodeCV { get; set; }
         public DateTime? AllocationExpirationDate { get; set; }
         public string AllocationChangeApplicationIndicator { get; set; }
