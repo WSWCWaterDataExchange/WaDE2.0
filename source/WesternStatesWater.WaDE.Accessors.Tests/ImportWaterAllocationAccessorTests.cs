@@ -168,14 +168,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
-            if (result == false)
-            {
-                using (var db = new WaDEContext(Configuration.GetConfiguration()))
-                {
-                    var error = db.ImportErrors.Single();
-                    System.Diagnostics.Debug.WriteLine(error.Data);
-                }
-            }
             result.Should().BeTrue();
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
