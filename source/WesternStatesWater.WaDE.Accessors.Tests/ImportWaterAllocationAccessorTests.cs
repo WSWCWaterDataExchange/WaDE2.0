@@ -168,6 +168,14 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
+            if (result == false)
+            {
+                using (var db = new WaDEContext(Configuration.GetConfiguration()))
+                {
+                    var error = db.ImportErrors.Single();
+                    System.Diagnostics.Debug.WriteLine(error.Data);
+                }
+            }
             result.Should().BeTrue();
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
@@ -266,6 +274,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     new object[] { true, DateTime.Now, null, "30.123456"},
                     new object[] { false, DateTime.Now, "1000.75", "30.123456"},
                     new object[] { null, DateTime.Now, "1000.75", "30.123456"},
+                    new object[] { false, DateTime.Now, null, "30.123456"},
+                    new object[] { false, DateTime.Now, "1000.75", null}
                 };
             }
         }
@@ -283,18 +293,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     new object[] { false, null, "1000.75", null },
                     new object[] { false, null, null, "30.123456"},
                     new object[] { false, null, "1000.75", "30.123456"},
-                    new object[] { false, DateTime.Now, "1000.75", null },
-                    new object[] { false, null, "1000.75", "30.123456"},
-                    new object[] { false, DateTime.Now, null, "30.123456"},
 
                     new object[] { null, null, null, null },
                     new object[] { null, DateTime.Now, null, null },
                     new object[] { null, null, "1000.75", null },
                     new object[] { null, null, null, "30.123456"},
-                    new object[] { null, null, "1000.75", "30.123456"},
-                    new object[] { null, DateTime.Now, "1000.75", null },
-                    new object[] { null, null, "1000.75", "30.123456"},
-                    new object[] { null, DateTime.Now, null, "30.123456"},
+                    new object[] { null, null, "1000.75", "30.123456"}
                 };
             }
         }
