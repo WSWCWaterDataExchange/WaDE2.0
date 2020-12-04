@@ -266,6 +266,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     new object[] { true, DateTime.Now, null, "30.123456"},
                     new object[] { false, DateTime.Now, "1000.75", "30.123456"},
                     new object[] { null, DateTime.Now, "1000.75", "30.123456"},
+                    new object[] { false, DateTime.Now, null, "30.123456"},
+                    new object[] { false, DateTime.Now, "1000.75", null}
                 };
             }
         }
@@ -283,18 +285,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     new object[] { false, null, "1000.75", null },
                     new object[] { false, null, null, "30.123456"},
                     new object[] { false, null, "1000.75", "30.123456"},
-                    new object[] { false, DateTime.Now, "1000.75", null },
-                    new object[] { false, null, "1000.75", "30.123456"},
-                    new object[] { false, DateTime.Now, null, "30.123456"},
 
                     new object[] { null, null, null, null },
                     new object[] { null, DateTime.Now, null, null },
                     new object[] { null, null, "1000.75", null },
                     new object[] { null, null, null, "30.123456"},
-                    new object[] { null, null, "1000.75", "30.123456"},
-                    new object[] { null, DateTime.Now, "1000.75", null },
-                    new object[] { null, null, "1000.75", "30.123456"},
-                    new object[] { null, DateTime.Now, null, "30.123456"},
+                    new object[] { null, null, "1000.75", "30.123456"}
                 };
             }
         }
