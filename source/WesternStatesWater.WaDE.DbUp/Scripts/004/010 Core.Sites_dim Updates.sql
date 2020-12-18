@@ -2,6 +2,16 @@
 ADD [PODorPOUSite] NVARCHAR(50) NULL 
 GO
 
+DELETE absf
+  FROM Core.AllocationBridge_Sites_fact absf inner join
+       Core.Sites_dim sd on absf.SiteID = sd.SiteId
+WHERE sd.Longitude is NULL OR sd.Latitude IS NULL
+
+DELETE svaf
+  FROM Core.SiteVariableAmounts_fact svaf inner join
+       Core.Sites_dim sd on svaf.SiteID = sd.SiteId
+WHERE sd.Longitude is NULL OR sd.Latitude IS NULL
+
 DELETE FROM [Core].[Sites_dim]
 WHERE Longitude is NULL OR Latitude IS NULL
 GO
