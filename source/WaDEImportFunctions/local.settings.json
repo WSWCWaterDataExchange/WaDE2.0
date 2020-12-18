@@ -5,6 +5,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet"
   },
   "ConnectionStrings": {
-    "AzureStorage": "UseDevelopmentStorage=true"
+    "AzureStorage": "UseDevelopmentStorage=true",
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"
   }
 }

@@ -21,7 +21,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string DataPublicationDoi { get; set; }
         public string AllocationNativeId { get; set; }
         public long? AllocationApplicationDateID { get; set; }
-        public long AllocationPriorityDateID { get; set; }
+        public long? AllocationPriorityDateID { get; set; }
         public long? AllocationExpirationDateID { get; set; }
         public string AllocationOwner { get; set; }
         public string AllocationBasisCv { get; set; }
@@ -32,8 +32,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         [MaxLength(5)]
         public string AllocationTimeframeEnd { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
-        public double? AllocationAmount { get; set; }
-        public double? AllocationMaximum { get; set; }
+        public double? AllocationFlow_CFS { get; set; }
+        public double? AllocationVolume_AF { get; set; }
         public long? PopulationServed { get; set; }
         public double? GeneratedPowerCapacityMW { get; set; }
         public double? IrrigatedAcreage { get; set; }
@@ -48,6 +48,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string IrrigationMethodCV { get; set; }
         public string CustomerTypeCV { get; set; }
         public string CommunityWaterSupplySystem { get; set; }
+        public bool? ExemptOfVolumeFlowPriority { get; set; }
+        public string PowerType { get; set; }
+
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
         public virtual DateDim AllocationExpirationDateNavigation { get; set; }
@@ -64,6 +67,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual CustomerType CustomerType { get; set; }
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual IrrigationMethod IrrigationMethod { get; set; }
+        public virtual PowerType PowerTypeCV { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;}
     }

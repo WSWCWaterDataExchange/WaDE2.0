@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
@@ -11,5 +12,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public DateTime? ReportingUnitUpdateDate { get; set; }
         public string ReportingUnitProductVersion { get; set; }
         public string ReportingUnitGeometry { get; set; }
+        public List<string> RegulatoryOverlayUUIDs { get; set; }
     }
 }

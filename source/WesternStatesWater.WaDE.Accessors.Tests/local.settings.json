@@ -2,5 +2,8 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true"
+  },
+  "ConnectionStrings": {
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2Test;Integrated Security=true;"
   }
 }
