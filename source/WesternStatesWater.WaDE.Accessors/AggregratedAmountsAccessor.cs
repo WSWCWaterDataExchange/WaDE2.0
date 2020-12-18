@@ -81,7 +81,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var totalCount = query.Count();
 
                 var results = await query
-                    .OrderBy(a=>a.AggregatedAmountId)
+                    .OrderBy(a => a.AggregatedAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<AggregatedHelper>(Mapping.DtoMapper.Configuration)
@@ -90,50 +90,63 @@ namespace WesternStatesWater.WaDE.Accessors
                 var aggregatedIds = results.Select(a => a.AggregatedAmountId).ToList();
 
                 var beneficialUseTask = db.AggBridgeBeneficialUsesFact
+                    .AsNoTracking()
                     .Where(a => aggregatedIds.Contains(a.AggregatedAmountId))
                     .Select(a => new { a.AggregatedAmountId, a.BeneficialUse })
                     .ToListAsync();
 
                 var orgIds = results.Select(a => a.OrganizationId).ToHashSet();
                 var orgsTask = db.OrganizationsDim
+                    .AsNoTracking()
                     .Where(a => orgIds.Contains(a.OrganizationId))
                     .ProjectTo<AccessorApi.AggregatedAmountsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
                 var waterSourceIds = results.Select(a => a.WaterSourceId).ToHashSet();
                 var waterSourceTask = db.WaterSourcesDim
+                    .AsNoTracking()
                     .Where(a => waterSourceIds.Contains(a.WaterSourceId))
                     .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
                 var reportingUnitIds = results.Select(a => a.ReportingUnitId).ToHashSet();
-                var reportingUnitsTask = db.WaterSourcesDim
-                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                var reportingUnitsTask = db.ReportingUnitsDim
+                    .AsNoTracking()
+                    .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
                     .ProjectTo<AccessorApi.ReportingUnit>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
                 var methodIds = results.Select(a => a.MethodId).ToHashSet();
                 var methodTask = db.MethodsDim
+                    .AsNoTracking()
                     .Where(a => methodIds.Contains(a.MethodId))
                     .ProjectTo<AccessorApi.Method>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
                 var variableSpecificIds = results.Select(a => a.VariableSpecificId).ToHashSet();
                 var variableSpecificTask = db.VariablesDim
+                    .AsNoTracking()
                     .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
                     .ProjectTo<AccessorApi.VariableSpecific>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
+
+                var regulatoryOverlayTask = db.RegulatoryReportingUnitsFact
+                   .AsNoTracking()
+                   .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
+                   .Select(a => new { a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay })
+                   .ToListAsync();
 
                 var beneficialUses = (await beneficialUseTask).Select(a => (a.AggregatedAmountId, a.BeneficialUse)).ToList();
                 var waterSources = await waterSourceTask;
                 var variableSpecifics = await variableSpecificTask;
                 var methods = await methodTask;
                 var reportingUnits = await reportingUnitsTask;
+                var regulatoryOverlays = (await regulatoryOverlayTask).Select(a => (a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay)).ToList();
 
                 var waterAllocationOrganizations = new List<AccessorApi.AggregatedAmountsOrganization>();
                 foreach (var org in await orgsTask)
                 {
-                    ProcessAggregatedAmountsOrganization(org, results, waterSources, variableSpecifics, reportingUnits, methods, beneficialUses);
+                    ProcessAggregatedAmountsOrganization(org, results, waterSources, variableSpecifics, reportingUnits, methods, beneficialUses, regulatoryOverlays);
                     waterAllocationOrganizations.Add(org);
                 }
 
@@ -148,7 +161,7 @@ namespace WesternStatesWater.WaDE.Accessors
         }
 
         private static void ProcessAggregatedAmountsOrganization(AccessorApi.AggregatedAmountsOrganization org, List<AggregatedHelper> results,
-            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.ReportingUnit> reportingUnits, List<AccessorApi.Method> methods, List<(long AggregatedAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses)
+            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.ReportingUnit> reportingUnits, List<AccessorApi.Method> methods, List<(long AggregatedAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses, List<(long ReportingUnitId, long RegulatoryOverlayId, RegulatoryOverlayDim RegulatoryOverlay)> regulatoryOverlays)
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
@@ -156,6 +169,8 @@ namespace WesternStatesWater.WaDE.Accessors
             var waterSourceIds = allocations.Select(a => a.WaterSourceId).ToHashSet();
             var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
             var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
+            var reportingUnitIds = allocations.Select(a => a.ReportingUnitId).ToHashSet();
+            var regulatoryOverlayIds = regulatoryOverlays.Select(a => a.RegulatoryOverlayId).ToHashSet();
 
             org.WaterSources = waterSources
                 .Where(a => waterSourceIds.Contains(a.WaterSourceId))
@@ -166,7 +181,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 .Map<List<AccessorApi.VariableSpecific>>();
 
             org.ReportingUnits = reportingUnits
-                .Where(a => variableSpecificIds.Contains(a.ReportingUnitId))
+                .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
                 .Map<List<AccessorApi.ReportingUnit>>();
 
             org.Methods = methods
@@ -179,6 +194,12 @@ namespace WesternStatesWater.WaDE.Accessors
                 .DistinctBy(a => a.Name)
                 .Map<List<AccessorApi.BeneficialUse>>();
 
+            org.RegulatoryOverlays = regulatoryOverlays
+                .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
+                .Select(a => a.RegulatoryOverlay)
+                .DistinctBy(a => a.RegulatoryOverlayUuid)
+                .Map<List<AccessorApi.RegulatoryOverlay>>();
+
             org.AggregatedAmounts = allocations.Map<List<AccessorApi.AggregatedAmount>>();
 
             foreach (var waterAllocation in org.AggregatedAmounts)
@@ -186,6 +207,14 @@ namespace WesternStatesWater.WaDE.Accessors
                 waterAllocation.BeneficialUses = beneficialUses
                     .Where(a => a.AggregatedAmountId == waterAllocation.AggregatedAmountId)
                     .Select(a => a.BeneficialUse.Name).ToList();
+            }
+
+            foreach (var reportingUnit in org.ReportingUnits)
+            {
+                reportingUnit.RegulatoryOverlayUUIDs = regulatoryOverlays
+                    .Where(a => a.ReportingUnitId == reportingUnit.ReportingUnitId)
+                    .DistinctBy(a => a.RegulatoryOverlayId)
+                    .Select(a => a.RegulatoryOverlay.RegulatoryOverlayUuid).ToList();
             }
         }
 

@@ -57,7 +57,8 @@ namespace WaDEImportFunctions
                 ("beneficialusecategory", "BeneficialUses"),
                 ("sdwisidentifier", "SDWISIdentifier"),
                 ("powertype", "PowerType"),
-                ("states", "State")
+                ("states", "State"),
+                ("regulatoryoverlaytype", "RegulatoryOverlayType")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
 
@@ -98,22 +99,24 @@ namespace WaDEImportFunctions
                     try
                     {
                         var sql = $@"MERGE CVs.{table} AS target
-    USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def) AS source
+    USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def, @p5 WaDEName) AS source
         ON target.Name = source.Name
     WHEN MATCHED THEN UPDATE
         SET term = source.term,
             state = source.state,
             sourceVocabularyURI = source.source,
-            definition = source.def
+            definition = source.def,
+            WaDEName = source.wadename
     WHEN NOT MATCHED THEN 
-        INSERT (name, term, state, sourceVocabularyURI, definition) 
-        VALUES (source.name, source.term, source.state, source.source, source.def);";
+        INSERT (name, term, state, sourceVocabularyURI, definition, wadename) 
+        VALUES (source.name, source.term, source.state, source.source, source.def, source.wadename);";
                         await db.Database.ExecuteSqlCommandAsync(sql,
                             new SqlParameter("@p0", record.term),
                             new SqlParameter("@p1", name),
                             new SqlParameter("@p2", record.state),
                             new SqlParameter("@p3", record.provenance_uri),
-                            new SqlParameter("@p4", record.definition));
+                            new SqlParameter("@p4", record.definition),
+                            new SqlParameter("@p5", record.wadename));
                     }
                     catch (Exception ex)
                     {

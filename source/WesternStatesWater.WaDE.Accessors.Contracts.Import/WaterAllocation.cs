@@ -68,10 +68,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationCropDutyAmount { get; set; }
 
         [NullValues("")]
-        public string AllocationAmount { get; set; }
+        public string AllocationFlow_CFS { get; set; }
 
         [NullValues("")]
-        public string AllocationMaximum { get; set; }
+        public string AllocationVolume_AF { get; set; }
 
         [NullValues("")]
         public string PopulationServed { get; set; }
@@ -117,5 +117,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string PowerType { get; set; }
+
+        [NullValues("")]
+        public bool? ExemptOfVolumeFlowPriority { get; set; }
     }
 }

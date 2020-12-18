@@ -100,7 +100,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 var sitesTask = db.AllocationBridgeSitesFact
                     .Where(a => allocationIds.Contains(a.AllocationAmountId))
-                    .Select(a=> new {a.AllocationAmountId, a.Site})
+                    .Select(a => new { a.AllocationAmountId, a.Site })
                     .ToListAsync();
 
                 var beneficialUseTask = db.AllocationBridgeBeneficialUsesFact
@@ -148,7 +148,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 sw.Stop();
                 Logger.LogInformation($"Completed WaterAllocation [{sw.ElapsedMilliseconds } ms]");
                 return new AccessorApi.WaterAllocations
-                {   
+                {
                     TotalWaterAllocationsCount = totalCount,
                     Organizations = waterAllocationOrganizations
                 };
@@ -193,7 +193,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
 
                 var results = await query
-                    .OrderBy(a=>a.AllocationAmountId)
+                    .OrderBy(a => a.AllocationAmountId)
                     .Skip(startIndex)
                     .Take(recordCount)
                     .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
@@ -208,19 +208,20 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
                 var waterAllocationsLight = new List<AccessorApi.WaterAllocationsDigest>();
-                foreach (var allocationAmounts in results) 
+                foreach (var allocationAmounts in results)
                 {
                     var record = new AccessorApi.WaterAllocationsDigest
                     {
                         AllocationAmountId = allocationAmounts.AllocationAmountId,
-                        AllocationAmount = allocationAmounts.AllocationAmount,
-                        AllocationMaximum = allocationAmounts.AllocationMaximum,
-                        AllocationPriorityDate = allocationAmounts.AllocationPriorityDate                        
+                        AllocationFlow_CFS = allocationAmounts.AllocationFlow_CFS,
+                        AllocationVolume_AF = allocationAmounts.AllocationVolume_AF,
+                        AllocationPriorityDate = allocationAmounts.AllocationPriorityDate
                     };
 
                     var sights = new List<AccessorApi.SiteDigest>();
                     sights.AddRange(sites.Where(x => x.AllocationAmountId == allocationAmounts.AllocationAmountId)
-                        .Select(x => new AccessorApi.SiteDigest { 
+                        .Select(x => new AccessorApi.SiteDigest
+                        {
                             Latitude = x.Site.Latitude,
                             Longitude = x.Site.Longitude,
                             SiteUUID = x.Site.SiteUuid
@@ -237,9 +238,9 @@ namespace WesternStatesWater.WaDE.Accessors
         }
 
         private static void ProcessWaterAllocationOrganization(AccessorApi.WaterAllocationOrganization org,
-            List<AllocationHelper> results, 
+            List<AllocationHelper> results,
             List<AccessorApi.WaterSource> waterSources,
-            List<AccessorApi.VariableSpecific> variableSpecifics, 
+            List<AccessorApi.VariableSpecific> variableSpecifics,
             List<AccessorApi.Method> methods,
             List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
             List<(long AllocationAmountId, SitesDim Site)> sites)
@@ -293,7 +294,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public string WaterSourceUUID { get; set; }
             public string AllocationOwner { get; set; }
             public DateTime? AllocationApplicationDate { get; set; }
-            public DateTime AllocationPriorityDate { get; set; }
+            public DateTime? AllocationPriorityDate { get; set; }
             public string AllocationLegalStatusCodeCV { get; set; }
             public DateTime? AllocationExpirationDate { get; set; }
             public string AllocationChangeApplicationIndicator { get; set; }
@@ -304,8 +305,8 @@ namespace WesternStatesWater.WaDE.Accessors
             public DateTime? TimeframeEnd { get; set; }
             public DateTime? DataPublicationDate { get; set; }
             public double? AllocationCropDutyAmount { get; set; }
-            public double? AllocationAmount { get; set; }
-            public double? AllocationMaximum { get; set; }
+            public double? AllocationFlow_CFS { get; set; }
+            public double? AllocationVolume_AF { get; set; }
             public long? PopulationServed { get; set; }
             public double? GeneratedPowerCapacityMW { get; set; }
             public string AllocationCommunityWaterSupplySystem { get; set; }
@@ -315,7 +316,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public long VariableSpecificId { get; set; }
             public string VariableSpecificTypeCV { get; set; }
             public string PrimaryUseCategoryCV { get; set; }
-
+            public bool ExemptOfVolumeFlowPriority { get; set; }
         }
 
         async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadOrganizations(string runId, IEnumerable<AccessorImport.Organization> organizations)
@@ -785,6 +786,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     else if (prop.PropertyType == typeof(long) || prop.PropertyType == typeof(long?))
                     {
                         tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.BigInt));
+                    }
+                    else if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+                    {
+                        tableSchema.Add(new SqlMetaData(prop.Name, SqlDbType.Bit));
                     }
                     else
                     {

@@ -81,7 +81,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.VariableSpecifics, b => b.Ignore())
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.AggregatedAmounts, b => b.Ignore());
+                .ForMember(a => a.AggregatedAmounts, b => b.Ignore())
+                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore());
 
             CreateMap<EF.AggregatedAmountsFact, AggregratedAmountsAccessor.AggregatedHelper>()
                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
@@ -132,7 +133,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.County, b => b.MapFrom(c => c.Site.County));
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
-                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
+                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a => a.RegulatoryOverlayUUIDs, b => b.Ignore());
 
             CreateMap<EF.RegulatoryReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))

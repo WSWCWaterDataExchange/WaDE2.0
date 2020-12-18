@@ -34,6 +34,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public IGeometry Geometry { get; set; }
         public string PrimaryUseCategoryCV { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
+        public string PowerType { get; set; }
 
         public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual CropType CropTypeCvNavigation { get; set; }
@@ -49,6 +50,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DateDim TimeframeStartNavigation { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
+        public virtual PowerType PowerTypeCV { get; set; }
         public virtual ICollection<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
         
 

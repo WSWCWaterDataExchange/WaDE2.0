@@ -11,5 +11,9 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public DateTime StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
         public string RegulatoryStatuteLink { get; set; }
+        public string RegulatoryOverlayTypeCV { get; set; }
+        public string WaterSourceTypeCV { get; set; }
+
+        public string RegulatoryOverlayUUID { get; set; }
     }
 }
