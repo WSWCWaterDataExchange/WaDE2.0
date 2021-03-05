@@ -112,6 +112,7 @@
     <None Remove="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />
     <None Remove="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <None Remove="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
+    <None Remove="Scripts\004\015 Core.SetSiteUUIDto850.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -371,6 +372,7 @@
     <EmbeddedResource Include="Scripts\004\007 Core.AllocationAmounts_fact AllocationPriorityDateID Nullable.sql" />
     <EmbeddedResource Include="Scripts\004\006 Core.AllocationAmounts_fact Update AllocationOwner Size.sql" />
     <EmbeddedResource Include="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
+    <EmbeddedResource Include="Scripts\004\015 Core.SetSiteUUIDto850.sql" />
     <EmbeddedResource Include="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
     <EmbeddedResource Include="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <EmbeddedResource Include="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />

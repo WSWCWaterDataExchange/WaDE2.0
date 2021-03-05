@@ -754,7 +754,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 var dbSiteVariableAmount = await db.SiteVariableAmountsFact.SingleAsync();
-
+                
                 dbSiteVariableAmount.OrganizationId.Should().Be(organization.OrganizationId);
                 dbSiteVariableAmount.SiteId.Should().Be(site.SiteId);
                 dbSiteVariableAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
@@ -768,6 +768,28 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 db.ImportErrors.Should().HaveCount(0);
             }
+        }
+
+
+        [TestMethod]
+        public async Task LoadSites_SimpleTest()
+        {
+            Site site;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                site = SiteBuilder.Create(new SiteBuilderOptions
+                {
+                    Site = await SitesDimBuilder.Load(db),
+                    CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                    EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db),
+                });
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
         }
 
         [TestMethod]

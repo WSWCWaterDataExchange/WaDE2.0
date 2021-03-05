@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long SiteId { get; set; }
         [MaxLength(200)]
         public string SiteUuid { get; set; }
-        [MaxLength(50)]
+        [MaxLength(850)]
         public string SiteNativeId { get; set; }
         [MaxLength(500)]
         public string SiteName { get; set; }
