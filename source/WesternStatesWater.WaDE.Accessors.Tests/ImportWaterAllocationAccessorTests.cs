@@ -248,6 +248,70 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
         }
 
+        [TestMethod]
+        public async Task LoadWaterAllocation_BigSiteUuid()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+
+                var commaSeparatedSites = "";
+                while (commaSeparatedSites.Length < 2000)
+                {
+                    commaSeparatedSites += (await SitesDimBuilder.Load(db)).SiteUuid + ",";
+                }
+                commaSeparatedSites = commaSeparatedSites.Substring(0, commaSeparatedSites.Length - 1);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.SiteUUID = commaSeparatedSites;
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.SingleAsync();
+
+                dbAllocationAmount.AllocationAmountId.Should().NotBe(0);
+                dbAllocationAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbAllocationAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbAllocationAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
+                dbAllocationAmount.MethodId.Should().Be(method.MethodId);
+                dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
+                dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
+                dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
+                dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
         protected static IEnumerable<object[]> ExemptOfPriorityFlowTestData
         {
             get
