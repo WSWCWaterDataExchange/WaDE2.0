@@ -5,7 +5,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [CVs].[ApplicableWaterSourceType](
-	[Name] [nvarchar](200) NOT NULL,
+	[Name] [nvarchar](250) NOT NULL,
 	[Term] [nvarchar](250) NOT NULL,
 	[Definition] [nvarchar](4000) NULL,
 	[State] [nvarchar](250) NULL,
