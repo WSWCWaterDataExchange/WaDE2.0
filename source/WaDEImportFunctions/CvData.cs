@@ -58,7 +58,10 @@ namespace WaDEImportFunctions
                 ("sdwisidentifier", "SDWISIdentifier"),
                 ("powertype", "PowerType"),
                 ("states", "State"),
-                ("regulatoryoverlaytype", "RegulatoryOverlayType")
+                ("regulatoryoverlaytype", "RegulatoryOverlayType"),
+                ("applicablewatersourcetype", "ApplicableWaterSourceType"),
+                ("regulatorytype", "RegulatoryType"),
+                ("ownerclassification", "OwnerClassification")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
 
