@@ -506,6 +506,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.PowerType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_PowerTypeCV");
+
+                entity.HasOne(d => d.OwnerClassification)
+                    .WithMany(p => p.AllocationAmountsFact)
+                    .HasForeignKey(d => d.OwnerClassificationCV)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AllocationAmounts_OwnerClassification");
             });
 
             modelBuilder.Entity<AllocationBridgeBeneficialUsesFact>(entity =>
