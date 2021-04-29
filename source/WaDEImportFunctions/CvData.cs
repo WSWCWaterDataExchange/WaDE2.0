@@ -59,8 +59,8 @@ namespace WaDEImportFunctions
                 ("powertype", "PowerType"),
                 ("states", "State"),
                 ("regulatoryoverlaytype", "RegulatoryOverlayType"),
-                ("applicablewatersourcetype", "ApplicableWaterSourceType"),
-                ("regulatorytype", "RegulatoryType"),
+                ("watersourcetype", "ApplicableWaterSourceType"),
+                ("regulatoryoverlaytype", "RegulatoryType"),
                 ("ownerclassification", "OwnerClassification")
             };
             await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
