@@ -500,7 +500,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                        .HasForeignKey(d => d.SdwisidentifierCV)
                        .OnDelete(DeleteBehavior.ClientSetNull)
                        .HasConstraintName("fk_AllocationAmounts_fact_SDWISIdentifier");
-                
+
                 entity.HasOne(d => d.PowerTypeCV)
                     .WithMany(p => p.AllocationAmountsFact)
                     .HasForeignKey(d => d.PowerType)
