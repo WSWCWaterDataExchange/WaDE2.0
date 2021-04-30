@@ -58,5 +58,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual State StateCVNavigation { get; set; }
         public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;  }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
+        public virtual ICollection<RegulatoryOverlayBridgeSitesFact> RegulatoryOverlayBridgeSitesFact { get; set; }
     }
 }
