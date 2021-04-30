@@ -38,6 +38,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<NhdnetworkStatus> NhdnetworkStatus { get; set; }
         public virtual DbSet<Nhdproduct> Nhdproduct { get; set; }
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
+        public virtual DbSet<OwnerClassificationCv> OwnerClassificationCv { get; set; }
         public virtual DbSet<PowerType> PowerType { get; set; }
         public virtual DbSet<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
         public virtual DbSet<RegulatoryOverlayType> RegulatoryOverlayType { get; set; }
@@ -347,6 +348,10 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("AllocationTypeCV")
                     .HasMaxLength(250);
 
+                entity.Property(e => e.OwnerClassificationCV)
+                    .HasColumnName("OwnerClassificationCV")
+                    .HasMaxLength(250);
+
                 entity.Property(e => e.DataPublicationDateId).HasColumnName("DataPublicationDateID");
 
                 //////////////////////////////////////////////////////////////////////////////
@@ -507,6 +512,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.PowerType)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_PowerTypeCV");
+
+                entity.HasOne(d => d.OwnerClassification)
+                    .WithMany(p => p.AllocationAmountsFact)
+                    .HasForeignKey(d => d.OwnerClassificationCV)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AllocationAmounts_OwnerClassification");
             });
 
             modelBuilder.Entity<AllocationBridgeBeneficialUsesFact>(entity =>
@@ -1048,7 +1059,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<OwnerClassification>(entity =>
+            modelBuilder.Entity<OwnerClassificationCv>(entity =>
             {
                 entity.HasKey(e => e.Name)
                     .HasName("PK_CVs.OwnerClassification");
@@ -1061,7 +1072,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.Definition).HasMaxLength(4000);
 
-                entity.Property(e => e.SourceVocabularyUri)
+                entity.Property(e => e.SourceVocabularyURI)
                     .HasColumnName("SourceVocabularyURI")
                     .HasMaxLength(250);
 

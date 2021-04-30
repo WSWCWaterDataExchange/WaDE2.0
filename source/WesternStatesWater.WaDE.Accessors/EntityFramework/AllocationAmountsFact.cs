@@ -50,6 +50,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string CommunityWaterSupplySystem { get; set; }
         public bool? ExemptOfVolumeFlowPriority { get; set; }
         public string PowerType { get; set; }
+        public string OwnerClassificationCV { get; set; }
 
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
@@ -68,7 +69,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual IrrigationMethod IrrigationMethod { get; set; }
         public virtual PowerType PowerTypeCV { get; set; }
+        public virtual OwnerClassificationCv OwnerClassification { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
-        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;}
+        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set; }
     }
 }

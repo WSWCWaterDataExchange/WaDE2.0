@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
+﻿using Bogus;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers;
@@ -34,6 +33,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             WaterAllocation waterAllocation;
             string startTestString = "01/01";
             string endTestString = "12/01";
+            OwnerClassificationCv ownerClassificationCV;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
@@ -43,6 +43,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 method = await MethodsDimBuilder.Load(db);
                 dataPublicationDate = await DateDimBuilder.Load(db);
                 allocationPriorityDate = await DateDimBuilder.Load(db);
+                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
 
                 waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
 
@@ -54,6 +55,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
                 waterAllocation.AllocationTimeframeEnd = endTestString;
+                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
             var sut = CreateWaterAllocationAccessor();
@@ -74,6 +76,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
                 dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
                 dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
+                dbAllocationAmount.OwnerClassificationCV.Should().Be(ownerClassificationCV.Name);
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
