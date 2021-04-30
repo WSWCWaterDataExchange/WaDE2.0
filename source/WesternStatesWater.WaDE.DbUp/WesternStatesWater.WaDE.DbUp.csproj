@@ -113,8 +113,6 @@
     <None Remove="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <None Remove="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
     <None Remove="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar(max).sql" />
-    <None Remove="Scripts\004\016 CVs.ApplicableWaterSourceType Create.sql" />
-    <None Remove="Scripts\004\017 CVs.RegulatoryType Create.sql" />
     <None Remove="Scripts\004\018 CVs.OwnerClassification Create.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -366,8 +364,6 @@
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
     <EmbeddedResource Include="Scripts\004\018 CVs.OwnerClassification Create.sql" />
-    <EmbeddedResource Include="Scripts\004\017 CVs.RegulatoryType Create.sql" />
-    <EmbeddedResource Include="Scripts\004\016 CVs.ApplicableWaterSourceType Create.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
     <EmbeddedResource Include="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />

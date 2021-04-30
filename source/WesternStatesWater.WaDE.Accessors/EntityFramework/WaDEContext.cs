@@ -69,7 +69,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             if (!optionsBuilder.IsConfigured)
             {
                 //uncomment the next line to get the SQL commands that are being executed
-                //optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+                optionsBuilder.UseLoggerFactory(MyLoggerFactory);
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
                 {
                     x.UseNetTopologySuite();
@@ -576,30 +576,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.State).HasMaxLength(250);
 
                 entity.Property(e => e.Term).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<ApplicableWaterSourceType>(entity =>
-            {
-                entity.HasKey(e => e.Name)
-                    .HasName("PK_CVs.ApplicableWaterSourceType");
-
-                entity.ToTable("ApplicableWaterSourceType", "CVs");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(250)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Definition).HasMaxLength(4000);
-
-                entity.Property(e => e.SourceVocabularyUri)
-                    .HasColumnName("SourceVocabularyURI")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.State).HasMaxLength(250);
-
-                entity.Property(e => e.Term)
-                    .IsRequired()
-                    .HasMaxLength(250);
             });
 
             modelBuilder.Entity<BeneficialUsesCV>(entity =>
@@ -1264,30 +1240,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
 
                 entity.Property(e => e.State).HasMaxLength(2);
-
-                entity.Property(e => e.Term)
-                    .IsRequired()
-                    .HasMaxLength(250);
-            });
-
-            modelBuilder.Entity<RegulatoryType>(entity =>
-            {
-                entity.HasKey(e => e.Name)
-                    .HasName("PK_CVs.RegulatoryType");
-
-                entity.ToTable("RegulatoryType", "CVs");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(250)
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Definition).HasMaxLength(4000);
-
-                entity.Property(e => e.SourceVocabularyUri)
-                    .HasColumnName("SourceVocabularyURI")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.State).HasMaxLength(250);
 
                 entity.Property(e => e.Term)
                     .IsRequired()
