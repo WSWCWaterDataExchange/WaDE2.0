@@ -29,5 +29,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual WaterSourceType WaterSourceType { get; set; }
 
         public virtual RegulatoryOverlayType RegulatoryOverlayType { get; set; }
+        public virtual ICollection<RegulatoryOverlayBridgeSitesFact> RegulatoryOverlayBridgeSitesFact { get; set; }
     }
 }
