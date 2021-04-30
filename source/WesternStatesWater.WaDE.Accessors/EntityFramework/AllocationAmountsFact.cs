@@ -69,7 +69,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }
         public virtual IrrigationMethod IrrigationMethod { get; set; }
         public virtual PowerType PowerTypeCV { get; set; }
-        public virtual OwnerClassification OwnerClassification { get; set; }
+        public virtual OwnerClassificationCv OwnerClassification { get; set; }
         public virtual ICollection<AllocationBridgeBeneficialUsesFact> AllocationBridgeBeneficialUsesFact { get; set; }
         public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set; }
     }

@@ -2,9 +2,9 @@
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class OwnerClassification
+    public partial class OwnerClassificationCv
     {
-        public OwnerClassification()
+        public OwnerClassificationCv()
         {
             AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
         }
@@ -13,7 +13,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string Term { get; set; }
         public string State { get; set; }
         public string Definition { get; set; }
-        public string SourceVocabularyUri { get; set; }
+        public string SourceVocabularyURI { get; set; }
 
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
     }
