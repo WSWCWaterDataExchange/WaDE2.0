@@ -42,6 +42,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
         public virtual DbSet<RegulatoryOverlayType> RegulatoryOverlayType { get; set; }
         public virtual DbSet<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
+        public virtual DbSet<RegulatoryOverlayBridgeSitesFact> RegulatoryOverlayBridgeSitesFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
         public virtual DbSet<ReportYearType> ReportYearType { get; set; }
@@ -1220,6 +1221,31 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.ReportingUnitId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_ReportingUnits_dim");
+            });
+
+            modelBuilder.Entity<RegulatoryOverlayBridgeSitesFact>(entity =>
+            {
+                entity.HasKey(e => e.RegulatoryOverlayBridgeId);
+
+                entity.ToTable("RegulatoryOverlayBridge_Sites_fact", "Core");
+
+                entity.Property(e => e.RegulatoryOverlayBridgeId).HasColumnName("RegulatoryOverlayBridgeID");
+
+                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("RegulatoryOverlayID");
+
+                entity.Property(e => e.SiteId).HasColumnName("SiteID");
+
+                entity.HasOne(d => d.RegulatoryOverlay)
+                    .WithMany(p => p.RegulatoryOverlayBridgeSitesFact)
+                    .HasForeignKey(d => d.RegulatoryOverlayId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_RegulatoryOverLayBridge_Sites_fact_RegulatoryOverlay_fact");
+
+                entity.HasOne(d => d.Site)
+                    .WithMany(p => p.RegulatoryOverlayBridgeSitesFact)
+                    .HasForeignKey(d => d.SiteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_RegulatoryOverLayBridge_Sites_fact_Sites_dim");
             });
 
             modelBuilder.Entity<RegulatoryStatus>(entity =>
