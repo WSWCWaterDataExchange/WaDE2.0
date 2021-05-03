@@ -20,7 +20,7 @@ namespace WaDEImportFunctions
         }
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
-        
+
         [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
         public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] DurableOrchestrationContextBase context, ILogger log)
         {
@@ -104,9 +104,14 @@ namespace WaDEImportFunctions
         }
 
         [FunctionName(FunctionNames.LoadWaterAllocationData)]
-        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [OrchestrationClient] DurableOrchestrationClient starter, ILogger log)
         {
             string runId = req.Query["runId"].ToString();
+
+            if (string.IsNullOrEmpty(runId))
+            {
+                return new BadRequestObjectResult($"The following parameter must be specified: runId");
+            }
 
             log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
@@ -115,9 +120,15 @@ namespace WaDEImportFunctions
         }
 
         [FunctionName(FunctionNames.GetLoadWaterOrchestrationStatus)]
-        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
+        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [OrchestrationClient] DurableOrchestrationClient starter, ILogger log)
         {
             var instanceId = req.Query["instanceId"];
+
+            if (string.IsNullOrEmpty(instanceId))
+            {
+                return new BadRequestObjectResult($"The following parameter must be specified: instanceId");
+            }
+            
             var status = await starter.GetStatusAsync(instanceId);
             dynamic resultStatus = new System.Dynamic.ExpandoObject();
             if (status.RuntimeStatus == OrchestrationRuntimeStatus.Completed)
