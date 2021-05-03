@@ -108,11 +108,6 @@ namespace WaDEImportFunctions
         {
             string runId = req.Query["runId"].ToString();
 
-            if (string.IsNullOrEmpty(runId))
-            {
-                return new BadRequestObjectResult($"The following parameter must be specified: runId");
-            }
-
             log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
             string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
@@ -124,11 +119,6 @@ namespace WaDEImportFunctions
         {
             var instanceId = req.Query["instanceId"];
 
-            if (string.IsNullOrEmpty(instanceId))
-            {
-                return new BadRequestObjectResult($"The following parameter must be specified: instanceId");
-            }
-            
             var status = await starter.GetStatusAsync(instanceId);
             dynamic resultStatus = new System.Dynamic.ExpandoObject();
             if (status.RuntimeStatus == OrchestrationRuntimeStatus.Completed)
