@@ -53,17 +53,17 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(siteUuid) && 
-                string.IsNullOrWhiteSpace(beneficialUseCv) && 
-                string.IsNullOrWhiteSpace(geometry) && 
-                string.IsNullOrWhiteSpace(siteTypeCV) && 
-                string.IsNullOrWhiteSpace(usgsCategoryNameCV) && 
+            if (string.IsNullOrWhiteSpace(siteUuid) &&
+                string.IsNullOrWhiteSpace(beneficialUseCv) &&
+                string.IsNullOrWhiteSpace(geometry) &&
+                string.IsNullOrWhiteSpace(siteTypeCV) &&
+                string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
                 string.IsNullOrWhiteSpace(huc8) &&
                 string.IsNullOrWhiteSpace(huc12) &&
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one filter parameter must be specified");
+                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
             }
 
             var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
@@ -91,7 +91,7 @@ namespace WaDEApiFunctions.v1
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<SiteAllocationAmountsDigestRequestBody>(requestBody);
-            
+
             var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
             var beneficialUseCv = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
             var usgsCategoryNameCV = ((string)req.Query["USGSCategoryNameCV"]) ?? data?.USGSCategoryNameCV;
@@ -99,7 +99,7 @@ namespace WaDEApiFunctions.v1
             var startPriorityDate = ParseDate(((string)req.Query["StartPriorityDate"]) ?? data?.startPriorityDate);
             var endPriorityDate = ParseDate(((string)req.Query["EndPriorityDate"]) ?? data?.endPriorityDate);
             var organizationUUID = ((string)req.Query["OrganizationUUID"]) ?? data?.organizationUUID;
-            
+
             var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
             var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
@@ -113,13 +113,13 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(organizationUUID) && 
-                string.IsNullOrWhiteSpace(beneficialUseCv) && 
-                string.IsNullOrWhiteSpace(geometry) && 
-                string.IsNullOrWhiteSpace(siteTypeCV) && 
+            if (string.IsNullOrWhiteSpace(organizationUUID) &&
+                string.IsNullOrWhiteSpace(beneficialUseCv) &&
+                string.IsNullOrWhiteSpace(geometry) &&
+                string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return new BadRequestObjectResult("At least one filter parameter must be specified");
+                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV");
             }
 
             var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
@@ -129,7 +129,7 @@ namespace WaDEApiFunctions.v1
                 SiteTypeCV = siteTypeCV,
                 UsgsCategoryNameCv = usgsCategoryNameCV,
                 StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,      
+                EndPriorityDate = endPriorityDate,
                 OrganizationUUID = organizationUUID
             }, startIndex, recordCount);
 
