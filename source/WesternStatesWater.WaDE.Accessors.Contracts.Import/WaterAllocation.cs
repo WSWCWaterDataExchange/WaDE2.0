@@ -120,5 +120,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public bool? ExemptOfVolumeFlowPriority { get; set; }
+
+        [NullValues("")]
+        public string OwnerClassificationCV { get; set; }
     }
 }

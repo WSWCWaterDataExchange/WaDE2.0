@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
+﻿using Bogus;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers;
@@ -34,6 +33,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             WaterAllocation waterAllocation;
             string startTestString = "01/01";
             string endTestString = "12/01";
+            OwnerClassificationCv ownerClassificationCV;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
@@ -43,6 +43,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 method = await MethodsDimBuilder.Load(db);
                 dataPublicationDate = await DateDimBuilder.Load(db);
                 allocationPriorityDate = await DateDimBuilder.Load(db);
+                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
 
                 waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
 
@@ -54,6 +55,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
                 waterAllocation.AllocationTimeframeEnd = endTestString;
+                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
             var sut = CreateWaterAllocationAccessor();
@@ -74,6 +76,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
                 dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
                 dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
+                dbAllocationAmount.OwnerClassificationCV.Should().Be(ownerClassificationCV.Name);
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
@@ -873,6 +876,412 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryReportingUnit.OrganizationId.Should().Be(organization.OrganizationId);
                 dbRegulatoryReportingUnit.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
                 dbRegulatoryReportingUnit.ReportingUnitId.Should().Be(reportingUnit.ReportingUnitId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSite_SimpleLoad()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = await db.RegulatoryOverlayBridgeSitesFact.SingleAsync();
+
+                dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(siteDim.SiteId);
+                dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+        
+        [TestMethod]
+        public async Task LoadSite_LoadTwo()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay1;
+            RegulatoryOverlayDim regulatoryOverlay2;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay2 }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim.SiteId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+        
+        [TestMethod]
+        public async Task LoadSite_LoadTwo_AddOneMore()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay1;
+            RegulatoryOverlayDim regulatoryOverlay2;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay2 }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim.SiteId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+            
+            RegulatoryOverlayDim regulatoryOverlay3;
+            Site updatedSite; 
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                regulatoryOverlay3 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                updatedSite = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay2, regulatoryOverlay3 }
+                });
+            }
+            
+            var updatedResult = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { updatedSite });
+            
+            updatedResult.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(3);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim.SiteId);
+
+                var reg3 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay3.RegulatoryOverlayId).ToList();
+                reg3.Count().Should().Be(1);
+                reg3[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+        
+        [TestMethod]
+        public async Task LoadSite_LoadTwo_AddOne_RemoveOne()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay1;
+            RegulatoryOverlayDim regulatoryOverlay2;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay2 }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim.SiteId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+            
+            RegulatoryOverlayDim regulatoryOverlay3;
+            Site updatedSite; 
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                regulatoryOverlay3 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                updatedSite = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay3 }
+                });
+            }
+            
+            var updatedResult = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { updatedSite });
+            
+            updatedResult.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg3 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay3.RegulatoryOverlayId).ToList();
+                reg3.Count().Should().Be(1);
+                reg3[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+        
+        [TestMethod]
+        public async Task LoadSite_LoadTwo_RemoveAll()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay1;
+            RegulatoryOverlayDim regulatoryOverlay2;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1, regulatoryOverlay2 }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim.SiteId);
+                
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim.SiteId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+            
+            Site updatedSite;
+
+            updatedSite = SiteBuilder.Create(new SiteBuilderOptions()
+            {
+                Site = siteDim,
+                RegulatoryOverlayDims = new List<RegulatoryOverlayDim>()
+            });
+                
+            var updatedResult = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { updatedSite });
+            
+            updatedResult.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(0);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+        
+        [TestMethod]
+        public async Task LoadSite_WithNoRegulatoryOverlays()
+        {
+            SitesDim siteDim;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                
+                site = SiteBuilder.Create(new SiteBuilderOptions() 
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+            
+            result.Should().BeTrue();
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(0);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSite_TwoSites()
+        {
+            SitesDim siteDim1;
+            RegulatoryOverlayDim regulatoryOverlay1;
+            Site site1;
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim1 = await SitesDimBuilder.Load(db);
+                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+
+                site1 = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim1,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay1 }
+                });
+            }
+            
+            var sut = CreateWaterAllocationAccessor();
+            
+            var result1 = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site1 });
+            result1.Should().BeTrue();
+
+            SitesDim siteDim2;
+            RegulatoryOverlayDim regulatoryOverlay2;
+            Site site2;
+            
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim2 = await SitesDimBuilder.Load(db);
+                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+
+                site2 = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim2,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay2 }
+                });
+            }
+            
+            
+            var result2 = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site2 });
+            result2.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFact = db.RegulatoryOverlayBridgeSitesFact;
+                dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
+
+                var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay1.RegulatoryOverlayId).ToList();
+                reg1.Count().Should().Be(1);
+                reg1[0].SiteId.Should().Be(siteDim1.SiteId);
+
+                var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
+                    x.RegulatoryOverlayId == regulatoryOverlay2.RegulatoryOverlayId).ToList();
+                reg2.Count().Should().Be(1);
+                reg2[0].SiteId.Should().Be(siteDim2.SiteId);
 
                 db.ImportErrors.Should().HaveCount(0);
             }

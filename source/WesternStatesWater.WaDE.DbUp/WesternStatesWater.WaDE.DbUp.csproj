@@ -113,6 +113,8 @@
     <None Remove="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <None Remove="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
     <None Remove="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar(max).sql" />
+    <None Remove="Scripts\004\018 CVs.OwnerClassification Create.sql" />
+    <None Remove="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\005\001 Core.RegulatoryOverlay_dim.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
@@ -363,6 +365,8 @@
     <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
+    <EmbeddedResource Include="Scripts\004\018 CVs.OwnerClassification Create.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
     <EmbeddedResource Include="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
@@ -379,6 +383,11 @@
     <EmbeddedResource Include="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />
     <EmbeddedResource Include="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <EmbeddedResource Include="Scripts\004\011 Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
+    <None Remove="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
+    <EmbeddedResource Include="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
+    <None Remove="Scripts\004\017 Core.RegulatoryOverlayBridge_Sites_facts add fk.sql" />
+    <None Remove="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
+    <EmbeddedResource Include="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
     <EmbeddedResource Include="Scripts\005\001 Core.RegulatoryOverlay_dim.sql" />
   </ItemGroup>
 
