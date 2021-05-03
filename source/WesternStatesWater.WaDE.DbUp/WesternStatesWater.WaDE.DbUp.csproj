@@ -114,6 +114,7 @@
     <None Remove="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
     <None Remove="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar(max).sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
+    <None Remove="Scripts\005\001 Core.RegulatoryOverlay_dim.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
@@ -378,6 +379,7 @@
     <EmbeddedResource Include="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />
     <EmbeddedResource Include="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <EmbeddedResource Include="Scripts\004\011 Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
+    <EmbeddedResource Include="Scripts\005\001 Core.RegulatoryOverlay_dim.sql" />
   </ItemGroup>
 
   <ItemGroup>
