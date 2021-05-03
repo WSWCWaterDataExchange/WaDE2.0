@@ -115,8 +115,11 @@
     <None Remove="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar(max).sql" />
     <None Remove="Scripts\004\018 CVs.OwnerClassification Create.sql" />
     <None Remove="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
+    <None Remove="Scripts\004\020 Core.LoadWaterAllocation Add BeneficialUser Error Message.sql" />
+    <None Remove="Scripts\004\021 Core.LoadSiteSpecificAmounts Add BeneficialUser Error Message.sql" />
     <None Remove="Scripts\004\020 Core.LoadWaterAllocationsMergeBeneficialUsesAndSites.sql" />
     <None Remove="Scripts\004\021 Core.PODSitetoPOUSite_fact.sql" />
+    <None Remove="Scripts\004\022 Core.LoadAggregateAmounts Add BeneficialUser Error Message.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -366,8 +369,11 @@
     <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\004\022 Core.LoadAggregateAmounts Add BeneficialUser Error Message.sql" />
+    <EmbeddedResource Include="Scripts\004\021 Core.LoadSiteSpecificAmounts Add BeneficialUser Error Message.sql" />
     <EmbeddedResource Include="Scripts\004\020 Core.LoadWaterAllocationsMergeBeneficialUsesAndSites.sql" />
     <EmbeddedResource Include="Scripts\004\021 Core.PODSitetoPOUSite_fact.sql" />
+    <EmbeddedResource Include="Scripts\004\020 Core.LoadWaterAllocation Add BeneficialUser Error Message.sql" />
     <EmbeddedResource Include="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
     <EmbeddedResource Include="Scripts\004\018 CVs.OwnerClassification Create.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
