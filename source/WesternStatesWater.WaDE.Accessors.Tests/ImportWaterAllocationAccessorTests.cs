@@ -761,7 +761,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var dbAggBridge = await db.AggBridgeBeneficialUsesFact.FirstOrDefaultAsync();
                 dbAggBridge.Should().BeNull();
 
-                db.ImportErrors.Should().HaveCount(2);
+                db.ImportErrors.Should().HaveCount(1);
             }
         }
 
