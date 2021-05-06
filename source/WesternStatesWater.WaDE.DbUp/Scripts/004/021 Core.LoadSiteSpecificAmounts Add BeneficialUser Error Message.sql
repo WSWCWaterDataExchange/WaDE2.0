@@ -22,6 +22,7 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
+		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
 						AND CustomerTypeCV IS NULL AND SDWISIdentifier IS NULL
@@ -41,6 +42,7 @@ BEGIN
 		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON ssa.PrimaryUseCategory=bs.Name
+		LEFT OUTER JOIN CVs.BeneficialUses bu ON ssa.BeneficialUseCategory=bu.Name
 		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
 	
 
@@ -79,6 +81,10 @@ BEGIN
 		SELECT 'PrimaryUseCategory Not Valid' Reason, *
 		FROM #TempJoinedSiteSpecificAmountData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
+		UNION ALL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, *
+		FROM #TempJoinedSiteSpecificAmountData
+		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
     )
     SELECT * INTO #TempErrorSiteSpecificAmountRecords FROM q1;
 
