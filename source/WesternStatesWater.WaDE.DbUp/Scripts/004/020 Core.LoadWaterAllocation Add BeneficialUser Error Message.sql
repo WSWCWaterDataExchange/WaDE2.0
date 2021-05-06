@@ -1,4 +1,4 @@
-﻿/****** Object:  StoredProcedure [Core].[LoadWaterAllocation]    Script Date: 5/3/2021 7:29:03 AM ******/
+﻿/****** Object:  StoredProcedure [Core].[LoadWaterAllocation]    Script Date: 5/6/2021 2:49:51 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -21,6 +21,7 @@ BEGIN
 		,v.VariableSpecificID
 		,ws.WaterSourceID
 		,m.MethodID
+		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,oc.[Name] OwnerClassificationFK
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
@@ -39,6 +40,7 @@ BEGIN
 		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON bs.Name=wad.PrimaryUseCategory
+		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name=wad.BeneficialUseCategory
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID
 		LEFT OUTER JOIN CVs.OwnerClassification oc ON oc.[Name] = wad.OwnerClassificationCV;
 		
@@ -83,6 +85,10 @@ BEGIN
 		SELECT 'PrimaryUseCategory Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
+		UNION ALL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, *
+		FROM #TempJoinedWaterAllocationData
+		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
 	)
 	SELECT * INTO #TempErrorWaterAllocationRecords FROM q1;
 

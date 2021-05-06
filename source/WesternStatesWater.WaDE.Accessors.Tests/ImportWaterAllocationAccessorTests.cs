@@ -138,6 +138,58 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task LoadWaterAllocation_SimpleLoad_InvalidBeneficialUseCategory_ThrowsError()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+            OwnerClassificationCv ownerClassificationCV;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+                waterAllocation.BeneficialUseCategory = Guid.NewGuid().ToString();
+                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeFalse();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.FirstOrDefaultAsync();
+                dbAllocationAmount.Should().BeNull();
+
+                db.ImportErrors.Should().HaveCount(1);
+            }
+        }
+
+        [TestMethod]
         public async Task LoadWaterAllocation_BadLoad_CivilianAndPower()
         {
             OrganizationsDim organization;
@@ -1440,7 +1492,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
-        public async Task LoadWaterAllocation_LoadAggBridge_InvalidPrimaryUseCategoryCV_ThrowsError()
+        public async Task LoadWaterAllocation_LoadAggBridge_InvalidPrimaryUseCategoryCVAndBeneficialUseCategoryCV_ThrowsError()
         {
             OrganizationsDim organization;
             ReportingUnitsDim reportingUnit;
@@ -1488,7 +1540,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var dbAggBridge = await db.AggBridgeBeneficialUsesFact.FirstOrDefaultAsync();
                 dbAggBridge.Should().BeNull();
 
-                db.ImportErrors.Should().HaveCount(1);
+                db.ImportErrors.Should().HaveCount(2);
             }
         }
 
@@ -1783,6 +1835,65 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbSiteVariableAmount.PowerType.Should().Be(powerType.Name);
 
                 db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSiteSpecificAmounts_SimpleLoad_Power_InvalidBeneficialUseCategory_ThrowsError()
+        {
+            OrganizationsDim organization;
+            SitesDim site;
+            VariablesDim variable;
+            WaterSourcesDim waterSource;
+            MethodsDim method;
+            SiteSpecificAmount siteSpecificAmount;
+            BeneficialUsesCV primaryUseCategory;
+            ReportYearCv reportYear;
+            DateDim publicationDate;
+            PowerType powerType;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                site = await SitesDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                primaryUseCategory = await BeneficalUsesBuilder.Load(db);
+                reportYear = await ReportYearCvBuilder.Load(db);
+                publicationDate = await DateDimBuilder.Load(db);
+                powerType = await PowerTypeBuilder.Load(db);
+
+                siteSpecificAmount = SiteSpecificAmountBuilder.Create(new SiteSpecificAmountBuilderOptions
+                {
+                    RecordType = SiteSpecificRecordType.Power,
+                    Method = method,
+                    Organization = organization,
+                    DataPublicationDate = publicationDate,
+                    Site = site,
+                    Variable = variable,
+                    WaterSource = waterSource,
+                    BeneficialUse = new BeneficialUsesCV { Name = Guid.NewGuid().ToString() },
+                    PrimaryUseCategory = primaryUseCategory,
+                    ReportYear = reportYear,
+                    PowerType = powerType
+                });
+            }
+
+            siteSpecificAmount.PowerGeneratedGWh.Should().NotBeNullOrEmpty("Required field");
+            siteSpecificAmount.PowerType.Should().NotBeNullOrEmpty("Required field");
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
+
+            result.Should().BeFalse();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSiteVariableAmount = await db.SiteVariableAmountsFact.FirstOrDefaultAsync();
+                dbSiteVariableAmount.Should().BeNull();
+
+                db.ImportErrors.Should().HaveCount(1);
             }
         }
 

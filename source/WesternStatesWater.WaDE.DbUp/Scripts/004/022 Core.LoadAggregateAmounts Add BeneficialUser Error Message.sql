@@ -1,4 +1,4 @@
-﻿/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 5/3/2021 7:24:30 AM ******/
+﻿/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 5/6/2021 2:56:12 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -22,6 +22,7 @@ BEGIN
 		,vb.VariableSpecificID
 		,mt.MethodID
         ,wt.WaterSourceID
+		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
 						AND CustomerType IS NULL AND SDWISIdentifier IS NULL
@@ -40,6 +41,7 @@ BEGIN
         LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
         LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
 	    LEFT OUTER JOIN CVs.BeneficialUses bs ON aad.PrimaryUseCategory = bs.Name
+		LEFT OUTER JOIN CVs.BeneficialUses bu ON aad.BeneficialUseCategory=bu.Name
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 
 		
@@ -79,6 +81,10 @@ BEGIN
 		SELECT 'PrimaryUseCategory Not Valid' Reason, *
 		FROM #TempJoinedAggregatedAmountData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
+		UNION ALL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, *
+		FROM #TempJoinedAggregatedAmountData
+		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
 
     )
     SELECT * INTO #TempErrorAggregatedAmountRecords FROM q1;
