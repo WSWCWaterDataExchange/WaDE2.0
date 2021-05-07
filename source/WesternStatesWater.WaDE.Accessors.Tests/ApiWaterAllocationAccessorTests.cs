@@ -22,9 +22,21 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
+            SitesDim siteDim;
+            WaterSourcesDim waterSourceDim;
             using (var db = new WaDEContext(configuration))
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+                waterSourceDim = await WaterSourcesDimBuilder.Load(db);
+                siteDim = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+                {
+                    WaterSourcesDim = waterSourceDim
+                });
+                var bridge = await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                {
+                    SitesDim = siteDim,
+                    AllocationAmountsFact = allocationAmountsFact
+                });
 
                 allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
             }
@@ -41,6 +53,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
             org.WaterAllocations.Should().HaveCount(1);
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
+            org.WaterAllocations[0].Sites.Should().HaveCount(1); 
+            org.WaterAllocations[0].Sites[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
+
+            org.WaterSources.Count.Should().Be(1);
+            org.WaterSources[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
         }
 
         [TestMethod]
@@ -64,7 +81,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var sut = CreateWaterAllocationAccessor();
                 var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, Utility.NthTriangle(i - 1), i);
                 pagedResults.TotalWaterAllocationsCount.Should().Be(15);
-                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
                 waterAllocations.Should().HaveCount(i);
                 foreach (var waterAllocation in waterAllocations)
                 {
@@ -91,12 +108,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsFilters();
 
             var sut = CreateWaterAllocationAccessor();
-            var baseResults = (await sut.GetSiteAllocationAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+            var baseResults = (await sut.GetSiteAllocationAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
 
             for (var i = 0; i < 14; i++)
             {
                 var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, i, 2);
-                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
                 waterAllocations.Should().HaveCount(2);
                 waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
             }
@@ -119,7 +136,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, 1, 10);
             pagedResults.TotalWaterAllocationsCount.Should().Be(3);
-            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
             waterAllocations.Should().HaveCount(2);
         }
 
@@ -140,7 +157,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, 4, 10);
             pagedResults.TotalWaterAllocationsCount.Should().Be(3);
-            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.WaterSourceUUID).ToList();
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
             waterAllocations.Should().HaveCount(0);
         }
 

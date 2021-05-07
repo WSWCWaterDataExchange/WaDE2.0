@@ -387,6 +387,12 @@
     <None Remove="Scripts\004\017 Core.RegulatoryOverlayBridge_Sites_facts add fk.sql" />
     <None Remove="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
     <EmbeddedResource Include="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
+    <None Remove="Scripts\004\020 OneWaterSourceToManySitesTableUpdates.sql" />
+    <EmbeddedResource Include="Scripts\004\020 OneWaterSourceToManySitesTableUpdates.sql" />
+    <None Remove="Scripts\004\021 LoadWaterAllocation_RemoveWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\004\021 LoadWaterAllocation_RemoveWaterSourceID.sql" />
+    <None Remove="Scripts\004\022 LoadSites_AddWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\004\022 LoadSites_AddWaterSourceID.sql" />
   </ItemGroup>
 
   <ItemGroup>

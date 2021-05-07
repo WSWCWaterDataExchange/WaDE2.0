@@ -9,7 +9,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public WaterSourcesDim()
         {
             AggregatedAmountsFact = new HashSet<AggregatedAmountsFact>();
-            AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
+            SitesDim = new HashSet<SitesDim>();
             SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
         }
 
@@ -26,7 +26,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual WaterQualityIndicator WaterQualityIndicatorCvNavigation { get; set; }
         public virtual WaterSourceType WaterSourceTypeCvNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
-        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
+        public virtual ICollection<SitesDim> SitesDim { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
     }
 }

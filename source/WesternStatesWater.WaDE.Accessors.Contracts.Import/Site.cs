@@ -54,5 +54,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         
         [NullValues("")]
         public string RegulatoryOverlayUUIDs { get; set; }
+        
+        [NullValues("")]
+        public string WaterSourceUUID { get; set; }
     }
 }

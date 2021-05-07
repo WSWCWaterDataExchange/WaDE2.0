@@ -49,7 +49,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
@@ -70,7 +69,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.AllocationAmountId.Should().NotBe(0);
                 dbAllocationAmount.OrganizationId.Should().Be(organization.OrganizationId);
                 dbAllocationAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
-                dbAllocationAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
                 dbAllocationAmount.MethodId.Should().Be(method.MethodId);
                 dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
                 dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
@@ -104,7 +102,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
@@ -161,7 +158,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
@@ -230,7 +226,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
@@ -285,7 +280,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.SiteUUID = commaSeparatedSites;
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
@@ -305,7 +299,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.AllocationAmountId.Should().NotBe(0);
                 dbAllocationAmount.OrganizationId.Should().Be(organization.OrganizationId);
                 dbAllocationAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
-                dbAllocationAmount.WaterSourceId.Should().Be(waterSource.WaterSourceId);
                 dbAllocationAmount.MethodId.Should().Be(method.MethodId);
                 dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
                 dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
@@ -395,7 +388,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
@@ -441,7 +433,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 organization = await OrganizationsDimBuilder.Load(db);
                 variable = await VariablesDimBuilder.Load(db);
-                waterSource = await WaterSourcesDimBuilder.Load(db);
                 method = await MethodsDimBuilder.Load(db);
                 dataPublicationDate = await DateDimBuilder.Load(db);
                 allocationPriorityDate = await DateDimBuilder.Load(db);
@@ -454,7 +445,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
                 waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.WaterSourceUUID = waterSource.WaterSourceUuid;
                 waterAllocation.MethodUUID = method.MethodUuid;
                 waterAllocation.DataPublicationDate = dataPublicationDate.Date;
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
@@ -885,12 +875,14 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         public async Task LoadSite_SimpleLoad()
         {
             SitesDim siteDim;
+            WaterSourcesDim waterSource;
             RegulatoryOverlayDim regulatoryOverlay;
 
             Site site;
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
+                waterSource = await WaterSourcesDimBuilder.Load(db);
                 regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
                 
                 site = SiteBuilder.Create(new SiteBuilderOptions() 
@@ -898,6 +890,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     Site = siteDim,
                     RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay }
                 });
+
+                site.WaterSourceUUID = waterSource.WaterSourceUuid;
             }
             
             var sut = CreateWaterAllocationAccessor();
@@ -911,6 +905,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(siteDim.SiteId);
                 dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+
+                var dbSiteDim = await db.SitesDim.SingleAsync();
+                dbSiteDim.WaterSourceId = waterSource.WaterSourceId;
 
                 db.ImportErrors.Should().HaveCount(0);
             }

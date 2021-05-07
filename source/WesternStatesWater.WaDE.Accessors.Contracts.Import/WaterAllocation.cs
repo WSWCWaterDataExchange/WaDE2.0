@@ -16,9 +16,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string SiteUUID { get; set; }
 
         [NullValues("")]
-        public string WaterSourceUUID { get; set; }
-
-        [NullValues("")]
         public string MethodUUID { get; set; }
 
         [NullValues("")]
