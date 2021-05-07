@@ -2104,7 +2104,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.ToTable("PODSite_POUSite_fact", "Core");
 
-                entity.Property(e => e.PODSiteToPOUSiteId).HasColumnName("PODSiteToPOUSiteID");
+                entity.Property(e => e.PODSiteToPOUSiteId).HasColumnName("PODSitePOUSiteFactID");
 
                 entity.Property(e => e.PODSiteId).HasColumnName("PODSiteID");
 

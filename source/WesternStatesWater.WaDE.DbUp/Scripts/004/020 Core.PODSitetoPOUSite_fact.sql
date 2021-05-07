@@ -28,9 +28,7 @@ CREATE TYPE [Core].[PODSitePOUSiteFactTableType] AS TABLE(
 	[EndDate] [date] NULL
 )
 
-USE [WaDE2]
-GO
-/****** Object:  StoredProcedure [Core].[LoadAggregatedAmounts]    Script Date: 5/6/2021 11:34:49 AM ******/
+/****** Object:  StoredProcedure [Core].[LoadPODSitePOUSiteFacts]    Script Date: 5/6/2021 11:34:49 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -84,26 +82,6 @@ BEGIN
         VALUES ('SiteRelationship', @RunId, (SELECT * FROM #TempErrorSiteRelationshipTable FOR JSON PATH));
         RETURN 1;
     END;
-
-	WITH q1 AS
-    (
-        SELECT
-            [Date]
-        FROM
-            #TempSiteRelationshipTable tsr
-            UNPIVOT ([Date] FOR Dates IN (tsr.StartDate, tsr.EndDate)) AS up
-	)
-    INSERT INTO Core.Date_dim (Date, Year)
-    SELECT
-        q1.[Date]
-        ,YEAR(q1.[Date])
-    FROM
-        q1
-        LEFT OUTER JOIN Core.Date_dim d ON q1.[Date] = d.[Date]
-    WHERE
-        d.DateID IS NULL AND q1.Date IS NOT NULL
-    GROUP BY
-        q1.[Date];
 
 	CREATE TABLE #PODSitePOUSiteRecords(PODSitePOUSiteFactID BIGINT, RowNumber BIGINT);
     
