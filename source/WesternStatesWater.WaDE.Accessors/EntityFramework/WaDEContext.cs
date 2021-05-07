@@ -65,14 +65,14 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
         public virtual DbSet<PODSiteToPOUSiteFact> PODSiteToPOUSiteFact { get; set; }
 
-        private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
+        //private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //uncomment the next line to get the SQL commands that are being executed
-                optionsBuilder.UseLoggerFactory(MyLoggerFactory);
+                //uncomment the next line and the logger factory above to get the SQL commands that are being executed
+                //optionsBuilder.UseLoggerFactory(MyLoggerFactory);
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("WadeDatabase"), x =>
                 {
                     x.UseNetTopologySuite();
