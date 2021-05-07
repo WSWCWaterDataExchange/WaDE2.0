@@ -63,6 +63,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterQualityIndicator> WaterQualityIndicator { get; set; }
         public virtual DbSet<WaterSourceType> WaterSourceType { get; set; }
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
+        public virtual DbSet<PODSiteToPOUSiteFact> PODSiteToPOUSiteFact { get; set; }
 
         private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
 
@@ -2095,6 +2096,32 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.WaterSourceTypeCv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_WaterSources_dim_WaterSourceType");
+            });
+
+            modelBuilder.Entity<PODSiteToPOUSiteFact>(entity =>
+            {
+                entity.HasKey(e => e.PODSiteToPOUSiteId);
+
+                entity.ToTable("PODSite_POUSite_fact", "Core");
+
+                entity.Property(e => e.PODSiteToPOUSiteId).HasColumnName("PODSiteToPOUSiteID");
+
+                entity.Property(e => e.PODSiteId).HasColumnName("PODSiteID");
+
+                entity.Property(e => e.POUSiteId).HasColumnName("POUSiteID");
+
+                entity.HasOne(d => d.PODSite)
+                    .WithMany(p => p.PODSiteToPOUSitePODFact)
+                    .HasForeignKey(d => d.PODSiteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PODSite_POUSite_fact_PODSite_Site");
+
+                entity.HasOne(d => d.POUSite)
+                    .WithMany(p => p.PODSiteToPOUSitePOUFact)
+                    .HasForeignKey(d => d.POUSiteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_PODSite_POUSite_fact_POUSite_Site");
+
             });
         }
     }

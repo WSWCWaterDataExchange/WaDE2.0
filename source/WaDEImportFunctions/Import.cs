@@ -55,6 +55,7 @@ namespace WaDEImportFunctions
                 ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterAllocations, runId)
                 ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
                 ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryReportingUnits, runId)
+                ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadPODToPOUSiteRelationships, runId)
         };
 
             foreach (var result in results)
@@ -165,5 +166,6 @@ namespace WaDEImportFunctions
         public const string LoadReportingUnits = "LoadReportingUnits";
         public const string LoadSiteSpecificAmounts = "LoadSiteSpecificAmounts";
         public const string LoadVariables = "LoadVariables";
+        public const string LoadPODToPOUSiteRelationships = "PODToPODSiteRelationships";
     }
 }

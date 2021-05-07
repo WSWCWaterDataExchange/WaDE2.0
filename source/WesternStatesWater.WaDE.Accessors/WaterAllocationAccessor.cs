@@ -765,6 +765,48 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        async Task<bool> AccessorImport.IWaterAllocationAccessor.LoadPODSitePOUSiteFact(string runId, IEnumerable<AccessorImport.PODSitePOUSite> PODSitePOUSiteFacts)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            using (var cmd = db.Database.GetDbConnection().CreateCommand())
+            {
+                cmd.CommandText = "Core.LoadPODSitePOUSiteFacts";
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 600;
+
+                var runIdParam = new SqlParameter
+                {
+                    ParameterName = "@RunId",
+                    Value = runId
+                };
+
+                cmd.Parameters.Add(runIdParam);
+
+                var amountParam = new SqlParameter
+                {
+                    ParameterName = "@PODSitePOUSiteFactTable",
+                    SqlDbType = SqlDbType.Structured,
+                    Value = PODSitePOUSiteFacts.Select(ConvertObjectToSqlDataRecords<AccessorImport.PODSitePOUSite>.Convert).ToList(),
+                    TypeName = "Core.PODSitePOUSiteFactTableType"
+                };
+
+                cmd.Parameters.Add(amountParam);
+
+                var resultParam = new SqlParameter
+                {
+                    SqlDbType = SqlDbType.Bit,
+                    Direction = ParameterDirection.ReturnValue
+                };
+
+                cmd.Parameters.Add(resultParam);
+
+                await db.Database.OpenConnectionAsync();
+                await cmd.ExecuteNonQueryAsync();
+
+                return (int)resultParam.Value == 0;
+            }
+        }
+
         private static class ConvertObjectToSqlDataRecords<T>
         {
             private static PropertyInfo[] Properties = typeof(T).GetProperties();
