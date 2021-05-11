@@ -133,6 +133,11 @@ namespace WesternStatesWater.WaDE.Accessors
                     .ToListAsync();
 
                 var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
+
+                var siteRelationships = await db.PODSiteToPOUSiteFact
+                        .Where(a => sites.Any(b => b.Site.SiteId == a.PODSiteId) || sites.Any(b => b.Site.SiteId == a.POUSiteId))
+                        .Include(b => b.POUSite).ToListAsync();
+
                 var beneficialUses = (await beneficialUseTask).Select(a => (a.AllocationAmountId, a.BeneficialUse)).ToList();
                 var waterSources = await waterSourceTask;
                 var variableSpecifics = await variableSpecificTask;
@@ -141,7 +146,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var waterAllocationOrganizations = new List<AccessorApi.WaterAllocationOrganization>();
                 foreach (var org in await orgsTask)
                 {
-                    ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites);
+                    ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites, siteRelationships);
                     waterAllocationOrganizations.Add(org);
                 }
 
@@ -243,7 +248,8 @@ namespace WesternStatesWater.WaDE.Accessors
             List<AccessorApi.VariableSpecific> variableSpecifics,
             List<AccessorApi.Method> methods,
             List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
-            List<(long AllocationAmountId, SitesDim Site)> sites)
+            List<(long AllocationAmountId, SitesDim Site)> sites,
+            List<PODSiteToPOUSiteFact> siteRelationships)
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
@@ -271,6 +277,12 @@ namespace WesternStatesWater.WaDE.Accessors
                 .Map<List<AccessorApi.BeneficialUse>>();
 
             org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
+
+            foreach(var site in sites)
+            {
+                site.Site.PODSiteToPOUSitePODFact = siteRelationships.Where(a => a.PODSiteId == site.Site.SiteId).ToList();
+                site.Site.PODSiteToPOUSitePOUFact = siteRelationships.Where(a => a.POUSiteId == site.Site.SiteId).ToList();
+            }
 
             foreach (var waterAllocation in org.WaterAllocations)
             {
