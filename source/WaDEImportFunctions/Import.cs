@@ -20,7 +20,7 @@ namespace WaDEImportFunctions
         }
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
-        
+
         [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
         public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] DurableOrchestrationContextBase context, ILogger log)
         {
@@ -104,7 +104,7 @@ namespace WaDEImportFunctions
         }
 
         [FunctionName(FunctionNames.LoadWaterAllocationData)]
-        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [OrchestrationClient] DurableOrchestrationClient starter, ILogger log)
         {
             string runId = req.Query["runId"].ToString();
 
@@ -115,9 +115,10 @@ namespace WaDEImportFunctions
         }
 
         [FunctionName(FunctionNames.GetLoadWaterOrchestrationStatus)]
-        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")]HttpRequest req, [OrchestrationClient]DurableOrchestrationClient starter, ILogger log)
+        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [OrchestrationClient] DurableOrchestrationClient starter, ILogger log)
         {
             var instanceId = req.Query["instanceId"];
+
             var status = await starter.GetStatusAsync(instanceId);
             dynamic resultStatus = new System.Dynamic.ExpandoObject();
             if (status.RuntimeStatus == OrchestrationRuntimeStatus.Completed)
