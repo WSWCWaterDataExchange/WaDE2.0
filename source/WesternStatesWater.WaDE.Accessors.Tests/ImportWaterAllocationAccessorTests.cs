@@ -2065,5 +2065,143 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
+
+        [TestMethod]
+        public async Task LoadSiteToSiteRelationship_LoadOne()
+        {
+            SitesDim site;
+            SitesDim site2;
+            PODSitePOUSite rel;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+
+                site = await SitesDimBuilder.Load(db);
+                site2 = await SitesDimBuilder.Load(db);
+
+                rel = new PODSitePOUSite
+                {
+                    PODSiteUUID = site.SiteUuid,
+                    POUSiteUUID = site2.SiteUuid,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(1),
+                };
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadPODSitePOUSiteFact((new Faker()).Random.AlphaNumeric(10), new[] { rel });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRelationship = await db.PODSiteToPOUSiteFact.SingleAsync();
+
+                dbRelationship.PODSiteId.Should().Be(site.SiteId);
+                dbRelationship.POUSiteId.Should().Be(site2.SiteId);
+                dbRelationship.StartDate.Should().Be(rel.StartDate.Value);
+                dbRelationship.EndDate.Should().Be(rel.EndDate.Value);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSiteToSiteRelationship_LoadTwo()
+        {
+            SitesDim site;
+            SitesDim site2;
+            PODSitePOUSite rel;
+            PODSitePOUSite rel2;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+
+                site = await SitesDimBuilder.Load(db);
+                site2 = await SitesDimBuilder.Load(db);
+
+                rel = new PODSitePOUSite
+                {
+                    PODSiteUUID = site.SiteUuid,
+                    POUSiteUUID = site2.SiteUuid,
+                    StartDate = DateTime.Today,
+                    EndDate = DateTime.Today.AddDays(1),
+                };
+
+                rel2 = new PODSitePOUSite
+                {
+                    PODSiteUUID = site.SiteUuid,
+                    POUSiteUUID = site2.SiteUuid,
+                    StartDate = DateTime.Today.AddDays(1),
+                    EndDate = DateTime.Today.AddDays(2),
+                };
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadPODSitePOUSiteFact((new Faker()).Random.AlphaNumeric(10), new[] { rel, rel2 });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRelationships = db.PODSiteToPOUSiteFact;
+
+                dbRelationships.Count().Should().Be(2);
+
+                var dbRelationshipsList = dbRelationships.ToList();
+
+                dbRelationshipsList[0].PODSiteId.Should().Be(site.SiteId);
+                dbRelationshipsList[0].POUSiteId.Should().Be(site2.SiteId);
+                dbRelationshipsList[0].StartDate.Should().Be(rel.StartDate.Value);
+                dbRelationshipsList[0].EndDate.Should().Be(rel.EndDate.Value);
+
+                dbRelationshipsList[1].PODSiteId.Should().Be(site.SiteId);
+                dbRelationshipsList[1].POUSiteId.Should().Be(site2.SiteId);
+                dbRelationshipsList[1].StartDate.Should().Be(rel2.StartDate.Value);
+                dbRelationshipsList[1].EndDate.Should().Be(rel2.EndDate.Value);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSiteToSiteRelationship_LoadOne_NoEndDate()
+        {
+            SitesDim site;
+            SitesDim site2;
+            PODSitePOUSite rel;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+
+                site = await SitesDimBuilder.Load(db);
+                site2 = await SitesDimBuilder.Load(db);
+
+                rel = new PODSitePOUSite
+                {
+                    PODSiteUUID = site.SiteUuid,
+                    POUSiteUUID = site2.SiteUuid,
+                    StartDate = DateTime.Today,
+                    EndDate = null,
+                };
+            }
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.LoadPODSitePOUSiteFact((new Faker()).Random.AlphaNumeric(10), new[] { rel });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRelationship = await db.PODSiteToPOUSiteFact.SingleAsync();
+
+                dbRelationship.PODSiteId.Should().Be(site.SiteId);
+                dbRelationship.POUSiteId.Should().Be(site2.SiteId);
+                dbRelationship.StartDate.Should().Be(rel.StartDate.Value);
+                dbRelationship.EndDate.Should().Be(null);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
     }
 }

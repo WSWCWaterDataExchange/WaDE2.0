@@ -37,5 +37,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         Task<List<WaterSource>> GetWaterSources(string runId, int startIndex, int count);
         Task<int> GetWaterSourcesCount(string runId);
+
+        Task<List<PODSitePOUSite>> GetPODSiteToPOUSiteRelationships(string runId, int startIndex, int count);
+        Task<int> GetPODSiteToPOUSiteRelationshipsCount(string runId);
     }
 }

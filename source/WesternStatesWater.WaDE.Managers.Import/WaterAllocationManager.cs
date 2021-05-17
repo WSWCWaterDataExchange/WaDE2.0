@@ -80,6 +80,23 @@ namespace WesternStatesWater.WaDE.Managers.Import
             return await ImportWaterAllocationFileAccessor.GetWaterSourcesCount(runId);
         }
 
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadPODSiteToPOUSiteRelationships(string runId, int startIndex, int count)
+        {
+            var PODSitePOUSiteFacts = await ImportWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationships(runId, startIndex, count);
+
+            if (!PODSitePOUSiteFacts.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadPODSitePOUSiteFact(runId, PODSitePOUSiteFacts);
+        }
+
+        async Task<int> ManagerImport.IWaterAllocationManager.GetPODSiteToPOUSiteRelationshipsCount(string runId)
+        {
+            return await ImportWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationshipsCount(runId);
+        }
+
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId, int startIndex, int count)
         {
             var methods = await ImportWaterAllocationFileAccessor.GetMethods(runId, startIndex, count);

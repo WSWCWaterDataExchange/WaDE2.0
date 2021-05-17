@@ -133,6 +133,16 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetRecordCount(runId, "watersources.csv");
         }
 
+        async Task<List<AccessorImport.PODSitePOUSite>> AccessorImport.IWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationships(string runId, int startIndex, int count)
+        {
+            return await GetNormalizedData<AccessorImport.PODSitePOUSite>(runId, "podsitetopousiterelationships.csv", startIndex, count);
+        }
+
+        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationshipsCount(string runId)
+        {
+            return await GetRecordCount(runId, "podsitetopousiterelationships.csv");
+        }
+
         private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, int startIndex, int count)
         {
             var stream = await FileStreamFactory.GetStreamAsync(Configuration, runId, fileName);
