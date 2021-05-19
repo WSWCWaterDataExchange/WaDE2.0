@@ -114,12 +114,6 @@ namespace WesternStatesWater.WaDE.Accessors
                     .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
 
-                var waterSourceIds = results.Select(a => a.WaterSourceId).ToHashSet();
-                var waterSourceTask = db.WaterSourcesDim
-                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
-                    .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
-                    .ToListAsync();
-
                 var variableSpecificIds = results.Select(a => a.VariableSpecificId).ToHashSet();
                 var variableSpecificTask = db.VariablesDim
                     .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
@@ -133,6 +127,13 @@ namespace WesternStatesWater.WaDE.Accessors
                     .ToListAsync();
 
                 var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
+                
+                var waterSourceIds = sites.Select(a => a.Site.WaterSourceId).ToHashSet();
+                var waterSourceTask = db.WaterSourcesDim
+                    .Where(a => waterSourceIds.Contains(a.WaterSourceId))
+                    .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
+                
                 var beneficialUses = (await beneficialUseTask).Select(a => (a.AllocationAmountId, a.BeneficialUse)).ToList();
                 var waterSources = await waterSourceTask;
                 var variableSpecifics = await variableSpecificTask;
@@ -248,13 +249,8 @@ namespace WesternStatesWater.WaDE.Accessors
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
             var allocationIds = allocations.Select(a => a.AllocationAmountId).ToHashSet();
-            var waterSourceIds = allocations.Select(a => a.WaterSourceId).ToHashSet();
             var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
             var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
-
-            org.WaterSources = waterSources
-                .Where(a => waterSourceIds.Contains(a.WaterSourceId))
-                .Map<List<AccessorApi.WaterSource>>();
 
             org.VariableSpecifics = variableSpecifics
                 .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
@@ -282,7 +278,17 @@ namespace WesternStatesWater.WaDE.Accessors
                     .Where(a => a.AllocationAmountId == waterAllocation.AllocationAmountId)
                     .Select(a => a.Site)
                     .Map<List<AccessorApi.Site>>();
+
+                foreach (var site in waterAllocation.Sites)
+                {
+                    site.WaterSourceUUID = waterSources.First(a => a.WaterSourceId == site.WaterSourceId).WaterSourceUUID;
+                }
             }
+
+            var waterSourceIds = org.WaterAllocations.SelectMany(a => a.Sites.Select(b => b.WaterSourceId)).ToHashSet();
+            org.WaterSources = waterSources.Where(a => waterSourceIds.Contains(a.WaterSourceId)).ToList();
+            
+            
         }
 
         internal class AllocationHelper
@@ -290,8 +296,6 @@ namespace WesternStatesWater.WaDE.Accessors
             public long OrganizationId { get; set; }
             public long AllocationAmountId { get; set; }
             public string AllocationNativeID { get; set; }
-            public long WaterSourceId { get; set; }
-            public string WaterSourceUUID { get; set; }
             public string AllocationOwner { get; set; }
             public DateTime? AllocationApplicationDate { get; set; }
             public DateTime? AllocationPriorityDate { get; set; }
