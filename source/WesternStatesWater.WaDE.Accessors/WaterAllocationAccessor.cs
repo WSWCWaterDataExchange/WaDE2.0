@@ -128,6 +128,19 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 var sites = (await sitesTask).Select(a => (a.AllocationAmountId, a.Site)).ToList();
 
+                var sitesIds = sites.Select(a => a.Site.SiteId).ToHashSet();
+                var regulatoryOverlayIdsTask = db.RegulatoryOverlayBridgeSitesFact
+                    .Where(a => sitesIds.Contains(a.SiteId))
+                    .Select(a => a.RegulatoryOverlayId)
+                    .ToListAsync();
+
+                var regulatoryOverlayIds = await regulatoryOverlayIdsTask;
+
+                var regulatoryOverlayTask = db.RegulatoryOverlayDim
+                    .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
+                    .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)
+                    .ToListAsync();
+                
                 var waterSourceIds = sites.Select(a => a.Site.WaterSourceId).ToHashSet();
                 var waterSourceTask = db.WaterSourcesDim
                     .Where(a => waterSourceIds.Contains(a.WaterSourceId))
@@ -142,11 +155,12 @@ namespace WesternStatesWater.WaDE.Accessors
                 var waterSources = await waterSourceTask;
                 var variableSpecifics = await variableSpecificTask;
                 var methods = await methodTask;
+                var regulatorOverlays = await regulatoryOverlayTask;
 
                 var waterAllocationOrganizations = new List<AccessorApi.WaterAllocationOrganization>();
                 foreach (var org in await orgsTask)
                 {
-                    ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites, siteRelationships);
+                    ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites, siteRelationships, regulatorOverlays);
                     waterAllocationOrganizations.Add(org);
                 }
 
@@ -249,15 +263,17 @@ namespace WesternStatesWater.WaDE.Accessors
             List<AccessorApi.Method> methods,
             List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
             List<(long AllocationAmountId, SitesDim Site)> sites,
-            List<PODSiteToPOUSiteFact> siteRelationships)
+            List<PODSiteToPOUSiteFact> siteRelationships,
+            List<AccessorApi.RegulatoryOverlay> regulatoryOverlays
+            )
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
             var allocationIds = allocations.Select(a => a.AllocationAmountId).ToHashSet();
             var variableSpecificIds = allocations.Select(a => a.VariableSpecificId).ToHashSet();
             var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
-
-            org.VariableSpecifics = variableSpecifics
+                
+                org.VariableSpecifics = variableSpecifics
                 .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
                 .Map<List<AccessorApi.VariableSpecific>>();
 
@@ -270,6 +286,8 @@ namespace WesternStatesWater.WaDE.Accessors
                 .Select(a => a.BeneficialUse)
                 .DistinctBy(a => a.Name)
                 .Map<List<AccessorApi.BeneficialUse>>();
+
+            org.RegulatoryOverlays = regulatoryOverlays;
 
             org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
 
@@ -298,8 +316,6 @@ namespace WesternStatesWater.WaDE.Accessors
 
             var waterSourceIds = org.WaterAllocations.SelectMany(a => a.Sites.Select(b => b.WaterSourceId)).ToHashSet();
             org.WaterSources = waterSources.Where(a => waterSourceIds.Contains(a.WaterSourceId)).ToList();
-            
-            
         }
 
         internal class AllocationHelper

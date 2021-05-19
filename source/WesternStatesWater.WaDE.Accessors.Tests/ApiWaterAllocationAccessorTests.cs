@@ -24,10 +24,13 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             AllocationAmountsFact allocationAmountsFact;
             SitesDim siteDim;
             WaterSourcesDim waterSourceDim;
+            RegulatoryOverlayDim regulatoryOverlayDim;
             using (var db = new WaDEContext(configuration))
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
                 waterSourceDim = await WaterSourcesDimBuilder.Load(db);
+                regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
+                
                 siteDim = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
                 {
                     WaterSourcesDim = waterSourceDim
@@ -38,6 +41,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     AllocationAmountsFact = allocationAmountsFact
                 });
 
+                var regulatoryOverlaySiteBridge = await RegulatoryOverlayBridgeSitesFactBuilder.Load(db,
+                    new RegulatoryOverlayBridgeSitesFactBuilderOptions
+                    {
+                        SitesDim = siteDim,
+                        RegulatoryOverlayDim = regulatoryOverlayDim
+                    });
                 allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
             }
 
@@ -56,8 +65,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.WaterAllocations[0].Sites.Should().HaveCount(1); 
             org.WaterAllocations[0].Sites[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
 
-            org.WaterSources.Count.Should().Be(1);
+            org.WaterSources.Should().HaveCount(1);
             org.WaterSources[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
+            
+            org.RegulatoryOverlays.Should().HaveCount(1);
+            org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
         }
 
         [TestMethod]

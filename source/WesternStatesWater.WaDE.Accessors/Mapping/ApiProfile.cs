@@ -19,7 +19,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.VariableSpecifics, b => b.Ignore())
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.WaterAllocations, b => b.Ignore());
+                .ForMember(a => a.WaterAllocations, b => b.Ignore())
+                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore());
 
             CreateMap<EF.AllocationAmountsFact, WaterAllocationAccessor.AllocationHelper>()
                 .ForMember(a => a.AllocationNativeID, b => b.MapFrom(c => c.AllocationNativeId))
