@@ -27,6 +27,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.County, f => opts.Site.County)
                 .RuleFor(a => a.PODorPOUSite, f => opts.Site.PODorPOUSite)
                 .RuleFor(a => a.RegulatoryOverlayUUIDs,  f => string.Join(',' ,opts.RegulatoryOverlayDims.Select(x => x.RegulatoryOverlayUuid)))
+                .RuleFor(a => a.WaterSourceUUID, f => opts.Site.WaterSource?.WaterSourceUuid)
                 ;
 
             return faker;

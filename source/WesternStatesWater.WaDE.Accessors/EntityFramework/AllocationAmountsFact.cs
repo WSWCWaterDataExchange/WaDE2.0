@@ -14,7 +14,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long AllocationAmountId { get; set; }
         public long OrganizationId { get; set; }
         public long VariableSpecificId { get; set; }
-        public long WaterSourceId { get; set; }
         public long MethodId { get; set; }
         public string PrimaryUseCategoryCV { get; set; }
         public long DataPublicationDateId { get; set; }
@@ -63,7 +62,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual OrganizationsDim Organization { get; set; }
         public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
-        public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual CropType CropType { get; set; }
         public virtual CustomerType CustomerType { get; set; }
         public virtual SDWISIdentifier SDWISIdentifier { get; set; }

@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                     .RuleFor(a => a.TimeframeStartID, f => opts.TimeframeStart?.DateId ?? DateDimBuilder.GenerateId())
                     .RuleFor(a => a.TimeframeEndID, f => opts.TimeframeEnd?.DateId ?? DateDimBuilder.GenerateId())
                     .RuleFor(a => a.DataPublicationDateID, f => opts.DataPublicationDate?.DateId ?? DateDimBuilder.GenerateId())
-                    .RuleFor(a => a.DataPublicationDoi, f => f.Random.Words(3))
+                    .RuleFor(a => a.DataPublicationDoi, f => f.Random.Words(2))
                     .RuleFor(a => a.ReportYearCv, f => opts.ReportYearCv?.Name)
                     .RuleFor(a => a.Amount, f => opts.Amount ?? f.Random.Double(1, 10000))
                     .RuleFor(a => a.PrimaryUseCategoryCV, f => opts.PrimaryBeneficialUsesCv?.Name)

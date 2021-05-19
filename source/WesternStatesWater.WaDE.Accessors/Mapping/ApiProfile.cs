@@ -19,13 +19,16 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.VariableSpecifics, b => b.Ignore())
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.WaterAllocations, b => b.Ignore());
+                .ForMember(a => a.WaterAllocations, b => b.Ignore())
+                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore());
 
             CreateMap<EF.AllocationAmountsFact, WaterAllocationAccessor.AllocationHelper>()
                 .ForMember(a => a.AllocationNativeID, b => b.MapFrom(c => c.AllocationNativeId))
                 .ForMember(a => a.AllocationPriorityDate, b => b.MapFrom(c => c.AllocationPriorityDateNavigation.Date))
-                .ForMember(a => a.AllocationExpirationDate, b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
-                .ForMember(a => a.AllocationApplicationDate, b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
+                .ForMember(a => a.AllocationExpirationDate,
+                    b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
+                .ForMember(a => a.AllocationApplicationDate,
+                    b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date))
                 .ForMember(a => a.AllocationLegalStatusCodeCV, b => b.MapFrom(c => c.AllocationLegalStatusCv))
                 .ForMember(a => a.AllocationSDWISIdentifier, b => b.MapFrom(c => c.SdwisidentifierCV))
@@ -33,8 +36,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificCv))
                 .ForMember(a => a.TimeframeStart, b => b.Ignore())
-                .ForMember(a => a.TimeframeEnd, b => b.Ignore())
-                .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid));
+                .ForMember(a => a.TimeframeEnd, b => b.Ignore());
 
             CreateMap<EF.BeneficialUsesCV, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.USGSCategory, b => b.MapFrom(c => c.UsgscategoryNameCv))
@@ -49,7 +51,14 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
                  .ForMember(a => a.County, b => b.MapFrom(c => c.County))
                  .ForMember(a => a.HUC8, b => b.MapFrom(c => c.HUC8))
-                 .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12));
+                 .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
+                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
+                 .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
+                 .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
+
+            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PODToPOUSiteRelationship>()
+                .ForMember(a => a.PODSiteUUID, b => b.MapFrom(c => c.PODSite.SiteUuid))
+                .ForMember(a => a.POUSiteUUID, b => b.MapFrom(c => c.POUSite.SiteUuid));
 
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))

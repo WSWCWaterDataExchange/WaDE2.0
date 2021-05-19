@@ -1,73 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Bogus;
 using WesternStatesWater.WaDE.Accessors.Contracts.Import;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
-namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
+namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
 
-    public static class SiteRelationshipBuilder
+    public static class SiteRelationshipFactBuilder
     {
-        public static PODSitePOUSite Create()
+        public static PODSiteToPOUSiteFact Create()
         {
             return Create();
         }
 
-        public static PODSitePOUSite Create(SiteRelationshipBuilderOptions opt)
+        public static PODSiteToPOUSiteFact Create(SiteRelationshipBuilderOptions opt)
         {
-            var faker = new Faker<PODSitePOUSite>()
-                .RuleFor(a => a.PODSiteUUID, f => f.Random.Uuid().ToString())
-                .RuleFor(a => a.POUSiteUUID, f => f.Random.Uuid().ToString())
+            var faker = new Faker<PODSiteToPOUSiteFact>()
+                .RuleFor(a => a.PODSiteId, f => opt.PODSite ?? f.Random.Long())
+                .RuleFor(a => a.POUSiteId, f => opt.POUSite ?? f.Random.Long())
                 .RuleFor(a => a.StartDate, f => f.Date.Past(5))
                 .RuleFor(a => a.EndDate, f => f.Date.Past(2))
-                //.RuleFor(a => a.StartDate, f => f.Random.Uuid().ToString())
-                //.RuleFor(a => a.WaterSourceUUID, f => f.Random.Uuid().ToString())
-                //.RuleFor(a => a.MethodUUID, f => f.Random.Uuid().ToString())
-                //.RuleFor(a => a.DataPublicationDate, f => f.Date.Past(5))
-                //.RuleFor(a => a.DataPublicationDOI, f => f.Random.Words(5))
-                //.RuleFor(a => a.AllocationNativeID, f => f.Random.Uuid().ToString())
-
-                //.RuleFor(a => a.AllocationExpirationDate, f => f.Date.Past(5))
-                //.RuleFor(a => a.AllocationOwner, f => f.Name.FullName())
-                //.RuleFor(a => a.AllocationTimeframeStart, f => f.Random.AlphaNumeric(5))
-                //.RuleFor(a => a.AllocationTimeframeEnd, f => f.Random.AlphaNumeric(5))
-                //.RuleFor(a => a.AllocationFlow_CFS, f => f.Random.Double(0, 10000).ToString())
-                //.RuleFor(a => a.AllocationVolume_AF, f => f.Random.Double(0, 10000).ToString())
-                //.RuleFor(a => a.AllocationCommunityWaterSupplySystem, f => f.Address.City())
                 ;
 
-            //switch (opts.RecordType ?? (new Faker()).PickRandom<SiteRelationshipBuilderRecordType>())
-            //{
-            //    case SiteRelationshipBuilderRecordType.Ag:
-            //        faker.RuleFor(a => a.IrrigatedAcreage, f => f.Random.Double(0, 10000).ToString())
-            //            .RuleFor(a => a.AllocationCropDutyAmount, f => f.Random.Double(0, 50000).ToString());
-            //        break;
-            //    case SiteRelationshipBuilderRecordType.Power:
-            //        faker.RuleFor(a => a.GeneratedPowerCapacityMW, f => f.Random.Double(0, 10000).ToString());
-            //        break;
-            //    case SiteRelationshipBuilderRecordType.Civilian:
-            //        faker.RuleFor(a => a.PopulationServed, f => f.Random.Long(0, 10000000).ToString())
-            //            .RuleFor(a => a.CommunityWaterSupplySystem, f => f.Address.City());
-            //        break;
-            //}
 
             return faker;
         }
+
+        public static async Task<PODSiteToPOUSiteFact> Load(WaDEContext db)
+        {
+            return await Load(db, new SiteRelationshipBuilderOptions());
+        }
+
+        public static async Task<PODSiteToPOUSiteFact> Load(WaDEContext db, SiteRelationshipBuilderOptions opts)
+        {
+            var item = Create(opts);
+
+            db.PODSiteToPOUSiteFact.Add(item);
+            await db.SaveChangesAsync();
+
+            return item;
+        }
+
     }
 
     public class SiteRelationshipBuilderOptions
     {
-        public string site1 { get; set; }
-        public string site2 { get; set; }
+        public long? PODSite { get; set; }
+        public long? POUSite { get; set; }
     }
-
-//    public enum SiteRelationshipBuilderRecordType
-//    {
-//        None,
-//        Power,
-//        Civilian,
-//        Ag
-//    }
 }

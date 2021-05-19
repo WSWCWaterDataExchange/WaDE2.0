@@ -176,6 +176,12 @@ namespace WesternStatesWater.WaDE.DbUp
                 FROM sys.column_master_keys
                 ORDER BY NAME;
 
+                --user defined types
+                SELECT @Sql = @Sql + 'DROP TYPE '+ QUOTENAME(s.Name) +'.' + QUOTENAME(t.NAME) + ';' + CHAR(13)
+                FROM sys.types t inner join
+                     sys.schemas s on t.schema_id = s.schema_id
+                WHERE t.is_user_defined = 1;
+
                 EXECUTE sp_executesql @Sql;
                 ";
 
