@@ -22,7 +22,6 @@ BEGIN
         ,vb.VariableSpecificID
         ,wt.WaterSourceID
 		,mt.MethodID
-		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
 						AND CustomerTypeCV IS NULL AND SDWISIdentifier IS NULL
@@ -42,14 +41,26 @@ BEGIN
 		LEFT OUTER JOIN Core.Variables_dim vb ON ssa.VariableSpecificUUID = vb.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim wt ON ssa.WaterSourceUUID = wt.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON ssa.PrimaryUseCategory=bs.Name
-		LEFT OUTER JOIN CVs.BeneficialUses bu ON ssa.BeneficialUseCategory=bu.Name
 		LEFT OUTER JOIN Core.Methods_dim mt ON ssa.MethodUUID = mt.MethodUUID;
 	
+	--set up missing Core.BeneficialUses_dim entries
+    SELECT
+        ssa.RowNumber
+        ,BeneficialUse = buTable.Name
+    INTO
+        #TempBeneficialUsesData
+    FROM
+        #TempSiteSpecificAmountData ssa CROSS APPLY
+        STRING_SPLIT(ssa.BeneficialUseCategory, ',') bu left outer join
+		CVs.BeneficialUses buTable ON buTable.Name=TRIM(bu.[Value])
+    WHERE
+        ssa.BeneficialUseCategory IS NOT NULL
+        AND bu.[Value] IS NOT NULL
+        AND LEN(TRIM(bu.[Value])) > 0;
 
     --data validation
     WITH q1 AS
     (
-	
         SELECT 'OrganizationID Not Valid' Reason, *
         FROM #TempJoinedSiteSpecificAmountData 
         WHERE OrganizationID IS NULL
@@ -82,9 +93,10 @@ BEGIN
 		FROM #TempJoinedSiteSpecificAmountData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
 		UNION ALL
-		SELECT 'BeneficialUseCategory Not Valid' Reason, *
-		FROM #TempJoinedSiteSpecificAmountData
-		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, tjssad.*
+		FROM #TempBeneficialUsesData tbud inner join
+		     #TempJoinedSiteSpecificAmountData tjssad on tjssad.RowNumber = tbud.RowNumber
+		WHERE tbud.BeneficialUse IS NULL
     )
     SELECT * INTO #TempErrorSiteSpecificAmountRecords FROM q1;
 
@@ -94,43 +106,7 @@ BEGIN
         INSERT INTO Core.ImportErrors ([Type], [RunId], [Data])
         VALUES ('SiteSpecificAmounts', @RunId, (SELECT * FROM #TempErrorSiteSpecificAmountRecords order by rownumber FOR JSON PATH));
         RETURN 1;
-    END
-
-    --set up missing Core.BeneficialUses_dim entries
-    SELECT
-        ssa.RowNumber
-        ,BeneficialUse = TRIM(bu.[Value])
-    INTO
-        #TempBeneficialUsesData
-    FROM
-        #TempSiteSpecificAmountData ssa
-        CROSS APPLY STRING_SPLIT(ssa.BeneficialUseCategory, ',') bu
-    WHERE
-        ssa.PrimaryUseCategory IS NOT NULL
-        AND bu.[Value] IS NOT NULL
-        AND LEN(TRIM(bu.[Value])) > 0;
-
-	--INSERT INTO
- --       CVs.BeneficialUses(Name)
- --   SELECT DISTINCT
- --       bud.BeneficialUse
- --   FROM
- --       #TempBeneficialUsesData bud
- --       LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
- --   WHERE
- --       bu.Name IS NULL;
-
- --   INSERT INTO
- --       CVs.BeneficialUses(Name)
- --   SELECT DISTINCT
- --       ssa.PrimaryUseCategory
- --   FROM
- --       #TempSiteSpecificAmountData ssa
- --       LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = ssa.PrimaryUseCategory
- --   WHERE
- --       bu.Name IS NULL
- --       AND ssa.PrimaryUseCategory IS NOT NULL
- --       AND LEN(TRIM(ssa.PrimaryUseCategory)) > 0;
+    END;
     
     --set up missing Core.Date_dim entries
     WITH q1 AS

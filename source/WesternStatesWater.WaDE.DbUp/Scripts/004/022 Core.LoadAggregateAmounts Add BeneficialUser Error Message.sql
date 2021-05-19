@@ -22,7 +22,6 @@ BEGIN
 		,vb.VariableSpecificID
 		,mt.MethodID
         ,wt.WaterSourceID
-		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
 						AND CustomerType IS NULL AND SDWISIdentifier IS NULL
@@ -41,9 +40,21 @@ BEGIN
         LEFT OUTER JOIN Core.Variables_dim vb ON aad.VariableSpecificUUID = vb.VariableSpecificUUID
         LEFT OUTER JOIN Core.Methods_dim mt ON aad.MethodUUID = mt.MethodUUID
 	    LEFT OUTER JOIN CVs.BeneficialUses bs ON aad.PrimaryUseCategory = bs.Name
-		LEFT OUTER JOIN CVs.BeneficialUses bu ON aad.BeneficialUseCategory=bu.Name
         LEFT OUTER JOIN Core.WaterSources_dim wt ON aad.WaterSourceUUID = wt.WaterSourceUUID;
 
+	--set up missing Core.BeneficialUses_dim entries
+    SELECT
+        aad.RowNumber
+        ,BeneficialUse = buTable.Name
+    INTO
+        #TempBeneficialUsesData
+    FROM
+        #TempAggregatedAmountData aad CROSS APPLY
+        STRING_SPLIT(aad.BeneficialUseCategory, ',') bu left outer join
+		CVs.BeneficialUses buTable ON buTable.Name=TRIM(bu.[Value])
+    WHERE
+        bu.[Value] IS NOT NULL
+        AND LEN(TRIM(bu.[Value])) > 0;
 		
     --data validation
     WITH q1 AS
@@ -82,9 +93,10 @@ BEGIN
 		FROM #TempJoinedAggregatedAmountData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
 		UNION ALL
-		SELECT 'BeneficialUseCategory Not Valid' Reason, *
-		FROM #TempJoinedAggregatedAmountData
-		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, tjaad.*
+		FROM #TempBeneficialUsesData tbud inner join
+		     #TempJoinedAggregatedAmountData tjaad on tjaad.RowNumber = tbud.RowNumber
+		WHERE tbud.BeneficialUse IS NULL
 
     )
     SELECT * INTO #TempErrorAggregatedAmountRecords FROM q1;
@@ -96,44 +108,7 @@ BEGIN
         INSERT INTO Core.ImportErrors ([Type], [RunId], [Data])
         VALUES ('AggregatedAmounts', @RunId, (SELECT * FROM #TempErrorAggregatedAmountRecords FOR JSON PATH));
         RETURN 1;
-    END
-
-	
-
-    --set up missing Core.BeneficialUses_dim entries
-    SELECT
-        aad.RowNumber
-        ,BeneficialUse = TRIM(bu.[Value])
-    INTO
-        #TempBeneficialUsesData
-    FROM
-        #TempAggregatedAmountData aad
-        CROSS APPLY STRING_SPLIT(aad.BeneficialUseCategory, ',') bu
-    WHERE
-        bu.[Value] IS NOT NULL
-        AND LEN(TRIM(bu.[Value])) > 0;
-    
-    --INSERT INTO
-    --    CVs.BeneficialUses(Name)
-    --SELECT DISTINCT
-    --    bud.BeneficialUse
-    --FROM
-    --    #TempBeneficialUsesData bud
-    --    LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
-    --WHERE
-    --    bu.Name IS NULL;
-
-    --INSERT INTO
-    --    CVs.BeneficialUses(Name)
-    --SELECT DISTINCT
-    --    aad.PrimaryUseCategory
-    --FROM
-    --    #TempAggregatedAmountData aad
-    --    LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = aad.PrimaryUseCategory
-    --WHERE
-    --    bu.Name IS NULL
-    --    AND aad.PrimaryUseCategory IS NOT NULL
-    --    AND LEN(TRIM(aad.PrimaryUseCategory)) > 0;
+    END;
     
     --set up missing Core.Date_dim entries
     WITH q1 AS

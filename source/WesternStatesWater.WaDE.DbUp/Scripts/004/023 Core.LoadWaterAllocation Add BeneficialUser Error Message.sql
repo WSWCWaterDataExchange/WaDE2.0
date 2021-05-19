@@ -1,5 +1,4 @@
-﻿/****** Object:  StoredProcedure [Core].[LoadWaterAllocation]    Script Date: 5/6/2021 2:49:51 PM ******/
-SET ANSI_NULLS ON
+﻿SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
@@ -21,7 +20,6 @@ BEGIN
 		,v.VariableSpecificID
 		,ws.WaterSourceID
 		,m.MethodID
-		,bu.Name BeneficialUseCategoryCV
 		,bs.Name PrimaryUseCategoryCV
 		,oc.[Name] OwnerClassificationFK
 		,CASE WHEN PopulationServed IS NULL AND CommunityWaterSupplySystem IS NULL 
@@ -40,10 +38,23 @@ BEGIN
 		LEFT OUTER JOIN Core.Variables_dim v ON v.VariableSpecificUUID = wad.VariableSpecificUUID
 		LEFT OUTER JOIN Core.WaterSources_dim ws ON ws.WaterSourceUUID = wad.WaterSourceUUID
 		LEFT OUTER JOIN CVs.BeneficialUses bs ON bs.Name=wad.PrimaryUseCategory
-		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name=wad.BeneficialUseCategory
 		LEFT OUTER JOIN Core.Methods_dim m ON m.MethodUUID = wad.MethodUUID
 		LEFT OUTER JOIN CVs.OwnerClassification oc ON oc.[Name] = wad.OwnerClassificationCV;
 		
+	--set up missing Core.BeneficialUses_dim entries
+	SELECT
+		wad.RowNumber
+		,BeneficialUse = buTable.Name
+	INTO
+		#TempBeneficialUsesData
+	FROM
+		#TempWaterAllocationData wad CROSS APPLY
+		STRING_SPLIT(wad.BeneficialUseCategory, ',') bu left outer join
+		CVs.BeneficialUses buTable ON buTable.Name=TRIM(bu.[Value])
+	WHERE
+		bu.[Value] IS NOT NULL
+		AND LEN(TRIM(bu.[Value])) > 0;
+
 	--data validation
 	WITH q1 AS
 	(
@@ -70,12 +81,10 @@ BEGIN
 		SELECT 'DataPublicationDate Not Valid' Reason, *
 		FROM #TempJoinedWaterAllocationData
 		WHERE DataPublicationDate IS NULL
-		--//////////////////////////////s
 		UNION ALL
 		SELECT 'Cross Group Not Valid' Reason, *
         FROM #TempJoinedWaterAllocationData
         WHERE CategoryCount >1
-		--//////////////////////////////////e
 		UNION ALL
 		SELECT 'Allocation Not Exempt of Volume Flow Priority' Reason, *
 		FROM #TempJoinedWaterAllocationData
@@ -86,9 +95,10 @@ BEGIN
 		FROM #TempJoinedWaterAllocationData
 		WHERE PrimaryUseCategory IS NOT NULL AND PrimaryUseCategoryCV IS NULL
 		UNION ALL
-		SELECT 'BeneficialUseCategory Not Valid' Reason, *
-		FROM #TempJoinedWaterAllocationData
-		WHERE BeneficialUseCategory IS NOT NULL AND BeneficialUseCategoryCV IS NULL
+		SELECT 'BeneficialUseCategory Not Valid' Reason, tjwad.*
+		FROM #TempBeneficialUsesData tbud inner join
+		     #TempJoinedWaterAllocationData tjwad on tjwad.RowNumber = tbud.RowNumber
+		WHERE tbud.BeneficialUse IS NULL
 	)
 	SELECT * INTO #TempErrorWaterAllocationRecords FROM q1;
 
@@ -99,41 +109,6 @@ BEGIN
 		VALUES ('WaterAllocations', @RunId, (SELECT * FROM #TempErrorWaterAllocationRecords FOR JSON PATH));
 		RETURN 1;
 	END
-
-	--set up missing Core.BeneficialUses_dim entries
-	SELECT
-		wad.RowNumber
-		,BeneficialUse = TRIM(bu.[Value]) 
-	INTO
-		#TempBeneficialUsesData
-	FROM
-		#TempWaterAllocationData wad
-		CROSS APPLY STRING_SPLIT(wad.BeneficialUseCategory, ',') bu
-	WHERE
-		bu.[Value] IS NOT NULL
-		AND LEN(TRIM(bu.[Value])) > 0;
-
-	--INSERT INTO
-	--	CVs.BeneficialUses(Name)
- --   SELECT DISTINCT
-	--	bud.BeneficialUse
- --   FROM
-	--	#TempBeneficialUsesData bud
-	--	LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
- --     WHERE
-	--	bu.Name IS NULL;
-
-	--INSERT INTO
-	--	CVs.BeneficialUses(Name)
-	--SELECT DISTINCT
-	--	wad.PrimaryUseCategory
-	--FROM
-	--	#TempWaterAllocationData wad
-	--	LEFT OUTER JOIN CVs.BeneficialUses bu on bu.Name = wad.PrimaryUseCategory
-	--WHERE
-	--	bu.Name IS NULL
-	--	AND wad.PrimaryUseCategory IS NOT NULL
-	--	AND LEN(TRIM(wad.PrimaryUseCategory)) > 0;
 
 	--set up missing Core.Sites_dim entries
 	SELECT
@@ -343,32 +318,65 @@ BEGIN
 	INTO
 		#AllocationAmountRecords;
 
-	
-	--insert into Core.AllocationBridge_BeneficialUses_fact
-	INSERT INTO Core.AllocationBridge_BeneficialUses_fact (BeneficialUseCV, AllocationAmountID)
-	SELECT DISTINCT
-		bu.Name
-		,aar.AllocationAmountID
-	FROM
-		#AllocationAmountRecords aar
-		LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
-	WHERE
-		bu.Name IS NOT NULL AND
-		NOT EXISTS(SELECT 1 from Core.AllocationBridge_BeneficialUses_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.BeneficialUseCV = bu.Name);
+	--merge updates into Core.AllocationBridge_BeneficialUses_fact
+	with q1 as (
+		select *
+		  from Core.AllocationBridge_BeneficialUses_fact abbuf
+		  where abbuf.AllocationAmountID in (select AllocationAmountID from #AllocationAmountRecords)
+	),
+	q2 as (
+		SELECT DISTINCT
+			bu.Name
+			,aar.AllocationAmountID
+		FROM
+			#AllocationAmountRecords aar
+			LEFT OUTER JOIN #TempBeneficialUsesData bud ON bud.RowNumber = aar.RowNumber
+			LEFT OUTER JOIN CVs.BeneficialUses bu ON bu.Name = bud.BeneficialUse
+		WHERE
+			bu.Name IS NOT NULL
+	)
+	MERGE INTO q1 AS Target
+	USING q2 AS Source ON
+		target.AllocationAmountID = source.AllocationAmountID and
+		target.BeneficialUseCv = source.Name
+	WHEN NOT MATCHED THEN
+		INSERT
+			(AllocationAmountID, BeneficialUseCv)
+		VALUES
+			(Source.AllocationAmountID, Source.Name)
+	WHEN Not matched by source THEN
+	  DELETE;
 
-	--insert into Core.AllocationBridge_Sites_fact
-	INSERT INTO Core.AllocationBridge_Sites_fact (SiteID, AllocationAmountID)
-	SELECT DISTINCT
-		s.SiteID
-		,aar.AllocationAmountID
-	FROM
-		#AllocationAmountRecords aar
-		LEFT OUTER JOIN #TempSitesData siteData ON siteData.RowNumber = aar.RowNumber
-		LEFT OUTER JOIN Sites_dim s ON s.SiteUUID = siteData.SiteUUID
-	WHERE
-		s.SiteID IS NOT NULL AND
-		NOT EXISTS(SELECT 1 from Core.AllocationBridge_Sites_fact innerAB where innerAB.AllocationAmountID = aar.AllocationAmountID and innerAB.SiteID = s.SiteID);
+	--merge updates into Core.AllocationBridge_Sites_fact
+	with q1 as (
+		select *
+		  from Core.AllocationBridge_Sites_fact absf
+		  where absf.AllocationAmountID in (select AllocationAmountID from #AllocationAmountRecords)
+	),
+	q2 as (
+		SELECT DISTINCT
+			s.SiteID
+			,aar.AllocationAmountID
+		FROM
+			#AllocationAmountRecords aar
+			LEFT OUTER JOIN #TempSitesData siteData ON siteData.RowNumber = aar.RowNumber
+			LEFT OUTER JOIN Sites_dim s ON s.SiteUUID = siteData.SiteUUID
+		WHERE
+			s.SiteID IS NOT NULL
+	)
+	MERGE INTO q1 AS Target
+	USING q2 AS Source ON
+		target.AllocationAmountID = source.AllocationAmountID and
+		target.SiteID = source.SiteID
+	WHEN NOT MATCHED THEN
+		INSERT
+			(AllocationAmountID, SiteID)
+		VALUES
+			(Source.AllocationAmountID, Source.SiteID)
+	WHEN Not matched by source THEN
+	  DELETE;
+
 	RETURN 0;
 
 END
+GO
