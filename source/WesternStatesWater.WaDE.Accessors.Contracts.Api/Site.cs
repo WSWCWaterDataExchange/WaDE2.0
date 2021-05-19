@@ -15,6 +15,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string HUC12 { get; set; }
         public string County { get; set; }
         public string PODorPOUSite { get; set; }
+        public List<PODToPOUSiteRelationship> RelatedPODSites { get; set; }
+        public List<PODToPOUSiteRelationship> RelatedPOUSites { get; set; }
         public long WaterSourceId { get; set; }
         public string WaterSourceUUID { get; set; }
     }

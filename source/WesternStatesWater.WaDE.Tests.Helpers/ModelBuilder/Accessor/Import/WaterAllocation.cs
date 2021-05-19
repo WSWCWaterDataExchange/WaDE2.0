@@ -23,7 +23,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.SiteUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.MethodUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.DataPublicationDate, f => f.Date.Past(5))
-                .RuleFor(a => a.DataPublicationDOI, f => f.Random.Words(5))
+                .RuleFor(a => a.DataPublicationDOI, f => f.Random.Words(2))
                 .RuleFor(a => a.AllocationNativeID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.AllocationApplicationDate, f => f.Date.Past(5))
                 .RuleFor(a => a.AllocationPriorityDate, f => f.Date.Past(5))

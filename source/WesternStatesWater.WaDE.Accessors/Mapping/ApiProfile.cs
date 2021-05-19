@@ -51,7 +51,13 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.County, b => b.MapFrom(c => c.County))
                  .ForMember(a => a.HUC8, b => b.MapFrom(c => c.HUC8))
                  .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
-                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid));
+                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
+                 .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
+                 .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
+
+            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PODToPOUSiteRelationship>()
+                .ForMember(a => a.PODSiteUUID, b => b.MapFrom(c => c.PODSite.SiteUuid))
+                .ForMember(a => a.POUSiteUUID, b => b.MapFrom(c => c.POUSite.SiteUuid));
 
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))
