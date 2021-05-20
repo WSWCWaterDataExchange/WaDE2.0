@@ -1,0 +1,2 @@
+ALTER TABLE [CVs].[WaterAllocationType] ALTER COLUMN [State] NVARCHAR (250) NOT NULL;
+ALTER TABLE [CVs].[WaterAllocationBasis] ALTER COLUMN [State] NVARCHAR (250) NOT NULL;
