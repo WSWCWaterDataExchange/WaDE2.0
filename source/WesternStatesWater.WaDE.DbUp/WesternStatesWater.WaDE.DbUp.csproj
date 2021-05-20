@@ -123,6 +123,7 @@
     <None Remove="Scripts\004\024 OneWaterSourceToManySitesTableUpdates.sql" />
     <None Remove="Scripts\004\025 LoadWaterAllocation_RemoveWaterSourceID.sql" />
     <None Remove="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
+    <None Remove="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -402,6 +403,7 @@
     <EmbeddedResource Include="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
     <EmbeddedResource Include="Scripts\004\024 OneWaterSourceToManySitesTableUpdates.sql" />
     <EmbeddedResource Include="Scripts\004\025 LoadWaterAllocation_RemoveWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
     <EmbeddedResource Include="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
   </ItemGroup>
 
