@@ -1,7 +1,6 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MoreLinq;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System;

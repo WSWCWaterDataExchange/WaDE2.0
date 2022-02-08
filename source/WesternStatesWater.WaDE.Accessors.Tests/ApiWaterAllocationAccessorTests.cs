@@ -408,7 +408,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
-            SitesDim site;
             using (var db = new WaDEContext(configuration))
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
