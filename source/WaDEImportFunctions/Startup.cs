@@ -29,8 +29,8 @@ namespace WaDEImportFunctions
             builder.Services.AddTransient<ManagerImport.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<ManagerImport.IExcelFileConversionManager, ExcelFileConversionManager>();
             builder.Services.AddTransient<ManagerImport.IFlattenManager, FlattenManager>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationAccessor, WaterAllocationAccessor>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationFileAccessor, WaterAllocationFileAccessor>();
+            builder.Services.AddTransient<AccessorImport.IDataIngestionAccessor, DataIngestionAccessor>();
+            builder.Services.AddTransient<AccessorImport.IDataIngestionFileAccessor, DataIngestionFileAccessor>();
             builder.Services.AddTransient<AccessorImport.IBlobFileAccessor, BlobFileAccessor>();
         }
     }

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
 using System.Collections.Generic;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -20,7 +19,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string WaterSourceTypeCv { get; set; }
         public string WaterQualityIndicatorCv { get; set; }
         public string GnisfeatureNameCv { get; set; }
-        public IGeometry Geometry { get; set; }
+        public Geometry Geometry { get; set; }
 
         public virtual GnisfeatureName GnisfeatureNameCvNavigation { get; set; }
         public virtual WaterQualityIndicator WaterQualityIndicatorCvNavigation { get; set; }

@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-using Bogus;
-using GeoAPI.Geometries;
-using NetTopologySuite;
-using NetTopologySuite.IO;
+﻿using Bogus;
+using NetTopologySuite.Geometries;
+using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
@@ -16,9 +14,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static SitesDim Create(SitesDimBuilderOptions opts)
         {
-            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-            WKTReader shapeMaker = new WKTReader(geometryFactory);                        
-
             var faker = new Faker<SitesDim>()
                 .RuleFor(a => a.SiteUuid, f => f.Random.AlphaNumeric(55))
                 .RuleFor(a => a.SiteNativeId, f => f.Random.AlphaNumeric(50))
@@ -28,8 +23,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SiteTypeCv, f => opts.SiteTypeCvNavigation?.Name)
                 .RuleFor(a => a.Longitude, f => f.Random.Double(1))
                 .RuleFor(a => a.Latitude, f => f.Random.Double(1))
-                //.RuleFor(a => a.SitePoint, f => shapeMaker.Read(f.Random.AlphaNumeric(10)))
-                //.RuleFor(a => a.Geometry, f => shapeMaker.Read(f.Random.AlphaNumeric(10)))
+                .RuleFor(a => a.SitePoint, f => opts.SitePoint)
+                .RuleFor(a => a.Geometry, f => opts.Geometry)
                 .RuleFor(a => a.CoordinateMethodCv, f => opts.CoordinateMethodCvNavigation?.Name)
                 .RuleFor(a => a.CoordinateAccuracy, f => f.Random.AlphaNumeric(255))
                 .RuleFor(a => a.GniscodeCv, f => opts.GniscodeCvNavigation?.Name)
@@ -39,8 +34,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.StateCv, f => opts.StateCVNavigation?.Name)
                 .RuleFor(a => a.HUC8, f => f.Random.AlphaNumeric(20))
                 .RuleFor(a => a.HUC12, f => f.Random.AlphaNumeric(20))
-                .RuleFor(a => a.County, f => f.Random.AlphaNumeric(20))
-                ;
+                .RuleFor(a => a.County, f => f.Random.AlphaNumeric(20));
 
             return faker;
         }
@@ -84,5 +78,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public Nhdproduct NhdproductCvNavigation { get; set; }
         public SiteType SiteTypeCvNavigation { get; set; }
         public State StateCVNavigation { get; set; }
+        public Geometry SitePoint { get; set; }
+        public Geometry Geometry { get; set; }
     }
 }

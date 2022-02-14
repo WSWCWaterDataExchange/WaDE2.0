@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
@@ -31,7 +31,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string SDWISIdentifierCv { get; set; }
         public string CommunityWaterSupplySystem { get; set; }
         public string AssociatedNativeAllocationIds { get; set; }
-        public IGeometry Geometry { get; set; }
+        public Geometry Geometry { get; set; }
         public string PrimaryUseCategoryCV { get; set; }
         public double? AllocationCropDutyAmount { get; set; }
         public string PowerType { get; set; }
@@ -52,7 +52,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual WaterSourcesDim WaterSource { get; set; }
         public virtual PowerType PowerTypeCV { get; set; }
         public virtual ICollection<SitesBridgeBeneficialUsesFact> SitesBridgeBeneficialUsesFact { get; set; }
-        
+
 
     }
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
-    public interface IWaterAllocationAccessor
+    public interface IDataIngestionAccessor
     {
         Task<bool> LoadOrganizations(string runId, IEnumerable<Organization> organizations);
         Task<bool> LoadWaterAllocation(string runId, IEnumerable<WaterAllocation> waterAllocations);
@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         Task<bool> LoadSiteSpecificAmounts(string runId, IEnumerable<SiteSpecificAmount> siteSpecificAmounts);
         Task<bool> LoadVariables(string runId, IEnumerable<Variable> variables);
         Task<bool> LoadWaterSources(string runId, IEnumerable<WaterSource> waterSources);
-        Task<bool> LoadPODSitePOUSiteFact(string runId, IEnumerable<PODSitePOUSite> PODSitePOUSiteFacts);
+        Task<bool> LoadPodSitePouSiteFact(string runId, IEnumerable<PODSitePOUSite> podSitePouSiteFacts);
         Task<bool> LoadRegulatoryReportingUnits(string runId, IEnumerable<RegulatoryReportingUnits> LoadRegulatoryReportingUnits);
     }
 }

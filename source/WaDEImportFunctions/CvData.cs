@@ -1,15 +1,15 @@
+using Microsoft.Azure.WebJobs;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Transactions;
-using Microsoft.Azure.WebJobs;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WaDEImportFunctions
@@ -24,7 +24,7 @@ namespace WaDEImportFunctions
         private IConfiguration Configuration { get; set; }
 
         [FunctionName("CvDataUpdate")]
-        public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")]string myQueueItem, ILogger log)
+        public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log)
         {
             //This is a quick and dirty process.  It should be converted at some point to a proper call chain (or moved into a working azure data factory process)
             log.LogInformation($"Updating All CV Data");
@@ -75,7 +75,7 @@ namespace WaDEImportFunctions
 
         private async Task<string> FetchData(string name)
         {
-            return await new WebClient().DownloadStringTaskAsync($"http://vocabulary.westernstateswater.org/api/v1/{name}/?format=csv");
+            return await new HttpClient().GetStringAsync($"http://vocabulary.westernstateswater.org/api/v1/{name}/?format=csv");
         }
 
         private List<dynamic> ParseData(string data)
@@ -111,7 +111,7 @@ namespace WaDEImportFunctions
     WHEN NOT MATCHED THEN 
         INSERT (name, term, state, sourceVocabularyURI, definition, wadename) 
         VALUES (source.name, source.term, source.state, source.source, source.def, source.wadename);";
-                        await db.Database.ExecuteSqlCommandAsync(sql,
+                        await db.Database.ExecuteSqlRawAsync(sql,
                             new SqlParameter("@p0", record.term),
                             new SqlParameter("@p1", name),
                             new SqlParameter("@p2", record.state),
