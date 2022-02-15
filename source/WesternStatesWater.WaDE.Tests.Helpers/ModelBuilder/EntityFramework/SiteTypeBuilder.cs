@@ -18,8 +18,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(40))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))
-                .RuleFor(a => a.SourceVocabularyUri, f => f.Random.AlphaNumeric(250))
-                ;
+                .RuleFor(a => a.SourceVocabularyUri, f => f.Random.AlphaNumeric(250));
 
             return faker;
         }

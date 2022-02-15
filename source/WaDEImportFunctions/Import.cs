@@ -112,7 +112,7 @@ namespace WaDEImportFunctions
 
             log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
-            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
+            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, null, runId);
             return new OkObjectResult(new { instanceId });
         }
 

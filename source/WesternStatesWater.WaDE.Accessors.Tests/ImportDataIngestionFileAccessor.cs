@@ -31,7 +31,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
         public IDataIngestionFileAccessor CreateWaterAllocationFileAccessor()
         {
-            return new DataIngestionFileAccessor(Configuration.GetConfiguration())
+            return new DataIngestionFileAccessor(Configuration.GetConfiguration(), null)
             {
                 FileStreamFactory = FileStreamFactoryMock
             };

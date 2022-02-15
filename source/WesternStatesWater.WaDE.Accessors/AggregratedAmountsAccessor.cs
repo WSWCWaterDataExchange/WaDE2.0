@@ -105,7 +105,7 @@ namespace WesternStatesWater.WaDE.Accessors
             if (!string.IsNullOrWhiteSpace(filters.Geometry))
             {
                 var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                WKTReader reader = new WKTReader(geometryFactory.GeometryServices);
+                var reader = new WKTReader(geometryFactory.GeometryServices);
                 var shape = reader.Read(filters.Geometry);
                 query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
             }

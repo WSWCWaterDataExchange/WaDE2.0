@@ -1,7 +1,6 @@
-﻿using CsvHelper;
+﻿using Azure.Storage.Blobs;
+using CsvHelper;
 using CsvHelper.Configuration;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -14,12 +13,14 @@ namespace WesternStatesWater.WaDE.Accessors
 {
     public class DataIngestionFileAccessor : AccessorImport.IDataIngestionFileAccessor
     {
-        public DataIngestionFileAccessor(IConfiguration configuration)
+        public DataIngestionFileAccessor(IConfiguration configuration, BlobContainerClient blobContainerClient)
         {
             Configuration = configuration;
+            BlobContainerClient = blobContainerClient;
         }
 
         private IConfiguration Configuration { get; set; }
+        private BlobContainerClient BlobContainerClient { get; set; }
 
         async Task<List<AccessorImport.Organization>> AccessorImport.IDataIngestionFileAccessor.GetOrganizations(string runId, int startIndex, int count)
         {
@@ -197,14 +198,9 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private async Task<int> GetRecordCount(string runId, string fileName)
         {
-            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+            var blobClient = BlobContainerClient.GetBlobClient(Path.Combine(runId, fileName));
 
-            var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
-
-            if (!await blob.ExistsAsync())
+            if (!await blobClient.ExistsAsync())
             {
                 return 0;
             }
@@ -224,7 +220,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
-            using (var stream = await blob.OpenReadAsync())
+            using (var stream = await blobClient.OpenReadAsync())
             {
                 var count = -1; //account for the header
                 using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
@@ -269,30 +265,32 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private class FileStreamFactoryImpl : IFileStreamFactory
+        private sealed class FileStreamFactoryImpl : IFileStreamFactory
         {
+            public FileStreamFactoryImpl(BlobContainerClient blobContainerClient)
+            {
+                BlobContainerClient = blobContainerClient;
+            }
+
+            private BlobContainerClient BlobContainerClient { get; set; }
+
             public async Task<Stream> GetStreamAsync(IConfiguration configuration, string runId, string fileName)
             {
-                var storageConnectionString = configuration.GetConnectionString("AzureStorage");
-                var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-                var blobClient = storageAccount.CreateCloudBlobClient();
-                var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+                var blobClient = BlobContainerClient.GetBlobClient(Path.Combine(runId, fileName));
 
-                var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
-
-                if (!await blob.ExistsAsync())
+                if (!await blobClient.ExistsAsync())
                 {
                     return null;
                 }
 
-                return await blob.OpenReadAsync();
+                return await blobClient.OpenReadAsync();
             }
         }
 
         private IFileStreamFactory _fileStreamFactory;
         internal IFileStreamFactory FileStreamFactory
         {
-            get => _fileStreamFactory ?? (_fileStreamFactory = new FileStreamFactoryImpl());
+            get => _fileStreamFactory ?? (_fileStreamFactory = new FileStreamFactoryImpl(BlobContainerClient));
             set => _fileStreamFactory = value;
         }
     }

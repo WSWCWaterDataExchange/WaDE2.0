@@ -1,6 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
+﻿using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
 using System.IO;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
@@ -9,53 +8,48 @@ namespace WesternStatesWater.WaDE.Accessors
 {
     public class BlobFileAccessor : AccessorImport.IBlobFileAccessor
     {
-        public BlobFileAccessor(IConfiguration configuration)
+        public BlobFileAccessor(IConfiguration configuration, BlobServiceClient blobServiceClient)
         {
             Configuration = configuration;
+            BlobServiceClient = blobServiceClient;
         }
 
         private IConfiguration Configuration { get; set; }
+        private BlobServiceClient BlobServiceClient { get; set; }
 
         async Task<Stream> AccessorImport.IBlobFileAccessor.GetBlobData(string container, string path)
         {
-            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = blobClient.GetContainerReference(container);
+            var blobContainer = BlobServiceClient.GetBlobContainerClient(container);
+            var blobClient = blobContainer.GetBlobClient(path);
 
-            var blob = cloudBlobContainer.GetBlobReference(path);
-            if (!await blob.ExistsAsync())
+            if (!await blobClient.ExistsAsync())
             {
                 return new MemoryStream();
             }
 
-            return await blob.OpenReadAsync();
+            return await blobClient.OpenReadAsync();
         }
 
         async Task AccessorImport.IBlobFileAccessor.SaveBlobData(string container, string path, byte[] data)
         {
             var blob = CreateBlobContainer(container, path);
 
-            await blob.UploadFromByteArrayAsync(data, 0, data.Length);
+            using (var ms = new MemoryStream(data))
+            {
+                await blob.UploadAsync(ms);
+            }
         }
 
         async Task AccessorImport.IBlobFileAccessor.SaveBlobData(string container, string path, string data)
         {
-            var blob = CreateBlobContainer(container, path);
-
-            await blob.UploadTextAsync(data);
+            await ((AccessorImport.IBlobFileAccessor)this).SaveBlobData(container, path, System.Text.Encoding.UTF8.GetBytes(data));
         }
 
         #region Private Methods
-        private CloudBlockBlob CreateBlobContainer(string container, string path)
+        private BlobClient CreateBlobContainer(string container, string path)
         {
-            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = blobClient.GetContainerReference(container);
-            var blob = cloudBlobContainer.GetBlockBlobReference(path);
-
-            return blob;
+            var blobContainer = BlobServiceClient.GetBlobContainerClient(container);
+            return blobContainer.GetBlobClient(path);
         }
         #endregion
     }
