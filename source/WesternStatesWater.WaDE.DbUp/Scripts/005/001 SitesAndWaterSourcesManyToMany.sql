@@ -6,6 +6,11 @@ CREATE TABLE [Core].[WaterSourceBridge_Sites_fact](
 );
 GO
 
+INSERT INTO Core.WaterSourceBridge_Sites_fact (WaterSourceID, SiteID)
+  SELECT s.WaterSourceId, s.SiteId
+    FROM Core.Sites_dim s
+	WHERE s.WaterSourceID is not null
+
 ALTER TABLE [Core].[WaterSourceBridge_Sites_fact]  WITH CHECK ADD CONSTRAINT [FK_Sites] FOREIGN KEY([SiteID])
   REFERENCES [Core].[Sites_dim] ([SiteID]);
 GO
@@ -16,4 +21,3 @@ GO
 
 ALTER TABLE Core.Sites_dim DROP COLUMN WaterSourceID;
 GO
-
