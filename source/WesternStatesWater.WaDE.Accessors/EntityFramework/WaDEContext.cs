@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -1625,8 +1623,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.ToTable("Sites_dim", "Core");
 
                 entity.Property(e => e.SiteId).HasColumnName("SiteID");
-                
-                entity.Property(e => e.WaterSourceId).HasColumnName("WaterSourceID");
 
                 entity.Property(e => e.CoordinateAccuracy).HasMaxLength(255);
 
@@ -1730,12 +1726,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasForeignKey(d => d.StateCv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Sites_dim_StateCV");
-                
-                entity.HasOne(d => d.WaterSource)
-                    .WithMany(p => p.SitesDim)
-                    .HasForeignKey(d => d.WaterSourceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_Sites_dim_WaterSources_dim");
             });
 
             modelBuilder.Entity<State>(entity =>
@@ -2018,6 +2008,31 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.Term)
                     .IsRequired()
                     .HasMaxLength(250);
+            });
+
+            modelBuilder.Entity<WaterSourceBridgeSitesFact>(entity =>
+            {
+                entity.HasKey(e => e.WaterSourceBridgeSiteId);
+
+                entity.ToTable("WaterSourceBridge_Sites_fact", "Core");
+
+                entity.Property(e => e.WaterSourceBridgeSiteId).HasColumnName("WaterSourceBridgeSiteID");
+
+                entity.Property(e => e.WaterSourceId).HasColumnName("WaterSourceID");
+
+                entity.Property(e => e.SiteId).HasColumnName("SiteID");
+
+                entity.HasOne(d => d.WaterSource)
+                    .WithMany(p => p.WaterSourceBridgeSitesFact)
+                    .HasForeignKey(d => d.WaterSourceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WaterSource");
+
+                entity.HasOne(d => d.Site)
+                    .WithMany(p => p.WaterSourceBridgeSitesFact)
+                    .HasForeignKey(d => d.SiteId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Sites");
             });
 
             modelBuilder.Entity<WaterSourceType>(entity =>
