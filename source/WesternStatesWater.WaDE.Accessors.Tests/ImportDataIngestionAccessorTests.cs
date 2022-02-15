@@ -17,7 +17,7 @@ using WaterAllocationRecordType = WesternStatesWater.WaDE.Tests.Helpers.ModelBui
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
     [TestClass]
-    public class ImportWaterAllocationAccessorTests : DbTestBase
+    public class ImportDataIngestionAccessorTests : DbTestBase
     {
         private readonly ILoggerFactory LoggerFactory = new LoggerFactory();
 
@@ -58,7 +58,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
@@ -116,7 +116,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeFalse();
@@ -165,7 +165,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeFalse();
@@ -207,7 +207,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.GeneratedPowerCapacityMW = (new Faker()).Random.Decimal(0, 1000).ToString();
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var runId = (new Faker()).Random.AlphaNumeric(10);
             var result = await sut.LoadWaterAllocation(runId, new[] { waterAllocation });
 
@@ -260,7 +260,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
@@ -326,7 +326,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeFalse();
@@ -334,7 +334,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 db.ImportErrors.Should().HaveCount(errorCount + 1);
-                var error = await db.ImportErrors.LastAsync();
+                var error = await db.ImportErrors.OrderByDescending(a => a.Id).FirstAsync();
                 error.Data.Should().Contain("Allocation Not Exempt of Volume Flow Priority");
 
             }
@@ -379,7 +379,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
@@ -485,7 +485,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
@@ -541,7 +541,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationTimeframeEnd = endTestString;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
 
             result.Should().BeTrue();
@@ -601,7 +601,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 aggregateAmount.DataPublicationDate = dataPublicationDate.Date;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
 
             var result = await sut.LoadAggregatedAmounts((new Faker()).Random.AlphaNumeric(10), new[] { aggregateAmount });
 
@@ -661,7 +661,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 aggregateAmount.DataPublicationDate = dataPublicationDate.Date;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
 
             var result = await sut.LoadAggregatedAmounts((new Faker()).Random.AlphaNumeric(10), new[] { aggregateAmount });
 
@@ -718,7 +718,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 aggregateAmount.DataPublicationDate = dataPublicationDate.Date;
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
 
             var result = await sut.LoadAggregatedAmounts((new Faker()).Random.AlphaNumeric(10), new[] { aggregateAmount });
 
@@ -734,11 +734,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 db.ImportErrors.Should().HaveCount(1);
             }
-        }
-
-        private IWaterAllocationAccessor CreateWaterAllocationAccessor()
-        {
-            return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);
         }
 
         [TestMethod]
@@ -793,7 +788,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             siteSpecificAmount.CustomerTypeCV.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.SDWISIdentifier.Should().NotBeNullOrEmpty("Required field");
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
 
             result.Should().BeTrue();
@@ -866,7 +861,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             siteSpecificAmount.CustomerTypeCV.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.SDWISIdentifier.Should().NotBeNullOrEmpty("Required field");
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
 
             result.Should().BeFalse();
@@ -933,7 +928,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             siteSpecificAmount.IrrigationMethodCV.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.AllocationCropDutyAmount.Should().NotBeNullOrEmpty("Required field");
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
 
             result.Should().BeTrue();
@@ -1006,7 +1001,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             siteSpecificAmount.PowerGeneratedGWh.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.PowerType.Should().NotBeNullOrEmpty("Required field");
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
 
             result.Should().BeTrue();
@@ -1075,7 +1070,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             siteSpecificAmount.PowerGeneratedGWh.Should().NotBeNullOrEmpty("Required field");
             siteSpecificAmount.PowerType.Should().NotBeNullOrEmpty("Required field");
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSiteSpecificAmounts((new Faker()).Random.AlphaNumeric(10), new[] { siteSpecificAmount });
 
             result.Should().BeFalse();
@@ -1115,7 +1110,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadRegulatoryReportingUnits((new Faker()).Random.AlphaNumeric(10), new[] { regulatoryReportingUnit });
 
             result.Should().BeTrue();
@@ -1152,7 +1147,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1189,7 +1184,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1234,7 +1229,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1320,7 +1315,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1401,7 +1396,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1462,7 +1457,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
             var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
 
             result.Should().BeTrue();
@@ -1495,7 +1490,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 });
             }
 
-            var sut = CreateWaterAllocationAccessor();
+            var sut = CreateDataIngestionAccessor();
 
             var result1 = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site1 });
             result1.Should().BeTrue();
@@ -1537,6 +1532,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 db.ImportErrors.Should().HaveCount(0);
             }
+        }
+
+        private IDataIngestionAccessor CreateDataIngestionAccessor()
+        {
+            return new DataIngestionAccessor(Configuration.GetConfiguration(), LoggerFactory);
         }
     }
 }

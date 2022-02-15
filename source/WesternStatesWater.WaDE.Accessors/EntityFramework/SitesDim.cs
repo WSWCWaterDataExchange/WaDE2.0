@@ -1,4 +1,4 @@
-﻿using GeoAPI.Geometries;
+﻿using NetTopologySuite.Geometries;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -25,15 +25,15 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string SiteTypeCv { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
-        public IGeometry SitePoint { get; set; }
-        public IGeometry Geometry { get; set; }
+        public Geometry SitePoint { get; set; }
+        public Geometry Geometry { get; set; }
         [MaxLength(100)]
         public string CoordinateMethodCv { get; set; }
         [MaxLength(255)]
         public string CoordinateAccuracy { get; set; }
         [MaxLength(250)]
         public string GniscodeCv { get; set; }
-        [MaxLength(50)] 
+        [MaxLength(50)]
         public string EpsgcodeCv { get; set; }
         [MaxLength(50)]
         public string NhdnetworkStatusCv { get; set; }
@@ -41,7 +41,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string NhdproductCv { get; set; }
         [MaxLength(2)]
         public string StateCv { get; set; }
-        [MaxLength(20)] 
+        [MaxLength(20)]
         public string HUC8 { get; set; }
         [MaxLength(20)]
         public string HUC12 { get; set; }
@@ -58,7 +58,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual SiteType SiteTypeCvNavigation { get; set; }
         public virtual State StateCVNavigation { get; set; }
         public virtual WaterSourcesDim WaterSource { get; set; }
-        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set;  }
+        public virtual ICollection<AllocationBridgeSitesFact> AllocationBridgeSitesFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
         public virtual ICollection<RegulatoryOverlayBridgeSitesFact> RegulatoryOverlayBridgeSitesFact { get; set; }
         public virtual ICollection<PODSiteToPOUSiteFact> PODSiteToPOUSitePODFact { get; set; }

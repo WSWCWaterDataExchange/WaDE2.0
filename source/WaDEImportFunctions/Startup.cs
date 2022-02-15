@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.WebJobs;
+﻿using Azure.Storage.Blobs;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,12 +26,15 @@ namespace WaDEImportFunctions
                 .AddEnvironmentVariables()
                 .Build();
 
+            builder.Services.AddSingleton(new BlobContainerClient(config.GetConnectionString("AzureStorage"), "normalizedimports"));
+            builder.Services.AddSingleton(new BlobServiceClient(config.GetConnectionString("AzureStorage")));
+
             builder.Services.AddSingleton<IConfiguration>(config);
             builder.Services.AddTransient<ManagerImport.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<ManagerImport.IExcelFileConversionManager, ExcelFileConversionManager>();
             builder.Services.AddTransient<ManagerImport.IFlattenManager, FlattenManager>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationAccessor, WaterAllocationAccessor>();
-            builder.Services.AddTransient<AccessorImport.IWaterAllocationFileAccessor, WaterAllocationFileAccessor>();
+            builder.Services.AddTransient<AccessorImport.IDataIngestionAccessor, DataIngestionAccessor>();
+            builder.Services.AddTransient<AccessorImport.IDataIngestionFileAccessor, DataIngestionFileAccessor>();
             builder.Services.AddTransient<AccessorImport.IBlobFileAccessor, BlobFileAccessor>();
         }
     }

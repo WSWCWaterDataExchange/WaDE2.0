@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
+﻿using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Threading.Tasks;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Accessors.Contracts.Import;
@@ -15,7 +12,7 @@ using WesternStatesWater.WaDE.Tests.Helpers;
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
     [TestClass]
-    public class ImportWaterAllocationFileAccessor
+    public class ImportDataIngestionFileAccessor
     {
         private readonly IFileStreamFactory FileStreamFactoryMock = Mock.Create<IFileStreamFactory>(Behavior.Strict);
         [TestMethod]
@@ -32,9 +29,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             results[0].IrrigatedAcreage.Should().BeNull();
         }
 
-        public IWaterAllocationFileAccessor CreateWaterAllocationFileAccessor()
+        public IDataIngestionFileAccessor CreateWaterAllocationFileAccessor()
         {
-            return new WaterAllocationFileAccessor(Configuration.GetConfiguration())
+            return new DataIngestionFileAccessor(Configuration.GetConfiguration(), null)
             {
                 FileStreamFactory = FileStreamFactoryMock
             };

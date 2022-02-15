@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
-    public interface IWaterAllocationFileAccessor
+    public interface IDataIngestionFileAccessor
     {
         Task<List<Organization>> GetOrganizations(string runId, int startIndex, int count);
         Task<int> GetOrganizationsCount(string runId);

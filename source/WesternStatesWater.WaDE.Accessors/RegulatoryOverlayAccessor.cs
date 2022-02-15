@@ -1,14 +1,13 @@
 ﻿using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using NetTopologySuite;
 using NetTopologySuite.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using MoreLinq.Extensions;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
@@ -58,7 +57,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 if (!string.IsNullOrWhiteSpace(filters.Geometry))
                 {
                     var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    WKTReader reader = new WKTReader(geometryFactory);
+                    var reader = new WKTReader(geometryFactory.GeometryServices);
                     var shape = reader.Read(filters.Geometry);
                     query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
                 }

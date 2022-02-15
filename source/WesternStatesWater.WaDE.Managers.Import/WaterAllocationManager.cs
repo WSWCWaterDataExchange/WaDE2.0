@@ -7,14 +7,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
 {
     public class WaterAllocationManager : ManagerImport.IWaterAllocationManager
     {
-        public WaterAllocationManager(AccessorImport.IWaterAllocationAccessor importWaterAllocationAccessor, AccessorImport.IWaterAllocationFileAccessor importWaterAllocationFileAccessor)
+        public WaterAllocationManager(AccessorImport.IDataIngestionAccessor importWaterAllocationAccessor, AccessorImport.IDataIngestionFileAccessor importWaterAllocationFileAccessor)
         {
             ImportWaterAllocationAccessor = importWaterAllocationAccessor;
             ImportWaterAllocationFileAccessor = importWaterAllocationFileAccessor;
         }
 
-        public AccessorImport.IWaterAllocationAccessor ImportWaterAllocationAccessor { get; set; }
-        public AccessorImport.IWaterAllocationFileAccessor ImportWaterAllocationFileAccessor { get; set; }
+        public AccessorImport.IDataIngestionAccessor ImportWaterAllocationAccessor { get; set; }
+        public AccessorImport.IDataIngestionFileAccessor ImportWaterAllocationFileAccessor { get; set; }
 
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId, int startIndex, int count)
         {
@@ -89,7 +89,7 @@ namespace WesternStatesWater.WaDE.Managers.Import
                 return true;
             }
 
-            return await ImportWaterAllocationAccessor.LoadPODSitePOUSiteFact(runId, PODSitePOUSiteFacts);
+            return await ImportWaterAllocationAccessor.LoadPodSitePouSiteFact(runId, PODSitePOUSiteFacts);
         }
 
         async Task<int> ManagerImport.IWaterAllocationManager.GetPODSiteToPOUSiteRelationshipsCount(string runId)
