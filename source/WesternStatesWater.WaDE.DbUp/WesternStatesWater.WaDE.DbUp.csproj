@@ -20,7 +20,7 @@
     <None Remove="Scripts\001\023 Core.Sites_dim Updates.sql" />
     <None Remove="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql" />
     <None Remove="Scripts\001\025 Aggregated Amounts Data Changes.sql" />
-    <None Remove="Scripts\001\026 Variables_dim Changes.sql" />
+    <None Remove="Scripts\001\026 Variablesdim Changes.sql" />
     <None Remove="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\001\028 AggregatedAmounts Table Update.sql" />
     <None Remove="Scripts\001\028 AllocationAmounts Table Updates.sql" />
@@ -253,7 +253,7 @@
     <EmbeddedResource Include="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\001\026 Variables_dim Changes.sql">
+    <EmbeddedResource Include="Scripts\001\026 Variablesdim Changes.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql">
