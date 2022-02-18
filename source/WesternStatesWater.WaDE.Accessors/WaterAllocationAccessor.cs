@@ -46,7 +46,7 @@ namespace WesternStatesWater.WaDE.Accessors
             var sites = await sitesTask;
             var sitesIds = sites.Select(a => a.Site.SiteId).ToHashSet();
 
-            var waterSourceTask = GetWaterSources(sites.Where(a => a.Site.WaterSourceId != null).Select(a => a.Site.WaterSourceId.Value).ToHashSet()).BlockTaskInTransaction();
+            var waterSourceTask = GetWaterSources(sitesIds).BlockTaskInTransaction();
             var siteRelationshipsTask = GetPodPouSites(sitesIds).BlockTaskInTransaction();
             var regulatoryOverlayTask = GetRegulatoryOverlays(sitesIds).BlockTaskInTransaction();
 
@@ -218,14 +218,16 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async Task<List<AccessorApi.WaterSource>> GetWaterSources(HashSet<long> waterSourceIds)
+        private async Task<Dictionary<long, List<WaterSourcesDim>>> GetWaterSources(HashSet<long> sitesIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.WaterSourcesDim
-                               .Where(a => waterSourceIds.Contains(a.WaterSourceId))
-                               .ProjectTo<AccessorApi.WaterSource>(Mapping.DtoMapper.Configuration)
-                               .ToListAsync();
+                var results = await db.WaterSourceBridgeSitesFact
+                                      .Where(a => sitesIds.Contains(a.SiteId))
+                                      .Select(a => new { a.SiteId, a.WaterSource })
+                                      .ToListAsync();
+                return results.GroupBy(a => a.SiteId)
+                              .ToDictionary(a => a.Key, b => b.Select(c => c.WaterSource).ToList());
             }
         }
 
@@ -325,7 +327,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private static void ProcessWaterAllocationOrganization(AccessorApi.WaterAllocationOrganization org,
             List<AllocationHelper> results,
-            List<AccessorApi.WaterSource> waterSources,
+            Dictionary<long, List<WaterSourcesDim>> waterSources,
             List<AccessorApi.VariableSpecific> variableSpecifics,
             List<AccessorApi.Method> methods,
             List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
@@ -358,12 +360,13 @@ namespace WesternStatesWater.WaDE.Accessors
 
             org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
 
-            foreach (var site in sites)
+            foreach (var site in sites.Select(a => a.Site))
             {
-                site.Site.PODSiteToPOUSitePODFact = siteRelationships.Where(a => a.PODSiteId == site.Site.SiteId).ToList();
-                site.Site.PODSiteToPOUSitePOUFact = siteRelationships.Where(a => a.POUSiteId == site.Site.SiteId).ToList();
+                site.PODSiteToPOUSitePODFact = siteRelationships.Where(a => a.PODSiteId == site.SiteId).ToList();
+                site.PODSiteToPOUSitePOUFact = siteRelationships.Where(a => a.POUSiteId == site.SiteId).ToList();
             }
 
+            var waterSourceUuids = new HashSet<string>();
             foreach (var waterAllocation in org.WaterAllocations)
             {
                 waterAllocation.BeneficialUses = beneficialUses
@@ -377,12 +380,23 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 foreach (var site in waterAllocation.Sites)
                 {
-                    site.WaterSourceUUID = waterSources.FirstOrDefault(a => a.WaterSourceId == site.WaterSourceId)?.WaterSourceUUID;
+                    waterSources.TryGetValue(site.SiteID, out var waterSources1);
+                    if (waterSources1 != null)
+                    {
+                        site.WaterSourceUUIDs = waterSources1.Select(a => a.WaterSourceUuid).ToList();
+                        foreach (var waterSourceUuid in site.WaterSourceUUIDs)
+                        {
+                            waterSourceUuids.Add(waterSourceUuid);
+                        }
+                    }
+                    else
+                    {
+                        site.WaterSourceUUIDs = new List<string>();
+                    }
                 }
             }
 
-            var waterSourceIds = org.WaterAllocations.SelectMany(a => a.Sites.Select(b => b.WaterSourceId)).ToHashSet();
-            org.WaterSources = waterSources.Where(a => waterSourceIds.Contains(a.WaterSourceId)).ToList();
+            org.WaterSources = waterSources.SelectMany(a => a.Value).Where(a => waterSourceUuids.Contains(a.WaterSourceUuid)).DistinctBy(a => a.WaterSourceUuid).Map<List<AccessorApi.WaterSource>>();
         }
 
         internal class AllocationHelper

@@ -18,7 +18,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SiteUuid, f => f.Random.AlphaNumeric(55))
                 .RuleFor(a => a.SiteNativeId, f => f.Random.AlphaNumeric(50))
                 .RuleFor(a => a.SiteName, f => f.Random.AlphaNumeric(500))
-                .RuleFor(a => a.WaterSourceId, f => opts.WaterSourcesDim?.WaterSourceId)
                 .RuleFor(a => a.UsgssiteId, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.SiteTypeCv, f => opts.SiteTypeCvNavigation?.Name)
                 .RuleFor(a => a.Longitude, f => f.Random.Double(1))
@@ -72,7 +71,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     {
         public CoordinateMethod CoordinateMethodCvNavigation { get; set; }
         public Epsgcode EpsgcodeCvNavigation { get; set; }
-        public WaterSourcesDim WaterSourcesDim { get; set; }
         public GnisfeatureName GniscodeCvNavigation { get; set; }
         public NhdnetworkStatus NhdnetworkStatusCvNavigation { get; set; }
         public Nhdproduct NhdproductCvNavigation { get; set; }

@@ -33,17 +33,20 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterSourceDim = await WaterSourcesDimBuilder.Load(db);
                 regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
 
-                siteDim = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
-                {
-                    WaterSourcesDim = waterSourceDim
-                });
-                var bridge = await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                siteDim = await SitesDimBuilder.Load(db);
+                await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
                 {
                     SitesDim = siteDim,
                     AllocationAmountsFact = allocationAmountsFact
                 });
 
-                var regulatoryOverlaySiteBridge = await RegulatoryOverlayBridgeSitesFactBuilder.Load(db,
+                await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+                {
+                    SitesDim = siteDim,
+                    WaterSourcesDim = waterSourceDim
+                });
+
+                await RegulatoryOverlayBridgeSitesFactBuilder.Load(db,
                     new RegulatoryOverlayBridgeSitesFactBuilderOptions
                     {
                         SitesDim = siteDim,
@@ -65,13 +68,82 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.WaterAllocations.Should().HaveCount(1);
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
             org.WaterAllocations[0].Sites.Should().HaveCount(1);
-            org.WaterAllocations[0].Sites[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
+            org.WaterAllocations[0].Sites[0].WaterSourceUUIDs.Should().HaveCount(1)
+                .And.Contain(waterSourceDim.WaterSourceUuid);
 
-            org.WaterSources.Should().HaveCount(1);
-            org.WaterSources[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
+            org.WaterSources.Should().HaveCount(1)
+                .And.Contain(a => a.WaterSourceUUID == waterSourceDim.WaterSourceUuid);
 
             org.RegulatoryOverlays.Should().HaveCount(1);
             org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
+        }
+
+        [DataTestMethod]
+        [DataRow(0, new int[0])]
+        [DataRow(1, new[] { 0 })]
+        [DataRow(1, new[] { 1 })]
+        [DataRow(1, new[] { 2 })]
+        [DataRow(2, new[] { 0, 0 })]
+        [DataRow(2, new[] { 1, 0 })]
+        [DataRow(2, new[] { 0, 1 })]
+        [DataRow(2, new[] { 1, 1 })]
+        [DataRow(2, new[] { 2, 0 })]
+        [DataRow(2, new[] { 2, 1 })]
+        [DataRow(2, new[] { 2, 2 })]
+        public async Task GetSiteAllocationAmountsAsync_WaterSources(int siteCount, int[] waterSourceCounts)
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            SitesDim[] siteDims = new SitesDim[siteCount];
+            WaterSourcesDim[] waterSourceDims;
+            var maxWaterSources = waterSourceCounts.DefaultIfEmpty().Max();
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                waterSourceDims = Enumerable.Range(0, maxWaterSources).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+
+                for (var i = 0; i < siteCount; i++)
+                {
+                    siteDims[i] = await SitesDimBuilder.Load(db);
+                    await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                    {
+                        SitesDim = siteDims[i],
+                        AllocationAmountsFact = allocationAmountsFact
+                    });
+                    for (var j = 0; j < waterSourceCounts[i]; j++)
+                    {
+                        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+                        {
+                            SitesDim = siteDims[i],
+                            WaterSourcesDim = waterSourceDims[j]
+                        });
+                    }
+                }
+            }
+
+            var filters = new SiteAllocationAmountsFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
+
+            result.TotalWaterAllocationsCount.Should().Be(1);
+            result.Organizations.Should().HaveCount(1);
+
+            var org = result.Organizations.Single();
+            org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
+            org.WaterAllocations.Should().HaveCount(1);
+            org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
+            org.WaterAllocations[0].Sites.Should().HaveCount(siteCount);
+            for (var i = 0; i < siteCount; i++)
+            {
+                org.WaterAllocations[0].Sites[i].WaterSourceUUIDs.Should().HaveCount(waterSourceCounts[i])
+                    .And.BeEquivalentTo(waterSourceDims[..waterSourceCounts[i]].Select(a => a.WaterSourceUuid));
+            }
+
+            org.WaterSources.Should().HaveCount(maxWaterSources)
+                .And.Subject.Select(a => a.WaterSourceUUID).Should()
+                .BeEquivalentTo(waterSourceDims.Select(a => a.WaterSourceUuid));
         }
 
         [DataTestMethod]
@@ -107,18 +179,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
             SitesDim siteDim;
-            WaterSourcesDim waterSourceDim;
-            RegulatoryOverlayDim regulatoryOverlayDim;
             using (var db = new WaDEContext(configuration))
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
-                waterSourceDim = await WaterSourcesDimBuilder.Load(db);
-                regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
 
-                siteDim = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
-                {
-                    WaterSourcesDim = waterSourceDim
-                });
+                siteDim = await SitesDimBuilder.Load(db);
 
                 if (sitePoint != null)
                 {
@@ -133,20 +198,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     var reader = new WKTReader(geometryFactory.GeometryServices);
                     siteDim.Geometry = reader.Read(geometry);
                 }
-
-                var bridge = await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
                 {
-                    SitesDim = siteDim,
-                    AllocationAmountsFact = allocationAmountsFact
+                    AllocationAmountsFact = allocationAmountsFact,
+                    SitesDim = siteDim
                 });
-
-                var regulatoryOverlaySiteBridge = await RegulatoryOverlayBridgeSitesFactBuilder.Load(db,
-                    new RegulatoryOverlayBridgeSitesFactBuilderOptions
-                    {
-                        SitesDim = siteDim,
-                        RegulatoryOverlayDim = regulatoryOverlayDim
-                    });
-                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
             }
 
             var filters = new SiteAllocationAmountsFilters
@@ -167,14 +223,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
                 org.WaterAllocations.Should().HaveCount(1);
                 org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-                org.WaterAllocations[0].Sites.Should().HaveCount(1);
-                org.WaterAllocations[0].Sites[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
-
-                org.WaterSources.Should().HaveCount(1);
-                org.WaterSources[0].WaterSourceUUID.Should().Be(waterSourceDim.WaterSourceUuid);
-
-                org.RegulatoryOverlays.Should().HaveCount(1);
-                org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
             }
             else
             {

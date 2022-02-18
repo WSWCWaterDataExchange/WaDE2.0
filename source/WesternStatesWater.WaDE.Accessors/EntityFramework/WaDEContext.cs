@@ -59,6 +59,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterAllocationBasis> WaterAllocationBasis { get; set; }
         public virtual DbSet<WaterAllocationType> WaterAllocationType { get; set; }
         public virtual DbSet<WaterQualityIndicator> WaterQualityIndicator { get; set; }
+        public virtual DbSet<WaterSourceBridgeSitesFact> WaterSourceBridgeSitesFact { get; set; }
         public virtual DbSet<WaterSourceType> WaterSourceType { get; set; }
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
         public virtual DbSet<PODSiteToPOUSiteFact> PODSiteToPOUSiteFact { get; set; }

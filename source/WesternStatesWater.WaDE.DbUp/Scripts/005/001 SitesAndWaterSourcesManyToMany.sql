@@ -19,5 +19,8 @@ ALTER TABLE [Core].[WaterSourceBridge_Sites_fact]  WITH CHECK ADD CONSTRAINT [FK
   REFERENCES [Core].[WaterSources_dim] ([WaterSourceID]);
 GO
 
+ALTER TABLE Core.Sites_dim DROP CONSTRAINT fk_Sites_dim_WaterSource_dim;
+GO
+
 ALTER TABLE Core.Sites_dim DROP COLUMN WaterSourceID;
 GO
