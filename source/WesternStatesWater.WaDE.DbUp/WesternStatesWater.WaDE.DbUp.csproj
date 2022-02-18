@@ -123,6 +123,7 @@
     <None Remove="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
+    <None Remove="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
@@ -397,6 +398,7 @@
     <EmbeddedResource Include="Scripts\004\025 LoadWaterAllocation_RemoveWaterSourceID.sql" />
     <EmbeddedResource Include="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
     <EmbeddedResource Include="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
     <EmbeddedResource Include="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
   </ItemGroup>
 
@@ -404,6 +406,10 @@
     <PackageReference Include="dbup" Version="4.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

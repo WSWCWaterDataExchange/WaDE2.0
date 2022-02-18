@@ -1643,6 +1643,111 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
         }
 
+        [DataTestMethod]
+        [DataRow(0, 0)]
+        [DataRow(0, 1)]
+        [DataRow(0, 2)]
+        [DataRow(1, 0)]
+        [DataRow(1, 1)]
+        [DataRow(1, 2)]
+        [DataRow(2, 0)]
+        [DataRow(2, 1)]
+        [DataRow(2, 2)]
+        public async Task LoadSite_ExistingSite_PopulateWaterSources(int existingWaterSourceCount, int newWaterSourceCount)
+        {
+            Site site;
+            SitesDim siteDim;
+            WaterSourcesDim[] waterSourcesDims;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var waterSourcesToCreateCount = Math.Max(existingWaterSourceCount, newWaterSourceCount);
+                waterSourcesDims = Enumerable.Range(0, waterSourcesToCreateCount).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+                siteDim = await SitesDimBuilder.Load(db);
+
+                for (var i = 0; i < existingWaterSourceCount; i++)
+                {
+                    await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+                    {
+                        SitesDim = siteDim,
+                        WaterSourcesDim = waterSourcesDims[i]
+                    });
+                }
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    WaterSourceDims = waterSourcesDims[..newWaterSourceCount].ToList()
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().Be(siteDim.SiteId);
+
+                var dbBridges = db.WaterSourceBridgeSitesFact.ToList();
+                if (newWaterSourceCount > 0)
+                {
+                    dbBridges.Should().AllSatisfy(a => a.WaterSourceBridgeSiteId.Should().BeGreaterThan(0)).And
+                        .Subject.Select(a => new { a.SiteId, a.WaterSourceId }).Should()
+                        .BeEquivalentTo(waterSourcesDims[..newWaterSourceCount].Select(a => new { siteDim.SiteId, a.WaterSourceId }));
+                }
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(100)]//to test a large WaterSourceUUID string
+        public async Task LoadSite_NewSite_PopulateWaterSources(int newWaterSourceCount)
+        {
+            Site site;
+            WaterSourcesDim[] waterSourcesDims;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                waterSourcesDims = Enumerable.Range(0, newWaterSourceCount).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = SitesDimBuilder.Create(new SitesDimBuilderOptions
+                    {
+                        CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                        EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db)
+                    }),
+                    WaterSourceDims = waterSourcesDims[..newWaterSourceCount].ToList()
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().BeGreaterThan(0);
+
+                var dbBridges = db.WaterSourceBridgeSitesFact.ToList();
+                if (newWaterSourceCount > 0)
+                {
+                    dbBridges.Should().AllSatisfy(a => a.WaterSourceBridgeSiteId.Should().BeGreaterThan(0)).And
+                        .Subject.Select(a => new { a.SiteId, a.WaterSourceId }).Should()
+                        .BeEquivalentTo(waterSourcesDims[..newWaterSourceCount].Select(a => new { dbSite.SiteId, a.WaterSourceId }));
+                }
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
         [TestMethod]
         public async Task LoadRegulatoryOverlays_SimpleLoad()
         {
@@ -1690,6 +1795,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
+
+
 
         private IDataIngestionAccessor CreateDataIngestionAccessor()
         {
