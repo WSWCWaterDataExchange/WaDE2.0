@@ -51,7 +51,6 @@
     <None Remove="Scripts\001\054 Core.LoadWaterAllocation Update.sql" />
     <None Remove="Scripts\001\055 Core .LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\001\056 Core.LoadSiteSpecificAmounts Update.sql" />
-    <None Remove="Scripts\001\057 VariableSpecificUUID coming back.sql" />
     <None Remove="Scripts\001\058 VariableSpecificUUID coming back 2.sql" />
     <None Remove="Scripts\001\059 Core.LoadVariables Update.sql" />
     <None Remove="Scripts\001\060 VariableTableType Update.sql" />
@@ -167,9 +166,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\060 VariableTableType Update.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\001\057 VariableSpecificUUID coming back.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\050 Changing Fact and Bridge Tables to NOT NULL.sql" />
