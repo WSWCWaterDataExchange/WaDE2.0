@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using NetTopologySuite.Geometries;
+using WesternStatesWater.WaDE.Utilities;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
@@ -6,6 +8,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
 {
     internal class ApiProfile : Profile
     {
+        public const string GeometryConversionKey = "GeometryConversionKey";
         public ApiProfile()
         {
 
@@ -42,6 +45,27 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
 
             CreateMap<AccessorApi.WaterAllocationsDigest, ManagerApi.WaterAllocationDigest>();
             CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();
+
+            CreateMap<Geometry, string>()
+                .ConvertUsing((geometry, _, context) => ConvertGeometryToString(geometry, context));
+        }
+
+        private string ConvertGeometryToString(Geometry geometry, ResolutionContext context)
+        {
+            if (geometry == null)
+            {
+                return null;
+            }
+            var isGeoJson = false;
+            if (context.Items.TryGetValue(GeometryConversionKey, out var obj))
+            {
+                isGeoJson = obj as bool? ?? false;
+            }
+            if (isGeoJson)
+            {
+                return geometry.AsGeoJson();
+            }
+            return geometry.AsText();
         }
     }
 }
