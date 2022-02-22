@@ -1,10 +1,10 @@
-using System;
 using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class Site
     {
+        public long SiteID { get; set; }
         public string NativeSiteID { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
@@ -17,7 +17,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string PODorPOUSite { get; set; }
         public List<PODToPOUSiteRelationship> RelatedPODSites { get; set; }
         public List<PODToPOUSiteRelationship> RelatedPOUSites { get; set; }
-        public long WaterSourceId { get; set; }
-        public string WaterSourceUUID { get; set; }
+        public List<string> WaterSourceUUIDs { get; set; }
     }
 }

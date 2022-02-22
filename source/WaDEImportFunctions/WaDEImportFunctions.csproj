@@ -40,6 +40,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj" />
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Contracts.Import\WesternStatesWater.WaDE.Contracts.Import.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Managers.Import\WesternStatesWater.WaDE.Managers.Import.csproj" />
   </ItemGroup>

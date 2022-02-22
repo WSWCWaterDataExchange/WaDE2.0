@@ -42,8 +42,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         }
     }
 
-        public class OwnerClassificationBuilderOptions
-        {
+    public class OwnerClassificationBuilderOptions
+    {
 
-        }
+    }
 }

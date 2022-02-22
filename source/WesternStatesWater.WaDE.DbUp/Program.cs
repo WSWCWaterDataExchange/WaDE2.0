@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Data.SqlClient;
 using System.Reflection;
+using WesternStatesWater.WaDE.Common;
 
 namespace WesternStatesWater.WaDE.DbUp
 {
@@ -21,14 +22,14 @@ namespace WesternStatesWater.WaDE.DbUp
 
         static void Main(string[] args)
         {
-                (var connectionString, var rebuild, var force) = ParseParameters(args);
+            (var connectionString, var rebuild, var force) = ParseParameters(args);
 
             //if no connection was provided, check the environment variable
             connectionString = string.IsNullOrEmpty(connectionString) ? Configuration["WadeDatabase"] : connectionString;
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("Connection string not found.");
+                throw new WaDEException("Connection string not found.");
             }
 
             EnsureDatabase.For.SqlDatabase(connectionString);
@@ -94,7 +95,7 @@ namespace WesternStatesWater.WaDE.DbUp
 
                 Console.WriteLine($"doClear: {doClear}");
 
-                
+
             }
 
             if (doClear)

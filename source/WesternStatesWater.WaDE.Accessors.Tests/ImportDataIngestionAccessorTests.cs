@@ -737,6 +737,78 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task LoadWaterAllocation_MultipleSites()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+            BeneficialUsesCV primaryUseCategoryCV;
+            OwnerClassificationCv ownerClassificationCV;
+            List<SitesDim> sites;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                primaryUseCategoryCV = await BeneficalUsesBuilder.Load(db);
+                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
+                sites = new List<SitesDim>
+                {
+                    await SitesDimBuilder.Load(db),
+                    await SitesDimBuilder.Load(db),
+                    await SitesDimBuilder.Load(db),
+                };
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+                waterAllocation.PrimaryUseCategory = primaryUseCategoryCV.Name;
+                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
+                waterAllocation.SiteUUID = String.Join(",", sites.Select(a => a.SiteUuid));
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.Include(a => a.AllocationBridgeSitesFact).SingleAsync();
+
+                dbAllocationAmount.AllocationAmountId.Should().NotBe(0);
+                dbAllocationAmount.OrganizationId.Should().Be(organization.OrganizationId);
+                dbAllocationAmount.VariableSpecificId.Should().Be(variable.VariableSpecificId);
+                dbAllocationAmount.MethodId.Should().Be(method.MethodId);
+                dbAllocationAmount.DataPublicationDateId.Should().Be(dataPublicationDate.DateId);
+                dbAllocationAmount.AllocationPriorityDateID.Should().Be(allocationPriorityDate.DateId);
+                dbAllocationAmount.AllocationTimeframeStart.Should().Be(startTestString);
+                dbAllocationAmount.AllocationTimeframeEnd.Should().Be(endTestString);
+                dbAllocationAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategoryCV.Name);
+                dbAllocationAmount.OwnerClassificationCV.Should().Be(ownerClassificationCV.Name);
+                dbAllocationAmount.AllocationBridgeSitesFact.Should().HaveCount(3)
+                    .And.Contain(a => a.SiteId == sites[0].SiteId)
+                    .And.Contain(a => a.SiteId == sites[1].SiteId)
+                    .And.Contain(a => a.SiteId == sites[2].SiteId);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
         public async Task LoadSiteSpecificAmounts_SimpleLoad_Civilian()
         {
             OrganizationsDim organization;
@@ -1472,6 +1544,43 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task LoadSite_MultipleRegulatoryOverlays()
+        {
+            SitesDim siteDim;
+            List<RegulatoryOverlayDim> regulatoryOverlays;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = await SitesDimBuilder.Load(db);
+                regulatoryOverlays = new List<RegulatoryOverlayDim>{
+                    await RegulatoryOverlayDimBuilder.Load(db),
+                    await RegulatoryOverlayDimBuilder.Load(db)
+                };
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = regulatoryOverlays
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlayBridgeSitesFacts = await db.RegulatoryOverlayBridgeSitesFact.ToListAsync();
+                dbRegulatoryOverlayBridgeSitesFacts.Should().HaveCount(2)
+                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.RegulatoryOverlayId == regulatoryOverlays[0].RegulatoryOverlayId)
+                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.RegulatoryOverlayId == regulatoryOverlays[1].RegulatoryOverlayId);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
         public async Task LoadSite_TwoSites()
         {
             SitesDim siteDim1;
@@ -1533,6 +1642,161 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
+
+        [DataTestMethod]
+        [DataRow(0, 0)]
+        [DataRow(0, 1)]
+        [DataRow(0, 2)]
+        [DataRow(1, 0)]
+        [DataRow(1, 1)]
+        [DataRow(1, 2)]
+        [DataRow(2, 0)]
+        [DataRow(2, 1)]
+        [DataRow(2, 2)]
+        public async Task LoadSite_ExistingSite_PopulateWaterSources(int existingWaterSourceCount, int newWaterSourceCount)
+        {
+            Site site;
+            SitesDim siteDim;
+            WaterSourcesDim[] waterSourcesDims;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var waterSourcesToCreateCount = Math.Max(existingWaterSourceCount, newWaterSourceCount);
+                waterSourcesDims = Enumerable.Range(0, waterSourcesToCreateCount).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+                siteDim = await SitesDimBuilder.Load(db);
+
+                for (var i = 0; i < existingWaterSourceCount; i++)
+                {
+                    await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+                    {
+                        SitesDim = siteDim,
+                        WaterSourcesDim = waterSourcesDims[i]
+                    });
+                }
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    WaterSourceDims = waterSourcesDims[..newWaterSourceCount].ToList()
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().Be(siteDim.SiteId);
+
+                var dbBridges = db.WaterSourceBridgeSitesFact.ToList();
+                if (newWaterSourceCount > 0)
+                {
+                    dbBridges.Should().AllSatisfy(a => a.WaterSourceBridgeSiteId.Should().BeGreaterThan(0)).And
+                        .Subject.Select(a => new { a.SiteId, a.WaterSourceId }).Should()
+                        .BeEquivalentTo(waterSourcesDims[..newWaterSourceCount].Select(a => new { siteDim.SiteId, a.WaterSourceId }));
+                }
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow(0)]
+        [DataRow(1)]
+        [DataRow(2)]
+        [DataRow(100)]//to test a large WaterSourceUUID string
+        public async Task LoadSite_NewSite_PopulateWaterSources(int newWaterSourceCount)
+        {
+            Site site;
+            WaterSourcesDim[] waterSourcesDims;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                waterSourcesDims = Enumerable.Range(0, newWaterSourceCount).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = SitesDimBuilder.Create(new SitesDimBuilderOptions
+                    {
+                        CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                        EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db)
+                    }),
+                    WaterSourceDims = waterSourcesDims[..newWaterSourceCount].ToList()
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().BeGreaterThan(0);
+
+                var dbBridges = db.WaterSourceBridgeSitesFact.ToList();
+                if (newWaterSourceCount > 0)
+                {
+                    dbBridges.Should().AllSatisfy(a => a.WaterSourceBridgeSiteId.Should().BeGreaterThan(0)).And
+                        .Subject.Select(a => new { a.SiteId, a.WaterSourceId }).Should()
+                        .BeEquivalentTo(waterSourcesDims[..newWaterSourceCount].Select(a => new { dbSite.SiteId, a.WaterSourceId }));
+                }
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadRegulatoryOverlays_SimpleLoad()
+        {
+            RegulatoryOverlayType organization;
+            RegulatoryStatus regulatoryStatus;
+            WaterSourceType waterSourceType;
+            RegulatoryOverlay regulatoryOverlay;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await RegulatoryOverlayTypeBuilder.Load(db);
+                regulatoryStatus = await RegulatoryStatusBuilder.Load(db);
+                waterSourceType = await WaterSourceTypeBuilder.Load(db);
+
+                regulatoryOverlay = RegulatoryOverlayBuilder.Create(new RegulatoryOverlayBuilderOptions
+                {
+                    RegulatoryOverlayType = organization,
+                    RegulatoryStatus = regulatoryStatus,
+                    WaterSourceType = waterSourceType
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadRegulatoryOverlays((new Faker()).Random.AlphaNumeric(10), new[] { regulatoryOverlay });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbRegulatoryOverlay = await db.RegulatoryOverlayDim.SingleAsync();
+
+                dbRegulatoryOverlay.RegulatoryOverlayId.Should().NotBe(0);
+                dbRegulatoryOverlay.RegulatoryOverlayUuid.Should().Be(regulatoryOverlay.RegulatoryOverlayUUID);
+                dbRegulatoryOverlay.RegulatoryOverlayNativeId.Should().Be(regulatoryOverlay.RegulatoryOverlayNativeID);
+                dbRegulatoryOverlay.RegulatoryName.Should().Be(regulatoryOverlay.RegulatoryName);
+                dbRegulatoryOverlay.RegulatoryDescription.Should().Be(regulatoryOverlay.RegulatoryDescription);
+                dbRegulatoryOverlay.RegulatoryStatusCv.Should().Be(regulatoryOverlay.RegulatoryStatusCV);
+                dbRegulatoryOverlay.OversightAgency.Should().Be(regulatoryOverlay.OversightAgency);
+                dbRegulatoryOverlay.RegulatoryStatute.Should().Be(regulatoryOverlay.RegulatoryStatute);
+                dbRegulatoryOverlay.RegulatoryStatuteLink.Should().Be(regulatoryOverlay.RegulatoryStatuteLink);
+                dbRegulatoryOverlay.StatutoryEffectiveDate.Should().Be(regulatoryOverlay.StatutoryEffectiveDate.Value.Date);
+                dbRegulatoryOverlay.StatutoryEndDate.Should().Be(regulatoryOverlay.StatutoryEndDate.Value.Date);
+                dbRegulatoryOverlay.RegulatoryOverlayTypeCV.Should().Be(regulatoryOverlay.RegulatoryOverlayTypeCV);
+                dbRegulatoryOverlay.WaterSourceTypeCV.Should().Be(regulatoryOverlay.WaterSourceTypeCV);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+
 
         private IDataIngestionAccessor CreateDataIngestionAccessor()
         {

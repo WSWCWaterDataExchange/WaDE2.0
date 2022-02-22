@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using System.Linq;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EF = WesternStatesWater.WaDE.Accessors.EntityFramework;
 
@@ -52,7 +51,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.County, b => b.MapFrom(c => c.County))
                  .ForMember(a => a.HUC8, b => b.MapFrom(c => c.HUC8))
                  .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
-                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
+                 .ForMember(a => a.WaterSourceUUIDs, b => b.Ignore())
                  .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
                  .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
 

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Common;
 using WesternStatesWater.WaDE.Contracts.Import;
 
 namespace WaDEImportFunctions
@@ -30,7 +31,6 @@ namespace WaDEImportFunctions
             var parallelTasks = new List<Task<StatusHelper>>
             {
                  context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSites, runId)
                 ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
                 ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
                 ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
@@ -47,7 +47,15 @@ namespace WaDEImportFunctions
 
             if (parallelResults.Any(a => !a.Status))
             {
-                throw new Exception("Failure Loading Initial Data");
+                throw new WaDEException("Failure Loading Initial Data");
+            }
+
+            //sites have to be run after WaterSources and RegulatoryOverlays
+            var sitesResult = await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSites, runId);
+            log.LogInformation(JsonConvert.SerializeObject(sitesResult));
+            if (!sitesResult.Status)
+            {
+                throw new WaDEException("Failure Loading Sites Data");
             }
 
             var results = new List<StatusHelper>
@@ -66,7 +74,7 @@ namespace WaDEImportFunctions
 
             if (results.Any(a => !a.Status))
             {
-                throw new Exception("Failure Loading Fact Data");
+                throw new WaDEException("Failure Loading Fact Data");
             }
 
             return new OkObjectResult(new { status = "success" });
