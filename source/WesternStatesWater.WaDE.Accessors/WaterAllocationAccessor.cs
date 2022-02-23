@@ -31,7 +31,6 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             var sw = Stopwatch.StartNew();
 
-
             var totalCountTask = GetAllocationAmountsCount(filters).BlockTaskInTransaction();
             var results = await GetAllocationAmounts(filters, startIndex, recordCount).BlockTaskInTransaction();
 
@@ -248,51 +247,9 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 var sw = Stopwatch.StartNew();
-                var query = db.AllocationAmountsFact.AsNoTracking();
+                var results = await GetAllocationAmounts(filters, startIndex, recordCount).BlockTaskInTransaction();
 
-                if (filters.StartPriorityDate != null)
-                {
-                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
-                }
-                if (filters.EndPriorityDate != null)
-                {
-                    query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
-                {
-                    query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
-                }
-                if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
-                {
-                    query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
-                }
-                if (!string.IsNullOrWhiteSpace(filters.Geometry))
-                {
-                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    var reader = new WKTReader(geometryFactory.GeometryServices);
-                    var shape = reader.Read(filters.Geometry);
-                    query = query.Where(
-                        a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
-                        a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
-                }
-                if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
-                {
-                    query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
-                }
-
-                var results = await query
-                    .OrderBy(a => a.AllocationAmountId)
-                    .Skip(startIndex)
-                    .Take(recordCount)
-                    .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
-                    .ToListAsync();
-
-                var allocationIds = results.Select(a => a.AllocationAmountId).ToList();
-
-                var sitesTask = db.AllocationBridgeSitesFact
-                    .Where(a => allocationIds.Contains(a.AllocationAmountId))
-                    .Select(a => new { a.AllocationAmountId, a.Site })
-                    .ToListAsync();
+                var sitesTask = GetSites(results.Select(a => a.AllocationAmountId).ToHashSet()).BlockTaskInTransaction();
 
                 var sites = await sitesTask;
                 var waterAllocationsLight = new List<AccessorApi.WaterAllocationsDigest>();
@@ -322,6 +279,56 @@ namespace WesternStatesWater.WaDE.Accessors
                 sw.Stop();
                 Logger.LogInformation($"Completed WaterAllocationLight [{sw.ElapsedMilliseconds } ms]");
                 return waterAllocationsLight;
+            }
+        }
+
+        private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsDigestQuery(AccessorApi.SiteAllocationAmountsDigestFilters filters, WaDEContext db)
+        {
+            var query = db.AllocationAmountsFact.AsNoTracking();
+
+            if (filters.StartPriorityDate != null)
+            {
+                query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
+            }
+            if (filters.EndPriorityDate != null)
+            {
+                query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
+            {
+                query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
+            {
+                query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            {
+                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                var reader = new WKTReader(geometryFactory.GeometryServices);
+                var shape = reader.Read(filters.Geometry);
+                query = query.Where(
+                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
+                    a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
+            {
+                query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
+            }
+
+            return query;
+        }
+
+        private async Task<List<AllocationHelper>> GetAllocationAmounts(AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await BuildAllocationAmountsDigestQuery(filters, db)
+                                .OrderBy(a => a.AllocationAmountId)
+                                .Skip(startIndex)
+                                .Take(recordCount)
+                                .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
+                                .ToListAsync();
             }
         }
 
