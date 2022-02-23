@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             return new Faker<MethodsDim>()
                 .RuleFor(a => a.MethodUuid, f => f.Random.Uuid().ToString())
-                .RuleFor(a => a.MethodName, f => f.Random.Word())
+                .RuleFor(a => a.MethodName, f => f.Random.Word(50))
                 .RuleFor(a => a.MethodDescription, f => f.Random.Words(5))
                 .RuleFor(a => a.MethodNemilink, f => f.Internet.Url())
                 .RuleFor(a => a.ApplicableResourceTypeCv, f => opts.ApplicableResourceType?.Name ?? ApplicableResourceTypeBuilder.GenerateName())
