@@ -79,7 +79,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.WaterSourcesDim, AccessorApi.WaterSource>()
                 .ForMember(a => a.WaterSourceNativeID, b => b.MapFrom(c => c.WaterSourceNativeId))
                 .ForMember(a => a.FreshSalineIndicatorCV, b => b.MapFrom(c => c.WaterQualityIndicatorCv))
-                .ForMember(a => a.WaterSourceGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
+                .ForMember(a => a.WaterSourceGeometry, b => b.MapFrom(c => c.Geometry));
 
 
             CreateMap<EF.OrganizationsDim, AccessorApi.AggregatedAmountsOrganization>()

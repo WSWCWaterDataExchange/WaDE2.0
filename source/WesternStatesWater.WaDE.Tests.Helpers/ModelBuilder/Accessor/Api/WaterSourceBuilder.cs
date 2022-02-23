@@ -14,7 +14,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.WaterSourceUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.WaterSourceTypeCV, f => f.Random.Word())
                 .RuleFor(a => a.FreshSalineIndicatorCV, f => f.Random.Word())
-                .RuleFor(a => a.WaterSourceGeometry, f => f.Geography().GeometryWktString());
+                .RuleFor(a => a.WaterSourceGeometry, f => f.Geography().Geometry());
 
             return faker;
         }
