@@ -50,10 +50,10 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(reportingUnitUUID) && 
-                string.IsNullOrWhiteSpace(regulatoryOverlayUUID) && 
-                string.IsNullOrWhiteSpace(organizationUUID) && 
-                string.IsNullOrWhiteSpace(regulatoryStatusCV) && 
+            if (string.IsNullOrWhiteSpace(reportingUnitUUID) &&
+                string.IsNullOrWhiteSpace(regulatoryOverlayUUID) &&
+                string.IsNullOrWhiteSpace(organizationUUID) &&
+                string.IsNullOrWhiteSpace(regulatoryStatusCV) &&
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
@@ -70,7 +70,7 @@ namespace WaDEApiFunctions.v1
                 RegulatoryStatusCV = regulatoryStatusCV,
                 Geometry = geometry,
                 State = state
-            }, startIndex, recordCount);
+            }, startIndex, recordCount, GeometryFormat.Wkt);
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
