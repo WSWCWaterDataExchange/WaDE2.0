@@ -11,6 +11,19 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
         }
     }
 
+    public static class RandomizerExtensions
+    {
+        public static string Word(this Randomizer r, int maxLength)
+        {
+            string result;
+            do
+            {
+                result = r.Word();
+            } while (result.Length > maxLength);
+            return result;
+        }
+    }
+
     public class Geography
     {
         public Geography(Faker f)
