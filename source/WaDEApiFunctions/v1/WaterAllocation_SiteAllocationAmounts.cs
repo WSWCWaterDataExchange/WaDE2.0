@@ -79,7 +79,7 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            }, startIndex, recordCount);
+            }, startIndex, recordCount, GeometryFormat.Wkt);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
