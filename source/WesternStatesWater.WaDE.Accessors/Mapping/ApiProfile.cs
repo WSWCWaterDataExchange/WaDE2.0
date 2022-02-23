@@ -133,7 +133,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
                 .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
-                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
                 .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore())
                 .ForMember(a => a.HUC8, b => b.MapFrom(c => c.Site.HUC8))
