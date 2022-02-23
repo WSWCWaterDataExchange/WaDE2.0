@@ -42,6 +42,7 @@ namespace WaDEApiFunctions.v1
             var state = req.GetQueryString("State") ?? data?.state;
             var startIndex = RequestDataParser.ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
             var recordCount = RequestDataParser.ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
+            var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (startIndex < 0)
             {
@@ -79,7 +80,7 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            }, startIndex, recordCount, RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt);
+            }, startIndex, recordCount, geoFormat);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
