@@ -1190,8 +1190,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.ToTable("RegulatoryReportingUnits_fact", "Core");
 
                 entity.Property(e => e.BridgeId)
-                    .HasColumnName("BridgeID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("BridgeID");
 
                 entity.Property(e => e.DataPublicationDateId).HasColumnName("DataPublicationDateID");
 
