@@ -39,6 +39,7 @@ namespace WaDEApiFunctions.v1
             var state = ((string)req.Query["State"]) ?? data?.state;
             var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
             var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (startIndex < 0)
             {
@@ -70,7 +71,7 @@ namespace WaDEApiFunctions.v1
                 RegulatoryStatusCV = regulatoryStatusCV,
                 Geometry = geometry,
                 State = state
-            }, startIndex, recordCount, GeometryFormat.Wkt);
+            }, startIndex, recordCount, geoFormat);
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
