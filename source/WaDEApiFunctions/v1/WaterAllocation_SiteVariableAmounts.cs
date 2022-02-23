@@ -29,21 +29,22 @@ namespace WaDEApiFunctions.v1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
 
-            var siteUUID = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
-            var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
-            var variableCV = ((string)req.Query["VariableCV"]) ?? data?.variableCV;
-            var variableSpecificCV = ((string)req.Query["VariableSpecificCV"]) ?? data?.variableCV;
-            var beneficialUse = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
-            var usgsCategoryNameCV = ((string)req.Query["UsgsCategoryNameCV"]) ?? data?.usgsCategoryNameCV;
-            var startDate = ParseDate(((string)req.Query["StartDate"]) ?? data?.startDate);
-            var endDate = ParseDate(((string)req.Query["EndDate"]) ?? data?.endDate);
-            var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
-            var huc8 = ((string)req.Query["HUC8"]) ?? data?.huc8;
-            var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
-            var county = ((string)req.Query["County"]) ?? data?.county;
-            var state = ((string)req.Query["State"]) ?? data?.state;
-            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var siteUUID = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
+            var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
+            var variableCV = req.GetQueryString("VariableCV") ?? data?.variableCV;
+            var variableSpecificCV = req.GetQueryString("VariableSpecificCV") ?? data?.variableCV;
+            var beneficialUse = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
+            var usgsCategoryNameCV = req.GetQueryString("UsgsCategoryNameCV") ?? data?.usgsCategoryNameCV;
+            var startDate = ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
+            var endDate = ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
+            var geometry = req.GetQueryString("SearchBoundary") ?? data?.searchBoundary;
+            var huc8 = req.GetQueryString("HUC8") ?? data?.huc8;
+            var huc12 = req.GetQueryString("HUC12") ?? data?.huc12;
+            var county = req.GetQueryString("County") ?? data?.county;
+            var state = req.GetQueryString("State") ?? data?.state;
+            var startIndex = ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
+            var recordCount = ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
+            var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (string.IsNullOrWhiteSpace(variableCV) &&
                 string.IsNullOrWhiteSpace(variableSpecificCV) &&
@@ -75,7 +76,7 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            }, startIndex, recordCount, GeometryFormat.Wkt);
+            }, startIndex, recordCount, geoFormat);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 

@@ -15,9 +15,9 @@ using WesternStatesWater.WaDE.Contracts.Api;
 namespace WesternStatesWater.WaDE.Clients.Tests
 {
     [TestClass]
-    public class WaterAllocationAggregatedAmountsTests
+    public class WaterAllocationSiteVariableAmountsTests
     {
-        private readonly IAggregatedAmountsManager AggregatedAmountsManagerMock = Mock.Create<IAggregatedAmountsManager>(Behavior.Strict);
+        private readonly ISiteVariableAmountsManager SiteVariableAmountsManagerMock = Mock.Create<ISiteVariableAmountsManager>(Behavior.Strict);
 
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt)]
@@ -36,21 +36,21 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         public async Task Run_GeometryFormat(string formatString, GeometryFormat expectedGeometryFormat)
         {
             var faker = new Faker();
-            AggregatedAmountsManagerMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, expectedGeometryFormat))
-                                      .Returns(Task.FromResult(new AggregatedAmounts()));
+            SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat))
+                                      .Returns(Task.FromResult(new SiteVariableAmounts()));
 
             var httpContext = new DefaultHttpContext();
             var queryParams = new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
             {
-                { "VariableCV", faker.Random.Word() },
+                { "SiteUUID", faker.Random.Uuid().ToString() },
                 { "geoFormat", formatString }
             };
             httpContext.Request.Query = new QueryCollection(queryParams);
-            var sut = CreateAggregatedAmountsFunction();
+            var sut = CreateSiteVariableAmountsFunction();
             var result = await sut.Run(httpContext.Request, NullLogger.Instance);
             result.Should().BeOfType<JsonResult>();
 
-            AggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
+            SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
         }
 
         [DataTestMethod]
@@ -59,35 +59,35 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         [DataRow(" ", typeof(BadRequestObjectResult))]
         [DataRow("\t", typeof(BadRequestObjectResult))]
         [DataRow("good one", typeof(JsonResult))]
-        public async Task Run_VariableCV(string variableCv, Type expectedType)
+        public async Task Run_SiteUuid(string siteUuid, Type expectedType)
         {
-            AggregatedAmountsManagerMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
-                                      .Returns(Task.FromResult(new AggregatedAmounts()));
+            SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
+                                      .Returns(Task.FromResult(new SiteVariableAmounts()));
 
             var httpContext = new DefaultHttpContext();
             var queryParams = new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
             {
-                { "VariableCV", variableCv }
+                { "SiteUUID", siteUuid }
             };
             httpContext.Request.Query = new QueryCollection(queryParams);
-            var sut = CreateAggregatedAmountsFunction();
+            var sut = CreateSiteVariableAmountsFunction();
             var result = await sut.Run(httpContext.Request, NullLogger.Instance);
             result.Should().BeOfType(expectedType);
 
             if (expectedType == typeof(BadRequestObjectResult))
             {
-                AggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
+                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
             }
             else
             {
-                AggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
-                AggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.Matches<AggregatedAmountsFilters>(a => a.VariableCV == variableCv), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.Matches<SiteVariableAmountsFilters>(a => a.SiteUuid == siteUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
             }
         }
 
-        private WaterAllocation_AggregatedAmounts CreateAggregatedAmountsFunction()
+        private WaterAllocation_SiteVariableAmounts CreateSiteVariableAmountsFunction()
         {
-            return new WaterAllocation_AggregatedAmounts(AggregatedAmountsManagerMock);
+            return new WaterAllocation_SiteVariableAmounts(SiteVariableAmountsManagerMock);
         }
     }
 }

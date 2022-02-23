@@ -1,16 +1,16 @@
+using Bogus;
+using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WaDEApiFunctions.v1;
-using WesternStatesWater.WaDE.Contracts.Api;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging.Abstractions;
-using System.Threading.Tasks;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using Bogus;
-using System.Collections.Generic;
-using System;
+using WaDEApiFunctions.v1;
+using WesternStatesWater.WaDE.Contracts.Api;
 
 namespace WesternStatesWater.WaDE.Clients.Tests
 {
@@ -74,14 +74,14 @@ namespace WesternStatesWater.WaDE.Clients.Tests
             var result = await sut.Run(httpContext.Request, NullLogger.Instance);
             result.Should().BeOfType(expectedType);
 
-            if(expectedType == typeof(BadRequestObjectResult))
+            if (expectedType == typeof(BadRequestObjectResult))
             {
                 WaterAllocationManagerMock.Assert(a => a.GetSiteAllocationAmountsAsync(Arg.IsAny<SiteAllocationAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
             }
             else
             {
                 WaterAllocationManagerMock.Assert(a => a.GetSiteAllocationAmountsAsync(Arg.IsAny<SiteAllocationAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
-                WaterAllocationManagerMock.Assert(a => a.GetSiteAllocationAmountsAsync(Arg.Matches<SiteAllocationAmountsFilters>(a=>a.SiteUuid == siteUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                WaterAllocationManagerMock.Assert(a => a.GetSiteAllocationAmountsAsync(Arg.Matches<SiteAllocationAmountsFilters>(a => a.SiteUuid == siteUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
             }
         }
 
