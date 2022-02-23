@@ -47,6 +47,8 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
             CreateMap<AccessorApi.WaterAllocationsDigest, ManagerApi.WaterAllocationDigest>();
             CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();
 
+            CreateMap<AccessorApi.PODToPOUSiteRelationship, ManagerApi.PODToPOUSiteRelationship>();
+
             CreateMap<Geometry, string>()
                 .ConvertUsing((geometry, _, context) => ConvertGeometryToString(geometry, context));
         }
