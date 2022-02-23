@@ -30,7 +30,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.PopulationServed, f => f.PickRandom<long?>(f.Random.Long(1, 10000000), null))
                 .RuleFor(a => a.GeneratedPowerCapacityMW, f => f.PickRandom<double?>(f.Random.Double(1, 100000), null))
                 .RuleFor(a => a.AllocationCommunityWaterSupplySystem, f => f.Random.Word())
-                .RuleFor(a => a.AllocationCommunityWaterSupplySystem, f => f.Random.Word())
                 .RuleFor(a => a.MethodId, f => f.Random.Long(1))
                 .RuleFor(a => a.MethodUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.VariableSpecificId, f => f.Random.Long(1))
