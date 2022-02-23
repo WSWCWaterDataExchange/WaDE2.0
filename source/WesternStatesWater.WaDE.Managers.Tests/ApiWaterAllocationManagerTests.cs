@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow(null, GeometryFormat.GeoJson, null)]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResult)
+        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
         {
             var accessorResult = WaterAllocationsBuilder.Create();
             accessorResult.Organizations.First().WaterAllocations[0].Sites[0].SiteGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
@@ -32,7 +32,16 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             var result = await sut.GetSiteAllocationAmountsAsync(new Contracts.Api.SiteAllocationAmountsFilters(), 0, 1, geometryFormat);
             result.Should().NotBeNull();
 
-            result.Organizations.First().WaterAllocations[0].Sites[0].SiteGeometry.Should().Be(expectedResult);
+            var resultGeometry = result.Organizations.First().WaterAllocations[0].Sites[0].SiteGeometry;
+            if (expectedResultString == null)
+            {
+                resultGeometry.Should().BeNull();
+            }
+            else
+            {
+                var expectedResult = geometryFormat == GeometryFormat.Wkt ? expectedResultString : Newtonsoft.Json.JsonConvert.DeserializeObject(expectedResultString);
+                resultGeometry.ToString().Should().Be(expectedResult.ToString());
+            }
         }
 
         private IWaterAllocationManager CreateWaterAllocationManager()

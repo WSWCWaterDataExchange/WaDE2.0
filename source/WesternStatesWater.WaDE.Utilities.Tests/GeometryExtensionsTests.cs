@@ -25,7 +25,14 @@ public class GeometryExtensionsTests
         }
 
         var result = geometry.AsGeoJson();
-        result.Should().Be(expectedGeoJson);
+        if(expectedGeoJson == null)
+        {
+            ((object?)result).Should().BeNull();
+        }
+        else
+        {
+            ((object?)result).ToString().Should().Be(Newtonsoft.Json.JsonConvert.DeserializeObject(expectedGeoJson).ToString());
+        }
     }
 
     [DataTestMethod]

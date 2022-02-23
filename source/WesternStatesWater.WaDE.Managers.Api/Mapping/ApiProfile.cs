@@ -49,11 +49,11 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
 
             CreateMap<AccessorApi.PODToPOUSiteRelationship, ManagerApi.PODToPOUSiteRelationship>();
 
-            CreateMap<Geometry, string>()
-                .ConvertUsing((geometry, _, context) => ConvertGeometryToString(geometry, context));
+            CreateMap<Geometry, object>()
+                .ConvertUsing((geometry, _, context) => ConvertGeometryToObject(geometry, context));
         }
 
-        private string ConvertGeometryToString(Geometry geometry, ResolutionContext context)
+        private object ConvertGeometryToObject(Geometry geometry, ResolutionContext context)
         {
             if (geometry == null)
             {

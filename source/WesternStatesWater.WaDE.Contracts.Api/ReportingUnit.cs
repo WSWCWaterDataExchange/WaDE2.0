@@ -11,7 +11,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string ReportingUnitTypeCV { get; set; }
         public DateTime? ReportingUnitUpdateDate { get; set; }
         public string ReportingUnitProductVersion { get; set; }
-        public string ReportingUnitGeometry { get; set; }
+        public object ReportingUnitGeometry { get; set; }
         public List<string> RegulatoryOverlayUUIDs { get; set; }
     }
 }

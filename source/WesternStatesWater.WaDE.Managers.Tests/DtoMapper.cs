@@ -31,22 +31,28 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow("POINT(-96.7014 40.8146)", true, "true", GeometryFormat.Wkt)]
         [DataRow("POINT(-96.7014 40.8146)", true, GeometryFormat.Wkt, GeometryFormat.Wkt)]
         [DataRow("POINT(-96.7014 40.8146)", true, GeometryFormat.GeoJson, GeometryFormat.GeoJson)]
-        public void Map_GeometryToString(string geometryString, bool hasKey, object key, GeometryFormat? expectedGeometryFormat)
+        public void Map_GeometryToObject(string geometryString, bool hasKey, object key, GeometryFormat? expectedGeometryFormat)
         {
             Geometry geometry = null;
-            string expectedResult = null;
             if (geometryString != null)
             {
                 var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
                 var reader = new WKTReader(geometryFactory.GeometryServices);
                 geometry = reader.Read(geometryString);
-                expectedResult = expectedGeometryFormat.Value == GeometryFormat.GeoJson ? geometry.AsGeoJson() : geometry.AsText();
             }
 
             Action<IMappingOperationOptions> mappingOperationsAction = hasKey ? a => a.Items.Add(ApiProfile.GeometryFormatKey, key) : null;
 
-            var result = geometry.Map<string>(mappingOperationsAction);
-            result.Should().Be(expectedResult);
+            var result = geometry.Map<object>(mappingOperationsAction);
+            if (expectedGeometryFormat == null)
+            {
+                result.Should().BeNull();
+            }
+            else
+            {
+                var expectedResult = expectedGeometryFormat == GeometryFormat.Wkt ? geometry.AsText() : geometry.AsGeoJson();
+                result.ToString().Should().Be(expectedResult.ToString());
+            }
         }
     }
 }

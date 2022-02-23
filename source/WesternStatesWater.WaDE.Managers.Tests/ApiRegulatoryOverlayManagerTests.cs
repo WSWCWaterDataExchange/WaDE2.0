@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow(null, GeometryFormat.GeoJson, null)]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResult)
+        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
         {
             var accessorResult = RegulatoryReportingUnitsBuilder.Create();
             accessorResult.Organizations.First().ReportingUnitsRegulatory[0].Geometry = GeometryExtensions.GetGeometryByWkt(geometryString);
@@ -32,7 +32,16 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             var result = await sut.GetRegulatoryReportingUnitsAsync(new Contracts.Api.RegulatoryOverlayFilters(), 0, 1, geometryFormat);
             result.Should().NotBeNull();
 
-            result.Organizations.First().ReportingUnitsRegulatory[0].Geometry.Should().Be(expectedResult);
+            var resultGeometry = result.Organizations.First().ReportingUnitsRegulatory[0].Geometry;
+            if (expectedResultString == null)
+            {
+                resultGeometry.Should().BeNull();
+            }
+            else
+            {
+                var expectedResult = geometryFormat == GeometryFormat.Wkt ? expectedResultString : Newtonsoft.Json.JsonConvert.DeserializeObject(expectedResultString);
+                resultGeometry.ToString().Should().Be(expectedResult.ToString());
+            }
         }
 
         private IRegulatoryOverlayManager CreateRegulatoryOverlayManager()

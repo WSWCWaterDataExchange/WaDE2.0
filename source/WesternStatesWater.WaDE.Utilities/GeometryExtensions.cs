@@ -8,7 +8,7 @@ namespace WesternStatesWater.WaDE.Utilities
 {
     public static class GeometryExtensions
     {
-        public static string? AsGeoJson(this Geometry geometry)
+        public static dynamic? AsGeoJson(this Geometry geometry)
         {
             if (geometry == null)
             {
@@ -19,7 +19,7 @@ namespace WesternStatesWater.WaDE.Utilities
             using (var jsonWriter = new JsonTextWriter(stringWriter))
             {
                 serializer.Serialize(jsonWriter, geometry);
-                return stringWriter.ToString();
+                return (dynamic)JsonConvert.DeserializeObject(stringWriter.ToString());
             }
         }
 
