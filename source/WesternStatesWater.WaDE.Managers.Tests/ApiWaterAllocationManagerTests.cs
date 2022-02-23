@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow(null, GeometryFormat.GeoJson, null)]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-        public async Task WaterAllocationManager_GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResult)
+        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResult)
         {
             var accessorResult = WaterAllocationsBuilder.Create();
             accessorResult.Organizations.First().WaterAllocations[0].Sites[0].SiteGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
