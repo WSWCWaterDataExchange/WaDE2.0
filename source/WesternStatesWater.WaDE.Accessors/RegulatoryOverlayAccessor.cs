@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NetTopologySuite;
+using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -133,7 +134,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public string ReportingUnitProductVersion { get; set; }
             public string StateCV { get; set; }
             public string EPSGCodeCV { get; set; }
-            public string Geometry { get; set; }
+            public Geometry Geometry { get; set; }
         }
     }
 }

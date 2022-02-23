@@ -153,7 +153,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitProductVersion, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitProductVersion))
                 .ForMember(a => a.StateCV, b => b.MapFrom(c => c.ReportingUnit.StateCv))
                 .ForMember(a => a.EPSGCodeCV, b => b.MapFrom(c => c.ReportingUnit.EpsgcodeCv))
-                .ForMember(a => a.Geometry, b => b.MapFrom(c => c.ReportingUnit.Geometry == null ? null : c.ReportingUnit.Geometry.AsText()));
+                .ForMember(a => a.Geometry, b => b.MapFrom(c => c.ReportingUnit.Geometry));
             CreateMap<EF.OrganizationsDim, AccessorApi.RegulatoryReportingUnitsOrganization>()
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
                 .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())
