@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
@@ -30,63 +31,12 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 var sw = Stopwatch.StartNew();
-                var query = db.RegulatoryReportingUnitsFact.AsNoTracking();
-                if (filters.StatutoryEffectiveDate != null)
-                {
-                    query = query.Where(a => a.RegulatoryOverlay.StatutoryEffectiveDate >= filters.StatutoryEffectiveDate);
-                }
-                if (filters.StatutoryEndDate != null)
-                {
-                    query = query.Where(a => a.RegulatoryOverlay.StatutoryEndDate <= filters.StatutoryEndDate);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
-                {
-                    query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.RegulatoryOverlayUUID))
-                {
-                    query = query.Where(a => a.RegulatoryOverlay.RegulatoryOverlayUuid == filters.RegulatoryOverlayUUID);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
-                {
-                    query = query.Where(a => a.RegulatoryOverlay.RegulatoryStatusCv == filters.RegulatoryStatusCV);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
-                {
-                    query = query.Where(a => a.ReportingUnit.ReportingUnitUuid == filters.ReportingUnitUUID);
-                }
-                if (!string.IsNullOrWhiteSpace(filters.Geometry))
-                {
-                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    var reader = new WKTReader(geometryFactory.GeometryServices);
-                    var shape = reader.Read(filters.Geometry);
-                    query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
-                }
-                if (!string.IsNullOrWhiteSpace(filters.State))
-                {
-                    query = query.Where(a => a.Organization.State == filters.State);
-                }
 
-                var totalCount = query.Count();
+                var totalCountTask = GetRegulatoryReportingUnitsCount(filters).BlockTaskInTransaction();
+                var results = await GetRegulatoryReportingUnits(filters, startIndex, recordCount).BlockTaskInTransaction();
 
-                var results = await query
-                    .OrderBy(a => a.BridgeId)
-                    .Skip(startIndex)
-                    .Take(recordCount)
-                    .ProjectTo<ReportingUnitRegulatoryHelper>(Mapping.DtoMapper.Configuration)
-                    .ToListAsync();
-
-                var orgIds = results.Select(a => a.OrganizationId).ToHashSet();
-                var orgsTask = db.OrganizationsDim
-                    .Where(a => orgIds.Contains(a.OrganizationId))
-                    .ProjectTo<AccessorApi.RegulatoryReportingUnitsOrganization>(Mapping.DtoMapper.Configuration)
-                    .ToListAsync();
-
-                var regulatoryOverlayIds = results.Select(a => a.RegulatoryOverlayId).ToList();
-                var regulatoryOverlaysTask = db.RegulatoryOverlayDim
-                    .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
-                    .ProjectTo<AccessorApi.RegulatoryOverlay>(Mapping.DtoMapper.Configuration)
-                    .ToListAsync();
+                var orgsTask = GetOrganizations(results.Select(a => a.OrganizationId).ToHashSet()).BlockTaskInTransaction();
+                var regulatoryOverlaysTask = GetRegulatoryOverlays(results.Select(a => a.RegulatoryOverlayId).ToHashSet()).BlockTaskInTransaction();
 
                 var regulatoryOverlays = await regulatoryOverlaysTask;
 
@@ -101,9 +51,94 @@ namespace WesternStatesWater.WaDE.Accessors
                 Logger.LogInformation($"Completed RegulatoryOverlay [{sw.ElapsedMilliseconds} ms]");
                 return new AccessorApi.RegulatoryReportingUnits
                 {
-                    TotalRegulatoryReportingUnitsCount = totalCount,
+                    TotalRegulatoryReportingUnitsCount = await totalCountTask,
                     Organizations = regulatoryReportingUnitsOrganizations
                 };
+            }
+        }
+
+        private static IQueryable<RegulatoryReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
+        {
+            var query = db.RegulatoryReportingUnitsFact.AsNoTracking();
+            if (filters.StatutoryEffectiveDate != null)
+            {
+                query = query.Where(a => a.RegulatoryOverlay.StatutoryEffectiveDate >= filters.StatutoryEffectiveDate);
+            }
+            if (filters.StatutoryEndDate != null)
+            {
+                query = query.Where(a => a.RegulatoryOverlay.StatutoryEndDate <= filters.StatutoryEndDate);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
+            {
+                query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.RegulatoryOverlayUUID))
+            {
+                query = query.Where(a => a.RegulatoryOverlay.RegulatoryOverlayUuid == filters.RegulatoryOverlayUUID);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
+            {
+                query = query.Where(a => a.RegulatoryOverlay.RegulatoryStatusCv == filters.RegulatoryStatusCV);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
+            {
+                query = query.Where(a => a.ReportingUnit.ReportingUnitUuid == filters.ReportingUnitUUID);
+            }
+            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            {
+                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+                var reader = new WKTReader(geometryFactory.GeometryServices);
+                var shape = reader.Read(filters.Geometry);
+                query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
+            }
+            if (!string.IsNullOrWhiteSpace(filters.State))
+            {
+                query = query.Where(a => a.Organization.State == filters.State);
+            }
+
+            return query;
+        }
+
+        private async Task<int> GetRegulatoryReportingUnitsCount(AccessorApi.RegulatoryOverlayFilters filters)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await BuildRegulatoryReportingUnitsQuery(filters, db).CountAsync();
+            }
+        }
+
+        private async Task<List<ReportingUnitRegulatoryHelper>> GetRegulatoryReportingUnits(AccessorApi.RegulatoryOverlayFilters filters, int startIndex, int recordCount)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await BuildRegulatoryReportingUnitsQuery(filters, db)
+                                .OrderBy(a => a.BridgeId)
+                                .Skip(startIndex)
+                                .Take(recordCount)
+                                .ProjectTo<ReportingUnitRegulatoryHelper>(Mapping.DtoMapper.Configuration)
+                                .ToListAsync();
+            }
+        }
+
+        private async Task<List<AccessorApi.RegulatoryReportingUnitsOrganization>> GetOrganizations(HashSet<long> orgIds)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await db.OrganizationsDim
+                               .Where(a => orgIds.Contains(a.OrganizationId))
+                               .ProjectTo<AccessorApi.RegulatoryReportingUnitsOrganization>(Mapping.DtoMapper.Configuration)
+                               .ToListAsync();
+            }
+        }
+
+        private async Task<List<AccessorApi.RegulatoryOverlay>> GetRegulatoryOverlays(HashSet<long> regulatoryOverlayIds)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await db.RegulatoryOverlayDim
+                               .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
+                               .ProjectTo<AccessorApi.RegulatoryOverlay>(Mapping.DtoMapper.Configuration)
+                               .ToListAsync();
             }
         }
 
