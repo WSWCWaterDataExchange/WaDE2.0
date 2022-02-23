@@ -47,7 +47,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
                  .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.GniscodeCv))
-                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry))
                  .ForMember(a => a.County, b => b.MapFrom(c => c.County))
                  .ForMember(a => a.HUC8, b => b.MapFrom(c => c.HUC8))
                  .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
