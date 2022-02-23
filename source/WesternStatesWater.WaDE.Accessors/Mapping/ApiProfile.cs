@@ -141,7 +141,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.County, b => b.MapFrom(c => c.Site.County));
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
-                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.RegulatoryOverlayUUIDs, b => b.Ignore());
 
             CreateMap<EF.RegulatoryReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
