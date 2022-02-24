@@ -99,7 +99,8 @@ namespace WesternStatesWater.WaDE.Accessors
             }
             if (filters.Geometry != null)
             {
-                query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(filters.Geometry)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(filters.Geometry)));
+                query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(filters.Geometry)) ||
+                                         (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(filters.Geometry)));
             }
             if (!string.IsNullOrWhiteSpace(filters.HUC8))
             {

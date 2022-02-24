@@ -97,8 +97,8 @@ namespace WesternStatesWater.WaDE.Accessors
             if (filters.Geometry != null)
             {
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) || //
-                         a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))); //
+                    a => a.AllocationBridgeSitesFact.Any(site => (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
+                                                                 (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
             }
             if (!string.IsNullOrWhiteSpace(filters.HUC8))
             {
@@ -300,8 +300,8 @@ namespace WesternStatesWater.WaDE.Accessors
             if (filters.Geometry != null)
             {
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
-                    a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry)));
+                    a => a.AllocationBridgeSitesFact.Any(site => (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
+                                                                 (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
             }
             if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
             {
