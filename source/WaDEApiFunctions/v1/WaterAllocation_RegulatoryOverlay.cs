@@ -32,13 +32,13 @@ namespace WaDEApiFunctions.v1
             var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
             var regulatoryOverlayUUID = ((string)req.Query["RegulatoryOverlayUUID"]) ?? data?.regulatoryOverlayUUID;
             var organizationUUID = ((string)req.Query["OrganizationUUID"]) ?? data?.organizationUUID;
-            var statutoryEffectiveDate = ParseDate(((string)req.Query["StatutoryEffectiveDate"]) ?? data?.statutoryEffectiveDate);
-            var statutoryEndDate = ParseDate(((string)req.Query["StatutoryEndDate"]) ?? data?.statutoryEndDate);
+            var statutoryEffectiveDate = RequestDataParser.ParseDate(((string)req.Query["StatutoryEffectiveDate"]) ?? data?.statutoryEffectiveDate);
+            var statutoryEndDate = RequestDataParser.ParseDate(((string)req.Query["StatutoryEndDate"]) ?? data?.statutoryEndDate);
             var regulatoryStatusCV = ((string)req.Query["RegulatoryStatusCV"]) ?? data?.regulatoryStatusCV;
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
             var state = ((string)req.Query["State"]) ?? data?.state;
-            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var startIndex = RequestDataParser.ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = RequestDataParser.ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
             var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (startIndex < 0)
@@ -73,16 +73,6 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-        }
-
-        private static DateTime? ParseDate(string value)
-        {
-            return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
-        }
-
-        private static int? ParseInt(string value)
-        {
-            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class RegulatoryOverlayRequestBody

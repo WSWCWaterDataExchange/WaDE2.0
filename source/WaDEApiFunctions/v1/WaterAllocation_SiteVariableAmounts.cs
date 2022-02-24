@@ -35,15 +35,15 @@ namespace WaDEApiFunctions.v1
             var variableSpecificCV = req.GetQueryString("VariableSpecificCV") ?? data?.variableCV;
             var beneficialUse = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
             var usgsCategoryNameCV = req.GetQueryString("UsgsCategoryNameCV") ?? data?.usgsCategoryNameCV;
-            var startDate = ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
-            var endDate = ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
+            var startDate = RequestDataParser.ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
+            var endDate = RequestDataParser.ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
             var geometry = req.GetQueryString("SearchBoundary") ?? data?.searchBoundary;
             var huc8 = req.GetQueryString("HUC8") ?? data?.huc8;
             var huc12 = req.GetQueryString("HUC12") ?? data?.huc12;
             var county = req.GetQueryString("County") ?? data?.county;
             var state = req.GetQueryString("State") ?? data?.state;
-            var startIndex = ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
+            var startIndex = RequestDataParser.ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
+            var recordCount = RequestDataParser.ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
             var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (string.IsNullOrWhiteSpace(variableCV) &&
@@ -78,16 +78,6 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-        }
-
-        private static DateTime? ParseDate(string value)
-        {
-            return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
-        }
-
-        private static int? ParseInt(string value)
-        {
-            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class AggregratedAmountsRequestBody
