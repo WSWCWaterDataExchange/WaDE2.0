@@ -44,6 +44,10 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [DataTestMethod]
+        [DataRow(null, null, null, true)]
+        [DataRow(null, "2022-02-23", null, false)]
+        [DataRow(null, null, "2022-02-25", false)]
+        [DataRow(null, "2022-02-23", "2022-02-25", false)]
         [DataRow("2022-02-24", null, null, true)]
         [DataRow("2022-02-24", "2022-02-23", null, true)]
         [DataRow("2022-02-24", "2022-02-24", null, true)]
@@ -60,11 +64,14 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             var configuration = Configuration.GetConfiguration();
             AggregatedAmountsFact aggregatedAmount;
-            DateDim publicationDate;
+            DateDim publicationDate = null;
             using (var db = new WaDEContext(configuration))
             {
-                publicationDate = await DateDimBuilder.Load(db);
-                publicationDate.Date = DateTime.Parse(dataPublicationDate);
+                if (dataPublicationDate != null)
+                {
+                    publicationDate = await DateDimBuilder.Load(db);
+                    publicationDate.Date = DateTime.Parse(dataPublicationDate);
+                }
 
                 aggregatedAmount = await AggregatedAmountsFactBuilder.Load(db, new AggregatedAmountsFactBuilderOptions
                 {
