@@ -64,7 +64,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<WaterSourcesDim> WaterSourcesDim { get; set; }
         public virtual DbSet<PODSiteToPOUSiteFact> PODSiteToPOUSiteFact { get; set; }
 
-        //private static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] { new ConsoleLoggerProvider((_, __) => true, true) });
+        //private static readonly ILoggerFactory MyLoggerFactory = LoggerFactory.Create(a => { a.AddConsole(); });
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -1190,8 +1190,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.ToTable("RegulatoryReportingUnits_fact", "Core");
 
                 entity.Property(e => e.BridgeId)
-                    .HasColumnName("BridgeID")
-                    .ValueGeneratedNever();
+                    .HasColumnName("BridgeID");
 
                 entity.Property(e => e.DataPublicationDateId).HasColumnName("DataPublicationDateID");
 

@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetTopologySuite;
-using NetTopologySuite.IO;
+using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -98,12 +97,10 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.Site.SiteTypeCv == filters.SiteTypeCv);
             }
-            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            if (filters.Geometry != null)
             {
-                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                var reader = new WKTReader(geometryFactory.GeometryServices);
-                var shape = reader.Read(filters.Geometry);
-                query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(shape)) || (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(shape)));
+                query = query.Where(a => (a.Site.Geometry != null && a.Site.Geometry.Intersects(filters.Geometry)) ||
+                                         (a.Site.SitePoint != null && a.Site.SitePoint.Intersects(filters.Geometry)));
             }
             if (!string.IsNullOrWhiteSpace(filters.HUC8))
             {
@@ -248,7 +245,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public string SiteTypeCV { get; set; }
             public double? Longitude { get; set; }
             public double? Latitude { get; set; }
-            public string SiteGeometry { get; set; }
+            public Geometry SiteGeometry { get; set; }
             public string CoordinateMethodCV { get; set; }
             public string AllocationGNISIDCV { get; set; }
             public DateTime? TimeframeStart { get; set; }

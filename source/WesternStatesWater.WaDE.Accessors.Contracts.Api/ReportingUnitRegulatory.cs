@@ -1,4 +1,4 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
@@ -12,6 +12,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string ReportingUnitProductVersion { get; set; }
         public string StateCV { get; set; }
         public string EPSGCodeCV { get; set; }
-        public string Geometry { get; set; }
+        public Geometry Geometry { get; set; }
     }
 }

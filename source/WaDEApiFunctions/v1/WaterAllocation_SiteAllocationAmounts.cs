@@ -20,7 +20,7 @@ namespace WaDEApiFunctions.v1
         }
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
-
+        
         [FunctionName("WaterAllocation_SiteAllocationAmounts_v1")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequest req, ILogger log)
         {
@@ -29,19 +29,20 @@ namespace WaDEApiFunctions.v1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
 
-            var siteUuid = ((string)req.Query["SiteUUID"]) ?? data?.siteUUID;
-            var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
-            var beneficialUseCv = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
-            var usgsCategoryNameCV = ((string)req.Query["USGSCategoryNameCV"]) ?? data?.USGSCategoryNameCV;
-            var geometry = ((string)req.Query["SearchGeometry"]) ?? data?.searchGeometry;
-            var startPriorityDate = ParseDate(((string)req.Query["StartPriorityDate"]) ?? data?.startPriorityDate);
-            var endPriorityDate = ParseDate(((string)req.Query["EndPriorityDate"]) ?? data?.endPriorityDate);
-            var huc8 = ((string)req.Query["HUC8"]) ?? data?.huc8;
-            var huc12 = ((string)req.Query["HUC12"]) ?? data?.huc12;
-            var county = ((string)req.Query["County"]) ?? data?.county;
-            var state = ((string)req.Query["State"]) ?? data?.state;
-            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var siteUuid = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
+            var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
+            var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
+            var usgsCategoryNameCV = req.GetQueryString("USGSCategoryNameCV") ?? data?.USGSCategoryNameCV;
+            var geometry = req.GetQueryString("SearchGeometry") ?? data?.searchGeometry;
+            var startPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("StartPriorityDate") ?? data?.startPriorityDate);
+            var endPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("EndPriorityDate") ?? data?.endPriorityDate);
+            var huc8 = req.GetQueryString("HUC8") ?? data?.huc8;
+            var huc12 = req.GetQueryString("HUC12") ?? data?.huc12;
+            var county = req.GetQueryString("County") ?? data?.county;
+            var state = req.GetQueryString("State") ?? data?.state;
+            var startIndex = RequestDataParser.ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
+            var recordCount = RequestDataParser.ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
+            var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (startIndex < 0)
             {
@@ -79,7 +80,7 @@ namespace WaDEApiFunctions.v1
                 HUC12 = huc12,
                 County = county,
                 State = state
-            }, startIndex, recordCount);
+            }, startIndex, recordCount, geoFormat);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
@@ -92,16 +93,16 @@ namespace WaDEApiFunctions.v1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<SiteAllocationAmountsDigestRequestBody>(requestBody);
 
-            var siteTypeCV = ((string)req.Query["SiteTypeCV"]) ?? data?.siteTypeCV;
-            var beneficialUseCv = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
-            var usgsCategoryNameCV = ((string)req.Query["USGSCategoryNameCV"]) ?? data?.USGSCategoryNameCV;
-            var geometry = ((string)req.Query["SearchGeometry"]) ?? data?.searchGeometry;
-            var startPriorityDate = ParseDate(((string)req.Query["StartPriorityDate"]) ?? data?.startPriorityDate);
-            var endPriorityDate = ParseDate(((string)req.Query["EndPriorityDate"]) ?? data?.endPriorityDate);
-            var organizationUUID = ((string)req.Query["OrganizationUUID"]) ?? data?.organizationUUID;
+            var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
+            var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
+            var usgsCategoryNameCV = req.GetQueryString("USGSCategoryNameCV") ?? data?.USGSCategoryNameCV;
+            var geometry = req.GetQueryString("SearchGeometry") ?? data?.searchGeometry;
+            var startPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("StartPriorityDate") ?? data?.startPriorityDate);
+            var endPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("EndPriorityDate") ?? data?.endPriorityDate);
+            var organizationUUID = req.GetQueryString("OrganizationUUID") ?? data?.organizationUUID;
 
-            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var startIndex = RequestDataParser.ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
+            var recordCount = RequestDataParser.ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
 
             if (startIndex < 0)
             {
@@ -134,16 +135,6 @@ namespace WaDEApiFunctions.v1
             }, startIndex, recordCount);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-        }
-
-        private static DateTime? ParseDate(string value)
-        {
-            return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
-        }
-
-        private static int? ParseInt(string value)
-        {
-            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class SiteAllocationAmountsRequestBody

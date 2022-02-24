@@ -12,6 +12,7 @@ using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
+using WesternStatesWater.WaDE.Utilities;
 using WaterAllocationRecordType = WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import.WaterAllocationRecordType;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests
@@ -1209,6 +1210,55 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             Site site;
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
+                siteDim = SitesDimBuilder.Create(new SitesDimBuilderOptions
+                {
+                    CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                    EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db),
+                    GniscodeCvNavigation = await GnisfeatureNameBuilder.Load(db),
+                    NhdnetworkStatusCvNavigation = await NhdnetworkStatusBuilder.Load(db),
+                    NhdproductCvNavigation = await NhdproductBuilder.Load(db),
+                    SiteTypeCvNavigation = await SiteTypeBuilder.Load(db),
+                    StateCVNavigation = await StateBuilder.Load(db)
+                });
+                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay }
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().BeGreaterThan(0);
+                dbSite.SiteName.Should().Be(site.SiteName);
+                dbSite.SiteNativeId.Should().Be(site.SiteNativeID);
+
+                var dbRegulatoryOverlayBridgeSitesFact = await db.RegulatoryOverlayBridgeSitesFact.SingleAsync();
+
+                dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(dbSite.SiteId);
+                dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSite_UpdatesSite()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
                 siteDim = await SitesDimBuilder.Load(db);
                 regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
 
@@ -1226,10 +1276,65 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().Be(siteDim.SiteId);
+                dbSite.SiteName.Should().Be(site.SiteName);
+                dbSite.SiteNativeId.Should().Be(site.SiteNativeID);
+
                 var dbRegulatoryOverlayBridgeSitesFact = await db.RegulatoryOverlayBridgeSitesFact.SingleAsync();
 
                 dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(siteDim.SiteId);
                 dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSite_PopulatesGeometry()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                siteDim = SitesDimBuilder.Create(new SitesDimBuilderOptions
+                {
+                    CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                    EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db),
+                    GniscodeCvNavigation = await GnisfeatureNameBuilder.Load(db),
+                    NhdnetworkStatusCvNavigation = await NhdnetworkStatusBuilder.Load(db),
+                    NhdproductCvNavigation = await NhdproductBuilder.Load(db),
+                    SiteTypeCvNavigation = await SiteTypeBuilder.Load(db),
+                    StateCVNavigation = await StateBuilder.Load(db)
+                });
+                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay }
+                });
+
+                site.Geometry = "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))";
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var intersectingGeometry = GeometryExtensions.GetGeometryByWkt("POLYGON((-96.7014 40.8148,-96.7013 40.8148,-96.7013 40.8147,-96.7014 40.8147,-96.7014 40.8148))");
+                var dbSite = db.SitesDim.Single();
+                dbSite.Geometry.Should().NotBeNull();
+                dbSite.Geometry.Intersects(intersectingGeometry).Should().BeTrue();
+
+                //This tests a very specific scenario where we were not actually using the correct srid in GeometryExtensions.GetGeometryByWkt
+                var dbSiteFoundByGeometry = db.SitesDim.Single(a => a.Geometry.Intersects(intersectingGeometry));
+                dbSiteFoundByGeometry.SiteId.Should().Be(dbSite.SiteId);
 
                 db.ImportErrors.Should().HaveCount(0);
             }

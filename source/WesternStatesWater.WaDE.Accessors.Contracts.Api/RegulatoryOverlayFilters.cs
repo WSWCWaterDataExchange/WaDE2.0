@@ -1,4 +1,5 @@
 ﻿using System;
+using NetTopologySuite.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
@@ -10,7 +11,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public DateTime? StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
         public string RegulatoryStatusCV { get; set; }
-        public string Geometry { get; set; }
+        public Geometry Geometry { get; set; }
         public string State { get; set; }
     }
 }

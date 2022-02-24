@@ -7,6 +7,6 @@
         public string WaterSourceUUID { get; set; }
         public string WaterSourceTypeCV { get; set; }
         public string FreshSalineIndicatorCV { get; set; }
-        public string WaterSourceGeometry { get; set; }
+        public object WaterSourceGeometry { get; set; }
     }
 }

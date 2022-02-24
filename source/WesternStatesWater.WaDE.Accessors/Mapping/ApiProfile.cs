@@ -47,7 +47,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
                  .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.GniscodeCv))
-                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                 .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry))
                  .ForMember(a => a.County, b => b.MapFrom(c => c.County))
                  .ForMember(a => a.HUC8, b => b.MapFrom(c => c.HUC8))
                  .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
@@ -79,7 +79,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.WaterSourcesDim, AccessorApi.WaterSource>()
                 .ForMember(a => a.WaterSourceNativeID, b => b.MapFrom(c => c.WaterSourceNativeId))
                 .ForMember(a => a.FreshSalineIndicatorCV, b => b.MapFrom(c => c.WaterQualityIndicatorCv))
-                .ForMember(a => a.WaterSourceGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()));
+                .ForMember(a => a.WaterSourceGeometry, b => b.MapFrom(c => c.Geometry));
 
 
             CreateMap<EF.OrganizationsDim, AccessorApi.AggregatedAmountsOrganization>()
@@ -133,7 +133,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
                 .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
-                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
                 .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore())
                 .ForMember(a => a.HUC8, b => b.MapFrom(c => c.Site.HUC8))
@@ -141,7 +141,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.County, b => b.MapFrom(c => c.Site.County));
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
-                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry == null ? null : c.Geometry.AsText()))
+                .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.RegulatoryOverlayUUIDs, b => b.Ignore());
 
             CreateMap<EF.RegulatoryReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
@@ -153,7 +153,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitProductVersion, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitProductVersion))
                 .ForMember(a => a.StateCV, b => b.MapFrom(c => c.ReportingUnit.StateCv))
                 .ForMember(a => a.EPSGCodeCV, b => b.MapFrom(c => c.ReportingUnit.EpsgcodeCv))
-                .ForMember(a => a.Geometry, b => b.MapFrom(c => c.ReportingUnit.Geometry == null ? null : c.ReportingUnit.Geometry.AsText()));
+                .ForMember(a => a.Geometry, b => b.MapFrom(c => c.ReportingUnit.Geometry));
             CreateMap<EF.OrganizationsDim, AccessorApi.RegulatoryReportingUnitsOrganization>()
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
                 .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())

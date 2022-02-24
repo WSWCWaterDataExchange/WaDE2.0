@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Bogus;
 using System.Threading.Tasks;
-using Bogus;
-using WesternStatesWater.WaDE.Accessors.Contracts.Import;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
-using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
@@ -20,11 +15,10 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static PODSiteToPOUSiteFact Create(SiteRelationshipBuilderOptions opt)
         {
             var faker = new Faker<PODSiteToPOUSiteFact>()
-                .RuleFor(a => a.PODSiteId, f => opt.PODSite ?? f.Random.Long())
-                .RuleFor(a => a.POUSiteId, f => opt.POUSite ?? f.Random.Long())
+                .RuleFor(a => a.PODSiteId, f => opt.PODSite ?? f.Random.Long(1))
+                .RuleFor(a => a.POUSiteId, f => opt.POUSite ?? f.Random.Long(1))
                 .RuleFor(a => a.StartDate, f => f.Date.Past(5))
-                .RuleFor(a => a.EndDate, f => f.Date.Past(2))
-                ;
+                .RuleFor(a => a.EndDate, f => f.Date.Past(2));
 
 
             return faker;

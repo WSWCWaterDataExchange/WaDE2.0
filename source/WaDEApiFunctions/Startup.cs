@@ -3,12 +3,14 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Runtime.CompilerServices;
 using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Managers.Api;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
 [assembly: WebJobsStartup(typeof(WaDEApiFunctions.Startup))]
+[assembly: InternalsVisibleTo("WesternStatesWater.WaDE.Clients.Tests")]
 
 namespace WaDEApiFunctions
 {

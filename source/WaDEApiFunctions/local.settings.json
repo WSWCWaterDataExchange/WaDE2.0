@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "FUNCTIONS_EXTENSION_VERSION": "~1"
+    "FUNCTIONS_EXTENSION_VERSION": "~4"
   },
   "ConnectionStrings": {
     "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"

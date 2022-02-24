@@ -11,6 +11,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
@@ -185,19 +186,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 siteDim = await SitesDimBuilder.Load(db);
 
-                if (sitePoint != null)
-                {
-                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    var reader = new WKTReader(geometryFactory.GeometryServices);
-                    siteDim.SitePoint = reader.Read(sitePoint);
-                }
+                siteDim.SitePoint = GeometryExtensions.GetGeometryByWkt(sitePoint);
+                siteDim.Geometry = GeometryExtensions.GetGeometryByWkt(geometry);
 
-                if (geometry != null)
-                {
-                    var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                    var reader = new WKTReader(geometryFactory.GeometryServices);
-                    siteDim.Geometry = reader.Read(geometry);
-                }
                 await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
                 {
                     AllocationAmountsFact = allocationAmountsFact,
@@ -207,9 +198,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             var filters = new SiteAllocationAmountsFilters
             {
-                Geometry = filterGeometry
+                Geometry = GeometryExtensions.GetGeometryByWkt(filterGeometry)
             };
-
 
             var sut = CreateWaterAllocationAccessor();
             var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);

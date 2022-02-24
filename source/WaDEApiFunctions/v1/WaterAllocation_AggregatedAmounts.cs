@@ -29,18 +29,19 @@ namespace WaDEApiFunctions.v1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
 
-            var variableCV = ((string)req.Query["VariableCV"]) ?? data?.variableCV;
-            var variableSpecificCV = ((string)req.Query["VariableSpecificCV"]) ?? data?.variableCV;
-            var beneficialUse = ((string)req.Query["BeneficialUseCV"]) ?? data?.beneficialUseCV;
-            var startDate = ParseDate(((string)req.Query["StartDate"]) ?? data?.startDate);
-            var endDate = ParseDate(((string)req.Query["EndDate"]) ?? data?.endDate);
-            var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
-            var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
-            var reportingUnitTypeCV = ((string)req.Query["ReportingUnitTypeCV"]) ?? data?.reportingUnitTypeCV;
-            var usgsCategoryNameCV = ((string)req.Query["UsgsCategoryNameCV"]) ?? data?.usgsCategoryNameCV;
-            var state = ((string)req.Query["State"]) ?? data?.state;
-            var startIndex = ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
-            var recordCount = ParseInt(((string)req.Query["RecordCount"]) ?? data?.recordCount) ?? 1000;
+            var variableCV = req.GetQueryString("VariableCV") ?? data?.variableCV;
+            var variableSpecificCV = req.GetQueryString("VariableSpecificCV") ?? data?.variableCV;
+            var beneficialUse = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
+            var startDate = RequestDataParser.ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
+            var endDate = RequestDataParser.ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
+            var reportingUnitUUID = req.GetQueryString("ReportingUnitUUID") ?? data?.reportingUnitUUID;
+            var geometry = req.GetQueryString("SearchBoundary") ?? data?.searchBoundary;
+            var reportingUnitTypeCV = req.GetQueryString("ReportingUnitTypeCV") ?? data?.reportingUnitTypeCV;
+            var usgsCategoryNameCV = req.GetQueryString("UsgsCategoryNameCV") ?? data?.usgsCategoryNameCV;
+            var state = req.GetQueryString("State") ?? data?.state;
+            var startIndex = RequestDataParser.ParseInt(req.GetQueryString("StartIndex") ?? data?.startIndex) ?? 0;
+            var recordCount = RequestDataParser.ParseInt(req.GetQueryString("RecordCount") ?? data?.recordCount) ?? 1000;
+            var geoFormat = RequestDataParser.ParseGeometryFormat(req.GetQueryString("geoFormat")) ?? GeometryFormat.Wkt;
 
             if (startIndex < 0)
             {
@@ -52,12 +53,12 @@ namespace WaDEApiFunctions.v1
                 return new BadRequestObjectResult("Record count must be between 1 and 10000");
             }
 
-            if (string.IsNullOrWhiteSpace(variableCV) && 
-                string.IsNullOrWhiteSpace(variableSpecificCV) && 
-                string.IsNullOrWhiteSpace(beneficialUse) && 
-                string.IsNullOrWhiteSpace(reportingUnitUUID) && 
-                string.IsNullOrWhiteSpace(geometry) && 
-                string.IsNullOrWhiteSpace(reportingUnitTypeCV) && 
+            if (string.IsNullOrWhiteSpace(variableCV) &&
+                string.IsNullOrWhiteSpace(variableSpecificCV) &&
+                string.IsNullOrWhiteSpace(beneficialUse) &&
+                string.IsNullOrWhiteSpace(reportingUnitUUID) &&
+                string.IsNullOrWhiteSpace(geometry) &&
+                string.IsNullOrWhiteSpace(reportingUnitTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
                 string.IsNullOrWhiteSpace(state))
             {
@@ -76,18 +77,8 @@ namespace WaDEApiFunctions.v1
                 StartDate = startDate,
                 EndDate = endDate,
                 State = state
-            }, startIndex, recordCount);
+            }, startIndex, recordCount, geoFormat);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-        }
-
-        private static DateTime? ParseDate(string value)
-        {
-            return DateTime.TryParse(value, out var date) ? date : (DateTime?)null;
-        }
-
-        private static int? ParseInt(string value)
-        {
-            return int.TryParse(value, out var date) ? date : (int?)null;
         }
 
         private class AggregratedAmountsRequestBody
