@@ -34,6 +34,8 @@ namespace WaDEApiFunctions.v1
             var organizationUUID = ((string)req.Query["OrganizationUUID"]) ?? data?.organizationUUID;
             var statutoryEffectiveDate = RequestDataParser.ParseDate(((string)req.Query["StatutoryEffectiveDate"]) ?? data?.statutoryEffectiveDate);
             var statutoryEndDate = RequestDataParser.ParseDate(((string)req.Query["StatutoryEndDate"]) ?? data?.statutoryEndDate);
+            var startDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("StartPublicationDate") ?? data?.startPublicationDate);
+            var endDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("EndPublicationDate") ?? data?.endPublicationDate);
             var regulatoryStatusCV = ((string)req.Query["RegulatoryStatusCV"]) ?? data?.regulatoryStatusCV;
             var geometry = ((string)req.Query["SearchBoundary"]) ?? data?.searchBoundary;
             var state = ((string)req.Query["State"]) ?? data?.state;
@@ -68,6 +70,8 @@ namespace WaDEApiFunctions.v1
                 OrganizationUUID = organizationUUID,
                 StatutoryEffectiveDate = statutoryEffectiveDate,
                 StatutoryEndDate = statutoryEndDate,
+                StartDataPublicationDate = startDataPublicationDate,
+                EndDataPublicationDate = endDataPublicationDate,
                 RegulatoryStatusCV = regulatoryStatusCV,
                 Geometry = geometry,
                 State = state
@@ -75,13 +79,15 @@ namespace WaDEApiFunctions.v1
             return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
-        private class RegulatoryOverlayRequestBody
+        private sealed class RegulatoryOverlayRequestBody
         {
             public string reportingUnitUUID { get; set; }
             public string regulatoryOverlayUUID { get; set; }
             public string organizationUUID { get; set; }
             public string statutoryEffectiveDate { get; set; }
             public string statutoryEndDate { get; set; }
+            public string startPublicationDate { get; set; }
+            public string endPublicationDate { get; set; }
             public string regulatoryStatusCV { get; set; }
             public string searchBoundary { get; set; }
             public string state { get; set; }

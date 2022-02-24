@@ -82,6 +82,14 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
             }
+            if (filters.StartDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDate.Date >= filters.StartDataPublicationDate);
+            }
+            if (filters.EndDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDate.Date <= filters.EndDataPublicationDate);
+            }
             if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
             {
                 query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.Site.SiteUuid == filters.SiteUuid));
@@ -288,6 +296,14 @@ namespace WesternStatesWater.WaDE.Accessors
             if (filters.EndPriorityDate != null)
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
+            }
+            if (filters.StartDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDate.Date >= filters.StartDataPublicationDate);
+            }
+            if (filters.EndDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDate.Date <= filters.EndDataPublicationDate);
             }
             if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
             {

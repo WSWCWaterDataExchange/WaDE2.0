@@ -11,6 +11,8 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string Geometry { get; set; }
         public DateTime? StartPriorityDate { get; set; }
         public DateTime? EndPriorityDate { get; set; }
+        public DateTime? StartDataPublicationDate { get; set; }
+        public DateTime? EndDataPublicationDate { get; set; }
         public string HUC8 { get; set; }
         public string HUC12 { get; set; }
         public string County { get; set; }

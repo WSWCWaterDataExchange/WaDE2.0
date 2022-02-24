@@ -36,6 +36,8 @@ namespace WaDEApiFunctions.v1
             var geometry = req.GetQueryString("SearchGeometry") ?? data?.searchGeometry;
             var startPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("StartPriorityDate") ?? data?.startPriorityDate);
             var endPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("EndPriorityDate") ?? data?.endPriorityDate);
+            var startDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("StartPublicationDate") ?? data?.startPublicationDate);
+            var endDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("EndPublicationDate") ?? data?.endPublicationDate);
             var huc8 = req.GetQueryString("HUC8") ?? data?.huc8;
             var huc12 = req.GetQueryString("HUC12") ?? data?.huc12;
             var county = req.GetQueryString("County") ?? data?.county;
@@ -76,6 +78,8 @@ namespace WaDEApiFunctions.v1
                 UsgsCategoryNameCv = usgsCategoryNameCV,
                 StartPriorityDate = startPriorityDate,
                 EndPriorityDate = endPriorityDate,
+                StartDataPublicationDate = startDataPublicationDate,
+                EndDataPublicationDate = endDataPublicationDate,
                 HUC8 = huc8,
                 HUC12 = huc12,
                 County = county,
@@ -99,6 +103,8 @@ namespace WaDEApiFunctions.v1
             var geometry = req.GetQueryString("SearchGeometry") ?? data?.searchGeometry;
             var startPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("StartPriorityDate") ?? data?.startPriorityDate);
             var endPriorityDate = RequestDataParser.ParseDate(req.GetQueryString("EndPriorityDate") ?? data?.endPriorityDate);
+            var startDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("StartPublicationDate") ?? data?.startPublicationDate);
+            var endDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("EndPublicationDate") ?? data?.endPublicationDate);
             var organizationUUID = req.GetQueryString("OrganizationUUID") ?? data?.organizationUUID;
 
             var startIndex = RequestDataParser.ParseInt(((string)req.Query["StartIndex"]) ?? data?.startIndex) ?? 0;
@@ -131,16 +137,20 @@ namespace WaDEApiFunctions.v1
                 UsgsCategoryNameCv = usgsCategoryNameCV,
                 StartPriorityDate = startPriorityDate,
                 EndPriorityDate = endPriorityDate,
+                StartDataPublicationDate = startDataPublicationDate,
+                EndDataPublicationDate = endDataPublicationDate,
                 OrganizationUUID = organizationUUID
             }, startIndex, recordCount);
 
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
-        private class SiteAllocationAmountsRequestBody
+        private sealed class SiteAllocationAmountsRequestBody
         {
             public string startPriorityDate { get; set; }
             public string endPriorityDate { get; set; }
+            public string startPublicationDate { get; set; }
+            public string endPublicationDate { get; set; }
             public string siteUUID { get; set; }
             public string siteTypeCV { get; set; }
             public string USGSCategoryNameCV { get; set; }
@@ -154,10 +164,12 @@ namespace WaDEApiFunctions.v1
             public string recordCount { get; set; }
         }
 
-        private class SiteAllocationAmountsDigestRequestBody
+        private sealed class SiteAllocationAmountsDigestRequestBody
         {
             public string startPriorityDate { get; set; }
             public string endPriorityDate { get; set; }
+            public string startPublicationDate { get; set; }
+            public string endPublicationDate { get; set; }
             public string organizationUUID { get; set; }
             public string siteTypeCV { get; set; }
             public string USGSCategoryNameCV { get; set; }

@@ -34,6 +34,8 @@ namespace WaDEApiFunctions.v1
             var beneficialUse = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
             var startDate = RequestDataParser.ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
             var endDate = RequestDataParser.ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
+            var startDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("StartPublicationDate") ?? data?.startPublicationDate);
+            var endDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("EndPublicationDate") ?? data?.endPublicationDate);
             var reportingUnitUUID = req.GetQueryString("ReportingUnitUUID") ?? data?.reportingUnitUUID;
             var geometry = req.GetQueryString("SearchBoundary") ?? data?.searchBoundary;
             var reportingUnitTypeCV = req.GetQueryString("ReportingUnitTypeCV") ?? data?.reportingUnitTypeCV;
@@ -76,18 +78,22 @@ namespace WaDEApiFunctions.v1
                 VariableSpecificCV = variableSpecificCV,
                 StartDate = startDate,
                 EndDate = endDate,
+                StartDataPublicationDate = startDataPublicationDate,
+                EndDataPublicationDate = endDataPublicationDate,
                 State = state
             }, startIndex, recordCount, geoFormat);
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
-        private class AggregratedAmountsRequestBody
+        private sealed class AggregratedAmountsRequestBody
         {
             public string variableCV { get; set; }
             public string variableSpecificCV { get; set; }
             public string beneficialUseCV { get; set; }
             public string startDate { get; set; }
             public string endDate { get; set; }
+            public string startPublicationDate { get; set; }
+            public string endPublicationDate { get; set; }
             public string reportingUnitUUID { get; set; }
             public string searchBoundary { get; set; }
             public string reportingUnitTypeCV { get; set; }
