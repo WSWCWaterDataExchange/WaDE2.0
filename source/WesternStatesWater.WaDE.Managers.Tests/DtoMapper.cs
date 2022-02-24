@@ -36,8 +36,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             Geometry geometry = null;
             if (geometryString != null)
             {
-                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                var reader = new WKTReader(geometryFactory.GeometryServices);
+                var reader = new WKTReader(new NtsGeometryServices(PrecisionModel.Floating.Value, 4326));
                 geometry = reader.Read(geometryString);
             }
 

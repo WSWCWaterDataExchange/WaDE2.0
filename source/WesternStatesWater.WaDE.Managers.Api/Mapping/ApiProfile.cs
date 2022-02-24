@@ -51,6 +51,9 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
 
             CreateMap<Geometry, object>()
                 .ConvertUsing((geometry, _, context) => ConvertGeometryToObject(geometry, context));
+
+            CreateMap<string, Geometry>()
+                .ConvertUsing((geometry, _, context) => GeometryExtensions.GetGeometry(geometry));
         }
 
         private object ConvertGeometryToObject(Geometry geometry, ResolutionContext context)

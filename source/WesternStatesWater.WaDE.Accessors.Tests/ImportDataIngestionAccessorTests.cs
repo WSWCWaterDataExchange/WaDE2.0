@@ -1209,6 +1209,55 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             Site site;
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
+                siteDim = SitesDimBuilder.Create(new SitesDimBuilderOptions
+                {
+                    CoordinateMethodCvNavigation = await CoordinateMethodBuilder.Load(db),
+                    EpsgcodeCvNavigation = await EpsgcodeBuilder.Load(db),
+                    GniscodeCvNavigation = await GnisfeatureNameBuilder.Load(db),
+                    NhdnetworkStatusCvNavigation = await NhdnetworkStatusBuilder.Load(db),
+                    NhdproductCvNavigation = await NhdproductBuilder.Load(db),
+                    SiteTypeCvNavigation = await SiteTypeBuilder.Load(db),
+                    StateCVNavigation = await StateBuilder.Load(db)
+                });
+                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+
+                site = SiteBuilder.Create(new SiteBuilderOptions()
+                {
+                    Site = siteDim,
+                    RegulatoryOverlayDims = new List<RegulatoryOverlayDim> { regulatoryOverlay }
+                });
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadSites((new Faker()).Random.AlphaNumeric(10), new[] { site });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().BeGreaterThan(0);
+                dbSite.SiteName.Should().Be(site.SiteName);
+                dbSite.SiteNativeId.Should().Be(site.SiteNativeID);
+
+                var dbRegulatoryOverlayBridgeSitesFact = await db.RegulatoryOverlayBridgeSitesFact.SingleAsync();
+
+                dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(dbSite.SiteId);
+                dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.RegulatoryOverlayId);
+
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadSite_Updates()
+        {
+            SitesDim siteDim;
+            RegulatoryOverlayDim regulatoryOverlay;
+
+            Site site;
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
                 siteDim = await SitesDimBuilder.Load(db);
                 regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
 
@@ -1226,6 +1275,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
+                var dbSite = db.SitesDim.Single();
+                dbSite.SiteId.Should().Be(siteDim.SiteId);
+                dbSite.SiteName.Should().Be(site.SiteName);
+                dbSite.SiteNativeId.Should().Be(site.SiteNativeID);
+
                 var dbRegulatoryOverlayBridgeSitesFact = await db.RegulatoryOverlayBridgeSitesFact.SingleAsync();
 
                 dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(siteDim.SiteId);

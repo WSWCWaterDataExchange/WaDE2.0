@@ -19,8 +19,7 @@ public class GeometryExtensionsTests
         Geometry? geometry = null;
         if (wkt != null)
         {
-            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-            var reader = new WKTReader(geometryFactory.GeometryServices);
+            var reader = new WKTReader(new NtsGeometryServices(PrecisionModel.Floating.Value, 4326));
             geometry = reader.Read(wkt);
         }
 

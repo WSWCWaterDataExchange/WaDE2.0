@@ -2,9 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetTopologySuite;
 using NetTopologySuite.Geometries;
-using NetTopologySuite.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -84,12 +82,9 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.ReportingUnit.ReportingUnitUuid == filters.ReportingUnitUUID);
             }
-            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            if (filters.Geometry != null)
             {
-                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                var reader = new WKTReader(geometryFactory.GeometryServices);
-                var shape = reader.Read(filters.Geometry);
-                query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(shape));
+                query = query.Where(a => a.ReportingUnit.Geometry != null && a.ReportingUnit.Geometry.Intersects(filters.Geometry));
             }
             if (!string.IsNullOrWhiteSpace(filters.State))
             {

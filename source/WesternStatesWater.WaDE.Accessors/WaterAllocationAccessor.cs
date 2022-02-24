@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetTopologySuite;
-using NetTopologySuite.IO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -96,14 +94,11 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
-            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            if (filters.Geometry != null)
             {
-                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                var reader = new WKTReader(geometryFactory.GeometryServices);
-                var shape = reader.Read(filters.Geometry);
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
-                    a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
+                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) || //
+                         a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))); //
             }
             if (!string.IsNullOrWhiteSpace(filters.HUC8))
             {
@@ -302,14 +297,11 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
-            if (!string.IsNullOrWhiteSpace(filters.Geometry))
+            if (filters.Geometry != null)
             {
-                var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-                var reader = new WKTReader(geometryFactory.GeometryServices);
-                var shape = reader.Read(filters.Geometry);
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(shape)) ||
-                    a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(shape)));
+                    a => a.AllocationBridgeSitesFact.Any(site => site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
+                    a.AllocationBridgeSitesFact.Any(site => site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry)));
             }
             if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
             {
