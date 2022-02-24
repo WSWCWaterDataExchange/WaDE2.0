@@ -73,6 +73,14 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.TimeframeEndNavigation.Date <= filters.TimeframeEndDate);
             }
+            if (filters.StartDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDateNavigation.Date >= filters.StartDataPublicationDate);
+            }
+            if (filters.EndDataPublicationDate != null)
+            {
+                query = query.Where(a => a.DataPublicationDateNavigation.Date <= filters.EndDataPublicationDate);
+            }
             if (!string.IsNullOrWhiteSpace(filters.VariableCv))
             {
                 query = query.Where(a => a.VariableSpecific.VariableCv == filters.VariableCv);
