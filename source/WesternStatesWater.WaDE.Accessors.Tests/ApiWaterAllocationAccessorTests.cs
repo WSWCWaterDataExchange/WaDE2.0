@@ -2,8 +2,7 @@
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NetTopologySuite;
-using NetTopologySuite.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,7 +20,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         private readonly ILoggerFactory LoggerFactory = new LoggerFactory();
 
         [TestMethod]
-        public async Task GetSiteAllocationAmountsAsync_NoFilters()
+        public async Task GetSiteAllocationAmountsAsync_Filters_None()
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
@@ -77,6 +76,61 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             org.RegulatoryOverlays.Should().HaveCount(1);
             org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
+        }
+
+        [TestMethod]
+        public async Task GetSiteAllocationAmountsAsync_Filters_None_WithSite_SiteRelationships()
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            AllocationBridgeSitesFact allocationBridgeSitesFact;
+            SitesDim relatedSite;
+            PODSiteToPOUSiteFact siteRelationship;
+            using (var db = new WaDEContext(configuration))
+            {
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+
+                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
+
+                allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db,
+                    new AllocationBridgeSitesFactBuilderOptions
+                    {
+                        AllocationAmountsFact = allocationAmountsFact
+                    });
+
+                relatedSite = await SitesDimBuilder.Load(db);
+
+                siteRelationship = await SiteRelationshipFactBuilder.Load(db,
+                    new SiteRelationshipBuilderOptions
+                    {
+                        PODSite = allocationBridgeSitesFact.Site.SiteId,
+                        POUSite = relatedSite.SiteId
+                    });
+
+                allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
+
+                siteRelationship.PODSiteId.Should().Be(allocationBridgeSitesFact.Site.SiteId);
+            }
+
+            var filters = new SiteAllocationAmountsFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
+
+            result.TotalWaterAllocationsCount.Should().Be(1);
+            result.Organizations.Should().HaveCount(1);
+
+            var org = result.Organizations.Single();
+            org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
+            org.WaterAllocations.Should().HaveCount(1);
+            org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
+
+            var resultSiteRelationship = org.WaterAllocations.Single().Sites.Single().RelatedPODSites.Single();
+
+            resultSiteRelationship.Should().NotBeNull();
+            resultSiteRelationship.PODSiteUUID.Should().Be(allocationBridgeSitesFact.Site.SiteUuid);
+            resultSiteRelationship.POUSiteUUID.Should().Be(relatedSite.SiteUuid);
+
         }
 
         [DataTestMethod]
@@ -175,7 +229,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [DataRow("POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //match point not geo
         [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //match both
         [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))", false)] //match neither
-        public async Task GetSiteAllocationAmountsAsync_GeometryFilters(string geometry, string sitePoint, string filterGeometry, bool shouldMatch)
+        public async Task GetSiteAllocationAmountsAsync_Filters_Geometry(string geometry, string sitePoint, string filterGeometry, bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
@@ -199,6 +253,61 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsFilters
             {
                 Geometry = GeometryExtensions.GetGeometryByWkt(filterGeometry)
+            };
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
+
+            if (shouldMatch)
+            {
+                result.TotalWaterAllocationsCount.Should().Be(1);
+                result.Organizations.Should().HaveCount(1);
+
+                var org = result.Organizations.Single();
+                org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
+                org.WaterAllocations.Should().HaveCount(1);
+                org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
+            }
+            else
+            {
+                result.TotalWaterAllocationsCount.Should().Be(0);
+                result.Organizations.Should().HaveCount(0);
+            }
+        }
+
+        [DataTestMethod]
+        [DataRow("2022-02-24", null, null, true)]
+        [DataRow("2022-02-24", "2022-02-23", null, true)]
+        [DataRow("2022-02-24", "2022-02-24", null, true)]
+        [DataRow("2022-02-24", "2022-02-25", null, false)]
+        [DataRow("2022-02-24", null, "2022-02-23", false)]
+        [DataRow("2022-02-24", null, "2022-02-24", true)]
+        [DataRow("2022-02-24", null, "2022-02-25", true)]
+        [DataRow("2022-02-22", "2022-02-23", "2022-02-25", false)]
+        [DataRow("2022-02-23", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
+        public async Task GetSiteAllocationAmountsAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact;
+            DateDim publicationDate;
+            using (var db = new WaDEContext(configuration))
+            {
+                publicationDate = await DateDimBuilder.Load(db);
+                publicationDate.Date = DateTime.Parse(dataPublicationDate);
+
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+                {
+                    DataPublicationDate = publicationDate
+                });
+            }
+
+            var filters = new SiteAllocationAmountsFilters
+            {
+                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
+                EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
             };
 
             var sut = CreateWaterAllocationAccessor();
@@ -598,59 +707,53 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             result.First().Sites.Should().BeEmpty();
         }
 
-        [TestMethod]
-        public async Task GetSiteAllocationAmountsAsync_NoFilters_WithSite_SiteRelationships()
+        [DataTestMethod]
+        [DataRow("2022-02-24", null, null, true)]
+        [DataRow("2022-02-24", "2022-02-23", null, true)]
+        [DataRow("2022-02-24", "2022-02-24", null, true)]
+        [DataRow("2022-02-24", "2022-02-25", null, false)]
+        [DataRow("2022-02-24", null, "2022-02-23", false)]
+        [DataRow("2022-02-24", null, "2022-02-24", true)]
+        [DataRow("2022-02-24", null, "2022-02-25", true)]
+        [DataRow("2022-02-22", "2022-02-23", "2022-02-25", false)]
+        [DataRow("2022-02-23", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
+        public async Task GetSiteAllocationAmountsDigestAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
-            AllocationBridgeSitesFact allocationBridgeSitesFact;
-            SitesDim relatedSite;
-            PODSiteToPOUSiteFact siteRelationship;
+            DateDim publicationDate;
             using (var db = new WaDEContext(configuration))
             {
-                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
+                publicationDate = await DateDimBuilder.Load(db);
+                publicationDate.Date = DateTime.Parse(dataPublicationDate);
 
-                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
-
-                allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db,
-                    new AllocationBridgeSitesFactBuilderOptions
-                    {
-                        AllocationAmountsFact = allocationAmountsFact
-                    });
-
-                relatedSite = await SitesDimBuilder.Load(db);
-
-                siteRelationship = await SiteRelationshipFactBuilder.Load(db,
-                    new SiteRelationshipBuilderOptions
-                    {
-                        PODSite = allocationBridgeSitesFact.Site.SiteId,
-                        POUSite = relatedSite.SiteId
-                    });
-
-                allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
-
-                siteRelationship.PODSiteId.Should().Be(allocationBridgeSitesFact.Site.SiteId);
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+                {
+                    DataPublicationDate = publicationDate
+                });
             }
 
-            var filters = new SiteAllocationAmountsFilters();
+            var filters = new SiteAllocationAmountsDigestFilters
+            {
+                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
+                EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
+            };
 
             var sut = CreateWaterAllocationAccessor();
-            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
+            var result = await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, int.MaxValue);
 
-            result.TotalWaterAllocationsCount.Should().Be(1);
-            result.Organizations.Should().HaveCount(1);
-
-            var org = result.Organizations.Single();
-            org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
-            org.WaterAllocations.Should().HaveCount(1);
-            org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-
-            var resultSiteRelationship = org.WaterAllocations.Single().Sites.Single().RelatedPODSites.Single();
-
-            resultSiteRelationship.Should().NotBeNull();
-            resultSiteRelationship.PODSiteUUID.Should().Be(allocationBridgeSitesFact.Site.SiteUuid);
-            resultSiteRelationship.POUSiteUUID.Should().Be(relatedSite.SiteUuid);
-
+            if (shouldMatch)
+            {
+                result.Should().HaveCount(1);
+                result.Single().AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
+            }
+            else
+            {
+                result.Should().BeEmpty();
+            }
         }
 
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()

@@ -1,5 +1,5 @@
-﻿using System;
-using NetTopologySuite.Geometries;
+﻿using NetTopologySuite.Geometries;
+using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
@@ -7,6 +7,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
     {
         public DateTime? StartPriorityDate { get; set; }
         public DateTime? EndPriorityDate { get; set; }
+        public DateTime? StartDataPublicationDate { get; set; }
+        public DateTime? EndDataPublicationDate { get; set; }
         public string OrganizationUUID { get; set; }
         public string SiteTypeCV { get; set; }
         public string UsgsCategoryNameCv { get; set; }
