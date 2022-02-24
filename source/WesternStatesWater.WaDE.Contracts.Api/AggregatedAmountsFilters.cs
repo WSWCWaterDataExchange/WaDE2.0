@@ -11,6 +11,8 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string Geometry { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+        public DateTime? StartDataPublicationDate { get; set; }
+        public DateTime? EndDataPublicationDate { get; set; }
         public string ReportingUnitTypeCV { get; set; }
         public string UsgsCategoryNameCV { get; set; }
         public string State { get; set; }
