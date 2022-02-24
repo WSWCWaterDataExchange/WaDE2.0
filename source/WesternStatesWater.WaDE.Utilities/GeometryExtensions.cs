@@ -47,7 +47,7 @@ namespace WesternStatesWater.WaDE.Utilities
             {
                 return null;
             }
-            var reader =  new WKTReader(new NtsGeometryServices(PrecisionModel.Floating.Value, 4326));
+            var reader = new WKTReader(new NtsGeometryServices(PrecisionModel.Floating.Value, 4326));
             return reader.Read(wkt);
         }
 
