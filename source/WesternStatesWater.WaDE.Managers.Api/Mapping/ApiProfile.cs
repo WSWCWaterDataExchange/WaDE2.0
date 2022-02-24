@@ -53,7 +53,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
                 .ConvertUsing((geometry, _, context) => ConvertGeometryToObject(geometry, context));
 
             CreateMap<string, Geometry>()
-                .ConvertUsing((geometry, _, context) => GeometryExtensions.GetGeometry(geometry));
+                .ConvertUsing((geometry, _) => GeometryExtensions.GetGeometry(geometry));
         }
 
         private object ConvertGeometryToObject(Geometry geometry, ResolutionContext context)
