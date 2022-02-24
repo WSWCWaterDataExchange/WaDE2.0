@@ -37,6 +37,8 @@ namespace WaDEApiFunctions.v1
             var usgsCategoryNameCV = req.GetQueryString("UsgsCategoryNameCV") ?? data?.usgsCategoryNameCV;
             var startDate = RequestDataParser.ParseDate(req.GetQueryString("StartDate") ?? data?.startDate);
             var endDate = RequestDataParser.ParseDate(req.GetQueryString("EndDate") ?? data?.endDate);
+            var startDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("StartPublicationDate") ?? data?.startPublicationDate);
+            var endDataPublicationDate = RequestDataParser.ParseDate(req.GetQueryString("EndPublicationDate") ?? data?.endPublicationDate);
             var geometry = req.GetQueryString("SearchBoundary") ?? data?.searchBoundary;
             var huc8 = req.GetQueryString("HUC8") ?? data?.huc8;
             var huc12 = req.GetQueryString("HUC12") ?? data?.huc12;
@@ -72,6 +74,8 @@ namespace WaDEApiFunctions.v1
                 Geometry = geometry,
                 TimeframeStartDate = startDate,
                 TimeframeEndDate = endDate,
+                StartDataPublicationDate = startDataPublicationDate,
+                EndDataPublicationDate = endDataPublicationDate,
                 HUC8 = huc8,
                 HUC12 = huc12,
                 County = county,
@@ -80,7 +84,7 @@ namespace WaDEApiFunctions.v1
             return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
         }
 
-        private class AggregratedAmountsRequestBody
+        private sealed class AggregratedAmountsRequestBody
         {
             public string siteUUID { get; set; }
             public string siteTypeCV { get; set; }
@@ -90,6 +94,8 @@ namespace WaDEApiFunctions.v1
             public string usgsCategoryNameCV { get; set; }
             public string startDate { get; set; }
             public string endDate { get; set; }
+            public string startPublicationDate { get; set; }
+            public string endPublicationDate { get; set; }
             public string searchBoundary { get; set; }
             public string huc8 { get; set; }
             public string huc12 { get; set; }
