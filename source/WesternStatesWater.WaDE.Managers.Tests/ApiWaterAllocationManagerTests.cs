@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow(null, GeometryFormat.GeoJson, null)]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-        public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
+        public async Task GetSiteAllocationAmountsAsync_Sites_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
         {
             var accessorResult = WaterAllocationsBuilder.Create();
             accessorResult.Organizations.First().Sites[0].SiteGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
@@ -49,7 +49,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         [DataRow(null, GeometryFormat.GeoJson, null)]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
         [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-        public async Task GetSiteAllocationAmountsAsync_WaterSourceGeometry(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
+        public async Task GetSiteAllocationAmountsAsync_WaterSources_WaterSourceGeometry(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
         {
             var accessorResult = WaterAllocationsBuilder.Create();
             accessorResult.Organizations.First().WaterSources[0].WaterSourceGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
