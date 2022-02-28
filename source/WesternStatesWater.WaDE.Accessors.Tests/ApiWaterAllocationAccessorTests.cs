@@ -67,70 +67,17 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
             org.WaterAllocations.Should().HaveCount(1);
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-            org.WaterAllocations[0].Sites.Should().HaveCount(1);
-            org.WaterAllocations[0].Sites[0].WaterSourceUUIDs.Should().HaveCount(1)
+            org.Sites.Should().HaveCount(1);
+            org.Sites[0].WaterSourceUUIDs.Should().HaveCount(1)
                 .And.Contain(waterSourceDim.WaterSourceUuid);
+            org.WaterAllocations[0].SitesUUIDs.Should().HaveCount(1)
+                .And.Contain(org.Sites[0].SiteUUID);
 
             org.WaterSources.Should().HaveCount(1)
                 .And.Contain(a => a.WaterSourceUUID == waterSourceDim.WaterSourceUuid);
 
             org.RegulatoryOverlays.Should().HaveCount(1);
             org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
-        }
-
-        [TestMethod]
-        public async Task GetSiteAllocationAmountsAsync_Filters_None_WithSite_SiteRelationships()
-        {
-            var configuration = Configuration.GetConfiguration();
-            AllocationAmountsFact allocationAmountsFact;
-            AllocationBridgeSitesFact allocationBridgeSitesFact;
-            SitesDim relatedSite;
-            PODSiteToPOUSiteFact siteRelationship;
-            using (var db = new WaDEContext(configuration))
-            {
-                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
-
-                allocationAmountsFact.AllocationAmountId.Should().NotBe(0);
-
-                allocationBridgeSitesFact = await AllocationBridgeSitesFactBuilder.Load(db,
-                    new AllocationBridgeSitesFactBuilderOptions
-                    {
-                        AllocationAmountsFact = allocationAmountsFact
-                    });
-
-                relatedSite = await SitesDimBuilder.Load(db);
-
-                siteRelationship = await SiteRelationshipFactBuilder.Load(db,
-                    new SiteRelationshipBuilderOptions
-                    {
-                        PODSite = allocationBridgeSitesFact.Site.SiteId,
-                        POUSite = relatedSite.SiteId
-                    });
-
-                allocationBridgeSitesFact.AllocationBridgeId.Should().NotBe(0);
-
-                siteRelationship.PODSiteId.Should().Be(allocationBridgeSitesFact.Site.SiteId);
-            }
-
-            var filters = new SiteAllocationAmountsFilters();
-
-            var sut = CreateWaterAllocationAccessor();
-            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
-
-            result.TotalWaterAllocationsCount.Should().Be(1);
-            result.Organizations.Should().HaveCount(1);
-
-            var org = result.Organizations.Single();
-            org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
-            org.WaterAllocations.Should().HaveCount(1);
-            org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-
-            var resultSiteRelationship = org.WaterAllocations.Single().Sites.Single().RelatedPODSites.Single();
-
-            resultSiteRelationship.Should().NotBeNull();
-            resultSiteRelationship.PODSiteUUID.Should().Be(allocationBridgeSitesFact.Site.SiteUuid);
-            resultSiteRelationship.POUSiteUUID.Should().Be(relatedSite.SiteUuid);
-
         }
 
         [DataTestMethod]
@@ -189,16 +136,123 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.OrganizationId.Should().Be(allocationAmountsFact.OrganizationId);
             org.WaterAllocations.Should().HaveCount(1);
             org.WaterAllocations[0].AllocationAmountId.Should().Be(allocationAmountsFact.AllocationAmountId);
-            org.WaterAllocations[0].Sites.Should().HaveCount(siteCount);
+            org.Sites.Should().HaveCount(siteCount);
             for (var i = 0; i < siteCount; i++)
             {
-                org.WaterAllocations[0].Sites[i].WaterSourceUUIDs.Should().HaveCount(waterSourceCounts[i])
+                org.Sites[i].WaterSourceUUIDs.Should().HaveCount(waterSourceCounts[i])
                     .And.BeEquivalentTo(waterSourceDims[..waterSourceCounts[i]].Select(a => a.WaterSourceUuid));
             }
 
             org.WaterSources.Should().HaveCount(maxWaterSources)
                 .And.Subject.Select(a => a.WaterSourceUUID).Should()
                 .BeEquivalentTo(waterSourceDims.Select(a => a.WaterSourceUuid));
+        }
+
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public async Task GetSiteAllocationAmountsAsync_Sites_SameSiteMultipleAllocations(bool sameOrganization)
+        {
+            var configuration = Configuration.GetConfiguration();
+            AllocationAmountsFact allocationAmountsFact1, allocationAmountsFact2;
+            SitesDim allocationSite, podSite, pouSite;
+            OrganizationsDim organization1, organization2;
+            using (var db = new WaDEContext(configuration))
+            {
+                organization1 = await OrganizationsDimBuilder.Load(db);
+                organization2 = sameOrganization ? organization1 : await OrganizationsDimBuilder.Load(db);
+
+                allocationAmountsFact1 = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+                {
+                    OrganizationsDim = organization1
+                });
+                allocationAmountsFact2 = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+                {
+                    OrganizationsDim = organization2
+                });
+
+                allocationSite = await SitesDimBuilder.Load(db);
+                podSite = await SitesDimBuilder.Load(db);
+                pouSite = await SitesDimBuilder.Load(db);
+                await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                {
+                    SitesDim = allocationSite,
+                    AllocationAmountsFact = allocationAmountsFact1
+                });
+                await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+                {
+                    SitesDim = allocationSite,
+                    AllocationAmountsFact = allocationAmountsFact2
+                });
+                await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+                {
+                    PouSite = allocationSite,
+                    PodSite = podSite
+                });
+                await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+                {
+                    PodSite = allocationSite,
+                    PouSite = pouSite
+                });
+            }
+
+            var filters = new SiteAllocationAmountsFilters();
+
+            var sut = CreateWaterAllocationAccessor();
+            var result = await sut.GetSiteAllocationAmountsAsync(filters, 0, int.MaxValue);
+
+            result.TotalWaterAllocationsCount.Should().Be(2);
+            if (sameOrganization)
+            {
+                result.Organizations.Should().HaveCount(1)
+                .And.Contain(a => a.OrganizationId == organization1.OrganizationId);
+
+                var org = result.Organizations.Single();
+                org.OrganizationId.Should().Be(allocationAmountsFact1.OrganizationId);
+                org.WaterAllocations.Should().HaveCount(2)
+                    .And.Contain(a => a.AllocationAmountId == allocationAmountsFact1.AllocationAmountId)
+                    .And.Contain(a => a.AllocationAmountId == allocationAmountsFact2.AllocationAmountId);
+
+                org.Sites.Should().HaveCount(1)
+                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
+
+                org.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+            }
+            else
+            {
+                result.Organizations.Should().HaveCount(2)
+                    .And.Contain(a => a.OrganizationId == organization1.OrganizationId)
+                    .And.Contain(a => a.OrganizationId == organization2.OrganizationId);
+
+                var org1 = result.Organizations.Single(a=> a.OrganizationId == organization1.OrganizationId);
+                org1.OrganizationId.Should().Be(allocationAmountsFact1.OrganizationId);
+                org1.WaterAllocations.Should().HaveCount(1)
+                    .And.Contain(a => a.AllocationAmountId == allocationAmountsFact1.AllocationAmountId);
+
+                org1.Sites.Should().HaveCount(1)
+                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
+
+                org1.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org1.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+
+                var org2 = result.Organizations.Single(a => a.OrganizationId == organization2.OrganizationId);
+                org2.OrganizationId.Should().Be(allocationAmountsFact2.OrganizationId);
+                org2.WaterAllocations.Should().HaveCount(1)
+                    .And.Contain(a => a.AllocationAmountId == allocationAmountsFact2.AllocationAmountId);
+
+                org2.Sites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
+
+                org2.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org2.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+            }
         }
 
         [DataTestMethod]

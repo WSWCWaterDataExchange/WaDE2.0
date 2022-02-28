@@ -10,7 +10,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
         {
             var faker = new Faker<RegulatoryOverlay>()
                 .RuleFor(a => a.RegulatoryOverlayID, f => f.Random.Long(1))
-                .RuleFor(a => a.RegulatoryStatusCV, f => f.Random.Word())
+                .RuleFor(a => a.RegulatoryStatusCV, f => f.Random.Word(50))
                 .RuleFor(a => a.OversightAgency, f => f.Company.CompanyName())
                 .RuleFor(a => a.RegulatoryDescription, f => f.Lorem.Sentence())
                 .RuleFor(a => a.StatutoryEffectiveDate, f => f.Date.Past(100))

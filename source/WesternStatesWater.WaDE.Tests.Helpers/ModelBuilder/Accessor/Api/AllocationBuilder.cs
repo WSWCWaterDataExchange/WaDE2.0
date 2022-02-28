@@ -36,7 +36,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.VariableSpecificTypeCV, f => f.Random.Word())
                 .RuleFor(a => a.OrganizationId, f => f.Random.Long(1))
                 .RuleFor(a => a.ExemptOfVolumeFlowPriority, f => f.Random.Bool())
-                .RuleFor(a => a.Sites, f => new List<Site> { SiteBuilder.Create() })
+                .RuleFor(a => a.SitesUUIDs, f => new List<string> { f.Random.Uuid().ToString() })
                 .RuleFor(a => a.BeneficialUses, f => new List<string> { f.Random.Word() });
 
             return faker;

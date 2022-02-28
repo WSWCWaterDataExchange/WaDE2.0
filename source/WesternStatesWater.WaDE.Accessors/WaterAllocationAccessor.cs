@@ -374,44 +374,51 @@ namespace WesternStatesWater.WaDE.Accessors
             org.RegulatoryOverlays = regulatoryOverlays;
 
             org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
+            var orgSites = sites.Where(a => allocationIds.Contains(a.AllocationAmountId)).ToList();
 
-            foreach (var site in sites.Select(a => a.Site))
+            org.Sites = orgSites
+                .Select(a => a.Site)
+                .Distinct()
+                .Map<List<AccessorApi.Site>>();
+
+            foreach (var site in org.Sites)
             {
-                site.PODSiteToPOUSitePODFact = siteRelationships.Where(a => a.PODSiteId == site.SiteId).ToList();
-                site.PODSiteToPOUSitePOUFact = siteRelationships.Where(a => a.POUSiteId == site.SiteId).ToList();
+                site.RelatedPODSites = siteRelationships.Where(a => a.POUSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PodValue));
+                site.RelatedPOUSites = siteRelationships.Where(a => a.PODSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PouValue));
             }
 
             var waterSourceUuids = new HashSet<string>();
+            foreach (var site in org.Sites)
+            {
+                waterSources.TryGetValue(site.SiteID, out var waterSources1);
+                if (waterSources1 != null)
+                {
+                    site.WaterSourceUUIDs = waterSources1.Select(a => a.WaterSourceUuid).ToList();
+                    foreach (var waterSourceUuid in site.WaterSourceUUIDs)
+                    {
+                        waterSourceUuids.Add(waterSourceUuid);
+                    }
+                }
+                else
+                {
+                    site.WaterSourceUUIDs = new List<string>();
+                }
+            }
+            org.WaterSources = waterSources.SelectMany(a => a.Value).Where(a => waterSourceUuids.Contains(a.WaterSourceUuid)).DistinctBy(a => a.WaterSourceUuid).Map<List<AccessorApi.WaterSource>>();
+
             foreach (var waterAllocation in org.WaterAllocations)
             {
                 waterAllocation.BeneficialUses = beneficialUses
                     .Where(a => a.AllocationAmountId == waterAllocation.AllocationAmountId)
                     .Select(a => a.BeneficialUse.Name).ToList();
 
-                waterAllocation.Sites = sites
+                var allocationSites = orgSites
                     .Where(a => a.AllocationAmountId == waterAllocation.AllocationAmountId)
                     .Select(a => a.Site)
-                    .Map<List<AccessorApi.Site>>();
+                    .ToList();
 
-                foreach (var site in waterAllocation.Sites)
-                {
-                    waterSources.TryGetValue(site.SiteID, out var waterSources1);
-                    if (waterSources1 != null)
-                    {
-                        site.WaterSourceUUIDs = waterSources1.Select(a => a.WaterSourceUuid).ToList();
-                        foreach (var waterSourceUuid in site.WaterSourceUUIDs)
-                        {
-                            waterSourceUuids.Add(waterSourceUuid);
-                        }
-                    }
-                    else
-                    {
-                        site.WaterSourceUUIDs = new List<string>();
-                    }
-                }
+                waterAllocation.SitesUUIDs = allocationSites.Select(a => a.SiteUuid).ToList();
             }
-
-            org.WaterSources = waterSources.SelectMany(a => a.Value).Where(a => waterSourceUuids.Contains(a.WaterSourceUuid)).DistinctBy(a => a.WaterSourceUuid).Map<List<AccessorApi.WaterSource>>();
         }
 
         internal class AllocationHelper

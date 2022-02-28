@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Common;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EF = WesternStatesWater.WaDE.Accessors.EntityFramework;
 
@@ -6,12 +9,15 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
 {
     internal class ApiProfile : Profile
     {
+        public const string PodPouKey = "PodPouKey";
+        public const string PodValue = "POD";
+        public const string PouValue = "POU";
         public ApiProfile()
         {
             AllowNullDestinationValues = true;
             CreateMap<WaterAllocationAccessor.AllocationHelper, AccessorApi.Allocation>()
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.Sites, b => b.Ignore());
+                .ForMember(a => a.SitesUUIDs, b => b.Ignore());
             CreateMap<EF.OrganizationsDim, AccessorApi.WaterAllocationOrganization>()
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
                 .ForMember(a => a.WaterSources, b => b.Ignore())
@@ -19,7 +25,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
                 .ForMember(a => a.WaterAllocations, b => b.Ignore())
-                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore());
+                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())
+                .ForMember(a => a.Sites, b => b.Ignore());
 
             CreateMap<EF.AllocationAmountsFact, WaterAllocationAccessor.AllocationHelper>()
                 .ForMember(a => a.AllocationNativeID, b => b.MapFrom(c => c.AllocationNativeId))
@@ -43,6 +50,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
 
             CreateMap<EF.SitesDim, AccessorApi.Site>()
                  .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.SiteNativeId))
+                 .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.SiteUuid))
                  .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Latitude))
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
@@ -55,9 +63,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
                  .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
 
-            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PODToPOUSiteRelationship>()
-                .ForMember(a => a.PODSiteUUID, b => b.MapFrom(c => c.PODSite.SiteUuid))
-                .ForMember(a => a.POUSiteUUID, b => b.MapFrom(c => c.POUSite.SiteUuid));
+            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PodToPouSiteRelationship>()
+                .ForMember(a => a.SiteUUID, b => b.MapFrom<PODSiteToPOUSiteFactToSiteUuidResolver>());
 
             CreateMap<EF.AllocationBridgeBeneficialUsesFact, AccessorApi.BeneficialUse>()
                 .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))
@@ -113,13 +120,15 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.VariableSpecifics, b => b.Ignore())
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.SiteVariableAmounts, b => b.Ignore());
+                .ForMember(a => a.SiteVariableAmounts, b => b.Ignore())
+                .ForMember(a => a.Sites, b => b.Ignore());
 
             CreateMap<SiteVariableAmountsAccessor.SiteVariableAmountHelper, AccessorApi.SiteVariableAmount>()
                 .ForMember(a => a.BeneficialUses, b => b.Ignore());
 
             CreateMap<EF.SiteVariableAmountsFact, SiteVariableAmountsAccessor.SiteVariableAmountHelper>()
                 .ForMember(a => a.SiteName, b => b.MapFrom(c => c.Site.SiteName))
+                .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
                 .ForMember(a => a.SDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifierCv))
                 .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.Site.SiteNativeId))
                 .ForMember(a => a.SiteTypeCV, b => b.MapFrom(c => c.Site.SiteTypeCv))
@@ -160,6 +169,33 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitsRegulatory, b => b.Ignore());
             CreateMap<EF.RegulatoryOverlayDim, AccessorApi.RegulatoryOverlay>();
             CreateMap<RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper, AccessorApi.ReportingUnitRegulatory>();
+        }
+
+        private class PODSiteToPOUSiteFactToSiteUuidResolver : IValueResolver<EF.PODSiteToPOUSiteFact, AccessorApi.PodToPouSiteRelationship, string>
+        {
+            public string Resolve(PODSiteToPOUSiteFact podSiteToPouSiteFact, PodToPouSiteRelationship destination, string destMember, ResolutionContext context)
+            {
+                if (podSiteToPouSiteFact == null)
+                {
+                    return null;
+                }
+                if (!context.Items.TryGetValue(PodPouKey, out var obj))
+                {
+                    throw new WaDEException("POD/POU key must be specified");
+                }
+                if (obj is string value)
+                {
+                    if (value == PodValue)
+                    {
+                        return podSiteToPouSiteFact.PODSite.SiteUuid;
+                    }
+                    if (value == PouValue)
+                    {
+                        return podSiteToPouSiteFact.POUSite.SiteUuid;
+                    }
+                }
+                throw new WaDEException($"POD/POU key must be either \"{PodValue}\" or \"{PouValue}\"");
+            }
         }
     }
 }

@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Api\WesternStatesWater.WaDE.Accessors.Contracts.Api.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Import\WesternStatesWater.WaDE.Accessors.Contracts.Import.csproj" />
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.Methods, f => new List<Method> { MethodBuilder.Create() })
                 .RuleFor(a => a.BeneficialUses, f => new List<BeneficialUse> { BeneficialUseBuilder.Create() })
                 .RuleFor(a => a.WaterAllocations, f => new List<Allocation> { AllocationBuilder.Create() })
-                .RuleFor(a => a.RegulatoryOverlays, f => new List<RegulatoryOverlay> { RegulatoryOverlayBuilder.Create() });
+                .RuleFor(a => a.RegulatoryOverlays, f => new List<RegulatoryOverlay> { RegulatoryOverlayBuilder.Create() })
+                .RuleFor(a => a.Sites, f => new List<Site> { SiteBuilder.Create() });
 
             return faker;
         }

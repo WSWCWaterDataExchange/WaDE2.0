@@ -44,6 +44,105 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public async Task GetSiteVariableAmountsAsync_Sites_SameSiteMultipleAllocations(bool sameOrganization)
+        {
+            var configuration = Configuration.GetConfiguration();
+            SiteVariableAmountsFact amountsFact1, amountsFact2;
+            SitesDim amountSite, podSite, pouSite;
+            OrganizationsDim organization1, organization2;
+            using (var db = new WaDEContext(configuration))
+            {
+                organization1 = await OrganizationsDimBuilder.Load(db);
+                organization2 = sameOrganization ? organization1 : await OrganizationsDimBuilder.Load(db);
+                amountSite = await SitesDimBuilder.Load(db);
+
+                amountsFact1 = await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+                {
+                    OrganizationsDim = organization1,
+                    SiteDim = amountSite
+                });
+                amountsFact2 = await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+                {
+                    OrganizationsDim = organization2,
+                    SiteDim = amountSite
+                });
+
+                podSite = await SitesDimBuilder.Load(db);
+                pouSite = await SitesDimBuilder.Load(db);
+                await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+                {
+                    PodSite = podSite,
+                    PouSite = amountSite
+                });
+                await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+                {
+                    PodSite = amountSite,
+                    PouSite = pouSite
+                });
+            }
+
+            var filters = new SiteVariableAmountsFilters();
+
+            var sut = CreateSiteVariableAmountsAccessor();
+            var result = await sut.GetSiteVariableAmountsAsync(filters, 0, int.MaxValue);
+
+            result.TotalSiteVariableAmountsCount.Should().Be(2);
+            if (sameOrganization)
+            {
+                result.Organizations.Should().HaveCount(1)
+                .And.Contain(a => a.OrganizationId == organization1.OrganizationId);
+
+                var org = result.Organizations.Single();
+                org.OrganizationId.Should().Be(amountsFact1.OrganizationId);
+                org.SiteVariableAmounts.Should().HaveCount(2)
+                    .And.Contain(a => a.SiteVariableAmountId == amountsFact1.SiteVariableAmountId)
+                    .And.Contain(a => a.SiteVariableAmountId == amountsFact2.SiteVariableAmountId);
+
+                org.Sites.Should().HaveCount(1)
+                .And.Contain(a => a.SiteUUID == amountSite.SiteUuid);
+
+                org.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+            }
+            else
+            {
+                result.Organizations.Should().HaveCount(2)
+                    .And.Contain(a => a.OrganizationId == organization1.OrganizationId)
+                    .And.Contain(a => a.OrganizationId == organization2.OrganizationId);
+
+                var org1 = result.Organizations.Single(a => a.OrganizationId == organization1.OrganizationId);
+                org1.OrganizationId.Should().Be(amountsFact1.OrganizationId);
+                org1.SiteVariableAmounts.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteVariableAmountId == amountsFact1.SiteVariableAmountId);
+
+                org1.Sites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == amountSite.SiteUuid);
+
+                org1.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org1.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+
+                var org2 = result.Organizations.Single(a => a.OrganizationId == organization2.OrganizationId);
+                org2.OrganizationId.Should().Be(amountsFact2.OrganizationId);
+                org2.SiteVariableAmounts.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteVariableAmountId == amountsFact2.SiteVariableAmountId);
+
+                org2.Sites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == amountSite.SiteUuid);
+
+                org2.Sites[0].RelatedPODSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
+                org2.Sites[0].RelatedPOUSites.Should().HaveCount(1)
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
+            }
+        }
+
+        [DataTestMethod]
         [DataRow("2022-02-24", null, null, true)]
         [DataRow("2022-02-24", "2022-02-23", null, true)]
         [DataRow("2022-02-24", "2022-02-24", null, true)]
