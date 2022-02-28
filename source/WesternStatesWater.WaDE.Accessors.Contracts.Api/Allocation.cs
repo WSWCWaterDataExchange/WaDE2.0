@@ -30,7 +30,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string MethodUUID { get; set; }
         public long VariableSpecificId { get; set; }
         public string VariableSpecificTypeCV { get; set; }
-        public List<Site> Sites { get; set; }
+        public List<string> SitesUUIDs { get; set; }
         public List<string> BeneficialUses { get; set; }
 
         public long OrganizationId { get; set; }

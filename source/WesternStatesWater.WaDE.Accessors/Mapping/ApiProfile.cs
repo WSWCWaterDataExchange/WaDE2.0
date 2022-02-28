@@ -11,7 +11,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             AllowNullDestinationValues = true;
             CreateMap<WaterAllocationAccessor.AllocationHelper, AccessorApi.Allocation>()
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
-                .ForMember(a => a.Sites, b => b.Ignore());
+                .ForMember(a => a.SitesUUIDs, b => b.Ignore());
             CreateMap<EF.OrganizationsDim, AccessorApi.WaterAllocationOrganization>()
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
                 .ForMember(a => a.WaterSources, b => b.Ignore())
@@ -19,7 +19,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.Methods, b => b.Ignore())
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
                 .ForMember(a => a.WaterAllocations, b => b.Ignore())
-                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore());
+                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())
+                .ForMember(a => a.Sites, b => b.Ignore());
 
             CreateMap<EF.AllocationAmountsFact, WaterAllocationAccessor.AllocationHelper>()
                 .ForMember(a => a.AllocationNativeID, b => b.MapFrom(c => c.AllocationNativeId))
@@ -43,6 +44,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
 
             CreateMap<EF.SitesDim, AccessorApi.Site>()
                  .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.SiteNativeId))
+                 .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.SiteUuid))
                  .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Latitude))
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
@@ -55,7 +57,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
                  .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
 
-            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PODToPOUSiteRelationship>()
+            CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PodToPouSiteRelationship>()
                 .ForMember(a => a.PODSiteUUID, b => b.MapFrom(c => c.PODSite.SiteUuid))
                 .ForMember(a => a.POUSiteUUID, b => b.MapFrom(c => c.POUSite.SiteUuid));
 

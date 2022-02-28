@@ -27,7 +27,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string AllocationSDWISIdentifier { get; set; }
         public string MethodUUID { get; set; }
         public string VariableSpecificTypeCV { get; set; }
-        public List<Site> Sites { get; set; }
+        public List<string> SitesUUIDs { get; set; }
         public List<string> BeneficialUses { get; set; }
         public bool ExemptOfVolumeFlowPriority { get; set; }
     }

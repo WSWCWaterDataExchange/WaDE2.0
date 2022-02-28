@@ -6,9 +6,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
 {
     public static class PODToPOUSiteRelationshipBuilder
     {
-        public static PODToPOUSiteRelationship Create()
+        public static PodToPouSiteRelationship Create()
         {
-            var faker = new Faker<PODToPOUSiteRelationship>()
+            var faker = new Faker<PodToPouSiteRelationship>()
                 .RuleFor(a => a.PODSiteUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.POUSiteUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.StartDate, f => f.Date.Past(5))

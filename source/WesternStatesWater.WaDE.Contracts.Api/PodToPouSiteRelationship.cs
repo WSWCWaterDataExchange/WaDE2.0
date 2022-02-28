@@ -2,7 +2,7 @@ using System;
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
-    public class PODToPOUSiteRelationship
+    public class PodToPouSiteRelationship
     {
         public string PODSiteUUID { get; set; }
         public string POUSiteUUID { get; set; }
