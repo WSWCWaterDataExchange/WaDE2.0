@@ -21,8 +21,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.HUC12, f => f.Random.AlphaNumeric(20))
                 .RuleFor(a => a.County, f => f.Address.County())
                 .RuleFor(a => a.PODorPOUSite, f => f.Random.Word())
-                .RuleFor(a => a.RelatedPODSites, f => new List<PodToPouSiteRelationship> { PODToPOUSiteRelationshipBuilder.Create() })
-                .RuleFor(a => a.RelatedPOUSites, f => new List<PodToPouSiteRelationship> { PODToPOUSiteRelationshipBuilder.Create() })
+                .RuleFor(a => a.RelatedPODSites, f => new List<PodToPouSiteRelationship> { PodToPouSiteRelationshipBuilder.Create() })
+                .RuleFor(a => a.RelatedPOUSites, f => new List<PodToPouSiteRelationship> { PodToPouSiteRelationshipBuilder.Create() })
                 .RuleFor(a => a.WaterSourceUUIDs, f => new List<string> { f.Random.Uuid().ToString() });
 
             return faker;

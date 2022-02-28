@@ -7,6 +7,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
     public class SiteVariableAmount
     {
         public long SiteVariableAmountId { get; set; }
+        public string WaterSourceUUID { get; set; }
         public string SiteName { get; set; }
         public string NativeSiteID { get; set; }
         public string SiteTypeCV { get; set; }

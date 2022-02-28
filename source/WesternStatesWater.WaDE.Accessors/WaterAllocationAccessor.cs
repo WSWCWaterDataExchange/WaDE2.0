@@ -376,16 +376,16 @@ namespace WesternStatesWater.WaDE.Accessors
             org.WaterAllocations = allocations.Map<List<AccessorApi.Allocation>>();
             var orgSites = sites.Where(a => allocationIds.Contains(a.AllocationAmountId)).ToList();
 
-            foreach (var site in orgSites.Select(a => a.Site))
-            {
-                site.PODSiteToPOUSitePOUFact = siteRelationships.Where(a => a.PODSiteId == site.SiteId).ToList();
-                site.PODSiteToPOUSitePODFact = siteRelationships.Where(a => a.POUSiteId == site.SiteId).ToList();
-            }
-
             org.Sites = orgSites
                 .Select(a => a.Site)
                 .Distinct()
                 .Map<List<AccessorApi.Site>>();
+
+            foreach (var site in org.Sites)
+            {
+                site.RelatedPODSites = siteRelationships.Where(a => a.POUSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PodValue));
+                site.RelatedPOUSites = siteRelationships.Where(a => a.PODSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PouValue));
+            }
 
             var waterSourceUuids = new HashSet<string>();
             foreach (var site in org.Sites)

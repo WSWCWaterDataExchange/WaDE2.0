@@ -217,9 +217,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
 
                 org.Sites[0].RelatedPODSites.Should().HaveCount(1)
-                    .And.Contain(a => a.PODSiteUUID == podSite.SiteUuid && a.POUSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
                 org.Sites[0].RelatedPOUSites.Should().HaveCount(1)
-                    .And.Contain(a => a.POUSiteUUID == pouSite.SiteUuid && a.PODSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
             }
             else
             {
@@ -236,9 +236,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
 
                 org1.Sites[0].RelatedPODSites.Should().HaveCount(1)
-                    .And.Contain(a => a.PODSiteUUID == podSite.SiteUuid && a.POUSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
                 org1.Sites[0].RelatedPOUSites.Should().HaveCount(1)
-                    .And.Contain(a => a.POUSiteUUID == pouSite.SiteUuid && a.PODSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
 
                 var org2 = result.Organizations.Single(a => a.OrganizationId == organization2.OrganizationId);
                 org2.OrganizationId.Should().Be(allocationAmountsFact2.OrganizationId);
@@ -249,9 +249,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
 
                 org2.Sites[0].RelatedPODSites.Should().HaveCount(1)
-                    .And.Contain(a => a.PODSiteUUID == podSite.SiteUuid && a.POUSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
                 org2.Sites[0].RelatedPOUSites.Should().HaveCount(1)
-                    .And.Contain(a => a.POUSiteUUID == pouSite.SiteUuid && a.PODSiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == pouSite.SiteUuid);
             }
         }
 

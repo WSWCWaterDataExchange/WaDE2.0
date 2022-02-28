@@ -4,6 +4,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public class Site
     {
+        public string SiteUUID { get; set; }
         public string NativeSiteID { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }

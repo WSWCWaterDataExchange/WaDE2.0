@@ -39,16 +39,21 @@ namespace WesternStatesWater.WaDE.Accessors
                 var variableSpecificTask = GetVariables(results.Select(a => a.VariableSpecificId).ToHashSet()).BlockTaskInTransaction();
                 var methodTask = GetMethods(results.Select(a => a.MethodId).ToHashSet()).BlockTaskInTransaction();
                 var beneficialUseTask = GetBeneficialUses(results.Select(a => a.SiteVariableAmountId).ToHashSet()).BlockTaskInTransaction();
+                HashSet<long> siteIds = results.Select(a => a.SiteID).ToHashSet();
+                var siteTask = GetSites(siteIds).BlockTaskInTransaction();
+                var siteRelationshipsTask = GetPodPouSites(siteIds).BlockTaskInTransaction();
 
                 var beneficialUses = await beneficialUseTask;
                 var waterSources = await waterSourceTask;
                 var variableSpecifics = await variableSpecificTask;
                 var methods = await methodTask;
+                var sites = await siteTask;
+                var siteRelationships = await siteRelationshipsTask;
 
                 var siteVariableAmountsOrganizations = new List<AccessorApi.SiteVariableAmountsOrganization>();
                 foreach (var org in await orgsTask)
                 {
-                    ProcessSiteVariableAmountsOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses);
+                    ProcessSiteVariableAmountsOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites, siteRelationships);
                     siteVariableAmountsOrganizations.Add(org);
                 }
 
@@ -194,6 +199,28 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        private async Task<List<SitesDim>> GetSites(HashSet<long> siteIds)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await db.SitesDim
+                               .Where(a => siteIds.Contains(a.SiteId))
+                               .ToListAsync();
+            }
+        }
+
+        private async Task<List<PODSiteToPOUSiteFact>> GetPodPouSites(HashSet<long> sitesIds)
+        {
+            using (var db = new EntityFramework.WaDEContext(Configuration))
+            {
+                return await db.PODSiteToPOUSiteFact
+                               .Where(a => sitesIds.Any(b => b == a.PODSiteId) || sitesIds.Any(b => b == a.POUSiteId))
+                               .Include(b => b.POUSite)
+                               .Include(b => b.PODSite)
+                               .ToListAsync();
+            }
+        }
+
         private async ValueTask<List<(long SiteVariableAmountId, BeneficialUsesCV BeneficialUse)>> GetBeneficialUses(HashSet<long> siteVariableAmountIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
@@ -208,7 +235,7 @@ namespace WesternStatesWater.WaDE.Accessors
         }
 
         private static void ProcessSiteVariableAmountsOrganization(AccessorApi.SiteVariableAmountsOrganization org, List<SiteVariableAmountHelper> results,
-            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.Method> methods, List<(long SiteVariableAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses)
+            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.Method> methods, List<(long SiteVariableAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses, List<SitesDim> sites, List<PODSiteToPOUSiteFact> siteRelationships)
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
@@ -216,6 +243,7 @@ namespace WesternStatesWater.WaDE.Accessors
             var waterSourceIds2 = allocations.Select(a => a.WaterSourceId).ToHashSet();
             var variableSpecificIds2 = allocations.Select(a => a.VariableSpecificId).ToHashSet();
             var methodIds2 = allocations.Select(a => a.MethodId).ToHashSet();
+            var siteIds2 = allocations.Select(a => a.SiteID).ToHashSet();
 
             org.WaterSources = waterSources
                 .Where(a => waterSourceIds2.Contains(a.WaterSourceId))
@@ -235,12 +263,22 @@ namespace WesternStatesWater.WaDE.Accessors
                 .DistinctBy(a => a.Name)
                 .Map<List<AccessorApi.BeneficialUse>>();
 
+            org.Sites = sites
+                .Where(a => siteIds2.Contains(a.SiteId))
+                .Map<List<AccessorApi.Site>>();
+
+            foreach (var site in org.Sites)
+            {
+                site.RelatedPODSites = siteRelationships.Where(a => a.POUSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PodValue));
+                site.RelatedPOUSites = siteRelationships.Where(a => a.PODSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PouValue));
+            }
+
             org.SiteVariableAmounts = allocations.Map<List<AccessorApi.SiteVariableAmount>>();
 
-            foreach (var waterAllocation in org.SiteVariableAmounts)
+            foreach (var siteVariableAmount in org.SiteVariableAmounts)
             {
-                waterAllocation.BeneficialUses = beneficialUses
-                    .Where(a => a.SiteVariableAmountId == waterAllocation.SiteVariableAmountId)
+                siteVariableAmount.BeneficialUses = beneficialUses
+                    .Where(a => a.SiteVariableAmountId == siteVariableAmount.SiteVariableAmountId)
                     .Select(a => a.BeneficialUse.Name).ToList();
             }
         }
@@ -249,6 +287,8 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             public long SiteVariableAmountId { get; set; }
             public string SiteName { get; set; }
+            public string WaterSourceUUID { get; set; }
+            public long SiteID { get; set; }
             public string NativeSiteID { get; set; }
             public string SiteTypeCV { get; set; }
             public double? Longitude { get; set; }
