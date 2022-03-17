@@ -27,7 +27,7 @@ namespace WaDEApiFunctions
                 .AddEnvironmentVariables()
                 .Build();
 
-            builder.Services.AddSingleton<IConfiguration>(config);
+            builder.Services.AddScoped<IConfiguration>((a) => config); //cannot use a singleton because it resets the hosts.json config (https://stackoverflow.com/a/65919316/4552551)
 
             builder.Services.AddTransient<ManagerApi.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
