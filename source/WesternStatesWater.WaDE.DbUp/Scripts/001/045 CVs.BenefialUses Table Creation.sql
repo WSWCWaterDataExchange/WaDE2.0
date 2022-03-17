@@ -9,11 +9,3 @@ USGSCategory nvarchar(250) Null,
 NAICSCode nvarchar(250) Null,
 Primary Key (Name)
 );
-
-INSERT INTO Cvs.BeneficialUses (Name,Term,Definition,State, SourceVocabularyURI,USGSCategory,NAICSCode)
-Values('Irrigation','','','','','','');
-
-
-
-
-
