@@ -15,7 +15,7 @@ namespace WaDEImportFunctions
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
 
-        private const int BatchCount = 25000;
+        private const int BatchCount = 5000;
         private const string FunctionName = FunctionNames.LoadSites;
         private const string BatchFunctionName = FunctionName + "Batch";
         private const string CountFunctionName = "Get" + FunctionName + "Count";
