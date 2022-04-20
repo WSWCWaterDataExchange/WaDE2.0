@@ -624,3 +624,5 @@ healthchecksdb
 
 # End of https://www.gitignore.io/api/csharp,aspnetcore,visualstudio
 source/WaDEApiFunctions/settings.cniemann.json
+
+**/.DS_Store
