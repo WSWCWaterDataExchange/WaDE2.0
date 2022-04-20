@@ -75,7 +75,7 @@ namespace WaDEImportFunctions
 
         private async Task<string> FetchData(string name)
         {
-            return await new HttpClient().GetStringAsync($"http://vocabulary2.westus2.cloudapp.azure.com/api/v1/{name}/?format=csv");
+            return await new HttpClient().GetStringAsync($"{Configuration.GetValue<string>("Endpoints:Vocabulary")}/{name}/?format=csv");
         }
 
         private List<dynamic> ParseData(string data)
