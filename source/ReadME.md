@@ -9,6 +9,8 @@ Set the following environment variables
 
 `export ConnectionStrings__WadeDatabase="Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevWaDE2.0!;"`
 
+Skip to step 12
+
 ----
 
 ## Steps to Set up WaDE 2.0 Envionment (data importer and database) on a local machine 
