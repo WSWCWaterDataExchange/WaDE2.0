@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:latest
+    container_name: storage
+    restart: always
+    command: "azurite --tableHost 0.0.0.0 --blobHost 0.0.0.0 --queueHost 0.0.0.0 --loose"
+    ports:
+      - "10002:10002"
+      - "10001:10001"
+      - "10000:10000"
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: sqlserver2017
+    environment:
+      ACCEPT_EULA: 'Y'
+      SA_PASSWORD: DevWaDE2.0!
+    ports:
+      - 1433:1433
