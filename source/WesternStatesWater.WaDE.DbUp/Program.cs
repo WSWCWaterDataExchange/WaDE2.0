@@ -1,6 +1,7 @@
 ﻿using DbUp;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
 using WesternStatesWater.WaDE.Common;
@@ -14,6 +15,10 @@ namespace WesternStatesWater.WaDE.DbUp
             get
             {
                 var builder = new ConfigurationBuilder()
+                    .AddInMemoryCollection(new Dictionary<string, string>
+                    {
+                        { "WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" }
+                    })
                     .AddEnvironmentVariables();
 
                 return builder.Build();
@@ -25,7 +30,9 @@ namespace WesternStatesWater.WaDE.DbUp
             (var connectionString, var rebuild, var force) = ParseParameters(args);
 
             //if no connection was provided, check the environment variable
-            connectionString = string.IsNullOrEmpty(connectionString) ? Configuration["WadeDatabase"] : connectionString;
+            connectionString = string.IsNullOrEmpty(connectionString)
+                ? Configuration["WadeDatabase"]
+                : connectionString;
 
             if (string.IsNullOrEmpty(connectionString))
             {
@@ -94,8 +101,6 @@ namespace WesternStatesWater.WaDE.DbUp
                 }
 
                 Console.WriteLine($"doClear: {doClear}");
-
-
             }
 
             if (doClear)
