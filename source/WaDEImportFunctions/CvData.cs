@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Transactions;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Common;
 
 namespace WaDEImportFunctions
 {
@@ -20,6 +21,9 @@ namespace WaDEImportFunctions
         {
             Configuration = configuration;
         }
+
+        private const string Consumptive = "Consumptive";
+        private const string NonConsumptive = "Non-consumptive";
 
         private IConfiguration Configuration { get; set; }
 
@@ -99,7 +103,34 @@ namespace WaDEImportFunctions
                     var name = table == "reportyearcv" ? record.name.Substring(0, 4) : record.name;
                     try
                     {
-                        var sql = $@"MERGE CVs.{table} AS target
+                        if (table == "BeneficialUses")
+                        {
+                            var sql = $@"MERGE CVs.{table} AS target
+    USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def, @p5 WaDEName, @p6 ConsumptionCategoryType) AS source
+        ON target.Name = source.Name
+    WHEN MATCHED THEN UPDATE
+        SET term = source.term,
+            state = source.state,
+            sourceVocabularyURI = source.source,
+            definition = source.def,
+            WaDEName = source.wadename,
+            consumptionCategoryType = source.consumptioncategorytype
+    WHEN NOT MATCHED THEN 
+        INSERT (name, term, state, sourceVocabularyURI, definition, wadename, ConsumptionCategoryType) 
+        VALUES (source.name, source.term, source.state, source.source, source.def, source.wadename, source.consumptionCategoryType);";
+
+                            await db.Database.ExecuteSqlRawAsync(sql,
+                                new SqlParameter("@p0", record.term),
+                                new SqlParameter("@p1", name),
+                                new SqlParameter("@p2", record.state),
+                                new SqlParameter("@p3", record.provenance_uri),
+                                new SqlParameter("@p4", record.definition),
+                                new SqlParameter("@p5", record.wadename),
+                                new SqlParameter("@p6", MapConsumptiveValue(record.category)));
+                        }
+                        else
+                        {
+                            var sql = $@"MERGE CVs.{table} AS target
     USING (SELECT @p0 Term, @p1 Name, @p2 State, @p3 Source, @p4 Def, @p5 WaDEName) AS source
         ON target.Name = source.Name
     WHEN MATCHED THEN UPDATE
@@ -111,13 +142,15 @@ namespace WaDEImportFunctions
     WHEN NOT MATCHED THEN 
         INSERT (name, term, state, sourceVocabularyURI, definition, wadename) 
         VALUES (source.name, source.term, source.state, source.source, source.def, source.wadename);";
-                        await db.Database.ExecuteSqlRawAsync(sql,
-                            new SqlParameter("@p0", record.term),
-                            new SqlParameter("@p1", name),
-                            new SqlParameter("@p2", record.state),
-                            new SqlParameter("@p3", record.provenance_uri),
-                            new SqlParameter("@p4", record.definition),
-                            new SqlParameter("@p5", record.wadename));
+
+                            await db.Database.ExecuteSqlRawAsync(sql,
+                                new SqlParameter("@p0", record.term),
+                                new SqlParameter("@p1", name),
+                                new SqlParameter("@p2", record.state),
+                                new SqlParameter("@p3", record.provenance_uri),
+                                new SqlParameter("@p4", record.definition),
+                                new SqlParameter("@p5", record.wadename));
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -129,6 +162,19 @@ namespace WaDEImportFunctions
             }
             log.LogInformation($"Completed Updating CV Table [{table}]");
 
+        }
+
+        private static ConsumptionCategoryType MapConsumptiveValue(string value)
+        {
+            switch (value)
+            {
+                case Consumptive:
+                    return ConsumptionCategoryType.Consumptive;
+                case NonConsumptive:
+                    return ConsumptionCategoryType.NonConsumptive;
+                default:
+                    return ConsumptionCategoryType.Unspecified;
+            }
         }
     }
 }
