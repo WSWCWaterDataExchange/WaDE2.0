@@ -1,0 +1,1 @@
+ALTER TABLE [CVs].[BeneficialUses] Add ConsumptionCategoryType int
