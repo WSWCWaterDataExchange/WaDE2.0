@@ -1,8 +1,10 @@
 ﻿using DbUp;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
+using WesternStatesWater.WaDE.Common;
 
 namespace WesternStatesWater.WaDE.DbUp
 {
@@ -13,6 +15,10 @@ namespace WesternStatesWater.WaDE.DbUp
             get
             {
                 var builder = new ConfigurationBuilder()
+                    .AddInMemoryCollection(new Dictionary<string, string>
+                    {
+                        { "WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" }
+                    })
                     .AddEnvironmentVariables();
 
                 return builder.Build();
@@ -21,14 +27,16 @@ namespace WesternStatesWater.WaDE.DbUp
 
         static void Main(string[] args)
         {
-                (var connectionString, var rebuild, var force) = ParseParameters(args);
+            (var connectionString, var rebuild, var force) = ParseParameters(args);
 
             //if no connection was provided, check the environment variable
-            connectionString = string.IsNullOrEmpty(connectionString) ? Configuration["WadeDatabase"] : connectionString;
+            connectionString = string.IsNullOrEmpty(connectionString)
+                ? Configuration["WadeDatabase"]
+                : connectionString;
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new InvalidOperationException("Connection string not found.");
+                throw new WaDEException("Connection string not found.");
             }
 
             EnsureDatabase.For.SqlDatabase(connectionString);
@@ -93,8 +101,6 @@ namespace WesternStatesWater.WaDE.DbUp
                 }
 
                 Console.WriteLine($"doClear: {doClear}");
-
-                
             }
 
             if (doClear)
@@ -175,6 +181,12 @@ namespace WesternStatesWater.WaDE.DbUp
                 SELECT @Sql = @Sql + 'DROP COLUMN MASTER KEY ' + QUOTENAME(NAME) + ';' + CHAR(13)
                 FROM sys.column_master_keys
                 ORDER BY NAME;
+
+                --user defined types
+                SELECT @Sql = @Sql + 'DROP TYPE '+ QUOTENAME(s.Name) +'.' + QUOTENAME(t.NAME) + ';' + CHAR(13)
+                FROM sys.types t inner join
+                     sys.schemas s on t.schema_id = s.schema_id
+                WHERE t.is_user_defined = 1;
 
                 EXECUTE sp_executesql @Sql;
                 ";

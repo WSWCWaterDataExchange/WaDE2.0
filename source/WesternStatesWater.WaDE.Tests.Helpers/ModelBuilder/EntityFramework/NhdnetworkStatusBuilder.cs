@@ -1,8 +1,5 @@
-﻿using System.Threading.Tasks;
-using Bogus;
-using GeoAPI.Geometries;
-using NetTopologySuite;
-using NetTopologySuite.IO;
+﻿using Bogus;
+using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
@@ -16,16 +13,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static NhdnetworkStatus Create(NhdnetworkStatusBuilderOptions opts)
         {
-            var geometryFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-            WKTReader shapeMaker = new WKTReader(geometryFactory);                        
-
             var faker = new Faker<NhdnetworkStatus>()
                 .RuleFor(a => a.Name, f => f.Random.AlphaNumeric(50))
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(4000))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))
-                .RuleFor(a => a.SourceVocabularyUri, f => f.Random.AlphaNumeric(250))
-                ;
+                .RuleFor(a => a.SourceVocabularyUri, f => f.Random.AlphaNumeric(250));
 
             return faker;
         }
@@ -48,6 +41,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
     public class NhdnetworkStatusBuilderOptions
     {
-        
+
     }
 }

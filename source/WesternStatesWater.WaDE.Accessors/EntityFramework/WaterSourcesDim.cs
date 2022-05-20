@@ -1,6 +1,5 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
 using System.Collections.Generic;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -9,8 +8,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public WaterSourcesDim()
         {
             AggregatedAmountsFact = new HashSet<AggregatedAmountsFact>();
-            AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
             SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
+            WaterSourceBridgeSitesFact = new HashSet<WaterSourceBridgeSitesFact>();
         }
 
         public long WaterSourceId { get; set; }
@@ -20,13 +19,13 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string WaterSourceTypeCv { get; set; }
         public string WaterQualityIndicatorCv { get; set; }
         public string GnisfeatureNameCv { get; set; }
-        public IGeometry Geometry { get; set; }
+        public Geometry Geometry { get; set; }
 
         public virtual GnisfeatureName GnisfeatureNameCvNavigation { get; set; }
         public virtual WaterQualityIndicator WaterQualityIndicatorCvNavigation { get; set; }
         public virtual WaterSourceType WaterSourceTypeCvNavigation { get; set; }
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
-        public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
+        public virtual ICollection<WaterSourceBridgeSitesFact> WaterSourceBridgeSitesFact { get; set; }
     }
 }

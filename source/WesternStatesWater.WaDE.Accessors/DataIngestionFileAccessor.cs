@@ -1,136 +1,145 @@
-﻿using CsvHelper;
+﻿using Azure.Storage.Blobs;
+using CsvHelper;
 using CsvHelper.Configuration;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AccessorImport = WesternStatesWater.WaDE.Accessors.Contracts.Import;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
-    public class WaterAllocationFileAccessor : AccessorImport.IWaterAllocationFileAccessor
+    public class DataIngestionFileAccessor : AccessorImport.IDataIngestionFileAccessor
     {
-        public WaterAllocationFileAccessor(IConfiguration configuration)
+        public DataIngestionFileAccessor(IConfiguration configuration, BlobContainerClient blobContainerClient)
         {
             Configuration = configuration;
+            BlobContainerClient = blobContainerClient;
         }
 
         private IConfiguration Configuration { get; set; }
+        private BlobContainerClient BlobContainerClient { get; set; }
 
-        async Task<List<AccessorImport.Organization>> AccessorImport.IWaterAllocationFileAccessor.GetOrganizations(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.Organization>> AccessorImport.IDataIngestionFileAccessor.GetOrganizations(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.Organization>(runId, "organizations.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetOrganizationsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetOrganizationsCount(string runId)
         {
             return await GetRecordCount(runId, "organizations.csv");
         }
 
-        async Task<List<AccessorImport.WaterAllocation>> AccessorImport.IWaterAllocationFileAccessor.GetWaterAllocations(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.WaterAllocation>> AccessorImport.IDataIngestionFileAccessor.GetWaterAllocations(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.WaterAllocation>(runId, "waterallocations.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetWaterAllocationsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetWaterAllocationsCount(string runId)
         {
             return await GetRecordCount(runId, "waterallocations.csv");
         }
 
-        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IWaterAllocationFileAccessor.GetAggregatedAmounts(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.AggregatedAmount>> AccessorImport.IDataIngestionFileAccessor.GetAggregatedAmounts(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.AggregatedAmount>(runId, "aggregatedamounts.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetAggregatedAmountsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetAggregatedAmountsCount(string runId)
         {
             return await GetRecordCount(runId, "aggregatedamounts.csv");
         }
 
-        async Task<List<AccessorImport.Method>> AccessorImport.IWaterAllocationFileAccessor.GetMethods(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.Method>> AccessorImport.IDataIngestionFileAccessor.GetMethods(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.Method>(runId, "methods.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetMethodsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetMethodsCount(string runId)
         {
             return await GetRecordCount(runId, "methods.csv");
         }
 
-        async Task<List<AccessorImport.RegulatoryOverlay>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryOverlays(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.RegulatoryOverlay>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryOverlays(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.RegulatoryOverlay>(runId, "regulatoryoverlays.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryOverlaysCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryOverlaysCount(string runId)
         {
             return await GetRecordCount(runId, "regulatoryoverlays.csv");
         }
 
-        async Task<List<AccessorImport.ReportingUnit>> AccessorImport.IWaterAllocationFileAccessor.GetReportingUnits(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.ReportingUnit>> AccessorImport.IDataIngestionFileAccessor.GetReportingUnits(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.ReportingUnit>(runId, "reportingunits.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetReportingUnitsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetReportingUnitsCount(string runId)
         {
             return await GetRecordCount(runId, "reportingunits.csv");
         }
 
-        async Task<List<AccessorImport.RegulatoryReportingUnits>> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryReportingUnits(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.RegulatoryReportingUnits>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryReportingUnits(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.RegulatoryReportingUnits>(runId, "regulatoryreportingunits.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetRegulatoryReportingUnitsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryReportingUnitsCount(string runId)
         {
             return await GetRecordCount(runId, "regulatoryreportingunits.csv");
         }
 
-        async Task<List<AccessorImport.Site>> AccessorImport.IWaterAllocationFileAccessor.GetSites(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.Site>> AccessorImport.IDataIngestionFileAccessor.GetSites(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.Site>(runId, "sites.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetSitesCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetSitesCount(string runId)
         {
             return await GetRecordCount(runId, "sites.csv");
         }
 
-        async Task<List<AccessorImport.SiteSpecificAmount>> AccessorImport.IWaterAllocationFileAccessor.GetSiteSpecificAmounts(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.SiteSpecificAmount>> AccessorImport.IDataIngestionFileAccessor.GetSiteSpecificAmounts(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.SiteSpecificAmount>(runId, "sitespecificamounts.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetSiteSpecificAmountsCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetSiteSpecificAmountsCount(string runId)
         {
             return await GetRecordCount(runId, "sitespecificamounts.csv");
         }
 
-        async Task<List<AccessorImport.Variable>> AccessorImport.IWaterAllocationFileAccessor.GetVariables(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.Variable>> AccessorImport.IDataIngestionFileAccessor.GetVariables(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.Variable>(runId, "variables.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetVariablesCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetVariablesCount(string runId)
         {
             return await GetRecordCount(runId, "variables.csv");
         }
 
-        async Task<List<AccessorImport.WaterSource>> AccessorImport.IWaterAllocationFileAccessor.GetWaterSources(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.WaterSource>> AccessorImport.IDataIngestionFileAccessor.GetWaterSources(string runId, int startIndex, int count)
         {
             return await GetNormalizedData<AccessorImport.WaterSource>(runId, "watersources.csv", startIndex, count);
         }
 
-        async Task<int> AccessorImport.IWaterAllocationFileAccessor.GetWaterSourcesCount(string runId)
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetWaterSourcesCount(string runId)
         {
             return await GetRecordCount(runId, "watersources.csv");
+        }
+
+        async Task<List<AccessorImport.PODSitePOUSite>> AccessorImport.IDataIngestionFileAccessor.GetPODSiteToPOUSiteRelationships(string runId, int startIndex, int count)
+        {
+            return await GetNormalizedData<AccessorImport.PODSitePOUSite>(runId, "podsitetopousiterelationships.csv", startIndex, count);
+        }
+
+        async Task<int> AccessorImport.IDataIngestionFileAccessor.GetPODSiteToPOUSiteRelationshipsCount(string runId)
+        {
+            return await GetRecordCount(runId, "podsitetopousiterelationships.csv");
         }
 
         private async Task<List<T>> GetNormalizedData<T>(string runId, string fileName, int startIndex, int count)
@@ -189,14 +198,9 @@ namespace WesternStatesWater.WaDE.Accessors
 
         private async Task<int> GetRecordCount(string runId, string fileName)
         {
-            var storageConnectionString = Configuration.GetConnectionString("AzureStorage");
-            var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-            var blobClient = storageAccount.CreateCloudBlobClient();
-            var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+            var blobClient = BlobContainerClient.GetBlobClient(Path.Combine(runId, fileName));
 
-            var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
-
-            if (!await blob.ExistsAsync())
+            if (!await blobClient.ExistsAsync())
             {
                 return 0;
             }
@@ -216,7 +220,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
             csvConfig.TypeConverterCache.AddConverter<DateTime?>(new DMYDateConverter());
 
-            using (var stream = await blob.OpenReadAsync())
+            using (var stream = await blobClient.OpenReadAsync())
             {
                 var count = -1; //account for the header
                 using (var reader = new CsvReader(new CsvParser(new StreamReader(stream), csvConfig)))
@@ -261,30 +265,32 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private class FileStreamFactoryImpl : IFileStreamFactory
+        private sealed class FileStreamFactoryImpl : IFileStreamFactory
         {
+            public FileStreamFactoryImpl(BlobContainerClient blobContainerClient)
+            {
+                BlobContainerClient = blobContainerClient;
+            }
+
+            private BlobContainerClient BlobContainerClient { get; set; }
+
             public async Task<Stream> GetStreamAsync(IConfiguration configuration, string runId, string fileName)
             {
-                var storageConnectionString = configuration.GetConnectionString("AzureStorage");
-                var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
-                var blobClient = storageAccount.CreateCloudBlobClient();
-                var cloudBlobContainer = blobClient.GetContainerReference("normalizedimports");
+                var blobClient = BlobContainerClient.GetBlobClient(Path.Combine(runId, fileName));
 
-                var blob = cloudBlobContainer.GetBlockBlobReference(Path.Combine(runId, fileName));
-
-                if (!await blob.ExistsAsync())
+                if (!await blobClient.ExistsAsync())
                 {
                     return null;
                 }
 
-                return await blob.OpenReadAsync();
+                return await blobClient.OpenReadAsync();
             }
         }
 
         private IFileStreamFactory _fileStreamFactory;
         internal IFileStreamFactory FileStreamFactory
         {
-            get => _fileStreamFactory ?? (_fileStreamFactory = new FileStreamFactoryImpl());
+            get => _fileStreamFactory ?? (_fileStreamFactory = new FileStreamFactoryImpl(BlobContainerClient));
             set => _fileStreamFactory = value;
         }
     }

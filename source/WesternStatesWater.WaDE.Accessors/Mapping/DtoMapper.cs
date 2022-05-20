@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Mapping
 {
@@ -25,14 +26,14 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             }
         }
 
-        public static T Map<T>(this object source)
+        public static T Map<T>(this object source, Action<IMappingOperationOptions> opts = null)
         {
-            return Mapper.Map<T>(source);
+            return Mapper.Map<T>(source, opts ?? (a => { }));
         }
 
-        public static void Map(this object source, object dest)
+        public static void Map(this object source, object dest, Action<IMappingOperationOptions> opts = null)
         {
-            Mapper.Map(source, dest);
+            Mapper.Map(source, dest, opts ?? (a => { }));
         }
     }
 }

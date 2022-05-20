@@ -6,11 +6,12 @@ namespace WesternStatesWater.WaDE.Contracts.Api
     public class SiteVariableAmount
     {
         public string SiteName { get; set; }
+        public string WaterSourceUUID { get; set; }
         public string NativeSiteID { get; set; }
         public string SiteTypeCV { get; set; }
         public double? Longitude { get; set; }
         public double? Latitude { get; set; }
-        public string SiteGeometry { get; set; }
+        public object SiteGeometry { get; set; }
         public string CoordinateMethodCV { get; set; }
         public string AllocationGNISIDCV { get; set; }
         public DateTime? TimeframeStart { get; set; }

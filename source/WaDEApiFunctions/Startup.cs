@@ -3,12 +3,14 @@ using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Runtime.CompilerServices;
 using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Managers.Api;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
 [assembly: WebJobsStartup(typeof(WaDEApiFunctions.Startup))]
+[assembly: InternalsVisibleTo("WesternStatesWater.WaDE.Clients.Tests")]
 
 namespace WaDEApiFunctions
 {
@@ -25,7 +27,7 @@ namespace WaDEApiFunctions
                 .AddEnvironmentVariables()
                 .Build();
 
-            builder.Services.AddSingleton<IConfiguration>(config);
+            builder.Services.AddTransient<IConfiguration>((a) => config); //cannot use a singleton because it resets the hosts.json config (https://stackoverflow.com/a/65919316/4552551)
 
             builder.Services.AddTransient<ManagerApi.IWaterAllocationManager, WaterAllocationManager>();
             builder.Services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();

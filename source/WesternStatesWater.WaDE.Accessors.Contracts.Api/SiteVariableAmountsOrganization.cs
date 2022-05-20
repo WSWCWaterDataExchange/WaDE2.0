@@ -18,5 +18,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public List<Method> Methods { get; set; }
         public List<BeneficialUse> BeneficialUses { get; set; }
         public List<SiteVariableAmount> SiteVariableAmounts { get; set; }
+        public List<Site> Sites { get; set; }
     }
 }

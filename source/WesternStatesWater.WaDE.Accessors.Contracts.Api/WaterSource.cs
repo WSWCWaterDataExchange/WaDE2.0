@@ -1,4 +1,6 @@
-﻿namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
+﻿using NetTopologySuite.Geometries;
+
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public class WaterSource
     {
@@ -8,6 +10,6 @@
         public string WaterSourceUUID { get; set; }
         public string WaterSourceTypeCV { get; set; }
         public string FreshSalineIndicatorCV { get; set; }
-        public string WaterSourceGeometry { get; set; }
+        public Geometry WaterSourceGeometry { get; set; }
     }
 }

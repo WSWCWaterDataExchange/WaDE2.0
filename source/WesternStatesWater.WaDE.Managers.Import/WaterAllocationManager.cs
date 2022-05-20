@@ -7,14 +7,14 @@ namespace WesternStatesWater.WaDE.Managers.Import
 {
     public class WaterAllocationManager : ManagerImport.IWaterAllocationManager
     {
-        public WaterAllocationManager(AccessorImport.IWaterAllocationAccessor importWaterAllocationAccessor, AccessorImport.IWaterAllocationFileAccessor importWaterAllocationFileAccessor)
+        public WaterAllocationManager(AccessorImport.IDataIngestionAccessor importWaterAllocationAccessor, AccessorImport.IDataIngestionFileAccessor importWaterAllocationFileAccessor)
         {
             ImportWaterAllocationAccessor = importWaterAllocationAccessor;
             ImportWaterAllocationFileAccessor = importWaterAllocationFileAccessor;
         }
 
-        public AccessorImport.IWaterAllocationAccessor ImportWaterAllocationAccessor { get; set; }
-        public AccessorImport.IWaterAllocationFileAccessor ImportWaterAllocationFileAccessor { get; set; }
+        public AccessorImport.IDataIngestionAccessor ImportWaterAllocationAccessor { get; set; }
+        public AccessorImport.IDataIngestionFileAccessor ImportWaterAllocationFileAccessor { get; set; }
 
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadOrganizations(string runId, int startIndex, int count)
         {
@@ -78,6 +78,23 @@ namespace WesternStatesWater.WaDE.Managers.Import
         async Task<int> ManagerImport.IWaterAllocationManager.GetWaterSourcesCount(string runId)
         {
             return await ImportWaterAllocationFileAccessor.GetWaterSourcesCount(runId);
+        }
+
+        async Task<bool> ManagerImport.IWaterAllocationManager.LoadPODSiteToPOUSiteRelationships(string runId, int startIndex, int count)
+        {
+            var PODSitePOUSiteFacts = await ImportWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationships(runId, startIndex, count);
+
+            if (!PODSitePOUSiteFacts.Any())
+            {
+                return true;
+            }
+
+            return await ImportWaterAllocationAccessor.LoadPodSitePouSiteFact(runId, PODSitePOUSiteFacts);
+        }
+
+        async Task<int> ManagerImport.IWaterAllocationManager.GetPODSiteToPOUSiteRelationshipsCount(string runId)
+        {
+            return await ImportWaterAllocationFileAccessor.GetPODSiteToPOUSiteRelationshipsCount(runId);
         }
 
         async Task<bool> ManagerImport.IWaterAllocationManager.LoadMethods(string runId, int startIndex, int count)
