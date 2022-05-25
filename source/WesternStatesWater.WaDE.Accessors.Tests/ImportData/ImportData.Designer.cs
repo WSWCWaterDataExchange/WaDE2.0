@@ -19,7 +19,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.ImportData {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ImportData {
@@ -67,6 +67,17 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.ImportData {
         internal static string GetWaterAllocations_IrrigatedAcrageSpecifiedButEmpty {
             get {
                 return ResourceManager.GetString("GetWaterAllocations_IrrigatedAcrageSpecifiedButEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SiteUUID,RegulatoryOverlayUUIDs,WaterSourceUUIDs,CoordinateAccuracy,CoordinateMethodCV,County,EPSGCodeCV,Geometry,GNISCodeCV,HUC12,HUC8,Latitude,Longitude,PODorPOUSite,SiteName,SiteNativeID,SiteTypeCV,USGSSiteID
+        ///NEwr_S1,abcd,&quot;NEwr_WS1,NEwr_WS2&quot;,1.01,Unspecified,Thayer,4326,Fake Geometry,999,103000000000,158400000000,40.01104072,-97.5223804,POD,Unspecified,10443,Unspecified,Fake USGS
+        ///.
+        /// </summary>
+        internal static string Sites_OneRecord {
+            get {
+                return ResourceManager.GetString("Sites_OneRecord", resourceCulture);
             }
         }
     }

@@ -36,5 +36,10 @@ namespace WesternStatesWater.WaDE.Contracts.Import
 
         Task<bool> LoadRegulatoryReportingUnits(string runId, int startIndex, int count);
         Task<int> GetRegulatoryReportingUnitsCount(string runId);
+
+        Task<bool> LoadPODSiteToPOUSiteRelationships(string runId, int startIndex, int count);
+        Task<int> GetPODSiteToPOUSiteRelationshipsCount(string runId);
+
+        
     }
 }

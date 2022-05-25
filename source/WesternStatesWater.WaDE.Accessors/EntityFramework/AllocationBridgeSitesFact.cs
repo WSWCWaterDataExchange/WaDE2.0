@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
     public partial class AllocationBridgeSitesFact
@@ -10,6 +7,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public long AllocationAmountId { get; set; }
 
         public virtual AllocationAmountsFact AllocationAmount { get; set; }
-        public virtual SitesDim Site { get; set;}
+        public virtual SitesDim Site { get; set; }
     }
 }

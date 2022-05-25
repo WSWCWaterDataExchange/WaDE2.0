@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <LangVersion>7.3</LangVersion>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +20,6 @@
     <None Remove="Scripts\001\023 Core.Sites_dim Updates.sql" />
     <None Remove="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql" />
     <None Remove="Scripts\001\025 Aggregated Amounts Data Changes.sql" />
-    <None Remove="Scripts\001\026 Variables_dim Changes.sql" />
     <None Remove="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\001\028 AggregatedAmounts Table Update.sql" />
     <None Remove="Scripts\001\028 AllocationAmounts Table Updates.sql" />
@@ -53,7 +51,6 @@
     <None Remove="Scripts\001\054 Core.LoadWaterAllocation Update.sql" />
     <None Remove="Scripts\001\055 Core .LoadAggregatedAmounts Update.sql" />
     <None Remove="Scripts\001\056 Core.LoadSiteSpecificAmounts Update.sql" />
-    <None Remove="Scripts\001\057 VariableSpecificUUID coming back.sql" />
     <None Remove="Scripts\001\058 VariableSpecificUUID coming back 2.sql" />
     <None Remove="Scripts\001\059 Core.LoadVariables Update.sql" />
     <None Remove="Scripts\001\060 VariableTableType Update.sql" />
@@ -112,7 +109,22 @@
     <None Remove="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />
     <None Remove="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <None Remove="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
+    <None Remove="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar(max).sql" />
+    <None Remove="Scripts\004\018 CVs.OwnerClassification Create.sql" />
+    <None Remove="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
+    <None Remove="Scripts\004\021 Core.LoadSiteSpecificAmounts Add BeneficialUser Error Message.sql" />
+    <None Remove="Scripts\004\020 Core.LoadWaterAllocationsMergeBeneficialUsesAndSites.sql" />
+    <None Remove="Scripts\004\021 Core.PODSitetoPOUSite_fact.sql" />
+    <None Remove="Scripts\004\022 Core.LoadAggregateAmounts Add BeneficialUser Error Message.sql" />
+    <None Remove="Scripts\004\023 Core.LoadWaterAllocation Add BeneficialUser Error Message.sql" />
+    <None Remove="Scripts\004\024 OneWaterSourceToManySitesTableUpdates.sql" />
+    <None Remove="Scripts\004\025 LoadWaterAllocation_RemoveWaterSourceID.sql" />
+    <None Remove="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
+    <None Remove="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
+    <None Remove="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
+    <None Remove="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
+    <None Remove="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
@@ -157,9 +169,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\060 VariableTableType Update.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\001\057 VariableSpecificUUID coming back.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\050 Changing Fact and Bridge Tables to NOT NULL.sql" />
@@ -240,9 +249,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\027 Core.LoadAggregatedAmounts Update.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Scripts\001\026 Variables_dim Changes.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Scripts\001\024 CVs.CustomerType and SDWISIdentifier Tables.sql">
@@ -361,6 +367,13 @@
     <EmbeddedResource Include="Scripts\003\021 Revert AllocationFacts TimeframeStart and TimeframeEnd.sql" />
     <EmbeddedResource Include="Scripts\003\020 Add Performance Indexes.sql" />
     <EmbeddedResource Include="Scripts\003\019 Core.LoadSiteSpecificAmounts AddPowerType.sql" />
+    <EmbeddedResource Include="Scripts\004\022 Core.LoadAggregateAmounts Add BeneficialUser Error Message.sql" />
+    <EmbeddedResource Include="Scripts\004\021 Core.LoadSiteSpecificAmounts Add BeneficialUser Error Message.sql" />
+    <EmbeddedResource Include="Scripts\004\020 Core.LoadWaterAllocationsMergeBeneficialUsesAndSites.sql" />
+    <EmbeddedResource Include="Scripts\004\021 Core.PODSitetoPOUSite_fact.sql" />
+    <EmbeddedResource Include="Scripts\004\023 Core.LoadWaterAllocation Add BeneficialUser Error Message.sql" />
+    <EmbeddedResource Include="Scripts\004\019 Core.AllocationAmounts_fact Add OwnerClassificationCV.sql" />
+    <EmbeddedResource Include="Scripts\004\018 CVs.OwnerClassification Create.sql" />
     <EmbeddedResource Include="Scripts\004\001 CVs.RegulatoryOverlayType CreateTable.sql" />
     <EmbeddedResource Include="Scripts\004\002 CVs.WaDEName.sql" />
     <EmbeddedResource Include="Scripts\004\003 Core.AllocationAmounts_fact Update TimeframeStart and TimeframeEnd Size.sql" />
@@ -371,17 +384,34 @@
     <EmbeddedResource Include="Scripts\004\007 Core.AllocationAmounts_fact AllocationPriorityDateID Nullable.sql" />
     <EmbeddedResource Include="Scripts\004\006 Core.AllocationAmounts_fact Update AllocationOwner Size.sql" />
     <EmbeddedResource Include="Scripts\004\005 Core.AllocationAmounts_fact Rename AllocationMaximum.sql" />
+    <EmbeddedResource Include="Scripts\004\015 Core - Increase size of SiteUUID in WaterAllocationType UUDT to nvarchar%28max%29.sql" />
     <EmbeddedResource Include="Scripts\004\014 Core.LoadWaterAllocation Fix ExemptOfPriorityFlow Logic.sql" />
     <EmbeddedResource Include="Scripts\004\013 Core.LoadSiteSpecificAmounts Fix CustomerType.sql" />
     <EmbeddedResource Include="Scripts\004\013 Core.LoadRegulatoryReportingUnits Name to UUID.sql" />
     <EmbeddedResource Include="Scripts\004\012 Core.LoadAggregatedAmounts Null PrimaryUseCategory.sql" />
     <EmbeddedResource Include="Scripts\004\011 Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
+    <None Remove="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
+    <EmbeddedResource Include="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
+    <None Remove="Scripts\004\017 Core.RegulatoryOverlayBridge_Sites_facts add fk.sql" />
+    <None Remove="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
+    <EmbeddedResource Include="Scripts\004\017 Core.LoadSites Add RegulatoryUUIDs.sql" />
+    <EmbeddedResource Include="Scripts\004\024 OneWaterSourceToManySitesTableUpdates.sql" />
+    <EmbeddedResource Include="Scripts\004\025 LoadWaterAllocation_RemoveWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\004\027 Increase size of state column on waterallocationbasis and waterallocationtype.sql" />
+    <EmbeddedResource Include="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
+    <EmbeddedResource Include="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
+    <EmbeddedResource Include="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
+    <EmbeddedResource Include="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="dbup" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.2.4" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

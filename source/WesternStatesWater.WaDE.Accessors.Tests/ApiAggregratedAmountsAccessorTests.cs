@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
@@ -17,7 +18,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         private readonly ILoggerFactory loggerFactory = new LoggerFactory();
 
         [TestMethod]
-        public async Task GetAggregatedAmountsAsync_NoFilters()
+        public async Task GetAggregatedAmountsAsync_Filters_None()
         {
             var configuration = Configuration.GetConfiguration();
             AggregatedAmountsFact aggregatedAmount;
@@ -40,6 +41,68 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.OrganizationId.Should().Be(aggregatedAmount.OrganizationId);
             org.AggregatedAmounts.Should().HaveCount(1);
             org.AggregatedAmounts[0].AggregatedAmountId.Should().Be(aggregatedAmount.AggregatedAmountId);
+        }
+
+        [DataTestMethod]
+        [DataRow(null, null, null, true)]
+        [DataRow(null, "2022-02-23", null, false)]
+        [DataRow(null, null, "2022-02-25", false)]
+        [DataRow(null, "2022-02-23", "2022-02-25", false)]
+        [DataRow("2022-02-24", null, null, true)]
+        [DataRow("2022-02-24", "2022-02-23", null, true)]
+        [DataRow("2022-02-24", "2022-02-24", null, true)]
+        [DataRow("2022-02-24", "2022-02-25", null, false)]
+        [DataRow("2022-02-24", null, "2022-02-23", false)]
+        [DataRow("2022-02-24", null, "2022-02-24", true)]
+        [DataRow("2022-02-24", null, "2022-02-25", true)]
+        [DataRow("2022-02-22", "2022-02-23", "2022-02-25", false)]
+        [DataRow("2022-02-23", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
+        [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
+        public async Task GetAggregatedAmountsAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
+        {
+            var configuration = Configuration.GetConfiguration();
+            AggregatedAmountsFact aggregatedAmount;
+            DateDim publicationDate = null;
+            using (var db = new WaDEContext(configuration))
+            {
+                if (dataPublicationDate != null)
+                {
+                    publicationDate = await DateDimBuilder.Load(db);
+                    publicationDate.Date = DateTime.Parse(dataPublicationDate);
+                }
+
+                aggregatedAmount = await AggregatedAmountsFactBuilder.Load(db, new AggregatedAmountsFactBuilderOptions
+                {
+                    DataPublicationDate = publicationDate
+                });
+            }
+
+            var filters = new AggregatedAmountsFilters
+            {
+                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
+                EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
+            };
+
+            var sut = CreateAggregatedAmountsAccessor();
+            var result = await sut.GetAggregatedAmountsAsync(filters, 0, int.MaxValue);
+
+            if (shouldMatch)
+            {
+                result.TotalAggregatedAmountsCount.Should().Be(1);
+                result.Organizations.Should().HaveCount(1);
+
+                var org = result.Organizations.Single();
+                org.OrganizationId.Should().Be(aggregatedAmount.OrganizationId);
+                org.AggregatedAmounts.Should().HaveCount(1);
+                org.AggregatedAmounts[0].AggregatedAmountId.Should().Be(aggregatedAmount.AggregatedAmountId);
+            }
+            else
+            {
+                result.TotalAggregatedAmountsCount.Should().Be(0);
+                result.Organizations.Should().HaveCount(0);
+            }
         }
 
         [TestMethod]

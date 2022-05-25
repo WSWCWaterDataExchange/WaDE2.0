@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Bogus;
+using System.Linq;
 using System.Threading.Tasks;
-using Bogus;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
@@ -45,7 +45,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static string GenerateName()
         {
-            return new Faker().Random.Word();
+            string name;
+            do
+            {
+                name = new Faker().Random.Word();
+            } while (name.Length > 50);
+            return name;
         }
     }
 

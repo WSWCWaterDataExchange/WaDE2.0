@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.28803.352
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Accessors", "WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj", "{585C53AB-D4D8-46C0-9EF7-18A81E1BD0E2}"
 EndProject
@@ -45,13 +45,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.DbU
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "8. Tools", "8. Tools", "{6506AAFA-B308-4B81-AD21-EA97D4742F99}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CvLoader", "CvLoader\CvLoader.csproj", "{FC968246-0B5F-402A-8864-D27D69A1C045}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuplicateRecordCleanup", "DuplicateRecordCleanup\DuplicateRecordCleanup.csproj", "{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiPerfTest", "ApiPerfTest\ApiPerfTest.csproj", "{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Tests.Helpers", "WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj", "{C5C424F3-34E8-428C-97D4-852105F3BC3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Tests.Helpers", "WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj", "{C5C424F3-34E8-428C-97D4-852105F3BC3B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Common", "WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj", "{2B8D65FC-48C6-48BC-A431-4A2E28922846}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Utilities", "WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj", "{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Utilities.Tests", "WesternStatesWater.WaDE.Utilities.Tests\WesternStatesWater.WaDE.Utilities.Tests.csproj", "{AC51B20D-A08B-4977-9815-35B84ACBFA88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Clients.Tests", "WesternStatesWater.WaDE.Clients.Tests\WesternStatesWater.WaDE.Clients.Tests.csproj", "{D43EFBE0-CAF1-424B-B639-708F1C4884D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,10 +113,6 @@ Global
 		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{304BDD8F-5088-458E-9CFB-9D06929700D5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC968246-0B5F-402A-8864-D27D69A1C045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC968246-0B5F-402A-8864-D27D69A1C045}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC968246-0B5F-402A-8864-D27D69A1C045}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC968246-0B5F-402A-8864-D27D69A1C045}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -123,6 +125,22 @@ Global
 		{C5C424F3-34E8-428C-97D4-852105F3BC3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5C424F3-34E8-428C-97D4-852105F3BC3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5C424F3-34E8-428C-97D4-852105F3BC3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B8D65FC-48C6-48BC-A431-4A2E28922846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B8D65FC-48C6-48BC-A431-4A2E28922846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B8D65FC-48C6-48BC-A431-4A2E28922846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B8D65FC-48C6-48BC-A431-4A2E28922846}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC51B20D-A08B-4977-9815-35B84ACBFA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC51B20D-A08B-4977-9815-35B84ACBFA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC51B20D-A08B-4977-9815-35B84ACBFA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC51B20D-A08B-4977-9815-35B84ACBFA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -140,10 +158,13 @@ Global
 		{5EA48C84-6F06-43D3-8EC1-C6A39AD4CA73} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
 		{3589C894-6C7D-49F2-AF2C-028256932955} = {71986FDB-7155-4A49-8CAB-F2539259C52C}
 		{304BDD8F-5088-458E-9CFB-9D06929700D5} = {21B09963-0085-489E-AC9E-3D5B95E3F4C0}
-		{FC968246-0B5F-402A-8864-D27D69A1C045} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
 		{7E871438-DC4D-40E7-AD8C-BAC6B6EB335C} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
 		{21C4DE92-B8E5-4E0C-8EDD-D05DC37787C2} = {6506AAFA-B308-4B81-AD21-EA97D4742F99}
 		{C5C424F3-34E8-428C-97D4-852105F3BC3B} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+		{2B8D65FC-48C6-48BC-A431-4A2E28922846} = {7F7D0E59-ED9A-401D-8F33-A9DE2582546B}
+		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA} = {AD01DBE8-CF05-43B6-8BEA-2F5D5507D804}
+		{AC51B20D-A08B-4977-9815-35B84ACBFA88} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+		{D43EFBE0-CAF1-424B-B639-708F1C4884D4} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}

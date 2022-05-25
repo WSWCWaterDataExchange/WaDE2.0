@@ -1,6 +1,6 @@
-﻿using System;
+﻿using NetTopologySuite.Geometries;
+using System;
 using System.Collections.Generic;
-using GeoAPI.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -21,7 +21,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string ReportingUnitProductVersion { get; set; }
         public string StateCv { get; set; }
         public string EpsgcodeCv { get; set; }
-        public IGeometry Geometry { get; set; }
+        public Geometry Geometry { get; set; }
 
         public virtual Epsgcode EpsgcodeCvNavigation { get; set; }
         public virtual ReportingUnitType ReportingUnitTypeCvNavigation { get; set; }

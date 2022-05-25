@@ -16,9 +16,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string SiteUUID { get; set; }
 
         [NullValues("")]
-        public string WaterSourceUUID { get; set; }
-
-        [NullValues("")]
         public string MethodUUID { get; set; }
 
         [NullValues("")]
@@ -120,5 +117,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public bool? ExemptOfVolumeFlowPriority { get; set; }
+
+        [NullValues("")]
+        public string OwnerClassificationCV { get; set; }
     }
 }
