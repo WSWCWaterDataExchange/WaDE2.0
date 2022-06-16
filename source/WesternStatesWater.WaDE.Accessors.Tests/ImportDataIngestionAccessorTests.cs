@@ -129,6 +129,57 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         }
 
         [TestMethod]
+        public async Task LoadWaterAllocation_SimpleLoad_InvalidAllocationUUID_ThrowsError()
+        {
+            OrganizationsDim organization;
+            VariablesDim variable;
+            MethodsDim method;
+            DateDim dataPublicationDate;
+            DateDim allocationPriorityDate;
+            WaterAllocation waterAllocation;
+            string startTestString = "01/01";
+            string endTestString = "12/01";
+            OwnerClassificationCv ownerClassificationCV;
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                organization = await OrganizationsDimBuilder.Load(db);
+                variable = await VariablesDimBuilder.Load(db);
+                method = await MethodsDimBuilder.Load(db);
+                dataPublicationDate = await DateDimBuilder.Load(db);
+                allocationPriorityDate = await DateDimBuilder.Load(db);
+                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
+
+                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
+
+                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
+                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
+                waterAllocation.MethodUUID = method.MethodUuid;
+                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
+                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
+                waterAllocation.AllocationTimeframeStart = startTestString;
+                waterAllocation.AllocationTimeframeEnd = endTestString;
+                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
+                waterAllocation.AllocationUUID = null;
+            }
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
+
+            result.Should().BeFalse();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbAllocationAmount = await db.AllocationAmountsFact.FirstOrDefaultAsync();
+                dbAllocationAmount.Should().BeNull();
+                db.ImportErrors.Should().HaveCount(1);
+
+                var importError = db.ImportErrors.Single();
+                importError.Data.Should().Contain("AllocationUUID Not Valid");
+            }
+        }
+
+        [TestMethod]
         public async Task LoadWaterAllocation_BadLoad_CivilianAndPower()
         {
             OrganizationsDim organization;
