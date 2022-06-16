@@ -408,7 +408,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.GeneratedPowerCapacityMW).HasColumnName("GeneratedPowerCapacityMW");
 
-                entity.Property(e => e.PrimaryUseCategoryCV).HasColumnName("PrimaryUseCategoryCV");
+                entity.Property(e => e.PrimaryUseCategoryCV).HasColumnName("PrimaryBeneficialUseCategory");
 
                 entity.Property(e => e.VariableSpecificId).HasColumnName("VariableSpecificID");
 

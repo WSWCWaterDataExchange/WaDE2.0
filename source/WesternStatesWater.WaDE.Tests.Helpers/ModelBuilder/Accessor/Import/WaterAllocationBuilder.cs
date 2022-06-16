@@ -30,6 +30,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.AllocationFlow_CFS, f => f.Random.Double(0, 10000).ToString())
                 .RuleFor(a => a.AllocationVolume_AF, f => f.Random.Double(0, 10000).ToString())
                 .RuleFor(a => a.AllocationCommunityWaterSupplySystem, f => f.Address.City())
+                .RuleFor(a => a.AllocationUUID, f => f.Random.Uuid().ToString())
                 ;
 
             switch (opts.RecordType ?? (new Faker()).PickRandom<WaterAllocationRecordType>())

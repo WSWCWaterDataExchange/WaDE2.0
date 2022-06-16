@@ -55,7 +55,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
                 waterAllocation.AllocationTimeframeEnd = endTestString;
-                waterAllocation.PrimaryUseCategory = primaryUseCategoryCV.Name;
+                waterAllocation.PrimaryBeneficialUseCategory = primaryUseCategoryCV.Name;
                 waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
             }
 
@@ -79,55 +79,6 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbAllocationAmount.PrimaryUseCategoryCV.Should().Be(primaryUseCategoryCV.Name);
                 dbAllocationAmount.OwnerClassificationCV.Should().Be(ownerClassificationCV.Name);
                 db.ImportErrors.Should().HaveCount(0);
-            }
-        }
-
-        [TestMethod]
-        public async Task LoadWaterAllocation_SimpleLoad_InvalidPrimaryUseCategory_ThrowsError()
-        {
-            OrganizationsDim organization;
-            VariablesDim variable;
-            MethodsDim method;
-            DateDim dataPublicationDate;
-            DateDim allocationPriorityDate;
-            WaterAllocation waterAllocation;
-            string startTestString = "01/01";
-            string endTestString = "12/01";
-            OwnerClassificationCv ownerClassificationCV;
-
-            using (var db = new WaDEContext(Configuration.GetConfiguration()))
-            {
-                organization = await OrganizationsDimBuilder.Load(db);
-                variable = await VariablesDimBuilder.Load(db);
-                method = await MethodsDimBuilder.Load(db);
-                dataPublicationDate = await DateDimBuilder.Load(db);
-                allocationPriorityDate = await DateDimBuilder.Load(db);
-                ownerClassificationCV = await OwnerClassificationBuilder.Load(db);
-
-                waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
-
-                waterAllocation.OrganizationUUID = organization.OrganizationUuid;
-                waterAllocation.VariableSpecificUUID = variable.VariableSpecificUuid;
-                waterAllocation.MethodUUID = method.MethodUuid;
-                waterAllocation.DataPublicationDate = dataPublicationDate.Date;
-                waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
-                waterAllocation.AllocationTimeframeStart = startTestString;
-                waterAllocation.AllocationTimeframeEnd = endTestString;
-                waterAllocation.PrimaryUseCategory = Guid.NewGuid().ToString();
-                waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
-            }
-
-            var sut = CreateDataIngestionAccessor();
-            var result = await sut.LoadWaterAllocation((new Faker()).Random.AlphaNumeric(10), new[] { waterAllocation });
-
-            result.Should().BeFalse();
-
-            using (var db = new WaDEContext(Configuration.GetConfiguration()))
-            {
-                var dbAllocationAmount = await db.AllocationAmountsFact.FirstOrDefaultAsync();
-                dbAllocationAmount.Should().BeNull();
-
-                db.ImportErrors.Should().HaveCount(1);
             }
         }
 
@@ -474,7 +425,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
 
-                waterAllocation.PrimaryUseCategory = primaryUseCategoryCV.Name;
+                waterAllocation.PrimaryBeneficialUseCategory = primaryUseCategoryCV.Name;
 
                 waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
@@ -530,7 +481,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 waterAllocation = WaterAllocationBuilder.Create(new WaterAllocationBuilderOptions { RecordType = WaterAllocationRecordType.None });
 
-                waterAllocation.PrimaryUseCategory = null;
+                waterAllocation.PrimaryBeneficialUseCategory = null;
 
                 waterAllocation.BeneficialUseCategory = beneficialUsesCV.Name;
                 waterAllocation.OrganizationUUID = organization.OrganizationUuid;
@@ -777,7 +728,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 waterAllocation.AllocationPriorityDate = allocationPriorityDate.Date;
                 waterAllocation.AllocationTimeframeStart = startTestString;
                 waterAllocation.AllocationTimeframeEnd = endTestString;
-                waterAllocation.PrimaryUseCategory = primaryUseCategoryCV.Name;
+                waterAllocation.PrimaryBeneficialUseCategory = primaryUseCategoryCV.Name;
                 waterAllocation.OwnerClassificationCV = ownerClassificationCV.Name;
                 waterAllocation.SiteUUID = String.Join(",", sites.Select(a => a.SiteUuid));
             }
