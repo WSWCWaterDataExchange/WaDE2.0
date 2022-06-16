@@ -33,6 +33,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.AllocationTimeframeEnd, f => opts.AllocationTimeframeEndDate?.Date.ToString("mm/dd"))
                 .RuleFor(a => a.AllocationFlow_CFS, f => f.Random.Double(0, 1000))
                 .RuleFor(a => a.AllocationVolume_AF, f => f.Random.Double(0, 1000))
+                .RuleFor(a => a.AllocationUUID, f => f.Random.Guid().ToString())
                 ;
 
             switch (opts.RecordType ?? (new Faker()).PickRandom<WaterAllocationRecordType>())

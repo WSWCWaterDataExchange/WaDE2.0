@@ -465,11 +465,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_AllocationAmounts_fact_Organizations_dim");
 
-                entity.HasOne(d => d.PrimaryBeneficialUse)
-                    .WithMany(p => p.AllocationAmountsFact)
-                    .HasForeignKey(d => d.PrimaryUseCategoryCV)
-                    .HasConstraintName("fk_AllocationAmounts_fact_BeneficialUses");
-
                 entity.HasOne(d => d.VariableSpecific)
                     .WithMany(p => p.AllocationAmountsFact)
                     .HasForeignKey(d => d.VariableSpecificId)

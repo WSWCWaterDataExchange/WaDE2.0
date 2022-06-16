@@ -50,6 +50,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public bool? ExemptOfVolumeFlowPriority { get; set; }
         public string PowerType { get; set; }
         public string OwnerClassificationCV { get; set; }
+        public string AllocationUUID { get; set; }
 
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
@@ -60,7 +61,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DateDim DataPublicationDate { get; set; }
         public virtual MethodsDim Method { get; set; }
         public virtual OrganizationsDim Organization { get; set; }
-        public virtual BeneficialUsesCV PrimaryBeneficialUse { get; set; }
         public virtual VariablesDim VariableSpecific { get; set; }
         public virtual CropType CropType { get; set; }
         public virtual CustomerType CustomerType { get; set; }

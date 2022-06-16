@@ -21,6 +21,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public double? AllocationCropDutyAmount { get; set; }
         public double? AllocationFlow_CFS { get; set; }
         public double? AllocationVolume_AF { get; set; }
+        public string AllocationUUID { get; set; }
         public long? PopulationServed { get; set; }
         public double? GeneratedPowerCapacityMW { get; set; }
         public string AllocationCommunityWaterSupplySystem { get; set; }
