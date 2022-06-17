@@ -100,7 +100,7 @@ namespace WesternStatesWater.WaDE.Accessors
             }
             if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
             {
-                query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                query = query.Where(a => a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
             if (filters.Geometry != null)
             {
@@ -311,7 +311,7 @@ namespace WesternStatesWater.WaDE.Accessors
             }
             if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
             {
-                query = query.Where(a => a.PrimaryBeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                query = query.Where(a => a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
             if (filters.Geometry != null)
             {
@@ -441,6 +441,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public double? AllocationCropDutyAmount { get; set; }
             public double? AllocationFlow_CFS { get; set; }
             public double? AllocationVolume_AF { get; set; }
+            public string AllocationUUID { get; set; }
             public long? PopulationServed { get; set; }
             public double? GeneratedPowerCapacityMW { get; set; }
             public string AllocationCommunityWaterSupplySystem { get; set; }
