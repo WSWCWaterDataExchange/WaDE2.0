@@ -61,18 +61,10 @@ GO
 EXEC Core.UpdateUUDT 'Core', 'WaterAllocationTableType';
 GO
 
-
-USE [WaDE2]
-GO
-
-
-
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 ALTER   PROCEDURE [Core].[LoadWaterAllocation]
 (
 	@RunId nvarchar(250),
