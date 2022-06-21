@@ -124,7 +124,7 @@
     <None Remove="Scripts\005 Core.LoadOrganization.sql" />
     <None Remove="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
     <None Remove="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
-    <None Remove="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses - Copy.sql" />
+    <None Remove="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <None Remove="Scripts\005\004 AddAllocationUUIDChangePrimaryUseCategoryOnAllocationAmountsFact.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
@@ -402,7 +402,7 @@
     <EmbeddedResource Include="Scripts\004\026 LoadSites_AddWaterSourceID.sql" />
     <EmbeddedResource Include="Scripts\005\002 ImportMultipleWaterSourcesPerSite.sql" />
     <EmbeddedResource Include="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
-    <EmbeddedResource Include="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses - Copy.sql" />
+    <EmbeddedResource Include="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <EmbeddedResource Include="Scripts\005\004 AddAllocationUUIDChangePrimaryUseCategoryOnAllocationAmountsFact.sql" />
   </ItemGroup>
 
