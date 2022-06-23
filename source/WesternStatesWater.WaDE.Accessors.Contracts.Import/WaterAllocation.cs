@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string BeneficialUseCategory { get; set; }
         
         [NullValues("")]
-        public string PrimaryUseCategory { get; set; }
+        public string PrimaryBeneficialUseCategory { get; set; }
 
         public DateTime? DataPublicationDate { get; set; }
 
@@ -69,6 +69,9 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string AllocationVolume_AF { get; set; }
+
+        [NullValues("")]
+        public string AllocationUUID { get; set; }
 
         [NullValues("")]
         public string PopulationServed { get; set; }
