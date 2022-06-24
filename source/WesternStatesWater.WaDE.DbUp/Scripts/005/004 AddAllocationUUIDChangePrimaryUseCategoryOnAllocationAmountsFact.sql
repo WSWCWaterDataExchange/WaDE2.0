@@ -1,6 +1,3 @@
-USE [WaDE2]
-GO
-
 DELETE FROM [Core].[AllocationBridge_BeneficialUses_fact];
 DELETE FROM [Core].[AllocationBridge_Sites_fact];
 DELETE FROM [Core].[AllocationAmounts_fact];
