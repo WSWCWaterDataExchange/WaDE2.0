@@ -225,7 +225,7 @@ namespace WesternStatesWater.WaDE.DbUp
                 .SqlDatabase(connectionString)
                 .WithTransaction()
                 .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                .WithExecutionTimeout(TimeSpan.FromSeconds(300))
+                .WithExecutionTimeout(TimeSpan.FromSeconds(1800))
                 .LogToConsole()
                 .Build();
 
