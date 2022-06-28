@@ -1,5 +1,5 @@
+Print 'Beginning of file'
 DELETE FROM [Core].[AllocationBridge_BeneficialUses_fact]
-GO
 PRINT 'all values deleted from allocationBridgeBeneficialUsesFact'
 DELETE FROM [Core].[AllocationBridge_Sites_fact]
 PRINT 'all values deleted from allocationBridgeSitesFact'
