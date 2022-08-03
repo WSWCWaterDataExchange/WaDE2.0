@@ -127,6 +127,7 @@
     <None Remove="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <None Remove="Scripts\005\004 AddAllocationUUIDChangePrimaryUseCategoryOnAllocationAmountsFact.sql" />
     <None Remove="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
+    <None Remove="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
@@ -406,6 +407,7 @@
     <EmbeddedResource Include="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <EmbeddedResource Include="Scripts\005\004 AddAllocationUUIDChangePrimaryUseCategoryOnAllocationAmountsFact.sql" />
 	<EmbeddedResource Include="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
+	<EmbeddedResource Include="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
   </ItemGroup>
 
   <ItemGroup>
