@@ -1,4 +1,4 @@
-  DELETE From WaDE2.CVs.OwnerClassification WHERE Name='City'
+  DELETE From [CVs].[OwnerClassification] WHERE Name='City'
   OR Name='Coast Guard (USCG)'
   OR Name='Commercial'
   OR Name='Department of Justice (USDOJ)'
