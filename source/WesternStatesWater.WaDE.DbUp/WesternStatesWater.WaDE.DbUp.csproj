@@ -129,6 +129,7 @@
     <None Remove="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
     <None Remove="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
     <None Remove="Scripts\005\007 PrimaryBeneficialUseIndexWithIncludes.sql" />
+    <None Remove="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
@@ -410,6 +411,7 @@
 	<EmbeddedResource Include="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
 	<EmbeddedResource Include="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
 	<EmbeddedResource Include="Scripts\005\007 PrimaryBeneficialUseIndexWithIncludes.sql" />
+	<EmbeddedResource Include="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
   </ItemGroup>
 
   <ItemGroup>
