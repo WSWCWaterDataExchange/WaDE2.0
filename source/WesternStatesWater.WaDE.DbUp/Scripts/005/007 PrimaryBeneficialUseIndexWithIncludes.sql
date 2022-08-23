@@ -1,0 +1,1 @@
+﻿create index IX_AllocationAmounts_PrimaryBeneficialUse_WithIncludes on core.allocationAmounts_Fact (PrimaryBeneficialUseCategory) include (AllocationFlow_CFS, AllocationVolume_AF, OrganizationID)
