@@ -9,6 +9,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
         {
             var faker = new Faker<VariableSpecific>()
                 .RuleFor(a => a.VariableSpecificId, f => f.Random.Long(1))
+                .RuleFor(a => a.VariableSpecificUUID, f => f.Random.Word())
                 .RuleFor(a => a.VariableSpecificTypeCV, f => f.Random.Word())
                 .RuleFor(a => a.VariableCV, f => f.Random.Word())
                 .RuleFor(a => a.AmountUnitCV, f => f.Random.Word())

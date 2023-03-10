@@ -2,6 +2,7 @@
 {
     public class VariableSpecific
     {
+        public string VariableSpecificUUID { get; set; }
         public string VariableSpecificTypeCV { get; set; }
         public string VariableCV { get; set; }
         public string AmountUnitCV { get; set; }

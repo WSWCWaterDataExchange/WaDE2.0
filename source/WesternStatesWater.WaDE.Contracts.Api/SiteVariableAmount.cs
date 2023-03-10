@@ -5,14 +5,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
 {
     public class SiteVariableAmount
     {
-        public string SiteName { get; set; }
         public string WaterSourceUUID { get; set; }
-        public string NativeSiteID { get; set; }
-        public string SiteTypeCV { get; set; }
-        public double? Longitude { get; set; }
-        public double? Latitude { get; set; }
-        public object SiteGeometry { get; set; }
-        public string CoordinateMethodCV { get; set; }
         public string AllocationGNISIDCV { get; set; }
         public DateTime? TimeframeStart { get; set; }
         public DateTime? TimeframeEnd { get; set; }
@@ -29,12 +22,9 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string DataPublicationDOI { get; set; }
         public string ReportYearCV { get; set; }
         public string MethodUUID { get; set; }
-        public string VariableSpecificTypeCV { get; set; }
+        public string VariableSpecificUUID { get; set; }
         public string SiteUUID { get; set; }
         public string AssociatedNativeAllocationIDs { get; set; }
         public List<string> BeneficialUses { get; set; }
-        public string HUC8 { get; set; }
-        public string HUC12 { get; set; }
-        public string County { get; set; }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -286,15 +285,8 @@ namespace WesternStatesWater.WaDE.Accessors
         internal class SiteVariableAmountHelper
         {
             public long SiteVariableAmountId { get; set; }
-            public string SiteName { get; set; }
             public string WaterSourceUUID { get; set; }
             public long SiteID { get; set; }
-            public string NativeSiteID { get; set; }
-            public string SiteTypeCV { get; set; }
-            public double? Longitude { get; set; }
-            public double? Latitude { get; set; }
-            public Geometry SiteGeometry { get; set; }
-            public string CoordinateMethodCV { get; set; }
             public string AllocationGNISIDCV { get; set; }
             public DateTime? TimeframeStart { get; set; }
             public DateTime? TimeframeEnd { get; set; }
@@ -311,13 +303,9 @@ namespace WesternStatesWater.WaDE.Accessors
             public string DataPublicationDOI { get; set; }
             public string ReportYearCV { get; set; }
             public string MethodUUID { get; set; }
-            public string VariableSpecificTypeCV { get; set; }
+            public string VariableSpecificUUID { get; set; }
             public string SiteUUID { get; set; }
             public string AssociatedNativeAllocationIDs { get; set; }
-            public string HUC8 { get; set; }
-            public string HUC12 { get; set; }
-            public string County { get; set; }
-
             public long OrganizationId { get; set; }
             public long WaterSourceId { get; set; }
             public long VariableSpecificId { get; set; }
