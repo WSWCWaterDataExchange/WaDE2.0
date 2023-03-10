@@ -81,6 +81,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataQualityValue, b => b.MapFrom(c => c.DataQualityValueCv));
 
             CreateMap<EF.VariablesDim, AccessorApi.VariableSpecific>()
+                .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecificUuid))
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificCv));
 
             CreateMap<EF.WaterSourcesDim, AccessorApi.WaterSource>()
