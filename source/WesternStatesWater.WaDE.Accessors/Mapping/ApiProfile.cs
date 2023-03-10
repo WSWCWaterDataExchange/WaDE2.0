@@ -51,6 +51,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.SitesDim, AccessorApi.Site>()
                  .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.SiteNativeId))
                  .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.SiteUuid))
+                 .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
+                 .ForMember(a => a.SiteTypeCV, b => b.MapFrom(c => c.SiteTypeCv))
                  .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Latitude))
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
