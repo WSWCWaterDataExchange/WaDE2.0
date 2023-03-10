@@ -29,7 +29,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api
         public string DataPublicationDOI { get; set; }
         public string ReportYearCV { get; set; }
         public string MethodUUID { get; set; }
-        public string VariableSpecificTypeCV { get; set; }
+        public string VariableSpecificUUID { get; set; }
         public string SiteUUID { get; set; }
         public string AssociatedNativeAllocationIDs { get; set; }
         public List<string> BeneficialUses { get; set; }

@@ -311,7 +311,7 @@ namespace WesternStatesWater.WaDE.Accessors
             public string DataPublicationDOI { get; set; }
             public string ReportYearCV { get; set; }
             public string MethodUUID { get; set; }
-            public string VariableSpecificTypeCV { get; set; }
+            public string VariableSpecificUUID { get; set; }
             public string SiteUUID { get; set; }
             public string AssociatedNativeAllocationIDs { get; set; }
             public string HUC8 { get; set; }

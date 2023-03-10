@@ -34,7 +34,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.DataPublicationDOI, f => f.Random.Word())
                 .RuleFor(a => a.ReportYearCV, f => f.Random.Int(1850, DateTime.Now.Year).ToString())
                 .RuleFor(a => a.MethodUUID, f => f.Random.Uuid().ToString())
-                .RuleFor(a => a.VariableSpecificTypeCV, f => f.Random.Word())
+                .RuleFor(a => a.VariableSpecificUUID, f => f.Random.Word())
                 .RuleFor(a => a.SiteUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.AssociatedNativeAllocationIDs, f => f.Random.AlphaNumeric(50))
                 .RuleFor(a => a.BeneficialUses, f => new List<string> { f.Random.Word() })

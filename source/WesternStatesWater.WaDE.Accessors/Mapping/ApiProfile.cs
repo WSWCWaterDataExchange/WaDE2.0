@@ -136,7 +136,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Site.Latitude))
                 .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.Site.CoordinateMethodCv))
                 .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
-                .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificId))
+                .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificUuid))
                 .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
                 .ForMember(a => a.AllocationCommunityWaterSupplySystem, b => b.MapFrom(c => c.CommunityWaterSupplySystem))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
