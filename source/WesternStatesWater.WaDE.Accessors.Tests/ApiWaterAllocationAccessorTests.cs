@@ -214,7 +214,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     .And.Contain(a => a.AllocationAmountId == allocationAmountsFact2.AllocationAmountId);
 
                 org.Sites.Should().HaveCount(1)
-                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
+                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid)
+                .And.Contain(a => a.SiteName == allocationSite.SiteName)
+                .And.Contain(a => a.SiteTypeCV == allocationSite.SiteTypeCv);
 
                 org.Sites[0].RelatedPODSites.Should().HaveCount(1)
                     .And.Contain(a => a.SiteUUID == podSite.SiteUuid);

@@ -51,6 +51,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             CreateMap<EF.SitesDim, AccessorApi.Site>()
                  .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.SiteNativeId))
                  .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.SiteUuid))
+                 .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
+                 .ForMember(a => a.SiteTypeCV, b => b.MapFrom(c => c.SiteTypeCv))
                  .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Latitude))
                  .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Longitude))
                  .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.CoordinateMethodCv))
@@ -81,6 +83,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.DataQualityValue, b => b.MapFrom(c => c.DataQualityValueCv));
 
             CreateMap<EF.VariablesDim, AccessorApi.VariableSpecific>()
+                .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecificUuid))
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificCv));
 
             CreateMap<EF.WaterSourcesDim, AccessorApi.WaterSource>()
@@ -127,27 +130,17 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.BeneficialUses, b => b.Ignore());
 
             CreateMap<EF.SiteVariableAmountsFact, SiteVariableAmountsAccessor.SiteVariableAmountHelper>()
-                .ForMember(a => a.SiteName, b => b.MapFrom(c => c.Site.SiteName))
                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
                 .ForMember(a => a.SDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifierCv))
-                .ForMember(a => a.NativeSiteID, b => b.MapFrom(c => c.Site.SiteNativeId))
-                .ForMember(a => a.SiteTypeCV, b => b.MapFrom(c => c.Site.SiteTypeCv))
-                .ForMember(a => a.Longitude, b => b.MapFrom(c => c.Site.Longitude))
-                .ForMember(a => a.Latitude, b => b.MapFrom(c => c.Site.Latitude))
-                .ForMember(a => a.CoordinateMethodCV, b => b.MapFrom(c => c.Site.CoordinateMethodCv))
                 .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
-                .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecificId))
+                .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificUuid))
                 .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
                 .ForMember(a => a.AllocationCommunityWaterSupplySystem, b => b.MapFrom(c => c.CommunityWaterSupplySystem))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
                 .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
-                .ForMember(a => a.SiteGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
-                .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore())
-                .ForMember(a => a.HUC8, b => b.MapFrom(c => c.Site.HUC8))
-                .ForMember(a => a.HUC12, b => b.MapFrom(c => c.Site.HUC12))
-                .ForMember(a => a.County, b => b.MapFrom(c => c.Site.County));
+                .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore());
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))
