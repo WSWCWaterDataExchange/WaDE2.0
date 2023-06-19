@@ -1896,7 +1896,76 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
         }
 
+        [TestMethod]
+        public async Task LoadMethods_SimpleLoad()
+        {
+            ApplicableResourceType applicableResourceType;
+            MethodType methodType;
+            DataQualityValue dataQualityValue;
 
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                applicableResourceType = await ApplicableResourceTypeBuilder.Load(db);
+                methodType = await MethodTypeBuilder.Load(db);
+                dataQualityValue = await DataQualityValueBuilder.Load(db);
+            }
+            var method = MethodBuilder.Create(new MethodBuilderOptions
+            {
+                ApplicableResourceType = applicableResourceType,
+                MethodType = methodType,
+                DataQualityValue = dataQualityValue
+            });
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadMethods(new Faker().Random.AlphaNumeric(10), new[] { method });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbMethod = await db.MethodsDim.SingleAsync();
+
+                dbMethod.MethodId.Should().NotBe(0);
+                dbMethod.MethodUuid.Should().Be(method.MethodUUID);
+                dbMethod.MethodName.Should().Be(method.MethodName);
+                dbMethod.MethodDescription.Should().Be(method.MethodDescription);
+                dbMethod.MethodNemilink.Should().Be(method.MethodNEMILink);
+                dbMethod.ApplicableResourceTypeCv.Should().Be(applicableResourceType.Name);
+                dbMethod.MethodTypeCv.Should().Be(methodType.Name);
+                dbMethod.DataCoverageValue.Should().Be(method.DataCoverageValue);
+                dbMethod.DataQualityValueCv.Should().Be(dataQualityValue.Name);
+                dbMethod.DataConfidenceValue.Should().Be(method.DataConfidenceValue);
+                dbMethod.WaDEDataMappingUrl.Should().Be(method.WaDEDataMappingUrl);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
+
+        [TestMethod]
+        public async Task LoadOrganizations_SimpleLoad()
+        {
+            var organization = OrganizationBuilder.Create();
+
+            var sut = CreateDataIngestionAccessor();
+            var result = await sut.LoadOrganizations(new Faker().Random.AlphaNumeric(10), new[] { organization });
+
+            result.Should().BeTrue();
+
+            using (var db = new WaDEContext(Configuration.GetConfiguration()))
+            {
+                var dbOrganization = await db.OrganizationsDim.SingleAsync();
+
+                dbOrganization.OrganizationId.Should().NotBe(0);
+                dbOrganization.OrganizationUuid.Should().Be(organization.OrganizationUUID);
+                dbOrganization.OrganizationName.Should().Be(organization.OrganizationName);
+                dbOrganization.OrganizationPurview.Should().Be(organization.OrganizationPurview);
+                dbOrganization.OrganizationWebsite.Should().Be(organization.OrganizationWebsite);
+                dbOrganization.OrganizationPhoneNumber.Should().Be(organization.OrganizationPhoneNumber);
+                dbOrganization.OrganizationContactName.Should().Be(organization.OrganizationContactName);
+                dbOrganization.OrganizationContactEmail.Should().Be(organization.OrganizationContactEmail);
+                dbOrganization.State.Should().Be(organization.State);
+                db.ImportErrors.Should().HaveCount(0);
+            }
+        }
 
         private IDataIngestionAccessor CreateDataIngestionAccessor()
         {

@@ -60,6 +60,47 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             results[0].USGSSiteID.Should().Be("Fake USGS");
         }
 
+        [TestMethod]
+        public async Task GetOrganizations_BasicDataRead()
+        {
+            var runId = (new Faker()).Random.AlphaNumeric(5);
+            FileStreamFactoryMock.Arrange(a => a.GetStreamAsync(Arg.IsAny<IConfiguration>(), runId, "organizations.csv"))
+                .Returns(Task.FromResult((Stream)new MemoryStream(System.Text.Encoding.UTF8.GetBytes(ImportData.ImportData.Organizations_OneRecord))));
+
+            var sut = CreateWaterAllocationFileAccessor();
+            var results = await sut.GetOrganizations(runId, 0, 10000);
+
+            results.Should().HaveCount(1);
+            results[0].OrganizationUUID.Should().Be("abcd");
+            results[0].OrganizationContactEmail.Should().Be("test@fake.gov");
+            results[0].OrganizationContactName.Should().Be("Test Contact");
+            results[0].OrganizationName.Should().Be("Test Org Name");
+            results[0].OrganizationPhoneNumber.Should().Be("402-555-1234");
+            results[0].OrganizationPurview.Should().Be("Test Purview, it is awesome");
+            results[0].OrganizationWebsite.Should().Be("http://fake.gov/");
+            results[0].State.Should().Be("NE");
+        }
+
+        [TestMethod]
+        public async Task GetMethods_BasicDataRead()
+        {
+            var runId = (new Faker()).Random.AlphaNumeric(5);
+            FileStreamFactoryMock.Arrange(a => a.GetStreamAsync(Arg.IsAny<IConfiguration>(), runId, "methods.csv"))
+                .Returns(Task.FromResult((Stream)new MemoryStream(System.Text.Encoding.UTF8.GetBytes(ImportData.ImportData.Methods_OneRecord))));
+
+            var sut = CreateWaterAllocationFileAccessor();
+            var results = await sut.GetMethods(runId, 0, 10000);
+
+            results.Should().HaveCount(1);
+            results[0].MethodUUID.Should().Be("abcd");
+            results[0].ApplicableResourceTypeCV.Should().Be("Groundwater");
+            results[0].MethodDescription.Should().Be("Test Water Rights");
+            results[0].MethodName.Should().Be("Fake Water Rights");
+            results[0].MethodNEMILink.Should().Be("http://fake.water.gov/");
+            results[0].MethodTypeCV.Should().Be("Adjudicated");
+            results[0].WaDEDataMappingUrl.Should().Be("http://fake.wade.gov/");
+        }
+
         public IDataIngestionFileAccessor CreateWaterAllocationFileAccessor()
         {
             return new DataIngestionFileAccessor(Configuration.GetConfiguration(), null)

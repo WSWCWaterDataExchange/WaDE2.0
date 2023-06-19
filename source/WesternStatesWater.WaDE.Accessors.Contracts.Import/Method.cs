@@ -30,5 +30,8 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 
         [NullValues("")]
         public string DataConfidenceValue { get; set; }
+
+        [NullValues("")]
+        public string WaDEDataMappingUrl { get; set; }
     }
 }
