@@ -21,7 +21,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string OrganizationPhoneNumber { get; set; }
         public string OrganizationContactName { get; set; }
         public string OrganizationContactEmail { get; set; }
-        public string OrganizationDataMappingUrl { get; set; }
         public string State { get; set; }
 
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }

@@ -24,7 +24,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.OrganizationPhoneNumber, f => f.Phone.PhoneNumber())
                 .RuleFor(a => a.OrganizationContactName, f => f.Name.FullName())
                 .RuleFor(a => a.OrganizationContactEmail, f => f.Internet.Email())
-                .RuleFor(a => a.OrganizationDataMappingUrl, f => f.Internet.Url())
                 .RuleFor(a => a.State, f => opts.State?.Name ?? f.Address.StateAbbr());
         }
 
