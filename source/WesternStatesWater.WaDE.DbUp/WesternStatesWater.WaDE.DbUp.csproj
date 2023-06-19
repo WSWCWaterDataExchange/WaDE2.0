@@ -132,6 +132,7 @@
     <None Remove="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
     <None Remove="Scripts\005\009 Update LoadWaterAllocation .sql" />
     <None Remove="Scripts\006 Core.LoadRegulatoryOverlays.sql" />
+    <None Remove="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
     <None Remove="Scripts\009 Core.LoadSiteSpecificAmounts.sql" />
@@ -414,6 +415,7 @@
 	<EmbeddedResource Include="Scripts\005\007 PrimaryBeneficialUseIndexWithIncludes.sql" />
 	<EmbeddedResource Include="Scripts\005\009 Update LoadWaterAllocation .sql" />
 	<EmbeddedResource Include="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
+	<EmbeddedResource Include="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
   </ItemGroup>
 
   <ItemGroup>
