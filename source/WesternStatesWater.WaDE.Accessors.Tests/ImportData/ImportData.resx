@@ -121,6 +121,12 @@
   <data name="GetWaterAllocations_IrrigatedAcrageSpecifiedButEmpty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>getwaterallocations_irrigatedacragespecifiedbutempty.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="Methods_OneRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>methods_onerecord.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="Organizations_OneRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>organizations_onerecord.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="Sites_OneRecord" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>sites_onerecord.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>

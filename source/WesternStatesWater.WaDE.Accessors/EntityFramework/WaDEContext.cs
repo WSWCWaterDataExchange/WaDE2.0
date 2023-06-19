@@ -911,6 +911,11 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("MethodUUID")
                     .HasMaxLength(100);
 
+                entity.Property(e => e.WaDEDataMappingUrl)
+                    .IsRequired()
+                    .HasColumnName("WaDEDataMappingURL")
+                    .HasMaxLength(250);
+
                 entity.HasOne(d => d.ApplicableResourceTypeCvNavigation)
                     .WithMany(p => p.MethodsDim)
                     .HasForeignKey(d => d.ApplicableResourceTypeCv)
@@ -1029,11 +1034,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.OrganizationUuid)
                     .IsRequired()
                     .HasColumnName("OrganizationUUID")
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.OrganizationDataMappingUrl)
-                    .IsRequired()
-                    .HasColumnName("OrganizationDataMappingURL")
                     .HasMaxLength(250);
 
                 entity.Property(e => e.State)

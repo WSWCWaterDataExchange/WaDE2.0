@@ -1,0 +1,2 @@
+MethodUUID,ApplicableResourceTypeCV,DataConfidenceValue,DataCoverageValue,DataQualityValueCV,MethodDescription,MethodName,MethodNEMILink,MethodTypeCV,WaDEDataMappingUrl
+abcd,Groundwater,,,,Test Water Rights,Fake Water Rights,http://fake.water.gov/,Adjudicated,http://fake.wade.gov/
