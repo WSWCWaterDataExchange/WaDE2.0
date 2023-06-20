@@ -81,6 +81,17 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.ImportData {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OrganizationUUID,OrganizationContactEmail,OrganizationContactName,OrganizationName,OrganizationPhoneNumber,OrganizationPurview,OrganizationDataMappingURL,OrganizationWebsite,State
+        ///abcd,test@fake.gov,Test Contact,Test Org Name,402-555-1234,&quot;Test Purview, it is awesome&quot;,http://fake.mappingurl.com/,http://fake.gov/,NE
+        ///.
+        /// </summary>
+        internal static string Organizations_IncludesOldColumn {
+            get {
+                return ResourceManager.GetString("Organizations_IncludesOldColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OrganizationUUID,OrganizationContactEmail,OrganizationContactName,OrganizationName,OrganizationPhoneNumber,OrganizationPurview,OrganizationWebsite,State
         ///abcd,test@fake.gov,Test Contact,Test Org Name,402-555-1234,&quot;Test Purview, it is awesome&quot;,http://fake.gov/,NE
         ///.
