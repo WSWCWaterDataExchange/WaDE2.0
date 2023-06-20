@@ -33,11 +33,11 @@ jobs:
     - name: Create Database
       run: docker exec -i mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'DevP@ssw0rd!' -Q 'create database WaDE2'
 
-    - name: DbUp
+    - name: update-database
       run: dotnet run --args "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!;"
       working-directory: source/WesternStatesWater.WaDE.DbUp
 
-    - name: .NET Test
+    - name: run-tests
       run: dotnet test
       env:
           Database__ConnectionString: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
