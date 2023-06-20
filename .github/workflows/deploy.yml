@@ -44,7 +44,7 @@ jobs:
       
       - name: build-import-function-app
         run: dotnet build --configuration Release --output ../build/import
-        working-directory: ./source/WaDEImportFunctions
+        working-directory: ./source/WaDEImportFunctions_fake
       
       - name: build-api-function-app
         run: dotnet build --configuration Release --output ../build/api
@@ -70,7 +70,7 @@ jobs:
       
       - name: remove-whitelist-ip-in-db-firewall
         uses: azure/CLI@v1
-        if: steps.create-whitelist-ip-in-db-firewall.outputs.exit_code == 0
+        if: success() || steps.create-whitelist-ip-in-db-firewall.outputs.exit_code == 0
         with:
           inlineScript: |
             set -eu
