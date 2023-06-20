@@ -32,8 +32,8 @@ jobs:
             az sql server firewall-rule create \
               --resource-group "${{ secrets.RESOURCE_GROUP }}" \
               --server "${{ secrets.DATABASE_SERVER_NAME }}" \
-              --name ${{ env.FIREWALL_RULE_NAME }}
-              --start-ip-address $agentIP
+              --name ${{ env.FIREWALL_RULE_NAME }} \
+              --start-ip-address $agentIP \
               --end-ip-address $agentIP
             echo exit_code=0 >> $GITHUB_OUTPUT
       
