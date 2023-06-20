@@ -53,13 +53,13 @@ jobs:
       - name: deploy-import-function-app
         uses: Azure/functions-action@v1
         with:
-          app-name: ${{ env.IMPORT_FUNCTION_NAME }}
+          app-name: ${{ secrets.IMPORT_FUNCTION_NAME }}
           package: "src/build/import"
       
       - name: deploy-api-function-app
         uses: Azure/functions-action@v1
         with:
-          app-name: ${{ env.API_FUNCTION_NAME }}
+          app-name: ${{ secrets.API_FUNCTION_NAME }}
           package: "src/build/api"
 
       - name: update-database
