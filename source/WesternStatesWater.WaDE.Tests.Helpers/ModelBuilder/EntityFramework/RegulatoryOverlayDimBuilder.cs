@@ -18,7 +18,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.RegulatoryOverlayNativeId, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.RegulatoryName, f => f.Company.CompanyName())
                 .RuleFor(a => a.RegulatoryDescription, f => f.Rant.ToString())
-                .RuleFor(a => a.RegulatoryStatusCv, f => opts?.RegulatoryStatus?.Name ?? f.Random.Word())
+                .RuleFor(a => a.RegulatoryStatusCv, f => opts?.RegulatoryStatus?.Name ?? f.Random.Word(50))
                 .RuleFor(a => a.OversightAgency, f => f.Company.CompanyName())
                 .RuleFor(a => a.RegulatoryStatute, f => f.Random.Word())
                 .RuleFor(a => a.RegulatoryStatuteLink, f => f.Internet.Url())
