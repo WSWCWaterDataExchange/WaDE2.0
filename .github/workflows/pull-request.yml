@@ -37,21 +37,7 @@ jobs:
       run: dotnet run --args "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!;"
       working-directory: source/WesternStatesWater.WaDE.DbUp
 
-    #Running tests suites individually because running them all at once causes test abort issues in GitHub Actions 🤷🏽
-    - name: run-accessor-tests
+    - name: run-tests
       run: dotnet test
-      working-directory: source/WesternStatesWater.WaDE.Accessors.Tests
       env:
           ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
-    
-    - name: run-client-tests
-      run: dotnet test
-      working-directory: source/WesternStatesWater.WaDE.Clients.Tests
-    
-    - name: run-manager-tests
-      run: dotnet test
-      working-directory: source/WesternStatesWater.WaDE.Managers.Tests
-    
-    - name: run-utility-tests
-      run: dotnet test
-      working-directory: source/WesternStatesWater.WaDE.Utilities.Tests
