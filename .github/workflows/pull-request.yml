@@ -30,7 +30,7 @@ jobs:
     - name: build-solution
       run: dotnet build --no-restore
 
-    - name: Create Database
+    - name: create-database
       run: docker exec -i mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'DevP@ssw0rd!' -Q 'create database WaDE2'
 
     - name: update-database
