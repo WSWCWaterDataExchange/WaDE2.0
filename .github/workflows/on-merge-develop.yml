@@ -1,0 +1,12 @@
+on:
+  push:
+    branches:
+      - develop
+name: Deploy Application to QA
+
+jobs:
+  call-deploy-app-staging:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: QA
+    secrets: inherit
