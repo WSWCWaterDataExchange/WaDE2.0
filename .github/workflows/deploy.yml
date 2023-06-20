@@ -54,13 +54,13 @@ jobs:
         uses: Azure/functions-action@v1
         with:
           app-name: ${{ secrets.IMPORT_FUNCTION_NAME }}
-          package: "src/build/import"
+          package: "source/build/import"
       
       - name: deploy-api-function-app
         uses: Azure/functions-action@v1
         with:
           app-name: ${{ secrets.API_FUNCTION_NAME }}
-          package: "src/build/api"
+          package: "source/build/api"
 
       - name: update-database
         run: dotnet run --configuration Release
