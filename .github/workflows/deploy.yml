@@ -30,7 +30,7 @@ jobs:
             set -eu
             agentIP=$(curl -s https://api.ipify.org/)
             az sql server firewall-rule create \
-              --resource-group "${{ secrets.RESOURCE_GROUP }}" \
+              --resource-group "${{ secrets.DATABASE_SERVER_RESOURCE_GROUP }}" \
               --server "${{ secrets.DATABASE_SERVER_NAME }}" \
               --name ${{ env.FIREWALL_RULE_NAME }} \
               --start-ip-address $agentIP \
@@ -75,7 +75,7 @@ jobs:
           inlineScript: |
             set -eu
             az sql server firewall-rule delete \
-              --resource-group "${{ secrets.RESOURCE_GROUP }}" \
+              --resource-group "${{ secrets.DATABASE_SERVER_RESOURCE_GROUP }}" \
               --server "${{ secrets.DATABASE_SERVER_NAME }}" \
               --name ${{ env.FIREWALL_RULE_NAME }}
       
