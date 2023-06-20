@@ -44,7 +44,7 @@ jobs:
       
       - name: build-import-function-app
         run: dotnet build --configuration Release --output ../build/import
-        working-directory: ./source/WaDEImportFunctions_fake
+        working-directory: ./source/WaDEImportFunctions
       
       - name: build-api-function-app
         run: dotnet build --configuration Release --output ../build/api
