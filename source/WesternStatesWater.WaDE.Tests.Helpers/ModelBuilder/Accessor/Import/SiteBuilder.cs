@@ -39,5 +39,4 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
         public List<RegulatoryOverlayDim> RegulatoryOverlayDims { get; set; }
         public List<WaterSourcesDim> WaterSourceDims { get; set; }
     }
-
 }

@@ -86,7 +86,7 @@ namespace WesternStatesWater.WaDE.DbUp
                 //ask user if they really want this
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("###User Interactive Mode Question###");
-                Console.WriteLine("Do you want to rebuild the database? yes/no");
+                Console.WriteLine($"Do you want to rebuild the database ({connectionString})? yes/no");
                 Console.ResetColor();
 
                 var response = Console.ReadLine();

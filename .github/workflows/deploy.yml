@@ -1,0 +1,84 @@
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+name: Deploy Application
+
+env:
+  FIREWALL_RULE_NAME: GitHubAction_${{ inputs.environment }}_${{ github.run_number }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-22.04
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+    
+      - name: azure-login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: create-whitelist-ip-in-db-firewall
+        id: create-whitelist-ip-in-db-firewall
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            set -eu
+            agentIP=$(curl -s https://api.ipify.org/)
+            az sql server firewall-rule create \
+              --resource-group "${{ secrets.DATABASE_SERVER_RESOURCE_GROUP }}" \
+              --server "${{ secrets.DATABASE_SERVER_NAME }}" \
+              --name ${{ env.FIREWALL_RULE_NAME }} \
+              --start-ip-address $agentIP \
+              --end-ip-address $agentIP
+            echo exit_code=0 >> $GITHUB_OUTPUT
+      
+      - name: setup-dotnet
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.0.x"
+      
+      - name: build-import-function-app
+        run: dotnet build --configuration Release --output ../build/import
+        working-directory: ./source/WaDEImportFunctions
+      
+      - name: build-api-function-app
+        run: dotnet build --configuration Release --output ../build/api
+        working-directory: ./source/WaDEApiFunctions
+      
+      - name: deploy-import-function-app
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.IMPORT_FUNCTION_NAME }}
+          package: "source/build/import"
+      
+      - name: deploy-api-function-app
+        uses: Azure/functions-action@v1
+        with:
+          app-name: ${{ secrets.API_FUNCTION_NAME }}
+          package: "source/build/api"
+
+      - name: update-database
+        run: dotnet run --configuration Release
+        working-directory: ./source/WesternStatesWater.WaDE.DbUp
+        env:
+          WadeDatabase: ${{ secrets.DATABASE_CONNECTION_STRING}}
+      
+      - name: remove-whitelist-ip-in-db-firewall
+        uses: azure/CLI@v1
+        if: success() || steps.create-whitelist-ip-in-db-firewall.outputs.exit_code == 0
+        with:
+          inlineScript: |
+            set -eu
+            az sql server firewall-rule delete \
+              --resource-group "${{ secrets.DATABASE_SERVER_RESOURCE_GROUP }}" \
+              --server "${{ secrets.DATABASE_SERVER_NAME }}" \
+              --name ${{ env.FIREWALL_RULE_NAME }}
+      
+      - name: azure-logout
+        if: always()
+        run: az logout
