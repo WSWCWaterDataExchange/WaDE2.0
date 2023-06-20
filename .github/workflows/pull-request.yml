@@ -42,7 +42,7 @@ jobs:
       run: dotnet test
       working-directory: source/WesternStatesWater.WaDE.Accessors.Tests
       env:
-          Database__ConnectionString: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
+          ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
     
     - name: run-client-tests
       run: dotnet test
