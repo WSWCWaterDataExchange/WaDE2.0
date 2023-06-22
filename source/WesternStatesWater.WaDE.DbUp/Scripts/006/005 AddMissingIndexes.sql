@@ -3,7 +3,7 @@ ON [Core].[WaterSourceBridge_Sites_fact] ([SiteID])
 INCLUDE ([WaterSourceID])
 GO
 
-CREATE NONCLUSTERED INDEX IX_WaterSourceBridge_Sites_SiteID
+CREATE NONCLUSTERED INDEX IX_WaterSourceBridge_Sites_WaterSourceID
 ON [Core].[WaterSourceBridge_Sites_fact] ([WaterSourceID])
 INCLUDE ([SiteID])
 GO
