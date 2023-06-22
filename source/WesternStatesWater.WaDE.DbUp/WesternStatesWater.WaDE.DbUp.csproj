@@ -135,6 +135,7 @@
     <None Remove="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
     <None Remove="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
     <None Remove="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
+    <None Remove="Scripts\006\004 AddMissingWaterSourceIndexes.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
     <None Remove="Scripts\009 Core.LoadSiteSpecificAmounts.sql" />
@@ -418,6 +419,7 @@
 	<EmbeddedResource Include="Scripts\005\009 Update LoadWaterAllocation .sql" />
 	<EmbeddedResource Include="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
 	<EmbeddedResource Include="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
+	<EmbeddedResource Include="Scripts\006\004 AddMissingWaterSourceIndexes.sql" />
 	<EmbeddedResource Include="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
 	<EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
   </ItemGroup>
