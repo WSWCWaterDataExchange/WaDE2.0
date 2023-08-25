@@ -15,6 +15,7 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 ## FAQ
 **How to import data into the database, locally?**
 
+(For a more detailed step by step process go here: https://github.com/WSWCWaterDataExchange/WaDE2.0/tree/develop/source)
 1. Head to the [source repo](https://github.com/WSWCWaterDataExchange/WaDE2.0) and clone it with the VS.
    * Under the repository name, click Clone or download.
    * In the Clone with HTTPs section, click the copy icon to copy the clone URL for the repository.
@@ -35,7 +36,7 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 7.	Load the startup section of VS with WaDEImportFunctions and run it.
 8.	Open a browser tab.
 9.	Type http://localhost:7071/api/LoadWaterAllocationData?runid=   
-10.	In front of the equal sign, type the name of the folder which the csv file exists inside, in the explorer window.
+10.	After the equal sign, type the name of the folder which the csv file exists inside, in the explorer window.
 11.	press enter.
 12.	The import function should run successfully. 
 
