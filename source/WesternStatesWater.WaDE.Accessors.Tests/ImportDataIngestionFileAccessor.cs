@@ -58,6 +58,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             results[0].SiteNativeID.Should().Be("10443");
             results[0].SiteTypeCV.Should().Be("Unspecified");
             results[0].USGSSiteID.Should().Be("Fake USGS");
+            results[0].WellDepth.Should().Be("10");
         }
 
         [TestMethod]

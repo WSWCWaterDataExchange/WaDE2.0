@@ -100,6 +100,7 @@ BEGIN
                 ,HUC12 = Source.HUC12
                 ,County = Source.County
                 ,PODorPOUSite = Source.PODorPOUSite
+                ,WellDepth = Source.WellDepth
                 
         WHEN NOT MATCHED THEN
             INSERT
@@ -121,6 +122,7 @@ BEGIN
                 ,HUC12
                 ,County
                 ,PODorPOUSite
+                ,WellDepth
                 )
             VALUES
                 (Source.SiteUUID
@@ -141,6 +143,7 @@ BEGIN
                 ,Source.HUC12
                 ,Source.County
                 ,Source.PODorPOUSite
+                ,Source.WellDepth
                 )
             OUTPUT
                 inserted.SiteID

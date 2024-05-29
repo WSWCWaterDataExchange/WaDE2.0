@@ -26,6 +26,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.HUC12, f => opts.Site.HUC12)
                 .RuleFor(a => a.County, f => opts.Site.County)
                 .RuleFor(a => a.PODorPOUSite, f => opts.Site.PODorPOUSite)
+                .RuleFor(a => a.WellDepth, f => opts.Site.WellDepth.ToString())
                 .RuleFor(a => a.RegulatoryOverlayUUIDs, f => opts.RegulatoryOverlayDims == null ? "" : string.Join(',', opts.RegulatoryOverlayDims.Select(x => x.RegulatoryOverlayUuid)))
                 .RuleFor(a => a.WaterSourceUUIDs, f => opts.WaterSourceDims == null ? "" : string.Join(',', opts.WaterSourceDims.Select(x => x.WaterSourceUuid)));
 

@@ -35,6 +35,7 @@ CREATE TYPE [Core].[SiteTableType_new] AS TABLE(
     [HUC12] [nvarchar](20) NULL,
     [County] [nvarchar](20) NULL,
     [PODorPOUSite] [nvarchar](50) NULL,
+    [WellDepth] [nvarchar](100) NULL,
     [RegulatoryOverlayUUDIs] [nvarchar](max) NULL 
     )
 GO

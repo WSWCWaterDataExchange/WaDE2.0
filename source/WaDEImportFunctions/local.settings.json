@@ -6,7 +6,7 @@
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"
+    "WadeDatabase": "Server=RJWSWCWLT\\MSSQLSERVER01;Initial Catalog=WaDE2;Integrated Security=true;"
   },
   "Endpoints": {
     "Vocabulary": "http://vocabulary.westernstateswater.org/api/v1"

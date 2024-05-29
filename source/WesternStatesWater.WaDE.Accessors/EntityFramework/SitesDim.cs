@@ -49,7 +49,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string County { get; set; }
         [MaxLength(50)]
         public string PODorPOUSite { get; set; }
-
+        public double WellDepth { get; set; }
         public virtual CoordinateMethod CoordinateMethodCvNavigation { get; set; }
         public virtual Epsgcode EpsgcodeCvNavigation { get; set; }
         public virtual GnisfeatureName GniscodeCvNavigation { get; set; }

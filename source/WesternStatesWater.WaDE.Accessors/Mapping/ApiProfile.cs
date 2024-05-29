@@ -63,7 +63,8 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                  .ForMember(a => a.HUC12, b => b.MapFrom(c => c.HUC12))
                  .ForMember(a => a.WaterSourceUUIDs, b => b.Ignore())
                  .ForMember(a => a.RelatedPODSites, b => b.MapFrom(c => c.PODSiteToPOUSitePODFact))
-                 .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact));
+                 .ForMember(a => a.RelatedPOUSites, b => b.MapFrom(c => c.PODSiteToPOUSitePOUFact))
+                 .ForMember(a => a.WellDepth, b => b.MapFrom(c => c.WellDepth));
 
             CreateMap<EF.PODSiteToPOUSiteFact, AccessorApi.PodToPouSiteRelationship>()
                 .ForMember(a => a.SiteUUID, b => b.MapFrom<PODSiteToPOUSiteFactToSiteUuidResolver>());

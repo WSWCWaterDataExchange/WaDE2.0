@@ -136,6 +136,7 @@
     <None Remove="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
     <None Remove="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
     <None Remove="Scripts\007 Core.LoadReportingUnits.sql" />
+    <None Remove="Scripts\007\001 Update SitesDim.sql" />
     <None Remove="Scripts\008 Core.LoadSites.sql" />
     <None Remove="Scripts\009 Core.LoadSiteSpecificAmounts.sql" />
     <None Remove="Scripts\010 Core.LoadVariables.sql" />
@@ -420,6 +421,7 @@
 	<EmbeddedResource Include="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
 	<EmbeddedResource Include="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
 	<EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
+	<EmbeddedResource Include="Scripts\007\001 Update SitesDim.sql" />
   </ItemGroup>
 
   <ItemGroup>

@@ -53,6 +53,9 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string PODorPOUSite { get; set; }
 
         [NullValues("")]
+        public string WellDepth { get; set; }
+
+        [NullValues("")]
         public string RegulatoryOverlayUUIDs { get; set; }
 
         [NullValues("")]
