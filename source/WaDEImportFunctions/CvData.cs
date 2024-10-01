@@ -1,4 +1,3 @@
-using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +11,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Common;
+using Microsoft.Azure.Functions.Worker;
 
 namespace WaDEImportFunctions
 {
@@ -27,7 +27,7 @@ namespace WaDEImportFunctions
 
         private IConfiguration Configuration { get; set; }
 
-        [FunctionName("CvDataUpdate")]
+        [Function("CvDataUpdate")]
         public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log)
         {
             //This is a quick and dirty process.  It should be converted at some point to a proper call chain (or moved into a working azure data factory process)

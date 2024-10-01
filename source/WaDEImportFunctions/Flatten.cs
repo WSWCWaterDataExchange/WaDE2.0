@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ManagerImport = WesternStatesWater.WaDE.Contracts.Import;
+using Microsoft.Azure.Functions.Worker;
 
 namespace WaDEImportFunctions
 {
@@ -17,7 +16,7 @@ namespace WaDEImportFunctions
 
         private ManagerImport.IFlattenManager FlattenManager { get; set; }
 
-        [FunctionName("CoordinateProjection")]
+        [Function("CoordinateProjection")]
         public async Task<IActionResult> RunProjection([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
@@ -34,7 +33,7 @@ namespace WaDEImportFunctions
             return new OkObjectResult(new { status = "success" });
         }
 
-        [FunctionName("Flatten")]
+        [Function("Flatten")]
         public async Task<IActionResult> RunFlatten([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");

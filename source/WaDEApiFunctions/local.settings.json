@@ -2,10 +2,10 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    "FUNCTIONS_EXTENSION_VERSION": "~4"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
   },
   "ConnectionStrings": {
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"
+    "AzureStorage": "UseDevelopmentStorage=true",
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; User=sa; Password=DevP@ssw0rd!;"
   }
 }

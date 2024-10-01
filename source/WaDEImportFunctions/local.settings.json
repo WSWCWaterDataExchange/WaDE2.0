@@ -2,13 +2,11 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "FUNCTIONS_INPROC_NET8_ENABLED": "true"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"
-  },
-  "Endpoints": {
-    "Vocabulary": "http://vocabulary.westernstateswater.org/api/v1"
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; User=sa; Password=DevP@ssw0rd!;"
   }
 }

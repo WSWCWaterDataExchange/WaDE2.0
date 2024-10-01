@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -9,6 +7,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Microsoft.Azure.Functions.Worker;
 
 namespace WaDEApiFunctions.v1
 {
@@ -21,7 +20,7 @@ namespace WaDEApiFunctions.v1
 
         private IRegulatoryOverlayManager RegulatoryOverlayManager { get; set; }
 
-        [FunctionName("WaterAllocation_RegulatoryOverlay_v1")]
+        [Function("WaterAllocation_RegulatoryOverlay_v1")]
         public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequest req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");

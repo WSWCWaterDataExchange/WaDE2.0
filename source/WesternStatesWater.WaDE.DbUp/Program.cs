@@ -17,7 +17,7 @@ namespace WesternStatesWater.WaDE.DbUp
                 var builder = new ConfigurationBuilder()
                     .AddInMemoryCollection(new Dictionary<string, string>
                     {
-                        { "WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" }
+                        { "WadeDatabase", "Server=.;Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; User=sa; Password=DevP@ssw0rd!;" }
                     })
                     .AddEnvironmentVariables();
 

@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
@@ -11,6 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Common;
 using WesternStatesWater.WaDE.Contracts.Import;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.DurableTask;
+using Microsoft.DurableTask.Client;
 
 namespace WaDEImportFunctions
 {
@@ -23,8 +23,8 @@ namespace WaDEImportFunctions
 
         private IWaterAllocationManager WaterAllocationManager { get; set; }
 
-        [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
-        public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
+        [Function(FunctionNames.LoadWaterAllocationDataOrchestration)]
+        public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] TaskOrchestrationContext context, ILogger log)
         {
             var runId = context.GetInput<string>();
 
@@ -80,7 +80,7 @@ namespace WaDEImportFunctions
             return new OkObjectResult(new { status = "success" });
         }
 
-        internal static async Task<StatusHelper> LoadData(IDurableOrchestrationContext context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
+        internal static async Task<StatusHelper> LoadData(TaskOrchestrationContext context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
         {
             var runId = context.GetInput<string>();
             var lineCount = await context.CallActivityAsync<long>(countFunctionName, runId);
@@ -97,39 +97,37 @@ namespace WaDEImportFunctions
             return new StatusHelper { Name = currFunctionName, Status = true };
         }
 
-        internal static async Task<StatusHelper> LoadBatch(IDurableActivityContext context, string batchFunctionName, Func<string, int, int, Task<bool>> loadFunction, ILogger log)
+        internal static async Task<StatusHelper> LoadBatch(BatchData batchData, string batchFunctionName, Func<string, int, int, Task<bool>> loadFunction, ILogger log)
         {
-            var batchData = context.GetInput<BatchData>();
             var result = new StatusHelper { Name = batchFunctionName, Status = await loadFunction(batchData.RunId, batchData.StartIndex, batchData.Count) };
             log.LogInformation($"{batchFunctionName} [{batchData.StartIndex}] - {JsonConvert.SerializeObject(result)}");
             return result;
         }
 
-        internal static async Task<int> GetCount([ActivityTrigger] IDurableActivityContext context, string countFunctionName, Func<string, Task<int>> countFunction, ILogger log)
+        internal static async Task<int> GetCount([ActivityTrigger] string runId, string countFunctionName, Func<string, Task<int>> countFunction, ILogger log)
         {
-            var runId = context.GetInput<string>();
             var count = await countFunction(runId);
             log.LogInformation($"{countFunctionName} - {count}");
             return count;
         }
 
-        [FunctionName(FunctionNames.LoadWaterAllocationData)]
-        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] IDurableOrchestrationClient starter, ILogger log)
+        [Function(FunctionNames.LoadWaterAllocationData)]
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] DurableTaskClient starter, ILogger log)
         {
             string runId = req.Query["runId"].ToString();
 
             log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
-            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, null, runId);
+            string instanceId = await starter.ScheduleNewOrchestrationInstanceAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
             return new OkObjectResult(new { instanceId });
         }
 
-        [FunctionName(FunctionNames.GetLoadWaterOrchestrationStatus)]
-        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] IDurableOrchestrationClient starter, ILogger log)
+        [Function(FunctionNames.GetLoadWaterOrchestrationStatus)]
+        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] DurableTaskClient starter, ILogger log)
         {
             var instanceId = req.Query["instanceId"];
 
-            var status = await starter.GetStatusAsync(instanceId);
+            var status = await starter.GetInstanceAsync(instanceId);
             dynamic resultStatus = new System.Dynamic.ExpandoObject();
             if (status.RuntimeStatus == OrchestrationRuntimeStatus.Completed)
             {
@@ -153,7 +151,7 @@ namespace WaDEImportFunctions
         public string Name { get; set; }
     }
 
-    internal class BatchData
+    public class BatchData
     {
         public string RunId { get; set; }
         public int StartIndex { get; set; }
