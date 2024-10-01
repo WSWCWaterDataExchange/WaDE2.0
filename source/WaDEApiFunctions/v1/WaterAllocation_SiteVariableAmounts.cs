@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
@@ -21,7 +23,7 @@ namespace WaDEApiFunctions.v1
         private ISiteVariableAmountsManager SiteVariableAmountsManager { get; set; }
 
         [Function("WaterAllocation_SiteVariableAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequestData req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
@@ -59,7 +61,10 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
+                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badRequest.WriteStringAsync(
+                    "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
+                return badRequest;
             }
 
             var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
@@ -80,7 +85,11 @@ namespace WaDEApiFunctions.v1
                 County = county,
                 State = state
             }, startIndex, recordCount, geoFormat);
-            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            
+            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
+            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            await jsonResult.WriteStringAsync(json);
+            return jsonResult;
         }
 
         private sealed class AggregratedAmountsRequestBody

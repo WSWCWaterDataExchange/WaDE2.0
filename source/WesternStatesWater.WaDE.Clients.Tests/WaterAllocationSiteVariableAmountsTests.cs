@@ -6,7 +6,9 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.Azure.Functions.Worker;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WaDEApiFunctions.v1;
@@ -37,44 +39,37 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         {
             var faker = new Faker();
             SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat))
-                                      .Returns(Task.FromResult(new SiteVariableAmounts()));
+                .Returns(Task.FromResult(new SiteVariableAmounts()));
 
-            var httpContext = new DefaultHttpContext();
-            var queryParams = new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
-            {
-                { "SiteUUID", faker.Random.Uuid().ToString() },
-                { "geoFormat", formatString }
-            };
-            httpContext.Request.Query = new QueryCollection(queryParams);
+            var context = Mock.Create<FunctionContext>();
+            var request = new FakeHttpRequestData(context, new Uri($"http://localhost?SiteUUID={faker.Random.Uuid()}&geoFormat={formatString}"));
+
             var sut = CreateSiteVariableAmountsFunction();
-            var result = await sut.Run(httpContext.Request, NullLogger.Instance);
-            result.Should().BeOfType<JsonResult>();
+            var result = await sut.Run(request, NullLogger.Instance);
+            result.StatusCode.Should().Be(HttpStatusCode.OK);
 
             SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
         }
 
         [DataTestMethod]
-        [DataRow(null, typeof(BadRequestObjectResult))]
-        [DataRow("", typeof(BadRequestObjectResult))]
-        [DataRow(" ", typeof(BadRequestObjectResult))]
-        [DataRow("\t", typeof(BadRequestObjectResult))]
-        [DataRow("good one", typeof(JsonResult))]
-        public async Task Run_SiteUuid(string siteUuid, Type expectedType)
+        [DataRow(null, HttpStatusCode.BadRequest)]
+        [DataRow("", HttpStatusCode.BadRequest)]
+        [DataRow(" ", HttpStatusCode.BadRequest)]
+        [DataRow("\t", HttpStatusCode.BadRequest)]
+        [DataRow("good one", HttpStatusCode.OK)]
+        public async Task Run_SiteUuid(string siteUuid, HttpStatusCode expectedHttpStatusCode)
         {
             SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
-                                      .Returns(Task.FromResult(new SiteVariableAmounts()));
+                .Returns(Task.FromResult(new SiteVariableAmounts()));
 
-            var httpContext = new DefaultHttpContext();
-            var queryParams = new Dictionary<string, Microsoft.Extensions.Primitives.StringValues>()
-            {
-                { "SiteUUID", siteUuid }
-            };
-            httpContext.Request.Query = new QueryCollection(queryParams);
+            var context = Mock.Create<FunctionContext>();
+            var request = new FakeHttpRequestData(context, new Uri($"http://localhost?SiteUUID={siteUuid}"));
+
             var sut = CreateSiteVariableAmountsFunction();
-            var result = await sut.Run(httpContext.Request, NullLogger.Instance);
-            result.Should().BeOfType(expectedType);
+            var result = await sut.Run(request, NullLogger.Instance);
+            result.StatusCode.Should().Be(expectedHttpStatusCode);
 
-            if (expectedType == typeof(BadRequestObjectResult))
+            if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
                 SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
             }

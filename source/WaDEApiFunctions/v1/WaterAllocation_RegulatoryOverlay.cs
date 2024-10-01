@@ -5,9 +5,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
@@ -21,7 +23,7 @@ namespace WaDEApiFunctions.v1
         private IRegulatoryOverlayManager RegulatoryOverlayManager { get; set; }
 
         [Function("WaterAllocation_RegulatoryOverlay_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequest req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req, ILogger log)
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
 
@@ -44,12 +46,16 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return new BadRequestObjectResult("Start index must be 0 or greater.");
+                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
+                return badRequest;
             }
 
             if (recordCount < 1 || recordCount > 10000)
             {
-                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
+                return badRequest;
             }
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) &&
@@ -59,9 +65,11 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state");
+                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
+                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state");
+                return badRequest;
             }
-
+            
             var regulatoryReportingUnits = await RegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
             {
                 ReportingUnitUUID = reportingUnitUUID,
@@ -75,7 +83,11 @@ namespace WaDEApiFunctions.v1
                 Geometry = geometry,
                 State = state
             }, startIndex, recordCount, geoFormat);
-            return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            
+            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
+            var jsonToReturn = JsonConvert.SerializeObject(regulatoryReportingUnits);
+            await jsonResult.WriteStringAsync(jsonToReturn);
+            return jsonResult;
         }
 
         private sealed class RegulatoryOverlayRequestBody
