@@ -1,6 +1,4 @@
 using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ManagerImport = WesternStatesWater.WaDE.Contracts.Import;
