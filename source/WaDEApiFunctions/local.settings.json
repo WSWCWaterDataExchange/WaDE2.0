@@ -6,6 +6,6 @@
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; User=sa; Password=DevP@ssw0rd!;"
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2; Integrated Security=true;"
   }
 }
