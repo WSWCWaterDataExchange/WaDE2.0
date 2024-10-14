@@ -8,12 +8,18 @@ namespace WaDEImportFunctions
 {
     public class ImportPODSiteToPOUSiteRelationships
     {
-        public ImportPODSiteToPOUSiteRelationships(IWaterAllocationManager waterAllocationManager)
+        private readonly ILogger<ImportPODSiteToPOUSiteRelationships> _logger;
+        
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        public ImportPODSiteToPOUSiteRelationships(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<ImportPODSiteToPOUSiteRelationships> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
-
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
 
         private const int BatchCount = 25000;
         private const string FunctionName = FunctionNames.LoadPODToPOUSiteRelationships;
@@ -21,21 +27,21 @@ namespace WaDEImportFunctions
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 
         [Function(FunctionName)]
-        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context, ILogger log)
+        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, log);
+            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, _logger);
         }
 
         [Function(BatchFunctionName)]
-        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData, ILogger log)
+        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData)
         {
-            return await Import.LoadBatch(batchData, BatchFunctionName, WaterAllocationManager.LoadPODSiteToPOUSiteRelationships, log);
+            return await Import.LoadBatch(batchData, BatchFunctionName, _waterAllocationManager.LoadPODSiteToPOUSiteRelationships, _logger);
         }
 
         [Function(CountFunctionName)]
-        public async Task<int> GetCount([ActivityTrigger] string runId, ILogger log)
+        public async Task<int> GetCount([ActivityTrigger] string runId)
         {
-            return await Import.GetCount(runId, CountFunctionName, WaterAllocationManager.GetPODSiteToPOUSiteRelationshipsCount, log);
+            return await Import.GetCount(runId, CountFunctionName, _waterAllocationManager.GetPODSiteToPOUSiteRelationshipsCount, _logger);
         }
     }
 }

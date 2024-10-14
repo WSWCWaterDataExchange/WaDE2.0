@@ -7,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Common;
-using WesternStatesWater.WaDE.Contracts.Import;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.DurableTask;
@@ -18,15 +17,15 @@ namespace WaDEImportFunctions
 {
     public class Import
     {
-        public Import(IWaterAllocationManager waterAllocationManager)
+        private readonly ILogger<Import> _logger;
+        
+        public Import(ILogger<Import> logger)
         {
-            WaterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
-
         [Function(FunctionNames.LoadWaterAllocationDataOrchestration)]
-        public async Task<string> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] TaskOrchestrationContext context, ILogger log)
+        public async Task<string> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] TaskOrchestrationContext context)
         {
             var runId = context.GetInput<string>();
 
@@ -44,7 +43,7 @@ namespace WaDEImportFunctions
 
             foreach (var result in parallelResults)
             {
-                log.LogInformation(JsonConvert.SerializeObject(result));
+                _logger.LogInformation(JsonConvert.SerializeObject(result));
             }
 
             if (parallelResults.Any(a => !a.Status))
@@ -54,7 +53,7 @@ namespace WaDEImportFunctions
 
             //sites have to be run after WaterSources and RegulatoryOverlays
             var sitesResult = await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSites, runId);
-            log.LogInformation(JsonConvert.SerializeObject(sitesResult));
+            _logger.LogInformation(JsonConvert.SerializeObject(sitesResult));
             if (!sitesResult.Status)
             {
                 throw new WaDEException("Failure Loading Sites Data");
@@ -71,7 +70,7 @@ namespace WaDEImportFunctions
 
             foreach (var result in results)
             {
-                log.LogInformation(JsonConvert.SerializeObject(result));
+                _logger.LogInformation(JsonConvert.SerializeObject(result));
             }
 
             if (results.Any(a => !a.Status))
@@ -116,18 +115,18 @@ namespace WaDEImportFunctions
         }
 
         [Function(FunctionNames.LoadWaterAllocationData)]
-        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter, ILogger log)
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter)
         {
             string runId = req.Query["runId"].ToString();
 
-            log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
+            _logger.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
             string instanceId = await starter.ScheduleNewOrchestrationInstanceAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
             return new OkObjectResult(new { instanceId });
         }
 
         [Function(FunctionNames.GetLoadWaterOrchestrationStatus)]
-        public async Task<HttpResponseData> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter, ILogger log)
+        public async Task<HttpResponseData> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter)
         {
             var instanceId = req.Query["instanceId"];
 

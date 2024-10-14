@@ -8,12 +8,18 @@ namespace WaDEImportFunctions
 {
     public class ImportRegulatoryReportingUnits
     {
-        public ImportRegulatoryReportingUnits(IWaterAllocationManager waterAllocationManager)
-        {
-            WaterAllocationManager = waterAllocationManager;
-        }
+        private readonly ILogger<ImportRegulatoryReportingUnits> _logger;
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        public ImportRegulatoryReportingUnits(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<ImportRegulatoryReportingUnits> logger
+        )
+        {
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
+        }
 
         private const int BatchCount = 25000;
         private const string FunctionName = FunctionNames.LoadRegulatoryReportingUnits;
@@ -21,21 +27,21 @@ namespace WaDEImportFunctions
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 
         [Function(FunctionName)]
-        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context, ILogger log)
+        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, log);
+            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, _logger);
         }
 
         [Function(BatchFunctionName)]
-        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData, ILogger log)
+        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData)
         {
-            return await Import.LoadBatch(batchData, BatchFunctionName, WaterAllocationManager.LoadRegulatoryReportingUnits, log);
+            return await Import.LoadBatch(batchData, BatchFunctionName, _waterAllocationManager.LoadRegulatoryReportingUnits, _logger);
         }
 
         [Function(CountFunctionName)]
-        public async Task<int> GetCount([ActivityTrigger] string runId, ILogger log)
+        public async Task<int> GetCount([ActivityTrigger] string runId)
         {
-            return await Import.GetCount(runId, CountFunctionName, WaterAllocationManager.GetRegulatoryReportingUnitsCount, log);
+            return await Import.GetCount(runId, CountFunctionName, _waterAllocationManager.GetRegulatoryReportingUnitsCount, _logger);
         }
     }
 }

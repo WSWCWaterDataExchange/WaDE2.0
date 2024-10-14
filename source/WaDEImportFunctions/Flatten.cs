@@ -1,6 +1,4 @@
 ﻿using System.Net;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using ManagerImport = WesternStatesWater.WaDE.Contracts.Import;
@@ -12,17 +10,20 @@ namespace WaDEImportFunctions
 {
     public class Flatten
     {
-        public Flatten(ManagerImport.IFlattenManager flattenManager)
+        private readonly ManagerImport.IFlattenManager _flattenManager;
+        
+        private readonly ILogger<Flatten> _logger;
+        
+        public Flatten(ManagerImport.IFlattenManager flattenManager, ILogger<Flatten> logger)
         {
-            FlattenManager = flattenManager;
+            _flattenManager = flattenManager;
+            _logger = logger;
         }
 
-        private ManagerImport.IFlattenManager FlattenManager { get; set; }
-
         [Function("CoordinateProjection")]
-        public async Task<HttpResponseData> RunProjection([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> RunProjection([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string container = req.Query["container"];
             string folder = req.Query["folder"];
@@ -31,7 +32,7 @@ namespace WaDEImportFunctions
             string xValueCol = req.Query["xValueCol"];
             string yValueCol = req.Query["yValueCol"];
 
-            await FlattenManager.CoordinateProjection(container, folder, sourceFileName, destinationFileName, xValueCol, yValueCol);
+            await _flattenManager.CoordinateProjection(container, folder, sourceFileName, destinationFileName, xValueCol, yValueCol);
 
             var jsonResult = req.CreateResponse(HttpStatusCode.OK);
             var jsonToReturn = JsonConvert.SerializeObject(new { status = "success" });
@@ -40,9 +41,9 @@ namespace WaDEImportFunctions
         }
 
         [Function("Flatten")]
-        public async Task<HttpResponseData> RunFlatten([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> RunFlatten([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string container = req.Query["container"];
             string folder = req.Query["folder"];
@@ -51,7 +52,7 @@ namespace WaDEImportFunctions
             string keyCol = req.Query["keyCol"];
             string valueCol = req.Query["valueCol"];
 
-            await FlattenManager.Flatten(container, folder, sourceFileName, destinationFileName, keyCol, valueCol);
+            await _flattenManager.Flatten(container, folder, sourceFileName, destinationFileName, keyCol, valueCol);
 
             var jsonResult = req.CreateResponse(HttpStatusCode.OK);
             var jsonToReturn = JsonConvert.SerializeObject(new { status = "success" });

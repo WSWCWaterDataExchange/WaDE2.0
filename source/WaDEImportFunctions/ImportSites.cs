@@ -8,12 +8,18 @@ namespace WaDEImportFunctions
 {
     public class ImportSites
     {
-        public ImportSites(IWaterAllocationManager waterAllocationManager)
+        private readonly ILogger<ImportSites> _logger;
+        
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        public ImportSites(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<ImportSites> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
-
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
 
         private const int BatchCount = 5000;
         private const string FunctionName = FunctionNames.LoadSites;
@@ -21,21 +27,21 @@ namespace WaDEImportFunctions
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 
         [Function(FunctionName)]
-        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context, ILogger log)
+        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, log);
+            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, _logger);
         }
 
         [Function(BatchFunctionName)]
-        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData, ILogger log)
+        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData)
         {
-            return await Import.LoadBatch(batchData, BatchFunctionName, WaterAllocationManager.LoadSites, log);
+            return await Import.LoadBatch(batchData, BatchFunctionName, _waterAllocationManager.LoadSites, _logger);
         }
 
         [Function(CountFunctionName)]
-        public async Task<int> GetCount([ActivityTrigger] string runId, ILogger log)
+        public async Task<int> GetCount([ActivityTrigger] string runId)
         {
-            return await Import.GetCount(runId, CountFunctionName, WaterAllocationManager.GetSitesCount, log);
+            return await Import.GetCount(runId, CountFunctionName, _waterAllocationManager.GetSitesCount, _logger);
         }
     }
 }

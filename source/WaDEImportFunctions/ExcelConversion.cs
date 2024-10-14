@@ -10,23 +10,29 @@ namespace WaDEImportFunctions
 {
     public class ExcelConversion
     {
-        public ExcelConversion(ManagerImport.IExcelFileConversionManager excelFileConversionManager)
+        private readonly ManagerImport.IExcelFileConversionManager _excelFileConversionManager;
+        
+        private readonly ILogger<ExcelConversion> _logger;
+        
+        public ExcelConversion(
+            ManagerImport.IExcelFileConversionManager excelFileConversionManager,
+            ILogger<ExcelConversion> logger
+        )
         {
-            ExcelFileConversionManager = excelFileConversionManager;
+            _excelFileConversionManager = excelFileConversionManager;
+            _logger = logger;
         }
 
-        private ManagerImport.IExcelFileConversionManager ExcelFileConversionManager { get; set; }
-
         [Function("ExcelConversionToJson")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequestData req)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
+            _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             string container = req.Query["container"];
             string folder = req.Query["folder"];
             string fileName = req.Query["fileName"];
 
-            await ExcelFileConversionManager.ConvertExcelFileToJsonFiles(container, folder, fileName);
+            await _excelFileConversionManager.ConvertExcelFileToJsonFiles(container, folder, fileName);
 
             var jsonResult = req.CreateResponse(HttpStatusCode.OK);
             var jsonToReturn = JsonConvert.SerializeObject(new { status = "success" });
