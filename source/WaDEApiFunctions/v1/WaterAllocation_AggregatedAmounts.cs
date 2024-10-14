@@ -48,7 +48,7 @@ namespace WaDEApiFunctions.v1
             {
                 return await CreateBadRequestResponse(
                     req,
-                    new ValidationError("Start index", ["Start index must be 0 or greater."])
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
             }
 
@@ -56,7 +56,7 @@ namespace WaDEApiFunctions.v1
             {
                 return await CreateBadRequestResponse(
                     req,
-                    new ValidationError("Record count", ["Record count must be between 1 and 10000"])
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
             }
 
@@ -72,7 +72,7 @@ namespace WaDEApiFunctions.v1
                 return await CreateBadRequestResponse(
                     req,
                     new ValidationError(
-                        "Filter parameters",
+                        "Filters",
                         [
                             "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, reportingUnitUUID, geometry, reportingUnitTypeCV, usgsCategoryNameCV, state"
                         ]

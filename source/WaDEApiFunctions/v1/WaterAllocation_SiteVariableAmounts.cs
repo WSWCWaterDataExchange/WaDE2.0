@@ -64,7 +64,7 @@ namespace WaDEApiFunctions.v1
                 return await CreateBadRequestResponse(
                     req,
                     new ValidationError(
-                        "Filter parameters",
+                        "Filters",
                         [
                             "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
                         ]
