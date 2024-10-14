@@ -1,11 +1,4 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
@@ -13,22 +6,28 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_RegulatoryOverlay
+    public class WaterAllocation_RegulatoryOverlay : FunctionBase
     {
-        public WaterAllocation_RegulatoryOverlay(IRegulatoryOverlayManager regulatoryOverlayManager)
+        private readonly IRegulatoryOverlayManager _regulatoryOverlayManager;
+        
+        private readonly ILogger<WaterAllocation_RegulatoryOverlay> _logger;
+        
+        public WaterAllocation_RegulatoryOverlay(
+            IRegulatoryOverlayManager regulatoryOverlayManager,
+            ILogger<WaterAllocation_RegulatoryOverlay> logger
+        )
         {
-            RegulatoryOverlayManager = regulatoryOverlayManager;
+            _regulatoryOverlayManager = regulatoryOverlayManager;
+            _logger = logger;
         }
 
-        private IRegulatoryOverlayManager RegulatoryOverlayManager { get; set; }
 
         [Function("WaterAllocation_RegulatoryOverlay_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<RegulatoryOverlayRequestBody>(requestBody);
+            var data = await Deserialize<RegulatoryOverlayRequestBody>(req, _logger);            
 
             var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
             var regulatoryOverlayUUID = ((string)req.Query["RegulatoryOverlayUUID"]) ?? data?.regulatoryOverlayUUID;
@@ -46,16 +45,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) &&
@@ -65,12 +66,13 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filters", ["At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state"])
+                );
             }
             
-            var regulatoryReportingUnits = await RegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
+            var regulatoryReportingUnits = await _regulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
             {
                 ReportingUnitUUID = reportingUnitUUID,
                 RegulatoryOverlayUUID = regulatoryOverlayUUID,
@@ -84,10 +86,7 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var jsonToReturn = JsonConvert.SerializeObject(regulatoryReportingUnits);
-            await jsonResult.WriteStringAsync(jsonToReturn);
-            return jsonResult;
+            return await CreateOkResponse(req, regulatoryReportingUnits);
         }
 
         private sealed class RegulatoryOverlayRequestBody
