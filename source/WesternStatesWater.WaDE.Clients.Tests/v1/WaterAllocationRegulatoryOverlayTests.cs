@@ -1,26 +1,27 @@
-﻿using Bogus;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Bogus;
+using FluentAssertions;
 using Microsoft.Azure.Functions.Worker;
-using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WaDEApiFunctions.v1;
 using WesternStatesWater.WaDE.Contracts.Api;
 
-namespace WesternStatesWater.WaDE.Clients.Tests
+namespace WesternStatesWater.WaDE.Clients.Tests.v1
 {
     [TestClass]
-    public class WaterAllocationRegulatoryOverlayTests
+    public class WaterAllocationRegulatoryOverlayTests : FunctionTestBase
     {
-        private readonly IRegulatoryOverlayManager WaterAllocationManagerMock = Mock.Create<IRegulatoryOverlayManager>(Behavior.Strict);
+        private IRegulatoryOverlayManager _waterAllocationManagerMock = null!;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _waterAllocationManagerMock = Mock.Create<IRegulatoryOverlayManager>(Behavior.Strict);
+        }
 
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt)]
@@ -39,17 +40,17 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         public async Task Run_GeometryFormat(string formatString, GeometryFormat expectedGeometryFormat)
         {
             var faker = new Faker();
-            WaterAllocationManagerMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, expectedGeometryFormat))
+            _waterAllocationManagerMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, expectedGeometryFormat))
                 .Returns(Task.FromResult(new RegulatoryReportingUnits()));
             
             var context = Mock.Create<FunctionContext>();
             var request = new FakeHttpRequestData(context, new Uri($"http://localhost?ReportingUnitUUID={faker.Random.Uuid()}&geoFormat={formatString}"));
 
             var sut = CreateRegulatoryOverlayFunction();
-            var result = await sut.Run(request, NullLogger.Instance);
+            var result = await sut.Run(request);
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            WaterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
+            _waterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
         }
 
         [DataTestMethod]
@@ -60,30 +61,33 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         [DataRow("good one", HttpStatusCode.OK)]
         public async Task Run_SiteUuid(string reportingUnitUuid, HttpStatusCode expectedHttpStatusCode)
         {
-            WaterAllocationManagerMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt))
+            _waterAllocationManagerMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt))
                 .Returns(Task.FromResult(new RegulatoryReportingUnits()));
 
             var context = Mock.Create<FunctionContext>();
             var request = new FakeHttpRequestData(context, new Uri($"http://localhost?ReportingUnitUUID={reportingUnitUuid}"));
             
             var sut = CreateRegulatoryOverlayFunction();
-            var result = await sut.Run(request, NullLogger.Instance);
+            var result = await sut.Run(request);
             result.StatusCode.Should().Be(expectedHttpStatusCode);
             
             if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
-                WaterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
+                _waterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
             }
             else
             {
-                WaterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
-                WaterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.Matches<RegulatoryOverlayFilters>(a => a.ReportingUnitUUID == reportingUnitUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                _waterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<RegulatoryOverlayFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                _waterAllocationManagerMock.Assert(a => a.GetRegulatoryReportingUnitsAsync(Arg.Matches<RegulatoryOverlayFilters>(f => f.ReportingUnitUUID == reportingUnitUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
             }
         }
 
         private WaterAllocation_RegulatoryOverlay CreateRegulatoryOverlayFunction()
         {
-            return new WaterAllocation_RegulatoryOverlay(WaterAllocationManagerMock);
+            return new WaterAllocation_RegulatoryOverlay(
+                _waterAllocationManagerMock,
+                CreateLogger<WaterAllocation_RegulatoryOverlay>()
+            );
         }
     }
 }
