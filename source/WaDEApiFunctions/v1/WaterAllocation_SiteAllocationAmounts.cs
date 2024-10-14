@@ -1,37 +1,34 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using WaDEApiFunctions;
-using WesternStatesWater.WaDE.Managers.Api;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_SiteAllocationAmounts
+    public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
-        public WaterAllocation_SiteAllocationAmounts(IWaterAllocationManager waterAllocationManager)
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        private readonly ILogger<WaterAllocation_SiteAllocationAmounts> _logger;
+        
+        public WaterAllocation_SiteAllocationAmounts(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<WaterAllocation_SiteAllocationAmounts> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
         
         [Function("WaterAllocation_SiteAllocationAmounts_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
-
+            var data = await Deserialize<SiteAllocationAmountsRequestBody>(req, _logger);
+            
             var siteUuid = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -51,16 +48,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(siteUuid) &&
@@ -73,12 +72,16 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filters",
+                    [
+                        "At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
+                    ])
+                );
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
             {
                 BeneficialUseCv = beneficialUseCv,
                 Geometry = geometry,
@@ -95,19 +98,15 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
 
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
-        public async Task<HttpResponseData> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsDigestRequestBody>(requestBody);
+            var data = await Deserialize<SiteAllocationAmountsDigestRequestBody>(req, _logger);
 
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -124,16 +123,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(organizationUUID) &&
@@ -142,12 +143,16 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filters",
+                    [
+                        "At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV"
+                    ])
+                );
             }
             
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
+            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
             {
                 BeneficialUseCv = beneficialUseCv,
                 Geometry = geometry,
@@ -160,10 +165,7 @@ namespace WaDEApiFunctions.v1
                 OrganizationUUID = organizationUUID
             }, startIndex, recordCount);
 
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         private sealed class SiteAllocationAmountsRequestBody

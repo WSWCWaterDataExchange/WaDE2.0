@@ -1,25 +1,27 @@
-﻿using Bogus;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging.Abstractions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Bogus;
+using FluentAssertions;
 using Microsoft.Azure.Functions.Worker;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WaDEApiFunctions.v1;
 using WesternStatesWater.WaDE.Contracts.Api;
 
-namespace WesternStatesWater.WaDE.Clients.Tests
+namespace WesternStatesWater.WaDE.Clients.Tests.v1
 {
     [TestClass]
-    public class WaterAllocationSiteVariableAmountsTests
+    public class WaterAllocationSiteVariableAmountsTests : FunctionTestBase
     {
-        private readonly ISiteVariableAmountsManager SiteVariableAmountsManagerMock = Mock.Create<ISiteVariableAmountsManager>(Behavior.Strict);
+        private ISiteVariableAmountsManager _siteVariableAmountsManagerMock = null!;
+        
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            _siteVariableAmountsManagerMock = Mock.Create<ISiteVariableAmountsManager>(Behavior.Strict);
+        }
 
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt)]
@@ -38,17 +40,17 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         public async Task Run_GeometryFormat(string formatString, GeometryFormat expectedGeometryFormat)
         {
             var faker = new Faker();
-            SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat))
+            _siteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat))
                 .Returns(Task.FromResult(new SiteVariableAmounts()));
 
             var context = Mock.Create<FunctionContext>();
             var request = new FakeHttpRequestData(context, new Uri($"http://localhost?SiteUUID={faker.Random.Uuid()}&geoFormat={formatString}"));
 
             var sut = CreateSiteVariableAmountsFunction();
-            var result = await sut.Run(request, NullLogger.Instance);
+            var result = await sut.Run(request);
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
+            _siteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
         }
 
         [DataTestMethod]
@@ -59,30 +61,33 @@ namespace WesternStatesWater.WaDE.Clients.Tests
         [DataRow("good one", HttpStatusCode.OK)]
         public async Task Run_SiteUuid(string siteUuid, HttpStatusCode expectedHttpStatusCode)
         {
-            SiteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
+            _siteVariableAmountsManagerMock.Arrange(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
                 .Returns(Task.FromResult(new SiteVariableAmounts()));
 
             var context = Mock.Create<FunctionContext>();
             var request = new FakeHttpRequestData(context, new Uri($"http://localhost?SiteUUID={siteUuid}"));
 
             var sut = CreateSiteVariableAmountsFunction();
-            var result = await sut.Run(request, NullLogger.Instance);
+            var result = await sut.Run(request);
             result.StatusCode.Should().Be(expectedHttpStatusCode);
 
             if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
-                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
+                _siteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
             }
             else
             {
-                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
-                SiteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.Matches<SiteVariableAmountsFilters>(a => a.SiteUuid == siteUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                _siteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.IsAny<SiteVariableAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                _siteVariableAmountsManagerMock.Assert(a => a.GetSiteVariableAmountsAsync(Arg.Matches<SiteVariableAmountsFilters>(f => f.SiteUuid == siteUuid), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
             }
         }
 
         private WaterAllocation_SiteVariableAmounts CreateSiteVariableAmountsFunction()
         {
-            return new WaterAllocation_SiteVariableAmounts(SiteVariableAmountsManagerMock);
+            return new WaterAllocation_SiteVariableAmounts(
+                _siteVariableAmountsManagerMock,
+                CreateLogger<WaterAllocation_SiteVariableAmounts>()
+            );
         }
     }
 }
