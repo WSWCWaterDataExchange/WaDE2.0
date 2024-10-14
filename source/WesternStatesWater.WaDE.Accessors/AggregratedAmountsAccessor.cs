@@ -150,7 +150,8 @@ namespace WesternStatesWater.WaDE.Accessors
                         .Where(a => aggregatedIds.Contains(a.AggregatedAmountId))
                         .Select(a => new { a.AggregatedAmountId, a.BeneficialUse })
                         .ToListAsync())
-                    .Select(a => (a.AggregatedAmountId, a.BeneficialUse)).ToList();
+                    .Select(a => (a.AggregatedAmountId, a.BeneficialUse))
+                    .ToList();
             }
         }
 
