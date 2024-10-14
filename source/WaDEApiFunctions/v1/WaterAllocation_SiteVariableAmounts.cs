@@ -10,19 +10,25 @@ namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_SiteVariableAmounts : FunctionBase
     {
-        public WaterAllocation_SiteVariableAmounts(ISiteVariableAmountsManager siteVariableAmountsManager)
+        private readonly ISiteVariableAmountsManager _siteVariableAmountsManager;
+        
+        private readonly ILogger<WaterAllocation_SiteVariableAmounts> _logger;
+
+        public WaterAllocation_SiteVariableAmounts(
+            ISiteVariableAmountsManager siteVariableAmountsManager,
+            ILogger<WaterAllocation_SiteVariableAmounts> logger
+        )
         {
-            SiteVariableAmountsManager = siteVariableAmountsManager;
+            _siteVariableAmountsManager = siteVariableAmountsManager;
+            _logger = logger;
         }
 
-        private ISiteVariableAmountsManager SiteVariableAmountsManager { get; set; }
-
         [Function("WaterAllocation_SiteVariableAmounts_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
-            var data = await Deserialize<AggregratedAmountsRequestBody>(req);
+            var data = await Deserialize<AggregratedAmountsRequestBody>(req, _logger);
 
             var siteUUID = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
@@ -65,7 +71,7 @@ namespace WaDEApiFunctions.v1
                     ));
             }
 
-            var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
+            var siteAllocationAmounts = await _siteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
             {
                 SiteUuid = siteUUID,
                 SiteTypeCv = siteTypeCV,

@@ -8,19 +8,26 @@ namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
-        public WaterAllocation_SiteAllocationAmounts(IWaterAllocationManager waterAllocationManager)
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        private readonly ILogger<WaterAllocation_SiteAllocationAmounts> _logger;
+        
+        public WaterAllocation_SiteAllocationAmounts(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<WaterAllocation_SiteAllocationAmounts> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
         
         [Function("WaterAllocation_SiteAllocationAmounts_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
 
-            var data = await Deserialize<SiteAllocationAmountsRequestBody>(req);
+            var data = await Deserialize<SiteAllocationAmountsRequestBody>(req, _logger);
             
             var siteUuid = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
@@ -74,7 +81,7 @@ namespace WaDEApiFunctions.v1
                 );
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
             {
                 BeneficialUseCv = beneficialUseCv,
                 Geometry = geometry,
@@ -95,11 +102,11 @@ namespace WaDEApiFunctions.v1
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
-        public async Task<HttpResponseData> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
 
-            var data = await Deserialize<SiteAllocationAmountsDigestRequestBody>(req);
+            var data = await Deserialize<SiteAllocationAmountsDigestRequestBody>(req, _logger);
 
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -145,7 +152,7 @@ namespace WaDEApiFunctions.v1
                 );
             }
             
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
+            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
             {
                 BeneficialUseCv = beneficialUseCv,
                 Geometry = geometry,

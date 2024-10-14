@@ -1,11 +1,4 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
@@ -13,22 +6,27 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_AggregatedAmounts
+    public class WaterAllocation_AggregatedAmounts : FunctionBase
     {
-        public WaterAllocation_AggregatedAmounts(IAggregatedAmountsManager aggregatedAmountsManager)
+        private readonly IAggregatedAmountsManager _aggregatedAmountsManager;
+        
+        private readonly ILogger<WaterAllocation_AggregatedAmounts> _logger;
+
+        public WaterAllocation_AggregatedAmounts(
+            IAggregatedAmountsManager aggregatedAmountsManager,
+            ILogger<WaterAllocation_AggregatedAmounts> logger
+        )
         {
-            AggregatedAmountsManager = aggregatedAmountsManager;
+            _aggregatedAmountsManager = aggregatedAmountsManager;
+            _logger = logger;
         }
 
-        private IAggregatedAmountsManager AggregatedAmountsManager { get; set; }
-
         [Function("WaterAllocation_AggregatedAmounts_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggregatedAmounts")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggregatedAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
+            var data = await Deserialize<AggregratedAmountsRequestBody>(req, _logger);
 
             var variableCV = req.GetQueryString("VariableCV") ?? data?.variableCV;
             var variableSpecificCV = req.GetQueryString("VariableSpecificCV") ?? data?.variableCV;
@@ -48,16 +46,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Start index", ["Start index must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Record count", ["Record count must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(variableCV) &&
@@ -69,12 +69,17 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, reportingUnitUUID, geometry, reportingUnitTypeCV, usgsCategoryNameCV, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError(
+                        "Filter parameters",
+                        [
+                            "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, reportingUnitUUID, geometry, reportingUnitTypeCV, usgsCategoryNameCV, state"
+                        ]
+                    ));
             }
 
-            var siteAllocationAmounts = await AggregatedAmountsManager.GetAggregatedAmountsAsync(new AggregatedAmountsFilters
+            var siteAllocationAmounts = await _aggregatedAmountsManager.GetAggregatedAmountsAsync(new AggregatedAmountsFilters
             {
                 BeneficialUse = beneficialUse,
                 Geometry = geometry,
@@ -90,10 +95,7 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         private sealed class AggregratedAmountsRequestBody

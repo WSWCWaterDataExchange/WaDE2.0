@@ -8,19 +8,26 @@ namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_RegulatoryOverlay : FunctionBase
     {
-        public WaterAllocation_RegulatoryOverlay(IRegulatoryOverlayManager regulatoryOverlayManager)
+        private readonly IRegulatoryOverlayManager _regulatoryOverlayManager;
+        
+        private readonly ILogger<WaterAllocation_RegulatoryOverlay> _logger;
+        
+        public WaterAllocation_RegulatoryOverlay(
+            IRegulatoryOverlayManager regulatoryOverlayManager,
+            ILogger<WaterAllocation_RegulatoryOverlay> logger
+        )
         {
-            RegulatoryOverlayManager = regulatoryOverlayManager;
+            _regulatoryOverlayManager = regulatoryOverlayManager;
+            _logger = logger;
         }
 
-        private IRegulatoryOverlayManager RegulatoryOverlayManager { get; set; }
 
         [Function("WaterAllocation_RegulatoryOverlay_v1")]
-        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req, ILogger log)
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
 
-            var data = await Deserialize<RegulatoryOverlayRequestBody>(req);            
+            var data = await Deserialize<RegulatoryOverlayRequestBody>(req, _logger);            
 
             var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
             var regulatoryOverlayUUID = ((string)req.Query["RegulatoryOverlayUUID"]) ?? data?.regulatoryOverlayUUID;
@@ -65,7 +72,7 @@ namespace WaDEApiFunctions.v1
                 );
             }
             
-            var regulatoryReportingUnits = await RegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
+            var regulatoryReportingUnits = await _regulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
             {
                 ReportingUnitUUID = reportingUnitUUID,
                 RegulatoryOverlayUUID = regulatoryOverlayUUID,
