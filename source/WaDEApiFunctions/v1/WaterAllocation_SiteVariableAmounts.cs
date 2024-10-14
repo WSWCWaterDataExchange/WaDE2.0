@@ -1,11 +1,6 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
@@ -13,7 +8,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_SiteVariableAmounts
+    public class WaterAllocation_SiteVariableAmounts : FunctionBase
     {
         public WaterAllocation_SiteVariableAmounts(ISiteVariableAmountsManager siteVariableAmountsManager)
         {
@@ -27,8 +22,7 @@ namespace WaDEApiFunctions.v1
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
+            var data = await Deserialize<AggregratedAmountsRequestBody>(req);
 
             var siteUUID = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
@@ -61,10 +55,14 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync(
-                    "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError(
+                        "Filter parameters",
+                        [
+                            "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
+                        ]
+                    ));
             }
 
             var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
@@ -86,10 +84,7 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         private sealed class AggregratedAmountsRequestBody

@@ -1,11 +1,4 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
@@ -13,7 +6,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_RegulatoryOverlay
+    public class WaterAllocation_RegulatoryOverlay : FunctionBase
     {
         public WaterAllocation_RegulatoryOverlay(IRegulatoryOverlayManager regulatoryOverlayManager)
         {
@@ -27,8 +20,7 @@ namespace WaDEApiFunctions.v1
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<RegulatoryOverlayRequestBody>(requestBody);
+            var data = await Deserialize<RegulatoryOverlayRequestBody>(req);            
 
             var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
             var regulatoryOverlayUUID = ((string)req.Query["RegulatoryOverlayUUID"]) ?? data?.regulatoryOverlayUUID;
@@ -46,16 +38,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Start index", ["Start index must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Record count", ["Record count must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) &&
@@ -65,9 +59,10 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filter parameters", ["At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state"])
+                );
             }
             
             var regulatoryReportingUnits = await RegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
@@ -84,10 +79,7 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
             
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var jsonToReturn = JsonConvert.SerializeObject(regulatoryReportingUnits);
-            await jsonResult.WriteStringAsync(jsonToReturn);
-            return jsonResult;
+            return await CreateOkResponse(req, regulatoryReportingUnits);
         }
 
         private sealed class RegulatoryOverlayRequestBody

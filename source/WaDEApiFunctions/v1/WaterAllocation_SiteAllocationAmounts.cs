@@ -1,21 +1,12 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
-using WaDEApiFunctions;
-using WesternStatesWater.WaDE.Managers.Api;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_SiteAllocationAmounts
+    public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
         public WaterAllocation_SiteAllocationAmounts(IWaterAllocationManager waterAllocationManager)
         {
@@ -29,9 +20,8 @@ namespace WaDEApiFunctions.v1
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
-
+            var data = await Deserialize<SiteAllocationAmountsRequestBody>(req);
+            
             var siteUuid = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -51,16 +41,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Start index", ["Start index must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Record count", ["Record count must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(siteUuid) &&
@@ -73,9 +65,13 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filter parameters",
+                    [
+                        "At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
+                    ])
+                );
             }
 
             var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
@@ -95,10 +91,7 @@ namespace WaDEApiFunctions.v1
                 State = state
             }, startIndex, recordCount, geoFormat);
 
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
@@ -106,8 +99,7 @@ namespace WaDEApiFunctions.v1
         {
             log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsDigestRequestBody>(requestBody);
+            var data = await Deserialize<SiteAllocationAmountsDigestRequestBody>(req);
 
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -124,16 +116,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Start index must be 0 or greater.");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Start index", ["Start index must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("Record count must be between 1 and 10000");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Record count", ["Record count must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(organizationUUID) &&
@@ -142,9 +136,13 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                var badRequest = req.CreateResponse(HttpStatusCode.BadRequest);
-                await badRequest.WriteStringAsync("At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV");
-                return badRequest;
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError("Filter parameters",
+                    [
+                        "At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV"
+                    ])
+                );
             }
             
             var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
@@ -160,10 +158,7 @@ namespace WaDEApiFunctions.v1
                 OrganizationUUID = organizationUUID
             }, startIndex, recordCount);
 
-            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
-            var json = JsonConvert.SerializeObject(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
-            await jsonResult.WriteStringAsync(json);
-            return jsonResult;
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         private sealed class SiteAllocationAmountsRequestBody
