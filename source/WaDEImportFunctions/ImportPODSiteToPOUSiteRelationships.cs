@@ -8,9 +8,9 @@ namespace WaDEImportFunctions
 {
     public class ImportPODSiteToPOUSiteRelationships
     {
-        private readonly ILogger<ImportPODSiteToPOUSiteRelationships> _logger;
-        
         private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        private readonly ILogger<ImportPODSiteToPOUSiteRelationships> _logger;
         
         public ImportPODSiteToPOUSiteRelationships(
             IWaterAllocationManager waterAllocationManager,

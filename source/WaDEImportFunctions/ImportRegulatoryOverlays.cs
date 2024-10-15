@@ -8,9 +8,9 @@ namespace WaDEImportFunctions
 {
     public class ImportRegulatoryOverlays
     {
-        private readonly ILogger<ImportRegulatoryOverlays> _logger;
-
         private readonly IWaterAllocationManager _waterAllocationManager;
+
+        private readonly ILogger<ImportRegulatoryOverlays> _logger;
         
         public ImportRegulatoryOverlays(
             IWaterAllocationManager waterAllocationManager,

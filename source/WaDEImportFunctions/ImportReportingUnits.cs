@@ -8,9 +8,9 @@ namespace WaDEImportFunctions
 {
     public class ImportReportingUnits
     {
-        private readonly ILogger<ImportReportingUnits> _logger;
-
         private readonly IWaterAllocationManager _waterAllocationManager;
+
+        private readonly ILogger<ImportReportingUnits> _logger;
         
         public ImportReportingUnits(
             IWaterAllocationManager waterAllocationManager,
