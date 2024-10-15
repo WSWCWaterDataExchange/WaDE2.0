@@ -1,7 +1,7 @@
 
 ## Docket Setup
 
-From the `source` folder run `docker-compose -p wade up`
+From the `source` folder run `docker compose -p wade up`
 
 Set the following environment variables
 
