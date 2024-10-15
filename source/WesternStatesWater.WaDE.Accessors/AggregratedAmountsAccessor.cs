@@ -145,13 +145,13 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.AggBridgeBeneficialUsesFact
-                               .AsNoTracking()
-                               .Where(a => aggregatedIds.Contains(a.AggregatedAmountId))
-                               .Select(a => new { a.AggregatedAmountId, a.BeneficialUse })
-                               .AsAsyncEnumerable()
-                               .Select(a => (a.AggregatedAmountId, a.BeneficialUse))
-                               .ToListAsync();
+                return (await db.AggBridgeBeneficialUsesFact
+                        .AsNoTracking()
+                        .Where(a => aggregatedIds.Contains(a.AggregatedAmountId))
+                        .Select(a => new { a.AggregatedAmountId, a.BeneficialUse })
+                        .ToListAsync())
+                    .Select(a => (a.AggregatedAmountId, a.BeneficialUse))
+                    .ToList();
             }
         }
 
@@ -219,13 +219,12 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.RegulatoryReportingUnitsFact
-                               .AsNoTracking()
-                               .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
-                               .Select(a => new { a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay })
-                               .AsAsyncEnumerable()
-                               .Select(a => (a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay))
-                               .ToListAsync();
+                return (await db.RegulatoryReportingUnitsFact
+                        .AsNoTracking()
+                        .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
+                        .Select(a => new { a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay })
+                        .ToListAsync())
+                    .Select(a => (a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay)).ToList();
             }
         }
 

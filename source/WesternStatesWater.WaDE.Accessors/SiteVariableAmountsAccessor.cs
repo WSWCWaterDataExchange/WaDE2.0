@@ -224,12 +224,11 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.SitesBridgeBeneficialUsesFact
-                               .Where(a => siteVariableAmountIds.Contains(a.SiteVariableAmountId))
-                               .Select(a => new { a.SiteVariableAmountId, a.BeneficialUse })
-                               .AsAsyncEnumerable()
-                               .Select(a => (a.SiteVariableAmountId, a.BeneficialUse))
-                               .ToListAsync();
+                return (await db.SitesBridgeBeneficialUsesFact
+                        .Where(a => siteVariableAmountIds.Contains(a.SiteVariableAmountId))
+                        .Select(a => new { a.SiteVariableAmountId, a.BeneficialUse })
+                        .ToListAsync())
+                    .Select(a => (a.SiteVariableAmountId, a.BeneficialUse)).ToList();
             }
         }
 

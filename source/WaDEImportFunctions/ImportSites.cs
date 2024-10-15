@@ -1,41 +1,47 @@
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Import;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.DurableTask;
 
 namespace WaDEImportFunctions
 {
     public class ImportSites
     {
-        public ImportSites(IWaterAllocationManager waterAllocationManager)
+        private readonly IWaterAllocationManager _waterAllocationManager;
+        
+        private readonly ILogger<ImportSites> _logger;
+        
+        public ImportSites(
+            IWaterAllocationManager waterAllocationManager,
+            ILogger<ImportSites> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
-
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
 
         private const int BatchCount = 5000;
         private const string FunctionName = FunctionNames.LoadSites;
         private const string BatchFunctionName = FunctionName + "Batch";
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 
-        [FunctionName(FunctionName)]
-        public async Task<StatusHelper> LoadData([OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
+        [Function(FunctionName)]
+        public async Task<StatusHelper> LoadData([OrchestrationTrigger] TaskOrchestrationContext context)
         {
-            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, log);
+            return await Import.LoadData(context, FunctionName, CountFunctionName, BatchFunctionName, BatchCount, _logger);
         }
 
-        [FunctionName(BatchFunctionName)]
-        public async Task<StatusHelper> LoadBatch([ActivityTrigger] IDurableActivityContext context, ILogger log)
+        [Function(BatchFunctionName)]
+        public async Task<StatusHelper> LoadBatch([ActivityTrigger] BatchData batchData)
         {
-            return await Import.LoadBatch(context, BatchFunctionName, WaterAllocationManager.LoadSites, log);
+            return await Import.LoadBatch(batchData, BatchFunctionName, _waterAllocationManager.LoadSites, _logger);
         }
 
-        [FunctionName(CountFunctionName)]
-        public async Task<int> GetCount([ActivityTrigger] IDurableActivityContext context, ILogger log)
+        [Function(CountFunctionName)]
+        public async Task<int> GetCount([ActivityTrigger] string runId)
         {
-            return await Import.GetCount(context, CountFunctionName, WaterAllocationManager.GetSitesCount, log);
+            return await Import.GetCount(runId, CountFunctionName, _waterAllocationManager.GetSitesCount, _logger);
         }
     }
 }

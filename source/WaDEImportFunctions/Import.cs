@@ -1,48 +1,49 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.DurableTask;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Common;
-using WesternStatesWater.WaDE.Contracts.Import;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using Microsoft.DurableTask;
+using Microsoft.DurableTask.Client;
+using Newtonsoft.Json.Serialization;
 
 namespace WaDEImportFunctions
 {
     public class Import
     {
-        public Import(IWaterAllocationManager waterAllocationManager)
+        private readonly ILogger<Import> _logger;
+        
+        public Import(ILogger<Import> logger)
         {
-            WaterAllocationManager = waterAllocationManager;
+            _logger = logger;
         }
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
-
-        [FunctionName(FunctionNames.LoadWaterAllocationDataOrchestration)]
-        public async Task<IActionResult> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
+        [Function(FunctionNames.LoadWaterAllocationDataOrchestration)]
+        public async Task<string> LoadWaterAllocationDataOrchestration([OrchestrationTrigger] TaskOrchestrationContext context)
         {
             var runId = context.GetInput<string>();
 
             var parallelTasks = new List<Task<StatusHelper>>
             {
-                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadMethods, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId)
-                ,context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadMethods, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
             };
 
             var parallelResults = await Task.WhenAll(parallelTasks);
 
             foreach (var result in parallelResults)
             {
-                log.LogInformation(JsonConvert.SerializeObject(result));
+                _logger.LogInformation(JsonConvert.SerializeObject(result));
             }
 
             if (parallelResults.Any(a => !a.Status))
@@ -52,7 +53,7 @@ namespace WaDEImportFunctions
 
             //sites have to be run after WaterSources and RegulatoryOverlays
             var sitesResult = await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSites, runId);
-            log.LogInformation(JsonConvert.SerializeObject(sitesResult));
+            _logger.LogInformation(JsonConvert.SerializeObject(sitesResult));
             if (!sitesResult.Status)
             {
                 throw new WaDEException("Failure Loading Sites Data");
@@ -60,27 +61,27 @@ namespace WaDEImportFunctions
 
             var results = new List<StatusHelper>
             {
-                 await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId)
-                ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterAllocations, runId)
-                ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId)
-                ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryReportingUnits, runId)
-                ,await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadPODToPOUSiteRelationships, runId)
-        };
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId),
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterAllocations, runId),
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId),
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryReportingUnits, runId),
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadPODToPOUSiteRelationships, runId)
+            };
 
             foreach (var result in results)
             {
-                log.LogInformation(JsonConvert.SerializeObject(result));
+                _logger.LogInformation(JsonConvert.SerializeObject(result));
             }
 
             if (results.Any(a => !a.Status))
             {
                 throw new WaDEException("Failure Loading Fact Data");
             }
-
-            return new OkObjectResult(new { status = "success" });
+            
+            return JsonConvert.SerializeObject(new { status = "success" });
         }
 
-        internal static async Task<StatusHelper> LoadData(IDurableOrchestrationContext context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
+        internal static async Task<StatusHelper> LoadData(TaskOrchestrationContext context, string currFunctionName, string countFunctionName, string batchFunctionName, int recordCount, ILogger log)
         {
             var runId = context.GetInput<string>();
             var lineCount = await context.CallActivityAsync<long>(countFunctionName, runId);
@@ -92,58 +93,63 @@ namespace WaDEImportFunctions
                 {
                     return new StatusHelper { Name = currFunctionName, Status = false };
                 }
+
                 processed += recordCount;
             }
+           
             return new StatusHelper { Name = currFunctionName, Status = true };
         }
 
-        internal static async Task<StatusHelper> LoadBatch(IDurableActivityContext context, string batchFunctionName, Func<string, int, int, Task<bool>> loadFunction, ILogger log)
+        internal static async Task<StatusHelper> LoadBatch(BatchData batchData, string batchFunctionName, Func<string, int, int, Task<bool>> loadFunction, ILogger log)
         {
-            var batchData = context.GetInput<BatchData>();
             var result = new StatusHelper { Name = batchFunctionName, Status = await loadFunction(batchData.RunId, batchData.StartIndex, batchData.Count) };
             log.LogInformation($"{batchFunctionName} [{batchData.StartIndex}] - {JsonConvert.SerializeObject(result)}");
             return result;
         }
 
-        internal static async Task<int> GetCount([ActivityTrigger] IDurableActivityContext context, string countFunctionName, Func<string, Task<int>> countFunction, ILogger log)
+        internal static async Task<int> GetCount([ActivityTrigger] string runId, string countFunctionName, Func<string, Task<int>> countFunction, ILogger log)
         {
-            var runId = context.GetInput<string>();
             var count = await countFunction(runId);
             log.LogInformation($"{countFunctionName} - {count}");
             return count;
         }
 
-        [FunctionName(FunctionNames.LoadWaterAllocationData)]
-        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] IDurableOrchestrationClient starter, ILogger log)
+        [Function(FunctionNames.LoadWaterAllocationData)]
+        public async Task<object> LoadWaterAllocationData([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter)
         {
             string runId = req.Query["runId"].ToString();
 
-            log.LogInformation($"Start Loading Water Allocation Data [{runId}]");
+            _logger.LogInformation($"Start Loading Water Allocation Data [{runId}]");
 
-            string instanceId = await starter.StartNewAsync(FunctionNames.LoadWaterAllocationDataOrchestration, null, runId);
+            string instanceId = await starter.ScheduleNewOrchestrationInstanceAsync(FunctionNames.LoadWaterAllocationDataOrchestration, runId);
             return new OkObjectResult(new { instanceId });
         }
 
-        [FunctionName(FunctionNames.GetLoadWaterOrchestrationStatus)]
-        public async Task<IActionResult> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequest req, [DurableClient] IDurableOrchestrationClient starter, ILogger log)
+        [Function(FunctionNames.GetLoadWaterOrchestrationStatus)]
+        public async Task<HttpResponseData> GetLoadWaterOrchestrationStatus([HttpTrigger(AuthorizationLevel.Function, "get")] HttpRequestData req, [DurableClient] DurableTaskClient starter)
         {
             var instanceId = req.Query["instanceId"];
 
-            var status = await starter.GetStatusAsync(instanceId);
-            dynamic resultStatus = new System.Dynamic.ExpandoObject();
+            var status = await starter.GetInstanceAsync(instanceId);
+            object resultStatus = null;
+            
             if (status.RuntimeStatus == OrchestrationRuntimeStatus.Completed)
             {
-                resultStatus.Status = 1;
+                resultStatus = new { Status = 1 };
             }
             else if (status.RuntimeStatus == OrchestrationRuntimeStatus.ContinuedAsNew || status.RuntimeStatus == OrchestrationRuntimeStatus.Pending || status.RuntimeStatus == OrchestrationRuntimeStatus.Running)
             {
-                resultStatus.Status = 0;
+                resultStatus = new { Status = 0 };
             }
             else
             {
-                resultStatus.Status = 2;
+                resultStatus = new { Status = 2 };
             }
-            return new OkObjectResult(resultStatus);
+            
+            var jsonResult = req.CreateResponse(HttpStatusCode.OK);
+            var json = JsonConvert.SerializeObject(resultStatus, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            await jsonResult.WriteStringAsync(json);
+            return jsonResult;
         }
     }
 
@@ -153,7 +159,7 @@ namespace WaDEImportFunctions
         public string Name { get; set; }
     }
 
-    internal class BatchData
+    public class BatchData
     {
         public string RunId { get; set; }
         public int StartIndex { get; set; }

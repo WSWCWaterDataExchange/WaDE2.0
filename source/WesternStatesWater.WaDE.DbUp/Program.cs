@@ -17,8 +17,9 @@ namespace WesternStatesWater.WaDE.DbUp
                 var builder = new ConfigurationBuilder()
                     .AddInMemoryCollection(new Dictionary<string, string>
                     {
-                        { "WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" }
+                        { "ConnectionStrings:WadeDatabase", "Server=.;Initial Catalog=WaDE2;Integrated Security=true;" }
                     })
+                    .AddUserSecrets("0233c5d4-6e7e-4ba4-997b-313518edcce4")
                     .AddEnvironmentVariables();
 
                 return builder.Build();
@@ -31,7 +32,7 @@ namespace WesternStatesWater.WaDE.DbUp
 
             //if no connection was provided, check the environment variable
             connectionString = string.IsNullOrEmpty(connectionString)
-                ? Configuration["WadeDatabase"]
+                ? Configuration["ConnectionStrings:WadeDatabase"]
                 : connectionString;
 
             if (string.IsNullOrEmpty(connectionString))

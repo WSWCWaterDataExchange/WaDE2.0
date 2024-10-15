@@ -1,10 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>0233c5d4-6e7e-4ba4-997b-313518edcce4</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
     <None Remove="Scripts\001 Schema and Tables.sql" />
     <None Remove="Scripts\001\013 Core.SetImportErrorsPrimaryKey.sql" />
@@ -144,7 +143,6 @@
     <None Remove="Scripts\011 Core.LoadWaterAllocation.sql" />
     <None Remove="Scripts\012 Core.LoadWaterSources.sql" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Include="Scripts\001\069 AggregatedAmountBeneficialUse View Drop.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -414,28 +412,26 @@
     <EmbeddedResource Include="Scripts\005\001 SitesAndWaterSourcesManyToMany.sql" />
     <EmbeddedResource Include="Scripts\005\003 AddConsumptiveNonconsumptiveFlagBeneficialUses.sql" />
     <EmbeddedResource Include="Scripts\005\004 AddAllocationUUIDChangePrimaryUseCategoryOnAllocationAmountsFact.sql" />
-	<EmbeddedResource Include="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
-	<EmbeddedResource Include="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
-	<EmbeddedResource Include="Scripts\005\007 PrimaryBeneficialUseIndexWithIncludes.sql" />
-	<EmbeddedResource Include="Scripts\005\009 Update LoadWaterAllocation .sql" />
-	<EmbeddedResource Include="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
-	<EmbeddedResource Include="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
-	<EmbeddedResource Include="Scripts\006\005 AddMissingIndexes.sql" />
-	<EmbeddedResource Include="Scripts\006\004 AddMissingWaterSourceIndexes.sql" />
-	<EmbeddedResource Include="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
-	<EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
+    <EmbeddedResource Include="Scripts\005\005 AllocationUUIDAndPrimaryUseCategoryStoredProcedure.sql" />
+    <EmbeddedResource Include="Scripts\005\006 RemovingUnusedValuesOwnerClassification.sql" />
+    <EmbeddedResource Include="Scripts\005\007 PrimaryBeneficialUseIndexWithIncludes.sql" />
+    <EmbeddedResource Include="Scripts\005\009 Update LoadWaterAllocation .sql" />
+    <EmbeddedResource Include="Scripts\005\008 GeometrySearchSpeedIndexes.sql" />
+    <EmbeddedResource Include="Scripts\006\001 SitesAndWaterSourcesManyToMany.sql" />
+    <EmbeddedResource Include="Scripts\006\005 AddMissingIndexes.sql" />
+    <EmbeddedResource Include="Scripts\006\004 AddMissingWaterSourceIndexes.sql" />
+    <EmbeddedResource Include="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
+    <EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="dbup" Version="4.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="Scripts\001\043 AggregatedAmountTableType Update .sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -456,5 +452,4 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
-
 </Project>
