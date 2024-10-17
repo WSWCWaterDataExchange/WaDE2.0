@@ -40,4 +40,4 @@ jobs:
     - name: run-tests
       run: dotnet test
       env:
-          ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
+          ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;TrustServerCertificate=true;"
