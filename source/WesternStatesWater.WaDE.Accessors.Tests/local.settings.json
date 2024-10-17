@@ -4,6 +4,6 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true"
   },
   "ConnectionStrings": {
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2Test;Integrated Security=true;"
+    "WadeDatabase": "Server=.;Initial Catalog=WaDE2Test;Integrated Security=true;TrustServerCertificate=true;"
   }
 }

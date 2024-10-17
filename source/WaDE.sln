@@ -1,4 +1,4 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31919.166
@@ -53,11 +53,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Common", "WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj", "{2B8D65FC-48C6-48BC-A431-4A2E28922846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Utilities", "WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj", "{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Utilities", "WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj", "{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Utilities.Tests", "WesternStatesWater.WaDE.Utilities.Tests\WesternStatesWater.WaDE.Utilities.Tests.csproj", "{AC51B20D-A08B-4977-9815-35B84ACBFA88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Clients.Tests", "WesternStatesWater.WaDE.Clients.Tests\WesternStatesWater.WaDE.Clients.Tests.csproj", "{D43EFBE0-CAF1-424B-B639-708F1C4884D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Clients.Tests", "WesternStatesWater.WaDE.Clients.Tests\WesternStatesWater.WaDE.Clients.Tests.csproj", "{D43EFBE0-CAF1-424B-B639-708F1C4884D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

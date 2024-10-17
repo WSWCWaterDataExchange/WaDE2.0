@@ -40,7 +40,7 @@ jobs:
       - name: setup-dotnet
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.0.x"
+          dotnet-version: "8.0.x"
       
       - name: build-import-function-app
         run: dotnet build --configuration Release --output ../build/import

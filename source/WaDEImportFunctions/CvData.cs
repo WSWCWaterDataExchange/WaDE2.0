@@ -1,4 +1,3 @@
-using Microsoft.Azure.WebJobs;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,26 +11,30 @@ using System.Threading.Tasks;
 using System.Transactions;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Common;
+using Microsoft.Azure.Functions.Worker;
 
 namespace WaDEImportFunctions
 {
     public class CvData
     {
-        public CvData(IConfiguration configuration)
+        private readonly IConfiguration _configuration;
+        
+        private readonly ILogger<CvData> _logger;
+        
+        public CvData(IConfiguration configuration, ILogger<CvData> logger)
         {
-            Configuration = configuration;
+            _configuration = configuration;
+            _logger = logger;
         }
 
         private const string Consumptive = "Consumptive";
         private const string NonConsumptive = "Non-consumptive";
 
-        private IConfiguration Configuration { get; set; }
-
-        [FunctionName("CvDataUpdate")]
-        public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")] string myQueueItem, ILogger log)
+        [Function("CvDataUpdate")]
+        public async Task Update([QueueTrigger("cv-data-update", Connection = "AzureWebJobsStorage")] string myQueueItem)
         {
             //This is a quick and dirty process.  It should be converted at some point to a proper call chain (or moved into a working azure data factory process)
-            log.LogInformation($"Updating All CV Data");
+            _logger.LogInformation($"Updating All CV Data");
 
             var cvData = new List<(string Name, string Table)>()
             {
@@ -65,21 +68,21 @@ namespace WaDEImportFunctions
                 ("regulatoryoverlaytype", "RegulatoryOverlayType"),
                 ("ownerclassification", "OwnerClassification")
             };
-            await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table, log)));
+            await Task.WhenAll(cvData.Select(a => ProcessCvTable(a.Name, a.Table)));
 
-            log.LogInformation("Completed Updating All CV Data");
+            _logger.LogInformation("Completed Updating All CV Data");
         }
 
-        private async Task ProcessCvTable(string name, string table, ILogger log)
+        private async Task ProcessCvTable(string name, string table)
         {
             var data = await FetchData(name);
             var records = ParseData(data);
-            await LoadData(table, records, log);
+            await LoadData(table, records);
         }
 
         private async Task<string> FetchData(string name)
         {
-            return await new HttpClient().GetStringAsync($"{Configuration.GetValue<string>("Endpoints:Vocabulary")}/{name}/?format=csv");
+            return await new HttpClient().GetStringAsync($"{_configuration.GetValue<string>("Endpoints:Vocabulary")}/{name}/?format=csv");
         }
 
         private List<dynamic> ParseData(string data)
@@ -90,11 +93,11 @@ namespace WaDEImportFunctions
             }
         }
 
-        private async Task LoadData(string table, List<dynamic> data, ILogger log)
+        private async Task LoadData(string table, List<dynamic> data)
         {
 
-            log.LogInformation($"Updating CV Table [{table}]");
-            using (var db = new WaDEContext(Configuration))
+            _logger.LogInformation($"Updating CV Table [{table}]");
+            using (var db = new WaDEContext(_configuration))
             using (var ts = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }, TransactionScopeAsyncFlowOption.Enabled))
             {
                 //This method is very slow doing this one record at a time.  It should be updated to be able to do multiple records in one command.
@@ -154,13 +157,13 @@ namespace WaDEImportFunctions
                     }
                     catch (Exception ex)
                     {
-                        log.LogError(ex, $"Failed to update {table} - {name}");
+                        _logger.LogError(ex, $"Failed to update {table} - {name}");
                         throw;
                     }
                 }
                 ts.Complete();
             }
-            log.LogInformation($"Completed Updating CV Table [{table}]");
+            _logger.LogInformation($"Completed Updating CV Table [{table}]");
 
         }
 

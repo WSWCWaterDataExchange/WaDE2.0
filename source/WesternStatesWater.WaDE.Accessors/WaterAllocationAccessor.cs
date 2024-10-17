@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -153,12 +152,11 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.AllocationBridgeSitesFact
-                               .Where(a => allocationIds.Contains(a.AllocationAmountId))
-                               .Select(a => new { a.AllocationAmountId, a.Site })
-                               .AsAsyncEnumerable()
-                               .Select(a => (a.AllocationAmountId, a.Site))
-                               .ToListAsync();
+                return (await db.AllocationBridgeSitesFact
+                        .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                        .Select(a => new { a.AllocationAmountId, a.Site })
+                        .ToListAsync())
+                    .Select(a => (a.AllocationAmountId, a.Site)).ToList();
             }
         }
 
@@ -166,12 +164,11 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.AllocationBridgeBeneficialUsesFact
-                               .Where(a => allocationIds.Contains(a.AllocationAmountId))
-                               .Select(a => new { a.AllocationAmountId, a.BeneficialUse })
-                               .AsAsyncEnumerable()
-                               .Select(a => (a.AllocationAmountId, a.BeneficialUse))
-                               .ToListAsync();
+                return (await db.AllocationBridgeBeneficialUsesFact
+                        .Where(a => allocationIds.Contains(a.AllocationAmountId))
+                        .Select(a => new { a.AllocationAmountId, a.BeneficialUse })
+                        .ToListAsync())
+                    .Select(a => (a.AllocationAmountId, a.BeneficialUse)).ToList();
             }
         }
 

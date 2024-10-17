@@ -1,33 +1,34 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
 using System.IO;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_SiteVariableAmounts
+    public class WaterAllocation_SiteVariableAmounts : FunctionBase
     {
-        public WaterAllocation_SiteVariableAmounts(ISiteVariableAmountsManager siteVariableAmountsManager)
+        private readonly ISiteVariableAmountsManager _siteVariableAmountsManager;
+        
+        private readonly ILogger<WaterAllocation_SiteVariableAmounts> _logger;
+
+        public WaterAllocation_SiteVariableAmounts(
+            ISiteVariableAmountsManager siteVariableAmountsManager,
+            ILogger<WaterAllocation_SiteVariableAmounts> logger
+        )
         {
-            SiteVariableAmountsManager = siteVariableAmountsManager;
+            _siteVariableAmountsManager = siteVariableAmountsManager;
+            _logger = logger;
         }
 
-        private ISiteVariableAmountsManager SiteVariableAmountsManager { get; set; }
-
-        [FunctionName("WaterAllocation_SiteVariableAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequest req, ILogger log)
+        [Function("WaterAllocation_SiteVariableAmounts_v1")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteVariableAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
+            var data = await Deserialize<AggregratedAmountsRequestBody>(req, _logger);
 
             var siteUUID = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
@@ -60,10 +61,17 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
+                return await CreateBadRequestResponse(
+                    req,
+                    new ValidationError(
+                        "Filters",
+                        [
+                            "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, siteUUID, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
+                        ]
+                    ));
             }
 
-            var siteAllocationAmounts = await SiteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
+            var siteAllocationAmounts = await _siteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
             {
                 SiteUuid = siteUUID,
                 SiteTypeCv = siteTypeCV,
@@ -81,7 +89,8 @@ namespace WaDEApiFunctions.v1
                 County = county,
                 State = state
             }, startIndex, recordCount, geoFormat);
-            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            
+            return await CreateOkResponse(req, siteAllocationAmounts);
         }
 
         private sealed class AggregratedAmountsRequestBody
