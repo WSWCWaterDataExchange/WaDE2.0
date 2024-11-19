@@ -27,7 +27,7 @@ FROM (
     MIN(sd.PODorPOUSite) as podPou,
     STRING_AGG(CAST(wstcv.WaDEName as nvarchar(max)), '||') as  wsType,
     STRING_AGG(CAST(od.[State] as nvarchar(max)), '||') as st,
-    CAST(MIN(aaf.ExemptOfVolumeFlowPriority+0) as bit) as xmpt,
+    CAST(MAX(aaf.ExemptOfVolumeFlowPriority+0) as bit) as xmpt,
     MIN(aaf.AllocationFlow_CFS) as minCfsFlow,
     MAX(aaf.AllocationFlow_CFS) as maxCfsFlow,
     MIN(aaf.AllocationVolume_AF) as minAfVolume,
