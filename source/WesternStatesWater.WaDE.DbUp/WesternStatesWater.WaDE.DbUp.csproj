@@ -422,6 +422,8 @@
     <EmbeddedResource Include="Scripts\006\004 AddMissingWaterSourceIndexes.sql" />
     <EmbeddedResource Include="Scripts\006\003 UpdateOrganizationStoredProcedureRemoveDataMappingUrl.sql" />
     <EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
+    <None Remove="Scripts\007\001 CreateAllocationAmountsView.sql" />
+    <EmbeddedResource Include="Scripts\007\001 CreateAllocationAmountsView.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="dbup" Version="4.2.0" />
