@@ -11,11 +11,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
         {
             return new ConfigurationBuilder()
                 .SetBasePath(Environment.CurrentDirectory)
-                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"settings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"settings.{Environment.UserName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .AddUserSecrets("0233c5d4-6e7e-4ba4-997b-313518edcce4")
+                .AddJsonFile($"settings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile($"settings.{Environment.UserName}.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile("personal.settings.json", optional: true, reloadOnChange: true)
                 .Build();
         }
     }

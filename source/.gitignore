@@ -265,4 +265,5 @@ __pycache__/
 
 
 # Custom Items
+personal.settings.json
 settings.*.json
