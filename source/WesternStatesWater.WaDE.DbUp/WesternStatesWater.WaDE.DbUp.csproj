@@ -401,6 +401,8 @@
     <EmbeddedResource Include="Scripts\004\011 Core.LoadWaterAllocation Null PrimaryUseCategory.sql" />
     <EmbeddedResource Include="Scripts\007\002 AlterAllocationAmountsViewAddAllocTypeSiteTypeLegalStatus.sql" />
     <EmbeddedResource Include="Scripts\007\003 CreateOverlaysView.sql" />
+    <EmbeddedResource Include="Scripts\007\004 AddSiteTimeseriesView.sql" />
+    <EmbeddedResource Include="Scripts\007\004 AlterAllocationAmountsViewAddTimeSeries.sql" />
     <None Remove="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
     <EmbeddedResource Include="Scripts\004\016 Core.RegulatoryOverlayBridge_Sites_fact.sql" />
     <None Remove="Scripts\004\017 Core.RegulatoryOverlayBridge_Sites_facts add fk.sql" />
