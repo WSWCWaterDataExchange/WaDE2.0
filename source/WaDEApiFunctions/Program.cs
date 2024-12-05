@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,7 +10,11 @@ using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
 var host = new HostBuilder()
-    .ConfigureFunctionsWebApplication(builder => { builder.UseMiddleware<HttpContextAccessorMiddleware>(); })
+    .ConfigureFunctionsWebApplication(builder =>
+    {
+        builder.UseNewtonsoftJson();
+        builder.UseMiddleware<HttpContextAccessorMiddleware>();
+    })
     .ConfigureAppConfiguration((_, configBuilder) =>
     {
         var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
