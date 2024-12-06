@@ -18,7 +18,7 @@ public class OgcApiFunctions : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Landing),
         Summary = "The response", Description = "The operation was executed successfully.")]
     public static async Task<HttpResponseData> LandingPage(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/LandingPage")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/landingPage")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
@@ -67,9 +67,10 @@ public class OgcApiFunctions : FunctionBase
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Conformance),
-        Summary = "The URIs of all conformance classes supported by the server.", Description = "The operation was executed successfully.")]
+        Summary = "The URIs of all conformance classes supported by the server.",
+        Description = "The operation was executed successfully.")]
     public static async Task<HttpResponseData> Conformance(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/Conformance")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/conformance")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
@@ -98,7 +99,7 @@ public class OgcApiFunctions : FunctionBase
     {
         return await CreateOkResponse(req, "Feature Collections!");
     }
-            
+
     [Function("Collection")]
     [OpenApiOperation(operationId: "Collection", tags: ["Discovery"], Summary = "Collection of sites",
         Description = "TODO: collection of sties.",
@@ -125,6 +126,9 @@ public class OgcApiFunctions : FunctionBase
     [OpenApiOperation(operationId: "Features", tags: ["Discovery"], Summary = "Features of sites",
         Description = "TODO: features of site.",
         Visibility = OpenApiVisibilityType.Important)]
+    [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "The maximum number of items to return.")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -156,7 +160,6 @@ public class OgcApiFunctions : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-
     public static async Task<HttpResponseData> Feature(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{collectionId}/items/{featureId}")]
         HttpRequestData req,
