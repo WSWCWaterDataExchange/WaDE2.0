@@ -4,19 +4,19 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using Microsoft.OpenApi.Models;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 
 namespace WaDEApiFunctions.v2;
 
 public class OgcApiFunctions : FunctionBase
 {
+    [Function("LandingPage")]
     [OpenApiOperation(operationId: "landingPage", tags: ["Capabilities"], Summary = "Landing Page",
         Description = "The landing page provides links to the API definition.",
         Visibility = OpenApiVisibilityType.Important)]
-    // [OpenApiSecurity("function_key", SecuritySchemeType.ApiKey, Name = "code", In = OpenApiSecurityLocationType.Query)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Landing),
-        Summary = "The response", Description = "This returns the response")]
-    [Function("LandingPage")]
+        Summary = "The response", Description = "The operation was executed successfully.")]
     public static async Task<HttpResponseData> LandingPage(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/LandingPage")]
         HttpRequestData req,
@@ -62,50 +62,107 @@ public class OgcApiFunctions : FunctionBase
     }
 
     [Function("Conformance")]
+    [OpenApiOperation(operationId: "Conformance", tags: ["Capabilities"], Summary = "Conformance",
+        Description = "Conformance declaration for the OGC API.",
+        Visibility = OpenApiVisibilityType.Important)]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(Conformance),
+        Summary = "The URIs of all conformance classes supported by the server.", Description = "The operation was executed successfully.")]
     public static async Task<HttpResponseData> Conformance(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/Conformance")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        return await CreateOkResponse(req, "Conformance!");
+        return await CreateOkResponse(req, new Conformance
+        {
+            ConformsTo =
+            [
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson"
+            ]
+        });
     }
 
-    [Function("FeatureCollections")]
-    public static async Task<HttpResponseData> FeatureCollections(
+    [Function("Collections")]
+    [OpenApiOperation(operationId: "Collections", tags: ["Discovery"], Summary = "Discovery",
+        Description = "TODO: enter description",
+        Visibility = OpenApiVisibilityType.Advanced)]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(Collections),
+        Summary = "TODO: summary of collections.", Description = "The operation was executed successfully.")]
+    public static async Task<HttpResponseData> Collections(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
         return await CreateOkResponse(req, "Feature Collections!");
     }
-
-    [Function("FeatureCollection")]
-    public static async Task<HttpResponseData> FeatureCollection(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{id}")]
+            
+    [Function("Collection")]
+    [OpenApiOperation(operationId: "Collection", tags: ["Discovery"], Summary = "Collection of sites",
+        Description = "TODO: collection of sties.",
+        Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(Collection),
+        Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Bad request", Description = "The request was invalid.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Not found", Description = "The request was invalid.")]
+    public static async Task<HttpResponseData> Collection(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{collectionId}")]
         HttpRequestData req,
         FunctionContext executionContext,
-        string id)
+        string collectionId)
     {
         return await CreateOkResponse(req, "Feature Collection!");
     }
 
     [Function("Features")]
+    [OpenApiOperation(operationId: "Features", tags: ["Discovery"], Summary = "Features of sites",
+        Description = "TODO: features of site.",
+        Visibility = OpenApiVisibilityType.Important)]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(Collection),
+        Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Bad request", Description = "The request was invalid.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Not found", Description = "The request was invalid.")]
     public static async Task<HttpResponseData> Features(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{id}/items")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{collectionId}/items")]
         HttpRequestData req,
         FunctionContext executionContext,
-        string id)
+        string collectionId)
     {
         return await CreateOkResponse(req, "Features!");
     }
 
     [Function("Feature")]
+    [OpenApiOperation(operationId: "Feature", tags: ["Discovery"], Summary = "Feature",
+        Description = "TODO: feature.",
+        Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(Collection),
+        Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Bad request", Description = "The request was invalid.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Not found", Description = "The request was invalid.")]
+
     public static async Task<HttpResponseData> Feature(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{id}/items/{fid}")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = "ogcapi/collections/{collectionId}/items/{featureId}")]
         HttpRequestData req,
         FunctionContext executionContext,
-        string id,
-        string fid)
+        string collectionId,
+        string featureId)
     {
         return await CreateOkResponse(req, "Features!");
     }

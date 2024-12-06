@@ -2,7 +2,11 @@
   "IsEncrypted": false,
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "OpenApi__Version": "v3",
+    "OpenApi__DocTitle": "WaDE API",
+    "OpenApi__ForceHttps": "false",
+    "OpenApi__ForceHttp": "true"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
