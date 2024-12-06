@@ -1,22 +1,18 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api;
 using WesternStatesWater.WaDE.Utilities;
 
-namespace WesternStatesWater.WaDE.Managers.Tests
+namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
 {
     [TestClass]
-    public class ApiWaterAllocationManagerTests
+    public class ApiWaterAllocationManagerTests : WaterResourceManagerTestsBase 
     {
-        private readonly IWaterAllocationAccessor WaterAllocationAccessorMock = Mock.Create<IWaterAllocationAccessor>(Behavior.Strict);
-
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt, null)]
         [DataRow(null, GeometryFormat.GeoJson, null)]
@@ -73,7 +69,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
 
         private IWaterAllocationManager CreateWaterAllocationManager()
         {
-            return new WaterAllocationManager(WaterAllocationAccessorMock);
+            return CreateWaterResourceManager();
         }
     }
 }
