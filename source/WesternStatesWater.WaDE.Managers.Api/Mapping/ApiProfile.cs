@@ -2,10 +2,8 @@
 using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Utilities;
-using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
-namespace WesternStatesWater.WaDE.Managers.Mapping
+namespace WesternStatesWater.WaDE.Managers.Api.Mapping
 {
     internal class ApiProfile : Profile
     {

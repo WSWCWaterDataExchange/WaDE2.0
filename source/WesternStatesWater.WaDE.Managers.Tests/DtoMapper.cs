@@ -6,6 +6,7 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
 using WesternStatesWater.WaDE.Contracts.Api;
+using WesternStatesWater.WaDE.Managers.Api.Mapping;
 using WesternStatesWater.WaDE.Managers.Mapping;
 using WesternStatesWater.WaDE.Utilities;
 

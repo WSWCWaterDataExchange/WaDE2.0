@@ -1,23 +1,18 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api;
 using WesternStatesWater.WaDE.Utilities;
-using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
-namespace WesternStatesWater.WaDE.Managers.Tests
+namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
 {
     [TestClass]
-    public class ApiAggregratedAmountsManagerTests
+    public class ApiAggregratedAmountsManagerTests : WaterResourceManagerTestsBase
     {
-        private readonly IAggregatedAmountsAccessor AggregatedAmountsAccessorMock = Mock.Create<IAggregatedAmountsAccessor>(Behavior.Strict);
-
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt, null)]
         [DataRow(null, GeometryFormat.GeoJson, null)]
@@ -72,9 +67,9 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             }
         }
 
-        private ManagerApi.IAggregatedAmountsManager CreateAggregratedAmountsManager()
+        private IAggregatedAmountsManager CreateAggregratedAmountsManager()
         {
-            return new AggregratedAmountsManager(AggregatedAmountsAccessorMock);
+            return CreateWaterResourceManager();
         }
     }
 }

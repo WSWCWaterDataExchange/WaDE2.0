@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using WesternStatesWater.WaDE.Managers.Api.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Mapping
 {
