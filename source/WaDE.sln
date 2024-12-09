@@ -59,6 +59,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Uti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WesternStatesWater.WaDE.Clients.Tests", "WesternStatesWater.WaDE.Clients.Tests\WesternStatesWater.WaDE.Clients.Tests.csproj", "{D43EFBE0-CAF1-424B-B639-708F1C4884D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Engines", "WesternStatesWater.WaDE.Engines\WesternStatesWater.WaDE.Engines.csproj", "{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Engines.Contracts", "WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj", "{0EE54A78-BCD4-4010-8438-9DBF27DE3089}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Engines.Tests", "WesternStatesWater.WaDE.Engines.Tests\WesternStatesWater.WaDE.Engines.Tests.csproj", "{6E289A20-EF7B-4896-A0F9-04DC691926B4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +147,18 @@ Global
 		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D43EFBE0-CAF1-424B-B639-708F1C4884D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EE54A78-BCD4-4010-8438-9DBF27DE3089}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EE54A78-BCD4-4010-8438-9DBF27DE3089}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EE54A78-BCD4-4010-8438-9DBF27DE3089}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EE54A78-BCD4-4010-8438-9DBF27DE3089}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -165,6 +183,9 @@ Global
 		{6D6E4F4A-B13B-4DA1-B4DD-B92E2DFEC2EA} = {AD01DBE8-CF05-43B6-8BEA-2F5D5507D804}
 		{AC51B20D-A08B-4977-9815-35B84ACBFA88} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
 		{D43EFBE0-CAF1-424B-B639-708F1C4884D4} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC} = {DFD8F2F9-71B9-47AF-8B71-439086DDD2E8}
+		{0EE54A78-BCD4-4010-8438-9DBF27DE3089} = {DFD8F2F9-71B9-47AF-8B71-439086DDD2E8}
+		{6E289A20-EF7B-4896-A0F9-04DC691926B4} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}
