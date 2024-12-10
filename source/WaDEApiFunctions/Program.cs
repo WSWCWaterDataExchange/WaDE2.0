@@ -11,6 +11,7 @@ using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Managers.Api;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
+using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -69,6 +70,8 @@ var host = new HostBuilder()
 
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<AccessorApi.IRegulatoryOverlayAccessor, RegulatoryOverlayAccessor>();
+
+        ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlerResolver(services);
     })
     .Build();
 

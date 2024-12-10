@@ -1,12 +1,7 @@
-using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common.Contracts;
-
 namespace WesternStatesWater.WaDE.Managers.Api;
 
-internal partial class WaterResourceManager
+internal partial class WaterResourceManager : ManagerBase
 {
-    private readonly IRequestHandlerResolver _requestHandlerResolver;
-
     private readonly AccessorApi.IAggregatedAmountsAccessor _aggregratedAmountsAccessor;
 
     private readonly AccessorApi.IRegulatoryOverlayAccessor _regulatoryOverlayAccessor;
@@ -21,21 +16,11 @@ internal partial class WaterResourceManager
         AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
         AccessorApi.ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
         AccessorApi.IWaterAllocationAccessor waterAllocationAccessor
-    )
+    ) : base(requestHandlerResolver)
     {
-        _requestHandlerResolver = requestHandlerResolver;
         _aggregratedAmountsAccessor = aggregratedAmountsAccessor;
         _regulatoryOverlayAccessor = regulatoryOverlayAccessor;
         _siteVariableAmountsAccessor = siteVariableAmountsAccessor;
         _waterAllocationAccessor = waterAllocationAccessor;
-    }
-
-    public async Task<ResponseBase> TestMe<TRequest>(TRequest request) where TRequest : RequestBase
-    {
-        var response = await _requestHandlerResolver
-            .Resolve<TRequest>()
-            .Handle(request);
-
-        return response;
     }
 }

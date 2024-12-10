@@ -40,12 +40,3 @@ internal class RequestHandlerResolver : IRequestHandlerResolver
         return handler;
     }
 }
-
-
-internal class SearchOverlayRequestHandler : IRequestHandler<SearchOverlayRequest>
-{
-    public Task<ResponseBase> Handle(SearchOverlayRequest request)
-    {
-        throw new NotImplementedException("what up doe");
-    }
-}
