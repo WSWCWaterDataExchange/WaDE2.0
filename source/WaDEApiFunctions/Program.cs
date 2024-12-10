@@ -8,8 +8,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WaDEApiFunctions;
 using WesternStatesWater.WaDE.Accessors;
+using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Managers.Api;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 
 var host = new HostBuilder()
@@ -58,17 +60,17 @@ var host = new HostBuilder()
 
         services.AddSingleton(configuration);
 
-        services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
-        services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
-
         services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
-        services.AddTransient<AccessorApi.IAggregatedAmountsAccessor, AggregratedAmountsAccessor>();
-
-        services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
-        services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
-
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
+
+        services.AddTransient<EngineApi.IValidationEngine, ValidationEngine>();
+
+        services.AddTransient<AccessorApi.IAggregatedAmountsAccessor, AggregratedAmountsAccessor>();
         services.AddTransient<AccessorApi.IRegulatoryOverlayAccessor, RegulatoryOverlayAccessor>();
+        services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
+        services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
     })
     .Build();
 
