@@ -1,6 +1,6 @@
 using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Managers.Api;
+using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager;
 

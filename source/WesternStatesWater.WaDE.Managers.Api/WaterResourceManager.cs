@@ -1,3 +1,5 @@
+using WesternStatesWater.WaDE.Common.Contracts;
+
 namespace WesternStatesWater.WaDE.Managers.Api;
 
 internal partial class WaterResourceManager : ManagerBase

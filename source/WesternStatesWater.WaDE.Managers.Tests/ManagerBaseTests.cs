@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Extensions;
@@ -13,7 +14,7 @@ public class ManagerBaseTests
     [TestMethod]
     public async Task SmokeTest()
     {
-        var services = new ServiceCollection().RegisterRequestHandlerResolver().BuildServiceProvider();
+        var services = new ServiceCollection().RegisterRequestHandlers().BuildServiceProvider();
 
         var resolver = services.GetRequiredService<IRequestHandlerResolver>();
 

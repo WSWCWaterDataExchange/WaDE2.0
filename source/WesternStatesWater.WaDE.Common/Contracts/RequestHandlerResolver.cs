@@ -1,16 +1,6 @@
-using System;
-using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common.Contracts;
-using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+namespace WesternStatesWater.WaDE.Common.Contracts;
 
-namespace WesternStatesWater.WaDE.Managers.Api;
-
-public interface IRequestHandlerResolver
-{
-    IRequestHandler<T> Resolve<T>() where T : RequestBase;
-}
-
-internal class RequestHandlerResolver : IRequestHandlerResolver
+public class RequestHandlerResolver : IRequestHandlerResolver
 {
     private readonly IServiceProvider _serviceProvider;
 
@@ -30,13 +20,13 @@ internal class RequestHandlerResolver : IRequestHandlerResolver
         }
 
         var handlerType = typeof(IRequestHandler<>).MakeGenericType(requestType);
-        var handler = (IRequestHandler<T>)_serviceProvider.GetService(handlerType);
+        var handler = _serviceProvider.GetService(handlerType);
 
         if (handler is null)
         {
             throw new InvalidOperationException($"No handler found for request type {requestType.FullName}.");
         }
 
-        return handler;
+        return (IRequestHandler<T>)handler;
     }
 }
