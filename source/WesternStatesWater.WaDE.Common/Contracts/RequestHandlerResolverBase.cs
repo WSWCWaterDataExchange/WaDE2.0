@@ -1,13 +1,15 @@
 namespace WesternStatesWater.WaDE.Common.Contracts;
 
-public class RequestHandlerResolver : IRequestHandlerResolver
+public abstract class RequestHandlerResolverBase : IRequestHandlerResolver
 {
-    private readonly IServiceProvider _serviceProvider;
+    protected IServiceProvider ServiceProvider { get; }
 
-    public RequestHandlerResolver(IServiceProvider serviceProvider)
+    public RequestHandlerResolverBase(IServiceProvider serviceProvider)
     {
-        _serviceProvider = serviceProvider;
+        ServiceProvider = serviceProvider;
     }
+
+    public abstract void ValidateTypeNamespace(Type requestType);
 
     public IRequestHandler<TRequest, TResponse> Resolve<TRequest, TResponse>()
         where TRequest : RequestBase
@@ -15,14 +17,16 @@ public class RequestHandlerResolver : IRequestHandlerResolver
     {
         var requestType = typeof(TRequest);
 
-        if (requestType.Namespace is null || !requestType.Namespace.Contains("Contracts.Api"))
+        if (requestType.Namespace is null)
         {
             throw new InvalidOperationException($"Type {requestType.FullName} is not a valid request type."
-                                                + " Request types must be in the WesternStatesWater.WaDE.Managers namespace.");
+                                                + " Request types must be in a namespace.");
         }
 
+        ValidateTypeNamespace(requestType);
+
         var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType);
-        var handler = _serviceProvider.GetService(handlerType);
+        var handler = ServiceProvider.GetService(handlerType);
 
         if (handler is null)
         {

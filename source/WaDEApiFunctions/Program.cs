@@ -62,7 +62,7 @@ var host = new HostBuilder()
 
         services.AddSingleton(configuration);
 
-        services.AddScoped<IRequestHandlerResolver, RequestHandlerResolver>();
+        services.AddScoped<IRequestHandlerResolver, RequestHandlerResolverBase>();
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         
         services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();

@@ -5,7 +5,7 @@ using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V1;
 
-internal class SearchOverlayRequestHandler : IRequestHandler<SearchOverlaysRequest>
+internal class SearchOverlayRequestHandler : IRequestHandler<SearchOverlaysRequest, ResponseBase>
 {
     public Task<ResponseBase> Handle(SearchOverlaysRequest request)
     {
