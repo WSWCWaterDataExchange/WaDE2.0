@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common;
+using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Managers.Api;
 

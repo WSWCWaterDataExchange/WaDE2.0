@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common;
+using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
 namespace WesternStatesWater.WaDE.Managers.Api;
@@ -41,10 +41,6 @@ internal class RequestHandlerResolver : IRequestHandlerResolver
     }
 }
 
-public interface IRequestHandler<in T> where T : RequestBase
-{
-    Task<ResponseBase> Handle(T request);
-}
 
 internal class SearchOverlayRequestHandler : IRequestHandler<SearchOverlayRequest>
 {
