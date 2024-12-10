@@ -8,11 +8,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WaDEApiFunctions;
 using WesternStatesWater.WaDE.Accessors;
+using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Managers.Api;
+using WesternStatesWater.WaDE.Managers.Api.Handlers;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
+using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -60,6 +63,9 @@ var host = new HostBuilder()
 
         services.AddSingleton(configuration);
 
+        services.AddScoped<IRequestHandlerResolver, RequestHandlerResolver>();
+        ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
+        
         services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();

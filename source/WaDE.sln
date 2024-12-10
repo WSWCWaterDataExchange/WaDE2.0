@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Eng
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Engines.Tests", "WesternStatesWater.WaDE.Engines.Tests\WesternStatesWater.WaDE.Engines.Tests.csproj", "{6E289A20-EF7B-4896-A0F9-04DC691926B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WesternStatesWater.WaDE.Common.Tests", "WesternStatesWater.WaDE.Common.Tests\WesternStatesWater.WaDE.Common.Tests.csproj", "{445C041A-5989-4361-BDFE-00B7B62DDBF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +161,10 @@ Global
 		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E289A20-EF7B-4896-A0F9-04DC691926B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{445C041A-5989-4361-BDFE-00B7B62DDBF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{445C041A-5989-4361-BDFE-00B7B62DDBF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{445C041A-5989-4361-BDFE-00B7B62DDBF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{445C041A-5989-4361-BDFE-00B7B62DDBF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -186,6 +192,7 @@ Global
 		{4F2BC0B1-9FDF-4A63-8A69-3391B9384DAC} = {DFD8F2F9-71B9-47AF-8B71-439086DDD2E8}
 		{0EE54A78-BCD4-4010-8438-9DBF27DE3089} = {DFD8F2F9-71B9-47AF-8B71-439086DDD2E8}
 		{6E289A20-EF7B-4896-A0F9-04DC691926B4} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
+		{445C041A-5989-4361-BDFE-00B7B62DDBF0} = {1FD93D0E-2296-451D-8256-D1064A2045AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C9613F98-49DE-4E55-9252-9CD7029D0DFD}
