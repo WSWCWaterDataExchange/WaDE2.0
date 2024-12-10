@@ -11,36 +11,56 @@ namespace WesternStatesWater.WaDE.Managers.Tests.Handlers
     [TestClass]
     public class RequestHandlerResolverTests
     {
-        private readonly RequestHandlerResolver _resolver = new RequestHandlerResolver(
-            new ServiceCollection().BuildServiceProvider()
-        );
+        private readonly RequestHandlerResolver _resolver = new(new ServiceCollection().BuildServiceProvider());
 
         [TestMethod]
-        public void ValidateTypeNamespace_TypeIsInManagerContractNamespace_ShouldNotThrow()
+        public void ValidateTypeNamespace_TypesAreInManagerContractNamespace_ShouldNotThrow()
         {
-            var action = () => _resolver.ValidateTypeNamespace(typeof(RightNamespaceTestType));
+            var action = () =>
+                _resolver.ValidateTypeNamespace(typeof(RightNamespaceTestRequestType),
+                    typeof(RightNamespaceTestResponseType));
 
             action.Should().NotThrow();
         }
 
-        [TestMethod]
-        public void ValidateTypeNamespace_TypeIsNotInManagerContractNamespace_ShouldThrow()
+        [DataTestMethod]
+        [DataRow(
+            typeof(WrongNamespaceTestRequestType),
+            typeof(RightNamespaceTestResponseType),
+            "Type WesternStatesWater.WaDE.Managers.Tests.Handlers.WrongNamespaceTestRequestType is not a valid request type. Request types must be in the WesternStatesWater.WaDE.Contracts.Api namespace."
+        )]
+        [DataRow(
+            typeof(RightNamespaceTestRequestType),
+            typeof(WrongNamespaceTestResponseType),
+            "Type WesternStatesWater.WaDE.Managers.Tests.Handlers.WrongNamespaceTestResponseType is not a valid response type. Response types must be in the WesternStatesWater.WaDE.Contracts.Api namespace."
+        )]
+        [DataRow(
+            typeof(WrongNamespaceTestRequestType),
+            typeof(WrongNamespaceTestResponseType),
+            "Type WesternStatesWater.WaDE.Managers.Tests.Handlers.WrongNamespaceTestRequestType is not a valid request type. Request types must be in the WesternStatesWater.WaDE.Contracts.Api namespace."
+        )]
+        public void ValidateTypeNamespace_TypeIsNotInManagerContractNamespace_ShouldThrow(
+            Type requestType,
+            Type responseType,
+            string expectedMessage
+        )
         {
-            var action = () => _resolver.ValidateTypeNamespace(typeof(WrongNamespaceTestType));
+            var action = () => _resolver.ValidateTypeNamespace(requestType, responseType);
 
             action.Should()
                 .Throw<InvalidOperationException>()
-                .WithMessage(
-                    "Type WesternStatesWater.WaDE.Managers.Tests.Handlers.WrongNamespaceTestType " +
-                    "is not a valid request type. Request types must be in the WesternStatesWater.WaDE.Contracts.Api namespace."
-                );
+                .WithMessage(expectedMessage);
         }
     }
 
-    public class WrongNamespaceTestType : RequestBase;
+    public class WrongNamespaceTestRequestType : RequestBase;
+
+    public class WrongNamespaceTestResponseType : ResponseBase;
 }
 
 namespace WesternStatesWater.WaDE.Contracts.Api
 {
-    public class RightNamespaceTestType : RequestBase;
+    public class RightNamespaceTestRequestType : RequestBase;
+
+    public class RightNamespaceTestResponseType : ResponseBase;
 }

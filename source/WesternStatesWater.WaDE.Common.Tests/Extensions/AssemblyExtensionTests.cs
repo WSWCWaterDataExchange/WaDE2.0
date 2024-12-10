@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Common.Extensions;
+using WesternStatesWater.WaDE.Common.Tests.Helpers;
 
 namespace WesternStatesWater.WaDE.Common.Tests.Extensions;
 
@@ -17,7 +18,8 @@ public class AssemblyExtensionTests
 
         Assembly.GetExecutingAssembly().RegisterRequestHandlers(serviceCollection);
 
-        serviceCollection.Count.Should().Be(1);
+        // TestRequestHandler and 
+        serviceCollection.Count.Should().Be(2);
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -27,14 +29,4 @@ public class AssemblyExtensionTests
 
         response.Should().BeOfType<TestResponse>();
     }
-}
-
-file class TestRequest : RequestBase;
-
-file class TestResponse : ResponseBase;
-
-// ReSharper disable once UnusedType.Local It's used in the test above, but ReSharper doesn't know.
-file class TestHandler : IRequestHandler<TestRequest, TestResponse>
-{
-    public Task<TestResponse> Handle(TestRequest request) => Task.FromResult(new TestResponse());
 }

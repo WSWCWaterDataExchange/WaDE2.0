@@ -9,13 +9,14 @@ public abstract class RequestHandlerResolverBase : IRequestHandlerResolver
         ServiceProvider = serviceProvider;
     }
 
-    public abstract void ValidateTypeNamespace(Type requestType);
+    public abstract void ValidateTypeNamespace(Type requestType, Type responseType);
 
     public IRequestHandler<TRequest, TResponse> Resolve<TRequest, TResponse>()
         where TRequest : RequestBase
         where TResponse : ResponseBase
     {
         var requestType = typeof(TRequest);
+        var responseType = typeof(TResponse);
 
         if (requestType.Namespace is null)
         {
@@ -23,9 +24,15 @@ public abstract class RequestHandlerResolverBase : IRequestHandlerResolver
                                                 + " Request types must be in a namespace.");
         }
 
-        ValidateTypeNamespace(requestType);
+        if (responseType.Namespace is null)
+        {
+            throw new InvalidOperationException($"Type {responseType.FullName} is not a valid response type."
+                                                + " Response types must be in a namespace.");
+        }
 
-        var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType);
+        ValidateTypeNamespace(requestType, responseType);
+
+        var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType, responseType);
         var handler = ServiceProvider.GetService(handlerType);
 
         if (handler is null)
