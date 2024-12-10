@@ -18,7 +18,7 @@ public class AssemblyExtensionTests
 
         Assembly.GetExecutingAssembly().RegisterRequestHandlers(serviceCollection);
 
-        // TestRequestHandler and 
+        // From TestRequestHandler.cs and RequestHandlerResolverBaseTests.cs
         serviceCollection.Count.Should().Be(2);
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
