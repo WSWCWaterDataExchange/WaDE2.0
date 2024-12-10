@@ -1,3 +1,3 @@
 namespace WesternStatesWater.WaDE.Common.Contracts;
 
-public class ResponseBase;
+public abstract class ResponseBase;

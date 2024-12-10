@@ -19,12 +19,12 @@ public static class AssemblyExtensions
         }
     }
 
-    private static List<TypeInfo> GetRequestHandlerTypeInfos(this Assembly assembly)
+    private static TypeInfo[] GetRequestHandlerTypeInfos(this Assembly assembly)
     {
         var typeInfos = assembly.DefinedTypes
             .Where(type => type.ImplementedInterfaces
                 .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IRequestHandler<,>)))
-            .ToList();
+            .ToArray();
 
         return typeInfos;
     }
