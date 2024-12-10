@@ -12,10 +12,12 @@ internal abstract class ManagerBase
         _requestHandlerResolver = requestHandlerResolver;
     }
 
-    public async Task<ResponseBase> ExecuteAsync<TRequest>(TRequest request) where TRequest : RequestBase
+    public async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request)
+        where TRequest : RequestBase
+        where TResponse : ResponseBase
     {
         var response = await _requestHandlerResolver
-            .Resolve<TRequest>()
+            .Resolve<TRequest, TResponse>()
             .Handle(request);
 
         return response;

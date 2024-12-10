@@ -1,6 +1,8 @@
 namespace WesternStatesWater.WaDE.Common.Contracts;
 
-public interface IRequestHandler<in T> where T : RequestBase
+public interface IRequestHandler<in TRequest, TResponse>
+    where TRequest : RequestBase
+    where TResponse : ResponseBase
 {
-    Task<ResponseBase> Handle(T request);
+    Task<TResponse> Handle(TRequest request);
 }

@@ -9,9 +9,11 @@ public class RequestHandlerResolver : IRequestHandlerResolver
         _serviceProvider = serviceProvider;
     }
 
-    public IRequestHandler<T> Resolve<T>() where T : RequestBase
+    public IRequestHandler<TRequest, TResponse> Resolve<TRequest, TResponse>()
+        where TRequest : RequestBase
+        where TResponse : ResponseBase
     {
-        var requestType = typeof(T);
+        var requestType = typeof(TRequest);
 
         if (requestType.Namespace is null || !requestType.Namespace.Contains("Contracts.Api"))
         {
@@ -19,7 +21,7 @@ public class RequestHandlerResolver : IRequestHandlerResolver
                                                 + " Request types must be in the WesternStatesWater.WaDE.Managers namespace.");
         }
 
-        var handlerType = typeof(IRequestHandler<>).MakeGenericType(requestType);
+        var handlerType = typeof(IRequestHandler<,>).MakeGenericType(requestType);
         var handler = _serviceProvider.GetService(handlerType);
 
         if (handler is null)
@@ -27,6 +29,6 @@ public class RequestHandlerResolver : IRequestHandlerResolver
             throw new InvalidOperationException($"No handler found for request type {requestType.FullName}.");
         }
 
-        return (IRequestHandler<T>)handler;
+        return (IRequestHandler<TRequest, TResponse>)handler;
     }
 }

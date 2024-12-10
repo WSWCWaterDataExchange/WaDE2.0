@@ -2,5 +2,7 @@ namespace WesternStatesWater.WaDE.Common.Contracts;
 
 public interface IRequestHandlerResolver
 {
-    IRequestHandler<T> Resolve<T>() where T : RequestBase;
+    IRequestHandler<TRequest, TResponse> Resolve<TRequest, TResponse>()
+        where TRequest : RequestBase
+        where TResponse : ResponseBase;
 }
