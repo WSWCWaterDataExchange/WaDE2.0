@@ -63,9 +63,11 @@ var host = new HostBuilder()
 
         services.AddSingleton(configuration);
 
-        services.AddScoped<IRequestHandlerResolver, RequestHandlerResolver>();
+        services
+            .AddScoped<IRequestHandlerResolver, WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
+        services.AddScoped<IRequestHandlerResolver, WesternStatesWater.WaDE.Accessors.RequestHandlerResolver>();
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
-        
+
         services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
