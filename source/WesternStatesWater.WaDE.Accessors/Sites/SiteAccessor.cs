@@ -11,8 +11,10 @@ public class SiteAccessor : AccessorBase, ISiteAccessor
     {
     }
 
-    public async Task<SiteSearchResponseBase> Search(SiteSearchRequestBase request)
+    public async Task<TResponse> Search<TRequest, TResponse>(TRequest request)
+        where TRequest : SiteSearchRequestBase
+        where TResponse : SiteSearchResponseBase
     {
-        return await ExecuteAsync<SiteSearchRequestBase, SiteSearchResponseBase>(request);
+        return await ExecuteAsync<TRequest, TResponse>(request);
     }
 }

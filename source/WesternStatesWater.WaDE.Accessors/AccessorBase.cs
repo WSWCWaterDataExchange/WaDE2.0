@@ -12,7 +12,7 @@ public class AccessorBase
         _requestHandlerResolver = requestHandlerResolver;
     }
     
-    public async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request)
+    protected async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request)
         where TRequest : RequestBase
         where TResponse : ResponseBase
     {

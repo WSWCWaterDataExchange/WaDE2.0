@@ -6,5 +6,7 @@ namespace WesternStatesWater.WaDE.Accessors.Sites;
 
 public interface ISiteAccessor
 {
-    Task<SiteSearchResponseBase> Search(SiteSearchRequestBase request);
+    Task<TResponse> Search<TRequest, TResponse>(TRequest request)
+        where TRequest : SiteSearchRequestBase
+        where TResponse : SiteSearchResponseBase;
 }
