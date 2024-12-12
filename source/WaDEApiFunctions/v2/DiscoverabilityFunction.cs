@@ -4,13 +4,22 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
 public class DiscoverabilityFunction : FunctionBase
 {
     private const string PathBase = "v2/";
+    private readonly IMetadataManager _metadataManager;
+
+    public DiscoverabilityFunction(IMetadataManager metadataManager)
+    {
+        _metadataManager = metadataManager;
+    }
 
     [Function("LandingPage")]
     [OpenApiOperation(operationId: "getLandingPage", tags: ["Capabilities"], Summary = "Landing Page",
@@ -18,7 +27,7 @@ public class DiscoverabilityFunction : FunctionBase
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Landing),
         Summary = "The response", Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> LandingPage(
+    public async Task<HttpResponseData> LandingPage(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "landingPage")]
         HttpRequestData req,
         FunctionContext executionContext)
@@ -70,7 +79,7 @@ public class DiscoverabilityFunction : FunctionBase
         bodyType: typeof(Conformance),
         Summary = "The URIs of all conformance classes supported by the server.",
         Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> Conformance(
+    public async Task<HttpResponseData> Conformance(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "conformance")]
         HttpRequestData req,
         FunctionContext executionContext)
@@ -91,13 +100,14 @@ public class DiscoverabilityFunction : FunctionBase
         Description = "TODO: enter description",
         Visibility = OpenApiVisibilityType.Advanced)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(Collections),
+        bodyType: typeof(SiteCollectionSearchResponse),
         Summary = "TODO: summary of collections.", Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> Collections(
+    public async Task<HttpResponseData> Collections(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "collections")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        return await CreateOkResponse(req, "Feature Collections!");
+        var response = await _metadataManager.Describe(new SiteCollectionSearchRequest());
+        return await CreateOkResponse(req, response);
     }
 }

@@ -16,10 +16,13 @@ internal abstract class ManagerBase
         where TRequest : RequestBase
         where TResponse : ResponseBase
     {
+        // TODO: Validate request DTO.
         var response = await _requestHandlerResolver
             .Resolve<TRequest, TResponse>()
+            
             .Handle(request);
 
+        
         return response;
     }
 }

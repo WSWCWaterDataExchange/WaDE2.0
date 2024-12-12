@@ -10,14 +10,14 @@ using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Accessors.Sites.Handlers;
 
-public class SiteExtentLookupHandler(IConfiguration configuration)
+public class SiteExtentSearchHandler(IConfiguration configuration)
     : IRequestHandler<SiteExtentSearchRequest, SiteExtentSearchResponse>
 {
     public async Task<SiteExtentSearchResponse> Handle(SiteExtentSearchRequest request)
     {
         await using var db = new WaDEContext(configuration);
-        var minStartDate = await db.SiteVariableAmountsFact.MinAsync(f => (DateTime?)f.TimeframeStartNavigation.Date);
-        var maxEndDate = await db.SiteVariableAmountsFact.MaxAsync(f => (DateTime?)f.TimeframeEndNavigation.Date);
+        var minStartDate = await db.SiteVariableAmountsFact.MinAsync(f => (DateTime?) f.TimeframeStartNavigation.Date);
+        var maxEndDate = await db.SiteVariableAmountsFact.MaxAsync(f => (DateTime?) f.TimeframeEndNavigation.Date);
 
         return await Task.FromResult(new SiteExtentSearchResponse
         {

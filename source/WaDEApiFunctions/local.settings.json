@@ -7,10 +7,11 @@
     "OpenApi__Version": "v3",
     "OpenApi__DocTitle": "WaDE API",
     "OpenApi__ForceHttps": "false",
-    "OpenApi__ForceHttp": "true"
+    "OpenApi__ForceHttp": "true",
+    "ServerUrl": "http://localhost:7071/api/v2"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
-    "WadeDatabase": "Server=.;Initial Catalog=WaDE2;Integrated Security=true;"
+    "WadeDatabase": "Server=localhost;User Id=sa;password=DevP@ssw0rd!;Initial Catalog=WaDE2UAT;TrustServerCertificate=True"
   }
 }

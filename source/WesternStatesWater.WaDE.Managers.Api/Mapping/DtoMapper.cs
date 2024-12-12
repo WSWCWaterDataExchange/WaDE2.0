@@ -20,6 +20,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.AddProfile<ApiProfile>();
+                        cfg.AddProfile<Api.Mapping.v2.ApiProfile>();
                     });
                     _config = config;
                 }

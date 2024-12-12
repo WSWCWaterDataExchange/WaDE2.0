@@ -55,8 +55,8 @@ public class SiteExtentLookupHandlerTests : DbTestBase
         response.TimeframeEnd.Should().BeSameDateAs(timeSeries.Select(x => x.TimeframeEndNavigation.Date).Max());
     }
 
-    private static SiteExtentLookupHandler CreateHandler()
+    private static SiteExtentSearchHandler CreateHandler()
     {
-        return new SiteExtentLookupHandler(_configuration);
+        return new SiteExtentSearchHandler(_configuration);
     }
 }

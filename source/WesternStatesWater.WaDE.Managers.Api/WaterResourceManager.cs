@@ -1,3 +1,4 @@
+using WesternStatesWater.WaDE.Accessors.Sites;
 using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Managers.Api;
@@ -12,17 +13,21 @@ internal partial class WaterResourceManager : ManagerBase
 
     private readonly AccessorApi.IWaterAllocationAccessor _waterAllocationAccessor;
 
+    private readonly ISiteAccessor _siteAccessor;
+
     public WaterResourceManager(
         IRequestHandlerResolver requestHandlerResolver,
         AccessorApi.IAggregatedAmountsAccessor aggregratedAmountsAccessor,
         AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
         AccessorApi.ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
-        AccessorApi.IWaterAllocationAccessor waterAllocationAccessor
+        AccessorApi.IWaterAllocationAccessor waterAllocationAccessor,
+        ISiteAccessor siteAccessor
     ) : base(requestHandlerResolver)
     {
         _aggregratedAmountsAccessor = aggregratedAmountsAccessor;
         _regulatoryOverlayAccessor = regulatoryOverlayAccessor;
         _siteVariableAmountsAccessor = siteVariableAmountsAccessor;
         _waterAllocationAccessor = waterAllocationAccessor;
+        _siteAccessor = siteAccessor;
     }
 }
