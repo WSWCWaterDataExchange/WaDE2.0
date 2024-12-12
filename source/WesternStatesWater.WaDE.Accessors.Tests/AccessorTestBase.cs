@@ -1,5 +1,4 @@
 using System;
-using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,18 +11,20 @@ namespace WesternStatesWater.WaDE.Accessors.Tests;
 
 public class AccessorTestBase : DbTestBase
 {
-    public IServiceProvider ServiceProvider;
+    protected IServiceProvider ServiceProvider { get; private set; }
 
     [TestInitialize]
     public void AccessorTestBaseInitialize()
     {
-        var config = (IConfiguration) Configuration.GetConfiguration();
+        IConfiguration config = Configuration.GetConfiguration();
+
         var services = new ServiceCollection()
             .AddScoped(_ => config)
             .AddScoped<IRequestHandlerResolver, RequestHandlerResolver>()
             .AddScoped<ISiteAccessor, SiteAccessor>();
 
-        Assembly.GetExecutingAssembly().RegisterRequestHandlers(services);
+        typeof(AccessorBase).Assembly.RegisterRequestHandlers(services);
+
         ServiceProvider = services.BuildServiceProvider();
     }
 }

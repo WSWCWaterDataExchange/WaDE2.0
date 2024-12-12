@@ -18,9 +18,10 @@ public class SiteAccessorTests : AccessorTestBase
         SiteExtentSearchRequest request = new();
 
         // Act
-        var response =
-            (SiteExtentSearchResponse) await ServiceProvider.GetRequiredService<ISiteAccessor>().Search(request);
-        
+        var response = await ServiceProvider
+            .GetRequiredService<ISiteAccessor>()
+            .Search<SiteExtentSearchRequest, SiteExtentSearchResponse>(request);
+
         // Assert
         response.Should().NotBeNull();
     }
