@@ -26,12 +26,9 @@ public class SiteExtentLookupHandlerTests : DbTestBase
 
         // Assert
         response.Should().NotBeNull();
-        response.BoundaryBox.MinX.Should().Be(-125);
-        response.BoundaryBox.MaxX.Should().Be(32);
-        response.BoundaryBox.MinY.Should().Be(-100);
-        response.BoundaryBox.MaxY.Should().Be(49);
-        response.TimeframeStart.Should().BeNull();
-        response.TimeframeEnd.Should().BeNull();
+        response.Extent.Spatial.Bbox.Should().NotBeNull();
+        response.Extent.Spatial.Bbox.Should().AllBeEquivalentTo(new[] { -125, -100, 32, 49 });
+        response.Extent.Temporal.Should().BeNull();
     }
 
     [TestMethod]
@@ -51,8 +48,8 @@ public class SiteExtentLookupHandlerTests : DbTestBase
 
         // Assert
         response.Should().NotBeNull();
-        response.TimeframeStart.Should().BeSameDateAs(timeSeries.Select(x => x.TimeframeStartNavigation.Date).Min());
-        response.TimeframeEnd.Should().BeSameDateAs(timeSeries.Select(x => x.TimeframeEndNavigation.Date).Max());
+        // response.TimeframeStart.Should().BeSameDateAs(timeSeries.Select(x => x.TimeframeStartNavigation.Date).Min());
+        // response.TimeframeEnd.Should().BeSameDateAs(timeSeries.Select(x => x.TimeframeEndNavigation.Date).Max());
     }
 
     private static SiteExtentSearchHandler CreateHandler()

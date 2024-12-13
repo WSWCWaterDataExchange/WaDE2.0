@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Bogus;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.Operation.Overlay;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
@@ -21,7 +23,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.ReportingUnitUpdateDate, f => f.Date.Past())
                 .RuleFor(a => a.ReportingUnitProductVersion, f => f.System.Version().ToString())
                 .RuleFor(a => a.StateCv, f => opts.State?.Name ?? f.Address.StateAbbr())
-                .RuleFor(a => a.EpsgcodeCv, f => opts.Epsgcode?.Name ?? f.Random.AlphaNumeric(10));
+                .RuleFor(a => a.EpsgcodeCv, f => opts.Epsgcode?.Name ?? f.Random.AlphaNumeric(10))
+                .RuleFor(a => a.Geometry, f => opts.Geometry);
         }
 
         public static async Task<ReportingUnitsDim> Load(WaDEContext db)
@@ -54,5 +57,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public ReportingUnitType ReportingUnitType { get; set; }
         public State State { get; set; }
         public Epsgcode Epsgcode { get; set; }
+        public Geometry Geometry { get; set; }
     }
 }

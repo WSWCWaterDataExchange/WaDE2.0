@@ -8,7 +8,9 @@
     "OpenApi__DocTitle": "WaDE API",
     "OpenApi__ForceHttps": "false",
     "OpenApi__ForceHttp": "true",
-    "ServerUrl": "http://localhost:7071/api/v2"
+    "OgcApi__LandingPage": "http://localhost:7071/api/v2/",
+    "OgcApi__Conformance": "http://localhost:7071/api/v2/conformance",
+    "OgcApi__Collections": "http://localhost:7071/api/v2/collections"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",

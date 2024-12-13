@@ -5,7 +5,7 @@ using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class RightsFeatureSearchHandler : IRequestHandler<RightsFeatureSearchRequest, RightsFeatureSearchResponse>
+internal class RightsFeatureSearchHandler : IRequestHandler<RightsFeatureSearchRequest, RightsFeatureSearchResponse>
 {
     public Task<RightsFeatureSearchResponse> Handle(RightsFeatureSearchRequest request)
     {

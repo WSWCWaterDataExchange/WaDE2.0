@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 using WesternStatesWater.WaDE.Utilities;
@@ -103,7 +105,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
 
-                waterSourceDims = Enumerable.Range(0, maxWaterSources).Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
+                waterSourceDims = Enumerable.Range(0, maxWaterSources)
+                    .Select(a => WaterSourcesDimBuilder.Load(db).Result).ToArray();
 
                 for (var i = 0; i < siteCount; i++)
                 {
@@ -162,14 +165,16 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 organization1 = await OrganizationsDimBuilder.Load(db);
                 organization2 = sameOrganization ? organization1 : await OrganizationsDimBuilder.Load(db);
 
-                allocationAmountsFact1 = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
-                {
-                    OrganizationsDim = organization1
-                });
-                allocationAmountsFact2 = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
-                {
-                    OrganizationsDim = organization2
-                });
+                allocationAmountsFact1 = await AllocationAmountsFactBuilder.Load(db,
+                    new AllocationAmountsFactBuilderOptions
+                    {
+                        OrganizationsDim = organization1
+                    });
+                allocationAmountsFact2 = await AllocationAmountsFactBuilder.Load(db,
+                    new AllocationAmountsFactBuilderOptions
+                    {
+                        OrganizationsDim = organization2
+                    });
 
                 allocationSite = await SitesDimBuilder.Load(db);
                 podSite = await SitesDimBuilder.Load(db);
@@ -205,7 +210,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             if (sameOrganization)
             {
                 result.Organizations.Should().HaveCount(1)
-                .And.Contain(a => a.OrganizationId == organization1.OrganizationId);
+                    .And.Contain(a => a.OrganizationId == organization1.OrganizationId);
 
                 var org = result.Organizations.Single();
                 org.OrganizationId.Should().Be(allocationAmountsFact1.OrganizationId);
@@ -214,9 +219,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     .And.Contain(a => a.AllocationAmountId == allocationAmountsFact2.AllocationAmountId);
 
                 org.Sites.Should().HaveCount(1)
-                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid)
-                .And.Contain(a => a.SiteName == allocationSite.SiteName)
-                .And.Contain(a => a.SiteTypeCV == allocationSite.SiteTypeCv);
+                    .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid)
+                    .And.Contain(a => a.SiteName == allocationSite.SiteName)
+                    .And.Contain(a => a.SiteTypeCV == allocationSite.SiteTypeCv);
 
                 org.Sites[0].RelatedPODSites.Should().HaveCount(1)
                     .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
@@ -229,13 +234,13 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     .And.Contain(a => a.OrganizationId == organization1.OrganizationId)
                     .And.Contain(a => a.OrganizationId == organization2.OrganizationId);
 
-                var org1 = result.Organizations.Single(a=> a.OrganizationId == organization1.OrganizationId);
+                var org1 = result.Organizations.Single(a => a.OrganizationId == organization1.OrganizationId);
                 org1.OrganizationId.Should().Be(allocationAmountsFact1.OrganizationId);
                 org1.WaterAllocations.Should().HaveCount(1)
                     .And.Contain(a => a.AllocationAmountId == allocationAmountsFact1.AllocationAmountId);
 
                 org1.Sites.Should().HaveCount(1)
-                .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
+                    .And.Contain(a => a.SiteUUID == allocationSite.SiteUuid);
 
                 org1.Sites[0].RelatedPODSites.Should().HaveCount(1)
                     .And.Contain(a => a.SiteUUID == podSite.SiteUuid);
@@ -265,27 +270,67 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [DataRow(null, "POINT(-96.7014 40.8146)", "POINT(-96.7008 40.8147)", false)] //different points
         [DataRow(null, "POINT(-96.7014 40.8146)", "POINT(-96.7014 40.8147)", false)] //different long
         [DataRow(null, "POINT(-96.7014 40.8146)", "POINT(-96.7008 40.8146)", false)] //different lat
-        [DataRow(null, "POINT(-96.7014 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //inside
-        [DataRow(null, "POINT(-96.7014 40.8146)", "POLYGON((-96.7013 40.8147,-96.7012 40.8147,-96.7012 40.8146,-96.7013 40.8146,-96.7013 40.8147))", false)] //outside
-        [DataRow(null, "POINT(-96.7014 40.8146)", "POLYGON((-96.7014 40.8146,-96.7012 40.8146,-96.7012 40.8145,-96.7014 40.8145,-96.7014 40.8146))", true)] //corner
-        [DataRow(null, "POINT(-96.7014 40.8146)", "POLYGON((-96.7014 40.8147,-96.7012 40.8147,-96.7012 40.8145,-96.7014 40.8145,-96.7014 40.8147))", true)] //side
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, null, true)]
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POINT(-96.7016 40.8147)", false)] //outside
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POINT(-96.7014 40.8147)", true)] //inside
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POINT(-96.7012 40.8146)", true)] //corner
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POINT(-96.7013 40.8149)", true)] //side
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //same
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))", false)] //no overlap
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7014 40.8148,-96.7013 40.8148,-96.7013 40.8147,-96.7014 40.8147,-96.7014 40.8148))", true)] //sub shape
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7016 40.8150,-96.7011 40.8150,-96.7011 40.8145,-96.7016 40.8145,-96.7016 40.8150))", true)] //bigger shape
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7016 40.8148,-96.7013 40.8148,-96.7013 40.8145,-96.7016 40.8145,-96.7016 40.8148))", true)] //partial overlap
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7018 40.8149,-96.7015 40.8149,-96.7015 40.8146,-96.7018 40.8146,-96.7018 40.8149))", true)] //share side
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", null, "POLYGON((-96.7018 40.8152,-96.7015 40.8152,-96.7015 40.8149,-96.7018 40.8149,-96.7018 40.8152))", true)] //share corner
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", "POINT(-96.7008 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //match geo not point
-        [DataRow("POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //match point not geo
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", true)] //match both
-        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))", "POINT(-96.7014 40.8146)", "POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))", false)] //match neither
-        public async Task GetSiteAllocationAmountsAsync_Filters_Geometry(string geometry, string sitePoint, string filterGeometry, bool shouldMatch)
+        [DataRow(null, "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            true)] //inside
+        [DataRow(null, "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7013 40.8147,-96.7012 40.8147,-96.7012 40.8146,-96.7013 40.8146,-96.7013 40.8147))",
+            false)] //outside
+        [DataRow(null, "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7014 40.8146,-96.7012 40.8146,-96.7012 40.8145,-96.7014 40.8145,-96.7014 40.8146))",
+            true)] //corner
+        [DataRow(null, "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7014 40.8147,-96.7012 40.8147,-96.7012 40.8145,-96.7014 40.8145,-96.7014 40.8147))",
+            true)] //side
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, null, true)]
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POINT(-96.7016 40.8147)", false)] //outside
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POINT(-96.7014 40.8147)", true)] //inside
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POINT(-96.7012 40.8146)", true)] //corner
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POINT(-96.7013 40.8149)", true)] //side
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            true)] //same
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))",
+            false)] //no overlap
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7014 40.8148,-96.7013 40.8148,-96.7013 40.8147,-96.7014 40.8147,-96.7014 40.8148))",
+            true)] //sub shape
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7016 40.8150,-96.7011 40.8150,-96.7011 40.8145,-96.7016 40.8145,-96.7016 40.8150))",
+            true)] //bigger shape
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7016 40.8148,-96.7013 40.8148,-96.7013 40.8145,-96.7016 40.8145,-96.7016 40.8148))",
+            true)] //partial overlap
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7018 40.8149,-96.7015 40.8149,-96.7015 40.8146,-96.7018 40.8146,-96.7018 40.8149))",
+            true)] //share side
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            null, "POLYGON((-96.7018 40.8152,-96.7015 40.8152,-96.7015 40.8149,-96.7018 40.8149,-96.7018 40.8152))",
+            true)] //share corner
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            "POINT(-96.7008 40.8146)",
+            "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            true)] //match geo not point
+        [DataRow("POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))",
+            "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            true)] //match point not geo
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            true)] //match both
+        [DataRow("POLYGON((-96.7015 40.8149,-96.7012 40.8149,-96.7012 40.8146,-96.7015 40.8146,-96.7015 40.8149))",
+            "POINT(-96.7014 40.8146)",
+            "POLYGON((-96.7113 40.8147,-96.7112 40.8147,-96.7112 40.8146,-96.7113 40.8146,-96.7113 40.8147))",
+            false)] //match neither
+        public async Task GetSiteAllocationAmountsAsync_Filters_Geometry(string geometry, string sitePoint,
+            string filterGeometry, bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
@@ -344,7 +389,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
-        public async Task GetSiteAllocationAmountsAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
+        public async Task GetSiteAllocationAmountsAsync_Filters_DataPublicationDate(string dataPublicationDate,
+            string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
@@ -354,16 +400,20 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 publicationDate = await DateDimBuilder.Load(db);
                 publicationDate.Date = DateTime.Parse(dataPublicationDate);
 
-                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
-                {
-                    DataPublicationDate = publicationDate
-                });
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db,
+                    new AllocationAmountsFactBuilderOptions
+                    {
+                        DataPublicationDate = publicationDate
+                    });
             }
 
             var filters = new SiteAllocationAmountsFilters
             {
-                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
-                EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
+                StartDataPublicationDate = startDataPublicationDate == null
+                    ? null
+                    : DateTime.Parse(startDataPublicationDate),
+                EndDataPublicationDate =
+                    endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
             };
 
             var sut = CreateWaterAllocationAccessor();
@@ -407,7 +457,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var sut = CreateWaterAllocationAccessor();
                 var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, Utility.NthTriangle(i - 1), i);
                 pagedResults.TotalWaterAllocationsCount.Should().Be(15);
-                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations)
+                    .Select(a => a.AllocationNativeID).ToList();
                 waterAllocations.Should().HaveCount(i);
                 foreach (var waterAllocation in waterAllocations)
                 {
@@ -434,12 +485,14 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsFilters();
 
             var sut = CreateWaterAllocationAccessor();
-            var baseResults = (await sut.GetSiteAllocationAmountsAsync(filters, 0, 15)).Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
+            var baseResults = (await sut.GetSiteAllocationAmountsAsync(filters, 0, 15)).Organizations
+                .SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
 
             for (var i = 0; i < 14; i++)
             {
                 var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, i, 2);
-                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
+                var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations)
+                    .Select(a => a.AllocationNativeID).ToList();
                 waterAllocations.Should().HaveCount(2);
                 waterAllocations.Should().BeEquivalentTo(baseResults.Skip(i).Take(2));
             }
@@ -462,7 +515,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, 1, 10);
             pagedResults.TotalWaterAllocationsCount.Should().Be(3);
-            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations)
+                .Select(a => a.AllocationNativeID).ToList();
             waterAllocations.Should().HaveCount(2);
         }
 
@@ -483,7 +537,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var sut = CreateWaterAllocationAccessor();
             var pagedResults = await sut.GetSiteAllocationAmountsAsync(filters, 4, 10);
             pagedResults.TotalWaterAllocationsCount.Should().Be(3);
-            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations).Select(a => a.AllocationNativeID).ToList();
+            var waterAllocations = pagedResults.Organizations.SelectMany(a => a.WaterAllocations)
+                .Select(a => a.AllocationNativeID).ToList();
             waterAllocations.Should().HaveCount(0);
         }
 
@@ -527,7 +582,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             for (var i = 1; i <= 5; i++)
             {
                 var sut = CreateWaterAllocationAccessor();
-                var waterAllocations = (await sut.GetSiteAllocationAmountsDigestAsync(filters, Utility.NthTriangle(i - 1), i)).Select(a => a.AllocationAmountId).ToList();
+                var waterAllocations =
+                    (await sut.GetSiteAllocationAmountsDigestAsync(filters, Utility.NthTriangle(i - 1), i))
+                    .Select(a => a.AllocationAmountId).ToList();
                 waterAllocations.Should().HaveCount(i);
                 foreach (var waterAllocation in waterAllocations)
                 {
@@ -554,7 +611,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsDigestFilters();
 
             var sut = CreateWaterAllocationAccessor();
-            var baseResults = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, 15)).Select(a => a.AllocationAmountId).ToList();
+            var baseResults = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 0, 15))
+                .Select(a => a.AllocationAmountId).ToList();
 
             for (var i = 0; i < 14; i++)
             {
@@ -580,9 +638,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsDigestFilters();
 
             var sut = CreateWaterAllocationAccessor();
-            var waterAllocations = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 1, 10)).Select(a => a.AllocationAmountId).ToList();
+            var waterAllocations = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 1, 10))
+                .Select(a => a.AllocationAmountId).ToList();
             waterAllocations.Should().HaveCount(2);
-
         }
 
         [TestMethod]
@@ -600,9 +658,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var filters = new SiteAllocationAmountsDigestFilters();
 
             var sut = CreateWaterAllocationAccessor();
-            var waterAllocations = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 4, 10)).Select(a => a.AllocationAmountId).ToList();
+            var waterAllocations = (await sut.GetSiteAllocationAmountsDigestAsync(filters, 4, 10))
+                .Select(a => a.AllocationAmountId).ToList();
             waterAllocations.Should().HaveCount(0);
-
         }
 
         [TestMethod]
@@ -776,7 +834,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
-        public async Task GetSiteAllocationAmountsDigestAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
+        public async Task GetSiteAllocationAmountsDigestAsync_Filters_DataPublicationDate(
+            string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate,
+            bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
             AllocationAmountsFact allocationAmountsFact;
@@ -786,16 +846,20 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 publicationDate = await DateDimBuilder.Load(db);
                 publicationDate.Date = DateTime.Parse(dataPublicationDate);
 
-                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
-                {
-                    DataPublicationDate = publicationDate
-                });
+                allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db,
+                    new AllocationAmountsFactBuilderOptions
+                    {
+                        DataPublicationDate = publicationDate
+                    });
             }
 
             var filters = new SiteAllocationAmountsDigestFilters
             {
-                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
-                EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
+                StartDataPublicationDate = startDataPublicationDate == null
+                    ? null
+                    : DateTime.Parse(startDataPublicationDate),
+                EndDataPublicationDate =
+                    endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
             };
 
             var sut = CreateWaterAllocationAccessor();
@@ -814,7 +878,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {
-            return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);
+            return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory,
+                Mock.Create<IRequestHandlerResolver>());
         }
     }
 }

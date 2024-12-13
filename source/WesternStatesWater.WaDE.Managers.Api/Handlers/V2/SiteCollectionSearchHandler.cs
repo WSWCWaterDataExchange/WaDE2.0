@@ -12,17 +12,22 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class SiteCollectionSearchHandler(IConfiguration configuration, ISiteAccessor siteAccessor)
+internal class SiteCollectionSearchHandler(IConfiguration configuration, ISiteAccessor siteAccessor)
     : IRequestHandler<SiteCollectionSearchRequest, SiteCollectionSearchResponse>
 {
     public readonly string ServerUrl = $"{configuration["ServerUrl"]}/api/v2";
 
+    // Drop "Site" from this request/response/handler.
     public async Task<SiteCollectionSearchResponse> Handle(SiteCollectionSearchRequest request)
     {
         var dtoRequest = DtoMapper.Map<SiteExtentSearchRequest>(request);
         var siteExtentResponse =
             await siteAccessor.Search<SiteExtentSearchRequest, SiteExtentSearchResponse>(dtoRequest);
 
+        // Fetch overlays, timeseries ect
+        
+        // run thru FormattingEngine.
+        
         var extent = DtoMapper.Map<Extent>(siteExtentResponse);
         var response = new SiteCollectionSearchResponse
         {
@@ -31,7 +36,7 @@ public class SiteCollectionSearchHandler(IConfiguration configuration, ISiteAcce
                 new Collection
                 {
                     Id = "sites",
-                    Extent = extent, // add CRS when spatial provided... http://www.opengis.net/def/crs/OGC/1.3/CRS84
+                    Extent = extent,
                     Links =
                     [
                         new Link
@@ -83,6 +88,12 @@ public class SiteCollectionSearchHandler(IConfiguration configuration, ISiteAcce
                 {
                     Id = "allocations",
                     Extent = extent, // interval could be DatePublicDate...
+                    Links = []
+                },
+                new Collection
+                {
+                    Id = "timeseries",
+                    Extent = extent,
                     Links = []
                 }
             },

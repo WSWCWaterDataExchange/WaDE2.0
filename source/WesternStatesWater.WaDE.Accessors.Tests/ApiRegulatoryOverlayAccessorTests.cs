@@ -4,8 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
@@ -116,7 +118,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
         private IRegulatoryOverlayAccessor CreateRegulatoryOverlayAccessor()
         {
-            return new RegulatoryOverlayAccessor(Configuration.GetConfiguration(), LoggerFactory);
+            return new RegulatoryOverlayAccessor(Configuration.GetConfiguration(), LoggerFactory,
+                Mock.Create<IRequestHandlerResolver>());
         }
     }
 }

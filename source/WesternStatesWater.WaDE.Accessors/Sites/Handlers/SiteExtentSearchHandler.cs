@@ -10,29 +10,24 @@ using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Accessors.Sites.Handlers;
 
-public class SiteExtentSearchHandler(IConfiguration configuration)
+internal class SiteExtentSearchHandler(IConfiguration configuration)
     : IRequestHandler<SiteExtentSearchRequest, SiteExtentSearchResponse>
 {
     public async Task<SiteExtentSearchResponse> Handle(SiteExtentSearchRequest request)
     {
-        await using var db = new WaDEContext(configuration);
-        var minStartDate = await db.SiteVariableAmountsFact.MinAsync(f => (DateTime?) f.TimeframeStartNavigation.Date);
-        var maxEndDate = await db.SiteVariableAmountsFact.MaxAsync(f => (DateTime?) f.TimeframeEndNavigation.Date);
-
         return await Task.FromResult(new SiteExtentSearchResponse
         {
             // Due to the calculating boundary box for all sites is an expensive db operation,
             // we are hardcoding an approximate United States boundary box
             // Note: If we do calculate bound box, be aware not all site geometries are valid.
-            BoundaryBox = new BoundaryBox
+            Extent = new Extent()
             {
-                MinX = -125,
-                MaxX = 32,
-                MinY = -100,
-                MaxY = 49
-            },
-            TimeframeStart = minStartDate,
-            TimeframeEnd = maxEndDate
+                Spatial = new Spatial()
+                {
+                    Bbox = [[-125, -100, 32, 49]],
+                    Crs = "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+                }
+            }
         });
     }
 }

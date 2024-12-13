@@ -5,7 +5,7 @@ using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class SiteFeatureLoadHandler : IRequestHandler<SiteFeatureLoadRequest, SiteFeatureLoadResponse>
+internal class SiteFeatureLoadHandler : IRequestHandler<SiteFeatureLoadRequest, SiteFeatureLoadResponse>
 {
     public Task<SiteFeatureLoadResponse> Handle(SiteFeatureLoadRequest request)
     {
