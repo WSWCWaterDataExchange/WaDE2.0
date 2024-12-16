@@ -73,7 +73,14 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
         {
             temporal = new Temporal
             {
-                Interval = [[metadata.IntervalStartDate?.ToString("o"), metadata.IntervalEndDate?.ToString("o")]]
+                Trs = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian",
+                Interval =
+                [
+                    [
+                        metadata.IntervalStartDate?.ToString("yyyy-MM-ddTHH:mm:ssZ"),
+                        metadata.IntervalEndDate?.ToString("yyyy-MM-ddTHH:mm:ssZ")
+                    ]
+                ]
             };
         }
 
