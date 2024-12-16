@@ -310,7 +310,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
 
             var response = await CreateSiteVariableAmountsAccessor().GetSiteVariableAmountsMetadata();
-            response.IntervalStartDate.Should().Be(timeSeries.MinBy(ts => ts.TimeframeStartNavigation.Date).TimeframeStartNavigation.Date);
+            response.IntervalStartDate.Should().BeSameDateAs(timeSeries.MinBy(ts => ts.TimeframeStartNavigation.Date).TimeframeStartNavigation.Date);
             response.IntervalEndDate.Should().BeNull();
         }
         

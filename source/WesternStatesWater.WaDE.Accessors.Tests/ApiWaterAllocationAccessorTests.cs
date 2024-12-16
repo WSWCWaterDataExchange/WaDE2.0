@@ -823,7 +823,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
 
             var response = await CreateWaterAllocationAccessor().GetAllocationMetadata();
-            response.IntervalStartDate.Should().Be(timeSeries.MinBy(ts => ts.AllocationPriorityDateNavigation.Date).AllocationPriorityDateNavigation.Date);
+            response.IntervalStartDate.Should().BeSameDateAs(timeSeries.MinBy(ts => ts.AllocationPriorityDateNavigation.Date).AllocationPriorityDateNavigation.Date);
             response.IntervalEndDate.Should().BeNull();
         }
 
