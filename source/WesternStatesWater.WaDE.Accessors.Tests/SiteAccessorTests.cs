@@ -1,21 +1,18 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests;
 
 [TestClass]
-public class SiteAccessorTests : AccessorTestBase
+public class SiteAccessorTests : DbTestBase
 {
     [TestMethod]
     public async Task SiteAccessor_SiteExtentSearch_ReturnsData()
     {
         // Act
-        var response = await ServiceProvider
-            .GetRequiredService<ISiteAccessor>()
-            .GetSiteMetadata();
+        var response = await CreateSiteAccessor().GetSiteMetadata();
 
         // Assert
         response.Should().NotBeNull();
@@ -25,5 +22,10 @@ public class SiteAccessorTests : AccessorTestBase
         response.BoundaryBox.MinY.Should().Be(18);
         response.BoundaryBox.MaxX.Should().Be(-93);
         response.BoundaryBox.MaxY.Should().Be(72);
+    }
+
+    private ISiteAccessor CreateSiteAccessor()
+    {
+        return new SiteAccessor();
     }
 }

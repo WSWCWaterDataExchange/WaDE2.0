@@ -1,6 +1,7 @@
 using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.WaDE.Engines.Contracts;
 
 namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager;
 
@@ -18,10 +19,14 @@ public abstract class WaterResourceManagerTestsBase
     protected IWaterAllocationAccessor WaterAllocationAccessorMock { get; } =
         Mock.Create<IWaterAllocationAccessor>(Behavior.Strict);
 
+    protected IFormattingEngine FormattingEngineMock { get; } =
+        Mock.Create<IFormattingEngine>(Behavior.Strict);
+
     internal Api.WaterResourceManager CreateWaterResourceManager()
     {
         return new Api.WaterResourceManager(
             Mock.Create<IRequestHandlerResolver>(Behavior.Strict),
+            FormattingEngineMock,
             AggregatedAmountsAccessorMock,
             RegulatoryOverlayAccessorMock,
             SiteVariableAmountsAccessorMock,
