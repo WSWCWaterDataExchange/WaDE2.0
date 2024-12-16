@@ -1,4 +1,4 @@
-namespace WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 
 public class Spatial
 {

@@ -66,6 +66,11 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        public Task<AccessorApi.SiteVariableAmountsMetadata> GetSiteVariableAmountsMetadata()
+        {
+            throw new NotImplementedException();
+        }
+
         private static IQueryable<SiteVariableAmountsFact> BuildQuery(AccessorApi.SiteVariableAmountsFilters filters, WaDEContext db)
         {
             var query = db.SiteVariableAmountsFact.AsNoTracking();

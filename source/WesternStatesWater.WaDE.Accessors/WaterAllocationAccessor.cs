@@ -282,6 +282,11 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        public Task<AccessorApi.AllocationMetadata> GetAllocationMetadata()
+        {
+            throw new NotImplementedException();
+        }
+
         private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsDigestQuery(AccessorApi.SiteAllocationAmountsDigestFilters filters, WaDEContext db)
         {
             var query = db.AllocationAmountsFact.AsNoTracking();

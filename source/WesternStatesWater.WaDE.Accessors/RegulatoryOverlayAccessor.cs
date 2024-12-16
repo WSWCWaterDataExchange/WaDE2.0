@@ -55,6 +55,11 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        public Task<AccessorApi.OverlayMetadata> GetOverlayMetadata()
+        {
+            throw new System.NotImplementedException();
+        }
+
         private static IQueryable<RegulatoryReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
         {
             var query = db.RegulatoryReportingUnitsFact.AsNoTracking();

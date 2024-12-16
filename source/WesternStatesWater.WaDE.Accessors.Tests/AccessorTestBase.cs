@@ -2,7 +2,7 @@ using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WesternStatesWater.WaDE.Accessors.Sites;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Common.Extensions;
 using WesternStatesWater.WaDE.Tests.Helpers;
