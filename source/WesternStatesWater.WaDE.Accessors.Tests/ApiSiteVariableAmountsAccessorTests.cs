@@ -299,6 +299,21 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             waterAllocations.Should().HaveCount(0);
         }
 
+        [TestMethod]
+        public async Task GetSiteVariableAmountsMetadata_ReturnsIntervalStartDate()
+        {
+            await using var db = new WaDEContext(Configuration.GetConfiguration());
+            List<SiteVariableAmountsFact> timeSeries = new();
+            for (var i = 0; i < 3; i++)
+            {
+                timeSeries.Add(await SiteVariableAmountsFactBuilder.Load(db));
+            }
+
+            var response = await CreateSiteVariableAmountsAccessor().GetSiteVariableAmountsMetadata();
+            response.IntervalStartDate.Should().Be(timeSeries.MinBy(ts => ts.TimeframeStartNavigation.Date).TimeframeStartNavigation.Date);
+            response.IntervalEndDate.Should().BeNull();
+        }
+        
         private ISiteVariableAmountsAccessor CreateSiteVariableAmountsAccessor()
         {
             return new SiteVariableAmountsAccessor(Configuration.GetConfiguration(), LoggerFactory);

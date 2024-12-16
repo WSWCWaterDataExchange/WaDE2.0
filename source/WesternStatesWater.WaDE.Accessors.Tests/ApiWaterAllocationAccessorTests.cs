@@ -811,6 +811,21 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 result.Should().BeEmpty();
             }
         }
+        
+        [TestMethod]
+        public async Task GetAllocationMetadata_ReturnsIntervalStartDate()
+        {
+            await using var db = new WaDEContext(Configuration.GetConfiguration());
+            List<AllocationAmountsFact> timeSeries = new();
+            for (var i = 0; i < 3; i++)
+            {
+                timeSeries.Add(await AllocationAmountsFactBuilder.Load(db));
+            }
+
+            var response = await CreateWaterAllocationAccessor().GetAllocationMetadata();
+            response.IntervalStartDate.Should().Be(timeSeries.MinBy(ts => ts.AllocationPriorityDateNavigation.Date).AllocationPriorityDateNavigation.Date);
+            response.IntervalEndDate.Should().BeNull();
+        }
 
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {

@@ -55,9 +55,19 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        public Task<AccessorApi.OverlayMetadata> GetOverlayMetadata()
+        public async Task<AccessorApi.OverlayMetadata> GetOverlayMetadata()
         {
-            throw new System.NotImplementedException();
+            return await Task.FromResult(new AccessorApi.OverlayMetadata
+            {
+                BoundaryBox = new AccessorApi.BoundaryBox
+                {
+                    Crs = "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+                    MinX = -180,
+                    MinY = 18,
+                    MaxX = -93,
+                    MaxY = 72
+                }
+            });
         }
 
         private static IQueryable<RegulatoryReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
