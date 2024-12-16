@@ -5,7 +5,7 @@ namespace WesternStatesWater.WaDE.Engines;
 
 public class FormattingEngine : EngineBase, IFormattingEngine
 {
-    protected FormattingEngine(IRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
+    public FormattingEngine(IRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
     {
     }
 
