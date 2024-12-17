@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
+using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
+using Constants = WesternStatesWater.WaDE.Contracts.Api.OgcApi.Constants;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
@@ -32,10 +34,10 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
     {
         return metadataBase switch
         {
-            SiteMetadata => "sites",
-            SiteVariableAmountsMetadata => "timeSeries",
-            AllocationMetadata => "rights",
-            OverlayMetadata => "overlays",
+            SiteMetadata => Constants.SitesCollectionId,
+            SiteVariableAmountsMetadata => Constants.TimeSeriesCollectionId,
+            AllocationMetadata => Constants.RightsCollectionId,
+            OverlayMetadata => Constants.OverlaysCollectionId,
             _ => throw new NotSupportedException($"Feature Collection {metadataBase.GetType().Name} is not supported")
         };
     }
