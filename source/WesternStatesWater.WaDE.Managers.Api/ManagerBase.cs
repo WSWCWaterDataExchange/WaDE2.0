@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Managers.Api.Extensions;
 
@@ -6,10 +8,13 @@ namespace WesternStatesWater.WaDE.Managers.Api;
 
 internal abstract class ManagerBase
 {
+    private readonly ILogger _logger;
+
     private readonly IRequestHandlerResolver _requestHandlerResolver;
 
-    protected ManagerBase(IRequestHandlerResolver requestHandlerResolver)
+    protected ManagerBase(ILogger logger, IRequestHandlerResolver requestHandlerResolver)
     {
+        _logger = logger;
         _requestHandlerResolver = requestHandlerResolver;
     }
 
@@ -17,17 +22,50 @@ internal abstract class ManagerBase
         where TRequest : RequestBase
         where TResponse : ResponseBase
     {
-        var validationResult = await request.ValidateAsync();
-        
-        if (!validationResult.IsValid)
+        try
         {
-            throw new ValidationException(validationResult);
+            var validationResult = await request.ValidateAsync();
+
+            if (!validationResult.IsValid)
+            {
+                return CreateErrorResponse<TResponse>(new ValidationError(validationResult.ToDictionary()));
+            }
+
+            var response = await _requestHandlerResolver
+                .Resolve<TRequest, TResponse>()
+                .Handle(request);
+
+            return response;
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while processing the request");
 
-        var response = await _requestHandlerResolver
-            .Resolve<TRequest, TResponse>()
-            .Handle(request);
+            return CreateErrorResponse<TResponse>(new InternalError());
+        }
+    }
 
-        return response;
+    private TResponse CreateErrorResponse<TResponse>(ErrorBase error) where TResponse : ResponseBase
+    {
+        try
+        {
+            var response = (TResponse)Activator.CreateInstance(typeof(TResponse))!;
+            response.Error = error;
+
+            return response;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(
+                ex,
+                "Failed to create error response for type {ResponseTypeName} with error type {ErrorTypeName}",
+                typeof(TResponse).FullName,
+                error.GetType().FullName
+            );
+
+            // does typeof(TRequest) give base or derived?
+            // todo will this fail at runtime?
+            return (TResponse)new ResponseBase { Error = new InternalError() };
+        }
     }
 }

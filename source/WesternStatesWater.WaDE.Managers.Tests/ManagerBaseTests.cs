@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
@@ -20,11 +21,15 @@ public class ManagerBaseTests
     public void TestInitialize()
     {
         var serviceProvider = new ServiceCollection()
+            .AddLogging(config => config.AddConsole())
             .AddScoped<IRequestHandlerResolver, RequestHandlerResolver>()
             .RegisterRequestHandlers()
             .BuildServiceProvider();
 
-        _manager = new TestManager(serviceProvider.GetRequiredService<IRequestHandlerResolver>());
+        var resolver = serviceProvider.GetRequiredService<IRequestHandlerResolver>();
+        var logger = serviceProvider.GetRequiredService<ILoggerFactory>().CreateLogger<TestManager>();
+
+        _manager = new TestManager(logger, resolver);
     }
 
     [TestMethod]
@@ -37,5 +42,6 @@ public class ManagerBaseTests
         response.Should().BeOfType<SearchOverlaysResponse>();
     }
 
-    private class TestManager(IRequestHandlerResolver resolver) : ManagerBase(resolver);
+    private class TestManager(ILogger<TestManager> logger, IRequestHandlerResolver resolver)
+        : ManagerBase(logger, resolver);
 }
