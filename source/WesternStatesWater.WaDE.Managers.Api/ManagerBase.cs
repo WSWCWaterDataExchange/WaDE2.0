@@ -63,8 +63,6 @@ internal abstract class ManagerBase
                 error.GetType().FullName
             );
 
-            // does typeof(TRequest) give base or derived?
-            // todo will this fail at runtime?
             return (TResponse)new ResponseBase { Error = new InternalError() };
         }
     }
