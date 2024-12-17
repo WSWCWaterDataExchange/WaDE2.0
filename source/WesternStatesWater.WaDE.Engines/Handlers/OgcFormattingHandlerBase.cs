@@ -34,7 +34,7 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
         {
             SiteMetadata => "sites",
             SiteVariableAmountsMetadata => "timeSeries",
-            AllocationMetadata => "waterRights",
+            AllocationMetadata => "rights",
             OverlayMetadata => "overlays",
             _ => throw new NotSupportedException($"Feature Collection {metadataBase.GetType().Name} is not supported")
         };
