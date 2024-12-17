@@ -11,12 +11,12 @@ namespace WaDEApiFunctions.v2;
 
 public class WaterSitesFunction : FunctionBase
 {
-    private const string PathBase = "v2/collections/water-sites/";
+    private const string PathBase = "v2/collections/sites/";
 
-    private const string Tag = "Water Sites";
+    private const string Tag = "Sites";
 
-    [Function(nameof(GetWaterSiteCollectionMetadata))]
-    [OpenApiOperation(operationId: "getWaterSiteCollection", tags: [Tag], Summary = "Water site collection metadata",
+    [Function(nameof(GetSiteCollectionMetadata))]
+    [OpenApiOperation(operationId: "getSiteCollection", tags: [Tag], Summary = "Site collection metadata",
         Description = "TODO: description of the sites collection.",
         Visibility = OpenApiVisibilityType.Internal)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
@@ -28,7 +28,7 @@ public class WaterSitesFunction : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-    public static async Task<HttpResponseData> GetWaterSiteCollectionMetadata(
+    public static async Task<HttpResponseData> GetSiteCollectionMetadata(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase)]
         HttpRequestData req,
         FunctionContext executionContext,
