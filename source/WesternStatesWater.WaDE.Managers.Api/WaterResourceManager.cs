@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
