@@ -66,6 +66,17 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
+        public async Task<AccessorApi.SiteVariableAmountsMetadata> GetSiteVariableAmountsMetadata()
+        {
+            await using var db = new WaDEContext(Configuration);
+            var startDate = await db.SiteVariableAmountsFact.MinAsync(fact => fact.TimeframeStartNavigation.Date);
+            return new AccessorApi.SiteVariableAmountsMetadata
+            {
+                IntervalStartDate = startDate,
+                IntervalEndDate = null
+            };
+        }
+
         private static IQueryable<SiteVariableAmountsFact> BuildQuery(AccessorApi.SiteVariableAmountsFilters filters, WaDEContext db)
         {
             var query = db.SiteVariableAmountsFact.AsNoTracking();

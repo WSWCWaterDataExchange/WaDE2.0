@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="FluentAssertions" Version="7.0.0" />
+        <PackageReference Include="JustMock" Version="2024.3.805.336" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.0"/>
         <PackageReference Include="MSTest.TestAdapter" Version="3.0.4"/>
         <PackageReference Include="MSTest.TestFramework" Version="3.0.4"/>
@@ -20,6 +21,7 @@
     <ItemGroup>
       <ProjectReference Include="..\WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj" />
       <ProjectReference Include="..\WesternStatesWater.WaDE.Engines\WesternStatesWater.WaDE.Engines.csproj" />
+      <ProjectReference Include="..\WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj" />
     </ItemGroup>
 
 </Project>

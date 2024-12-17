@@ -4,11 +4,12 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 
 namespace WaDEApiFunctions.v2;
 
-public class DiscoverabilityFunction : FunctionBase
+public class DiscoverabilityFunction(IWaterAllocationManager waterAllocationManager) : FunctionBase
 {
     private const string PathBase = "v2/";
 
@@ -18,7 +19,7 @@ public class DiscoverabilityFunction : FunctionBase
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Landing),
         Summary = "The response", Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> LandingPage(
+    public async Task<HttpResponseData> LandingPage(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "landingPage")]
         HttpRequestData req,
         FunctionContext executionContext)
@@ -53,6 +54,7 @@ public class DiscoverabilityFunction : FunctionBase
                 new Link()
                 {
                     Href = "https://wade-api.azurewebsites.net/ogcapi/collections",
+                    Rel = "data",
                     Type = "application/json",
                     Title = "Resource collections"
                 }
@@ -70,7 +72,7 @@ public class DiscoverabilityFunction : FunctionBase
         bodyType: typeof(Conformance),
         Summary = "The URIs of all conformance classes supported by the server.",
         Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> Conformance(
+    public async Task<HttpResponseData> Conformance(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "conformance")]
         HttpRequestData req,
         FunctionContext executionContext)
@@ -88,16 +90,17 @@ public class DiscoverabilityFunction : FunctionBase
 
     [Function("Collections")]
     [OpenApiOperation(operationId: "getCollections", tags: ["Discovery"], Summary = "Discovery",
-        Description = "TODO: enter description",
+        Description = "Collections",
         Visibility = OpenApiVisibilityType.Advanced)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(Collections),
-        Summary = "TODO: summary of collections.", Description = "The operation was executed successfully.")]
-    public static async Task<HttpResponseData> Collections(
+        bodyType: typeof(CollectionsResponse),
+        Summary = "WaDE Collections", Description = "The operation was executed successfully.")]
+    public async Task<HttpResponseData> Collections(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "collections")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        return await CreateOkResponse(req, "Feature Collections!");
+        var response = await waterAllocationManager.Collections();
+        return await CreateOkResponse(req, response);
     }
 }

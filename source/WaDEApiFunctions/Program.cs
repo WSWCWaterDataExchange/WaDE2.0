@@ -16,6 +16,7 @@ using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
+using EngineExt = WesternStatesWater.WaDE.Engines.Extensions;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -63,20 +64,27 @@ var host = new HostBuilder()
 
         services.AddSingleton(configuration);
 
-        services.AddScoped<IRequestHandlerResolver, RequestHandlerResolver>();
+        services
+            .AddScoped<IManagerRequestHandlerResolver,
+                WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
+        services.AddScoped<IEngineRequestHandlerResolver, WesternStatesWater.WaDE.Engines.RequestHandlerResolver>();
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
-        
+        EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
+
         services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
 
         services.AddTransient<EngineApi.IValidationEngine, ValidationEngine>();
+        services.AddTransient<EngineApi.IFormattingEngine, FormattingEngine>();
 
         services.AddTransient<AccessorApi.IAggregatedAmountsAccessor, AggregratedAmountsAccessor>();
         services.AddTransient<AccessorApi.IRegulatoryOverlayAccessor, RegulatoryOverlayAccessor>();
         services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
         services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
+        services.AddTransient<AccessorApi.ISiteAccessor, SiteAccessor>();
     })
     .Build();
 

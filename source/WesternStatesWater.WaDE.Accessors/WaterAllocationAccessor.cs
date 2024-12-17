@@ -24,7 +24,8 @@ namespace WesternStatesWater.WaDE.Accessors
         private ILogger Logger { get; }
         private IConfiguration Configuration { get; }
 
-        async Task<AccessorApi.WaterAllocations> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(AccessorApi.SiteAllocationAmountsFilters filters, int startIndex, int recordCount)
+        async Task<AccessorApi.WaterAllocations> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsAsync(
+            AccessorApi.SiteAllocationAmountsFilters filters, int startIndex, int recordCount)
         {
             var sw = Stopwatch.StartNew();
 
@@ -36,7 +37,8 @@ namespace WesternStatesWater.WaDE.Accessors
             var sitesTask = GetSites(allocationIds).BlockTaskInTransaction();
             var beneficialUseTask = GetBeneficialUses(allocationIds).BlockTaskInTransaction();
             var orgsTask = GetOrganizations(results.Select(a => a.OrganizationId).ToHashSet()).BlockTaskInTransaction();
-            var variableSpecificTask = GetVariables(results.Select(a => a.VariableSpecificId).ToHashSet()).BlockTaskInTransaction();
+            var variableSpecificTask = GetVariables(results.Select(a => a.VariableSpecificId).ToHashSet())
+                .BlockTaskInTransaction();
             var methodTask = GetMethods(results.Select(a => a.MethodId).ToHashSet()).BlockTaskInTransaction();
 
             var sites = await sitesTask;
@@ -56,12 +58,13 @@ namespace WesternStatesWater.WaDE.Accessors
             var waterAllocationOrganizations = new List<AccessorApi.WaterAllocationOrganization>();
             foreach (var org in await orgsTask)
             {
-                ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods, beneficialUses, sites, siteRelationships, regulatorOverlays);
+                ProcessWaterAllocationOrganization(org, results, waterSources, variableSpecifics, methods,
+                    beneficialUses, sites, siteRelationships, regulatorOverlays);
                 waterAllocationOrganizations.Add(org);
             }
 
             sw.Stop();
-            Logger.LogInformation($"Completed WaterAllocation [{sw.ElapsedMilliseconds } ms]");
+            Logger.LogInformation($"Completed WaterAllocation [{sw.ElapsedMilliseconds} ms]");
             return new AccessorApi.WaterAllocations
             {
                 TotalWaterAllocationsCount = await totalCountTask,
@@ -69,7 +72,8 @@ namespace WesternStatesWater.WaDE.Accessors
             };
         }
 
-        private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsQuery(AccessorApi.SiteAllocationAmountsFilters filters, WaDEContext db)
+        private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsQuery(
+            AccessorApi.SiteAllocationAmountsFilters filters, WaDEContext db)
         {
             var query = db.AllocationAmountsFact.AsNoTracking();
 
@@ -77,48 +81,64 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
             }
+
             if (filters.EndPriorityDate != null)
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
             }
+
             if (filters.StartDataPublicationDate != null)
             {
                 query = query.Where(a => a.DataPublicationDate.Date >= filters.StartDataPublicationDate);
             }
+
             if (filters.EndDataPublicationDate != null)
             {
                 query = query.Where(a => a.DataPublicationDate.Date <= filters.EndDataPublicationDate);
             }
+
             if (!string.IsNullOrWhiteSpace(filters.SiteUuid))
             {
                 query = query.Where(a => a.AllocationBridgeSitesFact.Any(s => s.Site.SiteUuid == filters.SiteUuid));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
             {
-                query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
+                query = query.Where(a =>
+                    a.PrimaryUseCategoryCV == filters.BeneficialUseCv ||
+                    a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
             {
-                query = query.Where(a => a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                query = query.Where(a =>
+                    a.AllocationBridgeBeneficialUsesFact.Any(b =>
+                        b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
+
             if (filters.Geometry != null)
             {
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
-                                                                 (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
+                    a => a.AllocationBridgeSitesFact.Any(site =>
+                        (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
+                        (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.HUC8))
             {
                 query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.HUC8 == filters.HUC8));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.HUC12))
             {
                 query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.HUC12 == filters.HUC12));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.County))
             {
                 query = query.Where(a => a.AllocationBridgeSitesFact.Any(b => b.Site.County == filters.County));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.State))
             {
                 query = query.Where(a => a.Organization.State == filters.State);
@@ -135,16 +155,17 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async Task<List<AllocationHelper>> GetAllocationAmounts(AccessorApi.SiteAllocationAmountsFilters filters, int startIndex, int recordCount)
+        private async Task<List<AllocationHelper>> GetAllocationAmounts(
+            AccessorApi.SiteAllocationAmountsFilters filters, int startIndex, int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await BuildAllocationAmountsQuery(filters, db)
-                                .OrderBy(a => a.AllocationAmountId)
-                                .Skip(startIndex)
-                                .Take(recordCount)
-                                .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
-                                .ToListAsync();
+                    .OrderBy(a => a.AllocationAmountId)
+                    .Skip(startIndex)
+                    .Take(recordCount)
+                    .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -160,7 +181,8 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async ValueTask<List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)>> GetBeneficialUses(HashSet<long> allocationIds)
+        private async ValueTask<List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)>> GetBeneficialUses(
+            HashSet<long> allocationIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -177,9 +199,9 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.OrganizationsDim
-                               .Where(a => orgIds.Contains(a.OrganizationId))
-                               .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
-                               .ToListAsync();
+                    .Where(a => orgIds.Contains(a.OrganizationId))
+                    .ProjectTo<AccessorApi.WaterAllocationOrganization>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -188,9 +210,9 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.VariablesDim
-                               .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
-                               .ProjectTo<AccessorApi.VariableSpecific>(Mapping.DtoMapper.Configuration)
-                               .ToListAsync();
+                    .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                    .ProjectTo<AccessorApi.VariableSpecific>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -199,9 +221,9 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.MethodsDim
-                               .Where(a => methodIds.Contains(a.MethodId))
-                               .ProjectTo<AccessorApi.Method>(Mapping.DtoMapper.Configuration)
-                               .ToListAsync();
+                    .Where(a => methodIds.Contains(a.MethodId))
+                    .ProjectTo<AccessorApi.Method>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -210,10 +232,10 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.RegulatoryOverlayBridgeSitesFact
-                               .Where(a => sitesIds.Contains(a.SiteId))
-                               .Select(a => a.RegulatoryOverlay)
-                               .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)
-                               .ToListAsync();
+                    .Where(a => sitesIds.Contains(a.SiteId))
+                    .Select(a => a.RegulatoryOverlay)
+                    .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -222,11 +244,11 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 var results = await db.WaterSourceBridgeSitesFact
-                                      .Where(a => sitesIds.Contains(a.SiteId))
-                                      .Select(a => new { a.SiteId, a.WaterSource })
-                                      .ToListAsync();
+                    .Where(a => sitesIds.Contains(a.SiteId))
+                    .Select(a => new { a.SiteId, a.WaterSource })
+                    .ToListAsync();
                 return results.GroupBy(a => a.SiteId)
-                              .ToDictionary(a => a.Key, b => b.Select(c => c.WaterSource).ToList());
+                    .ToDictionary(a => a.Key, b => b.Select(c => c.WaterSource).ToList());
             }
         }
 
@@ -235,21 +257,24 @@ namespace WesternStatesWater.WaDE.Accessors
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.PODSiteToPOUSiteFact
-                               .Where(a => sitesIds.Any(b => b == a.PODSiteId) || sitesIds.Any(b => b == a.POUSiteId))
-                               .Include(b => b.POUSite)
-                               .Include(b => b.PODSite)
-                               .ToListAsync();
+                    .Where(a => sitesIds.Any(b => b == a.PODSiteId) || sitesIds.Any(b => b == a.POUSiteId))
+                    .Include(b => b.POUSite)
+                    .Include(b => b.PODSite)
+                    .ToListAsync();
             }
         }
 
-        async Task<IEnumerable<AccessorApi.WaterAllocationsDigest>> AccessorApi.IWaterAllocationAccessor.GetSiteAllocationAmountsDigestAsync(AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
+        async Task<IEnumerable<AccessorApi.WaterAllocationsDigest>> AccessorApi.IWaterAllocationAccessor.
+            GetSiteAllocationAmountsDigestAsync(AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex,
+                int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 var sw = Stopwatch.StartNew();
                 var results = await GetAllocationAmounts(filters, startIndex, recordCount).BlockTaskInTransaction();
 
-                var sitesTask = GetSites(results.Select(a => a.AllocationAmountId).ToHashSet()).BlockTaskInTransaction();
+                var sitesTask = GetSites(results.Select(a => a.AllocationAmountId).ToHashSet())
+                    .BlockTaskInTransaction();
 
                 var sites = await sitesTask;
                 var waterAllocationsLight = new List<AccessorApi.WaterAllocationsDigest>();
@@ -277,12 +302,25 @@ namespace WesternStatesWater.WaDE.Accessors
                 }
 
                 sw.Stop();
-                Logger.LogInformation($"Completed WaterAllocationLight [{sw.ElapsedMilliseconds } ms]");
+                Logger.LogInformation($"Completed WaterAllocationLight [{sw.ElapsedMilliseconds} ms]");
                 return waterAllocationsLight;
             }
         }
 
-        private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsDigestQuery(AccessorApi.SiteAllocationAmountsDigestFilters filters, WaDEContext db)
+        public async Task<AccessorApi.AllocationMetadata> GetAllocationMetadata()
+        {
+            await using var db = new WaDEContext(Configuration);
+            var minStartDate = await db.AllocationAmountsFact
+                .MinAsync(fact => fact.AllocationPriorityDateNavigation.Date);
+            return new AccessorApi.AllocationMetadata
+            {
+                IntervalStartDate = minStartDate,
+                IntervalEndDate = null
+            };
+        }
+
+        private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsDigestQuery(
+            AccessorApi.SiteAllocationAmountsDigestFilters filters, WaDEContext db)
         {
             var query = db.AllocationAmountsFact.AsNoTracking();
 
@@ -290,32 +328,44 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date >= filters.StartPriorityDate);
             }
+
             if (filters.EndPriorityDate != null)
             {
                 query = query.Where(a => a.AllocationPriorityDateNavigation.Date <= filters.EndPriorityDate);
             }
+
             if (filters.StartDataPublicationDate != null)
             {
                 query = query.Where(a => a.DataPublicationDate.Date >= filters.StartDataPublicationDate);
             }
+
             if (filters.EndDataPublicationDate != null)
             {
                 query = query.Where(a => a.DataPublicationDate.Date <= filters.EndDataPublicationDate);
             }
+
             if (!string.IsNullOrWhiteSpace(filters.BeneficialUseCv))
             {
-                query = query.Where(a => a.PrimaryUseCategoryCV == filters.BeneficialUseCv || a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
+                query = query.Where(a =>
+                    a.PrimaryUseCategoryCV == filters.BeneficialUseCv ||
+                    a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUseCV == filters.BeneficialUseCv));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.UsgsCategoryNameCv))
             {
-                query = query.Where(a => a.AllocationBridgeBeneficialUsesFact.Any(b => b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
+                query = query.Where(a =>
+                    a.AllocationBridgeBeneficialUsesFact.Any(b =>
+                        b.BeneficialUse.UsgscategoryNameCv == filters.UsgsCategoryNameCv));
             }
+
             if (filters.Geometry != null)
             {
                 query = query.Where(
-                    a => a.AllocationBridgeSitesFact.Any(site => (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
-                                                                 (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
+                    a => a.AllocationBridgeSitesFact.Any(site =>
+                        (site.Site.Geometry != null && site.Site.Geometry.Intersects(filters.Geometry)) ||
+                        (site.Site.SitePoint != null && site.Site.SitePoint.Intersects(filters.Geometry))));
             }
+
             if (!string.IsNullOrWhiteSpace(filters.OrganizationUUID))
             {
                 query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
@@ -324,16 +374,17 @@ namespace WesternStatesWater.WaDE.Accessors
             return query;
         }
 
-        private async Task<List<AllocationHelper>> GetAllocationAmounts(AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
+        private async Task<List<AllocationHelper>> GetAllocationAmounts(
+            AccessorApi.SiteAllocationAmountsDigestFilters filters, int startIndex, int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await BuildAllocationAmountsDigestQuery(filters, db)
-                                .OrderBy(a => a.AllocationAmountId)
-                                .Skip(startIndex)
-                                .Take(recordCount)
-                                .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
-                                .ToListAsync();
+                    .OrderBy(a => a.AllocationAmountId)
+                    .Skip(startIndex)
+                    .Take(recordCount)
+                    .ProjectTo<AllocationHelper>(Mapping.DtoMapper.Configuration)
+                    .ToListAsync();
             }
         }
 
@@ -346,7 +397,7 @@ namespace WesternStatesWater.WaDE.Accessors
             List<(long AllocationAmountId, SitesDim Site)> sites,
             List<PODSiteToPOUSiteFact> siteRelationships,
             List<AccessorApi.RegulatoryOverlay> regulatoryOverlays
-            )
+        )
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
@@ -355,8 +406,8 @@ namespace WesternStatesWater.WaDE.Accessors
             var methodIds = allocations.Select(a => a.MethodId).ToHashSet();
 
             org.VariableSpecifics = variableSpecifics
-            .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
-            .Map<List<AccessorApi.VariableSpecific>>();
+                .Where(a => variableSpecificIds.Contains(a.VariableSpecificId))
+                .Map<List<AccessorApi.VariableSpecific>>();
 
             org.Methods = methods
                 .Where(a => methodIds.Contains(a.MethodId))
@@ -380,8 +431,12 @@ namespace WesternStatesWater.WaDE.Accessors
 
             foreach (var site in org.Sites)
             {
-                site.RelatedPODSites = siteRelationships.Where(a => a.POUSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PodValue));
-                site.RelatedPOUSites = siteRelationships.Where(a => a.PODSiteId == site.SiteID).Map<List<AccessorApi.PodToPouSiteRelationship>>(a => a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PouValue));
+                site.RelatedPODSites = siteRelationships.Where(a => a.POUSiteId == site.SiteID)
+                    .Map<List<AccessorApi.PodToPouSiteRelationship>>(a =>
+                        a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PodValue));
+                site.RelatedPOUSites = siteRelationships.Where(a => a.PODSiteId == site.SiteID)
+                    .Map<List<AccessorApi.PodToPouSiteRelationship>>(a =>
+                        a.Items.Add(ApiProfile.PodPouKey, ApiProfile.PouValue));
             }
 
             var waterSourceUuids = new HashSet<string>();
@@ -401,7 +456,10 @@ namespace WesternStatesWater.WaDE.Accessors
                     site.WaterSourceUUIDs = new List<string>();
                 }
             }
-            org.WaterSources = waterSources.SelectMany(a => a.Value).Where(a => waterSourceUuids.Contains(a.WaterSourceUuid)).DistinctBy(a => a.WaterSourceUuid).Map<List<AccessorApi.WaterSource>>();
+
+            org.WaterSources = waterSources.SelectMany(a => a.Value)
+                .Where(a => waterSourceUuids.Contains(a.WaterSourceUuid)).DistinctBy(a => a.WaterSourceUuid)
+                .Map<List<AccessorApi.WaterSource>>();
 
             foreach (var waterAllocation in org.WaterAllocations)
             {
