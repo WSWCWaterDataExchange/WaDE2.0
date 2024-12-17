@@ -4,6 +4,5 @@ namespace WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 public class CollectionMetadataResponse : MetadataLoadResponseBase
 {
-    public required Link[] Links { get; set; }
-    public required Collection[] Collections { get; set; }
+    public Collection Collection { get; set; }
 }
