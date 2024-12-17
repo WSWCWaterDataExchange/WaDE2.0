@@ -53,7 +53,7 @@ public class OgcCollectionsFormattingTests
         // Assert
         response.Should().NotBeNull();
         response.Collections.Select(c => c.Id).Should()
-            .BeEquivalentTo("sites", "waterRights", "overlays", "timeSeries");
+            .BeEquivalentTo("sites", "rights", "overlays", "timeSeries");
         response.Links.Should().NotBeNullOrEmpty();
         response.Links.Select(l => l.Href).Should().BeEquivalentTo("http://localhost/api/collections");
     }

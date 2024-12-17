@@ -2,7 +2,7 @@ using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WesternStatesWater.WaDE.Engines;
 
-public class RequestHandlerResolver(IServiceProvider serviceProvider) : RequestHandlerResolverBase(serviceProvider)
+public class RequestHandlerResolver(IServiceProvider serviceProvider) : RequestHandlerResolverBase(serviceProvider), IEngineRequestHandlerResolver
 {
     public override void ValidateTypeNamespace(Type requestType, Type responseType)
     {

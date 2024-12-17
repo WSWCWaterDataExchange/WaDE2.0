@@ -1,11 +1,10 @@
-using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts;
 
 namespace WesternStatesWater.WaDE.Engines;
 
 public class FormattingEngine : EngineBase, IFormattingEngine
 {
-    public FormattingEngine(IRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
+    public FormattingEngine(IEngineRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
     {
     }
 

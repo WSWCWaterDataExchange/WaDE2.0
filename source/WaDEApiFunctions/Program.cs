@@ -11,6 +11,7 @@ using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Managers.Api;
+using WesternStatesWater.WaDE.Managers.Api.Handlers;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
@@ -64,8 +65,9 @@ var host = new HostBuilder()
         services.AddSingleton(configuration);
 
         services
-            .AddScoped<IRequestHandlerResolver, WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
-        services.AddScoped<IRequestHandlerResolver, WesternStatesWater.WaDE.Accessors.RequestHandlerResolver>();
+            .AddScoped<IManagerRequestHandlerResolver,
+                WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
+        services.AddScoped<IEngineRequestHandlerResolver, WesternStatesWater.WaDE.Engines.RequestHandlerResolver>();
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
 
@@ -73,6 +75,7 @@ var host = new HostBuilder()
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
 
         services.AddTransient<EngineApi.IValidationEngine, ValidationEngine>();
         services.AddTransient<EngineApi.IFormattingEngine, FormattingEngine>();
