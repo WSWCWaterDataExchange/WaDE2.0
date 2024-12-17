@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
-using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
@@ -14,7 +13,7 @@ using WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 namespace WesternStatesWater.WaDE.Managers.Tests.Handlers;
 
 [TestClass]
-public class CollectionMetadataHandlerTests
+public class CollectionMetadataLoadHandlerTests
 {
     private readonly IFormattingEngine _formattingEngineMock = Mock.Create<IFormattingEngine>(Behavior.Strict);
 
