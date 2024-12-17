@@ -4,20 +4,24 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using WesternStatesWater.WaDE.Contracts.Api;
+using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
-public class RightsFunction : FunctionBase
+public class RightsFunction(IMetadataManager metadataManager) : FunctionBase
 {
     private const string PathBase = "v2/collections/rights";
     private const string Tag = "Rights";
-    
+
     [Function(nameof(GetRightsCollectionMetadata))]
     [OpenApiOperation(operationId: "getRightsCollection", tags: [Tag], Summary = "Rights collection metadata",
-        Description = "TODO: description of the rights collection.",
+        Description = "WaDE water rights collection",
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(object),
+        bodyType: typeof(Collection),
         Summary = "Successful request", Description = "The operation was executed successfully.")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
         bodyType: typeof(object),
@@ -31,6 +35,11 @@ public class RightsFunction : FunctionBase
         FunctionContext executionContext,
         string collectionId)
     {
-        return await CreateOkResponse(req, "Rights collection description!");
+        var request = new CollectionMetadataRequest
+        {
+            CollectionId = Constants.RightsCollectionId
+        };
+        var response = await metadataManager.Load<CollectionMetadataRequest, CollectionMetadataResponse>(request);
+        return await CreateOkResponse(req, response.Collection);
     }
 }
