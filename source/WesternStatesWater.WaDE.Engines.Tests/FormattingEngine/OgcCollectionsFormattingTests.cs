@@ -9,6 +9,7 @@ using WesternStatesWater.WaDE.Tests.Helpers;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
+// OGC API Spec for Feature Collections `/collections` endpoint.
 // https://docs.ogc.org/is/17-069r4/17-069r4.html#_collections_
 
 [TestClass]
