@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
+using WesternStatesWater.WaDE.Common.Contracts;
 
 namespace WaDEApiFunctions.v1
 {

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common.Contracts;
+using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
@@ -25,8 +25,9 @@ internal partial class WaterResourceManager : ManagerBase, ManagerApi.IMetadataM
         AccessorApi.IAggregatedAmountsAccessor aggregratedAmountsAccessor,
         AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
         AccessorApi.ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
-        AccessorApi.IWaterAllocationAccessor waterAllocationAccessor
-    ) : base(requestHandlerResolver)
+        AccessorApi.IWaterAllocationAccessor waterAllocationAccessor,
+        ILogger<WaterResourceManager> logger) 
+        : base(logger, requestHandlerResolver)
     {
         _formattingEngine = formattingEngine;
         _aggregratedAmountsAccessor = aggregratedAmountsAccessor;

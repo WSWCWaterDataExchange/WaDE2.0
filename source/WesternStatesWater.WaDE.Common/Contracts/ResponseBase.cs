@@ -1,3 +1,6 @@
 namespace WesternStatesWater.WaDE.Common.Contracts;
 
-public abstract class ResponseBase;
+public class ResponseBase
+{
+    public ErrorBase? Error { get; set; }
+}

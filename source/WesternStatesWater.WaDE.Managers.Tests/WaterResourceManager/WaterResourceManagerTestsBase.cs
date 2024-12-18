@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Engines.Contracts;
@@ -24,13 +26,20 @@ public abstract class WaterResourceManagerTestsBase
 
     internal Api.WaterResourceManager CreateWaterResourceManager()
     {
+        var logger = new ServiceCollection()
+            .AddLogging(config => config.AddConsole())
+            .BuildServiceProvider()
+            .GetRequiredService<ILoggerFactory>()
+            .CreateLogger<Api.WaterResourceManager>();
+
         return new Api.WaterResourceManager(
             Mock.Create<IManagerRequestHandlerResolver>(Behavior.Strict),
             FormattingEngineMock,
             AggregatedAmountsAccessorMock,
             RegulatoryOverlayAccessorMock,
             SiteVariableAmountsAccessorMock,
-            WaterAllocationAccessorMock
+            WaterAllocationAccessorMock,
+            logger
         );
     }
 }
