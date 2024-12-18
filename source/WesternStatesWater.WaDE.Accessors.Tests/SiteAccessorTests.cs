@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Tests.Helpers;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests;
 
@@ -26,6 +28,6 @@ public class SiteAccessorTests : DbTestBase
 
     private ISiteAccessor CreateSiteAccessor()
     {
-        return new SiteAccessor();
+        return new SiteAccessor(Mock.Create<IAccessorRequestHandlerResolver>(), Configuration.GetConfiguration());
     }
 }
