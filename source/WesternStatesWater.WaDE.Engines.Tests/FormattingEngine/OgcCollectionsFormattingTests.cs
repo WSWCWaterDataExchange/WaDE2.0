@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
@@ -53,7 +54,7 @@ public class OgcCollectionsFormattingTests
         // Assert
         response.Should().NotBeNull();
         response.Collections.Select(c => c.Id).Should()
-            .BeEquivalentTo("sites", "rights", "overlays", "timeSeries");
+            .BeEquivalentTo(Constants.SitesCollectionId, Constants.RightsCollectionId, Constants.OverlaysCollectionId, Constants.TimeSeriesCollectionId);
         response.Links.Should().NotBeNullOrEmpty();
         response.Links.Select(l => l.Href).Should().BeEquivalentTo("http://localhost/api/collections");
     }
