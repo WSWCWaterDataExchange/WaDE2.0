@@ -1,0 +1,12 @@
+using System.Collections.Generic;
+
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
+
+public class AllocationSearchRequest : SearchRequestBase
+{
+    public List<string> AllocationUuid { get; set; }
+
+    public List<string> SiteUuid { get; set; }
+
+    public string LastKey { get; set; }
+}

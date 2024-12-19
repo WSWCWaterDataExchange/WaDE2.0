@@ -7,15 +7,21 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
-    public class WaterAllocationAccessor : AccessorApi.IWaterAllocationAccessor
+    public class WaterAllocationAccessor : AccessorBase, AccessorApi.IWaterAllocationAccessor
     {
-        public WaterAllocationAccessor(IConfiguration configuration, ILoggerFactory loggerFactory)
+        public WaterAllocationAccessor(
+            IConfiguration configuration, 
+            ILoggerFactory loggerFactory, 
+            IAccessorRequestHandlerResolver requestHandlerResolver)
+        : base(requestHandlerResolver)
         {
             Configuration = configuration;
             Logger = loggerFactory.CreateLogger<WaterAllocationAccessor>();
@@ -317,6 +323,11 @@ namespace WesternStatesWater.WaDE.Accessors
                 IntervalStartDate = minStartDate,
                 IntervalEndDate = null
             };
+        }
+
+        public async Task<TResponse> Search<TRequest, TResponse>(TRequest request) where TRequest : SearchRequestBase where TResponse : SearchResponseBase
+        {
+            return await ExecuteAsync<TRequest, TResponse>(request);
         }
 
         private static IQueryable<AllocationAmountsFact> BuildAllocationAmountsDigestQuery(

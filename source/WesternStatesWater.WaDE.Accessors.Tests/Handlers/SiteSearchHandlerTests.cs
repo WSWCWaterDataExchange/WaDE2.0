@@ -52,11 +52,8 @@ public class SiteSearchHandlerTests : DbTestBase
 
         var request = new SiteSearchRequest
         {
-            Filters = new SiteFilters
-            {
-                FilterBoundary = filterPolygon,
-                Limit = 10
-            }
+            FilterBoundary = filterPolygon,
+            Limit = 10
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
@@ -75,10 +72,7 @@ public class SiteSearchHandlerTests : DbTestBase
 
         var request = new SiteSearchRequest
         {
-            Filters = new SiteFilters
-            {
-                Limit = 3,
-            }
+            Limit = 3
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
@@ -99,11 +93,8 @@ public class SiteSearchHandlerTests : DbTestBase
 
         var request = new SiteSearchRequest
         {
-            Filters = new SiteFilters
-            {
-                LastSiteUuid = sites[3].SiteUuid,
-                Limit = 3,
-            }
+            LastSiteUuid = sites[3].SiteUuid,
+            Limit = 3
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
