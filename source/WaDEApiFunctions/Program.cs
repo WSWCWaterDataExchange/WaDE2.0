@@ -8,7 +8,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WaDEApiFunctions;
 using WesternStatesWater.WaDE.Accessors;
-using WesternStatesWater.WaDE.Common.Contracts;
 using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;

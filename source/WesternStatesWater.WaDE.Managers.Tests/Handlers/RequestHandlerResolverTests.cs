@@ -2,7 +2,7 @@ using System;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.DataContracts;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
 

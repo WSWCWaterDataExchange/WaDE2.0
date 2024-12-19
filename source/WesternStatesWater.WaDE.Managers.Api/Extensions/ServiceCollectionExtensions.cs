@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using WesternStatesWater.WaDE.Common.Extensions;
+using WesternStatesWater.Shared.Extensions;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Extensions;
 

@@ -1,12 +1,11 @@
 using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WesternStatesWater.WaDE.Common.Contracts;
-using WesternStatesWater.WaDE.Common.Extensions;
-using WesternStatesWater.WaDE.Common.Tests.Helpers;
+using WesternStatesWater.Shared.Extensions;
+using WesternStatesWater.Shared.Resolver;
+using WesternStatesWater.Shared.Tests.Helpers;
 
-namespace WesternStatesWater.WaDE.Common.Tests.Extensions;
+namespace WesternStatesWater.Shared.Tests.Extensions;
 
 [TestClass]
 public class AssemblyExtensionTests

@@ -1,10 +1,7 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using FluentValidation.Results;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.DataContracts;
 
-namespace WesternStatesWater.WaDE.Managers.Api.Extensions;
+namespace WesternStatesWater.Shared.Extensions;
 
 public static class RequestExtensions
 {
@@ -16,7 +13,7 @@ public static class RequestExtensions
 
         try
         {
-            var validator = Activator.CreateInstance(requestType.Assembly.FullName, validatorFullName)!.Unwrap()!;
+            var validator = Activator.CreateInstance(requestType.Assembly.FullName!, validatorFullName)!.Unwrap()!;
             var validatorType = validator.GetType();
 
             return await (Task<ValidationResult>)validatorType

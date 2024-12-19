@@ -1,6 +1,6 @@
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 
-namespace WesternStatesWater.WaDE.Common.Tests.Helpers;
+namespace WesternStatesWater.Shared.Tests.Helpers;
 
 public class TestRequestHandler : IRequestHandler<TestRequest, TestResponse>
 {

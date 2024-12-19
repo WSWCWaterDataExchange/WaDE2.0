@@ -1,4 +1,5 @@
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.DataContracts;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Engines;
 

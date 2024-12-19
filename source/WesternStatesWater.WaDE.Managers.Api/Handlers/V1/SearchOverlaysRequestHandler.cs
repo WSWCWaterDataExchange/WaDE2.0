@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 

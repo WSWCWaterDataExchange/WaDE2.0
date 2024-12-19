@@ -1,4 +1,4 @@
-namespace WesternStatesWater.WaDE.Common.Contracts;
+namespace WesternStatesWater.Shared.Errors;
 
 public record ValidationError : ErrorBase
 {

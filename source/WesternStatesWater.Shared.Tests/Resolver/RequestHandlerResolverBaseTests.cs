@@ -1,10 +1,10 @@
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WesternStatesWater.WaDE.Common.Contracts;
-using WesternStatesWater.WaDE.Common.Tests.Helpers;
+using WesternStatesWater.Shared.DataContracts;
+using WesternStatesWater.Shared.Resolver;
+using WesternStatesWater.Shared.Tests.Helpers;
 
-namespace WesternStatesWater.WaDE.Common.Tests.Contracts
+namespace WesternStatesWater.Shared.Tests.Resolver
 {
     [TestClass]
     public class RequestHandlerResolverBaseTests
@@ -38,7 +38,7 @@ namespace WesternStatesWater.WaDE.Common.Tests.Contracts
                 .Throw<InvalidOperationException>()
                 .WithMessage(
                     "No handler found for request type " +
-                    "WesternStatesWater.WaDE.Common.Tests.Contracts.UnregisteredRequestType."
+                    "WesternStatesWater.Shared.Tests.Resolver.UnregisteredRequestType."
                 );
         }
 

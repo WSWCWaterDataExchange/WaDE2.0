@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.DataContracts;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Accessors;
 
@@ -11,7 +12,7 @@ public class AccessorBase
     {
         _requestHandlerResolver = requestHandlerResolver;
     }
-    
+
     protected async Task<TResponse> ExecuteAsync<TRequest, TResponse>(TRequest request)
         where TRequest : RequestBase
         where TResponse : ResponseBase
