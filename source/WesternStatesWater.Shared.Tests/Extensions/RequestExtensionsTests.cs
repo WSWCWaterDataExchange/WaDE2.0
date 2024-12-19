@@ -40,7 +40,7 @@ public class RequestExtensionsTests
         message.Message.Should().Be(
             "Validator 'ClassWithoutValidatorValidator' was not found for 'ClassWithoutValidator'. " +
             "You must place a 'ClassWithoutValidatorValidator' in the namespace of the request type " +
-            "('WesternStatesWater.WaDE.Managers.Tests.Extensions.RequestExtensionsTestsNamespace')."
+            "('WesternStatesWater.Shared.Tests.Extensions')."
         );
     }
 }
