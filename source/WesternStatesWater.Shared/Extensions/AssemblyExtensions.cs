@@ -1,8 +1,8 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 
-namespace WesternStatesWater.WaDE.Common.Extensions;
+namespace WesternStatesWater.Shared.Extensions;
 
 public static class AssemblyExtensions
 {

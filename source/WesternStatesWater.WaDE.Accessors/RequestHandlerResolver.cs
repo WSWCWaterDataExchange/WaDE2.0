@@ -1,5 +1,5 @@
 using System;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Accessors;
 

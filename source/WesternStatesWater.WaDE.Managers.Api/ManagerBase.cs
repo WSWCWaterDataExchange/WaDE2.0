@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using WesternStatesWater.WaDE.Common.Contracts;
-using WesternStatesWater.WaDE.Managers.Api.Extensions;
+using WesternStatesWater.Shared.DataContracts;
+using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.Shared.Extensions;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Managers.Api;
 

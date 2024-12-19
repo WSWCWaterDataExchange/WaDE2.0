@@ -1,4 +1,6 @@
-namespace WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.DataContracts;
+
+namespace WesternStatesWater.Shared.Resolver;
 
 public interface IRequestHandler<in TRequest, TResponse>
     where TRequest : RequestBase

@@ -1,8 +1,9 @@
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Engines;
 
-public class RequestHandlerResolver(IServiceProvider serviceProvider) : RequestHandlerResolverBase(serviceProvider), IEngineRequestHandlerResolver
+public class RequestHandlerResolver(IServiceProvider serviceProvider)
+    : RequestHandlerResolverBase(serviceProvider), IEngineRequestHandlerResolver
 {
     public override void ValidateTypeNamespace(Type requestType, Type responseType)
     {

@@ -1,9 +1,10 @@
 using System;
-using WesternStatesWater.WaDE.Common.Contracts;
+using WesternStatesWater.Shared.Resolver;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers;
 
-public class RequestHandlerResolver(IServiceProvider serviceProvider) : RequestHandlerResolverBase(serviceProvider), IManagerRequestHandlerResolver
+public class RequestHandlerResolver(IServiceProvider serviceProvider)
+    : RequestHandlerResolverBase(serviceProvider), IManagerRequestHandlerResolver
 {
     public override void ValidateTypeNamespace(Type requestType, Type responseType)
     {
