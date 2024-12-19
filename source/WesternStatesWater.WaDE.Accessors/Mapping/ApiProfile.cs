@@ -161,7 +161,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
             
             CreateMap<EF.SiteVariableAmountsFact, AccessorApi.SiteVariableAmount>()
                 .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
-                // allocationsgnisdcv??
+                .ForMember(a => a.AllocationGNISIDCV, b => b.MapFrom(c => c.Site.GniscodeCv))
                 .ForMember(a => a.TimeframeStart, b=> b.MapFrom(c => c.TimeframeStartNavigation.Date))
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
                 .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))

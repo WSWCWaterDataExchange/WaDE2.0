@@ -19,34 +19,47 @@ public class OverlaySearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var query = db.RegulatoryOverlayDim
+        var query = db.ReportingUnitsDim
             .AsNoTracking()
-            .OrderBy(o => o.RegulatoryOverlayUuid)
+            .OrderBy(o => o.ReportingUnitUuid)
             .AsQueryable();
+
+        if (request.ReportingUnitUuids != null && request.ReportingUnitUuids.Count != 0)
+        {
+            query = query.Where(o => request.OverlayUuids.Contains(o.ReportingUnitUuid));
+        }
 
         if (request.OverlayUuids != null && request.OverlayUuids.Count != 0)
         {
-            query = query.Where(o => request.OverlayUuids.Contains(o.RegulatoryOverlayUuid));
+            query = query.Where(o => o.RegulatoryReportingUnitsFact.Any(fact =>
+                request.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
         }
 
         if (request.SiteUuids != null && request.SiteUuids.Count != 0)
         {
-            query = query.Where(o => o.RegulatoryOverlayBridgeSitesFact.Any(
-                bridge => request.SiteUuids.Contains(bridge.Site.SiteUuid)));
+            query = query.Where(o =>
+                o.RegulatoryReportingUnitsFact.Any(fact =>
+                    fact.RegulatoryOverlay.RegulatoryOverlayBridgeSitesFact.Any(sf =>
+                        request.SiteUuids.Contains(sf.Site.SiteUuid))));
+        }
+
+        if (request.FilterBoundary != null && !request.FilterBoundary.IsEmpty)
+        {
+            query = query.Where(o => o.Geometry.Intersects(request.FilterBoundary));
         }
 
         if (!string.IsNullOrWhiteSpace(request.LastKey))
         {
-            query = query.Where(o => o.RegulatoryOverlayUuid.CompareTo(request.LastKey) > 0);
+            query = query.Where(o => o.ReportingUnitUuid.CompareTo(request.LastKey) > 0);
         }
 
         query = query.Take(request.Limit);
 
-        var dbOverlays = await query.ToListAsync();
+        var dbReportingUnits = await query.ToListAsync();
 
         return new OverlaySearchResponse
         {
-            Overlays = dbOverlays.Map<List<RegulatoryOverlay>>()
+            Overlays = dbReportingUnits.Map<List<ReportingUnit>>()
         };
     }
 }

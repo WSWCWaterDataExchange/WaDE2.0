@@ -24,7 +24,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         for (var i = 0; i < 5; i++)
         {
-            await RegulatoryOverlayDimBuilder.Load(db);
+            await ReportingUnitsDimBuilder.Load(db);
         }
 
         var request = new OverlaySearchRequest
@@ -45,19 +45,19 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
-        List<RegulatoryOverlayDim> overlays = new();
+        List<ReportingUnitsDim> overlays = new();
         for (var i = 0; i < 10; i++)
         {
-            overlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
+            overlays.Add(await ReportingUnitsDimBuilder.Load(db));
         }
 
         overlays.Sort((x, y) =>
-            string.Compare(x.RegulatoryOverlayUuid, y.RegulatoryOverlayUuid, StringComparison.Ordinal));
+            string.Compare(x.ReportingUnitUuid, y.ReportingUnitUuid, StringComparison.Ordinal));
 
         var request = new OverlaySearchRequest
         {
             Limit = 3,
-            LastKey = overlays[2].RegulatoryOverlayUuid
+            LastKey = overlays[2].ReportingUnitUuid
         };
 
         // Act
@@ -65,21 +65,21 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(3);
-        response.Overlays.Select(a => a.RegulatoryOverlayUUID).Should().BeEquivalentTo(
-            overlays.Skip(3).Take(3).Select(a => a.RegulatoryOverlayUuid));
+        response.Overlays.Select(a => a.ReportingUnitUUID).Should().BeEquivalentTo(
+            overlays.Skip(3).Take(3).Select(a => a.ReportingUnitUuid));
     }
 
     [TestMethod]
-    public async Task Handler_FilterOverlayUuid_ReturnsRequestedOverlays()
+    public async Task Handler_FilterReportingUnitUuid_ReturnsRequestedOverlays()
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await ReportingUnitsDimBuilder.Load(db);
+        var overlayB = await ReportingUnitsDimBuilder.Load(db);
+        var overlayC = await ReportingUnitsDimBuilder.Load(db);
 
         var request = new OverlaySearchRequest
         {
-            OverlayUuids = [overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid],
+            OverlayUuids = [overlayA.ReportingUnitUuid, overlayB.ReportingUnitUuid],
             Limit = 10
         };
 
@@ -88,8 +88,59 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUUID).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.ReportingUnitUUID).Should().BeEquivalentTo(
+            overlayA.ReportingUnitUuid, overlayB.ReportingUnitUuid);
+    }
+
+    [TestMethod]
+    public async Task Handler_FilterOverlayUuids_ReturnsRelatedOverlays()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        var areaA = await ReportingUnitsDimBuilder.Load(db);
+        var areaB = await ReportingUnitsDimBuilder.Load(db);
+        
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayD = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayB,
+            ReportingUnits = areaA
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayC,
+            ReportingUnits = areaB
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayD,
+            ReportingUnits = areaB
+        });
+        
+        var request = new OverlaySearchRequest
+        {
+            OverlayUuids = [overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid],
+            Limit = 10
+        };
+        
+        // Act
+        var response = await ExecuteHandler(request);
+        
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays.Select(a => a.ReportingUnitUUID).Should().BeEquivalentTo(
+            areaA.ReportingUnitUuid);
     }
 
     [TestMethod]
@@ -99,9 +150,24 @@ public class OverlaySearchHandlerTests : DbTestBase
         
         var siteA = await SitesDimBuilder.Load(db);
         var siteB = await SitesDimBuilder.Load(db);
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db);
+        var areaB = await ReportingUnitsDimBuilder.Load(db);
         
         var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
         var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayB,
+            ReportingUnits = areaB
+        });
         
         await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
@@ -128,7 +194,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUUID).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.ReportingUnitUUID).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 
