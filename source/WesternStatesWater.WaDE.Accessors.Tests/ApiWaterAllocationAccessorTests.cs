@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Tests.Helpers;
@@ -829,7 +830,10 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
         private IWaterAllocationAccessor CreateWaterAllocationAccessor()
         {
-            return new WaterAllocationAccessor(Configuration.GetConfiguration(), LoggerFactory);
+            return new WaterAllocationAccessor(
+                Configuration.GetConfiguration(), 
+                LoggerFactory,
+                Mock.Create<IAccessorRequestHandlerResolver>());
         }
     }
 }

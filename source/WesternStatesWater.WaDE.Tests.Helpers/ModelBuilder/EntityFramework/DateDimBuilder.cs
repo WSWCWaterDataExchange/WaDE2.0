@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
 using Microsoft.EntityFrameworkCore.Internal;
@@ -16,7 +17,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static DateDim Create(DateDimBuilderOptions opts)
         {
             return new Faker<DateDim>()
-                .RuleFor(a => a.Date, f => f.Date.Past(50))
+                .RuleFor(a => a.Date, f => opts.Date ?? f.Date.Past(50))
                 .RuleFor(a=>a.Year, (f,u)=>u.Date.Year.ToString());
         }
 
@@ -49,5 +50,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
     public class DateDimBuilderOptions
     {
+        public DateTime? Date { get; set; }
     }
 }

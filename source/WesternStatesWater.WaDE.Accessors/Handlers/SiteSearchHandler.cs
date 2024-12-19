@@ -23,7 +23,7 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
             .AsNoTracking()
             .Include(s => s.PODSiteToPOUSitePODFact)
             .OrderBy(s => s.SiteUuid)
-            .ApplyFilters(request.Filters)
+            .ApplyFilters(request)
             .ToListAsync();
 
         return new SiteSearchResponse

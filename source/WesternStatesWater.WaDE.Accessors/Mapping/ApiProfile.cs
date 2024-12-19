@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Linq;
+using AutoMapper;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Common;
@@ -15,6 +17,21 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
         public ApiProfile()
         {
             AllowNullDestinationValues = true;
+            CreateMap<EF.AllocationAmountsFact, AccessorApi.Allocation>()
+                .ForMember(a => a.AllocationApplicationDate, b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
+                .ForMember(a => a.AllocationPriorityDate, b => b.MapFrom(c => c.AllocationPriorityDateNavigation.Date))
+                .ForMember(a => a.AllocationLegalStatusCodeCV, b => b.MapFrom(c => c.AllocationLegalStatusCv))
+                .ForMember(a => a.AllocationExpirationDate, b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
+                .ForMember(a => a.AllocationAcreage, b => b.MapFrom(c => c.IrrigatedAcreage))
+                .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => DateTime.Parse(c.AllocationTimeframeStart)))
+                .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => DateTime.Parse(c.AllocationTimeframeEnd)))
+                .ForMember(a => a.AllocationSDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifier))
+                .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
+                .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificCv))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUseCV)))
+                .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date))
+                .ForMember(a => a.SitesUUIDs, b => b.MapFrom(c => c.AllocationBridgeSitesFact.Select(d => d.Site.SiteUuid)));
+            
             CreateMap<WaterAllocationAccessor.AllocationHelper, AccessorApi.Allocation>()
                 .ForMember(a => a.BeneficialUses, b => b.Ignore())
                 .ForMember(a => a.SitesUUIDs, b => b.Ignore());
@@ -141,6 +158,29 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
                 .ForMember(a => a.AllocationGNISIDCV, b => b.Ignore())
                 .ForMember(a => a.AllocationCropDutyAmount, b => b.Ignore());
+            
+            CreateMap<EF.SiteVariableAmountsFact, AccessorApi.SiteVariableAmount>()
+                .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))
+                // allocationsgnisdcv??
+                .ForMember(a => a.TimeframeStart, b=> b.MapFrom(c => c.TimeframeStartNavigation.Date))
+                .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
+                .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDateNavigation.Date))
+                .ForMember(a => a.AllocationCropDutyAmount, b => b.MapFrom(c => c.AllocationCropDutyAmount))
+                .ForMember(a => a.Amount, b => b.MapFrom(c => c.Amount))
+                .ForMember(a => a.IrrigationMethodCV, b => b.MapFrom(c => c.IrrigationMethodCv))
+                .ForMember(a => a.IrrigatedAcreage, b => b.MapFrom(c => c.IrrigatedAcreage))
+                .ForMember(a => a.CropTypeCV, b => b.MapFrom(c => c.CropTypeCv))
+                .ForMember(a => a.PopulationServed, b => b.MapFrom(c => c.PopulationServed))
+                .ForMember(a => a.PowerGeneratedGWh, b => b.MapFrom(c => c.PowerGeneratedGwh))
+                .ForMember(a => a.AllocationCommunityWaterSupplySystem, b => b.MapFrom(c => c.CommunityWaterSupplySystem))
+                .ForMember(a => a.SDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifierCv))
+                .ForMember(a => a.DataPublicationDOI, b => b.MapFrom(c => c.DataPublicationDoi))
+                .ForMember(a => a.ReportYearCV, b => b.MapFrom(c => c.ReportYearCv))
+                .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
+                .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificUuid))
+                .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
+                .ForMember(a => a.AssociatedNativeAllocationIDs, b => b.MapFrom(c => c.AssociatedNativeAllocationIds))
+                .ForMember(a => a.BeneficialUses, b => b.MapFrom(c => c.SitesBridgeBeneficialUsesFact.Select(d => d.BeneficialUseCV)));
 
             CreateMap<EF.ReportingUnitsDim, AccessorApi.ReportingUnit>()
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))

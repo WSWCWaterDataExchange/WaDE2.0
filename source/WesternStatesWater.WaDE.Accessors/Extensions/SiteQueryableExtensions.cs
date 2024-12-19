@@ -1,19 +1,20 @@
 using System.Linq;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Accessors.Extensions;
 
 public static class SiteQueryableExtensions
 {
-    public static IQueryable<SitesDim> ApplyFilters(this IQueryable<SitesDim> query, SiteFilters filters)
+    public static IQueryable<SitesDim> ApplyFilters(this IQueryable<SitesDim> query, SiteSearchRequest filters)
     {
         return query
             .ApplyIntersectFilters(filters)
             .ApplyPaging(filters);
     }
 
-    public static IQueryable<SitesDim> ApplyIntersectFilters(this IQueryable<SitesDim> query, SiteFilters filters)
+    public static IQueryable<SitesDim> ApplyIntersectFilters(this IQueryable<SitesDim> query, SiteSearchRequest filters)
     {
         if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
         {
@@ -23,7 +24,7 @@ public static class SiteQueryableExtensions
         return query;
     }
 
-    public static IQueryable<SitesDim> ApplyPaging(this IQueryable<SitesDim> query, SiteFilters filters)
+    public static IQueryable<SitesDim> ApplyPaging(this IQueryable<SitesDim> query, SiteSearchRequest filters)
     {
         if (!string.IsNullOrWhiteSpace(filters.LastSiteUuid))
         {
