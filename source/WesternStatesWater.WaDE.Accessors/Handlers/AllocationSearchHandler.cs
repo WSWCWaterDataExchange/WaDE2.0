@@ -8,6 +8,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Extensions;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 
 namespace WesternStatesWater.WaDE.Accessors.Handlers;
@@ -19,30 +20,10 @@ public class AllocationSearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var query = db.AllocationAmountsFact
+        var allocations = await db.AllocationAmountsFact
             .AsNoTracking()
             .OrderBy(alloc => alloc.AllocationUUID)
-            .AsQueryable();
-
-        if (request.AllocationUuid != null && request.AllocationUuid.Any())
-        {
-            query = query.Where(x => request.AllocationUuid.Contains(x.AllocationUUID));
-        }
-
-        if (request.SiteUuid != null && request.SiteUuid.Count != 0)
-        {
-            query = query.Where(x => x.AllocationBridgeSitesFact.Any(
-                bridge => request.SiteUuid.Contains(bridge.Site.SiteUuid)));
-        }
-
-        if (!string.IsNullOrWhiteSpace(request.LastKey))
-        {
-            query = query.Where(x => x.AllocationUUID.CompareTo(request.LastKey) > 0);
-        }
-
-        query = query.Take(request.Limit);
-
-        var allocations = await query
+            .ApplySearchFilters(request)
             .ProjectTo<AllocationSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 

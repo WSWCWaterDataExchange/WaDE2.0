@@ -8,6 +8,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Extensions;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 
 namespace WesternStatesWater.WaDE.Accessors.Handlers;
@@ -19,38 +20,10 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var query = db.SiteVariableAmountsFact
+        var timeSeries = await db.SiteVariableAmountsFact
             .AsNoTracking()
             .OrderBy(ts => ts.SiteVariableAmountId)
-            .AsQueryable();
-
-        if (request.StartDate.HasValue)
-        {
-            query = query.Where(x =>
-                (request.StartDate >= x.TimeframeStartNavigation.Date && request.StartDate <= x.TimeframeEndNavigation.Date) ||
-                request.StartDate <= x.TimeframeStartNavigation.Date);
-        }
-
-        if (request.EndDate.HasValue)
-        {
-            query = query.Where(x =>
-                (request.EndDate >= x.TimeframeStartNavigation.Date && request.EndDate <= x.TimeframeEndNavigation.Date) ||
-                x.TimeframeEndNavigation.Date <= request.EndDate );
-        }
-
-        if (request.SiteUuids != null && request.SiteUuids.Count != 0)
-        {
-            query = query.Where(x => request.SiteUuids.Contains(x.Site.SiteUuid));
-        }
-
-        if (request.LastKey.HasValue)
-        {
-            query = query.Where(x => x.SiteVariableAmountId > request.LastKey);
-        }
-
-        query = query.Take(request.Limit);
-
-        var timeSeries = await query
+            .ApplySearchFilters(request)
             .ProjectTo<TimeSeriesSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 

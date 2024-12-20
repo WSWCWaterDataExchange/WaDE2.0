@@ -29,6 +29,7 @@ public class SiteSearchHandlerTests : DbTestBase
         // Intersecting polygon
         var siteA = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
         {
+            // https://wktmap.com/?28eb0eb1
             Geometry = wkt.Read(
                 "POLYGON ((-114.400635 41.574361, -114.400635 42.204107, -113.57666 42.204107, -113.57666 41.574361, -114.400635 41.574361))")
         });
@@ -36,11 +37,11 @@ public class SiteSearchHandlerTests : DbTestBase
         // Points inside boundary
         var siteB = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
         {
-            Geometry = CreateRandomPointInsidePolygon(filterPolygon)
+            Geometry = wkt.Read("POINT (-112.631836 39.010648)") // https://wktmap.com/?45c78c27
         });
         var siteC = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
         {
-            Geometry = CreateRandomPointInsidePolygon(filterPolygon)
+            Geometry = wkt.Read("POINT (-111.928711 41.327326)") // https://wktmap.com/?23e9c33d
         });
 
         // Point outside boundary
@@ -196,19 +197,5 @@ public class SiteSearchHandlerTests : DbTestBase
         var wkt = new NetTopologySuite.IO.WKTReader();
         return (Polygon) wkt.Read(
             "POLYGON ((-114.0271 42.016652, -111.027832 42.000325, -111.049805 41.037931, -109.017334 41.013066, -109.050293 37.011326, -114.0271 36.985003, -114.0271 42.016652))");
-    }
-
-    private static Point CreateRandomPointInsidePolygon(Polygon polygon)
-    {
-        var random = new Random();
-        var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory();
-        return gf.CreatePoint(
-            new Coordinate(
-                random.NextDouble() * (polygon.EnvelopeInternal.MaxX - polygon.EnvelopeInternal.MinX) +
-                polygon.EnvelopeInternal.MinX,
-                random.NextDouble() * (polygon.EnvelopeInternal.MaxY - polygon.EnvelopeInternal.MinY) +
-                polygon.EnvelopeInternal.MinY
-            )
-        );
     }
 }

@@ -19,16 +19,19 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
     {
         await using var db = new WaDEContext(configuration);
 
-        var dbSites = await db.SitesDim
+        var query = db.SitesDim
             .AsNoTracking()
             .OrderBy(s => s.SiteUuid)
-            .ApplyFilters(request)
+            .ApplySearchFilters(request)
+            .AsQueryable();
+
+        var sites = await query
             .ProjectTo<SiteSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new SiteSearchResponse
         {
-            Sites = dbSites
+            Sites = sites
         };
     }
 }
