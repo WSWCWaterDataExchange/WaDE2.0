@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using WesternStatesWater.WaDE.Common.Contracts;
@@ -21,8 +23,6 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
 
         var query = db.SiteVariableAmountsFact
             .AsNoTracking()
-            .Include(ts => ts.Site)
-            .Include(ts => ts.SitesBridgeBeneficialUsesFact)
             .OrderBy(ts => ts.SiteVariableAmountId)
             .AsQueryable();
 
@@ -52,11 +52,13 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
 
         query = query.Take(request.Limit);
 
-        var dbTimeSeries = await query.ToListAsync();
+        var timeSeries = await query
+            .ProjectTo<TimeSeriesSearchItem>(DtoMapper.Configuration)
+            .ToListAsync();
 
         return new TimeSeriesSearchResponse
         {
-            TimeSeries = dbTimeSeries.Map<List<SiteVariableAmount>>()
+            TimeSeries = timeSeries
         };
     }
 }

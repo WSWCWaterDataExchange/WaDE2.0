@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 
 public class AllocationSearchRequest : SearchRequestBase
 {

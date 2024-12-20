@@ -210,65 +210,6 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitsRegulatory, b => b.Ignore());
             CreateMap<EF.RegulatoryOverlayDim, AccessorApi.RegulatoryOverlay>();
             CreateMap<RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper, AccessorApi.ReportingUnitRegulatory>();
-
-            CreateMap<EF.SitesDim, AccessorApi.SiteSearchItem>()
-                .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
-                .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
-                .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
-                .ForMember(a => a.UsgsSiteId, b => b.MapFrom(c => c.UsgssiteId))
-                .ForMember(a => a.SiteType, b => b.MapFrom(c => c.SiteTypeCv))
-                .ForMember(a => a.Location, b => b.MapFrom(c => c.Geometry))
-                .ForMember(a => a.CoordinateMethod, b => b.MapFrom(c => c.CoordinateMethodCv))
-                .ForMember(a => a.CoordinateAccuracy, b => b.MapFrom(c => c.CoordinateAccuracy))
-                .ForMember(a => a.GnisCode, b => b.MapFrom(c => c.GniscodeCv))
-                .ForMember(a => a.EpsgCode, b => b.MapFrom(c => c.EpsgcodeCv))
-                .ForMember(a => a.NhdNetworkStatus, b => b.MapFrom(c => c.NhdnetworkStatusCv))
-                .ForMember(a => a.NhdProduct, b => b.MapFrom(c => c.NhdproductCv))
-                .ForMember(a => a.State, b => b.MapFrom(c => c.StateCv))
-                .ForMember(a => a.Huc8, b => b.MapFrom(c => c.HUC8))
-                .ForMember(a => a.Huc12, b => b.MapFrom(c => c.HUC12))
-                .ForMember(a => a.County, b => b.MapFrom(c => c.County))
-                .ForMember(a => a.RightUuids,
-                    b => b.MapFrom(c => c.AllocationBridgeSitesFact.Select(d => d.AllocationAmount.AllocationUUID)))
-                .ForMember(a => a.IsTimeSeries, b => b.MapFrom(c => c.SiteVariableAmountsFact.Any()))
-                .ForMember(a => a.PodOrPouSite, b => b.MapFrom(c => c.PODorPOUSite))
-                .ForMember(a => a.WaterSources,
-                    b => b.MapFrom(c =>
-                        c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource.WaterSourceName)))
-                .ForMember(a => a.Overlays,
-                    b => b.MapFrom(c =>
-                        c.RegulatoryOverlayBridgeSitesFact.Select(bridge =>
-                            bridge.RegulatoryOverlay.RegulatoryOverlayUuid)))
-                .ForMember(a => a.PodSites,
-                    b => b.MapFrom(c =>
-                        c.PODSiteToPOUSitePODFact
-                            .Where(f => c.PODorPOUSite == PouValue)
-                            .Select(fact => fact.PODSite.SiteUuid)))
-                .ForMember(a => a.PouSites,
-                    b => b.MapFrom(c =>
-                        c.PODSiteToPOUSitePODFact
-                            .Where(f => c.PODorPOUSite == PodValue)
-                            .Select(fact => fact.POUSite.SiteUuid)));
-
-            CreateMap<EF.RegulatoryOverlayDim, AccessorApi.OverlaySearchItem>()
-                .ForMember(a => a.OverlayUuid, b => b.MapFrom(c => c.RegulatoryOverlayUuid))
-                .ForMember(a => a.OverlayNativeId, b => b.MapFrom(c => c.RegulatoryOverlayNativeId))
-                .ForMember(a => a.RegulatoryName, b => b.MapFrom(c => c.RegulatoryName))
-                .ForMember(a => a.RegulatoryDescription, b => b.MapFrom(c => c.RegulatoryDescription))
-                .ForMember(a => a.RegulatoryStatus, b => b.MapFrom(c => c.RegulatoryStatusCv))
-                .ForMember(a => a.RegulatoryStatuteLink, b => b.MapFrom(c => c.RegulatoryStatuteLink))
-                .ForMember(a => a.StatutoryEffectiveDate, b => b.MapFrom(c => c.StatutoryEffectiveDate))
-                .ForMember(a => a.StatutoryEndDate, b => b.MapFrom(c => c.StatutoryEndDate))
-                .ForMember(a => a.OverlayType, b => b.MapFrom(c => c.RegulatoryOverlayTypeCV))
-                .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSourceTypeCV))
-                .ForMember(a => a.AreaName,
-                    b => b.MapFrom(c =>
-                        c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitName)))
-                .ForMember(a => a.AreaNativeId,
-                    b => b.MapFrom(c =>
-                        c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitNativeId)))
-                .ForMember(a => a.SiteUuids,
-                    b => b.MapFrom(c => c.RegulatoryOverlayBridgeSitesFact.Select(fact => fact.Site.SiteUuid)));
         }
 
         private class PODSiteToPOUSiteFactToSiteUuidResolver : IValueResolver<EF.PODSiteToPOUSiteFact,

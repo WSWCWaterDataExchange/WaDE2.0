@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 
 public class SiteSearchResponse : SearchResponseBase
 {

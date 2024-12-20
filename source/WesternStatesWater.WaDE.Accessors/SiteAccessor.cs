@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 
 namespace WesternStatesWater.WaDE.Accessors;
 

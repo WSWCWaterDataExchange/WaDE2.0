@@ -1,6 +1,6 @@
 using System.Linq;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Accessors.Extensions;
