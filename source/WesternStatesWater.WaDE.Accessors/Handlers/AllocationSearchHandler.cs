@@ -1,11 +1,11 @@
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Requests;
-using WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using WesternStatesWater.WaDE.Common.Contracts;
@@ -21,10 +21,6 @@ public class AllocationSearchHandler(IConfiguration configuration)
 
         var query = db.AllocationAmountsFact
             .AsNoTracking()
-            .Include(alloc => alloc.AllocationBridgeSitesFact)
-            .ThenInclude(bridge => bridge.Site)
-            .Include(alloc => alloc.AllocationBridgeBeneficialUsesFact)
-            .ThenInclude(bridge => bridge.BeneficialUse)
             .OrderBy(alloc => alloc.AllocationUUID)
             .AsQueryable();
 
@@ -46,11 +42,13 @@ public class AllocationSearchHandler(IConfiguration configuration)
 
         query = query.Take(request.Limit);
 
-        var dbAllocations = await query.ToListAsync();
+        var allocations = await query
+            .ProjectTo<AllocationSearchItem>(DtoMapper.Configuration)
+            .ToListAsync();
 
         return new AllocationSearchResponse
         {
-            Allocations = dbAllocations.Map<List<Allocation>>()
+            Allocations = allocations
         };
     }
 }

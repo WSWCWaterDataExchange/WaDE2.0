@@ -1,6 +1,6 @@
 using NetTopologySuite.Geometries;
 
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Api;
+namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 
 public class SiteSearchItem
 {
@@ -25,8 +25,4 @@ public class SiteSearchItem
     public string PodOrPouSite { get; set; }
     public string[] WaterSources { get; set; }
     public string[] Overlays { get; set; }
-    
-    // Below works but not sure how this exactly should work or if it's needed. 
-    public string[] PodSites { get; set; }
-    public string[] PouSites { get; set; }
 }
