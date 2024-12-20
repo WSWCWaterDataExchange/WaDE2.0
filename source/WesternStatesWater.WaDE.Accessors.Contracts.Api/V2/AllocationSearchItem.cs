@@ -16,8 +16,8 @@ public class AllocationSearchItem
     public string LegacyAllocationIDs { get; set; }
     public double? AllocationAcreage { get; set; }
     public string AllocationBasisCV { get; set; }
-    public DateTime? TimeframeStart { get; set; }
-    public DateTime? TimeframeEnd { get; set; }
+    public string TimeframeStart { get; set; }
+    public string TimeframeEnd { get; set; }
     public DateTime? DataPublicationDate { get; set; }
     public double? AllocationCropDutyAmount { get; set; }
     public double? AllocationFlow_CFS { get; set; }

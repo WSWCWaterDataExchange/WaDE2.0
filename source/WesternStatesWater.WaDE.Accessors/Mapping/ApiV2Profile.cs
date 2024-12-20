@@ -10,6 +10,7 @@ public class ApiV2Profile : Profile
 {
     public ApiV2Profile()
     {
+        AllowNullDestinationValues = true;
         CreateMap<EF.SitesDim, SiteSearchItem>()
                 .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
                 .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
@@ -58,7 +59,7 @@ public class ApiV2Profile : Profile
                         c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitNativeId)))
                 .ForMember(a => a.SiteUuids,
                     b => b.MapFrom(c => c.RegulatoryOverlayBridgeSitesFact.Select(fact => fact.Site.SiteUuid)));
-            
+
             CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()
                 .ForMember(a => a.AllocationApplicationDate,
                     b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
@@ -67,9 +68,9 @@ public class ApiV2Profile : Profile
                 .ForMember(a => a.AllocationExpirationDate,
                     b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
                 .ForMember(a => a.AllocationAcreage, b => b.MapFrom(c => c.IrrigatedAcreage))
-                .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => DateTime.Parse(c.AllocationTimeframeStart)))
-                .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => DateTime.Parse(c.AllocationTimeframeEnd)))
-                .ForMember(a => a.AllocationSDWISIdentifier, b => b.MapFrom(c => c.SDWISIdentifier))
+                .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.AllocationTimeframeStart))
+                .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.AllocationTimeframeEnd))
+                .ForMember(a => a.AllocationSDWISIdentifier, b => b.MapFrom(c => c.SdwisidentifierCV))
                 .ForMember(a => a.MethodUUID, b => b.MapFrom(c => c.Method.MethodUuid))
                 .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificCv))
                 .ForMember(a => a.BeneficialUses,
