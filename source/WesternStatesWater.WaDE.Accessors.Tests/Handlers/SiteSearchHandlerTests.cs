@@ -57,7 +57,7 @@ public class SiteSearchHandlerTests : DbTestBase
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
-        response.Sites.Select(s => s.SiteUUID).Should()
+        response.Sites.Select(s => s.SiteUuid).Should()
             .BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid, siteC.SiteUuid);
     }
 
@@ -76,7 +76,7 @@ public class SiteSearchHandlerTests : DbTestBase
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
-        response.Sites.Select(site => site.SiteUUID).Should().BeInAscendingOrder();
+        response.Sites.Select(site => site.SiteUuid).Should().BeInAscendingOrder();
     }
 
     [TestMethod]
@@ -98,11 +98,92 @@ public class SiteSearchHandlerTests : DbTestBase
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(3);
-        response.Sites.Select(s => s.SiteUUID).Should().BeEquivalentTo(
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(
             sites[4].SiteUuid,
             sites[5].SiteUuid,
             sites[6].SiteUuid
         );
+    }
+
+    [TestMethod]
+    public async Task Map()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        var siteA = await SitesDimBuilder.Load(db);
+
+        var podSite = await SitesDimBuilder.Load(db);
+        var pouSite = await SitesDimBuilder.Load(db);
+        
+        await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+        {
+            PodSite = siteA,
+            PouSite = pouSite
+        });
+        
+        await PODSiteToPOUSiteFactBuilder.Load(db, new PODSiteToPOUSiteFactBuilderOptions
+        {
+            PodSite = podSite,
+            PouSite = siteA
+        });
+
+        var rightA = await AllocationAmountsFactBuilder.Load(db);
+        var rightB = await AllocationAmountsFactBuilder.Load(db);
+
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA
+        });
+
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            AllocationAmountsFact = rightA
+        });
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            AllocationAmountsFact = rightB
+        });
+
+        var sourceA = await WaterSourcesDimBuilder.Load(db);
+        var sourceB = await WaterSourcesDimBuilder.Load(db);
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            WaterSourcesDim = sourceA
+        });
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            WaterSourcesDim = sourceB
+        });
+        
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            RegulatoryOverlayDim = overlayA
+        });
+        
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            RegulatoryOverlayDim = overlayB
+        });
+        
+        var request = new SiteSearchRequest
+        {
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.Sites.Should().HaveCount(3);
     }
 
     private async Task<SiteSearchResponse> ExecuteHandler(SiteSearchRequest request)

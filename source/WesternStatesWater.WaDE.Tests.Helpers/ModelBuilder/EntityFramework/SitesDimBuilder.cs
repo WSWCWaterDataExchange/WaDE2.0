@@ -24,6 +24,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.Latitude, f => f.Random.Double(1))
                 .RuleFor(a => a.SitePoint, f => opts.SitePoint)
                 .RuleFor(a => a.Geometry, f => opts.Geometry)
+                .RuleFor(a => a.PODorPOUSite, f => f.Random.Bool() ? "POD" : "POU")
                 .RuleFor(a => a.CoordinateMethodCv, f => opts.CoordinateMethodCvNavigation?.Name)
                 .RuleFor(a => a.CoordinateAccuracy, f => f.Random.AlphaNumeric(255))
                 .RuleFor(a => a.GniscodeCv, f => opts.GniscodeCvNavigation?.Name)
