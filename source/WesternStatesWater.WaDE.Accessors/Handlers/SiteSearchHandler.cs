@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
@@ -21,14 +22,14 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
 
         var dbSites = await db.SitesDim
             .AsNoTracking()
-            .Include(s => s.PODSiteToPOUSitePODFact)
             .OrderBy(s => s.SiteUuid)
             .ApplyFilters(request)
+            .ProjectTo<SiteSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new SiteSearchResponse
         {
-            Sites = DtoMapper.Map<List<Site>>(dbSites)
+            Sites = dbSites
         };
     }
 }

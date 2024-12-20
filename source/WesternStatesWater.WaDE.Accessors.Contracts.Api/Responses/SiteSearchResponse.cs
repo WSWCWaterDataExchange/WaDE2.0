@@ -4,5 +4,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
 
 public class SiteSearchResponse : SearchResponseBase
 {
-    public List<Site> Sites { get; set; }
+    public List<SiteSearchItem> Sites { get; set; }
 }
