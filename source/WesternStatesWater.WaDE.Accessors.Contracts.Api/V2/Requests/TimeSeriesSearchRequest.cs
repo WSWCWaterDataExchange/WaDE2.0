@@ -9,5 +9,4 @@ public class TimeSeriesSearchRequest : SearchRequestBase
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
     public long? LastKey { get; set; }
-    public int Limit { get; set; }
 }
