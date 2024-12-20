@@ -198,7 +198,7 @@ public class SiteSearchHandlerTests : DbTestBase
             "POLYGON ((-114.0271 42.016652, -111.027832 42.000325, -111.049805 41.037931, -109.017334 41.013066, -109.050293 37.011326, -114.0271 36.985003, -114.0271 42.016652))");
     }
 
-    public static Point CreateRandomPointInsidePolygon(Polygon polygon)
+    private static Point CreateRandomPointInsidePolygon(Polygon polygon)
     {
         var random = new Random();
         var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory();

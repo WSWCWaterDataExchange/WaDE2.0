@@ -4,5 +4,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.Responses;
 
 public class OverlaySearchResponse : SearchResponseBase
 {
-    public List<ReportingUnit> Overlays { get; set; }
+    public List<OverlaySearchItem> Overlays { get; set; }
 }

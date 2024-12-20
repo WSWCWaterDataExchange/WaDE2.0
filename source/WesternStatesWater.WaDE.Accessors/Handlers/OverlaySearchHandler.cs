@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
@@ -19,47 +20,42 @@ public class OverlaySearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var query = db.ReportingUnitsDim
+        var query = db.RegulatoryOverlayDim
             .AsNoTracking()
-            .OrderBy(o => o.ReportingUnitUuid)
+            .OrderBy(o => o.RegulatoryOverlayUuid)
             .AsQueryable();
-
-        if (request.ReportingUnitUuids != null && request.ReportingUnitUuids.Count != 0)
-        {
-            query = query.Where(o => request.OverlayUuids.Contains(o.ReportingUnitUuid));
-        }
-
+        
         if (request.OverlayUuids != null && request.OverlayUuids.Count != 0)
         {
-            query = query.Where(o => o.RegulatoryReportingUnitsFact.Any(fact =>
-                request.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
+            query = query.Where(o => request.OverlayUuids.Contains(o.RegulatoryOverlayUuid));
         }
 
         if (request.SiteUuids != null && request.SiteUuids.Count != 0)
         {
             query = query.Where(o =>
-                o.RegulatoryReportingUnitsFact.Any(fact =>
-                    fact.RegulatoryOverlay.RegulatoryOverlayBridgeSitesFact.Any(sf =>
-                        request.SiteUuids.Contains(sf.Site.SiteUuid))));
+                o.RegulatoryOverlayBridgeSitesFact.Any(sf =>
+                    request.SiteUuids.Contains(sf.Site.SiteUuid)));
         }
 
         if (request.FilterBoundary != null && !request.FilterBoundary.IsEmpty)
         {
-            query = query.Where(o => o.Geometry.Intersects(request.FilterBoundary));
+            query = query.Where(o => o.RegulatoryReportingUnitsFact.Any(fact => fact.ReportingUnit.Geometry.Intersects(request.FilterBoundary)));
         }
 
         if (!string.IsNullOrWhiteSpace(request.LastKey))
         {
-            query = query.Where(o => o.ReportingUnitUuid.CompareTo(request.LastKey) > 0);
+            query = query.Where(o => o.RegulatoryOverlayUuid.CompareTo(request.LastKey) > 0);
         }
 
         query = query.Take(request.Limit);
 
-        var dbReportingUnits = await query.ToListAsync();
+        var overlays = await query
+            .ProjectTo<OverlaySearchItem>(DtoMapper.Configuration)
+            .ToListAsync();
 
         return new OverlaySearchResponse
         {
-            Overlays = dbReportingUnits.Map<List<ReportingUnit>>()
+            Overlays = overlays
         };
     }
 }
