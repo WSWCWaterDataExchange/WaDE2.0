@@ -10,8 +10,6 @@ namespace WesternStatesWater.WaDE.Managers.Api;
 internal partial class WaterResourceManager : ManagerBase, ManagerApi.IMetadataManager
 {
     private readonly IFormattingEngine _formattingEngine;
-    
-    private readonly AccessorApi.IAggregatedAmountsAccessor _aggregratedAmountsAccessor;
 
     private readonly AccessorApi.IRegulatoryOverlayAccessor _regulatoryOverlayAccessor;
 
@@ -22,23 +20,19 @@ internal partial class WaterResourceManager : ManagerBase, ManagerApi.IMetadataM
     public WaterResourceManager(
         IManagerRequestHandlerResolver requestHandlerResolver,
         IFormattingEngine formattingEngine,
-        AccessorApi.IAggregatedAmountsAccessor aggregratedAmountsAccessor,
         AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
         AccessorApi.ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
         AccessorApi.IWaterAllocationAccessor waterAllocationAccessor,
-        ILogger<WaterResourceManager> logger) 
+        ILogger<WaterResourceManager> logger)
         : base(logger, requestHandlerResolver)
     {
         _formattingEngine = formattingEngine;
-        _aggregratedAmountsAccessor = aggregratedAmountsAccessor;
         _regulatoryOverlayAccessor = regulatoryOverlayAccessor;
         _siteVariableAmountsAccessor = siteVariableAmountsAccessor;
         _waterAllocationAccessor = waterAllocationAccessor;
     }
 
-    public async Task<TResponse> Load<TRequest, TResponse>(TRequest request) 
-        where TRequest : MetadataLoadRequestBase 
-        where TResponse : MetadataLoadResponseBase
+    async Task<TResponse> ManagerApi.IMetadataManager.Load<TRequest, TResponse>(TRequest request)
     {
         return await ExecuteAsync<TRequest, TResponse>(request);
     }
