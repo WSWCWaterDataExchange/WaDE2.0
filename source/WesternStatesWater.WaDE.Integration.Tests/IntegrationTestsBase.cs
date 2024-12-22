@@ -1,9 +1,12 @@
 using System.Transactions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
+using WesternStatesWater.WaDE.Tests.Helpers;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
@@ -26,7 +29,7 @@ public abstract class IntegrationTestsBase
         _transactionScopeFixture = CreateTransactionScope();
     }
 
-    private static IServiceProvider CreateServiceProvider()
+    private static ServiceProvider CreateServiceProvider()
     {
         var services = new ServiceCollection();
 
@@ -62,6 +65,10 @@ public abstract class IntegrationTestsBase
         // Handlers
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
+
+        // Utilities, config, misc.
+        services.AddScoped<IConfiguration>(_ => Configuration.GetConfiguration());
+        services.AddLogging(config => config.AddConsole());
 
         return services.BuildServiceProvider();
     }

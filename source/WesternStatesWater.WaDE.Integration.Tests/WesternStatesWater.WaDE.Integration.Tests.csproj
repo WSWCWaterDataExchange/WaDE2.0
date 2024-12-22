@@ -36,6 +36,7 @@
         <ProjectReference Include="..\WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj"/>
         <ProjectReference Include="..\WesternStatesWater.WaDE.Engines\WesternStatesWater.WaDE.Engines.csproj"/>
         <ProjectReference Include="..\WesternStatesWater.WaDE.Managers.Api\WesternStatesWater.WaDE.Managers.Api.csproj"/>
+        <ProjectReference Include="..\WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj" />
         <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj"/>
     </ItemGroup>
 
