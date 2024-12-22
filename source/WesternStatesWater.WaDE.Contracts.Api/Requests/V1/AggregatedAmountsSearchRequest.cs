@@ -4,7 +4,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
 public class AggregatedAmountsSearchRequest : RequestBase
 {
-    public AggregatedAmountsFilters Filters { get; init; }
+    public required AggregatedAmountsFilters Filters { get; init; }
 
     public int StartIndex { get; init; }
 
