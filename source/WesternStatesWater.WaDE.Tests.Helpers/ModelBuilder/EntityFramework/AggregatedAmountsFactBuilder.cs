@@ -67,7 +67,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             var item = Create(opts);
 
-            db.AggregatedAmountsFact.Add(item);
+            await db.AggregatedAmountsFact.AddAsync(item);
             await db.SaveChangesAsync();
 
             return item;

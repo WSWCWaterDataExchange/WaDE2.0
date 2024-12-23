@@ -2,7 +2,7 @@ using WesternStatesWater.WaDE.Engines.Contracts;
 
 namespace WesternStatesWater.WaDE.Engines;
 
-public class FormattingEngine : EngineBase, IFormattingEngine
+internal class FormattingEngine : EngineBase, IFormattingEngine
 {
     public FormattingEngine(IEngineRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
     {
