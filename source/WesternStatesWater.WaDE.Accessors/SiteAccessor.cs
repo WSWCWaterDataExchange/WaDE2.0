@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 
 namespace WesternStatesWater.WaDE.Accessors;
 

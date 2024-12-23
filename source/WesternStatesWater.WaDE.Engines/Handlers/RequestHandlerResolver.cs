@@ -1,6 +1,6 @@
 using WesternStatesWater.Shared.Resolver;
 
-namespace WesternStatesWater.WaDE.Engines;
+namespace WesternStatesWater.WaDE.Engines.Handlers;
 
 public class RequestHandlerResolver(IServiceProvider serviceProvider)
     : RequestHandlerResolverBase(serviceProvider), IEngineRequestHandlerResolver

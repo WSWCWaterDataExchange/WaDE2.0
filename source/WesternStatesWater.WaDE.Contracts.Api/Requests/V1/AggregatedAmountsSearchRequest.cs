@@ -1,8 +1,6 @@
-using WesternStatesWater.Shared.DataContracts;
-
 namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
-public class AggregatedAmountsSearchRequest : RequestBase
+public class AggregatedAmountsSearchRequest : WaterResourceLoadRequestBase
 {
     public required AggregatedAmountsFilters Filters { get; init; }
 

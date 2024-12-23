@@ -8,14 +8,18 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WaDEApiFunctions;
 using WesternStatesWater.WaDE.Accessors;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Engines;
+using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using AccessorExt = WesternStatesWater.WaDE.Accessors.Extensions;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
+using EngineExt = WesternStatesWater.WaDE.Engines.Extensions;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
-using EngineExt = WesternStatesWater.WaDE.Engines.Extensions;
+using RequestHandlerResolver = WesternStatesWater.WaDE.Accessors.Handlers.RequestHandlerResolver;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -64,17 +68,25 @@ var host = new HostBuilder()
         services.AddSingleton(configuration);
 
         services
-            .AddScoped<IManagerRequestHandlerResolver,
-                WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
-        services.AddScoped<IEngineRequestHandlerResolver, WesternStatesWater.WaDE.Engines.RequestHandlerResolver>();
+            .AddScoped<IManagerRequestHandlerResolver, WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
+        
+        services
+            .AddScoped<IEngineRequestHandlerResolver, WesternStatesWater.WaDE.Engines.Handlers.RequestHandlerResolver>();
+        
+        services
+            .AddScoped<IAccessorRequestHandlerResolver, RequestHandlerResolver>();
+        
+        AccessorExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
 
-        services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
+        // marked for consolidation into IWaterResourceManager
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
+        
         services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.IWaterResourceManager, WaterResourceManager>();
 
         services.AddTransient<EngineApi.IValidationEngine, ValidationEngine>();
         services.AddTransient<EngineApi.IFormattingEngine, FormattingEngine>();

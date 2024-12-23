@@ -3,11 +3,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using WesternStatesWater.WaDE.Accessors;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Engines;
+using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using AccessorExt = WesternStatesWater.WaDE.Accessors.Extensions;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
@@ -34,11 +37,11 @@ public abstract class IntegrationTestsBase
         var services = new ServiceCollection();
 
         // Managers
-        services.AddTransient<ManagerApi.IAggregatedAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IRegulatoryOverlayManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.ISiteVariableAmountsManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
+        services.AddTransient<ManagerApi.IWaterResourceManager, WaterResourceManager>();
 
         // Engines
         services.AddTransient<EngineApi.IValidationEngine, ValidationEngine>();
@@ -59,12 +62,18 @@ public abstract class IntegrationTestsBase
 
         services.AddScoped<
             IEngineRequestHandlerResolver,
-            Engines.RequestHandlerResolver
+            Engines.Handlers.RequestHandlerResolver
+        >();
+
+        services.AddScoped<
+            IAccessorRequestHandlerResolver,
+            Accessors.Handlers.RequestHandlerResolver
         >();
 
         // Handlers
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
+        AccessorExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
 
         // Utilities, config, misc.
         services.AddScoped<IConfiguration>(_ => Configuration.GetConfiguration());

@@ -5,21 +5,22 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_AggregatedAmounts : FunctionBase
     {
-        private readonly IAggregatedAmountsManager _aggregatedAmountsManager;
+        private readonly IWaterResourceManager _waterResourceManager;
         
         private readonly ILogger<WaterAllocation_AggregatedAmounts> _logger;
 
         public WaterAllocation_AggregatedAmounts(
-            IAggregatedAmountsManager aggregatedAmountsManager,
+            IWaterResourceManager waterResourceManager,
             ILogger<WaterAllocation_AggregatedAmounts> logger
         )
         {
-            _aggregatedAmountsManager = aggregatedAmountsManager;
+            _waterResourceManager = waterResourceManager;
             _logger = logger;
         }
 
@@ -103,7 +104,9 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            var siteAllocationAmounts = await _aggregatedAmountsManager.Load(searchRequest);
+            // todo test manually
+            var siteAllocationAmounts = await _waterResourceManager
+                .Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(searchRequest);
             
             return await CreateOkResponse(req, siteAllocationAmounts);
         }
