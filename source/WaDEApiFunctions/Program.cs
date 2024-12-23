@@ -19,7 +19,6 @@ using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
 using EngineExt = WesternStatesWater.WaDE.Engines.Extensions;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
-using RequestHandlerResolver = WesternStatesWater.WaDE.Accessors.Handlers.RequestHandlerResolver;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
@@ -64,17 +63,22 @@ var host = new HostBuilder()
         });
 
         services.AddHttpContextAccessor();
-
         services.AddSingleton(configuration);
 
-        services
-            .AddScoped<IManagerRequestHandlerResolver, WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver>();
-        
-        services
-            .AddScoped<IEngineRequestHandlerResolver, WesternStatesWater.WaDE.Engines.Handlers.RequestHandlerResolver>();
-        
-        services
-            .AddScoped<IAccessorRequestHandlerResolver, RequestHandlerResolver>();
+        services.AddScoped<
+            IManagerRequestHandlerResolver,
+            WesternStatesWater.WaDE.Managers.Api.Handlers.RequestHandlerResolver
+        >();
+
+        services.AddScoped<
+            IEngineRequestHandlerResolver,
+            WesternStatesWater.WaDE.Engines.Handlers.RequestHandlerResolver
+        >();
+
+        services.AddScoped<
+            IAccessorRequestHandlerResolver,
+            WesternStatesWater.WaDE.Accessors.Handlers.RequestHandlerResolver
+        >();
         
         AccessorExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
