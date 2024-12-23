@@ -70,7 +70,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
     }
 
     [TestMethod]
-    public async Task Handler_FilerSiteUuids_ReturnsRequestedTimeSeries()
+    public async Task Handler_FilterSiteUuids_ReturnsRequestedTimeSeries()
     {
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
