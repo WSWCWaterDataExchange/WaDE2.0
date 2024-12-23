@@ -9,6 +9,8 @@ using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WaDEApiFunctions.v1;
 using WesternStatesWater.WaDE.Contracts.Api;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WesternStatesWater.WaDE.Clients.Tests.v1
 {
@@ -40,17 +42,31 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         public async Task Run_GeometryFormat(string formatString, GeometryFormat expectedGeometryFormat)
         {
             var faker = new Faker();
-            _aggregatedAmountsManagerMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, expectedGeometryFormat))
-                .Returns(Task.FromResult(new AggregatedAmounts()));
+
+            _aggregatedAmountsManagerMock
+                .Arrange(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                        req.StartIndex == 0 &&
+                        req.RecordCount == 1000 &&
+                        req.OutputGeometryFormat == expectedGeometryFormat
+                    ))
+                )
+                .ReturnsAsync(new AggregatedAmountsSearchResponse { AggregatedAmounts = new AggregatedAmounts() });
 
             var context = Mock.Create<FunctionContext>();
-            var request = new FakeHttpRequestData(context, new Uri($"http://localhost?VariableCV={faker.Random.Word()}&geoFormat={formatString}"));
+            var request = new FakeHttpRequestData(context,
+                new Uri($"http://localhost?VariableCV={faker.Random.Word()}&geoFormat={formatString}"));
 
             var sut = CreateAggregatedAmountsFunction();
             var result = await sut.Run(request);
             result.StatusCode.Should().Be(HttpStatusCode.OK);
-            
-            _aggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, expectedGeometryFormat), Occurs.Once());
+
+            _aggregatedAmountsManagerMock.Assert(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                    req.StartIndex == 0 &&
+                    req.RecordCount == 1000 &&
+                    req.OutputGeometryFormat == expectedGeometryFormat
+                )),
+                Occurs.Once()
+            );
         }
 
         [DataTestMethod]
@@ -61,8 +77,14 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         [DataRow("good one", HttpStatusCode.OK)]
         public async Task Run_VariableCV(string variableCv, HttpStatusCode expectedHttpStatusCode)
         {
-            _aggregatedAmountsManagerMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt))
-                .Returns(Task.FromResult(new AggregatedAmounts()));
+            _aggregatedAmountsManagerMock
+                .Arrange(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                        req.StartIndex == 0 &&
+                        req.RecordCount == 1000 &&
+                        req.OutputGeometryFormat == GeometryFormat.Wkt
+                    ))
+                )
+                .ReturnsAsync(new AggregatedAmountsSearchResponse { AggregatedAmounts = new AggregatedAmounts() });
 
             var context = Mock.Create<FunctionContext>();
             var request = new FakeHttpRequestData(context, new Uri($"http://localhost?VariableCV={variableCv}"));
@@ -73,12 +95,19 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
 
             if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
-                _aggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Never());
+                _aggregatedAmountsManagerMock.Assert(
+                    a => a.Load(Arg.IsAny<AggregatedAmountsSearchRequest>()), Occurs.Never());
             }
             else
             {
-                _aggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.IsAny<AggregatedAmountsFilters>(), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
-                _aggregatedAmountsManagerMock.Assert(a => a.GetAggregatedAmountsAsync(Arg.Matches<AggregatedAmountsFilters>(f => f.VariableCV == variableCv), 0, 1000, GeometryFormat.Wkt), Occurs.Once());
+                _aggregatedAmountsManagerMock.Assert(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                        req.Filters.VariableCV == variableCv &&
+                        req.StartIndex == 0 &&
+                        req.RecordCount == 1000 &&
+                        req.OutputGeometryFormat == GeometryFormat.Wkt
+                    )),
+                    Occurs.Once()
+                );
             }
         }
 

@@ -5,13 +5,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Contracts.Api;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Managers.Api.Handlers.V1;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api;
 using WesternStatesWater.WaDE.Utilities;
 
-namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
+namespace WesternStatesWater.WaDE.Managers.Tests.Handlers
 {
     [TestClass]
-    public class ApiAggregratedAmountsManagerTests : WaterResourceManagerTestsBase
+    public class AggregatedAmountsSearchRequestHandlerTests : HandlerTestsBase
     {
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt, null)]
@@ -24,11 +26,21 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             accessorResult.Organizations.First().ReportingUnits[0].ReportingUnitGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
             AggregatedAmountsAccessorMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<Accessors.Contracts.Api.AggregatedAmountsFilters>(), 0, 1))
                                        .Returns(Task.FromResult(accessorResult));
-            var sut = CreateAggregratedAmountsManager();
-            var result = await sut.GetAggregatedAmountsAsync(new Contracts.Api.AggregatedAmountsFilters(), 0, 1, geometryFormat);
-            result.Should().NotBeNull();
+            var sut = CreateHandler();
+            
+            var request = new AggregatedAmountsSearchRequest
+            {
+                Filters = new AggregatedAmountsFilters(),
+                StartIndex = 0,
+                RecordCount = 1,
+                OutputGeometryFormat = geometryFormat
+            };
+            
+            var result = await sut.Handle(request);
+            
+            result.AggregatedAmounts.Should().NotBeNull();
 
-            var resultGeometry = result.Organizations.First().ReportingUnits[0].ReportingUnitGeometry;
+            var resultGeometry = result.AggregatedAmounts.Organizations.First().ReportingUnits[0].ReportingUnitGeometry;
             if (expectedResultString == null)
             {
                 resultGeometry.Should().BeNull();
@@ -51,11 +63,21 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             accessorResult.Organizations.First().WaterSources[0].WaterSourceGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
             AggregatedAmountsAccessorMock.Arrange(a => a.GetAggregatedAmountsAsync(Arg.IsAny<Accessors.Contracts.Api.AggregatedAmountsFilters>(), 0, 1))
                                        .Returns(Task.FromResult(accessorResult));
-            var sut = CreateAggregratedAmountsManager();
-            var result = await sut.GetAggregatedAmountsAsync(new Contracts.Api.AggregatedAmountsFilters(), 0, 1, geometryFormat);
-            result.Should().NotBeNull();
+            var sut = CreateHandler();
 
-            var resultGeometry = result.Organizations.First().WaterSources[0].WaterSourceGeometry;
+            var request = new AggregatedAmountsSearchRequest
+            {
+                Filters = new AggregatedAmountsFilters(),
+                StartIndex = 0,
+                RecordCount = 1,
+                OutputGeometryFormat = geometryFormat
+            };
+            
+            var result = await sut.Handle(request);
+            
+            result.AggregatedAmounts.Should().NotBeNull();
+
+            var resultGeometry = result.AggregatedAmounts.Organizations.First().WaterSources[0].WaterSourceGeometry;
             if (expectedResultString == null)
             {
                 resultGeometry.Should().BeNull();
@@ -67,9 +89,9 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             }
         }
 
-        private IAggregatedAmountsManager CreateAggregratedAmountsManager()
+        private AggregatedAmountsSearchRequestHandler CreateHandler()
         {
-            return CreateWaterResourceManager();
+            return new AggregatedAmountsSearchRequestHandler(AggregatedAmountsAccessorMock);
         }
     }
 }

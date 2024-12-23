@@ -1,16 +1,17 @@
 ﻿using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Managers.Api.Mapping;
-using WesternStatesWater.WaDE.Managers.Mapping;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WesternStatesWater.WaDE.Managers.Api
 {
     internal partial class WaterResourceManager : IAggregatedAmountsManager
-    {   
-        async Task<AggregatedAmounts> IAggregatedAmountsManager.GetAggregatedAmountsAsync(AggregatedAmountsFilters filters, int startIndex, int recordCount, GeometryFormat outputGeometryFormat)
+    {
+        async Task<AggregatedAmountsSearchResponse> IAggregatedAmountsManager.Load(
+            AggregatedAmountsSearchRequest request
+        )
         {
-            var results = await _aggregratedAmountsAccessor.GetAggregatedAmountsAsync(filters.Map<AccessorApi.AggregatedAmountsFilters>(), startIndex, recordCount);
-            return results.Map<AggregatedAmounts>(a => a.Items.Add(ApiProfile.GeometryFormatKey, outputGeometryFormat));
+            return await ExecuteAsync<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(request);
         }
     }
 }

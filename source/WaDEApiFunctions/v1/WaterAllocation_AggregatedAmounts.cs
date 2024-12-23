@@ -4,6 +4,7 @@ using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
 namespace WaDEApiFunctions.v1
 {
@@ -80,21 +81,29 @@ namespace WaDEApiFunctions.v1
                     ));
             }
 
-            var siteAllocationAmounts = await _aggregatedAmountsManager.GetAggregatedAmountsAsync(new AggregatedAmountsFilters
+            var searchRequest = new AggregatedAmountsSearchRequest
             {
-                BeneficialUse = beneficialUse,
-                Geometry = geometry,
-                ReportingUnitTypeCV = reportingUnitTypeCV,
-                ReportingUnitUUID = reportingUnitUUID,
-                UsgsCategoryNameCV = usgsCategoryNameCV,
-                VariableCV = variableCV,
-                VariableSpecificCV = variableSpecificCV,
-                StartDate = startDate,
-                EndDate = endDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                State = state
-            }, startIndex, recordCount, geoFormat);
+                Filters = new AggregatedAmountsFilters
+                {
+                    BeneficialUse = beneficialUse,
+                    Geometry = geometry,
+                    ReportingUnitTypeCV = reportingUnitTypeCV,
+                    ReportingUnitUUID = reportingUnitUUID,
+                    UsgsCategoryNameCV = usgsCategoryNameCV,
+                    VariableCV = variableCV,
+                    VariableSpecificCV = variableSpecificCV,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
+
+            var siteAllocationAmounts = await _aggregatedAmountsManager.Load(searchRequest);
             
             return await CreateOkResponse(req, siteAllocationAmounts);
         }
