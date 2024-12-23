@@ -11,4 +11,8 @@
       <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="GeoJSON.Net" Version="1.4.1" />
+    </ItemGroup>
+
 </Project>

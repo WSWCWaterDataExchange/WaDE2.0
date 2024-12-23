@@ -30,5 +30,8 @@
     <Compile Update="WaterAllocationManager.cs">
       <DependentUpon>WaterResourceManager.cs</DependentUpon>
     </Compile>
+    <Compile Update="SiteManager.cs">
+      <DependentUpon>WaterResourceManager.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>
