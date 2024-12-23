@@ -17,12 +17,12 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
     [TestClass]
     public class WaterAllocationAggregatedAmountsTests : FunctionTestBase
     {
-        private IWaterResourceManager _managerMock = null!;
+        private IWaterResourceManager _waterResourceManagerMock = null!;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _managerMock = Mock.Create<IWaterResourceManager>(Behavior.Strict);
+            _waterResourceManagerMock = Mock.Create<IWaterResourceManager>(Behavior.Strict);
         }
 
         [DataTestMethod]
@@ -43,7 +43,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         {
             var faker = new Faker();
 
-            _managerMock
+            _waterResourceManagerMock
                 .Arrange(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(
                     Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.StartIndex == 0 &&
@@ -61,7 +61,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
             var result = await sut.Run(request);
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            _managerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+            _waterResourceManagerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                     req.StartIndex == 0 &&
                     req.RecordCount == 1000 &&
                     req.OutputGeometryFormat == expectedGeometryFormat
@@ -78,7 +78,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         [DataRow("good one", HttpStatusCode.OK)]
         public async Task Run_VariableCV(string variableCv, HttpStatusCode expectedHttpStatusCode)
         {
-            _managerMock
+            _waterResourceManagerMock
                 .Arrange(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
@@ -96,12 +96,12 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
 
             if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
-                _managerMock.Assert(
+                _waterResourceManagerMock.Assert(
                     a => a.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.IsAny<AggregatedAmountsSearchRequest>()), Occurs.Never());
             }
             else
             {
-                _managerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                _waterResourceManagerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.Filters.VariableCV == variableCv &&
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
@@ -115,7 +115,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         private WaterAllocation_AggregatedAmounts CreateAggregatedAmountsFunction()
         {
             return new WaterAllocation_AggregatedAmounts(
-                _managerMock,
+                _waterResourceManagerMock,
                 CreateLogger<WaterAllocation_AggregatedAmounts>()
             );
         }
