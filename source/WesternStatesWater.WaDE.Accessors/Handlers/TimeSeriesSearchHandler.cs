@@ -1,0 +1,35 @@
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using WesternStatesWater.Shared.Resolver;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
+using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Extensions;
+using WesternStatesWater.WaDE.Accessors.Mapping;
+
+namespace WesternStatesWater.WaDE.Accessors.Handlers;
+
+public class TimeSeriesSearchHandler(IConfiguration configuration)
+    : IRequestHandler<TimeSeriesSearchRequest, TimeSeriesSearchResponse>
+{
+    public async Task<TimeSeriesSearchResponse> Handle(TimeSeriesSearchRequest request)
+    {
+        await using var db = new WaDEContext(configuration);
+
+        var timeSeries = await db.SiteVariableAmountsFact
+            .AsNoTracking()
+            .OrderBy(ts => ts.SiteVariableAmountId)
+            .ApplySearchFilters(request)
+            .ProjectTo<TimeSeriesSearchItem>(DtoMapper.Configuration)
+            .ToListAsync();
+
+        return new TimeSeriesSearchResponse
+        {
+            TimeSeries = timeSeries
+        };
+    }
+}
