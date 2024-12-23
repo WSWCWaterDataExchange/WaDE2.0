@@ -16,7 +16,8 @@ public abstract class FunctionBase
     private static JsonSerializerOptions JsonSerializerOptions => new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Converters = { new JsonStringEnumConverter() }
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters = { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory() }
     };
 
     protected static async Task<HttpResponseData> CreateOkResponse<T>(

@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using AutoMapper;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
@@ -17,7 +16,7 @@ public class ApiV2Profile : Profile
                 .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
                 .ForMember(a => a.UsgsSiteId, b => b.MapFrom(c => c.UsgssiteId))
                 .ForMember(a => a.SiteType, b => b.MapFrom(c => c.SiteTypeCv))
-                .ForMember(a => a.Location, b => b.MapFrom(c => c.Geometry))
+                .ForMember(a => a.Location, b => b.MapFrom(c => c.Geometry != null ? c.Geometry : c.SitePoint))
                 .ForMember(a => a.CoordinateMethod, b => b.MapFrom(c => c.CoordinateMethodCv))
                 .ForMember(a => a.CoordinateAccuracy, b => b.MapFrom(c => c.CoordinateAccuracy))
                 .ForMember(a => a.GnisCode, b => b.MapFrom(c => c.GniscodeCv))

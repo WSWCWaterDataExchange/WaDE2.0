@@ -1,4 +1,5 @@
 using AutoMapper;
+using NetTopologySuite.IO;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
@@ -6,17 +7,29 @@ public class OgcApiProfile : Profile
 {
     public OgcApiProfile()
     {
+        CreateMap<Engines.Contracts.Ogc.SiteFeature, Contracts.Api.OgcApi.SiteFeature>()
+            .ForMember(dest => dest.Attributes, mem => mem.Ignore());
+
         CreateMap<Engines.Contracts.Ogc.Collection, Contracts.Api.OgcApi.Collection>();
         CreateMap<Engines.Contracts.Ogc.Link, Contracts.Api.OgcApi.Link>();
         CreateMap<Engines.Contracts.Ogc.Extent, Contracts.Api.OgcApi.Extent>();
         CreateMap<Engines.Contracts.Ogc.Spatial, Contracts.Api.OgcApi.Spatial>();
         CreateMap<Engines.Contracts.Ogc.Temporal, Contracts.Api.OgcApi.Temporal>();
-        
+
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse, Contracts.Api.OgcApi.CollectionsResponse>();
 
         CreateMap<Contracts.Api.Requests.V2.CollectionMetadataRequest,
             Engines.Contracts.Ogc.Requests.CollectionRequest>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionResponse,
             Contracts.Api.Responses.V2.CollectionMetadataResponse>();
+
+        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Engines.Contracts.Ogc.Requests.SiteFeaturesRequest>();
+
+        CreateMap<Engines.Contracts.Ogc.Responses.SiteFeaturesResponse,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
+
+        CreateMap<Contracts.Api.Requests.V2.FeaturesSearchRequestBase,
+            Engines.Contracts.Ogc.Requests.FeaturesRequestBase>();
     }
 }
