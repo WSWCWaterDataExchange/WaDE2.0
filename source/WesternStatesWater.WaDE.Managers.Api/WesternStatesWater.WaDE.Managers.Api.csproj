@@ -18,9 +18,6 @@
     <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="RegulatoryOverlayManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
     <Compile Update="SiteVariableAmountsManager.cs">
       <DependentUpon>WaterResourceManager.cs</DependentUpon>
     </Compile>

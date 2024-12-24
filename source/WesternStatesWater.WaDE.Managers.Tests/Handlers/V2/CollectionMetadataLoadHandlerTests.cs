@@ -10,7 +10,7 @@ using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 using WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-namespace WesternStatesWater.WaDE.Managers.Tests.Handlers;
+namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V2;
 
 [TestClass]
 public class CollectionMetadataLoadHandlerTests
@@ -66,7 +66,7 @@ public class CollectionMetadataLoadHandlerTests
         result.Collection.Should().NotBeNull();
         result.Collection.Id.Should().Be(collectionId);
         result.Collection.Extent.Should().NotBeNull();
-        result.Collection.Extent.Spatial.Should().NotBeNull();
+        result.Collection.Extent!.Spatial.Should().NotBeNull();
         result.Collection.Extent.Spatial.Bbox[0][0].Should().Be(-10);
         result.Collection.Extent.Spatial.Bbox[0][1].Should().Be(-10);
         result.Collection.Extent.Spatial.Bbox[0][2].Should().Be(10);

@@ -4,21 +4,24 @@ using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_RegulatoryOverlay : FunctionBase
     {
-        private readonly IRegulatoryOverlayManager _regulatoryOverlayManager;
+        private readonly IWaterResourceManager _waterResourceManager;
         
         private readonly ILogger<WaterAllocation_RegulatoryOverlay> _logger;
         
         public WaterAllocation_RegulatoryOverlay(
-            IRegulatoryOverlayManager regulatoryOverlayManager,
+            IWaterResourceManager waterResourceManager,
             ILogger<WaterAllocation_RegulatoryOverlay> logger
         )
         {
-            _regulatoryOverlayManager = regulatoryOverlayManager;
+            _waterResourceManager = waterResourceManager;
             _logger = logger;
         }
 
@@ -72,20 +75,29 @@ namespace WaDEApiFunctions.v1
                     new ValidationError("Filters", ["At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state"])
                 );
             }
-            
-            var regulatoryReportingUnits = await _regulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
+
+            var request = new OverlayResourceSearchRequest
             {
-                ReportingUnitUUID = reportingUnitUUID,
-                RegulatoryOverlayUUID = regulatoryOverlayUUID,
-                OrganizationUUID = organizationUUID,
-                StatutoryEffectiveDate = statutoryEffectiveDate,
-                StatutoryEndDate = statutoryEndDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                RegulatoryStatusCV = regulatoryStatusCV,
-                Geometry = geometry,
-                State = state
-            }, startIndex, recordCount, geoFormat);
+                Filters = new RegulatoryOverlayFilters
+                {
+                    ReportingUnitUUID = reportingUnitUUID,
+                    RegulatoryOverlayUUID = regulatoryOverlayUUID,
+                    OrganizationUUID = organizationUUID,
+                    StatutoryEffectiveDate = statutoryEffectiveDate,
+                    StatutoryEndDate = statutoryEndDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    RegulatoryStatusCV = regulatoryStatusCV,
+                    Geometry = geometry,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
+
+            var regulatoryReportingUnits = await _waterResourceManager
+                .Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>(request);
             
             return await CreateOkResponse(req, regulatoryReportingUnits);
         }
