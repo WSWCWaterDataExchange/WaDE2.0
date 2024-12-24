@@ -7,6 +7,6 @@ public class OverlayResourceSearchRequestValidator : AbstractValidator<OverlayRe
     public OverlayResourceSearchRequestValidator()
     {
         // This class is necessary to use our newer patterns but is empty for legacy
-        // // reasons (the validation is done in the client). 
+        // reasons (the validation is done in the client). 
     }
 }

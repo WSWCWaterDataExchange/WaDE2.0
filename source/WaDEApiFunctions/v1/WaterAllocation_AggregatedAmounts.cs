@@ -104,7 +104,6 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            // todo test manually
             var siteAllocationAmounts = await _waterResourceManager
                 .Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(searchRequest);
             
