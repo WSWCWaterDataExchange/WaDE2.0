@@ -93,7 +93,8 @@ namespace WaDEApiFunctions.v1
                     State = state
                 },
                 StartIndex = startIndex,
-                RecordCount = recordCount
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
             };
 
             var siteAllocationAmounts = await _waterResourceManager
