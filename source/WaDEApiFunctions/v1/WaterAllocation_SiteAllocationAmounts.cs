@@ -51,7 +51,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -59,7 +59,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -75,7 +75,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("Filters",
                     [
@@ -110,8 +110,9 @@ namespace WaDEApiFunctions.v1
             var response = await _waterResourceManager
                 .Load<SiteAllocationAmountsSearchRequest, SiteAllocationAmountsSearchResponse>(request);
 
-            // todo if error, return error response?
-            return await CreateOkResponse(req, response.WaterAllocations);
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocations)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
@@ -136,7 +137,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -144,7 +145,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -156,7 +157,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("Filters",
                     [
@@ -186,8 +187,9 @@ namespace WaDEApiFunctions.v1
             var response = await _waterResourceManager
                 .Load<SiteAllocationAmountsDigestSearchRequest, SiteAllocationAmountsDigestSearchResponse>(request);
 
-            // todo if error, return error response?
-            return await CreateOkResponse(req, response.WaterAllocationDigests);
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocationDigests)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class SiteAllocationAmountsRequestBody

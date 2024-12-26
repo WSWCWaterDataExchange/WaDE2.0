@@ -49,7 +49,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -57,7 +57,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -72,7 +72,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError(
                         "Filters",
@@ -106,9 +106,10 @@ namespace WaDEApiFunctions.v1
 
             var response = await _waterResourceManager
                 .Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(searchRequest);
-            
-            // todo if error, return error response?
-            return await CreateOkResponse(req, response.AggregatedAmounts);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.AggregatedAmounts)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class AggregratedAmountsRequestBody
