@@ -13,7 +13,7 @@ using WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V2;
 
 [TestClass]
-public class CollectionMetadataLoadHandlerTests
+public class CollectionMetadataGetRequestHandlerTests
 {
     private readonly IFormattingEngine _formattingEngineMock = Mock.Create<IFormattingEngine>(Behavior.Strict);
 
@@ -83,8 +83,8 @@ public class CollectionMetadataLoadHandlerTests
         _formattingEngineMock.AssertAll();
     }
 
-    private CollectionMetadataLoadHandler CreateHandler()
+    private CollectionMetadataGetRequestHandler CreateHandler()
     {
-        return new CollectionMetadataLoadHandler(_formattingEngineMock);
+        return new CollectionMetadataGetRequestHandler(_formattingEngineMock);
     }
 }

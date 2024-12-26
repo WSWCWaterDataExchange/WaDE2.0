@@ -18,5 +18,7 @@ public class OgcApiProfile : Profile
             Engines.Contracts.Ogc.Requests.CollectionRequest>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionResponse,
             Contracts.Api.Responses.V2.CollectionMetadataGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse,
+            Contracts.Api.Responses.V2.CollectionsMetadataGetResponse>();
     }
 }

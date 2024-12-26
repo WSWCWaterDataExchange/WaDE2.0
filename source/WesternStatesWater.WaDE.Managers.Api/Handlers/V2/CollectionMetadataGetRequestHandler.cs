@@ -9,7 +9,7 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class CollectionMetadataLoadHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionMetadataGetRequest, CollectionMetadataGetResponse>
+public class CollectionMetadataGetRequestHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionMetadataGetRequest, CollectionMetadataGetResponse>
 {
     public async Task<CollectionMetadataGetResponse> Handle(CollectionMetadataGetRequest getRequest)
     {
