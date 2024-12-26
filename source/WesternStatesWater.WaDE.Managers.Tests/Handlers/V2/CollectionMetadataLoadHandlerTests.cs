@@ -22,7 +22,7 @@ public class CollectionMetadataLoadHandlerTests
     {
         // Arrange
         string collectionId = "foos";
-        var request = new CollectionMetadataRequest
+        var request = new CollectionMetadataGetRequest
         {
             CollectionId = collectionId
         };

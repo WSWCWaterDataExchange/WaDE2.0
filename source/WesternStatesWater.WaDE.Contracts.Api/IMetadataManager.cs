@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
-using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
+using WesternStatesWater.WaDE.Contracts.Api.Responses;
 
 namespace WesternStatesWater.WaDE.Contracts.Api;
 

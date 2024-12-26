@@ -37,7 +37,6 @@ public abstract class IntegrationTestsBase
         var services = new ServiceCollection();
 
         // Managers
-        services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterResourceManager, WaterResourceManager>();
 

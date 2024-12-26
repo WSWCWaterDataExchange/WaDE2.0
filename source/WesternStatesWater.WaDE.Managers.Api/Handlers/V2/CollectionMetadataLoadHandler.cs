@@ -9,12 +9,12 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class CollectionMetadataLoadHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionMetadataRequest, CollectionMetadataResponse>
+public class CollectionMetadataLoadHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionMetadataGetRequest, CollectionMetadataGetResponse>
 {
-    public async Task<CollectionMetadataResponse> Handle(CollectionMetadataRequest request)
+    public async Task<CollectionMetadataGetResponse> Handle(CollectionMetadataGetRequest getRequest)
     {
-        var dtoRequest = DtoMapper.Map<CollectionRequest>(request);
+        var dtoRequest = DtoMapper.Map<CollectionRequest>(getRequest);
         var dtoResponse = await formattingEngine.Format<CollectionRequest, CollectionResponse>(dtoRequest);
-        return DtoMapper.Map<CollectionMetadataResponse>(dtoResponse);
+        return DtoMapper.Map<CollectionMetadataGetResponse>(dtoResponse);
     }
 }
