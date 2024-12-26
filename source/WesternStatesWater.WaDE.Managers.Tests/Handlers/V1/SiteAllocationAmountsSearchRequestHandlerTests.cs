@@ -5,13 +5,15 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Contracts.Api;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Managers.Api.Handlers.V1;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api;
 using WesternStatesWater.WaDE.Utilities;
 
-namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
+namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V1
 {
     [TestClass]
-    public class ApiWaterAllocationManagerTests : WaterResourceManagerTestsBase 
+    public class SiteAllocationAmountsSearchRequestHandlerTests : HandlerTestsBase 
     {
         [DataTestMethod]
         [DataRow(null, GeometryFormat.Wkt, null)]
@@ -24,11 +26,20 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             accessorResult.Organizations.First().Sites[0].SiteGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
             WaterAllocationAccessorMock.Arrange(a => a.GetSiteAllocationAmountsAsync(Arg.IsAny<Accessors.Contracts.Api.SiteAllocationAmountsFilters>(), 0, 1))
                                        .Returns(Task.FromResult(accessorResult));
-            var sut = CreateWaterAllocationManager();
-            var result = await sut.GetSiteAllocationAmountsAsync(new Contracts.Api.SiteAllocationAmountsFilters(), 0, 1, geometryFormat);
+            var sut = CreateHandler();
+
+            var request = new SiteAllocationAmountsSearchRequest
+            {
+                Filters = new SiteAllocationAmountsFilters(),
+                StartIndex = 0,
+                RecordCount = 1,
+                OutputGeometryFormat = geometryFormat
+            };
+
+            var result = await sut.Handle(request);
             result.Should().NotBeNull();
 
-            var resultGeometry = result.Organizations.First().Sites[0].SiteGeometry;
+            var resultGeometry = result.WaterAllocations.Organizations.First().Sites[0].SiteGeometry;
             if (expectedResultString == null)
             {
                 resultGeometry.Should().BeNull();
@@ -51,11 +62,20 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             accessorResult.Organizations.First().WaterSources[0].WaterSourceGeometry = GeometryExtensions.GetGeometryByWkt(geometryString);
             WaterAllocationAccessorMock.Arrange(a => a.GetSiteAllocationAmountsAsync(Arg.IsAny<Accessors.Contracts.Api.SiteAllocationAmountsFilters>(), 0, 1))
                                        .Returns(Task.FromResult(accessorResult));
-            var sut = CreateWaterAllocationManager();
-            var result = await sut.GetSiteAllocationAmountsAsync(new Contracts.Api.SiteAllocationAmountsFilters(), 0, 1, geometryFormat);
+            var sut = CreateHandler();
+            
+            var request = new SiteAllocationAmountsSearchRequest
+            {
+                Filters = new SiteAllocationAmountsFilters(),
+                StartIndex = 0,
+                RecordCount = 1,
+                OutputGeometryFormat = geometryFormat
+            };
+            
+            var result = await sut.Handle(request);
             result.Should().NotBeNull();
 
-            var resultGeometry = result.Organizations.First().WaterSources[0].WaterSourceGeometry;
+            var resultGeometry = result.WaterAllocations.Organizations.First().WaterSources[0].WaterSourceGeometry;
             if (expectedResultString == null)
             {
                 resultGeometry.Should().BeNull();
@@ -67,9 +87,9 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager
             }
         }
 
-        private IWaterAllocationManager CreateWaterAllocationManager()
+        private SiteAllocationAmountsSearchRequestHandler CreateHandler()
         {
-            return CreateWaterResourceManager();
+            return new SiteAllocationAmountsSearchRequestHandler(WaterAllocationAccessorMock);
         }
     }
 }

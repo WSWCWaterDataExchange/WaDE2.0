@@ -13,4 +13,7 @@ public abstract class HandlerTestsBase
 
     protected ISiteVariableAmountsAccessor SiteVariableAmountsAccessorMock { get; } =
         Mock.Create<ISiteVariableAmountsAccessor>(Behavior.Strict);
+
+    protected IWaterAllocationAccessor WaterAllocationAccessorMock { get; } =
+        Mock.Create<IWaterAllocationAccessor>(Behavior.Strict);
 }

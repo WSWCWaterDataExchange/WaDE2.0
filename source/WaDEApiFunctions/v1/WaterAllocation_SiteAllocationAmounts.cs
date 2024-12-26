@@ -4,21 +4,23 @@ using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
-        private readonly IWaterAllocationManager _waterAllocationManager;
+        private readonly IWaterResourceManager _waterResourceManager;
         
         private readonly ILogger<WaterAllocation_SiteAllocationAmounts> _logger;
         
         public WaterAllocation_SiteAllocationAmounts(
-            IWaterAllocationManager waterAllocationManager,
+            IWaterResourceManager waterResourceManager,
             ILogger<WaterAllocation_SiteAllocationAmounts> logger
         )
         {
-            _waterAllocationManager = waterAllocationManager;
+            _waterResourceManager = waterResourceManager;
             _logger = logger;
         }
 
@@ -82,24 +84,34 @@ namespace WaDEApiFunctions.v1
                 );
             }
 
-            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            var request = new SiteAllocationAmountsSearchRequest
             {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                SiteUuid = siteUuid,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                HUC8 = huc8,
-                HUC12 = huc12,
-                County = county,
-                State = state
-            }, startIndex, recordCount, geoFormat);
+                Filters = new SiteAllocationAmountsFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    SiteUuid = siteUuid,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    HUC8 = huc8,
+                    HUC12 = huc12,
+                    County = county,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
 
-            return await CreateOkResponse(req, siteAllocationAmounts);
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsSearchRequest, SiteAllocationAmountsSearchResponse>(request);
+
+            // todo if error, return error response?
+            return await CreateOkResponse(req, response.WaterAllocations);
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
@@ -152,21 +164,30 @@ namespace WaDEApiFunctions.v1
                     ])
                 );
             }
-            
-            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
-            {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                OrganizationUUID = organizationUUID
-            }, startIndex, recordCount);
 
-            return await CreateOkResponse(req, siteAllocationAmounts);
+            var request = new SiteAllocationAmountsDigestSearchRequest
+            {
+                Filters = new SiteAllocationAmountsDigestFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    OrganizationUUID = organizationUUID
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount
+            };
+
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsDigestSearchRequest, SiteAllocationAmountsDigestSearchResponse>(request);
+
+            // todo if error, return error response?
+            return await CreateOkResponse(req, response.WaterAllocationDigests);
         }
 
         private sealed class SiteAllocationAmountsRequestBody

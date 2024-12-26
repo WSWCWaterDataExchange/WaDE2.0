@@ -96,10 +96,11 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            var regulatoryReportingUnits = await _waterResourceManager
+            var response = await _waterResourceManager
                 .Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>(request);
             
-            return await CreateOkResponse(req, regulatoryReportingUnits);
+            // todo if error, return error response?
+            return await CreateOkResponse(req, response.ReportingUnits);
         }
 
         private sealed class RegulatoryOverlayRequestBody

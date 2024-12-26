@@ -104,10 +104,11 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            var siteAllocationAmounts = await _waterResourceManager
+            var response = await _waterResourceManager
                 .Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(searchRequest);
             
-            return await CreateOkResponse(req, siteAllocationAmounts);
+            // todo if error, return error response?
+            return await CreateOkResponse(req, response.AggregatedAmounts);
         }
 
         private sealed class AggregratedAmountsRequestBody
