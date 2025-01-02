@@ -1,8 +1,4 @@
-﻿using GeoJSON.Net.Converters;
-using GeoJSON.Net.Feature;
-using GeoJSON.Net.Geometry;
-using NetTopologySuite;
-using NetTopologySuite.Geometries;
+﻿using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using Newtonsoft.Json;
 
@@ -23,17 +19,6 @@ namespace WesternStatesWater.WaDE.Utilities
                 serializer.Serialize(jsonWriter, geometry);
                 return (dynamic)JsonConvert.DeserializeObject(stringWriter.ToString());
             }
-        }
-        
-        public static IGeometryObject AsGeoJsonGeometry(this Geometry geometry)
-        {
-            if (geometry == null) throw new ArgumentNullException(nameof(geometry));
-
-            var geoJsonWriter = new GeoJsonWriter();
-            string geoJsonString = geoJsonWriter.Write(geometry);
-
-            // Deserialize into GeoJSON.Net object
-            return JsonConvert.DeserializeObject<IGeometryObject>(geoJsonString, new GeometryConverter());
         }
 
         //Json can start with lots of characters but I _believe_ GeoJson can only start with {
