@@ -3,19 +3,20 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Integration.Tests.WaterResources;
 
 [TestClass]
-public class AggregatedAmountsIntegrationTests : IntegrationTestsBase
+public class WaterResourceIntegrationTests : IntegrationTestsBase
 {
-    private IAggregatedAmountsManager _manager = null!;
+    private IWaterResourceManager _manager = null!;
 
     [TestInitialize]
     public void TestInitialize()
     {
-        _manager = Services.GetRequiredService<IAggregatedAmountsManager>();
+        _manager = Services.GetRequiredService<IWaterResourceManager>();
     }
 
     [DataTestMethod]
@@ -40,7 +41,7 @@ public class AggregatedAmountsIntegrationTests : IntegrationTestsBase
             RecordCount = requestCount
         };
 
-        var response = await _manager.Load(request);
+        var response = await _manager.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(request);
 
         // The total is always the total number of facts saved.
         response.AggregatedAmounts.TotalAggregatedAmountsCount.Should().Be(saveCount);

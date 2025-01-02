@@ -10,7 +10,7 @@ using WesternStatesWater.WaDE.Managers.Api.Handlers.V1;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api;
 using WesternStatesWater.WaDE.Utilities;
 
-namespace WesternStatesWater.WaDE.Managers.Tests.Handlers
+namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V1
 {
     [TestClass]
     public class AggregatedAmountsSearchRequestHandlerTests : HandlerTestsBase
@@ -48,7 +48,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests.Handlers
             else
             {
                 var expectedResult = geometryFormat == GeometryFormat.Wkt ? expectedResultString : Newtonsoft.Json.JsonConvert.DeserializeObject(expectedResultString);
-                resultGeometry.ToString().Should().Be(expectedResult.ToString());
+                resultGeometry.ToString().Should().Be(expectedResult!.ToString());
             }
         }
 

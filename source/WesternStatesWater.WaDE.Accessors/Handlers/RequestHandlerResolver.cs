@@ -1,7 +1,7 @@
 using System;
 using WesternStatesWater.Shared.Resolver;
 
-namespace WesternStatesWater.WaDE.Accessors;
+namespace WesternStatesWater.WaDE.Accessors.Handlers;
 
 public class RequestHandlerResolver(IServiceProvider serviceProvider) : RequestHandlerResolverBase(serviceProvider), IAccessorRequestHandlerResolver
 {

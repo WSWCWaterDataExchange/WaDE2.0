@@ -1,8 +1,8 @@
 namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 
-public class AggregatedAmountsSearchRequest : WaterResourceLoadRequestBase
+public class OverlayResourceSearchRequest : WaterResourceLoadRequestBase
 {
-    public required AggregatedAmountsFilters Filters { get; init; }
+    public RegulatoryOverlayFilters Filters { get; init; }
 
     public int StartIndex { get; init; }
 

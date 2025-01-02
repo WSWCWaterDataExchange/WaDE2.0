@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 using WesternStatesWater.WaDE.Utilities;

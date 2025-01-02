@@ -17,12 +17,12 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
     [TestClass]
     public class WaterAllocationAggregatedAmountsTests : FunctionTestBase
     {
-        private IAggregatedAmountsManager _aggregatedAmountsManagerMock = null!;
+        private IWaterResourceManager _waterResourceManagerMock = null!;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _aggregatedAmountsManagerMock = Mock.Create<IAggregatedAmountsManager>(Behavior.Strict);
+            _waterResourceManagerMock = Mock.Create<IWaterResourceManager>(Behavior.Strict);
         }
 
         [DataTestMethod]
@@ -43,8 +43,9 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         {
             var faker = new Faker();
 
-            _aggregatedAmountsManagerMock
-                .Arrange(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+            _waterResourceManagerMock
+                .Arrange(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(
+                    Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
                         req.OutputGeometryFormat == expectedGeometryFormat
@@ -60,7 +61,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
             var result = await sut.Run(request);
             result.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            _aggregatedAmountsManagerMock.Assert(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+            _waterResourceManagerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                     req.StartIndex == 0 &&
                     req.RecordCount == 1000 &&
                     req.OutputGeometryFormat == expectedGeometryFormat
@@ -77,8 +78,8 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         [DataRow("good one", HttpStatusCode.OK)]
         public async Task Run_VariableCV(string variableCv, HttpStatusCode expectedHttpStatusCode)
         {
-            _aggregatedAmountsManagerMock
-                .Arrange(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+            _waterResourceManagerMock
+                .Arrange(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
                         req.OutputGeometryFormat == GeometryFormat.Wkt
@@ -95,12 +96,12 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
 
             if (expectedHttpStatusCode == HttpStatusCode.BadRequest)
             {
-                _aggregatedAmountsManagerMock.Assert(
-                    a => a.Load(Arg.IsAny<AggregatedAmountsSearchRequest>()), Occurs.Never());
+                _waterResourceManagerMock.Assert(
+                    a => a.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.IsAny<AggregatedAmountsSearchRequest>()), Occurs.Never());
             }
             else
             {
-                _aggregatedAmountsManagerMock.Assert(mgr => mgr.Load(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
+                _waterResourceManagerMock.Assert(mgr => mgr.Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(Arg.Matches<AggregatedAmountsSearchRequest>(req =>
                         req.Filters.VariableCV == variableCv &&
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
@@ -114,7 +115,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         private WaterAllocation_AggregatedAmounts CreateAggregatedAmountsFunction()
         {
             return new WaterAllocation_AggregatedAmounts(
-                _aggregatedAmountsManagerMock,
+                _waterResourceManagerMock,
                 CreateLogger<WaterAllocation_AggregatedAmounts>()
             );
         }

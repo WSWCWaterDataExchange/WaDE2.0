@@ -7,4 +7,7 @@ public abstract class HandlerTestsBase
 {
     protected IAggregatedAmountsAccessor AggregatedAmountsAccessorMock { get; } =
         Mock.Create<IAggregatedAmountsAccessor>(Behavior.Strict);
+
+    protected IRegulatoryOverlayAccessor RegulatoryOverlayAccessorMock { get; } =
+        Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
 }

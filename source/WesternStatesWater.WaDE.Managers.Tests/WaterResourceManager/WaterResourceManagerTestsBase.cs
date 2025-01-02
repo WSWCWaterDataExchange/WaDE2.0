@@ -9,9 +9,6 @@ namespace WesternStatesWater.WaDE.Managers.Tests.WaterResourceManager;
 
 public abstract class WaterResourceManagerTestsBase
 {
-    protected IRegulatoryOverlayAccessor RegulatoryOverlayAccessorMock { get; }
-        = Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
-
     protected ISiteVariableAmountsAccessor SiteVariableAmountsAccessorMock { get; } =
         Mock.Create<ISiteVariableAmountsAccessor>(Behavior.Strict);
 
@@ -32,7 +29,6 @@ public abstract class WaterResourceManagerTestsBase
         return new Api.WaterResourceManager(
             Mock.Create<IManagerRequestHandlerResolver>(Behavior.Strict),
             FormattingEngineMock,
-            RegulatoryOverlayAccessorMock,
             SiteVariableAmountsAccessorMock,
             WaterAllocationAccessorMock,
             logger

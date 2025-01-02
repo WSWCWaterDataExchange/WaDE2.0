@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
