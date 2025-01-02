@@ -5,6 +5,7 @@ using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
+using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 
@@ -72,7 +73,7 @@ public class OgcFeaturesFormattingHandler(
 
         if (searchResponse.Sites.Count > 0)
         {
-            links.AddNextFeatures("sites", searchResponse.Sites[^1].SiteUuid);
+            links.AddNextFeatures(Constants.SitesCollectionId, searchResponse.Sites[^1].SiteUuid);
         }
         
         return new SiteFeaturesResponse
