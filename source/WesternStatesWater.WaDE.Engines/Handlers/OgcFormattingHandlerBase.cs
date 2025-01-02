@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
@@ -10,6 +11,7 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
 {
     protected readonly string ServerUrl = $"{configuration["ServerUrl"]}";
     protected readonly string ApiPath = $"{configuration["ApiPath"]}";
+    protected readonly GeometryFactory GeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
 
     protected Collection CreateCollection(MetadataBase metadata)
     {

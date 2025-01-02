@@ -21,7 +21,8 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.CollectionMetadataResponse>();
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
-            Engines.Contracts.Ogc.Requests.SiteFeaturesRequest>();
+                Engines.Contracts.Ogc.Requests.SiteFeaturesRequest>()
+            .ForMember(dest => dest.BoundingBox, mem => mem.MapFrom(src => src.Bbox));
 
         CreateMap<Engines.Contracts.Ogc.Responses.SiteFeaturesResponse,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();

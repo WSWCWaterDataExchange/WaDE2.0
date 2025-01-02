@@ -27,6 +27,12 @@ internal class LinkBuilder(string baseUrl, string apiPath)
         return this;
     }
 
+    public LinkBuilder AddNextFeatures(string collectionId, string lastUuid)
+    {
+        AddLink($"{_apiPath}/collections/{collectionId}/items?next={lastUuid}", "application/geo+json", "next");
+        return this;
+    }
+
     public Link[] Build()
     {
         return _links.ToArray();

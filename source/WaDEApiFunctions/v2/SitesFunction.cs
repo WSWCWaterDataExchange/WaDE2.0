@@ -54,6 +54,9 @@ public class WaterSitesFunction(
     [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "The maximum number of items to return.")]
+    [OpenApiParameter("bbox", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Bounding box to filter results.")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -70,13 +73,32 @@ public class WaterSitesFunction(
     {
         var request = new SiteFeaturesSearchRequest
         {
-            Limit = string.IsNullOrWhiteSpace(req.Query["limit"]) ? null : int.Parse(req.Query["limit"])
+            Limit = string.IsNullOrWhiteSpace(req.Query["limit"]) ? null : int.Parse(req.Query["limit"]),
+            Bbox = string.IsNullOrWhiteSpace(req.Query["bbox"]) ? null : ConvertBbox(req.Query["bbox"])
         };
         var response = (SiteFeaturesSearchResponse) await siteManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
 
         return await CreateOkResponse(req, response);
     }
+    
+    private double[][]? ConvertBbox(string bbox)
+    {
+        if (string.IsNullOrWhiteSpace(bbox))
+        {
+            return null;
+        }
 
+        var bboxParts = bbox.Split(',');
+        if (bboxParts.Length != 4)
+        {
+            return null;
+        }
+
+        return new[]
+        {
+            new[] { double.Parse(bboxParts[0]), double.Parse(bboxParts[1]), double.Parse(bboxParts[2]), double.Parse(bboxParts[3]) },
+        };
+    }
     [Function(nameof(GetWaterSite))]
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",
