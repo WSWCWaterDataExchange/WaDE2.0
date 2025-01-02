@@ -62,7 +62,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError(
                         "Filters",
@@ -97,10 +97,12 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            var siteAllocationAmounts = await _waterResourceManager
+            var response = await _waterResourceManager
                 .Load<SiteVariableAmountsSearchRequest, SiteVariableAmountsSearchResponse>(request);
-            
-            return await CreateOkResponse(req, siteAllocationAmounts);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.SiteVariableAmounts)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class AggregratedAmountsRequestBody

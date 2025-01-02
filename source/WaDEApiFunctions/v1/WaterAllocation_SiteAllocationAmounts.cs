@@ -4,21 +4,23 @@ using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
-        private readonly IWaterAllocationManager _waterAllocationManager;
+        private readonly IWaterResourceManager _waterResourceManager;
         
         private readonly ILogger<WaterAllocation_SiteAllocationAmounts> _logger;
         
         public WaterAllocation_SiteAllocationAmounts(
-            IWaterAllocationManager waterAllocationManager,
+            IWaterResourceManager waterResourceManager,
             ILogger<WaterAllocation_SiteAllocationAmounts> logger
         )
         {
-            _waterAllocationManager = waterAllocationManager;
+            _waterResourceManager = waterResourceManager;
             _logger = logger;
         }
 
@@ -49,7 +51,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -57,7 +59,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -73,7 +75,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("Filters",
                     [
@@ -82,24 +84,35 @@ namespace WaDEApiFunctions.v1
                 );
             }
 
-            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            var request = new SiteAllocationAmountsSearchRequest
             {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                SiteUuid = siteUuid,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                HUC8 = huc8,
-                HUC12 = huc12,
-                County = county,
-                State = state
-            }, startIndex, recordCount, geoFormat);
+                Filters = new SiteAllocationAmountsFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    SiteUuid = siteUuid,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    HUC8 = huc8,
+                    HUC12 = huc12,
+                    County = county,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
 
-            return await CreateOkResponse(req, siteAllocationAmounts);
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsSearchRequest, SiteAllocationAmountsSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocations)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
@@ -124,7 +137,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -132,7 +145,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -144,7 +157,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("Filters",
                     [
@@ -152,21 +165,31 @@ namespace WaDEApiFunctions.v1
                     ])
                 );
             }
-            
-            var siteAllocationAmounts = await _waterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
-            {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                OrganizationUUID = organizationUUID
-            }, startIndex, recordCount);
 
-            return await CreateOkResponse(req, siteAllocationAmounts);
+            var request = new SiteAllocationAmountsDigestSearchRequest
+            {
+                Filters = new SiteAllocationAmountsDigestFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    OrganizationUUID = organizationUUID
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount
+            };
+
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsDigestSearchRequest, SiteAllocationAmountsDigestSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocationDigests)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class SiteAllocationAmountsRequestBody

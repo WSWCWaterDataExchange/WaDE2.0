@@ -9,20 +9,16 @@ internal partial class WaterResourceManager : ManagerBase, ManagerApi.IMetadataM
 {
     private readonly IFormattingEngine _formattingEngine;
 
-    private readonly AccessorApi.ISiteVariableAmountsAccessor _siteVariableAmountsAccessor;
-
     private readonly AccessorApi.IWaterAllocationAccessor _waterAllocationAccessor;
 
     public WaterResourceManager(
         IManagerRequestHandlerResolver requestHandlerResolver,
         IFormattingEngine formattingEngine,
-        AccessorApi.ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
         AccessorApi.IWaterAllocationAccessor waterAllocationAccessor,
         ILogger<WaterResourceManager> logger)
         : base(logger, requestHandlerResolver)
     {
         _formattingEngine = formattingEngine;
-        _siteVariableAmountsAccessor = siteVariableAmountsAccessor;
         _waterAllocationAccessor = waterAllocationAccessor;
     }
 

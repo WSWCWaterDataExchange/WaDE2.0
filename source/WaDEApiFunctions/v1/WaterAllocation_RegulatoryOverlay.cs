@@ -6,7 +6,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
-using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v1
 {
@@ -49,7 +48,7 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
                 );
@@ -57,7 +56,7 @@ namespace WaDEApiFunctions.v1
 
             if (recordCount is < 1 or > 10000)
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
                 );
@@ -70,7 +69,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError("Filters", ["At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state"])
                 );
@@ -96,10 +95,12 @@ namespace WaDEApiFunctions.v1
                 OutputGeometryFormat = geoFormat
             };
 
-            var regulatoryReportingUnits = await _waterResourceManager
+            var response = await _waterResourceManager
                 .Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>(request);
-            
-            return await CreateOkResponse(req, regulatoryReportingUnits);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.ReportingUnits)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class RegulatoryOverlayRequestBody
