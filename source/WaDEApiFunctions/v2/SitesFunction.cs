@@ -14,7 +14,7 @@ namespace WaDEApiFunctions.v2;
 
 public class WaterSitesFunction(
     IMetadataManager metadataManager,
-    ISiteManager siteManager) : FunctionBase
+    IWaterResourceManager waterResourceManager) : FunctionBase
 {
     private const string PathBase = "v2/collections/sites/";
 
@@ -57,6 +57,9 @@ public class WaterSitesFunction(
     [OpenApiParameter("bbox", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Bounding box to filter results.")]
+    [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Next page")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -74,9 +77,10 @@ public class WaterSitesFunction(
         var request = new SiteFeaturesSearchRequest
         {
             Limit = string.IsNullOrWhiteSpace(req.Query["limit"]) ? null : int.Parse(req.Query["limit"]),
-            Bbox = string.IsNullOrWhiteSpace(req.Query["bbox"]) ? null : ConvertBbox(req.Query["bbox"])
+            Bbox = string.IsNullOrWhiteSpace(req.Query["bbox"]) ? null : ConvertBbox(req.Query["bbox"]),
+            LastSiteUuid = req.Query["next"]
         };
-        var response = (SiteFeaturesSearchResponse) await siteManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
+        var response = (SiteFeaturesSearchResponse) await waterResourceManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
 
         return await CreateOkResponse(req, response);
     }
