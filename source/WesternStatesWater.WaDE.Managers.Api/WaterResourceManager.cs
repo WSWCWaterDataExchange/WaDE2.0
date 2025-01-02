@@ -1,27 +1,14 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
 
 namespace WesternStatesWater.WaDE.Managers.Api;
 
-internal partial class WaterResourceManager : ManagerBase, ManagerApi.IMetadataManager, ManagerApi.IWaterResourceManager
+internal class WaterResourceManager(
+    IManagerRequestHandlerResolver requestHandlerResolver,
+    ILogger<WaterResourceManager> logger
+) : ManagerBase(logger, requestHandlerResolver), ManagerApi.IMetadataManager, ManagerApi.IWaterResourceManager
 {
-    private readonly IFormattingEngine _formattingEngine;
-
-    private readonly AccessorApi.IWaterAllocationAccessor _waterAllocationAccessor;
-
-    public WaterResourceManager(
-        IManagerRequestHandlerResolver requestHandlerResolver,
-        IFormattingEngine formattingEngine,
-        AccessorApi.IWaterAllocationAccessor waterAllocationAccessor,
-        ILogger<WaterResourceManager> logger)
-        : base(logger, requestHandlerResolver)
-    {
-        _formattingEngine = formattingEngine;
-        _waterAllocationAccessor = waterAllocationAccessor;
-    }
-
     async Task<TResponse> ManagerApi.IMetadataManager.Load<TRequest, TResponse>(TRequest request)
     {
         return await ExecuteAsync<TRequest, TResponse>(request);

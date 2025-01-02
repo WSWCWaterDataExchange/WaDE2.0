@@ -83,9 +83,6 @@ var host = new HostBuilder()
         AccessorExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         ManagerExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
         EngineExt.ServiceCollectionExtensions.RegisterRequestHandlers(services);
-
-        // marked for consolidation into IWaterResourceManager
-        services.AddTransient<ManagerApi.IWaterAllocationManager, WaterResourceManager>();
         
         services.AddTransient<ManagerApi.IMetadataManager, WaterResourceManager>();
         services.AddTransient<ManagerApi.IWaterResourceManager, WaterResourceManager>();

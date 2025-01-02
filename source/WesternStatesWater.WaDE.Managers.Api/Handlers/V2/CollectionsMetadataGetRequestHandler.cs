@@ -12,12 +12,12 @@ namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 /// <summary>
 /// Loads WaDEs Feature Collections following the OGC API - Features standard.
 /// </summary>
-public class CollectionsMetadataLoadHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionMetadataRequest, CollectionsMetadataResponse>
+public class CollectionsMetadataGetRequestHandler(IFormattingEngine formattingEngine) : IRequestHandler<CollectionsMetadataGetRequest, CollectionsMetadataGetResponse>
 {
-    public async Task<CollectionsMetadataResponse> Handle(CollectionMetadataRequest request)
+    public async Task<CollectionsMetadataGetResponse> Handle(CollectionsMetadataGetRequest getRequest)
     {
         var dtoRequest = new CollectionsRequest();
         var response = await formattingEngine.Format<CollectionsRequest, CollectionsResponse>(dtoRequest);
-        return DtoMapper.Map<CollectionsMetadataResponse>(response);
+        return DtoMapper.Map<CollectionsMetadataGetResponse>(response);
     }
 }

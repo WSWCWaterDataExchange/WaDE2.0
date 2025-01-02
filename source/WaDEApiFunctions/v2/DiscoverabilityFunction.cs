@@ -6,12 +6,21 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
-public class DiscoverabilityFunction(IWaterAllocationManager waterAllocationManager) : FunctionBase
+public class DiscoverabilityFunction : FunctionBase
 {
     private const string PathBase = "v2/";
+    
+    private readonly IMetadataManager _metadataManager;
+    
+    public DiscoverabilityFunction(IMetadataManager metadataManager)
+    {
+        _metadataManager = metadataManager;
+    }
 
     [Function("LandingPage")]
     [OpenApiOperation(operationId: "getLandingPage", tags: ["Capabilities"], Summary = "Landing Page",
@@ -100,7 +109,11 @@ public class DiscoverabilityFunction(IWaterAllocationManager waterAllocationMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var response = await waterAllocationManager.Collections();
+        var request = new CollectionsMetadataGetRequest();
+        
+        var response = await _metadataManager
+            .Load<CollectionsMetadataGetRequest, CollectionsMetadataGetResponse>(request);
+        
         return await CreateOkResponse(req, response);
     }
 }
