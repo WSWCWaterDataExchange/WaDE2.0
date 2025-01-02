@@ -5,7 +5,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-using Newtonsoft.Json;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
@@ -13,7 +12,8 @@ using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
-public class WaterSitesFunction(IMetadataManager metadataManager,
+public class WaterSitesFunction(
+    IMetadataManager metadataManager,
     ISiteManager siteManager) : FunctionBase
 {
     private const string PathBase = "v2/collections/sites/";
@@ -68,9 +68,12 @@ public class WaterSitesFunction(IMetadataManager metadataManager,
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var request = new SiteFeaturesSearchRequest();
-        var response = await siteManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
-        
+        var request = new SiteFeaturesSearchRequest
+        {
+            Limit = string.IsNullOrWhiteSpace(req.Query["limit"]) ? null : int.Parse(req.Query["limit"])
+        };
+        var response = (SiteFeaturesSearchResponse) await siteManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
+
         return await CreateOkResponse(req, response);
     }
 

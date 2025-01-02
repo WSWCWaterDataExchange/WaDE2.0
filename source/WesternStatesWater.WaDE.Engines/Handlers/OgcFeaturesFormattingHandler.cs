@@ -1,4 +1,3 @@
-// using GeoJSON.Net.Feature;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
@@ -6,10 +5,8 @@ using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
-using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
-using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
@@ -37,20 +34,21 @@ public class OgcFeaturesFormattingHandler(
         {
             FilterBoundary = request.BoundingBox != null ? ConvertBoundaryBoxToPolygon(request.BoundingBox) : null,
             LastSiteUuid = request.LastSiteUuid,
-            Limit = 10 //request.Limit
+            Limit = request.Limit
         };
         var searchResponse = await siteAccessor.Search<SiteSearchRequest, SiteSearchResponse>(searchRequest);
 
-        List<Feature> features = new();
-        foreach (var site in searchResponse.Sites)
+        List<Feature> features = [];
+        features.AddRange(searchResponse.Sites.Select(site => new Feature
         {
-            var siteProperties = new AttributesTable()
+            Geometry = site.Location,
+            Attributes = new AttributesTable()
             {
                 { "id", site.SiteUuid },
                 { "nId", site.SiteNativeId },
                 { "name", site.SiteName },
                 { "usgsSiteId", site.UsgsSiteId },
-                { "sType", site.SiteType},
+                { "sType", site.SiteType },
                 { "coordMethod", site.CoordinateMethod },
                 { "coordAcc", site.CoordinateAccuracy },
                 { "gnisCode", site.GnisCode },
@@ -66,11 +64,9 @@ public class OgcFeaturesFormattingHandler(
                 { "podOrPouSite", site.PodOrPouSite },
                 { "waterSources", site.WaterSources },
                 { "overlays", site.Overlays }
-            };
+            }
+        }));
 
-            features.Add(new Feature(site.Location, siteProperties));
-        }
-        
         return new SiteFeaturesResponse
         {
             Features = features.ToArray(),
@@ -80,7 +76,7 @@ public class OgcFeaturesFormattingHandler(
         };
     }
 
-    internal Polygon ConvertBoundaryBoxToPolygon(double[][] bbox)
+    private Polygon ConvertBoundaryBoxToPolygon(double[][] bbox)
     {
         var coordinates = new[]
         {

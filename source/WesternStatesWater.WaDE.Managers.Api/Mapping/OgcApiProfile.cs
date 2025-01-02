@@ -7,9 +7,6 @@ public class OgcApiProfile : Profile
 {
     public OgcApiProfile()
     {
-        CreateMap<Engines.Contracts.Ogc.SiteFeature, Contracts.Api.OgcApi.SiteFeature>()
-            .ForMember(dest => dest.Attributes, mem => mem.Ignore());
-
         CreateMap<Engines.Contracts.Ogc.Collection, Contracts.Api.OgcApi.Collection>();
         CreateMap<Engines.Contracts.Ogc.Link, Contracts.Api.OgcApi.Link>();
         CreateMap<Engines.Contracts.Ogc.Extent, Contracts.Api.OgcApi.Extent>();

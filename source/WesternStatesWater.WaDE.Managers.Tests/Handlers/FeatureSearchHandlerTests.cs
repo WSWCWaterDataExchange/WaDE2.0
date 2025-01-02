@@ -22,30 +22,19 @@ public class FeatureSearchHandlerTests
     [TestMethod]
     public async Task Handler_MapsSiteFeature_ShouldMap()
     {
-        var mockResponse = new SiteFeaturesResponse();
-        var site = new SiteFeature();
-        site.Id = "foo";
-        site.Geometry = Polygon.Empty;
-        site.Attributes = new AttributesTable
+        var mockResponse = new SiteFeaturesResponse
         {
-            { "hello", "world" }
+            Features = [
+            new Feature
+            {
+                Geometry = Polygon.Empty,
+                Attributes = new AttributesTable
+                {
+                    {"id", "foo"},
+                    {"hello", "world"}
+                }
+            }]
         };
-        mockResponse.SiteFeatures = [site];
-        // var mockResponse = new SiteFeaturesResponse()
-        // {
-        //     SiteFeatures =
-        //     [
-        //         new SiteFeature
-        //         {
-        //             Id = "foo",
-        //             Geometry = Polygon.Empty,
-        //             Attributes =
-        //             {
-        //                 ["foo"] = "bar"
-        //             }
-        //         }
-        //     ]
-        // };
 
         _formattingEngineMock.Arrange(mock =>
                 mock.Format<FeaturesRequestBase, FeaturesResponseBase>(
@@ -57,7 +46,7 @@ public class FeatureSearchHandlerTests
         var result = await handler.Handle(new SiteFeaturesSearchRequest());
         
         // Assert
-        result.SiteFeatures[0].Id.Should().Be("foo");
+        result.Features[0].Attributes["id"].Should().Be("foo");
     }
 
     private FeaturesSearchHandler CreateHandler()
