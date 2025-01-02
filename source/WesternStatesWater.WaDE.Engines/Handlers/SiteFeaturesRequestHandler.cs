@@ -11,25 +11,13 @@ using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
-public class OgcFeaturesFormattingHandler(
+internal class SiteFeaturesRequestHandler(
     IConfiguration configuration,
-    IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
-    ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
-    IWaterAllocationAccessor allocationAccessor,
     ISiteAccessor siteAccessor
 ) : OgcFormattingHandlerBase(configuration),
-    IRequestHandler<FeaturesRequestBase, FeaturesResponseBase>
+    IRequestHandler<SiteFeaturesRequest, SiteFeaturesResponse>
 {
-    public async Task<FeaturesResponseBase> Handle(FeaturesRequestBase request)
-    {
-        return request switch
-        {
-            SiteFeaturesRequest siteFeaturesRequest => await GetSiteFeatures(siteFeaturesRequest),
-            _ => throw new NotSupportedException("Request type not supported.")
-        };
-    }
-
-    private async Task<FeaturesResponseBase> GetSiteFeatures(SiteFeaturesRequest request)
+    public async Task<SiteFeaturesResponse> Handle(SiteFeaturesRequest request)
     {
         var searchRequest = new SiteSearchRequest
         {
@@ -82,7 +70,7 @@ public class OgcFeaturesFormattingHandler(
             Links = links.Build()
         };
     }
-
+    
     /// <summary>
     /// Creates a Geometry from the bounding box. If the bounding box crosses the anti meridian, a multi polygon is created, else a single polygon is created.
     /// </summary>
