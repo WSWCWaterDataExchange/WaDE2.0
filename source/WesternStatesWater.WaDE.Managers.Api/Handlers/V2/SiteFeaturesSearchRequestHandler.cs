@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
@@ -10,21 +9,12 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class FeaturesSearchHandler(IFormattingEngine formattingEngine) : IRequestHandler<FeaturesSearchRequestBase, FeaturesSearchResponseBase>
+internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngine) : IRequestHandler<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>
 {
-    public async Task<FeaturesSearchResponseBase> Handle(FeaturesSearchRequestBase request)
+    public async Task<SiteFeaturesSearchResponse> Handle(SiteFeaturesSearchRequest request)
     {
         request.Limit ??= 1000;
 
-        return request switch
-        {
-            SiteFeaturesSearchRequest siteSearchRequest => await FormatSites(siteSearchRequest),
-            _ => throw new NotSupportedException($"Request type {request.GetType().Name} is not supported.")
-        };
-    }
-
-    internal async Task<SiteFeaturesSearchResponse> FormatSites(SiteFeaturesSearchRequest request)
-    {
         var dtoRequest = request.Map<SiteFeaturesRequest>();
         var dtoResponse = await formattingEngine.Format<FeaturesRequestBase, FeaturesResponseBase>(dtoRequest);
         return dtoResponse.Map<SiteFeaturesSearchResponse>();

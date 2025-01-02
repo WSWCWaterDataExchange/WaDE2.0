@@ -80,7 +80,7 @@ public class WaterSitesFunction(
             Bbox = string.IsNullOrWhiteSpace(req.Query["bbox"]) ? null : ConvertBbox(req.Query["bbox"]),
             LastSiteUuid = req.Query["next"]
         };
-        var response = (SiteFeaturesSearchResponse) await waterResourceManager.Search<FeaturesSearchRequestBase, FeaturesSearchResponseBase>(request);
+        var response = await waterResourceManager.Search<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }

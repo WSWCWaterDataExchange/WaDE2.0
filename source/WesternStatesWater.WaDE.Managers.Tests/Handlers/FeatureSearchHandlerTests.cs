@@ -49,8 +49,8 @@ public class FeatureSearchHandlerTests
         result.Features[0].Attributes["id"].Should().Be("foo");
     }
 
-    private FeaturesSearchHandler CreateHandler()
+    private SiteFeaturesSearchRequestHandler CreateHandler()
     {
-        return new FeaturesSearchHandler(_formattingEngineMock);
+        return new SiteFeaturesSearchRequestHandler(_formattingEngineMock);
     }
 }
