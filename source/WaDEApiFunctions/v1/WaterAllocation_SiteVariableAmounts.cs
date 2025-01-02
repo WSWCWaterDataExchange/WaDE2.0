@@ -4,21 +4,23 @@ using WesternStatesWater.WaDE.Contracts.Api;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
     public class WaterAllocation_SiteVariableAmounts : FunctionBase
     {
-        private readonly ISiteVariableAmountsManager _siteVariableAmountsManager;
+        private readonly IWaterResourceManager _waterResourceManager;
         
         private readonly ILogger<WaterAllocation_SiteVariableAmounts> _logger;
 
         public WaterAllocation_SiteVariableAmounts(
-            ISiteVariableAmountsManager siteVariableAmountsManager,
+            IWaterResourceManager waterResourceManager,
             ILogger<WaterAllocation_SiteVariableAmounts> logger
         )
         {
-            _siteVariableAmountsManager = siteVariableAmountsManager;
+            _waterResourceManager = waterResourceManager;
             _logger = logger;
         }
 
@@ -60,7 +62,7 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return await CreateBadRequestResponse(
+                return await CreateErrorResponse(
                     req,
                     new ValidationError(
                         "Filters",
@@ -70,26 +72,37 @@ namespace WaDEApiFunctions.v1
                     ));
             }
 
-            var siteAllocationAmounts = await _siteVariableAmountsManager.GetSiteVariableAmountsAsync(new SiteVariableAmountsFilters
+            var request = new SiteVariableAmountsSearchRequest
             {
-                SiteUuid = siteUUID,
-                SiteTypeCv = siteTypeCV,
-                VariableCv = variableCV,
-                VariableSpecificCv = variableSpecificCV,
-                BeneficialUseCv = beneficialUse,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                Geometry = geometry,
-                TimeframeStartDate = startDate,
-                TimeframeEndDate = endDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                HUC8 = huc8,
-                HUC12 = huc12,
-                County = county,
-                State = state
-            }, startIndex, recordCount, geoFormat);
-            
-            return await CreateOkResponse(req, siteAllocationAmounts);
+                Filters = new SiteVariableAmountsFilters
+                {
+                    SiteUuid = siteUUID,
+                    SiteTypeCv = siteTypeCV,
+                    VariableCv = variableCV,
+                    VariableSpecificCv = variableSpecificCV,
+                    BeneficialUseCv = beneficialUse,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    Geometry = geometry,
+                    TimeframeStartDate = startDate,
+                    TimeframeEndDate = endDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    HUC8 = huc8,
+                    HUC12 = huc12,
+                    County = county,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
+
+            var response = await _waterResourceManager
+                .Load<SiteVariableAmountsSearchRequest, SiteVariableAmountsSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.SiteVariableAmounts)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class AggregratedAmountsRequestBody

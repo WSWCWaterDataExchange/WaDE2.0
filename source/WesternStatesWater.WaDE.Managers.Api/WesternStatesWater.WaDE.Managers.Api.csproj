@@ -16,21 +16,4 @@
     <ProjectReference Include="..\WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Update="AggregratedAmountsManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
-    <Compile Update="RegulatoryOverlayManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
-    <Compile Update="SiteVariableAmountsManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
-    <Compile Update="WaterAllocationManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
-    <Compile Update="SiteManager.cs">
-      <DependentUpon>WaterResourceManager.cs</DependentUpon>
-    </Compile>
-  </ItemGroup>
 </Project>

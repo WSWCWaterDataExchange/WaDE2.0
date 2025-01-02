@@ -31,8 +31,30 @@ public abstract class FunctionBase
 
         return data;
     }
+    
+    protected async Task<HttpResponseData> CreateErrorResponse(HttpRequestData request, ErrorBase error)
+    {
+        return error switch
+        {
+            InternalError => await CreateInternalServerErrorResponse(request),
+            ValidationError err => await CreateBadRequestResponse(request, err),
+            _ => await CreateInternalServerErrorResponse(request)
+        };
+    }
+    
+    private Task<HttpResponseData> CreateInternalServerErrorResponse(HttpRequestData request)
+    {
+        var details = new ProblemDetails
+        {
+            Status = (int) HttpStatusCode.InternalServerError,
+            Title = "An unexpected error has occurred.",
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
+        };
 
-    protected static Task<HttpResponseData> CreateBadRequestResponse(HttpRequestData request, ValidationError error)
+        return CreateProblemDetailsResponse(request, details, HttpStatusCode.InternalServerError);
+    }
+
+    private static Task<HttpResponseData> CreateBadRequestResponse(HttpRequestData request, ValidationError error)
     {
         var details = new HttpValidationProblemDetails(error.Errors)
         {

@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests;

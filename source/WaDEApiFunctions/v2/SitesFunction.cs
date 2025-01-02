@@ -39,11 +39,11 @@ public class WaterSitesFunction(
         FunctionContext executionContext,
         string collectionId)
     {
-        var request = new CollectionMetadataRequest
+        var request = new CollectionMetadataGetRequest
         {
             CollectionId = Constants.SitesCollectionId
         };
-        var response = await metadataManager.Load<CollectionMetadataRequest, CollectionMetadataResponse>(request);
+        var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);
     }
 
