@@ -44,7 +44,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
             var faker = new Faker();
             
             _waterResourceManagerMock
-                .Arrange(mgr =>mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
+                .Arrange(mgr => mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
                     Arg.Matches<OverlayResourceSearchRequest>(req =>
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
@@ -77,7 +77,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
         public async Task Run_SiteUuid(string reportingUnitUuid, HttpStatusCode expectedHttpStatusCode)
         {
             _waterResourceManagerMock
-                .Arrange(mgr =>mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
+                .Arrange(mgr => mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
                     Arg.Matches<OverlayResourceSearchRequest>(req =>
                         req.StartIndex == 0 &&
                         req.RecordCount == 1000 &&
@@ -105,7 +105,7 @@ namespace WesternStatesWater.WaDE.Clients.Tests.v1
             else
             {
                 _waterResourceManagerMock
-                    .Assert(mgr =>mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
+                    .Assert(mgr => mgr.Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>( 
                         Arg.Matches<OverlayResourceSearchRequest>(req =>
                             req.Filters.ReportingUnitUUID == reportingUnitUuid &&
                             req.StartIndex == 0 &&

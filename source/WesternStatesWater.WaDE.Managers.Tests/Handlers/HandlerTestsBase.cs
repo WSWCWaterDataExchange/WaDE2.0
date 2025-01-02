@@ -10,4 +10,7 @@ public abstract class HandlerTestsBase
 
     protected IRegulatoryOverlayAccessor RegulatoryOverlayAccessorMock { get; } =
         Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
+
+    protected ISiteVariableAmountsAccessor SiteVariableAmountsAccessorMock { get; } =
+        Mock.Create<ISiteVariableAmountsAccessor>(Behavior.Strict);
 }

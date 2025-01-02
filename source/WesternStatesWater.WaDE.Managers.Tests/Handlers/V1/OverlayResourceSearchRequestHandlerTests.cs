@@ -19,7 +19,7 @@ public class OverlayResourceSearchRequestHandlerTests : HandlerTestsBase
     [DataRow(null, GeometryFormat.GeoJson, null)]
     [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.Wkt, "POINT (-96.7014 40.8146)")]
     [DataRow("POINT (-96.7014 40.8146)", GeometryFormat.GeoJson, "{\"type\":\"Point\",\"coordinates\":[-96.7014,40.8146]}")]
-    public async Task GetSiteAllocationAmountsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
+    public async Task GetRegulatoryReportingUnitsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
     {
         var accessorResult = RegulatoryReportingUnitsBuilder.Create();
         accessorResult.Organizations.First().ReportingUnitsRegulatory[0].Geometry = GeometryExtensions.GetGeometryByWkt(geometryString);
