@@ -29,7 +29,7 @@ public class OgcFeaturesFormattingHandler(
         };
     }
 
-    internal async Task<FeaturesResponseBase> GetSiteFeatures(SiteFeaturesRequest request)
+    private async Task<FeaturesResponseBase> GetSiteFeatures(SiteFeaturesRequest request)
     {
         var searchRequest = new SiteSearchRequest
         {
