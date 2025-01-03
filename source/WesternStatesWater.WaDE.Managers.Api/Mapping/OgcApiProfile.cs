@@ -1,5 +1,6 @@
 using System.Linq;
 using AutoMapper;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
@@ -32,7 +33,7 @@ public class OgcApiProfile : Profile
         CreateMap<Engines.Contracts.Ogc.Responses.SiteFeaturesResponse,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
 
-        CreateMap<Contracts.Api.Requests.V2.FeaturesSearchRequestBase,
+        CreateMap<FeaturesSearchRequestBase,
             Engines.Contracts.Ogc.Requests.FeaturesRequestBase>();
     }
 }
