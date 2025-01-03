@@ -30,7 +30,10 @@ public class SiteFeaturesRequestHandlerTests
     public async Task Handler_CallsSearch_WithRequestParameters()
     {
         // Arrange
-        var mockSiteSearchResponse = new SiteSearchResponse();
+        var mockSiteSearchResponse = new SiteSearchResponse()
+        {
+            Sites = []
+        };
         _siteAccessorMock.Arrange(mock =>
                 mock.Search<SiteSearchRequest, SiteSearchResponse>(Arg.IsAny<SiteSearchRequest>()))
             .ReturnsAsync(mockSiteSearchResponse);
@@ -60,7 +63,10 @@ public class SiteFeaturesRequestHandlerTests
     public async Task Handler_RequestCrossesAntiMeridian_SearchRequestContainsMultiPolygon()
     {
         // Arrange
-        var mockSiteSearchResponse = new SiteSearchResponse();
+        var mockSiteSearchResponse = new SiteSearchResponse
+        {
+            Sites = []
+        };
         _siteAccessorMock.Arrange(mock =>
                 mock.Search<SiteSearchRequest, SiteSearchResponse>(Arg.IsAny<SiteSearchRequest>()))
             .ReturnsAsync(mockSiteSearchResponse);
