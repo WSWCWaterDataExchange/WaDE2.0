@@ -1,5 +1,5 @@
+using System.Linq;
 using AutoMapper;
-using NetTopologySuite.IO;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
@@ -7,6 +7,8 @@ public class OgcApiProfile : Profile
 {
     public OgcApiProfile()
     {
+        CreateMap<string, double[][]>().ConvertUsing<StringToBoundingBoxConverter>();
+        
         CreateMap<Engines.Contracts.Ogc.Collection, Contracts.Api.OgcApi.Collection>();
         CreateMap<Engines.Contracts.Ogc.Link, Contracts.Api.OgcApi.Link>();
         CreateMap<Engines.Contracts.Ogc.Extent, Contracts.Api.OgcApi.Extent>();
@@ -24,12 +26,28 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
                 Engines.Contracts.Ogc.Requests.SiteFeaturesRequest>()
-            .ForMember(dest => dest.BoundingBox, mem => mem.MapFrom(src => src.Bbox));
+            .ForMember(dest => dest.BoundingBox, mem => mem.MapFrom(src => src.Bbox))
+            .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
 
         CreateMap<Engines.Contracts.Ogc.Responses.SiteFeaturesResponse,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
 
         CreateMap<Contracts.Api.Requests.V2.FeaturesSearchRequestBase,
             Engines.Contracts.Ogc.Requests.FeaturesRequestBase>();
+    }
+}
+
+// This method is assuming Validators are in place to ensure the string is in the correct format.
+public class StringToBoundingBoxConverter : ITypeConverter<string, double[][]>
+{
+    public double[][] Convert(string source, double[][] destination, ResolutionContext context)
+    {
+        if (source == null)
+        {
+            return null;
+        }
+
+        var bbox = source.Split(",").Select(double.Parse).ToArray();
+        return [bbox];
     }
 }
