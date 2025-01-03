@@ -9,8 +9,6 @@ public class SiteFeaturesSearchRequestValidatorTests
 {
     [DataTestMethod]
     [DataRow(null)]
-    [DataRow("")]
-    [DataRow(" ")]
     [DataRow("1,2,3,4")]
     [DataRow("1,  2,   3,    4")]
     [DataRow("-1, 2.0, -180, 90")]
@@ -28,6 +26,8 @@ public class SiteFeaturesSearchRequestValidatorTests
     }
 
     [DataTestMethod]
+    [DataRow("", "Bounding box must have 4 values and doubles.")]
+    [DataRow(" ", "Bounding box must have 4 values and doubles.")]
     [DataRow("1,2,3", "Bounding box must have 4 values and doubles.")]
     [DataRow("1,2,3,", "Bounding box must have 4 values and doubles.")]
     [DataRow("1,2,3,4,5", "Bounding box must have 4 values and doubles.")]

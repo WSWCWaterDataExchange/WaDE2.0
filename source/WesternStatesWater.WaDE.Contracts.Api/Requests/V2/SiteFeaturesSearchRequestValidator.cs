@@ -7,9 +7,10 @@ public class SiteFeaturesSearchRequestValidator : AbstractValidator<SiteFeatures
 {
     public SiteFeaturesSearchRequestValidator()
     {
-        When(req => !string.IsNullOrWhiteSpace(req.Bbox), () =>
+        When(req => req.Bbox != null, () =>
         {
             RuleFor(req => req.Bbox)
+                .NotEmpty()
                 .Must(r =>
                     r.Split(',').Length == 4 &&
                     r.Split(',').All(v => double.TryParse(v, out _)))
@@ -30,9 +31,10 @@ public class SiteFeaturesSearchRequestValidator : AbstractValidator<SiteFeatures
                 .WithMessage("Bounding box must have 4 values and doubles.");
         });
 
-        When(req => !string.IsNullOrWhiteSpace(req.Limit), () =>
+        When(req => req.Limit != null, () =>
         {
             RuleFor(req => req.Limit)
+                .NotEmpty()
                 .Must(r => int.TryParse(r, out var val) && val is > 0 and <= 10000)
                 .WithMessage("Limit must be a number between 1 and 10000.");
         });
