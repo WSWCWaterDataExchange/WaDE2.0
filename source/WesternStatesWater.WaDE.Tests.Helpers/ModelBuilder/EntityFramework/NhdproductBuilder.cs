@@ -14,7 +14,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static Nhdproduct Create(NhdproductBuilderOptions opts)
         {
             var faker = new Faker<Nhdproduct>()
-                .RuleFor(a => a.Name, f => f.Random.AlphaNumeric(50))
+                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(4000))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))

@@ -14,7 +14,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static SiteType Create(SiteTypeBuilderOptions opts)
         {
             var faker = new Faker<SiteType>()
-                .RuleFor(a => a.Name, f => f.Random.AlphaNumeric(100))
+                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(40))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))

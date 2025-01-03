@@ -14,16 +14,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static ApplicableResourceType Create(ApplicableResourceTypeBuilderOptions opts)
         {
             return new Faker<ApplicableResourceType>()
-                .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
-        }
-
-        public static string GenerateName()
-        {
-            return new Faker().Random.AlphaNumeric(100);
         }
 
         public static async Task<ApplicableResourceType> Load(WaDEContext db)
