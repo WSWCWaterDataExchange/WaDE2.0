@@ -26,22 +26,22 @@ public class SiteFeaturesSearchRequestValidatorTests
     }
 
     [DataTestMethod]
-    [DataRow("", "Bounding box must have 4 values and doubles.")]
-    [DataRow(" ", "Bounding box must have 4 values and doubles.")]
-    [DataRow("1,2,3", "Bounding box must have 4 values and doubles.")]
-    [DataRow("1,2,3,", "Bounding box must have 4 values and doubles.")]
-    [DataRow("1,2,3,4,5", "Bounding box must have 4 values and doubles.")]
-    [DataRow("dog,cat,pig,cow", "Bounding box must have 4 values and doubles.")]
-    [DataRow("1.1.1, 2.2.2, 3.3.3, 4.4.4", "Bounding box must have 4 values and doubles.")]
-    [DataRow("-181, 0, 0 ,0", "Bounding box coordinates are invalid.")]
-    [DataRow("181, 0 , 0, 0", "Bounding box coordinates are invalid.")]
-    [DataRow("0, -91, 0 ,0", "Bounding box coordinates are invalid.")]
-    [DataRow("0, 91 , 0, 0", "Bounding box coordinates are invalid.")]
-    [DataRow("0, 0, -181 ,0", "Bounding box coordinates are invalid.")]
-    [DataRow("0, 0, 181, 0", "Bounding box coordinates are invalid.")]
-    [DataRow("0, 0, 0 ,-91", "Bounding box coordinates are invalid.")]
-    [DataRow("0, 0, 0, 91", "Bounding box coordinates are invalid.")]
-    public void Bbox_Invalid_ReturnsFalseAndContainsError(string input, string expectedError)
+    [DataRow("")]
+    [DataRow(" ")]
+    [DataRow("1,2,3")]
+    [DataRow("1,2,3,")]
+    [DataRow("1,2,3,4,5")]
+    [DataRow("dog,cat,pig,cow")]
+    [DataRow("1.1.1, 2.2.2, 3.3.3, 4.4.4")]
+    [DataRow("-181, 0, 0 ,0")]
+    [DataRow("181, 0 , 0, 0")]
+    [DataRow("0, -91, 0 ,0")]
+    [DataRow("0, 91 , 0, 0")]
+    [DataRow("0, 0, -181 ,0")]
+    [DataRow("0, 0, 181, 0")]
+    [DataRow("0, 0, 0 ,-91")]
+    [DataRow("0, 0, 0, 91")]
+    public void Bbox_Invalid_ReturnsFalseAndContainsError(string input)
     {
         // Arrange
         var validator = new SiteFeaturesSearchRequestValidator();
@@ -53,7 +53,7 @@ public class SiteFeaturesSearchRequestValidatorTests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "Bbox");
-        result.Errors.Should().Contain(e => e.ErrorMessage == expectedError);
+        result.Errors.Should().Contain(e => e.ErrorMessage == "Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes between -180 and 180 degrees and latitudes between -90 and 90 degrees.");
     }
 
     [DataTestMethod]

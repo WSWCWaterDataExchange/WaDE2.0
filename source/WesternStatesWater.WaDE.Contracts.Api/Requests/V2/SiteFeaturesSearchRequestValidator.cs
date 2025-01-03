@@ -25,10 +25,9 @@ public class SiteFeaturesSearchRequestValidator : AbstractValidator<SiteFeatures
 
                             return bbox[1] is >= -90 and <= 90 && bbox[3] is >= -90 and <= 90;
                         })
-                        .WithMessage("Bounding box coordinates are invalid.");
-
+                        .WithMessage("Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes between -180 and 180 degrees and latitudes between -90 and 90 degrees.");
                 })
-                .WithMessage("Bounding box must have 4 values and doubles.");
+                .WithMessage("Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes between -180 and 180 degrees and latitudes between -90 and 90 degrees.");
         });
 
         When(req => req.Limit != null, () =>
