@@ -15,7 +15,7 @@ internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngi
     {
         var dtoRequest = request.Map<SiteFeaturesRequest>();
         
-        if (dtoRequest.Limit <= 0)
+        if (dtoRequest.Limit == 0)
             dtoRequest.Limit = 1000;
         
         var dtoResponse = await formattingEngine.Format<SiteFeaturesRequest, SiteFeaturesResponse>(dtoRequest);

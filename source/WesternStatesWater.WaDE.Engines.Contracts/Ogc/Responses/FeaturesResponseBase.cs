@@ -6,8 +6,7 @@ namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 // OGC API requires the class to have Links.
 public abstract class FeaturesResponseBase : FormattingResponseBase
 {
-    
-    public string Type { get; set; } = "FeatureCollection";
-    public Feature[] Features { get; set; } = [];
-    public Link[] Links { get; set; } = [];
+    public string Type => "FeatureCollection";
+    public Feature[] Features { get; set; }
+    public Link[] Links { get; set; }
 }

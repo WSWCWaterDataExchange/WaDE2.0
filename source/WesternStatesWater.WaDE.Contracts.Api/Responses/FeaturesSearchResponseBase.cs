@@ -7,6 +7,6 @@ namespace WesternStatesWater.WaDE.Contracts.Api.Responses;
 public abstract class FeaturesSearchResponseBase : ResponseBase
 {
     public string Type => "FeatureCollection";
-    public Feature[] Features { get; set; } = [];
-    public Link[] Links { get; set; } = [];
+    public Feature[] Features { get; set; }
+    public Link[] Links { get; set; }
 }

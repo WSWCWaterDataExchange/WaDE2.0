@@ -66,7 +66,6 @@ public class SiteFeaturesSearchRequestHandlerTests
 
         var mockFormatResponse = new SiteFeaturesResponse
         {
-            Type = "FeatureCollection",
             Features = [],
             Links = []
         };
@@ -97,7 +96,6 @@ public class SiteFeaturesSearchRequestHandlerTests
 
         var mockFormatResponse = new SiteFeaturesResponse
         {
-            Type = "FeatureCollection",
             Features =
             [
                 new Feature(Polygon.Empty, new AttributesTable
