@@ -76,33 +76,15 @@ public class WaterSitesFunction(
     {
         var request = new SiteFeaturesSearchRequest
         {
-            Limit = string.IsNullOrWhiteSpace(req.Query["limit"]) ? null : int.Parse(req.Query["limit"]),
-            Bbox = string.IsNullOrWhiteSpace(req.Query["bbox"]) ? null : ConvertBbox(req.Query["bbox"]),
-            LastSiteUuid = req.Query["next"]
+            Bbox = req.Query["bbox"],
+            Limit = req.Query["limit"],
+            Next = req.Query["next"]
         };
         var response = await waterResourceManager.Search<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }
     
-    private double[][]? ConvertBbox(string bbox)
-    {
-        if (string.IsNullOrWhiteSpace(bbox))
-        {
-            return null;
-        }
-
-        var bboxParts = bbox.Split(',');
-        if (bboxParts.Length != 4)
-        {
-            return null;
-        }
-
-        return new[]
-        {
-            new[] { double.Parse(bboxParts[0]), double.Parse(bboxParts[1]), double.Parse(bboxParts[2]), double.Parse(bboxParts[3]) },
-        };
-    }
     [Function(nameof(GetWaterSite))]
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",

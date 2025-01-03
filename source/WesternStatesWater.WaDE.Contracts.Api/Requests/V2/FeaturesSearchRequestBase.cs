@@ -4,5 +4,7 @@ namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 
 public abstract class FeaturesSearchRequestBase : RequestBase
 {
-    public int? Limit { get; set; }
+    public string Bbox { get; set; }
+    public string Limit { get; set; }
+    public string Next { get; set; }
 }

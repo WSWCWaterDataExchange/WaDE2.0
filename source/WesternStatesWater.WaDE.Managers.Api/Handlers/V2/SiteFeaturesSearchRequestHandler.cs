@@ -13,9 +13,11 @@ internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngi
 {
     public async Task<SiteFeaturesSearchResponse> Handle(SiteFeaturesSearchRequest request)
     {
-        request.Limit ??= 1000;
-
         var dtoRequest = request.Map<SiteFeaturesRequest>();
+        
+        if (dtoRequest.Limit <= 0)
+            dtoRequest.Limit = 1000;
+        
         var dtoResponse = await formattingEngine.Format<SiteFeaturesRequest, SiteFeaturesResponse>(dtoRequest);
         return dtoResponse.Map<SiteFeaturesSearchResponse>();
     }
