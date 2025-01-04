@@ -1,9 +1,11 @@
 ﻿using Bogus;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Tests.Helpers;
 
 public static class SDWISIdentifierBuilder
 {
+    private static int _globalIndex = 0;
     public static SDWISIdentifier Create()
     {
         return Create(new SDWISIdentifierBuilderOptions());
@@ -12,7 +14,7 @@ public static class SDWISIdentifierBuilder
     public static SDWISIdentifier Create(SDWISIdentifierBuilderOptions opts)
     {
         return new Faker<SDWISIdentifier>()
-            .RuleFor(a => a.Name, f => f.Date.Past(5).Year.ToString())
+            .RuleFor(a => a.Name, f => GenerateName())
             .RuleFor(a => a.Term, f => f.Random.Word())
             .RuleFor(a => a.Definition, f => f.Random.Words(5))
             .RuleFor(a => a.State, f => f.Address.StateAbbr())
@@ -34,9 +36,10 @@ public static class SDWISIdentifierBuilder
         return item;
     }
 
-    public static long GenerateId()
+    public static string GenerateName()
     {
-        return new Faker().Random.Long(1);
+        _globalIndex++;
+        return CvNameGenerator.GetNextName(_globalIndex,100);
     }
 }
 

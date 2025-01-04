@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class CustomerType
+    public partial class CustomerType : ControlledVocabularyBase
     {
         public CustomerType()
         {
@@ -11,12 +10,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
             AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
             AggregatedAmountsFact = new HashSet<AggregatedAmountsFact>();
         }
-
-        public string Name { get; set; }
-        public string Term { get; set; }
-        public string Definition { get; set; }
-        public string State { get; set; }
-        public string SourceVocabularyUri { get; set; }
 
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }

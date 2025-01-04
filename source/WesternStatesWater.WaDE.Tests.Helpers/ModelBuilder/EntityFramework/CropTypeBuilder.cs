@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class CropTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static CropType Create()
         {
             return Create(new CropTypeBuilderOptions());
@@ -14,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static CropType Create(CropTypeBuilderOptions opts)
         {
             return new Faker<CropType>()
-                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
+                .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
@@ -34,6 +35,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             await db.SaveChangesAsync();
 
             return item;
+        }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 

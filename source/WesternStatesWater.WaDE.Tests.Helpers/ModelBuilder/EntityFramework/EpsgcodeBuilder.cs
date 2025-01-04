@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class EpsgcodeBuilder
     {
+        private static int _globalIndex = 0;
         public static Epsgcode Create()
         {
             return Create(new EpsgcodeBuilderOptions());
@@ -14,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static Epsgcode Create(EpsgcodeBuilderOptions opts)
         {
             return new Faker<Epsgcode>()
-                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
+                .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))
@@ -34,6 +35,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             await db.SaveChangesAsync();
 
             return item;
+        }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 

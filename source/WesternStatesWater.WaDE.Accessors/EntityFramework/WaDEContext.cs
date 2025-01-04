@@ -606,7 +606,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.NaicscodeNameCv)
                    .HasColumnName("NAICSCode")
                    .HasMaxLength(100);
-                entity.Property(e => e.SourceVocabularyURI)
+                entity.Property(e => e.SourceVocabularyUri)
                    .HasColumnName("SourceVocabularyURI")
                    .HasMaxLength(100);
 
@@ -1059,7 +1059,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.Definition).HasMaxLength(4000);
 
-                entity.Property(e => e.SourceVocabularyURI)
+                entity.Property(e => e.SourceVocabularyUri)
                     .HasColumnName("SourceVocabularyURI")
                     .HasMaxLength(250);
 
@@ -1740,7 +1740,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("SourceVocabularyURI")
                     .HasMaxLength(100);
 
-                entity.Property(e => e.State1)
+                entity.Property(e => e.State)
                     .HasColumnName("State")
                     .HasMaxLength(10);
 

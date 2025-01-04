@@ -7,6 +7,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class ReportingUnitTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static ReportingUnitType Create()
         {
             return Create(new ReportingUnitTypeBuilderOptions());
@@ -15,7 +16,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static ReportingUnitType Create(ReportingUnitTypeBuilderOptions opts)
         {
             return new Faker<ReportingUnitType>()
-                .RuleFor(a => a.Name, f => f.Random.Uuid().ToString())
+                .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
@@ -41,6 +42,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             }
 
             return matching;
+        }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 

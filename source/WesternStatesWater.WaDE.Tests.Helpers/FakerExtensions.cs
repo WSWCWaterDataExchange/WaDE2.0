@@ -1,4 +1,5 @@
-﻿using Bogus;
+﻿using System;
+using Bogus;
 using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers

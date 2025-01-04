@@ -94,7 +94,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.Term, b => b.MapFrom(c => c.BeneficialUse.Term))
                 .ForMember(a => a.State, b => b.MapFrom(c => c.BeneficialUse.State))
                 .ForMember(a => a.Definition, b => b.MapFrom(c => c.BeneficialUse.Definition))
-                .ForMember(a => a.SourceVocabularyURI, b => b.MapFrom(c => c.BeneficialUse.SourceVocabularyURI))
+                .ForMember(a => a.SourceVocabularyURI, b => b.MapFrom(c => c.BeneficialUse.SourceVocabularyUri))
                 .ForMember(a => a.Name, b => b.MapFrom(c => c.BeneficialUse.Name))
                 .ForMember(a => a.USGSCategory, b => b.MapFrom(c => c.BeneficialUse.UsgscategoryNameCv))
                 .ForMember(a => a.NAICSCode, b => b.MapFrom(c => c.BeneficialUse.NaicscodeNameCv));

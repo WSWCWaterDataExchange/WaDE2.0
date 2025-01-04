@@ -1,25 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class SiteType
+    public partial class SiteType : ControlledVocabularyBase
     {
         public SiteType()
         {
             SitesDim = new HashSet<SitesDim>();
         }
-
-        [MaxLength(100)]
-        public string Name { get; set; }
-        [MaxLength(250)]
-        public string Term { get; set; }
-        public string Definition { get; set; }
-        [MaxLength(250)]
-        public string State { get; set; }
-        [MaxLength(250)]
-        public string SourceVocabularyUri { get; set; }
 
         public virtual ICollection<SitesDim> SitesDim { get; set; }
     }
