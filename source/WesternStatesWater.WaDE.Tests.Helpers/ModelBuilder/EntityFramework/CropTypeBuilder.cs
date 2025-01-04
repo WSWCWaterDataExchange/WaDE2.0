@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class CropTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static CropType Create()
         {
             return Create(new CropTypeBuilderOptions());
@@ -35,10 +36,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-
+        
         public static string GenerateName()
         {
-            return new Faker().Random.Word();
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 

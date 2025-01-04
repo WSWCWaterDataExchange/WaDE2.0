@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class VariableBuilder
     {
+        private static int _globalIndex = 0;
         public static Variable Create()
         {
             return Create(new VariableBuilderOptions());
@@ -35,10 +36,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-
+        
         public static string GenerateName()
         {
-            return new Faker().Random.AlphaNumeric(250);
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,250);
         }
     }
 

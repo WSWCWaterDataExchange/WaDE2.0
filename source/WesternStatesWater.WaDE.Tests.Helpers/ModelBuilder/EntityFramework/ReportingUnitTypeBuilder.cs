@@ -7,6 +7,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class ReportingUnitTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static ReportingUnitType Create()
         {
             return Create(new ReportingUnitTypeBuilderOptions());
@@ -42,15 +43,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return matching;
         }
-
+        
         public static string GenerateName()
         {
-            string name;
-            do
-            {
-                name = new Faker().Random.Word();
-            } while (name.Length > 50);
-            return name;
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 
