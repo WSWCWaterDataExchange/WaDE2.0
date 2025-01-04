@@ -8,7 +8,7 @@ public static class ValidationExtensions
     private const string InvalidBBoxMessage =
         "Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes " +
         "between {0} and {1} degrees and " +
-        "latitudes between {2} and {3} degrees." +
+        "latitudes between {2} and {3} degrees. " +
         "For example, \"-114.052,36.997,-109.041,42.001\"";
 
 
