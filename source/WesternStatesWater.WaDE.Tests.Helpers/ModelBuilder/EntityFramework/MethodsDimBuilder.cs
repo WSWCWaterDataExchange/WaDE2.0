@@ -20,7 +20,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.MethodDescription, f => f.Random.Words(5))
                 .RuleFor(a => a.MethodNemilink, f => f.Internet.Url())
                 .RuleFor(a => a.ApplicableResourceTypeCv, f => opts.ApplicableResourceType?.Name ?? ApplicableResourceTypeBuilder.GenerateName())
-                .RuleFor(a => a.MethodTypeCv, f => opts.MethodType?.Name ?? f.Random.Word())
+                .RuleFor(a => a.MethodTypeCv, f => opts.MethodType?.Name ?? MethodTypeBuilder.GenerateName())
                 .RuleFor(a => a.DataCoverageValue, f => f.Random.Word())
                 .RuleFor(a => a.DataQualityValueCv, f => opts.DataQualityValue?.Name)
                 .RuleFor(a => a.DataConfidenceValue, f => f.Random.Word(50))

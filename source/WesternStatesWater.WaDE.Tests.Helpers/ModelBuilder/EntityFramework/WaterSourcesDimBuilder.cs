@@ -18,7 +18,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.WaterSourceNativeId, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.WaterSourceName, f => f.Random.Word())
                 .RuleFor(a => a.WaterSourceTypeCv, f => opts.WaterSourceType?.Name ?? f.Random.Word())
-                .RuleFor(a => a.WaterQualityIndicatorCv, f => opts.WaterQualityIndicator?.Name ?? f.Random.Word())
+                .RuleFor(a => a.WaterQualityIndicatorCv, f => opts.WaterQualityIndicator?.Name ?? WaterQualityIndicatorBuilder.GenerateName())
                 .RuleFor(a => a.GnisfeatureNameCv, f => opts.GnisfeatureName?.Name);
         }
 
