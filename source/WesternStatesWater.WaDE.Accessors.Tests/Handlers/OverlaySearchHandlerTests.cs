@@ -140,7 +140,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         var areaOutsideRequest = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
         {
-            Geometry = createVegasyGeometry()
+            Geometry = CreateVegasyGeometry()
         });
 
         var areaInersectingRequest = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
@@ -150,7 +150,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         var areaInsideRequest = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
         {
-            Geometry = createGreatSaltLakeGeometry()
+            Geometry = CreateGreatSaltLakeGeometry()
         });
 
         var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
@@ -162,13 +162,13 @@ public class OverlaySearchHandlerTests : DbTestBase
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaInersectingRequest
         });
-        
+
         await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayB,
             ReportingUnits = areaInsideRequest
         });
-        
+
         await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = omittedOverlay,
@@ -188,6 +188,248 @@ public class OverlaySearchHandlerTests : DbTestBase
         response.Overlays.Should().HaveCount(2);
         response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+    }
+
+    [TestMethod]
+    public async Task Handler_OverlaysWithIntersectingAreas_CombinedIntoASingleGeometryPolygon()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var wkt = new NetTopologySuite.IO.WKTReader();
+
+        // Create Intersecting Polygons
+        var polygonA = (Polygon) wkt.Read(
+            "POLYGON ((-105.394592 39.7093, -105.174866 39.7093, -105.174866 39.907629, -105.394592 39.907629, -105.394592 39.7093))");
+        var polygonB =
+            (Polygon) wkt.Read(
+                "POLYGON ((-105.227051 39.7093, -104.963379 39.7093, -104.963379 39.907629, -105.227051 39.907629, -105.227051 39.7093))");
+        var polygonC =
+            (Polygon) wkt.Read(
+                "POLYGON ((-105.312195 39.849667, -105.099335 39.849667, -105.099335 40.004476, -105.312195 40.004476, -105.312195 39.849667))");
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonB
+        });
+
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonC
+        });
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaB
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].Areas.Should().BeOfType<Polygon>();
+    }
+
+    [TestMethod]
+    public async Task Handler_OverlaysWithNonIntersectingAreas_CombinedIntoASingleGeometryMultiPolygon()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var wkt = new NetTopologySuite.IO.WKTReader();
+
+        // Create Non-Intersecting Polygons
+        var polygonA = (Polygon) wkt.Read(
+            "POLYGON ((-106.929932 43.452919, -106.358643 43.452919, -106.358643 43.771094, -106.929932 43.771094, -106.929932 43.452919))");
+        var polygonB =
+            (Polygon) wkt.Read(
+                "POLYGON ((-106.11969 43.548548, -105.970001 43.548548, -105.970001 43.674825, -106.11969 43.674825, -106.11969 43.548548))");
+        var polygonC =
+            (Polygon) wkt.Read(
+                "POLYGON ((-107.381744 43.569447, -107.124939 43.569447, -107.124939 43.658931, -107.381744 43.658931, -107.381744 43.569447))");
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonB
+        });
+
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonC
+        });
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaB
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].Areas.Should().BeOfType<MultiPolygon>();
+    }
+
+    [TestMethod]
+    public async Task Handler_OverlayWithManyAreas_ReturnsRelatedAreaInformation()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var wkt = new NetTopologySuite.IO.WKTReader();
+
+        var polygonA = (Polygon) wkt.Read(
+            "POLYGON ((-106.929932 43.452919, -106.358643 43.452919, -106.358643 43.771094, -106.929932 43.771094, -106.929932 43.452919))");
+        var polygonB =
+            (Polygon) wkt.Read(
+                "POLYGON ((-106.11969 43.548548, -105.970001 43.548548, -105.970001 43.674825, -106.11969 43.674825, -106.11969 43.548548))");
+        var polygonC =
+            (Polygon) wkt.Read(
+                "POLYGON ((-107.381744 43.569447, -107.124939 43.569447, -107.124939 43.658931, -107.381744 43.658931, -107.381744 43.569447))");
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonB
+        });
+
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonC
+        });
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaB
+        });
+
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].AreaNames.Should().BeEquivalentTo(
+            areaA.ReportingUnitName, areaB.ReportingUnitName, areaC.ReportingUnitName);
+        response.Overlays[0].AreaNativeIds.Should().BeEquivalentTo(
+            areaA.ReportingUnitNativeId, areaB.ReportingUnitNativeId, areaC.ReportingUnitNativeId);
+    }
+
+    [TestMethod]
+    public async Task Handler_OverlayWithManySites_ReturnsSiteUuids()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        var siteC = await SitesDimBuilder.Load(db);
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            RegulatoryOverlayDim = overlayA
+        });
+
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            RegulatoryOverlayDim = overlayA
+        });
+
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteC,
+            RegulatoryOverlayDim = overlayA
+        });
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].SiteUuids.Should().BeEquivalentTo(
+            siteA.SiteUuid, siteB.SiteUuid, siteC.SiteUuid);
     }
 
     private async Task<OverlaySearchResponse> ExecuteHandler(OverlaySearchRequest request)
@@ -211,7 +453,7 @@ public class OverlaySearchHandlerTests : DbTestBase
     /// https://wktmap.com/?2abc3c2b
     /// </summary>
     /// <returns>Polygon around Great Salt Lake in Utah.</returns>
-    private static Geometry createGreatSaltLakeGeometry()
+    private static Geometry CreateGreatSaltLakeGeometry()
     {
         var wkt = new NetTopologySuite.IO.WKTReader();
         return wkt.Read(
@@ -233,7 +475,7 @@ public class OverlaySearchHandlerTests : DbTestBase
     /// https://wktmap.com/?31a14eec
     /// </summary>
     /// <returns>Polygon around Last Vegas, NV.</returns>
-    private static Geometry createVegasyGeometry()
+    private static Geometry CreateVegasyGeometry()
     {
         var wkt = new NetTopologySuite.IO.WKTReader();
         return wkt.Read(
