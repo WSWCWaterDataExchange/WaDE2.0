@@ -12,7 +12,9 @@ using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
-public class WaterSitesFunction(IMetadataManager metadataManager) : FunctionBase
+public class WaterSitesFunction(
+    IMetadataManager metadataManager,
+    IWaterResourceManager waterResourceManager) : FunctionBase
 {
     private const string PathBase = "v2/collections/sites/";
 
@@ -52,6 +54,12 @@ public class WaterSitesFunction(IMetadataManager metadataManager) : FunctionBase
     [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "The maximum number of items to return.")]
+    [OpenApiParameter("bbox", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Bounding box to filter results.")]
+    [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Next page")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -61,15 +69,22 @@ public class WaterSitesFunction(IMetadataManager metadataManager) : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-    public static async Task<HttpResponseData> GetWaterSites(
+    public async Task<HttpResponseData> GetWaterSites(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "items")]
         HttpRequestData req,
-        FunctionContext executionContext,
-        string collectionId)
+        FunctionContext executionContext)
     {
-        return await CreateOkResponse(req, "All water sites!");
-    }
+        var request = new SiteFeaturesSearchRequest
+        {
+            Bbox = req.Query["bbox"],
+            Limit = req.Query["limit"],
+            Next = req.Query["next"]
+        };
+        var response = await waterResourceManager.Search<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>(request);
 
+        return await CreateOkResponse(req, response);
+    }
+    
     [Function(nameof(GetWaterSite))]
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",

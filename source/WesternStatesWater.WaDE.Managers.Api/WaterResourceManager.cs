@@ -18,4 +18,9 @@ internal class WaterResourceManager(
     {
         return await ExecuteAsync<TRequest, TResponse>(request);
     }
+    
+    async Task<TResponse> ManagerApi.IWaterResourceManager.Search<TRequest, TResponse>(TRequest request)
+    {
+        return await ExecuteAsync<TRequest, TResponse>(request);
+    }
 }

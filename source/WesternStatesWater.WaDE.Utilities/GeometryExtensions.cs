@@ -3,7 +3,6 @@ using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using Newtonsoft.Json;
 
-
 namespace WesternStatesWater.WaDE.Utilities
 {
     public static class GeometryExtensions

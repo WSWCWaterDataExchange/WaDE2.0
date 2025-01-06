@@ -1,7 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using System.Transactions;
+﻿using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
@@ -12,10 +10,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            TransactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
-            {
-                IsolationLevel = IsolationLevel.ReadUncommitted,
-            }, TransactionScopeAsyncFlowOption.Enabled);
+            TransactionScope =
+                new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled);
         }
 
 

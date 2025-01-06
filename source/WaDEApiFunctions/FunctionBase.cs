@@ -16,7 +16,9 @@ public abstract class FunctionBase
     private static JsonSerializerOptions JsonSerializerOptions => new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        Converters = { new JsonStringEnumConverter() }
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        Converters =
+            { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
 
     protected static async Task<HttpResponseData> CreateOkResponse<T>(
@@ -25,7 +27,7 @@ public abstract class FunctionBase
     {
         var data = request.CreateResponse(HttpStatusCode.OK);
 
-        await data.WriteAsJsonAsync((object)response, new JsonObjectSerializer(JsonSerializerOptions));
+        await data.WriteAsJsonAsync((object) response, new JsonObjectSerializer(JsonSerializerOptions));
 
         return data;
     }
@@ -56,7 +58,7 @@ public abstract class FunctionBase
     {
         var details = new HttpValidationProblemDetails(error.Errors)
         {
-            Status = (int)HttpStatusCode.BadRequest,
+            Status = (int) HttpStatusCode.BadRequest,
             Title = "One or more validation errors occurred.",
             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.1"
         };

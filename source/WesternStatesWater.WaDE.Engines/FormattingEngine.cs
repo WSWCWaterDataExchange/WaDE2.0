@@ -9,8 +9,7 @@ internal class FormattingEngine : EngineBase, IFormattingEngine
     {
     }
 
-    public async Task<TResponse> Format<TRequest, TResponse>(TRequest request) where TRequest : FormattingRequestBase
-        where TResponse : FormattingResponseBase
+    async Task<TResponse> IFormattingEngine.Format<TRequest, TResponse>(TRequest request)
     {
         return await ExecuteAsync<TRequest, TResponse>(request);
     }

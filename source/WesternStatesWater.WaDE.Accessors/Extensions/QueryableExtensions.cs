@@ -10,7 +10,9 @@ public static class QueryableExtensions
     {
         if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
         {
-            query = query.Where(s => s.Geometry.Intersects(filters.FilterBoundary));
+            query = query.Where(s => 
+                                     (s.Geometry.IsValid && s.Geometry.Intersects(filters.FilterBoundary)) ||
+                                     (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.FilterBoundary)));
         }
 
         if (!string.IsNullOrWhiteSpace(filters.LastSiteUuid))
