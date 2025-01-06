@@ -383,9 +383,9 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(1);
-        response.Overlays[0].AreaName.Should().BeEquivalentTo(
+        response.Overlays[0].AreaNames.Should().BeEquivalentTo(
             areaA.ReportingUnitName, areaB.ReportingUnitName, areaC.ReportingUnitName);
-        response.Overlays[0].AreaNativeId.Should().BeEquivalentTo(
+        response.Overlays[0].AreaNativeIds.Should().BeEquivalentTo(
             areaA.ReportingUnitNativeId, areaB.ReportingUnitNativeId, areaC.ReportingUnitNativeId);
     }
 

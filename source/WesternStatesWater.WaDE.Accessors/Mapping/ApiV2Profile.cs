@@ -51,10 +51,10 @@ public class ApiV2Profile : Profile
                 .ForMember(a => a.StatutoryEndDate, b => b.MapFrom(c => c.StatutoryEndDate))
                 .ForMember(a => a.OverlayType, b => b.MapFrom(c => c.RegulatoryOverlayTypeCV))
                 .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSourceTypeCV))
-                .ForMember(a => a.AreaName,
+                .ForMember(a => a.AreaNames,
                     b => b.MapFrom(c =>
                         c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitName)))
-                .ForMember(a => a.AreaNativeId,
+                .ForMember(a => a.AreaNativeIds,
                     b => b.MapFrom(c =>
                         c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitNativeId)))
                 .ForMember(a => a.SiteUuids,
