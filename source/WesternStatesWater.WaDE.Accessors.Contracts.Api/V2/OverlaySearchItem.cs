@@ -1,3 +1,5 @@
+using NetTopologySuite.Geometries;
+
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 
 public class OverlaySearchItem
@@ -17,4 +19,5 @@ public class OverlaySearchItem
     public string AreaName { get; set; }
     public string AreaNativeId { get; set; }
     public string SiteUuids { get; set; }
+    public Geometry Areas { get; set; }
 }

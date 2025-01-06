@@ -190,6 +190,137 @@ public class OverlaySearchHandlerTests : DbTestBase
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 
+    [TestMethod]
+    public async Task Handler_OverlaysWithIntersectingAreas_CombinedIntoASingleGeometryPolygon()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var wkt = new NetTopologySuite.IO.WKTReader();
+        
+        // Create Intersecting Polygons
+        var polygonA = (Polygon) wkt.Read(
+            "POLYGON ((-105.394592 39.7093, -105.174866 39.7093, -105.174866 39.907629, -105.394592 39.907629, -105.394592 39.7093))");
+        var polygonB =
+            (Polygon) wkt.Read(
+                "POLYGON ((-105.227051 39.7093, -104.963379 39.7093, -104.963379 39.907629, -105.227051 39.907629, -105.227051 39.7093))");
+        var polygonC =
+            (Polygon) wkt.Read(
+                "POLYGON ((-105.312195 39.849667, -105.099335 39.849667, -105.099335 40.004476, -105.312195 40.004476, -105.312195 39.849667))");
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonB
+        });
+        
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonC
+        });
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaB
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+        
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].Areas.Should().BeOfType<Polygon>();
+    }
+
+    [TestMethod]
+    public async Task Handler_OverlaysWithNonIntersectingAreas_CombinedIntoASingleGeometryMultiPolygon()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var wkt = new NetTopologySuite.IO.WKTReader();
+        
+        // Create Non-Intersecting Polygons
+        var polygonA = (Polygon) wkt.Read(
+            "POLYGON ((-106.929932 43.452919, -106.358643 43.452919, -106.358643 43.771094, -106.929932 43.771094, -106.929932 43.452919))");
+        var polygonB =
+            (Polygon) wkt.Read(
+                "POLYGON ((-106.11969 43.548548, -105.970001 43.548548, -105.970001 43.674825, -106.11969 43.674825, -106.11969 43.548548))");
+        var polygonC =
+            (Polygon) wkt.Read(
+                "POLYGON ((-107.381744 43.569447, -107.124939 43.569447, -107.124939 43.658931, -107.381744 43.658931, -107.381744 43.569447))");
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonB
+        });
+        
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            Geometry = polygonC
+        });
+        
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaB
+        });
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = 5
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays[0].Areas.Should().BeOfType<MultiPolygon>();
+    }
+
     private async Task<OverlaySearchResponse> ExecuteHandler(OverlaySearchRequest request)
     {
         var handler = new OverlaySearchHandler(Configuration.GetConfiguration());
