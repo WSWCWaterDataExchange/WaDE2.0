@@ -2,7 +2,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 
-namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V2;
+namespace WesternStatesWater.WaDE.Managers.Tests.Validators.V2;
 
 [TestClass]
 public class SiteFeaturesSearchRequestValidatorTests
@@ -53,7 +53,7 @@ public class SiteFeaturesSearchRequestValidatorTests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "Bbox");
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes between -180 and 180 degrees and latitudes between -90 and 90 degrees.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == "Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes between -180 and 180 degrees and latitudes between -90 and 90 degrees. For example, \"-114.052,36.997,-109.041,42.001\"");
     }
 
     [DataTestMethod]
