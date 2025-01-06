@@ -61,7 +61,7 @@ public class SiteFeaturesSearchRequestValidatorTests
     [DataRow("")]
     [DataRow(" ")]
     [DataRow("1")]
-    [DataRow("10000")]
+    [DataRow("1000")]
     public void Next_IsValid_ReturnsTrue(string input)
     {
         // Arrange
@@ -79,7 +79,7 @@ public class SiteFeaturesSearchRequestValidatorTests
     [DataRow("0")]
     [DataRow("-1")]
     [DataRow("10.1")]
-    [DataRow("10001")]
+    [DataRow("1001")]
     [DataRow("dog")]
     public void Limit_Invalid_ReturnsFalseAndContainsError(string input)
     {
@@ -93,6 +93,6 @@ public class SiteFeaturesSearchRequestValidatorTests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "Limit");
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Limit must be a number between 1 and 10000.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == "Limit must be a number between 1 and 1000.");
     }
 }
