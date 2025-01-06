@@ -20,6 +20,8 @@ using EngineExt = WesternStatesWater.WaDE.Engines.Extensions;
 using ManagerApi = WesternStatesWater.WaDE.Contracts.Api;
 using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
 
+// I'm adding a comment here just to have a change to commit, so that I can test the CI build from this branch.
+
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
     {
