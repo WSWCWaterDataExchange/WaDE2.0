@@ -16,7 +16,7 @@ public class SiteFeaturesSearchRequestValidator : AbstractValidator<SiteFeatures
 
         When(req => req.Limit != null, () =>
         {
-            RuleFor(req => req.Limit).LimitInRange(1, 10_000);
+            RuleFor(req => req.Limit).LimitInRange(1, 1000);
         });
     }
 }
