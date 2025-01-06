@@ -16,8 +16,8 @@ public class OverlaySearchItem
     public string StatutoryEndDate { get; set; }
     public string OverlayType { get; set; }
     public string WaterSource { get; set; }
-    public string AreaName { get; set; }
-    public string AreaNativeId { get; set; }
-    public string SiteUuids { get; set; }
+    public string[] AreaName { get; set; }
+    public string[] AreaNativeId { get; set; }
+    public string[] SiteUuids { get; set; }
     public Geometry Areas { get; set; }
 }
