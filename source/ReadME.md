@@ -1,4 +1,4 @@
-## Docket Setup
+## Docker Setup
 
 From the `source` folder run `docker compose -p wade up`
 
