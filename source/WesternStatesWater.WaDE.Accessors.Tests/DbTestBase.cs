@@ -12,7 +12,10 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [TestInitialize]
         public void TestInitialize()
         {
-            TransactionScope = new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled);
+            TransactionScope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions
+            {
+                IsolationLevel = IsolationLevel.ReadUncommitted,
+            }, TransactionScopeAsyncFlowOption.Enabled);
         }
 
 

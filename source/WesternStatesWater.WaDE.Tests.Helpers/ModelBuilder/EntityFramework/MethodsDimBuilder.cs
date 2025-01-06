@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class MethodsDimBuilder
     {
+        private static int _globalIndex = 0;
         public static MethodsDim Create()
         {
             return Create(new MethodsDimBuilderOptions());

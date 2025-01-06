@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class ApplicableResourceTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static ApplicableResourceType Create()
         {
             return Create(new ApplicableResourceTypeBuilderOptions());
@@ -21,11 +22,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
-        public static string GenerateName()
-        {
-            return new Faker().Random.AlphaNumeric(100);
-        }
-
         public static async Task<ApplicableResourceType> Load(WaDEContext db)
         {
             return await Load(db, new ApplicableResourceTypeBuilderOptions());
@@ -39,6 +35,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             await db.SaveChangesAsync();
 
             return item;
+        }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 
