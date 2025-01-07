@@ -32,7 +32,7 @@ internal class OverlayFeaturesRequestHandler(
         List<Feature> features = [];
         features.AddRange(searchResponse.Overlays.Select(overlay => new Feature
         {
-            // Geometry = overlay. // TODO Multipolygon of areas
+            Geometry = overlay.Areas,
             Attributes = new AttributesTable
             {
                 {"id", overlay.OverlayUuid},
@@ -47,8 +47,8 @@ internal class OverlayFeaturesRequestHandler(
                 {"statueEndDate", overlay.StatutoryEndDate},
                 {"oType", overlay.OverlayType},
                 {"wSource", overlay.WaterSource},
-                {"areaName", overlay.AreaName},
-                {"areaNId", overlay.AreaNativeId},
+                {"areaNames", overlay.AreaNames},
+                {"areaNIds", overlay.AreaNativeIds},
                 {"sites", overlay.SiteUuids}
             }
         }));
