@@ -87,7 +87,7 @@ public class SiteFeaturesSearchRequestHandlerTests
         Mock.Assert(
             () => _siteAccessorMock.Search<SiteSearchRequest, SiteSearchResponse>(
                 Arg.Matches<SiteSearchRequest>(req =>
-                    req.Limit == 10_000)), Occurs.Once());
+                    req.Limit == 1_000)), Occurs.Once());
         Assert.IsNotNull(result);
     }
 
