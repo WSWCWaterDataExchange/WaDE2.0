@@ -76,4 +76,15 @@ public static class ValidationExtensions
             .Must(r => int.TryParse(r, out var val) && val >= min && val <= max)
             .WithMessage($"Limit must be a number between {min} and {max}.");
     }
+    
+    public static IRuleBuilderOptions<T, string> GreaterThan<T>(
+        this IRuleBuilder<T, string> ruleBuilder,
+        int min
+    )
+    {
+        return ruleBuilder
+            .NotEmpty()
+            .Must(r => int.TryParse(r, out var val) && val > min)
+            .WithMessage($"Limit must be a number greater than {min}.");
+    }
 }

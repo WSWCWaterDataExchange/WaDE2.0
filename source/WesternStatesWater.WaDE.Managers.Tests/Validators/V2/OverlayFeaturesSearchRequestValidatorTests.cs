@@ -5,14 +5,14 @@ using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 namespace WesternStatesWater.WaDE.Managers.Tests.Validators.V2;
 
 [TestClass]
-public class SiteFeaturesSearchRequestValidatorTests
+public class OverlayFeaturesSearchRequestValidatorTests
 {
     [TestMethod]
     public void Validator_IsValid_ReturnsTrue()
     {
         // Arrange
-        var validator = new SiteFeaturesSearchRequestValidator();
-        var request = new SiteFeaturesSearchRequest { Bbox = "1,2,3,4" };
+        var validator = new OverlayFeaturesSearchRequestValidator();
+        var request = new OverlayFeaturesSearchRequest { Bbox = "1,2,3,4" };
 
         // Act
         var result = validator.Validate(request);
