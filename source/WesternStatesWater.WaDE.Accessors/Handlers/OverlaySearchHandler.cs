@@ -20,16 +20,25 @@ public class OverlaySearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var overlays = await db.RegulatoryOverlayDim
+        var query = db.RegulatoryOverlayDim
             .AsNoTracking()
             .OrderBy(o => o.RegulatoryOverlayUuid)
             .ApplySearchFilters(request)
+            .AsQueryable();
+        
+        // Fetch the number of matched records
+        var count = await query.CountAsync();
+        
+        var overlays = await query
+            .ApplyLimit(request)
             .ProjectTo<OverlaySearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new OverlaySearchResponse
         {
-            Overlays = overlays
+            MatchedCount = count,
+            LastUuid = overlays.Count <= request.Limit ? null : overlays[^1].OverlayUuid,
+            Overlays = overlays.Take(request.Limit).ToList()
         };
     }
 }
