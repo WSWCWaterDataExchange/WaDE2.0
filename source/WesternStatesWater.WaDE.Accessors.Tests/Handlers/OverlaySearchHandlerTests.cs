@@ -17,6 +17,33 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class OverlaySearchHandlerTests : DbTestBase
 {
+    [DataTestMethod]
+    [DataRow(5)]
+    [DataRow(10)]    
+    public async Task Handler_LimitSet_EndOfRecordsNoLastUuid(int limit)
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        for (var i = 0; i < 5; i++)
+        {
+            await RegulatoryOverlayDimBuilder.Load(db);
+        }
+
+        var request = new OverlaySearchRequest
+        {
+            Limit = limit
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(5);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should().BeNull();
+    }
+    
     [TestMethod]
     public async Task Handler_LimitSet_ReturnsCorrectAmount()
     {
@@ -41,7 +68,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         response.Overlays.Should().HaveCount(3);
         response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
-            .BeEquivalentTo(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
+            .Be(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
                 .ElementAt(3));
     }
 

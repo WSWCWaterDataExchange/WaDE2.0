@@ -16,6 +16,33 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class AllocationSearchHandlerTests : DbTestBase
 {
+    [DataTestMethod]
+    [DataRow(5)]
+    [DataRow(10)]
+    public async Task Handler_LimitSet_EndOfRecordsNoLastUuid(int limit)
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        for (var i = 0; i < 5; i++)
+        {
+            await AllocationAmountsFactBuilder.Load(db);
+        }
+
+        var request = new AllocationSearchRequest
+        {
+            Limit = limit
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Allocations.Should().HaveCount(5);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should().BeNull();
+    }
+    
     [TestMethod]
     public async Task Handler_LimitSet_ReturnsCorrectAmount()
     {

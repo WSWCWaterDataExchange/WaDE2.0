@@ -18,6 +18,33 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class SiteSearchHandlerTests : DbTestBase
 {
+    [DataTestMethod]
+    [DataRow(5)]
+    [DataRow(10)]
+    public async Task Handler_LimitSet_EndOfRecordsNoLastUuid(int limit)
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        for (var i = 0; i < 5; i++)
+        {
+            await SitesDimBuilder.Load(db);
+        }
+        
+        var request = new SiteSearchRequest
+        {
+            Limit = limit
+        };
+        
+        // Act
+        var response = await ExecuteHandler(request);
+        
+        // Assert
+        response.Sites.Should().HaveCount(5);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should().BeNull();
+    }
+    
     [TestMethod]
     public async Task Handler_LimitSet_ReturnsCorrectAmount()
     {
