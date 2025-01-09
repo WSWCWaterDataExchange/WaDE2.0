@@ -22,8 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         {
             Mapping.DtoMapper.Configuration.AssertConfigurationIsValid();
         }
-
-        [Ignore("The mapping used for this test conflicts with test \"Map_StringToBoundaryBox\". It is not clear what the expected behavior is because I don't see any DTOs converting the Geometry back to a string.")]
+        
         [DataTestMethod]
         [DataRow(null, false, null, null)]
         [DataRow(null, true, null, null)]
@@ -45,20 +44,25 @@ namespace WesternStatesWater.WaDE.Managers.Tests
                 geometry = reader.Read(geometryString);
             }
 
+            var source = new Accessors.Contracts.Api.WaterSource
+            {
+                WaterSourceGeometry = geometry,
+            };
+
             Action<IMappingOperationOptions> mappingOperationsAction =
                 hasKey ? a => a.Items.Add(ApiProfile.GeometryFormatKey, key) : null;
 
-            var result = geometry.Map<object>(mappingOperationsAction);
+            var result = source.Map<WaterSource>(mappingOperationsAction);
             if (expectedGeometryFormat == null)
             {
-                result.Should().BeNull();
+                result.WaterSourceGeometry.Should().BeNull();
             }
             else
             {
                 var expectedResult = expectedGeometryFormat == GeometryFormat.Wkt
                     ? geometry.AsText()
                     : geometry.AsGeoJson();
-                result.ToString().Should().Be(expectedResult.ToString());
+                result.WaterSourceGeometry.ToString().Should().Be(expectedResult.ToString());
             }
         }
 
