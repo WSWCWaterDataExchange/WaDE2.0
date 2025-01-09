@@ -11,11 +11,11 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.ISiteAccessor siteAccessor) : IRequestHandler<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>
+public class OverlayFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor) : IRequestHandler<OverlayFeaturesSearchRequest, OverlayFeaturesSearchResponse>
 {
-    public async Task<SiteFeaturesSearchResponse> Handle(SiteFeaturesSearchRequest request)
+    public async Task<OverlayFeaturesSearchResponse> Handle(OverlayFeaturesSearchRequest request)
     {
-        var searchRequest = request.Map<SiteSearchRequest>();
+        var searchRequest = request.Map<OverlaySearchRequest>();
         
         // When limit is 0 or over 10,000 default to 10,000.
         // OGC API Spec - If the value of the limit parameter is larger than the maximum value, this SHALL NOT result in an error (instead use the maximum as the parameter value).
@@ -24,11 +24,11 @@ internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngi
             searchRequest.Limit = 10_000;
         
         var searchResponse =
-            await siteAccessor.Search<SiteSearchRequest, SiteSearchResponse>(searchRequest);
+            await regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(searchRequest);
 
         // Map to engine?
         var formatRequest = searchResponse.Map<FeaturesRequest>();
         var dtoResponse = await formattingEngine.Format<FeaturesRequest, FeaturesResponse>(formatRequest);
-        return dtoResponse.Map<SiteFeaturesSearchResponse>();
+        return dtoResponse.Map<OverlayFeaturesSearchResponse>();
     }
 }
