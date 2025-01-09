@@ -16,7 +16,7 @@ public class OverlayFeaturesSearchRequestValidator : AbstractValidator<OverlayFe
 
         When(req => req.Limit != null, () =>
         {
-            RuleFor(req => req.Limit).LimitInRange(1, 1000);
+            RuleFor(req => req.Limit).LimitInRange(1, 1_000);
         });
     }
 }

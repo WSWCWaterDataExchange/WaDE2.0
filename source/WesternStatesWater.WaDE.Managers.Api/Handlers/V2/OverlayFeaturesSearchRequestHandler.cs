@@ -17,11 +17,10 @@ public class OverlayFeaturesSearchRequestHandler(IFormattingEngine formattingEng
     {
         var searchRequest = request.Map<OverlaySearchRequest>();
         
-        // When limit is 0 or over 10,000 default to 10,000.
         // OGC API Spec - If the value of the limit parameter is larger than the maximum value, this SHALL NOT result in an error (instead use the maximum as the parameter value).
         // https://docs.ogc.org/is/17-069r4/17-069r4.html#_parameter_limit
-        if (searchRequest.Limit is 0 or > 10_000)
-            searchRequest.Limit = 10_000;
+        if (searchRequest.Limit is 0 or > 1_000)
+            searchRequest.Limit = 1_000;
         
         var searchResponse =
             await regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(searchRequest);
