@@ -20,16 +20,25 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var timeSeries = await db.SiteVariableAmountsFact
+        var query = db.SiteVariableAmountsFact
             .AsNoTracking()
             .OrderBy(ts => ts.SiteVariableAmountId)
             .ApplySearchFilters(request)
+            .AsQueryable();
+        
+        // Fetch the number of matched records
+        var count = await query.CountAsync();
+        
+        var timeSeries = await query
+            .ApplyLimit(request)
             .ProjectTo<TimeSeriesSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new TimeSeriesSearchResponse
         {
-            TimeSeries = timeSeries
+            MatchedCount = count,
+            LastUuid = timeSeries.Count <= request.Limit ? null : timeSeries[^1].SiteVariableAmountId.ToString(),
+            TimeSeries = timeSeries.Take(request.Limit).ToList()
         };
     }
 }

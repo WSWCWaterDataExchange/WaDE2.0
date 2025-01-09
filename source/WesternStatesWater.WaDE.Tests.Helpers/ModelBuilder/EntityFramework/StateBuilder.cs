@@ -6,7 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class StateBuilder
     {
-        private static int _globalIndex = 0;
+        public static int _globalIndex = 0;
         public static State Create()
         {
             return Create(new StateBuilderOptions());

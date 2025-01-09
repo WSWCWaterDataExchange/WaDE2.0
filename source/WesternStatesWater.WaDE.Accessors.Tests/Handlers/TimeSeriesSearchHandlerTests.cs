@@ -17,15 +17,43 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class TimeSeriesSearchHandlerTests : DbTestBase
 {
+    [DataTestMethod]
+    [DataRow(5)]
+    [DataRow(10)]
+    public async Task Handler_LimitSet_EndOfRecordsNoLastUuid(int limit)
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        for (var i = 0; i < 5; i++)
+        {
+            await SiteVariableAmountsFactBuilder.Load(db);
+        }
+
+        var request = new TimeSeriesSearchRequest
+        {
+            Limit = limit
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.TimeSeries.Should().HaveCount(5);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should().BeNull();
+    }
+    
     [TestMethod]
     public async Task Handler_LimitSet_ReturnsCorrectAmount()
     {
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
+        List<SiteVariableAmountsFact> dbTimeSeries = new();
         for (var i = 0; i < 5; i++)
         {
-            await SiteVariableAmountsFactBuilder.Load(db);
+            dbTimeSeries.Add(await SiteVariableAmountsFactBuilder.Load(db));
         }
 
         var request = new TimeSeriesSearchRequest
@@ -38,6 +66,12 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
 
         // Assert
         response.TimeSeries.Should().HaveCount(3);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should()
+            .Be(dbTimeSeries.OrderBy(ts => ts.SiteVariableAmountId)
+                .Select(ts => ts.SiteVariableAmountId)
+                .ElementAt(3)
+                .ToString());
     }
 
     [TestMethod]
