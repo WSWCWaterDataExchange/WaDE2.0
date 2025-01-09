@@ -23,9 +23,10 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
+        List<RegulatoryOverlayDim> dbOverlays = new();
         for (var i = 0; i < 5; i++)
         {
-            await RegulatoryOverlayDimBuilder.Load(db);
+            dbOverlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
         }
 
         var request = new OverlaySearchRequest
@@ -38,6 +39,10 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(3);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should()
+            .BeEquivalentTo(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
+                .ElementAt(3));
     }
 
     [TestMethod]

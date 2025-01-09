@@ -22,9 +22,10 @@ public class AllocationSearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
+        List<AllocationAmountsFact> dbAllocations = new();
         for (var i = 0; i < 5; i++)
         {
-            await AllocationAmountsFactBuilder.Load(db);
+            dbAllocations.Add(await AllocationAmountsFactBuilder.Load(db));
         }
 
         var request = new AllocationSearchRequest
@@ -37,6 +38,9 @@ public class AllocationSearchHandlerTests : DbTestBase
 
         // Assert
         response.Allocations.Should().HaveCount(3);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should()
+            .Be(dbAllocations.OrderBy(a => a.AllocationUUID).Select(a => a.AllocationUUID).ElementAt(3));
     }
 
     [TestMethod]

@@ -23,9 +23,10 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
+        List<SiteVariableAmountsFact> dbTimeSeries = new();
         for (var i = 0; i < 5; i++)
         {
-            await SiteVariableAmountsFactBuilder.Load(db);
+            dbTimeSeries.Add(await SiteVariableAmountsFactBuilder.Load(db));
         }
 
         var request = new TimeSeriesSearchRequest
@@ -38,6 +39,12 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
 
         // Assert
         response.TimeSeries.Should().HaveCount(3);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should()
+            .Be(dbTimeSeries.OrderBy(ts => ts.SiteVariableAmountId)
+                .Select(ts => ts.SiteVariableAmountId)
+                .ElementAt(3)
+                .ToString());
     }
 
     [TestMethod]
