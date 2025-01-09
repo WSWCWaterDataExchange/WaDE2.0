@@ -28,6 +28,13 @@ public static class QueryableExtensions
     public static IQueryable<AllocationAmountsFact> ApplySearchFilters(this IQueryable<AllocationAmountsFact> query,
         AllocationSearchRequest filters)
     {
+        if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
+        {
+            query = query.Where(x => x.AllocationBridgeSitesFact.Any(
+                bridge => bridge.Site.Geometry.Intersects(filters.FilterBoundary) ||
+                          bridge.Site.SitePoint.Intersects(filters.FilterBoundary)));
+        }
+        
         if (filters.AllocationUuid != null && filters.AllocationUuid.Any())
         {
             query = query.Where(x => filters.AllocationUuid.Contains(x.AllocationUUID));

@@ -29,12 +29,11 @@ public class AllocationSearchItem
     public double? GeneratedPowerCapacityMW { get; set; }
     public string AllocationCommunityWaterSupplySystem { get; set; }
     public string AllocationSDWISIdentifier { get; set; }
-    public long MethodId { get; set; }
+    public string Method { get; set; }
     public string MethodUUID { get; set; }
-    public long VariableSpecificId { get; set; }
     public string VariableSpecificTypeCV { get; set; }
     public List<string> SitesUUIDs { get; set; }
     public List<string> BeneficialUses { get; set; }
-    public long OrganizationId { get; set; }
+    public string Organization { get; set; }
     public bool ExemptOfVolumeFlowPriority { get; set; }
 }
