@@ -1,40 +1,47 @@
-using System;
-using System.Collections.Generic;
-using NetTopologySuite.Geometries;
+using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
 
-namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
+namespace WesternStatesWater.WaDE.Engines.Contracts;
 
-public class AllocationSearchItem
+public class RightFeature : FeatureBase
 {
-    public Geometry Locations { get; set; }
-    public long AllocationAmountId { get; set; }
+    [FeaturePropertyName("nId")]
     public string AllocationNativeID { get; set; }
+    [FeaturePropertyName("owner")]
     public string AllocationOwner { get; set; }
+    [FeaturePropertyName("appDate")]
     public DateTime? AllocationApplicationDate { get; set; }
+    [FeaturePropertyName("priorityDate")]
     public DateTime? AllocationPriorityDate { get; set; }
+    [FeaturePropertyName("legalStatus")]
     public string AllocationLegalStatusCodeCV { get; set; }
+    [FeaturePropertyName("expires")]
     public DateTime? AllocationExpirationDate { get; set; }
-    public string AllocationChangeApplicationIndicator { get; set; }
-    public string LegacyAllocationIDs { get; set; }
+    [FeaturePropertyName("acreage")]
     public double? AllocationAcreage { get; set; }
+    [FeaturePropertyName("basis")]
     public string AllocationBasisCV { get; set; }
+    [FeaturePropertyName("start")]
     public string TimeframeStart { get; set; }
+    [FeaturePropertyName("end")]
     public string TimeframeEnd { get; set; }
-    public DateTime? DataPublicationDate { get; set; }
+    [FeaturePropertyName("cropDutyAmt")]
     public double? AllocationCropDutyAmount { get; set; }
+    [FeaturePropertyName("cfs")]
     public double? AllocationFlow_CFS { get; set; }
+    [FeaturePropertyName("af")]
     public double? AllocationVolume_AF { get; set; }
-    public string AllocationUUID { get; set; }
+    [FeaturePropertyName("popServed")]
     public long? PopulationServed { get; set; }
+    [FeaturePropertyName("generatedPowerCap")]
     public double? GeneratedPowerCapacityMW { get; set; }
+    [FeaturePropertyName("commWaterSupply")]
     public string AllocationCommunityWaterSupplySystem { get; set; }
+    [FeaturePropertyName("sdwis")]
     public string AllocationSDWISIdentifier { get; set; }
-    public long MethodId { get; set; }
-    public string MethodUUID { get; set; }
-    public long VariableSpecificId { get; set; }
+    [FeaturePropertyName("varType")]
     public string VariableSpecificTypeCV { get; set; }
-    public List<string> SitesUUIDs { get; set; }
+    [FeaturePropertyName("beneficialUses")]
     public List<string> BeneficialUses { get; set; }
-    public long OrganizationId { get; set; }
+    [FeaturePropertyName("exmptVolFlowPriority")]
     public bool ExemptOfVolumeFlowPriority { get; set; }
 }
