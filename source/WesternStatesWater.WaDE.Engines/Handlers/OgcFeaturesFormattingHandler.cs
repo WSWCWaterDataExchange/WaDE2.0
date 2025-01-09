@@ -72,6 +72,7 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
         {
             SiteFeature => Constants.SitesCollectionId,
             OverlayFeature => Constants.OverlaysCollectionId,
+            RightFeature => Constants.RightsCollectionId,
             _ => throw new ArgumentOutOfRangeException(nameof(feature))
         };
     }
