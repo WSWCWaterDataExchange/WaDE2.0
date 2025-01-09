@@ -15,23 +15,23 @@ using WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 namespace WesternStatesWater.WaDE.Managers.Tests.Handlers.V2;
 
 [TestClass]
-public class SiteFeaturesSearchRequestHandlerTests
+public class OverlayFeaturesSearchRequestHandlerTests
 {
     private readonly IFormattingEngine _formattingEngineMock = Mock.Create<IFormattingEngine>(Behavior.Strict);
-    private readonly ISiteAccessor _siteAccessorMock = Mock.Create<ISiteAccessor>(Behavior.Strict);
+    private readonly IRegulatoryOverlayAccessor _regulatoryOverlayAccessor = Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
 
     [TestMethod]
     public async Task Handler_CallsSearchThenFormatsSearch_ReturnsResponse()
     {
         // Arrange
-        var request = new SiteFeaturesSearchRequest();
-        var mockSearchResponse = new SiteSearchResponse
+        var request = new OverlayFeaturesSearchRequest();
+        var mockSearchResponse = new OverlaySearchResponse
         {
-            Sites = []
+            Overlays = []
         };
         
-        _siteAccessorMock.Arrange(mock =>
-                mock.Search<SiteSearchRequest, SiteSearchResponse>(Arg.IsAny<SiteSearchRequest>()))
+        _regulatoryOverlayAccessor.Arrange(mock =>
+                mock.Search<OverlaySearchRequest, OverlaySearchResponse>(Arg.IsAny<OverlaySearchRequest>()))
             .ReturnsAsync(mockSearchResponse);
 
         var mockFormatResponse = new FeaturesResponse();
@@ -47,8 +47,8 @@ public class SiteFeaturesSearchRequestHandlerTests
         // Assert
         result.Should().NotBeNull();
         Mock.Assert(() =>
-            _siteAccessorMock.Search<SiteSearchRequest, SiteSearchResponse>(
-                Arg.IsAny<SiteSearchRequest>()), Occurs.Once());
+            _regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(
+                Arg.IsAny<OverlaySearchRequest>()), Occurs.Once());
     }
     
     [DataTestMethod]
@@ -57,17 +57,17 @@ public class SiteFeaturesSearchRequestHandlerTests
     public async Task Handler_SetsDefaultLimit_ReturnsEmptyResults(string limit)
     {
         // Arrange
-        var request = new SiteFeaturesSearchRequest
+        var request = new OverlayFeaturesSearchRequest
         {
             Limit = limit
         };
         
-        var mockSearchResponse = new SiteSearchResponse
+        var mockSearchResponse = new OverlaySearchResponse
         {
-            Sites = []
+            Overlays = []
         };
-        _siteAccessorMock.Arrange(mock =>
-                mock.Search<SiteSearchRequest, SiteSearchResponse>(Arg.IsAny<SiteSearchRequest>()))
+        _regulatoryOverlayAccessor.Arrange(mock =>
+                mock.Search<OverlaySearchRequest, OverlaySearchResponse>(Arg.IsAny<OverlaySearchRequest>()))
             .ReturnsAsync(mockSearchResponse);
 
         var mockFormatResponse = new FeaturesResponse
@@ -85,14 +85,14 @@ public class SiteFeaturesSearchRequestHandlerTests
 
         // Assert
         Mock.Assert(
-            () => _siteAccessorMock.Search<SiteSearchRequest, SiteSearchResponse>(
-                Arg.Matches<SiteSearchRequest>(req =>
+            () => _regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(
+                Arg.Matches<OverlaySearchRequest>(req =>
                     req.Limit == 10_000)), Occurs.Once());
         Assert.IsNotNull(result);
     }
 
-    private SiteFeaturesSearchRequestHandler CreateHandler()
+    private OverlayFeaturesSearchRequestHandler CreateHandler()
     {
-        return new SiteFeaturesSearchRequestHandler(_formattingEngineMock, _siteAccessorMock);
+        return new OverlayFeaturesSearchRequestHandler(_formattingEngineMock, _regulatoryOverlayAccessor);
     }
 }
