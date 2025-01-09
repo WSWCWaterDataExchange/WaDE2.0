@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         {
             Mapping.DtoMapper.Configuration.AssertConfigurationIsValid();
         }
-        
+
         [DataTestMethod]
         [DataRow(null, false, null, null)]
         [DataRow(null, true, null, null)]
@@ -67,7 +67,6 @@ namespace WesternStatesWater.WaDE.Managers.Tests
         }
 
         [DataTestMethod]
-        [DataRow(null, null)]
         [DataRow("10,10,20,20", "POLYGON ((10 20, 20 20, 20 10, 10 10, 10 20))")]
         [DataRow("170, 50, -160, 60",
             "MULTIPOLYGON (((170 60, 180 60, 180 50, 170 50, 170 60)), ((-180 60, -160 60, -160 50, -180 50, -180 60)))")] // Crosses antimeridian
@@ -79,10 +78,19 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             };
 
             var response = request.Map<SiteSearchRequest>();
-            if (response.FilterBoundary == null)
-                response.FilterBoundary.Should().BeNull();
-            else
-                response.FilterBoundary.ToString().Should().Be(expected);
+            response.FilterBoundary.ToString().Should().Be(expected);
+        }
+
+        [TestMethod]
+        public void Map_StringToBoundaryBox_NullMapsToNull()
+        {
+            var request = new SiteFeaturesSearchRequest
+            {
+                Bbox = null
+            };
+
+            var response = request.Map<SiteSearchRequest>();
+            response.FilterBoundary.Should().BeNull();
         }
     }
 }
