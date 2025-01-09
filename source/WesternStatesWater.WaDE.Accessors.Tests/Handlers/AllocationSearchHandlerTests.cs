@@ -152,64 +152,6 @@ public class AllocationSearchHandlerTests : DbTestBase
     }
 
     [TestMethod]
-    public async Task Handler_AllocationWithManySites_GeometryLocationAreUnioned()
-    {
-        // Visualize the following WKTs at https://wktmap.com/?1b742131
-        string pointA = "POINT (-112.771225 41.627505)";
-        string pointB = "POINT (-112.636986 41.581552)";
-        string polygonA = "POLYGON ((-112.746506 41.630841, -112.785645 41.611849, -112.786331 41.574361, -112.747879 41.553811, -112.690887 41.555352, -112.663422 41.577443, -112.666168 41.613389, -112.695694 41.630841, -112.746506 41.630841))";
-        
-        var wktReader = new WKTReader();
-        var geometrySite = wktReader.Read(polygonA);
-        var pointSiteA = wktReader.Read(pointA);
-        var pointSiteB = wktReader.Read(pointB);
-        
-        await using var db = new WaDEContext(Configuration.GetConfiguration());
-        var site1 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
-        {
-            SitePoint = pointSiteA
-        });
-        var site2 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
-        {
-            SitePoint = pointSiteB
-        });
-        var site3 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
-        {
-            Geometry = geometrySite
-        });
-        
-        var allocation = await AllocationAmountsFactBuilder.Load(db);
-        
-        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
-        {
-            SitesDim = site1,
-            AllocationAmountsFact = allocation
-        });
-        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
-        {
-            SitesDim = site2,
-            AllocationAmountsFact = allocation
-        });
-        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
-        {
-            SitesDim = site3,
-            AllocationAmountsFact = allocation
-        });
-
-        var request = new AllocationSearchRequest
-        {
-            Limit = 5
-        };
-        
-        var response = await ExecuteHandler(request);
-
-        response.Allocations.Should().HaveCount(1);
-        response.Allocations[0].Locations.ToString().Should().Contain(polygonA);
-        response.Allocations[0].Locations.ToString().Should().Contain(pointA);
-        response.Allocations[0].Locations.ToString().Should().Contain(pointB);
-    }
-
-    [TestMethod]
     public async Task Handler_FilterBoundary_ShouldReturnAllocationWhoHasASiteIntersectingFilter()
     {
         // Visualize sites: https://wktmap.com/?3a6d3a8a

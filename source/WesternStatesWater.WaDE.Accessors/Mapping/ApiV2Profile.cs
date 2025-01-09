@@ -64,9 +64,6 @@ public class ApiV2Profile : Profile
                     UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.Geometry))));
 
         CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()
-            .ForMember(a => a.Locations,
-                b => b.MapFrom(c => 
-                    UnaryUnionOp.Union(c.AllocationBridgeSitesFact.Select(d => d.Site.Geometry != null ? d.Site.Geometry : d.Site.SitePoint))))
             .ForMember(a => a.AllocationApplicationDate,
                 b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
             .ForMember(a => a.AllocationPriorityDate, b => b.MapFrom(c => c.AllocationPriorityDateNavigation.Date))

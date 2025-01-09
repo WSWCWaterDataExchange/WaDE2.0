@@ -6,7 +6,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 
 public class AllocationSearchItem
 {
-    public Geometry Locations { get; set; }
     public long AllocationAmountId { get; set; }
     public string AllocationNativeID { get; set; }
     public string AllocationOwner { get; set; }

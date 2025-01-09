@@ -86,7 +86,6 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.AllocationSearchItem,
                 Engines.Contracts.RightFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID))
-            .ForMember(dest => dest.Geometry, opt => opt.MapFrom(src => src.Locations));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID));
     }
 }
