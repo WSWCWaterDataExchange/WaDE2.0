@@ -87,7 +87,7 @@ public class OverlayFeaturesSearchRequestHandlerTests
         Mock.Assert(
             () => _regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(
                 Arg.Matches<OverlaySearchRequest>(req =>
-                    req.Limit == 10_000)), Occurs.Once());
+                    req.Limit == 1_000)), Occurs.Once());
         Assert.IsNotNull(result);
     }
 
