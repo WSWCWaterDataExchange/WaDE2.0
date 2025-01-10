@@ -179,7 +179,8 @@ public class SiteFeaturesRequestHandlerTests
                     SiteUuid = "UT_1",
                     Location = Point.Empty
                 }
-            ]
+            ],
+            LastUuid = "UT_1"
         };
         
         _siteAccessorMock.Arrange(mock =>
