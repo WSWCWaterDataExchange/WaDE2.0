@@ -1,5 +1,6 @@
 ﻿using System.Transactions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Accessors.Tests
 {
@@ -10,6 +11,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [TestInitialize]
         public void TestInitialize()
         {
+            ResetGlobalIndexes();
             TransactionScope =
                 new TransactionScope(TransactionScopeOption.Required, TransactionScopeAsyncFlowOption.Enabled);
         }
@@ -19,6 +21,11 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         public void TestCleanup()
         {
             TransactionScope?.Dispose();
+        }
+
+        private void ResetGlobalIndexes()
+        {
+            StateBuilder._globalIndex = 0;
         }
     }
 }
