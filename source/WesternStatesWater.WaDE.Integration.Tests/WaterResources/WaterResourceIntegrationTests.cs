@@ -1,9 +1,11 @@
+using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
+using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Integration.Tests.WaterResources;
@@ -76,5 +78,173 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         }
 
         return facts.ToArray();
+    }
+
+    [TestMethod]
+    public async Task Load_SiteFeaturesSearchRequest_ShouldLoadSitesWithDifferentGeometryTypes()
+    {
+        await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
+
+        var geographyFaker = new Faker().Geography();
+
+        var siteOptions = new SitesDimBuilderOptions[]
+        {
+            new() { SitePoint = geographyFaker.RandomPoint(40.7, 40.9, -96.8, -96.6) },
+            new() { SitePoint = geographyFaker.RandomMultiPoint(40.7, 40.9, -96.8, -96.6) },
+            new() { Geometry = geographyFaker.RandomPolygon(40.7, 40.9, -96.8, -96.6) },
+            new() { Geometry = geographyFaker.RandomMultiPolygon(40.7, 40.9, -96.8, -96.6) }
+        };
+
+        await SitesDimBuilder.Load(db, siteOptions);
+
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Bbox = "-96.8, 40.7, -96.6, 41",
+            Limit = "4"
+        };
+
+        var response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        response.Features.Should().HaveCount(siteOptions.Length);
+    }
+
+    [TestMethod]
+    public async Task Load_SiteFeaturesSearchRequest_ShouldSearchWithinABoundingBox()
+    {
+        await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
+
+        var geographyFaker = new Faker().Geography();
+
+        var lincolnSiteOptions = Enumerable
+            .Range(0, 5).Select(_ => new SitesDimBuilderOptions
+            {
+                SitePoint = geographyFaker.RandomPoint(40.7, 40.9, -96.8, -96.6)
+            })
+            .ToArray();
+
+        var omahaSiteOptions = Enumerable
+            .Range(0, 3).Select(_ => new SitesDimBuilderOptions
+            {
+                SitePoint = geographyFaker.RandomPoint(41.2, 41.4, -96.0, -95.8)
+            })
+            .ToArray();
+
+        var lincolnSites = await SitesDimBuilder.Load(db, lincolnSiteOptions);
+        var omahaSites = await SitesDimBuilder.Load(db, omahaSiteOptions);
+
+        var lincolnSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Bbox = "-96.8, 40.7, -96.6, 41",
+            Limit = "10"
+        };
+
+        var response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(lincolnSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(lincolnSites.Length, "all these points should be in the Lincoln area.");
+
+        response.Features
+            .Select(f => f.Attributes["id"])
+            .Should()
+            .Contain(lincolnSites.Select(s => s.SiteUuid));
+
+        var omahaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Bbox = "-96.0, 41.2, -95.8, 41.4",
+            Limit = "10"
+        };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(omahaSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(omahaSites.Length, "all these points should be in the Omaha area.");
+
+        response.Features
+            .Select(f => f.Attributes["id"])
+            .Should()
+            .Contain(omahaSites.Select(s => s.SiteUuid));
+
+        var easternNebraskaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Bbox = "-97.5, 40.0, -95.5, 42.5",
+            Limit = "10"
+        };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(easternNebraskaSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(lincolnSites.Length + omahaSites.Length, "all these points should be in the eastern Nebraska box.");
+    }
+
+    [TestMethod]
+    public async Task Load_SiteFeaturesSearchRequest_ShouldReturnNextLinkUntilTheFinalPage()
+    {
+        await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
+
+        var geographyFaker = new Faker().Geography();
+
+        var siteOptions = new SitesDimBuilderOptions[]
+        {
+            new() { SitePoint = geographyFaker.RandomPoint() },
+            new() { SitePoint = geographyFaker.RandomPoint() },
+            new() { SitePoint = geographyFaker.RandomPoint() },
+            new() { SitePoint = geographyFaker.RandomPoint() }
+        };
+
+        var sites = (await SitesDimBuilder.Load(db, siteOptions))
+            .OrderBy(site => site.SiteUuid)
+            .ToArray();
+
+        // Get the first page (of 1).
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "1" };
+
+        var response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        sites[0].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
+
+        // Use the link to get the next page, but up the limit to 2.
+        var nextId = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+
+        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "2", Next = nextId };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        sites[1].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
+        sites[2].SiteUuid.Should().Be(response.Features[1].Attributes["id"].ToString());
+
+        // Use the link to get the final page. Overshoot the limit for good measure.
+        nextId = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+
+        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "10", Next = nextId };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        response.Features.Length.Should().Be(1);
+        sites[3].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
+        response.Links.Count(link => link.Rel == "next").Should().Be(0);
     }
 }

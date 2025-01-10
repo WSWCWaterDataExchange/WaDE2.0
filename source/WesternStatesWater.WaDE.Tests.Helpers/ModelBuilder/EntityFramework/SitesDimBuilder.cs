@@ -1,4 +1,6 @@
-﻿using Bogus;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Bogus;
 using NetTopologySuite.Geometries;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -46,20 +48,32 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static async Task<SitesDim> Load(WaDEContext db, SitesDimBuilderOptions opts)
         {
-            opts.CoordinateMethodCvNavigation = opts.CoordinateMethodCvNavigation ?? await CoordinateMethodBuilder.Load(db);
-            opts.EpsgcodeCvNavigation = opts.EpsgcodeCvNavigation ?? await EpsgcodeBuilder.Load(db);
-            opts.GniscodeCvNavigation = opts.GniscodeCvNavigation ?? await GnisfeatureNameBuilder.Load(db);
-            opts.NhdnetworkStatusCvNavigation = opts.NhdnetworkStatusCvNavigation ?? await NhdnetworkStatusBuilder.Load(db);
-            opts.NhdproductCvNavigation = opts.NhdproductCvNavigation ?? await NhdproductBuilder.Load(db);
-            opts.SiteTypeCvNavigation = opts.SiteTypeCvNavigation ?? await SiteTypeBuilder.Load(db);
-            opts.StateCVNavigation = opts.StateCVNavigation ?? await StateBuilder.Load(db);
-
-            var item = Create(opts);
-
-            db.SitesDim.Add(item);
+            return (await Load(db, [opts]))[0];
+        }
+        
+        public static async Task<SitesDim[]> Load(WaDEContext db, SitesDimBuilderOptions[] opts)
+        {
+            var sites = new List<SitesDim>();
+            
+            foreach (var opt in opts)
+            {
+                opt.CoordinateMethodCvNavigation ??= await CoordinateMethodBuilder.Load(db);
+                opt.EpsgcodeCvNavigation ??= await EpsgcodeBuilder.Load(db);
+                opt.GniscodeCvNavigation ??= await GnisfeatureNameBuilder.Load(db);
+                opt.NhdnetworkStatusCvNavigation ??= await NhdnetworkStatusBuilder.Load(db);
+                opt.NhdproductCvNavigation ??= await NhdproductBuilder.Load(db);
+                opt.SiteTypeCvNavigation ??= await SiteTypeBuilder.Load(db);
+                opt.StateCVNavigation ??= await StateBuilder.Load(db);
+                
+                var side = Create(opt);
+                await db.SitesDim.AddAsync(side);
+                
+                sites.Add(side);
+            }
+            
             await db.SaveChangesAsync();
 
-            return item;
+            return sites.ToArray();
         }
 
         public static long GenerateId()
