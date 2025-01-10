@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Bogus;
 using NetTopologySuite.Geometries;
+using NetTopologySuite.Geometries.Utilities;
 using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers
@@ -112,8 +113,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
             }
 
             var wtk = $"MULTIPOINT ({string.Join(", ", points)})";
-
-            return GeometryExtensions.GetGeometryByWkt(wtk);
+            var geometry = GeometryExtensions.GetGeometryByWkt(wtk);
+            
+            return geometry;
         }
 
         public Geometry RandomPolygon(
@@ -138,8 +140,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
             coordinates.Add(coordinates[0]);
 
             var wtk = $"POLYGON (({string.Join(", ", coordinates)}))";
-
-            return GeometryExtensions.GetGeometryByWkt(wtk);
+            var geometry = GeometryExtensions.GetGeometryByWkt(wtk);
+            
+            return geometry!.IsValid ? geometry : GeometryFixer.Fix(geometry);
         }
 
         public Geometry RandomMultiPolygon(
@@ -172,8 +175,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
             }
 
             var wtk = $"MULTIPOLYGON ({string.Join(", ", polygons)})";
+            var geometry = GeometryExtensions.GetGeometryByWkt(wtk);
 
-            return GeometryExtensions.GetGeometryByWkt(wtk);
+            return geometry!.IsValid ? geometry : GeometryFixer.Fix(geometry, isKeepMulti: true);
         }
     }
 }
