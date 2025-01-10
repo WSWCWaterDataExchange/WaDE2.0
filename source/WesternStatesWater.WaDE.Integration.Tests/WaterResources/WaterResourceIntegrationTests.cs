@@ -86,6 +86,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     {
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
+        // Closed polygon over Lincoln, NE, with intersecting lines.
         var invalidPolygon = GeometryExtensions.GetGeometryByWkt(
             "POLYGON ((-96.67735074089035 40.769796285659815, -96.75676926449917 40.754715616917274, -96.78923445807378 40.739875942484574, -96.66341614557061 40.85006621914999, -96.69796507752979 40.857495918824725, -96.67735074089035 40.769796285659815))");
 

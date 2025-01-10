@@ -29,14 +29,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
         }
     }
 
-    // public static class GeometryExtensions
-    // {
-    //     public static Geometry ToGeometry(this string wkt)
-    //     {
-    //         return new NetTopologySuite.IO.WKTReader().Read(wkt);
-    //     }
-    // }
-
     public class Geography
     {
         public Geography(Faker f)
