@@ -82,8 +82,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers
             var longitude = _faker.Random.Double(minLongitude, maxLongitude);
             var latitude = _faker.Random.Double(minLatitude, maxLatitude);
             var wtk = $"POINT({longitude} {latitude})";
-
-            return GeometryExtensions.GetGeometryByWkt(wtk);
+            var geometry = GeometryExtensions.GetGeometryByWkt(wtk);
+            
+            return geometry;
         }
 
         public Geometry RandomMultiPoint(

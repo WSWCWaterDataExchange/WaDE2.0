@@ -261,9 +261,9 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         sites[0].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
 
         // Use the link to get the next page, but up the limit to 2.
-        var nextId = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+        var next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
 
-        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "2", Next = nextId };
+        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "2", Next = next };
 
         response = await _manager.Search<
             Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
@@ -274,9 +274,9 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         sites[2].SiteUuid.Should().Be(response.Features[1].Attributes["id"].ToString());
 
         // Use the link to get the final page. Overshoot the limit for good measure.
-        nextId = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+        next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
 
-        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "10", Next = nextId };
+        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "10", Next = next };
 
         response = await _manager.Search<
             Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,

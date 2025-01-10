@@ -59,9 +59,9 @@ internal class SiteFeaturesRequestHandler(
         var links = new LinkBuilder(ServerUrl, ApiPath)
             .AddLandingPage();
 
-        if (searchResponse.Sites.Count > 0)
+        if (searchResponse.LastUuid is not null)
         {
-            links.AddNextFeatures(Constants.SitesCollectionId, searchResponse.Sites[^1].SiteUuid);
+            links.AddNextFeatures(Constants.SitesCollectionId, searchResponse.LastUuid);
         }
         
         return new SiteFeaturesResponse
