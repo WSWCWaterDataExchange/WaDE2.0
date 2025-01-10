@@ -25,13 +25,19 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
             .ApplySearchFilters(request)
             .AsQueryable();
 
+        // Fetch the number of matched records
+        var count = await query.CountAsync();
+
         var sites = await query
+            .ApplyLimit(request)
             .ProjectTo<SiteSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new SiteSearchResponse
         {
-            Sites = sites
+            MatchedCount = count,
+            LastUuid = sites.Count <= request.Limit ? null : sites[^1].SiteUuid, 
+            Sites = sites.Take(request.Limit).ToList()
         };
     }
 }
