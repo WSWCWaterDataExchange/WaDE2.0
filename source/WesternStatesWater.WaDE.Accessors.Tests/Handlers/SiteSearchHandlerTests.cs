@@ -69,7 +69,7 @@ public class SiteSearchHandlerTests : DbTestBase
         response.Sites.Should().HaveCount(3);
         response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
-            .Be(dbSites.OrderBy(s => s.SiteUuid).Select(s => s.SiteUuid).ElementAt(3));
+            .Be(dbSites.OrderBy(s => s.SiteUuid).Select(s => s.SiteUuid).ElementAt(2));
     }
     
     [TestMethod]
@@ -144,7 +144,7 @@ public class SiteSearchHandlerTests : DbTestBase
             sites.Add(await SitesDimBuilder.Load(db));
         }
 
-        sites.Sort((x, y) => String.Compare(x.SiteUuid, y.SiteUuid, StringComparison.Ordinal));
+        sites.Sort((x, y) => string.Compare(x.SiteUuid, y.SiteUuid, StringComparison.Ordinal));
 
         var request = new SiteSearchRequest
         {

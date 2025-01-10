@@ -33,10 +33,13 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
             .ProjectTo<SiteSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
+        // Get the last UUID of the page (not the first one on the next page).
+        var lastUuid = count <= request.Limit ? null : sites[^2].SiteUuid;
+
         return new SiteSearchResponse
         {
             MatchedCount = count,
-            LastUuid = sites.Count <= request.Limit ? null : sites[^1].SiteUuid, 
+            LastUuid = lastUuid,
             Sites = sites.Take(request.Limit).ToList()
         };
     }
