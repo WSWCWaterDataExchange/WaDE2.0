@@ -7,6 +7,7 @@ using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Integration.Tests.WaterResources;
 
@@ -81,6 +82,44 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     }
 
     [TestMethod]
+    public async Task Load_SiteFeaturesSearchRequests_ShouldNotReturnSitesWithInvalidGeometriesIfSearchingInBbox()
+    {
+        await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
+
+        var invalidPolygon = GeometryExtensions.GetGeometryByWkt(
+            "POLYGON ((-96.67735074089035 40.769796285659815, -96.75676926449917 40.754715616917274, -96.78923445807378 40.739875942484574, -96.66341614557061 40.85006621914999, -96.69796507752979 40.857495918824725, -96.67735074089035 40.769796285659815))");
+
+        await SitesDimBuilder.Load(db, new SitesDimBuilderOptions { Geometry = invalidPolygon });
+
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Bbox = "-180, -90, 180, 90",
+            Limit = "10"
+        };
+
+        var response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        // Filtered on geometry, can't find the invalid site.
+        response.Features.Should().BeEmpty();
+
+        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        {
+            Limit = "10"
+        };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(request);
+
+        // Not filtered on geometry, everything is returned.
+        response.Features.Length.Should().Be(1);
+    }
+
+    [TestMethod]
     public async Task Load_SiteFeaturesSearchRequest_ShouldLoadSitesWithDifferentGeometryTypes()
     {
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
@@ -112,7 +151,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     }
 
     [TestMethod]
-    public async Task Load_SiteFeaturesSearchRequest_ShouldSearchWithinABoundingBox()
+    public async Task Load_SiteFeaturesSearchRequest_ShouldSearchWithinABbox()
     {
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
