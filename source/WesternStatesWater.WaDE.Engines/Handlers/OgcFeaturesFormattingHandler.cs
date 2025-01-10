@@ -34,10 +34,10 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
     {
         var links = new LinkBuilder(ServerUrl, ApiPath)
             .AddLandingPage();
-
-        if (request.Items.Length > 0)
+        
+        if (request.LastUuid is not null)
         {
-            links.AddNextFeatures(GetCollectionId(request.Items[0]), request.Items[^1].Id);
+            links.AddNextFeatures(Constants.SitesCollectionId, request.LastUuid);
         }
 
         return links.Build();

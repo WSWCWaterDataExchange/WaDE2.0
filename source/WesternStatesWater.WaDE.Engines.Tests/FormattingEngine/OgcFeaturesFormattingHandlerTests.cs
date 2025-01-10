@@ -178,7 +178,8 @@ public class OgcFeaturesFormattingHandlerTests
                     Id = "site-id",
                     Geometry = Point.Empty
                 }
-            ]
+            ],
+            LastUuid = "site-id"
         };
 
         // Act

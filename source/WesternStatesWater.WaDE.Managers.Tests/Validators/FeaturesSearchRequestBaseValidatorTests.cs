@@ -93,7 +93,7 @@ public class FeaturesSearchRequestBaseValidatorTests
         // Assert
         result.IsValid.Should().BeFalse();
         result.Errors.Should().Contain(e => e.PropertyName == "Limit");
-        result.Errors.Should().Contain(e => e.ErrorMessage == "Limit must be a number greater than 1.");
+        result.Errors.Should().Contain(e => e.ErrorMessage == "Limit must be a number greater than 0.");
     }
 }
 
