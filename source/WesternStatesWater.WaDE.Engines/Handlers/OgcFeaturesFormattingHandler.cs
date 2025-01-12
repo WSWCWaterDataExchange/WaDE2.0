@@ -44,35 +44,20 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
     }
 
     /// <summary>
-    /// Builds a GeoJson Feature "properties" using the FeaturePropertyNameAttribute as the property name.
+    /// Builds a GeoJson Feature "properties" using the <see cref="FeaturePropertyNameAttribute"/> as the property name.
     /// </summary>
     /// <param name="item">Feature item</param>
     /// <returns>Creates an AttributeTable from the derived FeatureBase type. Geometry is omitted from the table.</returns>
     private static AttributesTable BuildAttributesTable(FeatureBase item)
     {
         var properties = new AttributesTable();
-        foreach (var property in item.GetType().GetProperties().Where(prop => prop.Name != nameof(FeatureBase.Geometry)))
+        foreach (var property in item.GetType().GetProperties().Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null))
         {
-            // TODO: check for missing attribute?
-            var attrName = property.GetCustomAttribute<FeaturePropertyNameAttribute>()?.GetName();
-            if (attrName == null)
-            {
-                throw new InvalidOperationException(
-                    $"{item.GetType()} property {property.Name} is missing {nameof(FeaturePropertyNameAttribute)}.");
-            }
+            var attrName = property.GetCustomAttribute<FeaturePropertyNameAttribute>()!.GetName();
+            
             properties.Add(attrName, property.GetValue(item));
         }
 
         return properties;
-    }
-
-    private static string GetCollectionId(FeatureBase feature)
-    {
-        return feature switch
-        {
-            SiteFeature => Constants.SitesCollectionId,
-            OverlayFeature => Constants.OverlaysCollectionId,
-            _ => throw new ArgumentOutOfRangeException(nameof(feature))
-        };
     }
 }

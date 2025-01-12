@@ -21,115 +21,121 @@ public class OgcFeaturesFormattingHandlerTests
         Environment.SetEnvironmentVariable("ApiPath", "/api");
     }
 
-    [DataTestMethod]
-    [DataRow(typeof(SiteFeature))]
-    [DataRow(typeof(OverlayFeature))]
-    public async Task Features_Items_PropertiesHaveFeaturePropertyNameAttribute(Type itemType)
+    [TestMethod]
+    public void Features_AllPropertiesExceptGeometry_ShouldHaveFeaturePropertyNameAttribute()
     {
-        // Arrange
-        var item = (FeatureBase) Activator.CreateInstance(itemType)!;
-        foreach (var property in item.GetType().GetProperties())
+        var featureTypes = typeof(FeatureBase).Assembly.GetTypes()
+            .Where(type => type.IsSubclassOf(typeof(FeatureBase)))
+            .ToArray();
+
+        // Smoke test to make sure we have some feature types.
+        featureTypes.Should().NotBeEmpty();
+
+        foreach (var featureType in featureTypes)
         {
-            if (property.Name == nameof(FeatureBase.Geometry))
-            {
-                // Geometry is not part of properties.
-                property.SetValue(item, Point.Empty);
-                continue;
-            }
+            Console.WriteLine($"Checking {featureType.Name}");
 
-            if (property.PropertyType == typeof(string))
-            {
-                property.SetValue(item, property.Name);
-            }
-            else if (property.PropertyType == typeof(string[]))
-            {
-                property.SetValue(item, (string[]) [property.Name]);
-            }
-            else if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(bool?))
-            {
-                property.SetValue(item, true);
-            }
-            else if (property.PropertyType == typeof(double) || property.PropertyType == typeof(double?))
-            {
-                property.SetValue(item, (double) item.GetHashCode());
-            }
-            else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(int?))
-            {
-                property.SetValue(item, item.GetHashCode());
-            }
-        }
+            var featureProperties = featureType.GetProperties();
+            var geometryProp = featureProperties.Single(prop => prop.Name == nameof(FeatureBase.Geometry));
 
-        var request = new FeaturesRequest()
-        {
-            Items =
-            [
-                item
-            ]
-        };
+            geometryProp
+                .GetCustomAttribute<FeaturePropertyNameAttribute>()
+                .Should()
+                .BeNull(
+                    $"property '{geometryProp.Name}' on '{featureType.Name}' should not have a {nameof(FeaturePropertyNameAttribute)}."
+                );
 
-        // Act
-        var handler = CreateHandler();
-        var response = await handler.Handle(request);
-
-        // Assert
-        response.Features.Should().HaveCount(1);
-        var feature = response.Features[0];
-        feature.Geometry.Should().Be(Point.Empty);
-        foreach (var property in item.GetType().GetProperties())
-        {
-            if (property.Name == nameof(FeatureBase.Geometry))
-            {
-                continue;
-            }
-
-            var attrName = property.GetCustomAttribute<FeaturePropertyNameAttribute>()?.GetName();
-            if (property.PropertyType.IsArray)
-            {
-                feature.Attributes[attrName].Should().BeEquivalentTo(new[] { property.Name });
-            }
-            else if (property.PropertyType == typeof(bool) || property.PropertyType == typeof(bool?))
-            {
-                feature.Attributes[attrName].Should().Be(true);
-            }
-            else if (property.PropertyType == typeof(double) || property.PropertyType == typeof(double?))
-            {
-                feature.Attributes[attrName].Should().Be((double) item.GetHashCode());
-            }
-            else if (property.PropertyType == typeof(int) || property.PropertyType == typeof(int?))
-            {
-                feature.Attributes[attrName].Should().Be(item.GetHashCode());
-            }
-            else
-            {
-                feature.Attributes[attrName].Should().Be(property.Name);
-            }
+            featureProperties.Except([geometryProp])
+                .Select(prop => new
+                {
+                    Attribute = prop.GetCustomAttribute<FeaturePropertyNameAttribute>(),
+                    PropertyName = prop.Name
+                })
+                .Should()
+                .AllSatisfy(property =>
+                    property.Attribute.Should().NotBeNull(
+                        $"property '{property.PropertyName}' on '{featureType.Name}' should have a {nameof(FeaturePropertyNameAttribute)}."
+                    )
+                );
         }
     }
 
     [TestMethod]
-    public async Task Features_Items_PropertyMissingFeaturePropertyNameAttribute()
+    public async Task PropertiesWithFeaturePropertyNameAttribute_ShouldAddValuesToAttributes()
     {
-        // Arrange
-        var item = new BadFeature
+        var feature = new TestFeature
         {
-            MissingAttribute = "does-not-matter"
-        };
-        var request = new FeaturesRequest()
-        {
-            Items =
-            [
-                item
-            ]
+            StringProperty = "string!",
+            NullableStringProperty = "nullable string!",
+            IntProperty = 1,
+            NullableIntProperty = 2,
+            DoubleProperty = 3.0,
+            NullableDoubleProperty = 4.0,
+            BoolProperty = true,
+            NullableBoolProperty = false,
+            StringArrayProperty = ["string array!"]
         };
 
-        // Act
-        var handler = CreateHandler();
-        Func<Task> act = async () => await handler.Handle(request);
+        var request = new FeaturesRequest { Items = [feature] };
+        var response = await CreateHandler().Handle(request);
 
-        // Assert
-        await act.Should().ThrowAsync<InvalidOperationException>()
-            .WithMessage(
-                $"{item.GetType()} property {nameof(BadFeature.MissingAttribute)} is missing {nameof(FeaturePropertyNameAttribute)}.");
+        // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
+        response.Features[0].Attributes["sp"].Should().Be("string!");
+        response.Features[0].Attributes["nsp"].Should().Be("nullable string!");
+        response.Features[0].Attributes["ip"].Should().Be(1);
+        response.Features[0].Attributes["nip"].Should().Be(2);
+        response.Features[0].Attributes["dp"].Should().Be(3.0);
+        response.Features[0].Attributes["ndp"].Should().Be(4.0);
+        response.Features[0].Attributes["bp"].Should().Be(true);
+        response.Features[0].Attributes["nbp"].Should().Be(false);
+        response.Features[0].Attributes["sap"].Should().BeEquivalentTo(new[] { "string array!" });
+    }
+
+    [TestMethod]
+    public async Task PropertiesWithFeaturePropertyNameAttribute_NullableAttributesNull_ShouldBeAddedAsNull()
+    {
+        var feature = new TestFeature
+        {
+            StringProperty = "string!",
+            IntProperty = 1,
+            DoubleProperty = 2.0,
+            BoolProperty = true
+        };
+
+        var request = new FeaturesRequest { Items = [feature] };
+        var response = await CreateHandler().Handle(request);
+
+        // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
+        response.Features[0].Attributes["sp"].Should().Be("string!");
+        response.Features[0].Attributes["nsp"].Should().BeNull();
+        response.Features[0].Attributes["ip"].Should().Be(1);
+        response.Features[0].Attributes["nip"].Should().BeNull();
+        response.Features[0].Attributes["dp"].Should().Be(2.0);
+        response.Features[0].Attributes["ndp"].Should().BeNull();
+        response.Features[0].Attributes["bp"].Should().Be(true);
+        response.Features[0].Attributes["nbp"].Should().BeNull();
+        response.Features[0].Attributes["sap"].Should().BeNull();
+    }
+
+    [TestMethod]
+    public async Task AttributesTableContainsAllPropertiesWithFeaturePropertyNameAttribute()
+    {
+        var properties = typeof(TestFeature).GetProperties();
+        var namedProperties = properties
+            .Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null)
+            .ToArray();
+
+        // All the named properties + Geometry = 11
+        properties.Length.Should().Be(11);
+
+        // 10, minus the geometry property
+        namedProperties.Length.Should().Be(10);
+
+        var feature = new TestFeature();
+        var request = new FeaturesRequest { Items = [feature] };
+        var response = await CreateHandler().Handle(request);
+
+        response.Features[0].Attributes.Count.Should().Be(namedProperties.Length);
     }
 
     [TestMethod]
@@ -139,11 +145,11 @@ public class OgcFeaturesFormattingHandlerTests
         {
             Items = []
         };
-        
+
         // Act
         var handler = CreateHandler();
         var response = await handler.Handle(request);
-        
+
         // Assert
         response.Links.Should().NotBeNull();
         response.Links.Should().HaveCount(2);
@@ -220,7 +226,32 @@ public class OgcFeaturesFormattingHandlerTests
     }
 }
 
-public class BadFeature : FeatureBase
+public class TestFeature : FeatureBase
 {
-    public string MissingAttribute { get; set; }
+    [FeaturePropertyName("sp")]
+    public string StringProperty { get; init; } = null!;
+
+    [FeaturePropertyName("nsp")]
+    public string? NullableStringProperty { get; init; }
+
+    [FeaturePropertyName("ip")]
+    public int IntProperty { get; init; }
+
+    [FeaturePropertyName("nip")]
+    public int? NullableIntProperty { get; init; }
+
+    [FeaturePropertyName("dp")]
+    public double DoubleProperty { get; init; }
+
+    [FeaturePropertyName("ndp")]
+    public double? NullableDoubleProperty { get; init; }
+
+    [FeaturePropertyName("bp")]
+    public bool BoolProperty { get; init; }
+
+    [FeaturePropertyName("nbp")]
+    public bool? NullableBoolProperty { get; init; }
+
+    [FeaturePropertyName("sap")]
+    public string[] StringArrayProperty { get; init; } = null!;
 }
