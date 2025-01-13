@@ -20,16 +20,25 @@ public class AllocationSearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var allocations = await db.AllocationAmountsFact
+        var query = db.AllocationAmountsFact
             .AsNoTracking()
             .OrderBy(alloc => alloc.AllocationUUID)
             .ApplySearchFilters(request)
+            .AsQueryable();
+        
+        // Fetch the number of matched records
+        var count = await query.CountAsync();
+
+        var allocations = await query
+            .ApplyLimit(request)
             .ProjectTo<AllocationSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         return new AllocationSearchResponse
         {
-            Allocations = allocations
+            MatchedCount = count,
+            LastUuid = allocations.Count <= request.Limit ? null : allocations[^1].AllocationUUID,
+            Allocations = allocations.Take(request.Limit).ToList()
         };
     }
 }

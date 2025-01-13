@@ -20,8 +20,6 @@ public static class QueryableExtensions
             query = query.Where(s => s.SiteUuid.CompareTo(filters.LastSiteUuid) > 0);
         }
 
-        query = query.Take(filters.Limit);
-
         return query;
     }
 
@@ -50,8 +48,6 @@ public static class QueryableExtensions
         {
             query = query.Where(x => x.AllocationUUID.CompareTo(filters.LastKey) > 0);
         }
-
-        query = query.Take(filters.Limit);
 
         return query;
     }
@@ -85,8 +81,6 @@ public static class QueryableExtensions
             query = query.Where(x => x.SiteVariableAmountId > filters.LastKey);
         }
 
-        query = query.Take(filters.Limit);
-
         return query;
     }
 
@@ -117,8 +111,20 @@ public static class QueryableExtensions
             query = query.Where(o => o.RegulatoryOverlayUuid.CompareTo(filters.LastKey) > 0);
         }
 
-        query = query.Take(filters.Limit);
-
+        return query;
+    }
+    
+    /// <summary>
+    /// Sets the Take limit plus one on the query. This is used to determine if there are more results.
+    /// </summary>
+    /// <param name="query">Queryable DbSet.</param>
+    /// <param name="filters">SearchRequestBase</param>
+    /// <typeparam name="T">DbSet</typeparam>
+    /// <returns></returns>
+    public static IQueryable<T> ApplyLimit<T>(this IQueryable<T> query, SearchRequestBase filters)
+    {
+        // Adding one to limit to determine if there are more results
+        query = query.Take(filters.Limit + 1);
         return query;
     }
 }

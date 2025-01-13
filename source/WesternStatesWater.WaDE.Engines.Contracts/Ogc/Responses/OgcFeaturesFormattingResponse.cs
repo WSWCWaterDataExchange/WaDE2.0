@@ -1,3 +1,3 @@
 namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 
-public class FeaturesResponse : FeaturesResponseBase;
+public class OgcFeaturesFormattingResponse : FeaturesResponseBase;

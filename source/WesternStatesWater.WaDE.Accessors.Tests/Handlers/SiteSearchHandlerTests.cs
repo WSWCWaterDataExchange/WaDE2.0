@@ -18,6 +18,60 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class SiteSearchHandlerTests : DbTestBase
 {
+    [DataTestMethod]
+    [DataRow(5)]
+    [DataRow(10)]
+    public async Task Handler_LimitSet_EndOfRecordsNoLastUuid(int limit)
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        for (var i = 0; i < 5; i++)
+        {
+            await SitesDimBuilder.Load(db);
+        }
+        
+        var request = new SiteSearchRequest
+        {
+            Limit = limit
+        };
+        
+        // Act
+        var response = await ExecuteHandler(request);
+        
+        // Assert
+        response.Sites.Should().HaveCount(5);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should().BeNull();
+    }
+    
+    [TestMethod]
+    public async Task Handler_LimitSet_ReturnsCorrectAmount()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        List<SitesDim> dbSites = new();
+        for (var i = 0; i < 5; i++)
+        {
+            dbSites.Add(await SitesDimBuilder.Load(db));
+        }
+        
+        var request = new SiteSearchRequest
+        {
+            Limit = 3
+        };
+        
+        // Act
+        var response = await ExecuteHandler(request);
+        
+        // Assert
+        response.Sites.Should().HaveCount(3);
+        response.MatchedCount.Should().Be(5);
+        response.LastUuid.Should()
+            .Be(dbSites.OrderBy(s => s.SiteUuid).Select(s => s.SiteUuid).ElementAt(2));
+    }
+    
     [TestMethod]
     public async Task SiteAccessor_GeometryFilter_ReturnsIntersectedSites()
     {
@@ -90,7 +144,7 @@ public class SiteSearchHandlerTests : DbTestBase
             sites.Add(await SitesDimBuilder.Load(db));
         }
 
-        sites.Sort((x, y) => String.Compare(x.SiteUuid, y.SiteUuid, StringComparison.Ordinal));
+        sites.Sort((x, y) => string.Compare(x.SiteUuid, y.SiteUuid, StringComparison.Ordinal));
 
         var request = new SiteSearchRequest
         {

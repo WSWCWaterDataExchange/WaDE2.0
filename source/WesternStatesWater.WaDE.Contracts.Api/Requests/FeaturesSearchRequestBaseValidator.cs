@@ -16,7 +16,7 @@ public class FeaturesSearchRequestBaseValidator : AbstractValidator<FeaturesSear
 
         When(req => req.Limit != null, () =>
         {
-            RuleFor(req => req.Limit).GreaterThan(1);
+            RuleFor(req => req.Limit).GreaterThan(0);
         });
     }
 }
