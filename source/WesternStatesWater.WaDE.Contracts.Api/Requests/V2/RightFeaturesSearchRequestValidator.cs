@@ -6,6 +6,6 @@ public class RightFeaturesSearchRequestValidator : AbstractValidator<RightFeatur
 {
     public RightFeaturesSearchRequestValidator()
     {
-        
+        Include(new FeaturesSearchRequestBaseValidator());
     }
 }
