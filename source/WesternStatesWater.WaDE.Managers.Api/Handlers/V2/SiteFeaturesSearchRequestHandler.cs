@@ -26,8 +26,8 @@ internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngi
             await siteAccessor.Search<SiteSearchRequest, SiteSearchResponse>(searchRequest);
 
         // Map to engine?
-        var formatRequest = searchResponse.Map<FeaturesRequest>();
-        var dtoResponse = await formattingEngine.Format<FeaturesRequest, FeaturesResponse>(formatRequest);
+        var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
+        var dtoResponse = await formattingEngine.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(formatRequest);
         return dtoResponse.Map<SiteFeaturesSearchResponse>();
     }
 }
