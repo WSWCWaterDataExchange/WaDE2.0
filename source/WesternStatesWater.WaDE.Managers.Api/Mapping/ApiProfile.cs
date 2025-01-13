@@ -1,28 +1,38 @@
 ﻿using AutoMapper;
-using NetTopologySuite.Geometries;
-using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping
 {
     internal class ApiProfile : Profile
     {
         public const string GeometryFormatKey = "GeometryFormatKey";
+
         public ApiProfile()
         {
-
-            CreateMap<ManagerApi.AggregatedAmountsFilters, AccessorApi.AggregatedAmountsFilters>();
-            CreateMap<ManagerApi.SiteAllocationAmountsFilters, AccessorApi.SiteAllocationAmountsFilters>();
-            CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>();
-            CreateMap<ManagerApi.RegulatoryOverlayFilters, AccessorApi.RegulatoryOverlayFilters>();
-            CreateMap<ManagerApi.SiteAllocationAmountsDigestFilters, AccessorApi.SiteAllocationAmountsDigestFilters>();
+            CreateMap<ManagerApi.AggregatedAmountsFilters, AccessorApi.AggregatedAmountsFilters>()
+                .ForMember(dest => dest.Geometry,
+                    opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));
+            CreateMap<ManagerApi.SiteAllocationAmountsFilters, AccessorApi.SiteAllocationAmountsFilters>()
+                .ForMember(dest => dest.Geometry,
+                    opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
+            CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>()
+                .ForMember(dest => dest.Geometry,
+                    opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
+            CreateMap<ManagerApi.RegulatoryOverlayFilters, AccessorApi.RegulatoryOverlayFilters>()
+                .ForMember(dest => dest.Geometry,
+                    opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
+            CreateMap<ManagerApi.SiteAllocationAmountsDigestFilters, AccessorApi.SiteAllocationAmountsDigestFilters>()
+                .ForMember(dest => dest.Geometry,
+                    opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
 
             CreateMap<AccessorApi.BeneficialUse, ManagerApi.BeneficialUse>();
-            CreateMap<AccessorApi.Site, ManagerApi.Site>();
+            CreateMap<AccessorApi.Site, ManagerApi.Site>()
+                .ForMember(dest => dest.SiteGeometry, opt => opt.MapFrom(new GeometryFormatterResolver<AccessorApi.Site, ManagerApi.Site>(GeometryFormatKey, nameof(AccessorApi.Site.SiteGeometry))));
             CreateMap<AccessorApi.Method, ManagerApi.Method>();
             CreateMap<AccessorApi.VariableSpecific, ManagerApi.VariableSpecific>();
-            CreateMap<AccessorApi.WaterSource, ManagerApi.WaterSource>();
-            CreateMap<AccessorApi.ReportingUnit, ManagerApi.ReportingUnit>();
+            CreateMap<AccessorApi.WaterSource, ManagerApi.WaterSource>()
+                .ForMember(dest => dest.WaterSourceGeometry, opt => opt.MapFrom(new GeometryFormatterResolver<AccessorApi.WaterSource, ManagerApi.WaterSource>(GeometryFormatKey, nameof(AccessorApi.WaterSource.WaterSourceGeometry))));
+            CreateMap<AccessorApi.ReportingUnit, ManagerApi.ReportingUnit>()
+                .ForMember(dest => dest.ReportingUnitGeometry, opt => opt.MapFrom(new GeometryFormatterResolver<AccessorApi.ReportingUnit, ManagerApi.ReportingUnit>(GeometryFormatKey, nameof(AccessorApi.ReportingUnit.ReportingUnitGeometry))));
 
             CreateMap<AccessorApi.WaterAllocations, ManagerApi.WaterAllocations>();
             CreateMap<AccessorApi.WaterAllocationOrganization, ManagerApi.WaterAllocationOrganization>();
@@ -36,7 +46,8 @@ namespace WesternStatesWater.WaDE.Managers.Api.Mapping
             CreateMap<AccessorApi.SiteVariableAmountsOrganization, ManagerApi.SiteVariableAmountsOrganization>();
             CreateMap<AccessorApi.SiteVariableAmount, ManagerApi.SiteVariableAmount>();
 
-            CreateMap<AccessorApi.RegulatoryReportingUnitsOrganization, ManagerApi.RegulatoryReportingUnitsOrganization>();
+            CreateMap<AccessorApi.RegulatoryReportingUnitsOrganization,
+                ManagerApi.RegulatoryReportingUnitsOrganization>();
             CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>();
             CreateMap<AccessorApi.ReportingUnitRegulatory, ManagerApi.ReportingUnitRegulatory>();
 
@@ -46,30 +57,6 @@ namespace WesternStatesWater.WaDE.Managers.Api.Mapping
             CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();
 
             CreateMap<AccessorApi.PodToPouSiteRelationship, ManagerApi.PodToPouSiteRelationship>();
-
-            CreateMap<Geometry, object>()
-                .ConvertUsing((geometry, _, context) => ConvertGeometryToObject(geometry, context));
-
-            CreateMap<string, Geometry>()
-                .ConvertUsing((geometry, _) => GeometryExtensions.GetGeometry(geometry));
-        }
-
-        private object ConvertGeometryToObject(Geometry geometry, ResolutionContext context)
-        {
-            if (geometry == null)
-            {
-                return null;
-            }
-            var selectedFormat = GeometryFormat.Wkt;
-            if (context.Items.TryGetValue(GeometryFormatKey, out var obj))
-            {
-                selectedFormat = obj as GeometryFormat? ?? GeometryFormat.Wkt;
-            }
-            if (selectedFormat == GeometryFormat.GeoJson)
-            {
-                return geometry.AsGeoJson();
-            }
-            return geometry.AsText();
         }
     }
 }

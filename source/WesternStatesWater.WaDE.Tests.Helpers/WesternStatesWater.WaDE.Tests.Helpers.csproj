@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj" />
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj" />
   </ItemGroup>
 </Project>

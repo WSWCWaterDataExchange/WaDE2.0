@@ -1,4 +1,5 @@
-using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
+using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
 
 namespace WesternStatesWater.WaDE.Engines;
 
@@ -26,7 +27,7 @@ internal class LinkBuilder(string baseUrl, string apiPath)
         AddLink($"{_apiPath}/collections/{collectionId}/items", "application/geo+json", "items");
         return this;
     }
-
+    
     public LinkBuilder AddNextFeatures(string collectionId, string lastUuid)
     {
         AddLink($"{_apiPath}/collections/{collectionId}/items?next={lastUuid}", "application/geo+json", "next");
