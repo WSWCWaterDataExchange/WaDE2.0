@@ -25,7 +25,6 @@ public class OverlayFeaturesSearchRequestHandler(IFormattingEngine formattingEng
         var searchResponse =
             await regulatoryOverlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(searchRequest);
 
-        // Map to engine?
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
         var dtoResponse = await formattingEngine.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(formatRequest);
         return dtoResponse.Map<OverlayFeaturesSearchResponse>();

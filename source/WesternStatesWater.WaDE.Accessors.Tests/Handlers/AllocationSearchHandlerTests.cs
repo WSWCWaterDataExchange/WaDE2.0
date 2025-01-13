@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NetTopologySuite.IO;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -179,6 +180,76 @@ public class AllocationSearchHandlerTests : DbTestBase
             .BeEquivalentTo(siteA.SiteUuid);
         response.Allocations.First(alloc => alloc.AllocationUUID == allocation2.AllocationUUID).SitesUUIDs.Should()
             .BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+    }
+
+    [TestMethod]
+    public async Task Handler_FilterBoundary_ShouldReturnAllocationWhoHasASiteIntersectingFilter()
+    {
+        // Visualize sites: https://wktmap.com/?3a6d3a8a
+        var wktReader = new WKTReader();
+        var pointA = wktReader.Read("POINT (-113.08223904518697 39.07881679978712)");
+        var pointB = wktReader.Read("POINT (-111.88412458869138 39.24952488971968)");
+        var pointC = wktReader.Read("POINT (-111.27380883752618 39.2921796551922)");
+        var polygonA = wktReader.Read("POLYGON ((-112.04138848167361 39.40747600260892, -112.04138848167361 39.364864033742805, -111.99726180323547 39.364864033742805, -111.99726180323547 39.40747600260892, -112.04138848167361 39.40747600260892))");
+        
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        var site1 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            SitePoint = pointA
+        });
+        var site2 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            SitePoint = pointB
+        });
+        var site3 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            SitePoint = pointC
+        });
+        var site4 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            Geometry = polygonA
+        });
+        
+        var allocationOutsideBoundary = await AllocationAmountsFactBuilder.Load(db);
+        var allocationWithOneSiteInBoundary = await AllocationAmountsFactBuilder.Load(db);
+        var allocationWithSiteInBoundary = await AllocationAmountsFactBuilder.Load(db);
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = site1,
+            AllocationAmountsFact = allocationWithOneSiteInBoundary
+        });
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = site2,
+            AllocationAmountsFact = allocationWithOneSiteInBoundary
+        });
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = site3,
+            AllocationAmountsFact = allocationOutsideBoundary
+        });
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = site4,
+            AllocationAmountsFact = allocationWithSiteInBoundary
+        });
+        
+        // Filter Boundary visualizer: https://wktmap.com/?e32407a4
+        // Visualize all coordinates: https://wktmap.com/?afc484da
+        var request = new AllocationSearchRequest
+        {
+            FilterBoundary = wktReader.Read(
+                "POLYGON ((-112.08792189270426 39.44602478526929, -112.08792189270426 39.172494625547614, -111.73175117928515 39.172494625547614, -111.73175117928515 39.44602478526929, -112.08792189270426 39.44602478526929))"),
+            Limit = 5
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.Allocations.Should().HaveCount(2);
+        response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(
+            allocationWithOneSiteInBoundary.AllocationUUID,
+            allocationWithSiteInBoundary.AllocationUUID);
     }
     
     private async Task<AllocationSearchResponse> ExecuteHandler(AllocationSearchRequest request)
