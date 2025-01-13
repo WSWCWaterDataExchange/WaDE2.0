@@ -2,12 +2,13 @@ using System.Reflection;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.Geometries;
+using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
-using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
+using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
@@ -76,7 +77,7 @@ public class OgcFeaturesFormattingHandlerTests
             StringArrayProperty = ["string array!"]
         };
 
-        var request = new FeaturesRequest { Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
@@ -102,7 +103,7 @@ public class OgcFeaturesFormattingHandlerTests
             BoolProperty = true
         };
 
-        var request = new FeaturesRequest { Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
@@ -132,7 +133,7 @@ public class OgcFeaturesFormattingHandlerTests
         namedProperties.Length.Should().Be(10);
 
         var feature = new TestFeature();
-        var request = new FeaturesRequest { Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
         var response = await CreateHandler().Handle(request);
 
         response.Features[0].Attributes.Count.Should().Be(namedProperties.Length);
@@ -141,8 +142,9 @@ public class OgcFeaturesFormattingHandlerTests
     [TestMethod]
     public async Task Features_HaveNoItems_ReturnsNoNextLink()
     {
-        var request = new FeaturesRequest()
+        var request = new OgcFeaturesFormattingRequest()
         {
+            CollectionId = string.Empty,
             Items = []
         };
 
@@ -175,8 +177,9 @@ public class OgcFeaturesFormattingHandlerTests
     public async Task SiteFeature_HasItems_IncludesNextPageLink()
     {
         // Arrange
-        var request = new FeaturesRequest()
+        var request = new OgcFeaturesFormattingRequest()
         {
+            CollectionId = Constants.SitesCollectionId,
             Items =
             [
                 new SiteFeature

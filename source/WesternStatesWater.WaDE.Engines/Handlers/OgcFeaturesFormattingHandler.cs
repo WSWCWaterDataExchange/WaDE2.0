@@ -12,32 +12,37 @@ using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
 public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFormattingHandlerBase(configuration),
-    IRequestHandler<FeaturesRequest, FeaturesResponse>
+    IRequestHandler<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>
 {
-    public Task<FeaturesResponse> Handle(FeaturesRequest request)
+    public Task<OgcFeaturesFormattingResponse> Handle(OgcFeaturesFormattingRequest request)
     {
-        List<Feature> features = [];
-        features.AddRange(request.Items.Select(item => new Feature
+        var features = request.Items
+            .Select(item => new Feature
+            {
+                Geometry = item.Geometry,
+                Attributes = BuildAttributesTable(item)
+            })
+            .ToArray();
+
+        var links = BuildLinks(request);
+
+        var response = new OgcFeaturesFormattingResponse
         {
-            Geometry = item.Geometry,
-            Attributes = BuildAttributesTable(item)
-        }));
-        
-        return Task.FromResult(new FeaturesResponse
-        {
-            Features = features.ToArray(),
-            Links = BuildLinks(request)
-        });
+            Features = features,
+            Links = links
+        };
+
+        return Task.FromResult(response);
     }
 
-    private Link[] BuildLinks(FeaturesRequest request)
+    private Link[] BuildLinks(OgcFeaturesFormattingRequest request)
     {
         var links = new LinkBuilder(ServerUrl, ApiPath)
             .AddLandingPage();
-        
+
         if (request.LastUuid is not null)
         {
-            links.AddNextFeatures(Constants.SitesCollectionId, request.LastUuid);
+            links.AddNextFeatures(request.CollectionId, request.LastUuid);
         }
 
         return links.Build();
@@ -51,10 +56,11 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
     private static AttributesTable BuildAttributesTable(FeatureBase item)
     {
         var properties = new AttributesTable();
-        foreach (var property in item.GetType().GetProperties().Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null))
+        foreach (var property in item.GetType().GetProperties()
+                     .Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null))
         {
             var attrName = property.GetCustomAttribute<FeaturePropertyNameAttribute>()!.GetName();
-            
+
             properties.Add(attrName, property.GetValue(item));
         }
 
