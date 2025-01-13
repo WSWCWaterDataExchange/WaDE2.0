@@ -73,6 +73,7 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.Responses.AllocationSearchResponse,
                 Engines.Contracts.Ogc.Requests.OgcFeaturesFormattingRequest>()
+            .ForMember(dest => dest.CollectionId, opt => opt.MapFrom(src => Constants.RightsCollectionId))
             .ForMember(dest => dest.Items,
                 opt => opt.MapFrom((src, a, b, c) =>
                     c.Mapper.Map<List<Engines.Contracts.RightFeature>>(src.Allocations)));
@@ -89,6 +90,7 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.AllocationSearchItem,
                 Engines.Contracts.RightFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID))
+            .ForMember(dest => dest.Geometry, opt => opt.Ignore());
     }
 }
