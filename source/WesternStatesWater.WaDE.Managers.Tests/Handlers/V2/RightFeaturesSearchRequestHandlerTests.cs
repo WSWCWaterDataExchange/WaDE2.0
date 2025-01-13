@@ -36,10 +36,10 @@ public class RightFeaturesSearchRequestHandlerTests
                 mock.Search<AllocationSearchRequest, AllocationSearchResponse>(Arg.IsAny<AllocationSearchRequest>()))
             .ReturnsAsync(mockSearchResponse);
 
-        var mockFormatResponse = new FeaturesResponse();
+        var mockFormatResponse = new OgcFeaturesFormattingResponse();
         _formattingEngineMock.Arrange(mock =>
-                mock.Format<FeaturesRequest, FeaturesResponse>(
-                    Arg.IsAny<FeaturesRequest>()))
+                mock.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(
+                    Arg.IsAny<OgcFeaturesFormattingRequest>()))
             .ReturnsAsync(mockFormatResponse);
 
         // Act
@@ -72,14 +72,14 @@ public class RightFeaturesSearchRequestHandlerTests
                 mock.Search<AllocationSearchRequest, AllocationSearchResponse>(Arg.IsAny<AllocationSearchRequest>()))
             .ReturnsAsync(mockSearchResponse);
 
-        var mockFormatResponse = new FeaturesResponse
+        var mockFormatResponse = new OgcFeaturesFormattingResponse
         {
             Features = [],
             Links = []
         };
         _formattingEngineMock.Arrange(mock =>
-                mock.Format<FeaturesRequest, FeaturesResponse>(
-                    Arg.IsAny<FeaturesRequest>()))
+                mock.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(
+                    Arg.IsAny<OgcFeaturesFormattingRequest>()))
             .ReturnsAsync(mockFormatResponse);
 
         // Act

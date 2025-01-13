@@ -27,7 +27,7 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.OverlayFeaturesSearchResponse>();
-        CreateMap<Engines.Contracts.Ogc.Responses.FeaturesResponse,
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.RightFeaturesSearchResponse>();
 
         // Managers -> Accessors
@@ -72,7 +72,7 @@ public class OgcApiProfile : Profile
                     c.Mapper.Map<List<Engines.Contracts.OverlayFeature>>(src.Overlays)));
 
         CreateMap<Accessors.Contracts.Api.V2.Responses.AllocationSearchResponse,
-                Engines.Contracts.Ogc.Requests.FeaturesRequest>()
+                Engines.Contracts.Ogc.Requests.OgcFeaturesFormattingRequest>()
             .ForMember(dest => dest.Items,
                 opt => opt.MapFrom((src, a, b, c) =>
                     c.Mapper.Map<List<Engines.Contracts.RightFeature>>(src.Allocations)));

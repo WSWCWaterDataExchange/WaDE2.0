@@ -25,8 +25,8 @@ public class RightFeaturesSearchRequestHandler(IFormattingEngine formattingEngin
         var searchResponse =
             await allocationAccessor.Search<AllocationSearchRequest, AllocationSearchResponse>(searchRequest);
 
-        var formatRequest = searchResponse.Map<FeaturesRequest>();
-        var dtoResponse = await formattingEngine.Format<FeaturesRequest, FeaturesResponse>(formatRequest);
+        var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
+        var dtoResponse = await formattingEngine.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(formatRequest);
         return dtoResponse.Map<RightFeaturesSearchResponse>();
     }
 }
