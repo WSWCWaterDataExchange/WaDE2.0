@@ -31,13 +31,13 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.RightFeaturesSearchResponse>();
 
         // Managers -> Accessors
-        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.FilterBoundary,
                 mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
 
-        CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
             .ForMember(dest => dest.FilterBoundary,
                 mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
@@ -47,7 +47,7 @@ public class OgcApiProfile : Profile
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
         
-        CreateMap<Contracts.Api.Requests.V2.RightFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.RightFeaturesItemRequest,
         Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
             .ForMember(dest => dest.FilterBoundary,
                 mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))

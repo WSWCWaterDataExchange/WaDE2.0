@@ -26,7 +26,7 @@ public class RightFeaturesSearchRequestHandlerTests
     public async Task Handler_CallsSearchThenFormatsSearch_ReturnsResponse()
     {
         // Arrange
-        var request = new RightFeaturesSearchRequest();
+        var request = new RightFeaturesItemRequest();
         var mockSearchResponse = new AllocationSearchResponse
         {
             Allocations = []
@@ -59,7 +59,7 @@ public class RightFeaturesSearchRequestHandlerTests
     public async Task Handler_SetsDefaultLimit_ReturnsEmptyREsults(string limit)
     {
         // Arrange
-        var request = new RightFeaturesSearchRequest
+        var request = new RightFeaturesItemRequest
         {
             Limit = limit
         };

@@ -24,7 +24,7 @@ public class SiteFeaturesSearchRequestHandlerTests
     public async Task Handler_CallsSearchThenFormatsSearch_ReturnsResponse()
     {
         // Arrange
-        var request = new SiteFeaturesSearchRequest();
+        var request = new SiteFeaturesItemRequest();
         var mockSearchResponse = new SiteSearchResponse
         {
             Sites = []
@@ -57,7 +57,7 @@ public class SiteFeaturesSearchRequestHandlerTests
     public async Task Handler_SetsDefaultLimit_ReturnsEmptyResults(string limit)
     {
         // Arrange
-        var request = new SiteFeaturesSearchRequest
+        var request = new SiteFeaturesItemRequest
         {
             Limit = limit
         };

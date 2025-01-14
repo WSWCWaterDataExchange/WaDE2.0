@@ -7,4 +7,5 @@ public abstract class FeaturesSearchRequestBase : RequestBase
     public string Bbox { get; set; }
     public string Limit { get; set; }
     public string Next { get; set; }
+    public string Coords { get; set; }
 }

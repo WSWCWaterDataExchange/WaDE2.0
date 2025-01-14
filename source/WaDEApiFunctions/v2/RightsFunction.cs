@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
@@ -77,7 +78,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var request = new RightFeaturesSearchRequest
+        var request = new RightFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
@@ -85,7 +86,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             AllocationUuids = req.Query["allocationUuids"],
             SiteUuids = req.Query["siteUuids"]
         };
-        var response = await waterResourceManager.Search<RightFeaturesSearchRequest, RightFeaturesSearchResponse>(request);
+        var response = await waterResourceManager.Search<RightFeaturesSearchRequestBase, RightFeaturesSearchResponse>(request);
         
         return await CreateOkResponse(req, response);
     }

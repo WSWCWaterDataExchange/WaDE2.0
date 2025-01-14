@@ -24,7 +24,7 @@ public class OverlayFeaturesSearchRequestHandlerTests
     public async Task Handler_CallsSearchThenFormatsSearch_ReturnsResponse()
     {
         // Arrange
-        var request = new OverlayFeaturesSearchRequest();
+        var request = new OverlayFeaturesItemRequest();
         var mockSearchResponse = new OverlaySearchResponse
         {
             Overlays = []
@@ -57,7 +57,7 @@ public class OverlayFeaturesSearchRequestHandlerTests
     public async Task Handler_SetsDefaultLimit_ReturnsEmptyResults(string limit)
     {
         // Arrange
-        var request = new OverlayFeaturesSearchRequest
+        var request = new OverlayFeaturesItemRequest
         {
             Limit = limit
         };

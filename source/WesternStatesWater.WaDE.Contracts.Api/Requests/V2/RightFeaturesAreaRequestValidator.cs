@@ -2,9 +2,9 @@ using FluentValidation;
 
 namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 
-public class OverlayFeaturesSearchRequestValidator : AbstractValidator<OverlayFeaturesSearchRequest>
+public class RightFeaturesAreaRequestValidator :AbstractValidator<RightFeaturesAreaRequest>
 {
-    public OverlayFeaturesSearchRequestValidator()
+    public RightFeaturesAreaRequestValidator()
     {
         Include(new FeaturesSearchRequestBaseValidator());
     }
