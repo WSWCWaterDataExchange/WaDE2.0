@@ -1,15 +1,25 @@
+using System;
 using System.Linq;
 using FluentValidation;
+using NetTopologySuite;
+using NetTopologySuite.Geometries;
+using NetTopologySuite.IO;
 
 namespace WesternStatesWater.WaDE.Contracts.Api.Extensions;
 
 public static class ValidationExtensions
 {
+    private const int SRID_WGS84 = 4326;
+    private static readonly WKTReader WktReader = new(new NtsGeometryServices(PrecisionModel.Floating.Value, SRID_WGS84));
+    
     private const string InvalidBBoxMessage =
         "Bounding box requires four values: minX, minY, maxX, and maxY, with longitudes " +
         "between {0} and {1} degrees and " +
         "latitudes between {2} and {3} degrees. " +
         "For example, \"-114.052,36.997,-109.041,42.001\"";
+
+    private const string InvalidWktMessage =
+        "Invalid '{PropertyName}'. Ensure the string is a valid POLYGON or MULTIPOLYGON WKT format, e.g., POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).";
 
 
     /// <summary>
@@ -86,5 +96,36 @@ public static class ValidationExtensions
             .NotEmpty()
             .Must(r => int.TryParse(r, out var val) && val > min)
             .WithMessage($"Limit must be a number greater than {min}.");
+    }
+    
+    /// <summary>
+    /// Validates that a string is a valid POLYGON or MULTIPOLYGON WellKnownText (WKT) string. Case insensitive.
+    /// </summary>
+    /// <param name="ruleBuilder"></param>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    public static IRuleBuilderOptions<T, string> ValidAreaWkt<T>(
+        this IRuleBuilder<T, string> ruleBuilder
+    )
+    {
+        return ruleBuilder
+            .NotEmpty()
+            .Must(str => str.StartsWith("POLYGON", StringComparison.OrdinalIgnoreCase) ||
+                         str.StartsWith("MULTIPOLYGON", StringComparison.OrdinalIgnoreCase))
+            .WithMessage("'{PropertyName}' must be a valid POLYGON or MULTIPOLYGON string.")
+            .Must(wkt =>
+            {
+                try
+                {
+                    WktReader.Read(wkt);
+                    return true;
+                }
+                catch (ArgumentException)
+                {
+                    // Invalid WKT string
+                    return false;
+                }
+            })
+            .WithMessage(InvalidWktMessage);
     }
 }

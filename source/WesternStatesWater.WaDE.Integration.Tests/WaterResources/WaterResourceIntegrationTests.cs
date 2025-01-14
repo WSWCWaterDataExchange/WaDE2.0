@@ -232,7 +232,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     }
 
     [TestMethod]
-    public async Task Load_SiteFeaturesSearchRequest_ShouldReturnNextLinkUntilTheFinalPage()
+    public async Task Load_SiteFeaturesItemRequest_ShouldReturnNextLinkUntilTheFinalPage()
     {
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
@@ -286,5 +286,92 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         response.Features.Length.Should().Be(1);
         sites[3].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
         response.Links.Count(link => link.Rel == "next").Should().Be(0);
+    }
+    
+    [TestMethod]
+    public async Task Load_SiteFeaturesAreaRequest_ShouldSearchWithinWktCoords()
+    {
+        await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
+
+        var geographyFaker = new Faker().Geography();
+
+        var lincolnSiteOptions = Enumerable
+            .Range(0, 5).Select(_ => new SitesDimBuilderOptions
+            {
+                SitePoint = geographyFaker.RandomPoint(40.7, 40.9, -96.8, -96.6)
+            })
+            .ToArray();
+
+        var omahaSiteOptions = Enumerable
+            .Range(0, 3).Select(_ => new SitesDimBuilderOptions
+            {
+                SitePoint = geographyFaker.RandomPoint(41.2, 41.4, -96.0, -95.8)
+            })
+            .ToArray();
+        
+        NetTopologySuite.IO.WKTReader reader = new NetTopologySuite.IO.WKTReader();
+        var z = reader.Read("POLYGON((-96.8 41, -96.8 40.7, -96.6 40.7, -96.6 41, -96.8 41))");
+        var list = new List<NetTopologySuite.Geometries.Geometry>();
+        list.Add(z);
+        list.AddRange(lincolnSiteOptions.Select(x => x.SitePoint));
+        var x = NetTopologySuite.Geometries.Utilities.GeometryCombiner.Combine(list);
+        
+        var lincolnSites = await SitesDimBuilder.Load(db, lincolnSiteOptions);
+        var omahaSites = await SitesDimBuilder.Load(db, omahaSiteOptions);
+
+        var lincolnSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesAreaRequest
+        {
+            Coords = "POLYGON((-96.8 41, -96.8 40.7, -96.6 40.7, -96.6 41, -96.8 41))",
+            Limit = "10"
+        };
+
+        var response = await _manager.Search<
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(lincolnSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(lincolnSites.Length, "all these points should be in the Lincoln area.");
+
+        response.Features
+            .Select(f => f.Attributes["id"])
+            .Should()
+            .Contain(lincolnSites.Select(s => s.SiteUuid));
+
+        var omahaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesAreaRequest
+        {
+            Coords = "POLYGON((-96.0 41.4, -96.0 41.2, -95.86 41.2, -95.8 41.4, -96.0 41.4))",
+            Limit = "10"
+        };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(omahaSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(omahaSites.Length, "all these points should be in the Omaha area.");
+
+        response.Features
+            .Select(f => f.Attributes["id"])
+            .Should()
+            .Contain(omahaSites.Select(s => s.SiteUuid));
+
+        var easternNebraskaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesAreaRequest
+        {
+            Coords = "POLYGON((-97.5 42.5, -97.5 40, -95.5 40.0, -95.5 42.5, -97.5 42.5))",
+            Limit = "10"
+        };
+
+        response = await _manager.Search<
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
+            Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
+        >(easternNebraskaSearchRequest);
+
+        response.Features.Length
+            .Should()
+            .Be(lincolnSites.Length + omahaSites.Length, "all these points should be in the eastern Nebraska box.");
     }
 }
