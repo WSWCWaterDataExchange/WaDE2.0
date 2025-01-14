@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.IO;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -239,8 +240,12 @@ public class AllocationSearchHandlerTests : DbTestBase
         // Visualize all coordinates: https://wktmap.com/?afc484da
         var request = new AllocationSearchRequest
         {
-            FilterBoundary = wktReader.Read(
-                "POLYGON ((-112.08792189270426 39.44602478526929, -112.08792189270426 39.172494625547614, -111.73175117928515 39.172494625547614, -111.73175117928515 39.44602478526929, -112.08792189270426 39.44602478526929))"),
+            GeometrySearch = new SpatialSearchCriteria
+            {
+                Geometry = wktReader.Read(
+                    "POLYGON ((-112.08792189270426 39.44602478526929, -112.08792189270426 39.172494625547614, -111.73175117928515 39.172494625547614, -111.73175117928515 39.44602478526929, -112.08792189270426 39.44602478526929))"),
+                SpatialRelationType = SpatialRelationType.Intersects
+            },
             Limit = 5
         };
         

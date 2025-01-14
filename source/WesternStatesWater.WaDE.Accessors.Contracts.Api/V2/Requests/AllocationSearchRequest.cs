@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NetTopologySuite.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 
@@ -11,5 +10,5 @@ public class AllocationSearchRequest : SearchRequestBase
 
     public string LastKey { get; set; }
     
-    public Geometry FilterBoundary { get; set; }
+    public SpatialSearchCriteria GeometrySearch { get; set; }
 }

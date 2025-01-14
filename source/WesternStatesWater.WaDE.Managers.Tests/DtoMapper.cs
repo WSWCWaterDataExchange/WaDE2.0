@@ -78,7 +78,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             };
 
             var response = request.Map<SiteSearchRequest>();
-            response.FilterBoundary.ToString().Should().Be(expected);
+            response.GeometrySearch.Geometry.ToString().Should().Be(expected);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             };
 
             var response = request.Map<SiteSearchRequest>();
-            response.FilterBoundary.Should().BeNull();
+            response.GeometrySearch.Geometry.Should().BeNull();
         }
     }
 }
