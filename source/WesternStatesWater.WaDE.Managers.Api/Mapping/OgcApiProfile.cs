@@ -44,7 +44,8 @@ public class OgcApiProfile : Profile
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
-            .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
+            .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next))
+            .ForMember(dest => dest.SiteTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes));
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()

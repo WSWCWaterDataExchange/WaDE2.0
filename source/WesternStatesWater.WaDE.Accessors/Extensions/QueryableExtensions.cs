@@ -25,7 +25,7 @@ public static class QueryableExtensions
             query = query.Where(s => s.SiteUuid.CompareTo(filters.LastSiteUuid) > 0);
         }
         
-        if (filters.SiteTypes != null && filters.SiteTypes.Length != 0)
+        if (filters.SiteTypes != null && filters.SiteTypes.Count != 0)
         {
             query = query.Where(s => filters.SiteTypes.Contains(s.SiteTypeCvNavigation.WaDEName));
         }

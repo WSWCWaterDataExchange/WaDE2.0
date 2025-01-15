@@ -245,8 +245,11 @@ public class SiteSearchHandlerTests : DbTestBase
         response.Sites.Should().HaveCount(3);
     }
     
-    [TestMethod]
-    public async Task SiteAccessor_SiteTypeFilter_ReturnsCorrectSites()
+    [DataTestMethod]
+    [DataRow(["SiteTypeA", "SiteTypeB"])]
+    [DataRow(["sitetypea", "SITETYPEB"])]
+    [DataRow([" SiteTypeA", "SiteTypeB "])]
+    public async Task SiteAccessor_SiteTypeFilter_ReturnsCorrectSites(string[] searchSiteTypes)
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
