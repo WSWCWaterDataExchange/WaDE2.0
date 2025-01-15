@@ -16,6 +16,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             var faker = new Faker<SiteType>()
                 .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.WaDEName, f => opts?.WaDEName ?? f.Random.Words(5))
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(40))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))
@@ -47,7 +48,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     }
 
     public class SiteTypeBuilderOptions
-    {
-
+    { 
+        public string WaDEName { get; set; }
     }
 }

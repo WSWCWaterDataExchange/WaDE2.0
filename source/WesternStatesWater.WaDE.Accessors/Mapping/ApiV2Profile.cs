@@ -16,7 +16,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
             .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
             .ForMember(a => a.UsgsSiteId, b => b.MapFrom(c => c.UsgssiteId))
-            .ForMember(a => a.SiteType, b => b.MapFrom(c => c.SiteTypeCv))
+            .ForMember(a => a.SiteType, b => b.MapFrom(c => c.SiteTypeCvNavigation.WaDEName))
             .ForMember(a => a.Location, b => b.MapFrom(c => c.Geometry != null ? c.Geometry : c.SitePoint))
             .ForMember(a => a.CoordinateMethod, b => b.MapFrom(c => c.CoordinateMethodCv))
             .ForMember(a => a.CoordinateAccuracy, b => b.MapFrom(c => c.CoordinateAccuracy))

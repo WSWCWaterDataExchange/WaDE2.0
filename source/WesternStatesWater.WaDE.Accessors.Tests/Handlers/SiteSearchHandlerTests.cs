@@ -244,6 +244,44 @@ public class SiteSearchHandlerTests : DbTestBase
         
         response.Sites.Should().HaveCount(3);
     }
+    
+    [DataTestMethod]
+    [DataRow(["SiteTypeA", "SiteTypeB"])]
+    [DataRow(["sitetypea", "SITETYPEB"])]
+    [DataRow([" SiteTypeA", "SiteTypeB "])]
+    public async Task SiteAccessor_SiteTypeFilter_ReturnsCorrectSites(string[] searchSiteTypes)
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var siteTypeA = await SiteTypeBuilder.Load(db, new SiteTypeBuilderOptions
+        {
+            WaDEName = "SiteTypeA"
+        });
+        var siteTypeB = await SiteTypeBuilder.Load(db, new SiteTypeBuilderOptions
+        {
+            WaDEName = "SiteTypeB"
+        });
+        
+        var siteA = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            SiteTypeCvNavigation = siteTypeA
+        });
+        var siteB = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            SiteTypeCvNavigation = siteTypeB
+        });
+        await SitesDimBuilder.Load(db);
+
+        var request = new SiteSearchRequest
+        {
+            SiteTypes = [siteTypeA.WaDEName, siteTypeB.WaDEName],
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(s => s.SiteType).Should().BeEquivalentTo(siteTypeA.WaDEName, siteTypeB.WaDEName);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+    }
 
     private async Task<SiteSearchResponse> ExecuteHandler(SiteSearchRequest request)
     {
