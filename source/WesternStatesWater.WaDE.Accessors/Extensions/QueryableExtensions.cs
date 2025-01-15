@@ -30,6 +30,11 @@ public static class QueryableExtensions
             query = query.Where(s => filters.SiteTypes.Contains(s.SiteTypeCvNavigation.WaDEName));
         }
 
+        if (filters.States != null && filters.States.Count != 0)
+        {
+            query = query.Where(s => filters.States.Contains(s.StateCv));
+        }
+
         return query;
     }
 

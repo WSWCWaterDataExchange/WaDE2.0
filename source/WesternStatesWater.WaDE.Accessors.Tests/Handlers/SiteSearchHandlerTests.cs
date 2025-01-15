@@ -282,6 +282,26 @@ public class SiteSearchHandlerTests : DbTestBase
         response.Sites.Select(s => s.SiteType).Should().BeEquivalentTo(siteTypeA.WaDEName, siteTypeB.WaDEName);
         response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
     }
+    
+    [TestMethod]
+    public async Task SiteAccessor_StatesFilter_ReturnsCorrectSites()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        await SitesDimBuilder.Load(db);
+
+        var request = new SiteSearchRequest
+        {
+            States = [siteA.StateCv, siteB.StateCv],
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(s => s.State).Should().BeEquivalentTo(siteA.StateCv, siteB.StateCv);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+    }
 
     private async Task<SiteSearchResponse> ExecuteHandler(SiteSearchRequest request)
     {
