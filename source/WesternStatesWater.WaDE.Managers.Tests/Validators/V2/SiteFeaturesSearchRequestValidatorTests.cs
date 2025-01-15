@@ -11,8 +11,8 @@ public class SiteFeaturesSearchRequestValidatorTests
     public void Validator_IsValid_ReturnsTrue()
     {
         // Arrange
-        var validator = new SiteFeaturesSearchRequestValidator();
-        var request = new SiteFeaturesSearchRequest { Bbox = "1,2,3,4" };
+        var validator = new SiteFeaturesItemRequestValidator();
+        var request = new SiteFeaturesItemRequest { Bbox = "1,2,3,4" };
 
         // Act
         var result = validator.Validate(request);

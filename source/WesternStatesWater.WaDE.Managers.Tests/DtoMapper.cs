@@ -72,25 +72,25 @@ namespace WesternStatesWater.WaDE.Managers.Tests
             "MULTIPOLYGON (((170 60, 180 60, 180 50, 170 50, 170 60)), ((-180 60, -160 60, -160 50, -180 50, -180 60)))")] // Crosses antimeridian
         public void Map_StringToBoundaryBox(string input, string expected)
         {
-            var request = new SiteFeaturesSearchRequest
+            var request = new SiteFeaturesItemRequest
             {
                 Bbox = input
             };
 
             var response = request.Map<SiteSearchRequest>();
-            response.FilterBoundary.ToString().Should().Be(expected);
+            response.GeometrySearch.Geometry.ToString().Should().Be(expected);
         }
 
         [TestMethod]
         public void Map_StringToBoundaryBox_NullMapsToNull()
         {
-            var request = new SiteFeaturesSearchRequest
+            var request = new SiteFeaturesItemRequest
             {
                 Bbox = null
             };
 
             var response = request.Map<SiteSearchRequest>();
-            response.FilterBoundary.Should().BeNull();
+            response.GeometrySearch.Geometry.Should().BeNull();
         }
     }
 }

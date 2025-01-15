@@ -31,26 +31,38 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.RightFeaturesSearchResponse>();
 
         // Managers -> Accessors
-        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
+            Accessors.Contracts.Api.SpatialSearchCriteria>()
+            .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+        
+        CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
-            .ForMember(dest => dest.FilterBoundary,
-                mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
+        
+        CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesItemRequest,
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
+            .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
 
-        CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
-            .ForMember(dest => dest.FilterBoundary,
-                mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.OverlayUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
         
-        CreateMap<Contracts.Api.Requests.V2.RightFeaturesSearchRequest,
+        CreateMap<Contracts.Api.Requests.V2.RightFeaturesItemRequest,
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
+            .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+        
+        CreateMap<Contracts.Api.Requests.V2.RightFeaturesItemRequest,
         Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
-            .ForMember(dest => dest.FilterBoundary,
-                mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
+            .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.AllocationUuid,
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids))
             .ForMember(dest => dest.SiteUuid, opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))

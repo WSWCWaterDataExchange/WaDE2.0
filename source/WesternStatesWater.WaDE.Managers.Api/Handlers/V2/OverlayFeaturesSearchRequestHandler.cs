@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
@@ -11,9 +12,9 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class OverlayFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor) : IRequestHandler<OverlayFeaturesSearchRequest, OverlayFeaturesSearchResponse>
+public class OverlayFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.IRegulatoryOverlayAccessor regulatoryOverlayAccessor) : IRequestHandler<OverlayFeaturesSearchRequestBase, OverlayFeaturesSearchResponse>
 {
-    public async Task<OverlayFeaturesSearchResponse> Handle(OverlayFeaturesSearchRequest request)
+    public async Task<OverlayFeaturesSearchResponse> Handle(OverlayFeaturesSearchRequestBase request)
     {
         var searchRequest = request.Map<OverlaySearchRequest>();
         

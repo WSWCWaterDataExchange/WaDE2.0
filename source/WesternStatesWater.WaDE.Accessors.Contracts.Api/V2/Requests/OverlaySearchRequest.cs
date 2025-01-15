@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NetTopologySuite.Geometries;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 
@@ -7,6 +6,6 @@ public class OverlaySearchRequest : SearchRequestBase
 {
     public List<string> OverlayUuids { get; set; }
     public List<string> SiteUuids { get; set; }
-    public Geometry FilterBoundary { get; set; }
+    public SpatialSearchCriteria GeometrySearch { get; set; }
     public string LastKey { get; set; }
 }

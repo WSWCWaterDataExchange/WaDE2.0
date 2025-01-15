@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.Geometries;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -209,7 +210,11 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         var request = new OverlaySearchRequest
         {
-            FilterBoundary = CreateUtahPolygon(),
+            GeometrySearch = new SpatialSearchCriteria
+            {
+                Geometry = CreateUtahPolygon(),
+                SpatialRelationType = SpatialRelationType.Intersects
+            },
             Limit = 10
         };
 

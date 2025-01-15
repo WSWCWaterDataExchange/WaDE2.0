@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
@@ -74,13 +75,13 @@ public class WaterSitesFunction(
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var request = new SiteFeaturesSearchRequest
+        var request = new SiteFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
             Next = req.Query["next"]
         };
-        var response = await waterResourceManager.Search<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>(request);
+        var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }

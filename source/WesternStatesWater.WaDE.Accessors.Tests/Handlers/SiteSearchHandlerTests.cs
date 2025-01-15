@@ -107,7 +107,11 @@ public class SiteSearchHandlerTests : DbTestBase
 
         var request = new SiteSearchRequest
         {
-            FilterBoundary = filterPolygon,
+            GeometrySearch = new SpatialSearchCriteria
+            {
+                Geometry = filterPolygon,
+                SpatialRelationType = SpatialRelationType.Intersects
+            },
             Limit = 10
         };
         var response = await ExecuteHandler(request);

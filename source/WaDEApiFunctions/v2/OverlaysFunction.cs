@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
@@ -77,7 +78,7 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var request = new OverlayFeaturesSearchRequest
+        var request = new OverlayFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
@@ -86,7 +87,7 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
             SiteUuids = req.Query["siteIds"]
         };
         var response =
-            await waterResourceManager.Search<OverlayFeaturesSearchRequest, OverlayFeaturesSearchResponse>(request);
+            await waterResourceManager.Search<OverlayFeaturesSearchRequestBase, OverlayFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }

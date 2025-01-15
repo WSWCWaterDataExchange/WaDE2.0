@@ -11,8 +11,8 @@ public class OverlayFeaturesSearchRequestValidatorTests
     public void Validator_IsValid_ReturnsTrue()
     {
         // Arrange
-        var validator = new OverlayFeaturesSearchRequestValidator();
-        var request = new OverlayFeaturesSearchRequest { Bbox = "1,2,3,4" };
+        var validator = new OverlayFeaturesItemRequestValidator();
+        var request = new OverlayFeaturesItemRequest { Bbox = "1,2,3,4" };
 
         // Act
         var result = validator.Validate(request);

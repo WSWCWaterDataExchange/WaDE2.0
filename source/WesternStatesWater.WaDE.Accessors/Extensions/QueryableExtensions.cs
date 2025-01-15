@@ -1,4 +1,5 @@
 using System.Linq;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
@@ -8,11 +9,15 @@ public static class QueryableExtensions
 {
     public static IQueryable<SitesDim> ApplySearchFilters(this IQueryable<SitesDim> query, SiteSearchRequest filters)
     {
-        if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
+        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
         {
-            query = query.Where(s => 
-                                     (s.Geometry.IsValid && s.Geometry.Intersects(filters.FilterBoundary)) ||
-                                     (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.FilterBoundary)));
+            query = filters.GeometrySearch.SpatialRelationType switch
+            {
+                SpatialRelationType.Intersects => query.Where(s =>
+                    (s.Geometry.IsValid && s.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
+                    (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
+                _ => query
+            };
         }
 
         if (!string.IsNullOrWhiteSpace(filters.LastSiteUuid))
@@ -26,11 +31,16 @@ public static class QueryableExtensions
     public static IQueryable<AllocationAmountsFact> ApplySearchFilters(this IQueryable<AllocationAmountsFact> query,
         AllocationSearchRequest filters)
     {
-        if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
+        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
         {
-            query = query.Where(x => x.AllocationBridgeSitesFact.Any(
-                bridge => bridge.Site.Geometry.Intersects(filters.FilterBoundary) ||
-                          bridge.Site.SitePoint.Intersects(filters.FilterBoundary)));
+            query = filters.GeometrySearch.SpatialRelationType switch
+            {
+                SpatialRelationType.Intersects => query.Where(x => x.AllocationBridgeSitesFact.Any(
+                    bridge => bridge.Site.Geometry.Intersects(filters.GeometrySearch.Geometry) ||
+                              bridge.Site.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
+                _ => query
+            };
+
         }
         
         if (filters.AllocationUuid != null && filters.AllocationUuid.Any())
@@ -99,11 +109,15 @@ public static class QueryableExtensions
                     filters.SiteUuids.Contains(sf.Site.SiteUuid)));
         }
 
-        if (filters.FilterBoundary != null && !filters.FilterBoundary.IsEmpty)
+        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
         {
-            query = query.Where(o =>
-                o.RegulatoryReportingUnitsFact.Any(fact =>
-                    fact.ReportingUnit.Geometry.Intersects(filters.FilterBoundary)));
+            query = filters.GeometrySearch.SpatialRelationType switch
+            {
+                SpatialRelationType.Intersects => query.Where(o =>
+                    o.RegulatoryReportingUnitsFact.Any(fact =>
+                        fact.ReportingUnit.Geometry.Intersects(filters.GeometrySearch.Geometry))),
+                _ => query
+            };
         }
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))

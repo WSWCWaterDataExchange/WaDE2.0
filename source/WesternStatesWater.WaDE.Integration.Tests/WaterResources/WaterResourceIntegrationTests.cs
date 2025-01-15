@@ -92,27 +92,27 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         await SitesDimBuilder.Load(db, new SitesDimBuilderOptions { Geometry = invalidPolygon });
 
-        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Bbox = "-180, -90, 180, 90",
             Limit = "10"
         };
 
         var response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
         // Filtered on geometry, can't find the invalid site.
         response.Features.Should().BeEmpty();
 
-        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Limit = "10"
         };
 
         response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
@@ -137,14 +137,14 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         await SitesDimBuilder.Load(db, siteOptions);
 
-        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Bbox = "-96.8, 40.7, -96.6, 41",
             Limit = "4"
         };
 
         var response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
@@ -175,14 +175,14 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         var lincolnSites = await SitesDimBuilder.Load(db, lincolnSiteOptions);
         var omahaSites = await SitesDimBuilder.Load(db, omahaSiteOptions);
 
-        var lincolnSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        var lincolnSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Bbox = "-96.8, 40.7, -96.6, 41",
             Limit = "10"
         };
 
         var response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(lincolnSearchRequest);
 
@@ -195,14 +195,14 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Should()
             .Contain(lincolnSites.Select(s => s.SiteUuid));
 
-        var omahaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        var omahaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Bbox = "-96.0, 41.2, -95.8, 41.4",
             Limit = "10"
         };
 
         response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(omahaSearchRequest);
 
@@ -215,14 +215,14 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Should()
             .Contain(omahaSites.Select(s => s.SiteUuid));
 
-        var easternNebraskaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest
+        var easternNebraskaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
             Bbox = "-97.5, 40.0, -95.5, 42.5",
             Limit = "10"
         };
 
         response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(easternNebraskaSearchRequest);
 
@@ -251,10 +251,10 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .ToArray();
 
         // Get the first page (of 1).
-        var request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "1" };
+        var request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest { Limit = "1" };
 
         var response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
@@ -263,10 +263,10 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         // Use the link to get the next page, but up the limit to 2.
         var next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
 
-        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "2", Next = next };
+        request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest { Limit = "2", Next = next };
 
         response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
@@ -276,10 +276,10 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         // Use the link to get the final page. Overshoot the limit for good measure.
         next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
 
-        request = new Contracts.Api.Requests.V2.SiteFeaturesSearchRequest { Limit = "10", Next = next };
+        request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest { Limit = "10", Next = next };
 
         response = await _manager.Search<
-            Contracts.Api.Requests.V2.SiteFeaturesSearchRequest,
+            Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 

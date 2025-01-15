@@ -11,8 +11,8 @@ public class RightFeaturesSearchRequestValidatorTests
     public void Validator_IsValid_ReturnsTrue()
     {
         // Arrange
-        var validator = new RightFeaturesSearchRequestValidator();
-        var request = new RightFeaturesSearchRequest { Bbox = "1,2,3,4" };
+        var validator = new RightFeaturesItemRequestValidator();
+        var request = new RightFeaturesItemRequest { Bbox = "1,2,3,4" };
 
         // Act
         var result = validator.Validate(request);

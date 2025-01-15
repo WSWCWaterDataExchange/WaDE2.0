@@ -2,7 +2,9 @@ using System.Threading.Tasks;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
+using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
+using WesternStatesWater.WaDE.Contracts.Api.Responses;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
@@ -11,9 +13,9 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.ISiteAccessor siteAccessor) : IRequestHandler<SiteFeaturesSearchRequest, SiteFeaturesSearchResponse>
+internal class SiteFeaturesSearchRequestHandler(IFormattingEngine formattingEngine, AccessorApi.ISiteAccessor siteAccessor) : IRequestHandler<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>
 {
-    public async Task<SiteFeaturesSearchResponse> Handle(SiteFeaturesSearchRequest request)
+    public async Task<SiteFeaturesSearchResponse> Handle(SiteFeaturesSearchRequestBase request)
     {
         var searchRequest = request.Map<SiteSearchRequest>();
         

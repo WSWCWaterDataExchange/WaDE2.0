@@ -17,7 +17,7 @@ public class FeaturesSearchRequestBaseValidatorTests
     {
         // Arrange
         var validator = new FeaturesSearchRequestBaseValidator();
-        var request = new SiteFeaturesSearchRequest { Bbox = input };
+        var request = new SiteFeaturesItemRequest { Bbox = input };
 
         // Act
         var result = validator.Validate(request);
