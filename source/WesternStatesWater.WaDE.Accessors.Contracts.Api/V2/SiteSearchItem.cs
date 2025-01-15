@@ -23,6 +23,6 @@ public class SiteSearchItem
     public string[] RightUuids { get; set; }
     public bool IsTimeSeries { get; set; }
     public string PodOrPouSite { get; set; }
-    public string[] WaterSources { get; set; }
+    public WaterSourceSummary[] WaterSources { get; set; }
     public string[] Overlays { get; set; }
 }

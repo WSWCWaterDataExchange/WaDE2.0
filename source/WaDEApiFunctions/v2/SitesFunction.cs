@@ -67,6 +67,9 @@ public class WaterSitesFunction(
     [OpenApiParameter("states", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "State abbreviations")]
+    [OpenApiParameter("waterSourceTypes", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Water Source Types")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -87,7 +90,8 @@ public class WaterSitesFunction(
             Limit = req.Query["limit"],
             Next = req.Query["next"],
             SiteTypes = req.Query["siteTypes"],
-            States = req.Query["states"]
+            States = req.Query["states"],
+            WaterSourceTypes = req.Query["waterSourceTypes"]
         };
         var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 

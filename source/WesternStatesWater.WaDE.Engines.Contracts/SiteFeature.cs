@@ -39,7 +39,7 @@ public class SiteFeature : FeatureBase
     [FeaturePropertyName("podOrPouSite")]
     public string? PodOrPouSite { get; set; }
     [FeaturePropertyName("waterSources")]
-    public string[]? WaterSources { get; set; }
+    public WaterSourceSummary[]? WaterSources { get; set; }
     [FeaturePropertyName("overlays")]
     public string[]? Overlays { get; set; }
 }

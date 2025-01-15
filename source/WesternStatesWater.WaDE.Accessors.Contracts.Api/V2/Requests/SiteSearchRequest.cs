@@ -8,4 +8,5 @@ public class SiteSearchRequest : SearchRequestBase
     public string LastSiteUuid { get; set; }
     public List<string> SiteTypes { get; set; }
     public List<string> States { get; set; }
+    public List<string> WaterSourcesTypes { get; set; }
 }

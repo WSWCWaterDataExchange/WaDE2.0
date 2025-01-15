@@ -34,6 +34,11 @@ public static class QueryableExtensions
         {
             query = query.Where(s => filters.States.Contains(s.StateCv));
         }
+        
+        if (filters.WaterSourcesTypes != null && filters.WaterSourcesTypes.Count != 0)
+        {
+            query = query.Where(s => s.WaterSourceBridgeSitesFact.Any(fact => filters.WaterSourcesTypes.Contains(fact.WaterSource.WaterSourceTypeCvNavigation.WaDEName)));
+        }
 
         return query;
     }
