@@ -13,7 +13,7 @@ public class FeaturesSearchRequestBaseValidator : AbstractValidator<FeaturesSear
                 .Bbox()
                 .DependentRules(() => RuleFor(req => req.Bbox).BboxInRange());
         });
-
+        
         When(req => req.Limit != null, () =>
         {
             RuleFor(req => req.Limit).GreaterThan(0);

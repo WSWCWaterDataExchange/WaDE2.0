@@ -173,7 +173,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         var areaOutsideRequest = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
         {
-            Geometry = CreateVegasyGeometry()
+            Geometry = CreateVegasGeometry()
         });
 
         var areaInersectingRequest = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
@@ -512,7 +512,7 @@ public class OverlaySearchHandlerTests : DbTestBase
     /// https://wktmap.com/?31a14eec
     /// </summary>
     /// <returns>Polygon around Last Vegas, NV.</returns>
-    private static Geometry CreateVegasyGeometry()
+    private static Geometry CreateVegasGeometry()
     {
         var wkt = new NetTopologySuite.IO.WKTReader();
         return wkt.Read(
