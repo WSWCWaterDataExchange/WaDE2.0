@@ -1,17 +1,17 @@
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
+using System.Text.Json.Serialization;
 
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class WaterSourceSummary
 {
-    [FeaturePropertyName("id")]
+    [JsonPropertyName("id")]
     public required string WaterSourceUuId { get; set; }
-    [FeaturePropertyName("nId")]
+    [JsonPropertyName("nId")]
     public string? NativeId { get; set; }
-    [FeaturePropertyName("name")]
+    [JsonPropertyName("name")]
     public string? Name { get; set; }
-    [FeaturePropertyName("sourceType")]
+    [JsonPropertyName("sourceType")]
     public required string SourceType { get; set; }
-    [FeaturePropertyName("type")]
+    [JsonPropertyName("type")]
     public required string WaterType { get; set; }
 }

@@ -1,10 +1,9 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Features;
 using WesternStatesWater.Shared.Resolver;
-using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts;
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
@@ -49,7 +48,7 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
     }
 
     /// <summary>
-    /// Builds a GeoJson Feature "properties" using the <see cref="FeaturePropertyNameAttribute"/> as the property name.
+    /// Builds a GeoJson Feature "properties" using the <see cref="JsonPropertyNameAttribute"/> as the property name.
     /// </summary>
     /// <param name="item">Feature item</param>
     /// <returns>Creates an AttributeTable from the derived FeatureBase type. Geometry is omitted from the table.</returns>
@@ -57,9 +56,9 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
     {
         var properties = new AttributesTable();
         foreach (var property in item.GetType().GetProperties()
-                     .Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null))
+                     .Where(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>() is not null))
         {
-            var attrName = property.GetCustomAttribute<FeaturePropertyNameAttribute>()!.GetName();
+            var attrName = property.GetCustomAttribute<JsonPropertyNameAttribute>()!.Name;
 
             properties.Add(attrName, property.GetValue(item));
         }

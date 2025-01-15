@@ -1,47 +1,47 @@
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
+using System.Text.Json.Serialization;
 
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class RightFeature : FeatureBase
 {
-    [FeaturePropertyName("nId")]
+    [JsonPropertyName("nId")]
     public string AllocationNativeID { get; set; }
-    [FeaturePropertyName("owner")]
+    [JsonPropertyName("owner")]
     public string AllocationOwner { get; set; }
-    [FeaturePropertyName("appDate")]
+    [JsonPropertyName("appDate")]
     public DateTime? AllocationApplicationDate { get; set; }
-    [FeaturePropertyName("priorityDate")]
+    [JsonPropertyName("priorityDate")]
     public DateTime? AllocationPriorityDate { get; set; }
-    [FeaturePropertyName("legalStatus")]
+    [JsonPropertyName("legalStatus")]
     public string AllocationLegalStatusCodeCV { get; set; }
-    [FeaturePropertyName("expires")]
+    [JsonPropertyName("expires")]
     public DateTime? AllocationExpirationDate { get; set; }
-    [FeaturePropertyName("acreage")]
+    [JsonPropertyName("acreage")]
     public double? AllocationAcreage { get; set; }
-    [FeaturePropertyName("basis")]
+    [JsonPropertyName("basis")]
     public string AllocationBasisCV { get; set; }
-    [FeaturePropertyName("start")]
+    [JsonPropertyName("start")]
     public string TimeframeStart { get; set; }
-    [FeaturePropertyName("end")]
+    [JsonPropertyName("end")]
     public string TimeframeEnd { get; set; }
-    [FeaturePropertyName("cropDutyAmt")]
+    [JsonPropertyName("cropDutyAmt")]
     public double? AllocationCropDutyAmount { get; set; }
-    [FeaturePropertyName("cfs")]
+    [JsonPropertyName("cfs")]
     public double? AllocationFlow_CFS { get; set; }
-    [FeaturePropertyName("af")]
+    [JsonPropertyName("af")]
     public double? AllocationVolume_AF { get; set; }
-    [FeaturePropertyName("popServed")]
+    [JsonPropertyName("popServed")]
     public long? PopulationServed { get; set; }
-    [FeaturePropertyName("generatedPowerCap")]
+    [JsonPropertyName("generatedPowerCap")]
     public double? GeneratedPowerCapacityMW { get; set; }
-    [FeaturePropertyName("commWaterSupply")]
+    [JsonPropertyName("commWaterSupply")]
     public string AllocationCommunityWaterSupplySystem { get; set; }
-    [FeaturePropertyName("sdwis")]
+    [JsonPropertyName("sdwis")]
     public string AllocationSDWISIdentifier { get; set; }
-    [FeaturePropertyName("varType")]
+    [JsonPropertyName("varType")]
     public string VariableSpecificTypeCV { get; set; }
-    [FeaturePropertyName("beneficialUses")]
+    [JsonPropertyName("beneficialUses")]
     public List<string> BeneficialUses { get; set; }
-    [FeaturePropertyName("exmptVolFlowPriority")]
+    [JsonPropertyName("exmptVolFlowPriority")]
     public bool ExemptOfVolumeFlowPriority { get; set; }
 }
