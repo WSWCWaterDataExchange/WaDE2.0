@@ -5,7 +5,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests;
