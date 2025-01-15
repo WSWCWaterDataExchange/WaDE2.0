@@ -2,6 +2,7 @@ using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NetTopologySuite.IO;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
@@ -309,13 +310,6 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             })
             .ToArray();
         
-        NetTopologySuite.IO.WKTReader reader = new NetTopologySuite.IO.WKTReader();
-        var z = reader.Read("POLYGON((-96.8 41, -96.8 40.7, -96.6 40.7, -96.6 41, -96.8 41))");
-        var list = new List<NetTopologySuite.Geometries.Geometry>();
-        list.Add(z);
-        list.AddRange(lincolnSiteOptions.Select(x => x.SitePoint));
-        var x = NetTopologySuite.Geometries.Utilities.GeometryCombiner.Combine(list);
-        
         var lincolnSites = await SitesDimBuilder.Load(db, lincolnSiteOptions);
         var omahaSites = await SitesDimBuilder.Load(db, omahaSiteOptions);
 
@@ -341,7 +335,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         var omahaSearchRequest = new Contracts.Api.Requests.V2.SiteFeaturesAreaRequest
         {
-            Coords = "POLYGON((-96.0 41.4, -96.0 41.2, -95.86 41.2, -95.8 41.4, -96.0 41.4))",
+            Coords = "POLYGON((-96.0 41.4, -96.0 41.2, -95.8 41.2, -95.8 41.4, -96.0 41.4))",
             Limit = "10"
         };
 
@@ -349,6 +343,12 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             Contracts.Api.Requests.SiteFeaturesSearchRequestBase,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(omahaSearchRequest);
+
+        var omahaGeometrySearch = new List<NetTopologySuite.Geometries.Geometry>();
+        omahaGeometrySearch.AddRange(omahaSites.Select(x => x.SitePoint));
+        var wkt = new WKTReader();
+        omahaGeometrySearch.Add(wkt.Read("POLYGON((-96.0 41.4, -96.0 41.2, -95.86 41.2, -95.8 41.4, -96.0 41.4))"));
+        var searchGeometry= NetTopologySuite.Geometries.Utilities.GeometryCombiner.Combine(omahaGeometrySearch);
 
         response.Features.Length
             .Should()
@@ -372,6 +372,6 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         response.Features.Length
             .Should()
-            .Be(lincolnSites.Length + omahaSites.Length, "all these points should be in the eastern Nebraska box.");
+            .Be(lincolnSites.Length + omahaSites.Length, "all these points should be in the eastern Nebraska area.");
     }
 }
