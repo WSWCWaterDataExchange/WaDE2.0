@@ -22,7 +22,7 @@ public class OverlayFeaturesSearchRequestValidatorTests
     }
 
     [DataTestMethod]
-    [DataRow(null, true)]
+    [DataRow(null, false)]
     [DataRow("POLYGON ((30 10, 40 40, 20 40, 10 20, 30 10))", true)]
     [DataRow("POLYGON((30 10,40 40,20 40,10 20,30 10))", true)]
     [DataRow("polygon ((30 10, 40 40, 20 40, 10 20, 30 10))", true)]
