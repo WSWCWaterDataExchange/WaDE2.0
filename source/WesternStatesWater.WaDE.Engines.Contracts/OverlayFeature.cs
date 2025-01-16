@@ -32,5 +32,6 @@ public class OverlayFeature : FeatureBase
     public string[] AreaNativeIds { get; set; }
     [JsonPropertyName("sites")]
     public string[] SiteUuids { get; set; }
-
+    [JsonPropertyName("states")]
+    public string[] States { get; set; }
 }
