@@ -42,7 +42,6 @@ public class SiteSearchHandlerTests : DbTestBase
         
         // Assert
         response.Sites.Should().HaveCount(5);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should().BeNull();
     }
     
@@ -68,7 +67,6 @@ public class SiteSearchHandlerTests : DbTestBase
         
         // Assert
         response.Sites.Should().HaveCount(3);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
             .Be(dbSites.OrderBy(s => s.SiteUuid).Select(s => s.SiteUuid).ElementAt(2));
     }

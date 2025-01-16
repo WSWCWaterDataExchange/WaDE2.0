@@ -35,4 +35,5 @@ public class AllocationSearchItem
     public List<string> BeneficialUses { get; set; }
     public string Organization { get; set; }
     public bool ExemptOfVolumeFlowPriority { get; set; }
+    public List<WaterSourceSummary> WaterSources { get; set; }
 }

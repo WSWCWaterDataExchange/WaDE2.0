@@ -69,6 +69,13 @@ public static class QueryableExtensions
                 bridge => filters.SiteUuid.Contains(bridge.Site.SiteUuid)));
         }
 
+        if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
+        {
+            query = query.Where(x => x.AllocationBridgeSitesFact.Any(
+                bridge => bridge.Site.WaterSourceBridgeSitesFact.Any(
+                    ws => filters.WaterSourceTypes.Contains(ws.WaterSource.WaterSourceTypeCvNavigation.WaDEName))));
+        }
+
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
             query = query.Where(x => x.AllocationUUID.CompareTo(filters.LastKey) > 0);

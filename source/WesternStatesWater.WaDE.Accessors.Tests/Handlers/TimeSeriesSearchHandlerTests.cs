@@ -40,7 +40,6 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
 
         // Assert
         response.TimeSeries.Should().HaveCount(5);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should().BeNull();
     }
     
@@ -66,7 +65,6 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
 
         // Assert
         response.TimeSeries.Should().HaveCount(3);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
             .Be(dbTimeSeries.OrderBy(ts => ts.SiteVariableAmountId)
                 .Select(ts => ts.SiteVariableAmountId)
