@@ -468,6 +468,121 @@ public class OverlaySearchHandlerTests : DbTestBase
         response.Overlays[0].SiteUuids.Should().BeEquivalentTo(
             siteA.SiteUuid, siteB.SiteUuid, siteC.SiteUuid);
     }
+    
+    [TestMethod]
+    public async Task Handler_FilterStates_ReturnsOverlaysInRequestedStates()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var stateA = await StateBuilder.Load(db);
+        var stateB = await StateBuilder.Load(db);
+
+        var areaA = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            State = stateA
+            
+        });
+        var areaB = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            State = stateB
+        });
+        var areaC = await ReportingUnitsDimBuilder.Load(db, new ReportingUnitsDimBuilderOptions
+        {
+            State = stateA
+        });
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaA
+        });
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayB,
+            ReportingUnits = areaB
+        });
+        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        {
+            RegulatoryOverlay = overlayA,
+            ReportingUnits = areaC
+        });
+        
+        var request = new OverlaySearchRequest
+        {
+            States = [stateA.Name],
+            Limit = 10
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(1);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(overlayA.RegulatoryOverlayUuid);
+        response.Overlays[0].States.Should().BeEquivalentTo(stateA.Name);
+    }
+    
+    [TestMethod]
+    public async Task Handler_FilterOverlayTypes_ReturnsOverlaysWithRequestedTypes()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+
+        string[] uniqueOverlayTypes =
+            [overlayA.RegulatoryOverlayType.WaDEName, overlayB.RegulatoryOverlayType.WaDEName, overlayC.RegulatoryOverlayType.WaDEName];
+        uniqueOverlayTypes.Should().OnlyHaveUniqueItems();
+
+        var request = new OverlaySearchRequest
+        {
+            OverlayTypes = [overlayA.RegulatoryOverlayType.WaDEName, overlayB.RegulatoryOverlayType.WaDEName],
+            Limit = 10
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(2);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+    }
+    
+    [TestMethod]
+    public async Task Handler_FilterWaterSourceTypes_ReturnsOverlaysWithRequestedTypes()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+
+        string[] uniqueWaterSourceTypes =
+            [overlayA.WaterSourceType.WaDEName, overlayB.WaterSourceType.WaDEName, overlayC.WaterSourceType.WaDEName];
+        uniqueWaterSourceTypes.Should().OnlyHaveUniqueItems();
+
+        var request = new OverlaySearchRequest
+        {
+            WaterSourceTypes = [overlayA.WaterSourceType.WaDEName, overlayB.WaterSourceType.WaDEName],
+            Limit = 10
+        };
+
+        // Act
+        var response = await ExecuteHandler(request);
+
+        // Assert
+        response.Overlays.Should().HaveCount(2);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+    }
 
     private async Task<OverlaySearchResponse> ExecuteHandler(OverlaySearchRequest request)
     {

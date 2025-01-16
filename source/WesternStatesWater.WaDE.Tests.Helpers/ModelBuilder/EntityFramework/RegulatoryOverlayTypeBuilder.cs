@@ -16,6 +16,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             return new Faker<RegulatoryOverlayType>()
                 .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.WaDEName, f => f.Random.Words(5))
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())

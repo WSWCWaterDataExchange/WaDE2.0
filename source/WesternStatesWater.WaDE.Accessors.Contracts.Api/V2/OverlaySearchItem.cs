@@ -19,5 +19,6 @@ public class OverlaySearchItem
     public string[] AreaNames { get; set; }
     public string[] AreaNativeIds { get; set; }
     public string[] SiteUuids { get; set; }
+    public string[] States { get; set; }
     public Geometry Areas { get; set; }
 }

@@ -57,8 +57,8 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.RegulatoryStatuteLink, b => b.MapFrom(c => c.RegulatoryStatuteLink))
             .ForMember(a => a.StatutoryEffectiveDate, b => b.MapFrom(c => c.StatutoryEffectiveDate))
             .ForMember(a => a.StatutoryEndDate, b => b.MapFrom(c => c.StatutoryEndDate))
-            .ForMember(a => a.OverlayType, b => b.MapFrom(c => c.RegulatoryOverlayTypeCV))
-            .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSourceTypeCV))
+            .ForMember(a => a.OverlayType, b => b.MapFrom(c => c.RegulatoryOverlayType.WaDEName))
+            .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSourceType.WaDEName))
             .ForMember(a => a.AreaNames,
                 b => b.MapFrom(c =>
                     c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitName)))
@@ -69,7 +69,9 @@ public class ApiV2Profile : Profile
                 b => b.MapFrom(c => c.RegulatoryOverlayBridgeSitesFact.Select(fact => fact.Site.SiteUuid)))
             .ForMember(a => a.Areas,
                 b => b.MapFrom(c =>
-                    UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.Geometry))));
+                    UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null).Select(fact => fact.ReportingUnit.Geometry))))
+            .ForMember(a => a.States,
+                b => b.MapFrom(c => c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.StateCv).Distinct()));
 
         CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()
             .ForMember(a => a.AllocationApplicationDate,

@@ -134,6 +134,21 @@ public static class QueryableExtensions
                 _ => query
             };
         }
+        
+        if (filters.States != null && filters.States.Count != 0)
+        {
+            query = query.Where(o => o.RegulatoryReportingUnitsFact.Any(fact => filters.States.Contains(fact.ReportingUnit.StateCv)));
+        }
+        
+        if (filters.OverlayTypes != null && filters.OverlayTypes.Count != 0)
+        {
+            query = query.Where(o => filters.OverlayTypes.Contains(o.RegulatoryOverlayType.WaDEName));
+        }
+        
+        if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
+        {
+            query = query.Where(o => filters.WaterSourceTypes.Contains(o.WaterSourceType.WaDEName));
+        }
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
