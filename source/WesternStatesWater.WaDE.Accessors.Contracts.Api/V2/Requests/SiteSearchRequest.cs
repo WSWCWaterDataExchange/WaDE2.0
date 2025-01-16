@@ -7,4 +7,5 @@ public class SiteSearchRequest : SearchRequestBase
     public SpatialSearchCriteria GeometrySearch { get; set; }
     public string LastSiteUuid { get; set; }
     public List<string> SiteTypes { get; set; }
+    public List<string> States { get; set; }
 }

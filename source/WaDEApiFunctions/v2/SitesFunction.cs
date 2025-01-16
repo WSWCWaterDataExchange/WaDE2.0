@@ -5,7 +5,6 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests;
@@ -65,6 +64,9 @@ public class WaterSitesFunction(
     [OpenApiParameter("siteTypes", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Site Types")]
+    [OpenApiParameter("states", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "State abbreviations")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -84,7 +86,8 @@ public class WaterSitesFunction(
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
             Next = req.Query["next"],
-            SiteTypes = req.Query["siteTypes"]
+            SiteTypes = req.Query["siteTypes"],
+            States = req.Query["states"]
         };
         var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 

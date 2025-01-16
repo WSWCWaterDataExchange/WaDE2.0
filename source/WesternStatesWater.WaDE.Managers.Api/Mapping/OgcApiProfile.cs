@@ -45,11 +45,13 @@ public class OgcApiProfile : Profile
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next))
-            .ForMember(dest => dest.SiteTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes));
-
+            .ForMember(dest => dest.SiteTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes))
+            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States));
+        
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
         
