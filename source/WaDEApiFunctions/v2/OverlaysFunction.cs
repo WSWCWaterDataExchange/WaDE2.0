@@ -64,6 +64,15 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
     [OpenApiParameter("overlayIds", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Comma separated list of overlay ids")]
+    [OpenApiParameter("states", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of state abbreviations")]
+    [OpenApiParameter("overlayTypes", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of overlay types")]
+    [OpenApiParameter("waterSourceTypes", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of water source types")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -84,7 +93,10 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
             Limit = req.Query["limit"],
             Next = req.Query["next"],
             OverlayUuids = req.Query["overlayIds"],
-            SiteUuids = req.Query["siteIds"]
+            SiteUuids = req.Query["siteIds"],
+            States = req.Query["states"],
+            OverlayTypes = req.Query["overlayTypes"],
+            WaterSourceTypes = req.Query["waterSourceTypes"]
         };
         var response =
             await waterResourceManager.Search<OverlayFeaturesSearchRequestBase, OverlayFeaturesSearchResponse>(request);
