@@ -7,6 +7,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     public static class BeneficalUsesBuilder
     {
         private static int _globalIndex = 0;
+
         public static BeneficialUsesCV Create()
         {
             return Create(new BeneficalUsesBuilderOptions());
@@ -16,6 +17,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             return new Faker<BeneficialUsesCV>()
                 .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.WaDEName, f => opts?.WaDEName ?? f.Random.Words(3))
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
@@ -36,16 +38,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-        
+
         public static string GenerateName()
         {
             _globalIndex++;
-            return CvNameGenerator.GetNextName(_globalIndex,50);
+            return CvNameGenerator.GetNextName(_globalIndex, 50);
         }
     }
 
     public class BeneficalUsesBuilderOptions
     {
-
+        public string WaDEName { get; set; }
     }
 }

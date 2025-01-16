@@ -26,7 +26,7 @@ public class AllocationSearchHandlerTests : DbTestBase
     {
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
-        
+
         for (var i = 0; i < 5; i++)
         {
             await AllocationAmountsFactBuilder.Load(db);
@@ -44,7 +44,7 @@ public class AllocationSearchHandlerTests : DbTestBase
         response.Allocations.Should().HaveCount(5);
         response.LastUuid.Should().BeNull();
     }
-    
+
     [TestMethod]
     public async Task Handler_LimitSet_ReturnsCorrectAmount()
     {
@@ -190,8 +190,10 @@ public class AllocationSearchHandlerTests : DbTestBase
         var pointA = wktReader.Read("POINT (-113.08223904518697 39.07881679978712)");
         var pointB = wktReader.Read("POINT (-111.88412458869138 39.24952488971968)");
         var pointC = wktReader.Read("POINT (-111.27380883752618 39.2921796551922)");
-        var polygonA = wktReader.Read("POLYGON ((-112.04138848167361 39.40747600260892, -112.04138848167361 39.364864033742805, -111.99726180323547 39.364864033742805, -111.99726180323547 39.40747600260892, -112.04138848167361 39.40747600260892))");
-        
+        var polygonA =
+            wktReader.Read(
+                "POLYGON ((-112.04138848167361 39.40747600260892, -112.04138848167361 39.364864033742805, -111.99726180323547 39.364864033742805, -111.99726180323547 39.40747600260892, -112.04138848167361 39.40747600260892))");
+
         await using var db = new WaDEContext(Configuration.GetConfiguration());
         var site1 = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
         {
@@ -209,11 +211,11 @@ public class AllocationSearchHandlerTests : DbTestBase
         {
             Geometry = polygonA
         });
-        
+
         var allocationOutsideBoundary = await AllocationAmountsFactBuilder.Load(db);
         var allocationWithOneSiteInBoundary = await AllocationAmountsFactBuilder.Load(db);
         var allocationWithSiteInBoundary = await AllocationAmountsFactBuilder.Load(db);
-        
+
         await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
         {
             SitesDim = site1,
@@ -234,7 +236,7 @@ public class AllocationSearchHandlerTests : DbTestBase
             SitesDim = site4,
             AllocationAmountsFact = allocationWithSiteInBoundary
         });
-        
+
         // Filter Boundary visualizer: https://wktmap.com/?e32407a4
         // Visualize all coordinates: https://wktmap.com/?afc484da
         var request = new AllocationSearchRequest
@@ -247,9 +249,9 @@ public class AllocationSearchHandlerTests : DbTestBase
             },
             Limit = 5
         };
-        
+
         var response = await ExecuteHandler(request);
-        
+
         response.Allocations.Should().HaveCount(2);
         response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(
             allocationWithOneSiteInBoundary.AllocationUUID,
@@ -288,10 +290,10 @@ public class AllocationSearchHandlerTests : DbTestBase
                 SitesDim = siteB,
                 WaterSourcesDim = waterSourceB
             });
-        
+
         var allocationA = await AllocationAmountsFactBuilder.Load(db);
         var allocationB = await AllocationAmountsFactBuilder.Load(db);
-        
+
         await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
         {
             SitesDim = siteA,
@@ -302,10 +304,66 @@ public class AllocationSearchHandlerTests : DbTestBase
             SitesDim = siteB,
             AllocationAmountsFact = allocationB
         });
-        
+
         var request = new AllocationSearchRequest
         {
             WaterSourceTypes = [waterSourceTypeA.WaDEName],
+            Limit = 10
+        };
+
+        var response = await ExecuteHandler(request);
+
+        response.Allocations.Should().HaveCount(1);
+        response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID);
+        response.Allocations[0].WaterSources.Should()
+            .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
+    }
+
+    [TestMethod]
+    public async Task Handler_FilterBeneficialUses_ShouldReturnAllocationsWithBeneficialUses()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        // Create three beneficial uses, but have two share a common WaDEName.
+        var beneficialUseA = await BeneficalUsesBuilder.Load(db, new BeneficalUsesBuilderOptions
+        {
+            WaDEName = "Irrigation"
+        });
+        var beneficialUseB = await BeneficalUsesBuilder.Load(db, new BeneficalUsesBuilderOptions
+        {
+            WaDEName = "Irrigation"
+        });
+        var beneficialUseC = await BeneficalUsesBuilder.Load(db, new BeneficalUsesBuilderOptions
+        {
+            WaDEName = "Municipal"
+        });
+
+        var allocationA = await AllocationAmountsFactBuilder.Load(db);
+        var allocationB = await AllocationAmountsFactBuilder.Load(db);
+
+        await AllocationBridgeBeneficialUsesFactBuilder.Load(db,
+            new AllocationBridgeBeneficialUsesFactBuilderOptions
+            {
+                BeneficialUsesCv = beneficialUseA,
+                AllocationAmountsFact = allocationA
+            });
+        await AllocationBridgeBeneficialUsesFactBuilder.Load(db,
+            new AllocationBridgeBeneficialUsesFactBuilderOptions
+            {
+                BeneficialUsesCv = beneficialUseB,
+                AllocationAmountsFact = allocationA
+            });
+
+        await AllocationBridgeBeneficialUsesFactBuilder.Load(db,
+            new AllocationBridgeBeneficialUsesFactBuilderOptions
+            {
+                BeneficialUsesCv = beneficialUseC,
+                AllocationAmountsFact = allocationB
+            });
+
+        var request = new AllocationSearchRequest
+        {
+            BeneficialUses = ["Irrigation"],
             Limit = 10
         };
         
@@ -313,11 +371,9 @@ public class AllocationSearchHandlerTests : DbTestBase
         
         response.Allocations.Should().HaveCount(1);
         response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID);
-        response.Allocations[0].WaterSources.Should()
-            .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
-
+        response.Allocations[0].BeneficialUses.Should().BeEquivalentTo(beneficialUseA.WaDEName);
     }
-    
+
     private async Task<AllocationSearchResponse> ExecuteHandler(AllocationSearchRequest request)
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
