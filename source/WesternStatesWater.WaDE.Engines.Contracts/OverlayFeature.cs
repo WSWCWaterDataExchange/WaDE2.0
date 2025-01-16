@@ -1,36 +1,36 @@
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
+using System.Text.Json.Serialization;
 
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class OverlayFeature : FeatureBase
 {
-    [FeaturePropertyName("nId")]
+    [JsonPropertyName("nId")]
     public string OverlayNativeId { get; set; }
-    [FeaturePropertyName("name")]
+    [JsonPropertyName("name")]
     public string RegulatoryName { get; set; }
-    [FeaturePropertyName("desc")]
+    [JsonPropertyName("desc")]
     public string RegulatoryDescription { get; set; }
-    [FeaturePropertyName("status")]
+    [JsonPropertyName("status")]
     public string RegulatoryStatus { get; set; }
-    [FeaturePropertyName("agency")]
+    [JsonPropertyName("agency")]
     public string OversightAgency { get; set; }
-    [FeaturePropertyName("statute")]
+    [JsonPropertyName("statute")]
     public string RegulatoryStatute { get; set; }
-    [FeaturePropertyName("statuteRef")]
+    [JsonPropertyName("statuteRef")]
     public string RegulatoryStatuteLink { get; set; }
-    [FeaturePropertyName("statueEffDate")]
+    [JsonPropertyName("statueEffDate")]
     public string StatutoryEffectiveDate { get; set; }
-    [FeaturePropertyName("statueEndDate")]
+    [JsonPropertyName("statueEndDate")]
     public string StatutoryEndDate { get; set; }
-    [FeaturePropertyName("oType")]
+    [JsonPropertyName("oType")]
     public string OverlayType { get; set; }
-    [FeaturePropertyName("wSource")]
+    [JsonPropertyName("wSource")]
     public string WaterSource { get; set; }
-    [FeaturePropertyName("areaNames")]
+    [JsonPropertyName("areaNames")]
     public string[] AreaNames { get; set; }
-    [FeaturePropertyName("areaNIds")]
+    [JsonPropertyName("areaNIds")]
     public string[] AreaNativeIds { get; set; }
-    [FeaturePropertyName("sites")]
+    [JsonPropertyName("sites")]
     public string[] SiteUuids { get; set; }
 
 }

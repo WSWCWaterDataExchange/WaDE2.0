@@ -1,6 +1,7 @@
 using System.Linq;
 using AutoMapper;
 using NetTopologySuite.Operation.Union;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using EF = WesternStatesWater.WaDE.Accessors.EntityFramework;
 
@@ -11,6 +12,13 @@ public class ApiV2Profile : Profile
     public ApiV2Profile()
     {
         AllowNullDestinationValues = true;
+        CreateMap<EF.WaterSourcesDim, WaterSourceSummary>()
+            .ForMember(dest => dest.WaterSourceUuId, opt => opt.MapFrom(src => src.WaterSourceUuid))
+            .ForMember(dest => dest.NativeId, opt => opt.MapFrom(src => src.WaterSourceNativeId))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.WaterSourceName))
+            .ForMember(dest => dest.SourceType, opt => opt.MapFrom(src => src.WaterSourceTypeCvNavigation.WaDEName))
+            .ForMember(dest => dest.WaterType, opt => opt.MapFrom(src => src.WaterQualityIndicatorCv));
+        
         CreateMap<EF.SitesDim, SiteSearchItem>()
             .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
             .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
@@ -34,7 +42,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.PodOrPouSite, b => b.MapFrom(c => c.PODorPOUSite))
             .ForMember(a => a.WaterSources,
                 b => b.MapFrom(c =>
-                    c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource.WaterSourceName)))
+                    c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)))
             .ForMember(a => a.Overlays,
                 b => b.MapFrom(c =>
                     c.RegulatoryOverlayBridgeSitesFact.Select(bridge =>

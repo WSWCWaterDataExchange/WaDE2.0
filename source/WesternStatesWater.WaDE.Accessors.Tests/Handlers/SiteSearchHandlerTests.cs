@@ -10,6 +10,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Handlers;
+using WesternStatesWater.WaDE.Accessors.Mapping;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
@@ -301,6 +302,71 @@ public class SiteSearchHandlerTests : DbTestBase
         response.Sites.Should().HaveCount(2);
         response.Sites.Select(s => s.State).Should().BeEquivalentTo(siteA.StateCv, siteB.StateCv);
         response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+    }
+
+    [TestMethod]
+    public async Task SiteAccessor_WaterSourcesFilter_ReturnsCorrectSites()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var waterSourceTypeA = await WaterSourceTypeBuilder.Load(db);
+        var waterSourceTypeB = await WaterSourceTypeBuilder.Load(db);
+        var waterSourceTypeC = await WaterSourceTypeBuilder.Load(db);
+
+        var waterSourceA = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeA
+        });
+        var waterSourceB = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeB
+        });
+        var waterSourceC = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeC
+        });
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        var siteC = await SitesDimBuilder.Load(db);
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            WaterSourcesDim = waterSourceA
+        });
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            WaterSourcesDim = waterSourceB
+        });
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            WaterSourcesDim = waterSourceC
+        });
+        
+        await WaterSourceBridgeSitesFactBuilder.Load(db, new WaterSourceBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteC,
+            WaterSourcesDim = waterSourceC
+        });
+        
+        var request = new SiteSearchRequest
+        {
+            WaterSourcesTypes = [waterSourceTypeA.WaDEName, waterSourceTypeB.WaDEName],
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+        response.Sites.First(s => s.SiteUuid == siteA.SiteUuid).WaterSources
+            .Should()
+            .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
+        response.Sites.First(s => s.SiteUuid == siteB.SiteUuid).WaterSources.Should()
+            .BeEquivalentTo([waterSourceB.Map<WaterSourceSummary>(), waterSourceC.Map<WaterSourceSummary>()]);
     }
 
     private async Task<SiteSearchResponse> ExecuteHandler(SiteSearchRequest request)

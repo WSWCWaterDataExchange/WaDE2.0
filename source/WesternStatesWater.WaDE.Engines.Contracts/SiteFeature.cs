@@ -1,45 +1,45 @@
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
+using System.Text.Json.Serialization;
 
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class SiteFeature : FeatureBase
 {
-    [FeaturePropertyName("nId")]
+    [JsonPropertyName("nId")]
     public string? SiteNativeId { get; set; }
-    [FeaturePropertyName("name")]
+    [JsonPropertyName("name")]
     public string? SiteName { get; set; }
-    [FeaturePropertyName("usgsSiteId")]
+    [JsonPropertyName("usgsSiteId")]
     public string? UsgsSiteId { get; set; }
-    [FeaturePropertyName("sType")]
+    [JsonPropertyName("sType")]
     public string? SiteType { get; set; }
-    [FeaturePropertyName("coordMethod")]
+    [JsonPropertyName("coordMethod")]
     public string? CoordinateMethod { get; set; }
-    [FeaturePropertyName("coordAcc")]
+    [JsonPropertyName("coordAcc")]
     public string? CoordinateAccuracy { get; set; }
-    [FeaturePropertyName("gnisCode")]
+    [JsonPropertyName("gnisCode")]
     public string? GnisCode { get; set; }
-    [FeaturePropertyName("epsgCode")]
+    [JsonPropertyName("epsgCode")]
     public string? EpsgCode { get; set; }
-    [FeaturePropertyName("nhdNetStat")]
+    [JsonPropertyName("nhdNetStat")]
     public string? NhdNetworkStatus { get; set; }
-    [FeaturePropertyName("nhdProd")]
+    [JsonPropertyName("nhdProd")]
     public string? NhdProduct { get; set; }
-    [FeaturePropertyName("state")]
+    [JsonPropertyName("state")]
     public string? State { get; set; }
-    [FeaturePropertyName("huc8")]
+    [JsonPropertyName("huc8")]
     public string? Huc8 { get; set; }
-    [FeaturePropertyName("huc12")]
+    [JsonPropertyName("huc12")]
     public string? Huc12 { get; set; }
-    [FeaturePropertyName("county")]
+    [JsonPropertyName("county")]
     public string? County { get; set; }
-    [FeaturePropertyName("rightUuids")]
+    [JsonPropertyName("rightUuids")]
     public string[]? RightUuids { get; set; }
-    [FeaturePropertyName("isTimeSeries")]
+    [JsonPropertyName("isTimeSeries")]
     public bool? IsTimeSeries { get; set; }
-    [FeaturePropertyName("podOrPouSite")]
+    [JsonPropertyName("podOrPouSite")]
     public string? PodOrPouSite { get; set; }
-    [FeaturePropertyName("waterSources")]
-    public string[]? WaterSources { get; set; }
-    [FeaturePropertyName("overlays")]
+    [JsonPropertyName("waterSources")]
+    public WaterSourceSummary[]? WaterSources { get; set; }
+    [JsonPropertyName("overlays")]
     public string[]? Overlays { get; set; }
 }

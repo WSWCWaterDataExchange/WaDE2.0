@@ -46,12 +46,14 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next))
             .ForMember(dest => dest.SiteTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes))
-            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States));
+            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.WaterSourcesTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes));
         
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
             .ForMember(dest => dest.States, mem => mem.Ignore())
+            .ForMember(dest => dest.WaterSourcesTypes, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
         
@@ -142,5 +144,8 @@ public class OgcApiProfile : Profile
                 Engines.Contracts.RightFeature>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID))
             .ForMember(dest => dest.Geometry, opt => opt.Ignore());
+
+        CreateMap<Accessors.Contracts.Api.WaterSourceSummary,
+            Engines.Contracts.WaterSourceSummary>();
     }
 }

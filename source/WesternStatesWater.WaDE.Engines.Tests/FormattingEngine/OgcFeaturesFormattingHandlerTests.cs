@@ -1,10 +1,10 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts;
-using WesternStatesWater.WaDE.Engines.Contracts.Attributes;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
@@ -23,39 +23,39 @@ public class OgcFeaturesFormattingHandlerTests
     }
 
     [TestMethod]
-    public void Features_AllPropertiesExceptGeometry_ShouldHaveFeaturePropertyNameAttribute()
+    public void Features_AllPropertiesExceptGeometry_ShouldHaveJsonPropertyNameAttribute()
     {
         var featureTypes = typeof(FeatureBase).Assembly.GetTypes()
             .Where(type => type.IsSubclassOf(typeof(FeatureBase)))
             .ToArray();
-
+    
         // Smoke test to make sure we have some feature types.
         featureTypes.Should().NotBeEmpty();
-
+    
         foreach (var featureType in featureTypes)
         {
             Console.WriteLine($"Checking {featureType.Name}");
-
+    
             var featureProperties = featureType.GetProperties();
             var geometryProp = featureProperties.Single(prop => prop.Name == nameof(FeatureBase.Geometry));
-
+    
             geometryProp
-                .GetCustomAttribute<FeaturePropertyNameAttribute>()
+                .GetCustomAttribute<JsonPropertyNameAttribute>()
                 .Should()
                 .BeNull(
-                    $"property '{geometryProp.Name}' on '{featureType.Name}' should not have a {nameof(FeaturePropertyNameAttribute)}."
+                    $"property '{geometryProp.Name}' on '{featureType.Name}' should not have a {nameof(JsonPropertyNameAttribute)}."
                 );
-
+    
             featureProperties.Except([geometryProp])
                 .Select(prop => new
                 {
-                    Attribute = prop.GetCustomAttribute<FeaturePropertyNameAttribute>(),
+                    Attribute = prop.GetCustomAttribute<JsonPropertyNameAttribute>(),
                     PropertyName = prop.Name
                 })
                 .Should()
                 .AllSatisfy(property =>
                     property.Attribute.Should().NotBeNull(
-                        $"property '{property.PropertyName}' on '{featureType.Name}' should have a {nameof(FeaturePropertyNameAttribute)}."
+                        $"property '{property.PropertyName}' on '{featureType.Name}' should have a {nameof(JsonPropertyNameAttribute)}."
                     )
                 );
         }
@@ -119,23 +119,23 @@ public class OgcFeaturesFormattingHandlerTests
     }
 
     [TestMethod]
-    public async Task AttributesTableContainsAllPropertiesWithFeaturePropertyNameAttribute()
+    public async Task AttributesTableContainsAllPropertiesWithJsonPropertyNameAttribute()
     {
         var properties = typeof(TestFeature).GetProperties();
         var namedProperties = properties
-            .Where(prop => prop.GetCustomAttribute<FeaturePropertyNameAttribute>() is not null)
+            .Where(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>() is not null)
             .ToArray();
-
+    
         // All the named properties + Geometry = 11
         properties.Length.Should().Be(11);
-
+    
         // 10, minus the geometry property
         namedProperties.Length.Should().Be(10);
-
+    
         var feature = new TestFeature();
         var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
         var response = await CreateHandler().Handle(request);
-
+    
         response.Features[0].Attributes.Count.Should().Be(namedProperties.Length);
     }
 
@@ -231,30 +231,30 @@ public class OgcFeaturesFormattingHandlerTests
 
 public class TestFeature : FeatureBase
 {
-    [FeaturePropertyName("sp")]
+    [JsonPropertyName("sp")]
     public string StringProperty { get; init; } = null!;
 
-    [FeaturePropertyName("nsp")]
+    [JsonPropertyName("nsp")]
     public string? NullableStringProperty { get; init; }
 
-    [FeaturePropertyName("ip")]
+    [JsonPropertyName("ip")]
     public int IntProperty { get; init; }
 
-    [FeaturePropertyName("nip")]
+    [JsonPropertyName("nip")]
     public int? NullableIntProperty { get; init; }
 
-    [FeaturePropertyName("dp")]
+    [JsonPropertyName("dp")]
     public double DoubleProperty { get; init; }
 
-    [FeaturePropertyName("ndp")]
+    [JsonPropertyName("ndp")]
     public double? NullableDoubleProperty { get; init; }
 
-    [FeaturePropertyName("bp")]
+    [JsonPropertyName("bp")]
     public bool BoolProperty { get; init; }
 
-    [FeaturePropertyName("nbp")]
+    [JsonPropertyName("nbp")]
     public bool? NullableBoolProperty { get; init; }
 
-    [FeaturePropertyName("sap")]
+    [JsonPropertyName("sap")]
     public string[] StringArrayProperty { get; init; } = null!;
 }
