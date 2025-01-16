@@ -106,6 +106,7 @@ public class OgcApiProfile : Profile
                 Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
             .ForMember(dest => dest.AllocationUuid, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuid, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
 
