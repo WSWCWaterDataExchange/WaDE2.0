@@ -11,4 +11,6 @@ public class AllocationSearchRequest : SearchRequestBase
     public string LastKey { get; set; }
     
     public SpatialSearchCriteria GeometrySearch { get; set; }
+    
+    public List<string> States { get; set; }
 }
