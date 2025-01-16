@@ -59,6 +59,12 @@ public static class QueryableExtensions
                 bridge => filters.SiteUuid.Contains(bridge.Site.SiteUuid)));
         }
 
+        if (filters.States != null && filters.States.Count != 0)
+        {
+            query = query.Where(x =>
+                x.AllocationBridgeSitesFact.Any(bridge => filters.States.Contains(bridge.Site.StateCv)));
+        }
+
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
             query = query.Where(x => x.AllocationUUID.CompareTo(filters.LastKey) > 0);
