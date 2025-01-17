@@ -15,7 +15,7 @@ namespace WaDEApiFunctions.v2;
 
 public class RightsFunction(IMetadataManager metadataManager, IWaterResourceManager waterResourceManager) : FunctionBase
 {
-    private const string PathBase = "v2/collections/rights";
+    private const string PathBase = "collections/rights";
     private const string Tag = "Rights";
 
     [Function(nameof(GetRightsCollectionMetadata))]

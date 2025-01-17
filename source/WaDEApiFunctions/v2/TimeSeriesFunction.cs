@@ -13,7 +13,7 @@ namespace WaDEApiFunctions.v2;
 
 public class TimeSeriesFunction(IMetadataManager metadataManager) : FunctionBase
 {
-    private const string PathBase = "v2/collections/timeSeries/";
+    private const string PathBase = "collections/timeSeries/";
     private const string Tag = "Time Series";
 
     [Function(nameof(GetTimeSeriesCollectionMetadata))]

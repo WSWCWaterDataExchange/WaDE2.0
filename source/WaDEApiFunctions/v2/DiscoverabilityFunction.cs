@@ -13,7 +13,7 @@ namespace WaDEApiFunctions.v2;
 
 public class DiscoverabilityFunction : FunctionBase
 {
-    private const string PathBase = "v2/";
+    private const string PathBase = "";
     
     private readonly IMetadataManager _metadataManager;
     
