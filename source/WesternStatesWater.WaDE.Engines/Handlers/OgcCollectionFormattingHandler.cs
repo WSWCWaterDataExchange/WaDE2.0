@@ -4,6 +4,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
+using WesternStatesWater.WaDE.Utilities;
 using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
@@ -17,8 +18,9 @@ public class OgcCollectionFormattingHandler(
     IRegulatoryOverlayAccessor regulatoryOverlayAccessor,
     ISiteVariableAmountsAccessor siteVariableAmountsAccessor,
     IWaterAllocationAccessor allocationAccessor,
-    ISiteAccessor siteAccessor
-) : OgcFormattingHandlerBase(configuration), IRequestHandler<CollectionRequest, CollectionResponse>
+    ISiteAccessor siteAccessor,
+    IContextUtility contextUtility
+) : OgcFormattingHandlerBase(configuration, contextUtility), IRequestHandler<CollectionRequest, CollectionResponse>
 {
     public async Task<CollectionResponse> Handle(CollectionRequest request)
     {

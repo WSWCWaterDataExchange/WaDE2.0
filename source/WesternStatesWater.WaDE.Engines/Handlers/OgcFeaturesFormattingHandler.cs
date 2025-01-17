@@ -3,18 +3,21 @@ using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Features;
 using WesternStatesWater.Shared.Resolver;
+using WesternStatesWater.WaDE.Common.Context;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
+using WesternStatesWater.WaDE.Utilities;
 using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
-public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFormattingHandlerBase(configuration),
+public class OgcFeaturesFormattingHandler(IConfiguration configuration, IContextUtility contextUtility) : OgcFormattingHandlerBase(configuration, contextUtility),
     IRequestHandler<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>
 {
     public Task<OgcFeaturesFormattingResponse> Handle(OgcFeaturesFormattingRequest request)
     {
+        var apiContext = contextUtility.GetRequiredContext<ApiContext>();
         var features = request.Items
             .Select(item => new Feature
             {
@@ -36,7 +39,7 @@ public class OgcFeaturesFormattingHandler(IConfiguration configuration) : OgcFor
 
     private Link[] BuildLinks(OgcFeaturesFormattingRequest request)
     {
-        var links = new LinkBuilder(ServerUrl, ApiPath)
+        var links = new LinkBuilder(null)
             .AddLandingPage();
 
         if (request.LastUuid is not null)

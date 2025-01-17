@@ -5,17 +5,20 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
+using WesternStatesWater.WaDE.Common.Context;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WaDEApiFunctions.v2;
 
 public class WaterSitesFunction(
     IMetadataManager metadataManager,
-    IWaterResourceManager waterResourceManager) : FunctionBase
+    IWaterResourceManager waterResourceManager,
+    IContextUtility contextUtility) : FunctionBase
 {
     private const string PathBase = "v2/collections/sites/";
 
@@ -140,6 +143,17 @@ public class WaterSitesFunction(
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",
         Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiParameter("featureId", Type = typeof(string), In = ParameterLocation.Path,
+        Required = true, Description = "The identifier of the feature.")]
+    [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "The maximum number of items to return.")]
+    [OpenApiParameter("coords", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).")]
+    [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Next page")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -149,13 +163,13 @@ public class WaterSitesFunction(
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-    public static async Task<HttpResponseData> GetWaterSite(
+    public async Task<HttpResponseData> GetWaterSite(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "items/{featureId}")]
         HttpRequestData req,
         FunctionContext executionContext,
         string collectionId,
         string featureId)
     {
-        return await CreateOkResponse(req, "A water site!");
+        return await CreateOkResponse(req, contextUtility.GetRequiredContext<ApiContext>().ToString());
     }
 }

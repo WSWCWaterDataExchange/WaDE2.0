@@ -1,20 +1,21 @@
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Common.Context;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
+using WesternStatesWater.WaDE.Utilities;
 using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
 using Constants = WesternStatesWater.WaDE.Contracts.Api.OgcApi.Constants;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
-public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
+public abstract class OgcFormattingHandlerBase(IConfiguration configuration, IContextUtility contextUtility)
 {
-    protected readonly string ServerUrl = $"{configuration["ServerUrl"]}";
-    protected readonly string ApiPath = $"{configuration["ApiPath"]}";
     protected readonly GeometryFactory GeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
 
     protected Collection CreateCollection(MetadataBase metadata)
     {
+        var request = contextUtility.GetRequiredContext<ApiContext>();
         var collectionId = GetCollectionId(metadata);
         var collectionExtent = CreateExtentFromMetadata(metadata);
 
@@ -22,7 +23,7 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
         {
             Id = collectionId,
             Extent = collectionExtent,
-            Links = new LinkBuilder(ServerUrl, ApiPath)
+            Links = new LinkBuilder(request)
                 .AddLandingPage()
                 .AddCollection(collectionId)
                 .Build(),

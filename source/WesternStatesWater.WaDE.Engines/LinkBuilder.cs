@@ -1,13 +1,15 @@
+using WesternStatesWater.WaDE.Common.Context;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Engines.Contracts;
 using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
 
 namespace WesternStatesWater.WaDE.Engines;
 
-internal class LinkBuilder(string baseUrl, string apiPath)
+internal class LinkBuilder(RequestContext requestContext)
 {
     private readonly List<Link> _links = new();
-    private readonly string _baseUrl = TrimEnding(baseUrl);
-    private readonly string _apiPath = TrimEnding(apiPath);
+    private readonly string _baseUrl = TrimEnding(requestContext.Host);
+    private readonly string _apiPath = TrimEnding("/api");
 
     public LinkBuilder AddLandingPage()
     {

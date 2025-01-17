@@ -3,10 +3,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Common.Context;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
@@ -87,7 +89,8 @@ public class OgcCollectionFormattingTests
             _regulatoryOverlayAccessorMock,
             _siteVariableAmountsAccessorMock,
             _allocationAccessorMock,
-            _siteAccessorMock
+            _siteAccessorMock,
+            Mock.Create<IContextUtility>()
         );
     }
 }

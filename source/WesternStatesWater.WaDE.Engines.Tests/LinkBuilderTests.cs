@@ -9,7 +9,7 @@ public class LinkBuilderTests
     [TestMethod]
     public void LinkBuilder_LandingPages_SupportedTypes()
     {
-        var linkBuilder = new LinkBuilder("http://localhost:7071", "/api")
+        var linkBuilder = new LinkBuilder(null)
             .AddLandingPage()
             .Build();
 
@@ -28,7 +28,7 @@ public class LinkBuilderTests
     [TestMethod]
     public void LinkBuilder_AddCollections()
     {
-        var linkBuilder = new LinkBuilder("http://localhost:7071", "/api")
+        var linkBuilder = new LinkBuilder(null)
             .AddCollections()
             .Build();
 
@@ -43,7 +43,7 @@ public class LinkBuilderTests
     [TestMethod]
     public void LinkBuilder_AddCollection()
     {
-        var linkBuilder = new LinkBuilder("http://localhost:7071", "/api")
+        var linkBuilder = new LinkBuilder(null)
             .AddCollection("sites")
             .Build();
 

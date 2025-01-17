@@ -6,9 +6,16 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="GeoJSON.Net" Version="1.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.3.0" />
     <PackageReference Include="NetTopologySuite" Version="2.5.0" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON" Version="2.0.4" />
     <PackageReference Include="NetTopologySuite.IO.GeoJSON4STJ" Version="4.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Features" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
 </Project>
