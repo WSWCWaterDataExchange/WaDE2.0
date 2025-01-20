@@ -99,12 +99,14 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.AllocationUuid,
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids))
             .ForMember(dest => dest.SiteUuid, opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States, opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.States))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
         
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
             .ForMember(dest => dest.AllocationUuid, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuid, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
 
