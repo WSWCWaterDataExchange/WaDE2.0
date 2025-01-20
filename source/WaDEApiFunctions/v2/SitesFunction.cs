@@ -140,6 +140,10 @@ public class WaterSitesFunction(
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",
         Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiParameter("featureId", Type = typeof(string), In = ParameterLocation.Path,
+        Required = true, Description = "The identifier of the feature.")]
+    [OpenApiParameter("test", Type = typeof(string[]), In = ParameterLocation.Query,
+        Required = false, Description = "Testing parameter")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -156,6 +160,7 @@ public class WaterSitesFunction(
         string collectionId,
         string featureId)
     {
-        return await CreateOkResponse(req, "A water site!");
+        // TODO: This is just a placeholder functions, will be replaced with actual implementation.
+        return await CreateOkResponse(req, GetRequestUri(req).ToString());
     }
 }

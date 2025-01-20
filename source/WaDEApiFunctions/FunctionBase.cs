@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -20,6 +22,21 @@ public abstract class FunctionBase
         Converters =
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
+    
+    protected static Uri GetRequestUri(HttpRequestData request)
+    {
+#if DEBUG
+        return request.Url;
+#else
+        return new UriBuilder
+        {
+            Scheme = request.Headers.GetValues("X-Forwarded-Proto").First(),
+            Host = request.Headers.GetValues("X-Forwarded-Host").First(),
+            Path = request.Url.AbsolutePath,
+            Query = request.Url.Query
+        }.Uri;
+#endif
+    }
 
     protected static async Task<HttpResponseData> CreateOkResponse<T>(
         HttpRequestData request,
