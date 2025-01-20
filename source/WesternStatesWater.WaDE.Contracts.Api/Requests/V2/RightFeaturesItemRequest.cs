@@ -6,4 +6,5 @@ public class RightFeaturesItemRequest : RightFeaturesSearchRequestBase
     public string SiteUuids { get; set; }
     public string States { get; set; }
     public string WaterSourceTypes { get; set; }
+    public string BeneficialUses { get; set; }
 }

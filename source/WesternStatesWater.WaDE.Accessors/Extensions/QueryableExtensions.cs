@@ -81,6 +81,12 @@ public static class QueryableExtensions
                 bridge => bridge.Site.WaterSourceBridgeSitesFact.Any(
                     ws => filters.WaterSourceTypes.Contains(ws.WaterSource.WaterSourceTypeCvNavigation.WaDEName))));
         }
+        
+        if (filters.BeneficialUses != null && filters.BeneficialUses.Count != 0)
+        {
+            query = query.Where(x => x.AllocationBridgeBeneficialUsesFact.Any(
+                bridge => filters.BeneficialUses.Contains(bridge.BeneficialUse.WaDEName)));
+        }
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
