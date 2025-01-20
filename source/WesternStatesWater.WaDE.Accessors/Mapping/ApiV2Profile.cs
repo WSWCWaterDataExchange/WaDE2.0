@@ -91,7 +91,10 @@ public class ApiV2Profile : Profile
                 b => b.MapFrom(c => c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUseCV)))
             .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date))
             .ForMember(a => a.SitesUUIDs,
-                b => b.MapFrom(c => c.AllocationBridgeSitesFact.Select(d => d.Site.SiteUuid)));
+                b => b.MapFrom(c => c.AllocationBridgeSitesFact.Select(d => d.Site.SiteUuid)))
+            .ForMember(a => a.WaterSources,
+                b => b.MapFrom(c => c.AllocationBridgeSitesFact
+                    .SelectMany(bridge => bridge.Site.WaterSourceBridgeSitesFact.Select(ws => ws.WaterSource))));
 
         CreateMap<EF.SiteVariableAmountsFact, TimeSeriesSearchItem>()
             .ForMember(a => a.WaterSourceUUID, b => b.MapFrom(c => c.WaterSource.WaterSourceUuid))

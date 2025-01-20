@@ -10,6 +10,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Handlers;
+using WesternStatesWater.WaDE.Accessors.Mapping;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
@@ -41,7 +42,6 @@ public class AllocationSearchHandlerTests : DbTestBase
 
         // Assert
         response.Allocations.Should().HaveCount(5);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should().BeNull();
     }
     
@@ -67,7 +67,6 @@ public class AllocationSearchHandlerTests : DbTestBase
 
         // Assert
         response.Allocations.Should().HaveCount(3);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
             .Be(dbAllocations.OrderBy(a => a.AllocationUUID).Select(a => a.AllocationUUID).ElementAt(3));
     }
@@ -255,6 +254,68 @@ public class AllocationSearchHandlerTests : DbTestBase
         response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(
             allocationWithOneSiteInBoundary.AllocationUUID,
             allocationWithSiteInBoundary.AllocationUUID);
+    }
+
+    [TestMethod]
+    public async Task Handler_FilterWaterSourceTypes_ShouldReturnAllocationsWithWaterSourceType()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var waterSourceTypeA = await WaterSourceTypeBuilder.Load(db);
+        var waterSourceTypeB = await WaterSourceTypeBuilder.Load(db);
+
+        var waterSourceA = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeA
+        });
+        var waterSourceB = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeB
+        });
+
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+
+        await WaterSourceBridgeSitesFactBuilder.Load(db,
+            new WaterSourceBridgeSitesFactBuilderOptions
+            {
+                SitesDim = siteA,
+                WaterSourcesDim = waterSourceA
+            });
+        await WaterSourceBridgeSitesFactBuilder.Load(db,
+            new WaterSourceBridgeSitesFactBuilderOptions
+            {
+                SitesDim = siteB,
+                WaterSourcesDim = waterSourceB
+            });
+        
+        var allocationA = await AllocationAmountsFactBuilder.Load(db);
+        var allocationB = await AllocationAmountsFactBuilder.Load(db);
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            AllocationAmountsFact = allocationA
+        });
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            AllocationAmountsFact = allocationB
+        });
+        
+        var request = new AllocationSearchRequest
+        {
+            WaterSourceTypes = [waterSourceTypeA.WaDEName],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.Allocations.Should().HaveCount(1);
+        response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID);
+        response.Allocations[0].WaterSources.Should()
+            .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
+
     }
     
     [TestMethod]

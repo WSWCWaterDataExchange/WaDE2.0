@@ -41,7 +41,6 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(5);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should().BeNull();
     }
     
@@ -67,7 +66,6 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(3);
-        response.MatchedCount.Should().Be(5);
         response.LastUuid.Should()
             .Be(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
                 .ElementAt(3));

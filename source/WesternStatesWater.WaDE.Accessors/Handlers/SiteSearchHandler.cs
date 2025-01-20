@@ -19,26 +19,19 @@ public class SiteSearchHandler(IConfiguration configuration) : IRequestHandler<S
     {
         await using var db = new WaDEContext(configuration);
 
-        var query = db.SitesDim
+        var sites = await db.SitesDim
             .AsNoTracking()
             .OrderBy(s => s.SiteUuid)
             .ApplySearchFilters(request)
-            .AsQueryable();
-
-        // Fetch the number of matched records
-        var count = await query.CountAsync();
-
-        var sites = await query
             .ApplyLimit(request)
             .ProjectTo<SiteSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
 
         // Get the last UUID of the page (not the first one on the next page).
-        var lastUuid = count <= request.Limit ? null : sites[^2].SiteUuid;
+        var lastUuid = sites.Count <= request.Limit ? null : sites[^2].SiteUuid;
 
         return new SiteSearchResponse
         {
-            MatchedCount = count,
             LastUuid = lastUuid,
             Sites = sites.Take(request.Limit).ToList()
         };

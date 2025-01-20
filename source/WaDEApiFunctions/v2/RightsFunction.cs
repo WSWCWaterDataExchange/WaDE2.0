@@ -67,6 +67,9 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
     [OpenApiParameter("states", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "State abbreviations")]
+    [OpenApiParameter("waterSourceTypes", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Water Source Types")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -88,7 +91,8 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             Next = req.Query["next"],
             AllocationUuids = req.Query["allocationUuids"],
             SiteUuids = req.Query["siteUuids"],
-            States = req.Query["states"]
+            States = req.Query["states"],
+            WaterSourceTypes = req.Query["waterSourceTypes"]
         };
         var response = await waterResourceManager.Search<RightFeaturesSearchRequestBase, RightFeaturesSearchResponse>(request);
         

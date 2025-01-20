@@ -46,4 +46,6 @@ public class RightFeature : FeatureBase
     public bool ExemptOfVolumeFlowPriority { get; set; }
     [JsonPropertyName("states")]
     public List<string> States { get; set; }
+    [JsonPropertyName("waterSources")]
+    public List<WaterSourceSummary> WaterSources { get; set; }
 }
