@@ -31,6 +31,7 @@ public class AllocationSearchItem
     public string Method { get; set; }
     public string MethodUUID { get; set; }
     public string VariableSpecificTypeCV { get; set; }
+    public List<string> States { get; set; }
     public List<string> SitesUUIDs { get; set; }
     public List<string> BeneficialUses { get; set; }
     public string Organization { get; set; }

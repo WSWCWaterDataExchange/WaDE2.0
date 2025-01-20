@@ -373,7 +373,63 @@ public class AllocationSearchHandlerTests : DbTestBase
         response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID);
         response.Allocations[0].BeneficialUses.Should().BeEquivalentTo(beneficialUseA.WaDEName);
     }
+    
+    [TestMethod]
+    public async Task Handler_FilterStates_ReturnsAllocationsInStates()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
 
+        // New state is created with each Site
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        var siteC = await SitesDimBuilder.Load(db);
+        var siteD = await SitesDimBuilder.Load(db);
+
+        // Ensure all states are unique
+        string[] expectUnique = [siteA.StateCVNavigation.Name, siteB.StateCVNavigation.Name, siteC.StateCVNavigation.Name, siteD.StateCVNavigation.Name];
+        expectUnique.Should().OnlyHaveUniqueItems();
+
+        var allocationA = await AllocationAmountsFactBuilder.Load(db);
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            AllocationAmountsFact = allocationA
+        });
+
+        var allocationB = await AllocationAmountsFactBuilder.Load(db);
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            AllocationAmountsFact = allocationB
+        });
+
+        var allocationC = await AllocationAmountsFactBuilder.Load(db);
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteC,
+            AllocationAmountsFact = allocationC
+        });
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteD,
+            AllocationAmountsFact = allocationC
+        });
+
+        var request = new AllocationSearchRequest
+        {
+            States = [siteA.StateCv, siteC.StateCv],
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+
+        response.Allocations.Should().HaveCount(2);
+        response.Allocations.First(alloc => alloc.AllocationUUID == allocationA.AllocationUUID).States.Should()
+            .BeEquivalentTo(siteA.StateCv);
+        response.Allocations.First(alloc => alloc.AllocationUUID == allocationC.AllocationUUID).States.Should().BeEquivalentTo(siteC.StateCv, siteD.StateCv);
+        response.Allocations.Select(alloc => alloc.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID, allocationC.AllocationUUID);
+    }
+    
     private async Task<AllocationSearchResponse> ExecuteHandler(AllocationSearchRequest request)
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
