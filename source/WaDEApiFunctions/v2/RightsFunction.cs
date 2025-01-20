@@ -64,6 +64,9 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
     [OpenApiParameter("siteUuids", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Site UUIDs")]
+    [OpenApiParameter("states", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "State abbreviations")]
     [OpenApiParameter("waterSourceTypes", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Water Source Types")]
@@ -87,6 +90,8 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             Limit = req.Query["limit"],
             Next = req.Query["next"],
             AllocationUuids = req.Query["allocationUuids"],
+            SiteUuids = req.Query["siteUuids"],
+            States = req.Query["states"]
             SiteUuids = req.Query["siteUuids"],
             WaterSourceTypes = req.Query["waterSourceTypes"]
         };

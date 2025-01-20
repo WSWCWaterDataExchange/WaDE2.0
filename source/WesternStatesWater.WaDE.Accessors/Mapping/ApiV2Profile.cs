@@ -86,6 +86,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.Method, b => b.MapFrom(c => c.Method.MethodName))
             .ForMember(a => a.Organization, b => b.MapFrom(c => c.Organization.OrganizationName))
             .ForMember(a => a.VariableSpecificTypeCV, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificCv))
+            .ForMember(a => a.States, b => b.MapFrom(c => c.AllocationBridgeSitesFact.Where(bridge => bridge.Site.StateCv != null).Select(bridge => bridge.Site.StateCv)))
             .ForMember(a => a.BeneficialUses,
                 b => b.MapFrom(c => c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUseCV)))
             .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date))

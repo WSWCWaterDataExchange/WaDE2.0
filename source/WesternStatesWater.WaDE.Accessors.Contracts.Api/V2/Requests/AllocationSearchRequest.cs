@@ -12,5 +12,7 @@ public class AllocationSearchRequest : SearchRequestBase
     
     public SpatialSearchCriteria GeometrySearch { get; set; }
     
+    public List<string> States { get; set; }
+    
     public List<string> WaterSourceTypes { get; set; }
 }
