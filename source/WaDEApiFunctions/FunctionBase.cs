@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -21,6 +23,22 @@ public abstract class FunctionBase
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
 
+    /// <summary>
+    /// Get the request URI.
+    /// </summary>
+    /// <param name="request">Function request</param>
+    /// <returns>In debug mode, this is the same as the HttpRequestData URL. In other environments, this uses the header X-WaDE-OriginalUrl.</returns>
+    protected static Uri GetRequestUri(HttpRequestData request)
+    {
+#if DEBUG
+        return request.Url;
+#else
+        var builder = new UriBuilder(request.Headers.GetValues("X-WaDE-OriginalUrl").First());
+        builder.Port = -1; // Remove port because header passes along port :443
+        return builder.Uri;
+#endif
+    }
+
     protected static async Task<HttpResponseData> CreateOkResponse<T>(
         HttpRequestData request,
         T response)
@@ -31,7 +49,7 @@ public abstract class FunctionBase
 
         return data;
     }
-    
+
     protected async Task<HttpResponseData> CreateErrorResponse(HttpRequestData request, ErrorBase error)
     {
         return error switch
@@ -41,7 +59,7 @@ public abstract class FunctionBase
             _ => await CreateInternalServerErrorResponse(request)
         };
     }
-    
+
     private Task<HttpResponseData> CreateInternalServerErrorResponse(HttpRequestData request)
     {
         var details = new ProblemDetails
