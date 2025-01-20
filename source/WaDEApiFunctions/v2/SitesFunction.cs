@@ -163,7 +163,7 @@ public class WaterSitesFunction(
         // TODO: This is just a placeholder functions, will be replaced with actual implementation.
         req.Headers.TryGetValues("X-WaDE-OriginalUrl", out var originalUrl);
         req.Headers.TryGetValues("X-WaDE-Url", out var url);
-        req.Headers.TryGetValues("X-WaDE-Request", out var wadRequest);
+        req.Headers.TryGetValues("X-WaDE-Path", out var wadRequest);
         
         return await CreateOkResponse(req, new
         {
