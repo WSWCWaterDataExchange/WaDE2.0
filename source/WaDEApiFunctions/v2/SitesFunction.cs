@@ -161,6 +161,16 @@ public class WaterSitesFunction(
         string featureId)
     {
         // TODO: This is just a placeholder functions, will be replaced with actual implementation.
-        return await CreateOkResponse(req, GetRequestUri(req).ToString());
+        req.Headers.TryGetValues("X-WaDE-OriginalUrl", out var originalUrl);
+        req.Headers.TryGetValues("X-WaDE-Url", out var url);
+        req.Headers.TryGetValues("X-WaDE-Request", out var wadRequest);
+        
+        return await CreateOkResponse(req, new
+        {
+            FnUrl = req.Url,
+            Original = originalUrl ?? ["N/A"],
+            Url = url ?? ["N/A"],
+            wadRequest = wadRequest ?? ["N/A"]
+        });
     }
 }
