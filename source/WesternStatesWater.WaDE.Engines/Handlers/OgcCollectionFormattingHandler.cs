@@ -24,7 +24,7 @@ public class OgcCollectionFormattingHandler(
     {
         Collection? collection;
 
-        switch (request.CollectionId)
+        switch (GetCollectionId(request.RequestUri))
         {
             case Constants.SitesCollectionId:
                 collection = CreateCollection(await siteAccessor.GetSiteMetadata());
@@ -39,7 +39,7 @@ public class OgcCollectionFormattingHandler(
                 collection = CreateCollection(await regulatoryOverlayAccessor.GetOverlayMetadata());
                 break;
             default:
-                throw new NotSupportedException($"Collection {request.CollectionId} not found.");
+                throw new NotSupportedException($"Collection {GetCollectionId(request.RequestUri)} not found.");
         }
 
         return new CollectionResponse

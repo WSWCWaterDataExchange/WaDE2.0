@@ -34,11 +34,11 @@ public class OgcCollectionFormattingTests
     }
 
     [DataTestMethod]
-    [DataRow(Constants.SitesCollectionId)]
-    [DataRow(Constants.TimeSeriesCollectionId)]
-    [DataRow(Constants.RightsCollectionId)]
-    [DataRow(Constants.OverlaysCollectionId)]
-    public async Task Handler_CallsAccessor_WithCorrectCollectionId(string collectionId)
+    [DataRow("https://localhost/api/v2/collections/sites", "sites")]
+    [DataRow("https://localhost/api/v2/collections/timeseries", "timeseries")]
+    [DataRow("https://localhost/api/v2/collections/rights", "rights")]
+    [DataRow("https://localhost/api/v2/collections/overlays", "overlays")]
+    public async Task Handler_CallsAccessor_WithCorrectCollectionId(string url, string collectionId)
     {
         // Arrange
         _regulatoryOverlayAccessorMock.Arrange(mock => mock.GetOverlayMetadata())
@@ -51,7 +51,7 @@ public class OgcCollectionFormattingTests
             .ReturnsAsync(new SiteMetadata());
 
         // Act
-        var request = new CollectionRequest { CollectionId = collectionId };
+        var request = new CollectionRequest { RequestUri = new Uri(url) };
         var response = await CreateHandler().Handle(request);
 
         // Assert
@@ -70,7 +70,7 @@ public class OgcCollectionFormattingTests
     public async Task Handler_CollectionIdNotFound_ThrowsNotSupportedException()
     {
         // Arrange
-        var request = new CollectionRequest { CollectionId = "unknown" };
+        var request = new CollectionRequest { RequestUri = new Uri("http://localhost/collections/unknown") };
 
         // Act
         var handler = CreateHandler();

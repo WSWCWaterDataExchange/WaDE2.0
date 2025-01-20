@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -42,7 +44,7 @@ public class WaterSitesFunction(
     {
         var request = new CollectionMetadataGetRequest
         {
-            CollectionId = Constants.SitesCollectionId
+            RequestUri = GetRequestUri(req) 
         };
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);
@@ -93,13 +95,15 @@ public class WaterSitesFunction(
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"]
         };
-        var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
+        var response =
+            await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }
-    
+
     [Function(nameof(GetWaterSitesInArea))]
-    [OpenApiOperation(operationId: "getWaterSitesInArea", tags: [Tag], Summary = "Return the data values for the data area defined by the query parameters",
+    [OpenApiOperation(operationId: "getWaterSitesInArea", tags: [Tag],
+        Summary = "Return the data values for the data area defined by the query parameters",
         Description = "TODO: features of site.",
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
@@ -107,7 +111,9 @@ public class WaterSitesFunction(
         Required = false, Description = "The maximum number of items to return.")]
     [OpenApiParameter("coords", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
-        Required = false, Description = "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).")]
+        Required = false,
+        Description =
+            "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).")]
     [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Next page")]
@@ -131,15 +137,20 @@ public class WaterSitesFunction(
             Limit = req.Query["limit"],
             Next = req.Query["next"]
         };
-        var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
+        var response =
+            await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }
-    
+
     [Function(nameof(GetWaterSite))]
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",
         Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiParameter("featureId", Type = typeof(string), In = ParameterLocation.Path,
+        Required = true, Description = "The identifier of the feature.")]
+    [OpenApiParameter("test", Type = typeof(string[]), In = ParameterLocation.Query,
+        Required = false, Description = "Testing parameter")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -156,6 +167,7 @@ public class WaterSitesFunction(
         string collectionId,
         string featureId)
     {
-        return await CreateOkResponse(req, "A water site!");
+
+        return await CreateOkResponse(req, GetRequestUri(req));
     }
 }

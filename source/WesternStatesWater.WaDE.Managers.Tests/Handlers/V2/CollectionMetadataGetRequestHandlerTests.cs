@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,17 +22,17 @@ public class CollectionMetadataGetRequestHandlerTests
     public async Task Handler_MapsRequest_ShouldReturnResponse()
     {
         // Arrange
-        string collectionId = "foos";
+        Uri requestUri = new Uri("https://localhost/api/v2/collections/foo") ;
         var request = new CollectionMetadataGetRequest
         {
-            CollectionId = collectionId
+            RequestUri = requestUri
         };
         
         var mockResponse = new CollectionResponse
         {
             Collection = new Collection
             {
-                Id = collectionId,
+                Id = "foo",
                 Extent = new Extent
                 {
                     Spatial = new Spatial
@@ -55,7 +56,7 @@ public class CollectionMetadataGetRequestHandlerTests
         };
         _formattingEngineMock.Arrange(mock =>
                 mock.Format<CollectionRequest, CollectionResponse>(
-                    Arg.Matches<CollectionRequest>(req => req.CollectionId == collectionId)))
+                    Arg.Matches<CollectionRequest>(req => req.RequestUri == requestUri)))
             .ReturnsAsync(mockResponse);
 
         // Act
@@ -64,7 +65,7 @@ public class CollectionMetadataGetRequestHandlerTests
 
         // Assert
         result.Collection.Should().NotBeNull();
-        result.Collection.Id.Should().Be(collectionId);
+        result.Collection.Id.Should().Be("foo");
         result.Collection.Extent.Should().NotBeNull();
         result.Collection.Extent!.Spatial.Should().NotBeNull();
         result.Collection.Extent.Spatial.Bbox[0][0].Should().Be(-10);

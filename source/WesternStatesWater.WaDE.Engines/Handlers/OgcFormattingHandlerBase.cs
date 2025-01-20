@@ -13,6 +13,22 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
     protected readonly string ApiPath = $"{configuration["ApiPath"]}";
     protected readonly GeometryFactory GeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
 
+    /// <summary>
+    /// Uses the Uri to extract the collection id.
+    /// </summary>
+    /// <param name="request">Uri of the request to the server.</param>
+    /// <returns>Lowercase collection id.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    protected static string GetCollectionId(Uri request)
+    {
+        var collectionsIdx = Array.FindIndex(request.Segments, segment => segment.Equals("collections/", StringComparison.OrdinalIgnoreCase));
+        if (collectionsIdx == -1)
+        {
+            throw new InvalidOperationException("Request URI does not contain a collections segment.");
+        }
+        return request.Segments[collectionsIdx + 1].ToLower();
+    }
+
     protected Collection CreateCollection(MetadataBase metadata)
     {
         var collectionId = GetCollectionId(metadata);

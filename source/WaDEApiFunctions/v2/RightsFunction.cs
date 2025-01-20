@@ -39,7 +39,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
     {
         var request = new CollectionMetadataGetRequest
         {
-            CollectionId = Constants.RightsCollectionId
+            RequestUri = GetRequestUri(req)
         };
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);

@@ -37,7 +37,7 @@ public class TimeSeriesFunction(IMetadataManager metadataManager) : FunctionBase
     {
         var request = new CollectionMetadataGetRequest
         {
-            CollectionId = Constants.OverlaysCollectionId
+            RequestUri = GetRequestUri(req)
         };
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);
