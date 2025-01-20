@@ -22,7 +22,7 @@ public abstract class FunctionBase
         Converters =
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
-    
+
     /// <summary>
     /// Get the request URI.
     /// </summary>
@@ -33,8 +33,9 @@ public abstract class FunctionBase
 #if DEBUG
         return request.Url;
 #else
-        var url = request.Headers.GetValues("X-WaDE-OriginalUrl").First();
-        return new UriBuilder(url).Uri;
+        var builder = new UriBuilder(request.Headers.GetValues("X-WaDE-OriginalUrl").First());
+        builder.Port = -1; // Remove port because header passes along port :443
+        return builder.Uri;
 #endif
     }
 
@@ -48,7 +49,7 @@ public abstract class FunctionBase
 
         return data;
     }
-    
+
     protected async Task<HttpResponseData> CreateErrorResponse(HttpRequestData request, ErrorBase error)
     {
         return error switch
@@ -58,7 +59,7 @@ public abstract class FunctionBase
             _ => await CreateInternalServerErrorResponse(request)
         };
     }
-    
+
     private Task<HttpResponseData> CreateInternalServerErrorResponse(HttpRequestData request)
     {
         var details = new ProblemDetails
