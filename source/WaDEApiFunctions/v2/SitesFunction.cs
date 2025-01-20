@@ -163,8 +163,8 @@ public class WaterSitesFunction(
         string featureId)
     {
         // TODO: This is just a placeholder functions, will be replaced with actual implementation.
-        req.Headers.TryGetValues("X-Forwarded-Host", out var originalHost);
-        req.Headers.TryGetValues("X-Forwarded-Proto", out var scheme);
+        req.Headers.TryGetValues("X-WaDE-Host", out var originalHost);
+        req.Headers.TryGetValues("X-WaDE-Proto", out var scheme);
         
         var url = new UriBuilder()
         {
