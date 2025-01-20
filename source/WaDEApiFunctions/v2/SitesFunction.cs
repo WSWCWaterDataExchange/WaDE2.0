@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -161,16 +163,22 @@ public class WaterSitesFunction(
         string featureId)
     {
         // TODO: This is just a placeholder functions, will be replaced with actual implementation.
-        req.Headers.TryGetValues("X-WaDE-OriginalUrl", out var originalUrl);
-        req.Headers.TryGetValues("X-WaDE-Url", out var url);
-        req.Headers.TryGetValues("X-WaDE-Path", out var wadRequest);
+        req.Headers.TryGetValues("X-Forwarded-Host", out var originalHost);
+        req.Headers.TryGetValues("X-Forwarded-Proto", out var scheme);
         
+        var url = new UriBuilder()
+        {
+            Scheme = scheme != null ? scheme.First() : req.Url.Scheme,
+            Host = originalHost != null ? originalHost.First()  : req.Url.Host,
+            Path = req.Url.AbsolutePath,
+            Query = req.Url.Query
+        };
         return await CreateOkResponse(req, new
         {
             FnUrl = req.Url,
-            Original = originalUrl ?? ["N/A"],
-            Url = url ?? ["N/A"],
-            wadRequest = wadRequest ?? ["N/A"]
+            OriginalHost = enumerable?.FirstOrDefault() ?? "N/A",
+            OriginalScheme = scheme?.FirstOrDefault() ?? "N/A",
+            Output = url
         });
     }
 }
