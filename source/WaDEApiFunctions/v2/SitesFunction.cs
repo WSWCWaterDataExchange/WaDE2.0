@@ -170,15 +170,18 @@ public class WaterSitesFunction(
         {
             Scheme = scheme != null ? scheme.First() : req.Url.Scheme,
             Host = originalHost != null ? originalHost.First()  : req.Url.Host,
+            #if DEBUG
+            Port = req.Url.Port,
+            #endif
             Path = req.Url.AbsolutePath,
             Query = req.Url.Query
         };
         return await CreateOkResponse(req, new
         {
             FnUrl = req.Url,
-            OriginalHost = enumerable?.FirstOrDefault() ?? "N/A",
+            OriginalHost = originalHost?.FirstOrDefault() ?? "N/A",
             OriginalScheme = scheme?.FirstOrDefault() ?? "N/A",
-            Output = url
+            Output = url.ToString()
         });
     }
 }
