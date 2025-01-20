@@ -172,6 +172,7 @@ public class WaterSitesFunction(
         req.Headers.TryGetValues("X-WaDE-Scheme", out var scheme);
         req.Headers.TryGetValues("X-WaDE-Port", out var port);
         req.Headers.TryGetValues("X-WaDE-Path", out var path);
+        req.Headers.TryGetValues("X-WaDE-OriginalUrl", out var og);
         req.Headers.TryGetValues("X-Forwarded-Host", out var forwardedHost);
         req.Headers.TryGetValues("X-Forwarded-Proto", out var forwardedScheme);
 
@@ -188,6 +189,7 @@ public class WaterSitesFunction(
         return await CreateOkResponse(req, new
         {
             FnUrl = req.Url,
+            HeaderOriginalUrl = og.FirstOrDefault(),
             wadeHost = host?.FirstOrDefault() ?? "N/A",
             wadeScheme = scheme?.FirstOrDefault() ?? "N/A",
             wadePort = port?.FirstOrDefault( )?? "N/A",
