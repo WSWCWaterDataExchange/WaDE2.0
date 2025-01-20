@@ -23,18 +23,18 @@ public abstract class FunctionBase
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
     
+    /// <summary>
+    /// Get the request URI.
+    /// </summary>
+    /// <param name="request">Function request</param>
+    /// <returns>In debug mode, this is the same as the HttpRequestData URL. In other environments, this uses the header X-WaDE-OriginalUrl.</returns>
     protected static Uri GetRequestUri(HttpRequestData request)
     {
 #if DEBUG
         return request.Url;
 #else
-        return new UriBuilder
-        {
-            Scheme = request.Headers.GetValues("X-Forwarded-Proto").First(),
-            Host = request.Headers.GetValues("X-Forwarded-Host").First(),
-            Path = request.Url.AbsolutePath,
-            Query = request.Url.Query
-        }.Uri;
+        var url = request.Headers.GetValues("X-WaDE-OriginalUrl").First();
+        return new UriBuilder(url).Uri;
 #endif
     }
 

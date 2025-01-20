@@ -167,35 +167,7 @@ public class WaterSitesFunction(
         string collectionId,
         string featureId)
     {
-        // TODO: This is just a placeholder functions, will be replaced with actual implementation.
-        req.Headers.TryGetValues("X-WaDE-Host", out var host);
-        req.Headers.TryGetValues("X-WaDE-Scheme", out var scheme);
-        req.Headers.TryGetValues("X-WaDE-Port", out var port);
-        req.Headers.TryGetValues("X-WaDE-Path", out var path);
-        req.Headers.TryGetValues("X-WaDE-OriginalUrl", out var og);
-        req.Headers.TryGetValues("X-Forwarded-Host", out var forwardedHost);
-        req.Headers.TryGetValues("X-Forwarded-Proto", out var forwardedScheme);
 
-        var url = new UriBuilder()
-        {
-            Scheme = scheme != null ? scheme.First() : req.Url.Scheme,
-            Host = host != null ? host.First() : req.Url.Host,
-#if DEBUG
-            Port = req.Url.Port,
-#endif
-            Path = path != null ? path.First() : req.Url.AbsolutePath,
-            Query = req.Url.Query
-        };
-        return await CreateOkResponse(req, new
-        {
-            FnUrl = req.Url,
-            HeaderOriginalUrl = og.FirstOrDefault(),
-            wadeHost = host?.FirstOrDefault() ?? "N/A",
-            wadeScheme = scheme?.FirstOrDefault() ?? "N/A",
-            wadePort = port?.FirstOrDefault( )?? "N/A",
-            Output = url.ToString(),
-            forwardHost = forwardedHost ?? ["N/A"],
-            forwardedScheme = forwardedScheme ?? ["N/A"],
-        });
+        return await CreateOkResponse(req, GetRequestUri(req));
     }
 }
