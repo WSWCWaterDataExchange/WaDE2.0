@@ -74,12 +74,19 @@ public class OgcApiProfile : Profile
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.WaterSourceTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.OverlayTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayTypes))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
             .ForMember(dest => dest.OverlayUuids, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
+            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.OverlayTypes, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
         

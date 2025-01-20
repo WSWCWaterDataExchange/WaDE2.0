@@ -8,4 +8,7 @@ public class OverlaySearchRequest : SearchRequestBase
     public List<string> SiteUuids { get; set; }
     public SpatialSearchCriteria GeometrySearch { get; set; }
     public string LastKey { get; set; }
+    public List<string> States { get; set; }
+    public List<string> OverlayTypes { get; set; }
+    public List<string> WaterSourceTypes { get; set; }
 }
