@@ -95,13 +95,15 @@ public class WaterSitesFunction(
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"]
         };
-        var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
+        var response =
+            await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }
-    
+
     [Function(nameof(GetWaterSitesInArea))]
-    [OpenApiOperation(operationId: "getWaterSitesInArea", tags: [Tag], Summary = "Return the data values for the data area defined by the query parameters",
+    [OpenApiOperation(operationId: "getWaterSitesInArea", tags: [Tag],
+        Summary = "Return the data values for the data area defined by the query parameters",
         Description = "TODO: features of site.",
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiParameter("limit", Type = typeof(int), In = ParameterLocation.Query,
@@ -109,7 +111,9 @@ public class WaterSitesFunction(
         Required = false, Description = "The maximum number of items to return.")]
     [OpenApiParameter("coords", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
-        Required = false, Description = "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).")]
+        Required = false,
+        Description =
+            "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).")]
     [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Next page")]
@@ -133,11 +137,12 @@ public class WaterSitesFunction(
             Limit = req.Query["limit"],
             Next = req.Query["next"]
         };
-        var response = await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
+        var response =
+            await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
 
         return await CreateOkResponse(req, response);
     }
-    
+
     [Function(nameof(GetWaterSite))]
     [OpenApiOperation(operationId: "getWaterSite", tags: [Tag], Summary = "Get a water site feature W",
         Description = "TODO: feature.",
@@ -163,25 +168,32 @@ public class WaterSitesFunction(
         string featureId)
     {
         // TODO: This is just a placeholder functions, will be replaced with actual implementation.
-        req.Headers.TryGetValues("X-WaDE-Host", out var originalHost);
-        req.Headers.TryGetValues("X-WaDE-Proto", out var scheme);
-        
+        req.Headers.TryGetValues("X-WaDE-Host", out var host);
+        req.Headers.TryGetValues("X-WaDE-Scheme", out var scheme);
+        req.Headers.TryGetValues("X-WaDE-Port", out var port);
+        req.Headers.TryGetValues("X-WaDE-Path", out var path);
+        req.Headers.TryGetValues("X-Forwarded-Host", out var forwardedHost);
+        req.Headers.TryGetValues("X-Forwarded-Proto", out var forwardedScheme);
+
         var url = new UriBuilder()
         {
             Scheme = scheme != null ? scheme.First() : req.Url.Scheme,
-            Host = originalHost != null ? originalHost.First()  : req.Url.Host,
-            #if DEBUG
+            Host = host != null ? host.First() : req.Url.Host,
+#if DEBUG
             Port = req.Url.Port,
-            #endif
-            Path = req.Url.AbsolutePath,
+#endif
+            Path = path != null ? path.First() : req.Url.AbsolutePath,
             Query = req.Url.Query
         };
         return await CreateOkResponse(req, new
         {
             FnUrl = req.Url,
-            OriginalHost = originalHost?.FirstOrDefault() ?? "N/A",
-            OriginalScheme = scheme?.FirstOrDefault() ?? "N/A",
-            Output = url.ToString()
+            wadeHost = host?.FirstOrDefault() ?? "N/A",
+            wadeScheme = scheme?.FirstOrDefault() ?? "N/A",
+            wadePort = port?.FirstOrDefault( )?? "N/A",
+            Output = url.ToString(),
+            forwardHost = forwardedHost ?? ["N/A"],
+            forwardedScheme = forwardedScheme ?? ["N/A"],
         });
     }
 }
