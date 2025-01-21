@@ -29,7 +29,7 @@ public class DiscoverabilityFunction : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(DiscoveryMetadataGetResponse),
         Summary = "The response", Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> LandingPage(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "landingPage")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase)]
         HttpRequestData req,
         FunctionContext executionContext)
     {
