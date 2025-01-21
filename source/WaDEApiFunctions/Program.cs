@@ -50,7 +50,8 @@ var host = new HostBuilder()
                 Info = new OpenApiInfo()
                 {
                     Version = DefaultOpenApiConfigurationOptions.GetOpenApiDocVersion(),
-                    Title = DefaultOpenApiConfigurationOptions.GetOpenApiDocTitle()
+                    Title = DefaultOpenApiConfigurationOptions.GetOpenApiDocTitle(),
+                    Description = DefaultOpenApiConfigurationOptions.GetOpenApiDocDescription()
                 },
                 Servers = DefaultOpenApiConfigurationOptions.GetHostNames(),
                 OpenApiVersion = DefaultOpenApiConfigurationOptions.GetOpenApiVersion(),
