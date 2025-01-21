@@ -8,11 +8,11 @@
     "OpenApi__DocTitle": "WaDE API",
     "OpenApi__ForceHttps": "false",
     "OpenApi__ForceHttp": "true",
-    "ServerUrl": "http://localhost:7071/api",
-    "ApiPath": "/v2"
+    "OgcApi__Title": "WaDE OGC API",
+    "OgcApi__Description": "WaDE 2.0 OGC API",
+    "OgcApi__Host": "http://localhost:7071/api/v2"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
-    "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;TrustServerCertificate=True;User=sa;Password=DevP@ssw0rd!;Encrypt=False;"
   }
 }

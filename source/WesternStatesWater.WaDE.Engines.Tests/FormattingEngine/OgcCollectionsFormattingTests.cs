@@ -7,6 +7,7 @@ using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
@@ -199,6 +200,7 @@ public class OgcCollectionsFormattingTests
             _regulatoryOverlayAccessorMock,
             _siteVariableAmountsAccessorMock,
             _allocationAccessorMock,
-            _siteAccessorMock);
+            _siteAccessorMock,
+            Mock.Create<IContextUtility>());
     }
 }

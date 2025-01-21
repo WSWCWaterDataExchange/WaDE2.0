@@ -13,6 +13,7 @@ using WesternStatesWater.WaDE.Engines;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Managers.Api;
 using WesternStatesWater.WaDE.Managers.Api.Handlers;
+using WesternStatesWater.WaDE.Utilities;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using AccessorExt = WesternStatesWater.WaDE.Accessors.Extensions;
 using EngineApi = WesternStatesWater.WaDE.Engines.Contracts;
@@ -95,6 +96,8 @@ var host = new HostBuilder()
         services.AddTransient<AccessorApi.ISiteVariableAmountsAccessor, SiteVariableAmountsAccessor>();
         services.AddTransient<AccessorApi.IWaterAllocationAccessor, WaterAllocationAccessor>();
         services.AddTransient<AccessorApi.ISiteAccessor, SiteAccessor>();
+
+        services.AddTransient<IContextUtility, ContextUtility>();
     })
     .Build();
 

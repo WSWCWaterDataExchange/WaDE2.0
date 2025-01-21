@@ -56,7 +56,7 @@ public class CollectionMetadataGetRequestHandlerTests
         };
         _formattingEngineMock.Arrange(mock =>
                 mock.Format<CollectionRequest, CollectionResponse>(
-                    Arg.Matches<CollectionRequest>(req => req.RequestUri == requestUri)))
+                    Arg.IsAny<CollectionRequest>()))
             .ReturnsAsync(mockResponse);
 
         // Act

@@ -11,8 +11,16 @@ public class OgcApiProfile : Profile
         // Managers -> Engines
         CreateMap<Contracts.Api.Requests.V2.CollectionMetadataGetRequest,
             Engines.Contracts.Ogc.Requests.CollectionRequest>();
+        CreateMap<Contracts.Api.Requests.V2.DiscoveryMetadataGetRequest,
+            Engines.Contracts.Ogc.Requests.DiscoveryRequest>();
+        CreateMap<Contracts.Api.Requests.V2.ConformanceMetadataGetRequest,
+            Engines.Contracts.Ogc.Requests.ConformanceRequest>();
 
         // Engines -> Managers
+        CreateMap<Engines.Contracts.Ogc.Responses.DiscoveryResponse,
+            Contracts.Api.Responses.V2.DiscoveryMetadataGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.ConformanceResponse,
+            Contracts.Api.Responses.V2.ConformanceMetadataGetResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionResponse,
             Contracts.Api.Responses.V2.CollectionMetadataGetResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse,

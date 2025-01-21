@@ -7,6 +7,7 @@ using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
@@ -51,7 +52,7 @@ public class OgcCollectionFormattingTests
             .ReturnsAsync(new SiteMetadata());
 
         // Act
-        var request = new CollectionRequest { RequestUri = new Uri(url) };
+        var request = new CollectionRequest();
         var response = await CreateHandler().Handle(request);
 
         // Assert
@@ -70,7 +71,7 @@ public class OgcCollectionFormattingTests
     public async Task Handler_CollectionIdNotFound_ThrowsNotSupportedException()
     {
         // Arrange
-        var request = new CollectionRequest { RequestUri = new Uri("http://localhost/collections/unknown") };
+        var request = new CollectionRequest();
 
         // Act
         var handler = CreateHandler();
@@ -87,7 +88,8 @@ public class OgcCollectionFormattingTests
             _regulatoryOverlayAccessorMock,
             _siteVariableAmountsAccessorMock,
             _allocationAccessorMock,
-            _siteAccessorMock
+            _siteAccessorMock,
+            Mock.Create<IContextUtility>()
         );
     }
 }
