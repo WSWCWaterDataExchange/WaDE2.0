@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Features;
@@ -123,11 +124,11 @@ public class OgcFeaturesFormattingHandler(
         if (!string.IsNullOrWhiteSpace(request.LastUuid))
         {
             // Add the "next" parameter to the existing query string.
-            var queryString = new QueryString(requestUri.Query);
-            queryString = queryString.Add("next", request.LastUuid);
+            var queryString = HttpUtility.ParseQueryString(requestUri.Query);
+            queryString["next"] = request.LastUuid;
             links.Add(new Link
             {
-                Href = $"{requestUri.ToString()[..requestUri.ToString().IndexOf('?')]}{queryString.Value}", Rel = "next",
+                Href = $"{requestUri.GetLeftPart(UriPartial.Path)}?{queryString}", Rel = "next",
                 Type = "application/geo+json", Title = "Next page of features"
             });
         }
