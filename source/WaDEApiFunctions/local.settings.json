@@ -6,6 +6,8 @@
     "OpenApi__HostNames": "http://localhost:7071/api",
     "OpenApi__Version": "v3",
     "OpenApi__DocTitle": "WaDE API",
+    "OpenApi__DocTitle": "WaDE OGC API",
+    "OpenApi__DocDescription": "WaDE API that conforms to the OGC API features and environmental data retrieval specification.",
     "OpenApi__ForceHttps": "false",
     "OpenApi__ForceHttp": "true",
     "OgcApi__Title": "WaDE OGC API",
