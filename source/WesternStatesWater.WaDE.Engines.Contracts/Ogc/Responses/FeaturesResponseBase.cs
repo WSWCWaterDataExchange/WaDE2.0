@@ -1,4 +1,4 @@
-using NetTopologySuite.Features;
+using WesternStatesWater.WaDE.Common.Ogc;
 
 namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 
@@ -7,6 +7,6 @@ namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 public abstract class FeaturesResponseBase : FormattingResponseBase
 {
     public string Type => "FeatureCollection";
-    public Feature[] Features { get; set; }
+    public OgcFeature[] Features { get; set; }
     public Link[] Links { get; set; }
 }

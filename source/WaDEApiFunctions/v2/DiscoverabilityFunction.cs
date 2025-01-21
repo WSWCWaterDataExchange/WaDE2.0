@@ -62,7 +62,7 @@ public class DiscoverabilityFunction : FunctionBase
         Description = "Collections",
         Visibility = OpenApiVisibilityType.Advanced)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(CollectionsResponse),
+        bodyType: typeof(CollectionsMetadataGetResponse),
         Summary = "WaDE Collections", Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> Collections(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "collections")]

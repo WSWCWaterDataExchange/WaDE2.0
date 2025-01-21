@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using AutoMapper;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using Extent = WesternStatesWater.WaDE.Common.Ogc.Extent;
+using Spatial = WesternStatesWater.WaDE.Common.Ogc.Spatial;
+using Temporal = WesternStatesWater.WaDE.Common.Ogc.Temporal;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
@@ -25,12 +29,6 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.CollectionMetadataGetResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse,
             Contracts.Api.Responses.V2.CollectionsMetadataGetResponse>();
-        CreateMap<Engines.Contracts.Ogc.Collection, Contracts.Api.OgcApi.Collection>();
-        CreateMap<Engines.Contracts.Ogc.Link, Contracts.Api.OgcApi.Link>();
-        CreateMap<Engines.Contracts.Ogc.Extent, Contracts.Api.OgcApi.Extent>();
-        CreateMap<Engines.Contracts.Ogc.Spatial, Contracts.Api.OgcApi.Spatial>();
-        CreateMap<Engines.Contracts.Ogc.Temporal, Contracts.Api.OgcApi.Temporal>();
-        CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse, Contracts.Api.OgcApi.CollectionsResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,

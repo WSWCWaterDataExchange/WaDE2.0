@@ -22,6 +22,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     {
         _manager = Services.GetRequiredService<IWaterResourceManager>();
     }
+    
 
     [DataTestMethod]
     [DataRow(1, 0, 1, 1, DisplayName = "Should return the total count requested (1)")]

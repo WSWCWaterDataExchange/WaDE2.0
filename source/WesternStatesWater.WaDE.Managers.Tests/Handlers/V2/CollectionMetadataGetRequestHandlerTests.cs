@@ -4,6 +4,7 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;

@@ -1,10 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Common.Contexts;
-using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
-using WesternStatesWater.WaDE.Utilities;
-using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
+using WesternStatesWater.WaDE.Common.Ogc;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 

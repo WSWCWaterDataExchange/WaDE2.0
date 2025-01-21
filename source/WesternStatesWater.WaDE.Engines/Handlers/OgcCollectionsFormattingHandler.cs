@@ -3,6 +3,7 @@ using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common;
 using WesternStatesWater.WaDE.Common.Contexts;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
@@ -45,7 +46,7 @@ public sealed class OgcCollectionsFormattingHandler(
             ],
             Links =
             [
-                new Link { Href = requestUri.ToString(), Rel = "self", Type = "application/json", Title = "This document as JSON" },
+                new Link { Href = requestUri.AbsoluteUri, Rel = "self", Type = "application/json", Title = "This document as JSON" },
                 new Link { Href = $"{OgcHost}", Rel = "root", Type = "application/json", Title = "The API landing page" }
             ]
         };

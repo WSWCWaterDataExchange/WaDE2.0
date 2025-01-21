@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Common.Contexts;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
@@ -23,7 +24,7 @@ public class OgcDiscoveryFormattingHandler(IConfiguration configuration, IContex
             [
                 new Link()
                 {
-                    Href = requestUri.ToString(),
+                    Href = requestUri.AbsoluteUri,
                     Rel = "self",
                     Type = "application/json",
                     Title = "This document"

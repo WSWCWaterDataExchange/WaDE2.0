@@ -3,11 +3,11 @@ using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common;
 using WesternStatesWater.WaDE.Common.Contexts;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 using WesternStatesWater.WaDE.Utilities;
-using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 

@@ -1,3 +1,5 @@
+using WesternStatesWater.WaDE.Common.Ogc;
+
 namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc.Responses;
 
 public class DiscoveryResponse : FormattingResponseBase
