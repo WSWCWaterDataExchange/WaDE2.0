@@ -5,10 +5,10 @@ using NetTopologySuite.Geometries;
 namespace WesternStatesWater.WaDE.Common.Ogc;
 
 /// <summary>
-/// This class inherits IFeature because NetTopologySuite.Features.Feature is sealed and OGC API Specification
-/// requires links to be included in the GeoJson feature.
-/// Code was copied from the NetTopologySuite.Features.Feature class and modified to include links.
+/// Represents a GeoJSON Feature object around the OGC API Specification.
 /// </summary>
+/// <remarks>Due to OGC API specification of having links on the Feature. The current NetTopologySuite GeoJson converters
+/// do not support foreign members.</remarks>
 public sealed class OgcFeature
 {
     [JsonPropertyName("type")] public string Type { get; set; } = "Feature";
