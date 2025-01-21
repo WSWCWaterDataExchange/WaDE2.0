@@ -23,11 +23,7 @@ public class CollectionMetadataGetRequestHandlerTests
     public async Task Handler_MapsRequest_ShouldReturnResponse()
     {
         // Arrange
-        Uri requestUri = new Uri("https://localhost/api/v2/collections/foo") ;
-        var request = new CollectionMetadataGetRequest
-        {
-            RequestUri = requestUri
-        };
+        var request = new CollectionMetadataGetRequest();
         
         var mockResponse = new CollectionResponse
         {

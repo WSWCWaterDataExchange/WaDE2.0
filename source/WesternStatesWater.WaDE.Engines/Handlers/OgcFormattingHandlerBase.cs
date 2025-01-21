@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common.Ogc;
 
@@ -9,9 +8,7 @@ public abstract class OgcFormattingHandlerBase
 {
     protected const string ContentTypeJson = "application/json";
     protected readonly IConfiguration Configuration;
-    private readonly GeometryFactory _geometryFactory =
-        NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
-    
+
     protected Link ServiceDescriptionLink => new Link
     {
         Href = $"{SwaggerHost}/swagger.json",
@@ -44,7 +41,16 @@ public abstract class OgcFormattingHandlerBase
         Title = "Resource collections"
     };
 
-    protected string SwaggerHost { get; }
+    /// <summary>
+    /// Swagger host name that comes from the OpenApi:HostNames configuration.
+    /// Use this when you are referencing links in the Swagger specification.
+    /// </summary>
+    private string SwaggerHost { get; }
+    
+    /// <summary>
+    /// Host name that comes from the OgcApi:Host configuration.
+    /// Use this when you are referencing links in the OGC API.
+    /// </summary>
     protected string OgcHost { get; }
 
     protected OgcFormattingHandlerBase(IConfiguration configuration)

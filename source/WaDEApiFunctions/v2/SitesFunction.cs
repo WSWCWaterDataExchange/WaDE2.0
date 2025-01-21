@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.Azure.Functions.Worker;
@@ -9,7 +7,6 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.OpenApi.Models;
 using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
@@ -43,10 +40,7 @@ public class WaterSitesFunction(
         FunctionContext executionContext,
         string collectionId)
     {
-        var request = new CollectionMetadataGetRequest
-        {
-            RequestUri = GetRequestUri(req) 
-        };
+        var request = new CollectionMetadataGetRequest();
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);
     }
@@ -169,6 +163,6 @@ public class WaterSitesFunction(
         string featureId)
     {
 
-        return await CreateOkResponse(req, GetRequestUri(req));
+        return await CreateOkResponse(req, "A water site!");
     }
 }

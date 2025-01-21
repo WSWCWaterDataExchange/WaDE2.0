@@ -1,10 +1,6 @@
 using System.Collections.Generic;
 using AutoMapper;
-using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
-using Extent = WesternStatesWater.WaDE.Common.Ogc.Extent;
-using Spatial = WesternStatesWater.WaDE.Common.Ogc.Spatial;
-using Temporal = WesternStatesWater.WaDE.Common.Ogc.Temporal;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
