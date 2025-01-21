@@ -38,10 +38,10 @@ public sealed class OgcCollectionsFormattingHandler(
         {
             Collections =
             [
-                CreateCollection(siteMetadata, requestUri),
-                CreateCollection(allocationMetadata, requestUri),
-                CreateCollection(overlayMetadata, requestUri),
-                CreateCollection(timeSeriesMetadata, requestUri)
+                CreateCollection(siteMetadata, "sites"),
+                CreateCollection(allocationMetadata, "rights"),
+                CreateCollection(overlayMetadata, "overlays"),
+                CreateCollection(timeSeriesMetadata, "timeseries")
             ],
             Links =
             [

@@ -34,22 +34,23 @@ public class OgcCollectionFormattingHandler(
         
         Collection? collection;
 
+        var collectionId = GetCollectionId(requestUri);
         switch (GetCollectionId(requestUri))
         {
             case Constants.SitesCollectionId:
-                collection = CreateCollection(await siteAccessor.GetSiteMetadata(), requestUri);
+                collection = CreateCollection(await siteAccessor.GetSiteMetadata(), collectionId);
                 break;
             case Constants.TimeSeriesCollectionId:
-                collection = CreateCollection(await siteVariableAmountsAccessor.GetSiteVariableAmountsMetadata(), requestUri);
+                collection = CreateCollection(await siteVariableAmountsAccessor.GetSiteVariableAmountsMetadata(), collectionId);
                 break;
             case Constants.RightsCollectionId:
-                collection = CreateCollection(await allocationAccessor.GetAllocationMetadata(), requestUri);
+                collection = CreateCollection(await allocationAccessor.GetAllocationMetadata(), collectionId);
                 break;
             case Constants.OverlaysCollectionId:
-                collection = CreateCollection(await regulatoryOverlayAccessor.GetOverlayMetadata(), requestUri);
+                collection = CreateCollection(await regulatoryOverlayAccessor.GetOverlayMetadata(), collectionId);
                 break;
             default:
-                throw new NotSupportedException($"Collection {GetCollectionId(requestUri)} not found.");
+                throw new NotSupportedException($"Collection {collectionId} not found.");
         }
 
         return new CollectionResponse

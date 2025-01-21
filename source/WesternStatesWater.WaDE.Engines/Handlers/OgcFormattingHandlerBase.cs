@@ -89,9 +89,8 @@ public abstract class OgcFormattingHandlerBase
         return request.Segments[collectionsIdx + 1].ToLower();
     }
 
-    protected Collection CreateCollection(MetadataBase metadata, Uri requestUri)
+    protected Collection CreateCollection(MetadataBase metadata, string collectionId)
     {
-        var collectionId = GetCollectionId(requestUri);
         var collectionExtent = CreateExtentFromMetadata(metadata);
 
         return new Collection
@@ -166,53 +165,5 @@ public abstract class OgcFormattingHandlerBase
             Spatial = spatial,
             Temporal = temporal
         };
-    }
-
-    /// <summary>
-    /// Creates a Geometry from the bounding box. If the bounding box crosses the anti meridian, a multi polygon is created, else a single polygon is created.
-    /// </summary>
-    /// <param name="bbox">Bounding box that only supports 4 coordinates. [[minX,minY,maxX,maxY]]</param>
-    /// <returns>SRID 4326 Polygon or MultiPolygon</returns>
-    protected Geometry? ConvertBoundaryBoxToPolygon(double[][]? bbox)
-    {
-        if (bbox is not { Length: 1 } || bbox[0].Length != 4) return null;
-
-        double left = bbox[0][0];
-        double bottom = bbox[0][1];
-        double right = bbox[0][2];
-        double top = bbox[0][3];
-
-        if (left > right) // Crosses the anti meridian
-        {
-            var box1 = _geometryFactory.CreatePolygon([
-                new Coordinate(left, top),
-                new Coordinate(180, top),
-                new Coordinate(180, bottom),
-                new Coordinate(left, bottom),
-                new Coordinate(left, top)
-            ]);
-
-            var box2 = _geometryFactory.CreatePolygon([
-                new Coordinate(-180, top),
-                new Coordinate(right, top),
-                new Coordinate(right, bottom),
-                new Coordinate(-180, bottom),
-                new Coordinate(-180, top)
-            ]);
-
-            return _geometryFactory.BuildGeometry([box1, box2]);
-        }
-        else
-        {
-            var box = _geometryFactory.CreatePolygon([
-                new Coordinate(left, top),
-                new Coordinate(right, top),
-                new Coordinate(right, bottom),
-                new Coordinate(left, bottom),
-                new Coordinate(left, top)
-            ]);
-
-            return _geometryFactory.BuildGeometry([box]);
-        }
     }
 }
