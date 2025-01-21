@@ -116,8 +116,8 @@ public class OgcFeaturesFormattingHandler(
             },
             new()
             {
-                Href = $"{OgcHost}/collections/{request.CollectionId}", Rel = "collection", Type = ContentTypeJson,
-                Title = "The collection metadata"
+                Href = $"{OgcHost}/collections/{request.CollectionId}/items", Rel = "collection", Type = ContentTypeJson,
+                Title = "The features in this collection"
             }
         ];
 
