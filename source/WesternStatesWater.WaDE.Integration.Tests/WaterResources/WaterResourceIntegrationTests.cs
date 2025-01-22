@@ -86,6 +86,8 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     [TestMethod]
     public async Task Load_SiteFeaturesSearchRequests_ShouldNotReturnSitesWithInvalidGeometriesIfSearchingInBbox()
     {
+        MockRequestPath("/collections/sites/items");
+        
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
         // Closed polygon over Lincoln, NE, with intersecting lines.
@@ -125,6 +127,8 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     [TestMethod]
     public async Task Load_SiteFeaturesSearchRequest_ShouldLoadSitesWithDifferentGeometryTypes()
     {
+        MockRequestPath("/collections/sites/items");
+        
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
         var geographyFaker = new Faker().Geography();
@@ -156,6 +160,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     [TestMethod]
     public async Task Load_SiteFeaturesSearchRequest_ShouldSearchWithinABbox()
     {
+        MockRequestPath("/collections/sites/items");
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
         var geographyFaker = new Faker().Geography();
@@ -236,6 +241,8 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     [TestMethod]
     public async Task Load_SiteFeaturesItemRequest_ShouldReturnNextLinkUntilTheFinalPage()
     {
+        MockRequestPath("/collections/sites/items?limit=1");
+
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
         var geographyFaker = new Faker().Geography();
@@ -264,6 +271,9 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         // Use the link to get the next page, but up the limit to 2.
         var next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+        
+        MockRequestPath("/collections/sites/items?limit=2&next=" + next);
+
 
         request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest { Limit = "2", Next = next };
 
@@ -277,6 +287,8 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
 
         // Use the link to get the final page. Overshoot the limit for good measure.
         next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
+        
+        MockRequestPath("/collections/sites/items?limit=10&next=" + next);
 
         request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest { Limit = "10", Next = next };
 
@@ -293,6 +305,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
     [TestMethod]
     public async Task Load_SiteFeaturesAreaRequest_ShouldSearchWithinWktCoords()
     {
+        MockRequestPath("/collections/sites/area");
         await using var db = new EF.WaDEContext(Services.GetRequiredService<IConfiguration>());
 
         var geographyFaker = new Faker().Geography();
