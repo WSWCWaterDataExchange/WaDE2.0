@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 
@@ -31,26 +32,40 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.OverlayFeaturesSearchResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.RightFeaturesSearchResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+                Contracts.Api.Responses.V2.SiteFeatureItemGetResponse>()
+            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+                Contracts.Api.Responses.V2.RightFeatureItemGetResponse>()
+            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+                Contracts.Api.Responses.V2.OverlayFeatureItemGetResponse>()
+            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
 
         // Managers -> Accessors
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
-            Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
-        
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
-        Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new WktToGeometryConverter(), src => src.Coords))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src=> AccessorApi.SpatialRelationType.Intersects));
-        
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next))
-            .ForMember(dest => dest.SiteTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes))
-            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
-            .ForMember(dest => dest.WaterSourcesTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes));
-        
+            .ForMember(dest => dest.SiteTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes))
+            .ForMember(dest => dest.States,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.WaterSourcesTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes));
+
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
@@ -58,16 +73,18 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.WaterSourcesTypes, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
-        
+
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesItemRequest,
                 Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
-        
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesAreaRequest,
-        Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new WktToGeometryConverter(), src => src.Coords))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src=> AccessorApi.SpatialRelationType.Intersects));
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
 
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
@@ -76,10 +93,12 @@ public class OgcApiProfile : Profile
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
-            .ForMember(dest => dest.States, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.States,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
             .ForMember(dest => dest.WaterSourceTypes,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
-            .ForMember(dest => dest.OverlayTypes, mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayTypes))
+            .ForMember(dest => dest.OverlayTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayTypes))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesAreaRequest,
@@ -91,19 +110,21 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.OverlayTypes, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
-        
+
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesItemRequest,
                 Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
-        
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesAreaRequest,
-        Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new WktToGeometryConverter(), src => src.Coords))
-            .ForMember(dest => dest.SpatialRelationType, mem => mem.MapFrom(src=> AccessorApi.SpatialRelationType.Intersects));
-        
+            .ForMember(dest => dest.SpatialRelationType,
+                mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
+
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesItemRequest,
-        Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
+                Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.AllocationUuid,
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids))
@@ -111,10 +132,12 @@ public class OgcApiProfile : Profile
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
             .ForMember(dest => dest.BeneficialUses,
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.BeneficialUses))
-            .ForMember(dest => dest.SiteUuid, opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
-            .ForMember(dest => dest.States, opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.SiteUuid,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.States))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
-        
+
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
             .ForMember(dest => dest.AllocationUuid, mem => mem.Ignore())
@@ -124,6 +147,18 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.BeneficialUses, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
+
+        CreateMap<Contracts.Api.Requests.V2.SiteFeatureItemGetRequest,
+                Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
+            .ForMember(dest => dest.SiteUuids, mem => mem.MapFrom(src => new List<string> { src.Id }));
+
+        CreateMap<Contracts.Api.Requests.V2.RightFeatureItemGetRequest,
+                Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
+            .ForMember(dest => dest.AllocationUuid, mem => mem.MapFrom(src => new List<string> { src.Id }));
+
+        CreateMap<Contracts.Api.Requests.V2.OverlayFeatureItemGetRequest,
+                Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
+            .ForMember(dest => dest.OverlayUuids, mem => mem.MapFrom(src => new List<string> { src.Id }));
 
         // Accessor -> Engines
         CreateMap<Accessors.Contracts.Api.V2.Responses.SiteSearchResponse,

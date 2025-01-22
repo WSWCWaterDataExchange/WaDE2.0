@@ -40,6 +40,21 @@ public static class QueryableExtensions
             query = query.Where(s => s.WaterSourceBridgeSitesFact.Any(fact => filters.WaterSourcesTypes.Contains(fact.WaterSource.WaterSourceTypeCvNavigation.WaDEName)));
         }
 
+        if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)
+        {
+            query = query.Where(s => filters.SiteUuids.Contains(s.SiteUuid));
+        }
+        
+        if (filters.OverlayUuids != null && filters.OverlayUuids.Count != 0)
+        {
+            query = query.Where(s => s.RegulatoryOverlayBridgeSitesFact.Any(fact => filters.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
+        }
+        
+        if (filters.AllocationUuids != null && filters.AllocationUuids.Count != 0)
+        {
+            query = query.Where(s => s.AllocationBridgeSitesFact.Any(fact => filters.AllocationUuids.Contains(fact.AllocationAmount.AllocationUUID)));
+        }
+
         return query;
     }
 

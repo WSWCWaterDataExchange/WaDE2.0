@@ -13,6 +13,6 @@ public interface IWaterResourceManager
         where TResponse : WaterResourceLoadResponseBase;
     
     public Task<TResponse> Search<TRequest, TResponse>(TRequest request)
-        where TRequest : FeaturesSearchRequestBase
-        where TResponse : FeaturesSearchResponseBase;
+        where TRequest : WaterResourceSearchRequestBase
+        where TResponse : WaterResourceSearchResponseBase;
 }

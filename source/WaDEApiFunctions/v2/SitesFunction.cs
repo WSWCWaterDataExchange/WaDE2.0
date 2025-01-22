@@ -155,7 +155,7 @@ public class WaterSitesFunction(
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-    public static async Task<HttpResponseData> GetWaterSite(
+    public async Task<HttpResponseData> GetWaterSite(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "items/{featureId}")]
         HttpRequestData req,
         FunctionContext executionContext,
@@ -163,6 +163,12 @@ public class WaterSitesFunction(
         string featureId)
     {
 
-        return await CreateOkResponse(req, "A water site!");
+        var request = new SiteFeatureItemGetRequest
+        {
+            Id = featureId
+        };
+        var response = await waterResourceManager.Search<SiteFeatureItemGetRequest, SiteFeatureItemGetResponse>(request);
+
+        return await CreateOkResponse(req, response.Feature);
     }
 }
