@@ -103,8 +103,6 @@ public class OgcCollectionFormattingTests : OgcFormattingTestBase
                 Type = "application/json",
                 Title = "This document as JSON"
             });
-
-
     }
 
     private OgcCollectionFormattingHandler CreateHandler()
