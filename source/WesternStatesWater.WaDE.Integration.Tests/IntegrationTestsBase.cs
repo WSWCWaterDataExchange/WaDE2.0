@@ -134,5 +134,10 @@ public abstract class IntegrationTestsBase
     public void BaseTestCleanup()
     {
         _transactionScopeFixture.Dispose();
+        
+        Environment.SetEnvironmentVariable("OpenApi__HostNames", null);
+        Environment.SetEnvironmentVariable("OgcApi__Host", null);
+        Environment.SetEnvironmentVariable("OgcApi__Title", null);
+        Environment.SetEnvironmentVariable("OgcApi__Description", null);
     }
 }

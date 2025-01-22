@@ -20,6 +20,15 @@ public class OgcFormattingTestBase
         Environment.SetEnvironmentVariable("OgcApi__Title", "WaDE Tests");
         Environment.SetEnvironmentVariable("OgcApi__Description", "WaDE Test Description");
     }
+
+    [TestCleanup]
+    public void OgcFormattingTestBaseCleanup()
+    {
+        Environment.SetEnvironmentVariable("OpenApi__HostNames", null);
+        Environment.SetEnvironmentVariable("OgcApi__Host", null);
+        Environment.SetEnvironmentVariable("OgcApi__Title", null);
+        Environment.SetEnvironmentVariable("OgcApi__Description", null);
+    }
     
     protected void MockApiContextRequest(string path)
     {
