@@ -5,10 +5,10 @@ using NetTopologySuite.Geometries;
 namespace WesternStatesWater.WaDE.Common.Ogc;
 
 /// <summary>
-/// Represents a GeoJSON Feature object around the OGC API Specification.
+/// The OGC API specification requires that features include links (e.g., for navigation or related resources).
+/// However, the current GeoJSON converters provided by the NetTopologySuite library do not support
+/// adding extra custom properties (referred to as "foreign members") to the JSON output.
 /// </summary>
-/// <remarks>Due to OGC API specification of having links on the Feature. The current NetTopologySuite GeoJson converters
-/// do not support foreign members.</remarks>
 public sealed class OgcFeature
 {
     [JsonPropertyName("type")] public string Type { get; set; } = "Feature";
