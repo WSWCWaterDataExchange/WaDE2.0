@@ -89,7 +89,7 @@ public abstract class OgcFormattingHandlerBase
             throw new InvalidOperationException("Request URI does not contain a collections segment.");
         }
 
-        return request.Segments[collectionsIdx + 1].ToLower();
+        return request.Segments[collectionsIdx + 1].ToLower().TrimEnd('/');
     }
 
     protected Collection CreateCollection(MetadataBase metadata, string collectionId)

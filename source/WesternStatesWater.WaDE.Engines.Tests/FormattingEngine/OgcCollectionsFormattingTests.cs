@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
@@ -15,7 +16,7 @@ namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 // https://docs.ogc.org/is/17-069r4/17-069r4.html#_collections_
 
 [TestClass]
-public class OgcCollectionsFormattingTests
+public class OgcCollectionsFormattingTests : OgcFormattingTestBase
 {
     private readonly IRegulatoryOverlayAccessor _regulatoryOverlayAccessorMock =
         Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
@@ -27,14 +28,13 @@ public class OgcCollectionsFormattingTests
         Mock.Create<IWaterAllocationAccessor>(Behavior.Strict);
 
     private readonly ISiteAccessor _siteAccessorMock = Mock.Create<ISiteAccessor>(Behavior.Strict);
-
+    
     [TestInitialize]
     public void TestInitialize()
     {
-        Environment.SetEnvironmentVariable("ServerUrl", "http://localhost");
-        Environment.SetEnvironmentVariable("ApiPath", "/api");
+        MockApiContextRequest("/collections");
     }
-
+    
     [TestMethod]
     public async Task OgcSpec_Response_ShouldHaveLinksAndCollections()
     {
@@ -57,11 +57,26 @@ public class OgcCollectionsFormattingTests
         response.Collections.Select(c => c.Id).Should()
             .BeEquivalentTo(Constants.SitesCollectionId, Constants.RightsCollectionId, Constants.OverlaysCollectionId, Constants.TimeSeriesCollectionId);
         response.Links.Should().NotBeNullOrEmpty();
-        response.Links.Select(l => l.Href).Should().BeEquivalentTo("http://localhost/api/collections");
+        response.Links.Should().BeEquivalentTo([
+            new Link
+            {
+                Href = $"{ApiHostName}/collections",
+                Rel = "self",
+                Type = "application/json",
+                Title = "This document as JSON"
+            },
+            new Link
+            {
+                Href = $"{ApiHostName}",
+                Rel = "root",
+                Type = "application/json",
+                Title = "The API landing page"
+            }
+        ]);
     }
 
     [TestMethod]
-    public async Task OgcSpec_ResponseCollection_ShouldHaveSchema()
+    public async Task OgcSpec_ResponseCollection_ShouldHaveLinks()
     {
         // Arrange
         _regulatoryOverlayAccessorMock.Arrange(mock => mock.GetOverlayMetadata())
@@ -83,11 +98,22 @@ public class OgcCollectionsFormattingTests
         foreach (var collection in response.Collections)
         {
             var collectionId = collection.Id;
-            collection.Links.Select(l => l.Href).Should().BeEquivalentTo(
-                "http://localhost/swagger/ui", // Landing Page
-                "http://localhost/swagger.json", // service-doc
-                $"http://localhost/api/collections/{collectionId}", // collection
-                $"http://localhost/api/collections/{collectionId}/items"); // features
+            collection.Links.Should().BeEquivalentTo([
+                new Link
+                {
+                    Href = $"{ApiHostName}/collections/{collectionId}",
+                    Rel = "self",
+                    Type = "application/json",
+                    Title = "This document as JSON"
+                },
+                new Link
+                {
+                    Href = $"{ApiHostName}/collections/{collectionId}/items",
+                    Rel = "items",
+                    Type = "application/geo+json",
+                    Title = "Items as GeoJSON"
+                }
+            ]);
         }
     }
 
@@ -201,6 +227,6 @@ public class OgcCollectionsFormattingTests
             _siteVariableAmountsAccessorMock,
             _allocationAccessorMock,
             _siteAccessorMock,
-            Mock.Create<IContextUtility>());
+            _contextUtilityMock);
     }
 }

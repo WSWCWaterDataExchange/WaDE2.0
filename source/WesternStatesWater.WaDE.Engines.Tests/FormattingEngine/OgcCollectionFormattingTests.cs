@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
@@ -14,7 +15,7 @@ namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 // OGC API Spec for Feature Collection `/collections/{collectionId}` endpoint.
 // https://docs.ogc.org/is/17-069r4/17-069r4.html#_feature_collection_rootcollectionscollectionid
 [TestClass]
-public class OgcCollectionFormattingTests
+public class OgcCollectionFormattingTests : OgcFormattingTestBase
 {
     private readonly IRegulatoryOverlayAccessor _regulatoryOverlayAccessorMock =
         Mock.Create<IRegulatoryOverlayAccessor>(Behavior.Strict);
@@ -26,22 +27,17 @@ public class OgcCollectionFormattingTests
         Mock.Create<IWaterAllocationAccessor>(Behavior.Strict);
 
     private readonly ISiteAccessor _siteAccessorMock = Mock.Create<ISiteAccessor>(Behavior.Strict);
-
-    [TestInitialize]
-    public void TestInitialize()
-    {
-        Environment.SetEnvironmentVariable("ServerUrl", "http://localhost");
-        Environment.SetEnvironmentVariable("ApiPath", "/api");
-    }
-
+    
     [DataTestMethod]
-    [DataRow("https://localhost/api/v2/collections/sites", "sites")]
-    [DataRow("https://localhost/api/v2/collections/timeseries", "timeseries")]
-    [DataRow("https://localhost/api/v2/collections/rights", "rights")]
-    [DataRow("https://localhost/api/v2/collections/overlays", "overlays")]
-    public async Task Handler_CallsAccessor_WithCorrectCollectionId(string url, string collectionId)
+    [DataRow("/collections/sites", "sites")]
+    [DataRow("/collections/timeseries", "timeseries")]
+    [DataRow("/collections/rights", "rights")]
+    [DataRow("/collections/overlays", "overlays")]
+    public async Task Handler_CallsAccessor_WithCorrectCollectionId(string apiPath, string collectionId)
     {
         // Arrange
+        MockApiContextRequest(apiPath);
+        
         _regulatoryOverlayAccessorMock.Arrange(mock => mock.GetOverlayMetadata())
             .ReturnsAsync(new OverlayMetadata());
         _siteVariableAmountsAccessorMock.Arrange(mock => mock.GetSiteVariableAmountsMetadata())
@@ -71,6 +67,8 @@ public class OgcCollectionFormattingTests
     public async Task Handler_CollectionIdNotFound_ThrowsNotSupportedException()
     {
         // Arrange
+        MockApiContextRequest("/collections/unknown");
+        
         var request = new CollectionRequest();
 
         // Act
@@ -81,6 +79,34 @@ public class OgcCollectionFormattingTests
         await action.Should().ThrowAsync<NotSupportedException>();
     }
 
+    [TestMethod]
+    public async Task Handler_CollectionResponse_IncludesSelfReference()
+    {
+        // Arrange
+        MockApiContextRequest("/collections/sites");
+        
+        _siteAccessorMock.Arrange(mock => mock.GetSiteMetadata())
+            .ReturnsAsync(new SiteMetadata());
+        
+        // Act
+        var request = new CollectionRequest();
+        var response = await CreateHandler().Handle(request);
+        
+        // Assert
+        response.Collection.Links.Should().NotBeNullOrEmpty();
+        response.Collection.Links.Should().ContainSingle(l => l.Rel == "self");
+        response.Collection.Links.First(l => l.Rel == "self")
+            .Should().BeEquivalentTo(new Link
+            {
+                Href = "https://proxy.example.com/api/collections/sites",
+                Rel = "self",
+                Type = "application/json",
+                Title = "This document as JSON"
+            });
+
+
+    }
+
     private OgcCollectionFormattingHandler CreateHandler()
     {
         return new OgcCollectionFormattingHandler(
@@ -89,7 +115,7 @@ public class OgcCollectionFormattingTests
             _siteVariableAmountsAccessorMock,
             _allocationAccessorMock,
             _siteAccessorMock,
-            Mock.Create<IContextUtility>()
+           _contextUtilityMock
         );
     }
 }

@@ -30,7 +30,7 @@ public class OgcFeaturesFormattingHandler(
         }
 
         var features = request.Items
-            .Select(item => CreateFeature(item, request.CollectionId))
+            .Select(item => CreateFeature(item, GetCollectionId(requestUri)))
             .ToArray();
 
         var response = new OgcFeaturesFormattingResponse
@@ -111,13 +111,8 @@ public class OgcFeaturesFormattingHandler(
         [
             new()
             {
-                Href = requestUri.AbsoluteUri, Rel = "self", Type = ContentTypeJson,
+                Href = $"{OgcHost}/collections/{GetCollectionId(requestUri)}/items", Rel = "self", Type = ContentTypeJson,
                 Title = "This document as JSON"
-            },
-            new()
-            {
-                Href = $"{OgcHost}/collections/{request.CollectionId}/items", Rel = "collection", Type = ContentTypeJson,
-                Title = "The features in this collection"
             }
         ];
 
@@ -143,8 +138,7 @@ public class OgcFeaturesFormattingHandler(
             SiteFeature siteFeature => SiteFeatureRelatedLinks(siteFeature),
             RightFeature rightFeature => RightFeatureRelatedLinks(rightFeature),
             OverlayFeature overlayFeature => OverlayFeatureRelatedLinks(overlayFeature),
-            _ => throw new NotSupportedException(
-                $"Cannot find feature {featureBase.GetType()} to generate related links.")
+            _ => []
         };
     }
 
