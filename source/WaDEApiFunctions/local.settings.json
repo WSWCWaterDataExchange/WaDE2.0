@@ -5,11 +5,13 @@
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
     "OpenApi__HostNames": "http://localhost:7071/api",
     "OpenApi__Version": "v3",
-    "OpenApi__DocTitle": "WaDE API",
+    "OpenApi__DocTitle": "WaDE OGC API",
+    "OpenApi__DocDescription": "WaDE API that conforms to the OGC API features and environmental data retrieval specification.",
     "OpenApi__ForceHttps": "false",
     "OpenApi__ForceHttp": "true",
-    "ServerUrl": "http://localhost:7071/api",
-    "ApiPath": "/v2"
+    "OgcApi__Title": "WaDE OGC API",
+    "OgcApi__Description": "WaDE 2.0 OGC API",
+    "OgcApi__Host": "http://localhost:7071/api/v2"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",

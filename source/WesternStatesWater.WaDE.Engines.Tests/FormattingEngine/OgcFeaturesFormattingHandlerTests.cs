@@ -3,25 +3,20 @@ using System.Text.Json.Serialization;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.Geometries;
+using Telerik.JustMock;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
-using Link = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Link;
+using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 
 [TestClass]
-public class OgcFeaturesFormattingHandlerTests
+public class OgcFeaturesFormattingHandlerTests : OgcFormattingTestBase
 {
-    [TestInitialize]
-    public void TestInitialize()
-    {
-        Environment.SetEnvironmentVariable("ServerUrl", "http://localhost");
-        Environment.SetEnvironmentVariable("ApiPath", "/api");
-    }
-
     [TestMethod]
     public void Features_AllPropertiesExceptGeometry_ShouldHaveJsonPropertyNameAttribute()
     {
@@ -64,6 +59,7 @@ public class OgcFeaturesFormattingHandlerTests
     [TestMethod]
     public async Task PropertiesWithFeaturePropertyNameAttribute_ShouldAddValuesToAttributes()
     {
+        MockApiContextRequest("/collections/test/items");
         var feature = new TestFeature
         {
             StringProperty = "string!",
@@ -77,7 +73,7 @@ public class OgcFeaturesFormattingHandlerTests
             StringArrayProperty = ["string array!"]
         };
 
-        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { Items = [feature] };
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
@@ -95,6 +91,8 @@ public class OgcFeaturesFormattingHandlerTests
     [TestMethod]
     public async Task PropertiesWithFeaturePropertyNameAttribute_NullableAttributesNull_ShouldBeAddedAsNull()
     {
+        MockApiContextRequest("/collections/test/items");
+        
         var feature = new TestFeature
         {
             StringProperty = "string!",
@@ -103,7 +101,7 @@ public class OgcFeaturesFormattingHandlerTests
             BoolProperty = true
         };
 
-        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { Items = [feature] };
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
@@ -121,6 +119,8 @@ public class OgcFeaturesFormattingHandlerTests
     [TestMethod]
     public async Task AttributesTableContainsAllPropertiesWithJsonPropertyNameAttribute()
     {
+        MockApiContextRequest("/collections/test/items");
+        
         var properties = typeof(TestFeature).GetProperties();
         var namedProperties = properties
             .Where(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>() is not null)
@@ -133,7 +133,7 @@ public class OgcFeaturesFormattingHandlerTests
         namedProperties.Length.Should().Be(10);
     
         var feature = new TestFeature();
-        var request = new OgcFeaturesFormattingRequest { CollectionId = string.Empty, Items = [feature] };
+        var request = new OgcFeaturesFormattingRequest { Items = [feature] };
         var response = await CreateHandler().Handle(request);
     
         response.Features[0].Attributes.Count.Should().Be(namedProperties.Length);
@@ -142,9 +142,10 @@ public class OgcFeaturesFormattingHandlerTests
     [TestMethod]
     public async Task Features_HaveNoItems_ReturnsNoNextLink()
     {
+        MockApiContextRequest("/collections/test/items");
+        
         var request = new OgcFeaturesFormattingRequest()
         {
-            CollectionId = string.Empty,
             Items = []
         };
 
@@ -154,20 +155,13 @@ public class OgcFeaturesFormattingHandlerTests
 
         // Assert
         response.Links.Should().NotBeNull();
-        response.Links.Should().HaveCount(2);
+        response.Links.Should().HaveCount(1);
         response.Links.Should().BeEquivalentTo([
             new Link
             {
-                Href = "http://localhost/swagger/ui",
-                Rel = "root",
-                Title = "Landing page",
-                Type = "text/html"
-            },
-            new Link
-            {
-                Href = "http://localhost/swagger.json",
-                Rel = "root",
-                Title = "Landing page",
+                Href = $"{ApiHostName}/collections/test/items",
+                Rel = "self",
+                Title = "This document as JSON",
                 Type = "application/json"
             }
         ]);
@@ -177,9 +171,9 @@ public class OgcFeaturesFormattingHandlerTests
     public async Task SiteFeature_HasItems_IncludesNextPageLink()
     {
         // Arrange
+        MockApiContextRequest("/collections/sites/items");
         var request = new OgcFeaturesFormattingRequest()
         {
-            CollectionId = Constants.SitesCollectionId,
             Items =
             [
                 new SiteFeature
@@ -197,35 +191,22 @@ public class OgcFeaturesFormattingHandlerTests
 
         // Assert
         response.Links.Should().NotBeNull();
-        response.Links.Should().HaveCount(3);
-        response.Links.Should().BeEquivalentTo([
+        response.Links.Should().ContainEquivalentOf(
             new Link
             {
-                Href = "http://localhost/swagger/ui",
-                Rel = "root",
-                Title = "Landing page",
-                Type = "text/html"
-            },
-            new Link
-            {
-                Href = "http://localhost/swagger.json",
-                Rel = "root",
-                Title = "Landing page",
-                Type = "application/json"
-            },
-            new Link
-            {
-                Href = "http://localhost/api/collections/sites/items?next=site-id",
+                Href = $"{ApiHostName}/collections/sites/items?next=site-id",
                 Rel = "next",
-                Title = null,
+                Title = "Next page of features",
                 Type = "application/geo+json"
             }
-        ]);
+        );
     }
 
     private OgcFeaturesFormattingHandler CreateHandler()
     {
-        return new OgcFeaturesFormattingHandler(Configuration.GetConfiguration());
+        return new OgcFeaturesFormattingHandler(
+            Configuration.GetConfiguration(), 
+            _contextUtilityMock);
     }
 }
 

@@ -3,8 +3,6 @@ using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Contracts.Api.Requests;
-using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
-using WesternStatesWater.WaDE.Contracts.Api.Responses;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;

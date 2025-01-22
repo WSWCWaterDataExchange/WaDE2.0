@@ -1,4 +1,4 @@
-namespace WesternStatesWater.WaDE.Engines.Contracts.Ogc;
+namespace WesternStatesWater.WaDE.Common.Ogc;
 
 public class Extent
 {

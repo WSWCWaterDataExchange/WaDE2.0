@@ -1,8 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
@@ -21,17 +23,13 @@ public class CollectionMetadataGetRequestHandlerTests
     public async Task Handler_MapsRequest_ShouldReturnResponse()
     {
         // Arrange
-        string collectionId = "foos";
-        var request = new CollectionMetadataGetRequest
-        {
-            CollectionId = collectionId
-        };
+        var request = new CollectionMetadataGetRequest();
         
         var mockResponse = new CollectionResponse
         {
             Collection = new Collection
             {
-                Id = collectionId,
+                Id = "foo",
                 Extent = new Extent
                 {
                     Spatial = new Spatial
@@ -55,7 +53,7 @@ public class CollectionMetadataGetRequestHandlerTests
         };
         _formattingEngineMock.Arrange(mock =>
                 mock.Format<CollectionRequest, CollectionResponse>(
-                    Arg.Matches<CollectionRequest>(req => req.CollectionId == collectionId)))
+                    Arg.IsAny<CollectionRequest>()))
             .ReturnsAsync(mockResponse);
 
         // Act
@@ -64,7 +62,7 @@ public class CollectionMetadataGetRequestHandlerTests
 
         // Assert
         result.Collection.Should().NotBeNull();
-        result.Collection.Id.Should().Be(collectionId);
+        result.Collection.Id.Should().Be("foo");
         result.Collection.Extent.Should().NotBeNull();
         result.Collection.Extent!.Spatial.Should().NotBeNull();
         result.Collection.Extent.Spatial.Bbox[0][0].Should().Be(-10);

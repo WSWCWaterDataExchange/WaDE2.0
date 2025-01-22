@@ -1,46 +1,121 @@
 using Microsoft.Extensions.Configuration;
-using NetTopologySuite.Geometries;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
-using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
-using Collection = WesternStatesWater.WaDE.Engines.Contracts.Ogc.Collection;
-using Constants = WesternStatesWater.WaDE.Contracts.Api.OgcApi.Constants;
+using WesternStatesWater.WaDE.Common.Ogc;
 
 namespace WesternStatesWater.WaDE.Engines.Handlers;
 
-public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
+public abstract class OgcFormattingHandlerBase
 {
-    protected readonly string ServerUrl = $"{configuration["ServerUrl"]}";
-    protected readonly string ApiPath = $"{configuration["ApiPath"]}";
-    protected readonly GeometryFactory GeometryFactory = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
+    protected const string ContentTypeJson = "application/json";
+    protected readonly IConfiguration Configuration;
 
-    protected Collection CreateCollection(MetadataBase metadata)
+    protected Link ServiceDescriptionLink => new Link
     {
-        var collectionId = GetCollectionId(metadata);
+        Href = $"{SwaggerHost}/swagger.json",
+        Rel = "service-desc",
+        Type = ContentTypeJson,
+        Title = "The API definition in JSON"
+    };
+
+    protected Link ServiceDocumentLink => new Link
+    {
+        Href = $"{SwaggerHost}/swagger/ui",
+        Rel = "service-doc",
+        Type = ContentTypeJson,
+        Title = "Swagger UI"
+    };
+    
+    protected Link ConformanceLink => new Link
+    {
+        Href = $"{OgcHost}/conformance",
+        Rel = "conformance",
+        Type = ContentTypeJson,
+        Title = "OGC API conformance declaration"
+    };
+    
+    protected Link CollectionsLink => new Link
+    {
+        Href = $"{OgcHost}/collections",
+        Rel = "data",
+        Type = ContentTypeJson,
+        Title = "Resource collections"
+    };
+
+    /// <summary>
+    /// Swagger host name that comes from the OpenApi:HostNames configuration.
+    /// Use this when you are referencing links in the Swagger specification.
+    /// </summary>
+    private string SwaggerHost { get; }
+    
+    /// <summary>
+    /// Host name that comes from the OgcApi:Host configuration.
+    /// Use this when you are referencing links in the OGC API.
+    /// </summary>
+    protected string OgcHost { get; }
+
+    protected OgcFormattingHandlerBase(IConfiguration configuration)
+    {
+        Configuration = configuration;
+        
+        OgcHost = configuration["OgcApi:Host"] ?? 
+                  throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OgcApi:Host configuration to build the specification links.");
+        
+        // Uses the OpenApi:HostNames configuration to know the host name of the server.
+        // Open API supports multiple host names, but this engine will only support one at this time.
+        var swaggerHostNames = configuration["OpenApi:HostNames"] ??
+                               throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OpenApi:HostNames configuration to determine swagger links.");
+        
+        var hostNames = swaggerHostNames.Split(',');
+        if (hostNames.Length > 1)
+        {
+            throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} currently only supports one Swagger host name.");
+        }
+
+        SwaggerHost = hostNames[0].Trim();
+    }
+
+    /// <summary>
+    /// Uses the Uri to extract the collection id.
+    /// </summary>
+    /// <param name="request">Uri of the request to the server.</param>
+    /// <returns>Lowercase collection id.</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    protected static string GetCollectionId(Uri request)
+    {
+        var collectionsIdx = Array.FindIndex(request.Segments,
+            segment => segment.Equals("collections/", StringComparison.OrdinalIgnoreCase));
+        if (collectionsIdx == -1)
+        {
+            throw new InvalidOperationException("Request URI does not contain a collections segment.");
+        }
+
+        return request.Segments[collectionsIdx + 1].ToLower().TrimEnd('/');
+    }
+
+    protected Collection CreateCollection(MetadataBase metadata, string collectionId)
+    {
         var collectionExtent = CreateExtentFromMetadata(metadata);
 
         return new Collection
         {
             Id = collectionId,
             Extent = collectionExtent,
-            Links = new LinkBuilder(ServerUrl, ApiPath)
-                .AddLandingPage()
-                .AddCollection(collectionId)
-                .Build(),
+            Links =
+            [
+                new Link
+                {
+                    Href = $"{OgcHost}/collections/{collectionId}", Rel = "self",
+                    Type = "application/json", Title = "This document as JSON"
+                },
+                new Link
+                {
+                    Href = $"{OgcHost}/collections/{collectionId}/items", Rel = "items",
+                    Type = "application/geo+json", Title = "Items as GeoJSON"
+                }
+            ],
             ItemType = "feature",
             Crs = collectionExtent?.Spatial != null ? [metadata.BoundaryBox.Crs] : null,
             StorageCrs = collectionExtent?.Spatial != null ? metadata.BoundaryBox.Crs : null
-        };
-    }
-
-    private static string GetCollectionId(MetadataBase metadataBase)
-    {
-        return metadataBase switch
-        {
-            SiteMetadata => Constants.SitesCollectionId,
-            SiteVariableAmountsMetadata => Constants.TimeSeriesCollectionId,
-            AllocationMetadata => Constants.RightsCollectionId,
-            OverlayMetadata => Constants.OverlaysCollectionId,
-            _ => throw new NotSupportedException($"Feature Collection {metadataBase.GetType().Name} is not supported")
         };
     }
 
@@ -93,53 +168,5 @@ public abstract class OgcFormattingHandlerBase(IConfiguration configuration)
             Spatial = spatial,
             Temporal = temporal
         };
-    }
-    
-    /// <summary>
-    /// Creates a Geometry from the bounding box. If the bounding box crosses the anti meridian, a multi polygon is created, else a single polygon is created.
-    /// </summary>
-    /// <param name="bbox">Bounding box that only supports 4 coordinates. [[minX,minY,maxX,maxY]]</param>
-    /// <returns>SRID 4326 Polygon or MultiPolygon</returns>
-    protected Geometry? ConvertBoundaryBoxToPolygon(double[][]? bbox)
-    {
-        if (bbox is not { Length: 1 } || bbox[0].Length != 4) return null;
-        
-        double left = bbox[0][0];
-        double bottom = bbox[0][1];
-        double right = bbox[0][2];
-        double top = bbox[0][3];
-
-        if (left > right) // Crosses the anti meridian
-        {
-            var box1 = GeometryFactory.CreatePolygon([
-                new Coordinate(left, top),
-                new Coordinate(180, top),
-                new Coordinate(180, bottom),
-                new Coordinate(left, bottom),
-                new Coordinate(left, top)
-            ]);
-
-            var box2 = GeometryFactory.CreatePolygon([
-                new Coordinate(-180, top),
-                new Coordinate(right, top),
-                new Coordinate(right, bottom),
-                new Coordinate(-180, bottom),
-                new Coordinate(-180, top)
-            ]);
-
-            return GeometryFactory.BuildGeometry([box1, box2]);
-        }
-        else
-        {
-            var box = GeometryFactory.CreatePolygon([
-                new Coordinate(left, top),
-                new Coordinate(right, top),
-                new Coordinate(right, bottom),
-                new Coordinate(left, bottom),
-                new Coordinate(left, top)
-            ]);
-
-            return GeometryFactory.BuildGeometry([box]);
-        }
     }
 }

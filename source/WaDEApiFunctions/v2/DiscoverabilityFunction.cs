@@ -26,51 +26,17 @@ public class DiscoverabilityFunction : FunctionBase
     [OpenApiOperation(operationId: "getLandingPage", tags: ["Capabilities"], Summary = "Landing Page",
         Description = "The landing page provides links to the API definition.",
         Visibility = OpenApiVisibilityType.Important)]
-    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(Landing),
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(DiscoveryMetadataGetResponse),
         Summary = "The response", Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> LandingPage(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "landingPage")]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase)]
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        var mockLanding = new Landing
-        {
-            Title = "WaDE2.0",
-            Description = "Water Data Exchange",
-            Links =
-            [
-                new Link()
-                {
-                    Href = "https://wade-api.azurewebsites.net/ogcapi/",
-                    Rel = "self",
-                    Type = "application/json",
-                    Title = "This document"
-                },
-                new Link()
-                {
-                    Href = "https://wade-api.azurewebsites.net/ogcapi/api",
-                    Rel = "service-desc",
-                    Type = "application/json",
-                    Title = "The API definition"
-                },
-                new Link()
-                {
-                    Href = "https://wade-api.azurewebsites.net/ogcapi/conformance",
-                    Rel = "conformance",
-                    Type = "application/json",
-                    Title = "OGC API conformance declaration"
-                },
-                new Link()
-                {
-                    Href = "https://wade-api.azurewebsites.net/ogcapi/collections",
-                    Rel = "data",
-                    Type = "application/json",
-                    Title = "Resource collections"
-                }
-            ]
-        };
+        var request = new DiscoveryMetadataGetRequest();
+        var response = await _metadataManager.Load<DiscoveryMetadataGetRequest, DiscoveryMetadataGetResponse>(request);
 
-        return await CreateOkResponse(req, mockLanding);
+        return await CreateOkResponse(req, response);
     }
 
     [Function("Conformance")]
@@ -78,7 +44,7 @@ public class DiscoverabilityFunction : FunctionBase
         Description = "Conformance declaration for the OGC API.",
         Visibility = OpenApiVisibilityType.Important)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(Conformance),
+        bodyType: typeof(ConformanceMetadataGetResponse),
         Summary = "The URIs of all conformance classes supported by the server.",
         Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> Conformance(
@@ -86,15 +52,9 @@ public class DiscoverabilityFunction : FunctionBase
         HttpRequestData req,
         FunctionContext executionContext)
     {
-        return await CreateOkResponse(req, new Conformance
-        {
-            ConformsTo =
-            [
-                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
-                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
-                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson"
-            ]
-        });
+        var request = new ConformanceMetadataGetRequest();
+        var response = await _metadataManager.Load<ConformanceMetadataGetRequest, ConformanceMetadataGetResponse>(request);
+        return await CreateOkResponse(req, response);
     }
 
     [Function("Collections")]
@@ -102,7 +62,7 @@ public class DiscoverabilityFunction : FunctionBase
         Description = "Collections",
         Visibility = OpenApiVisibilityType.Advanced)]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(CollectionsResponse),
+        bodyType: typeof(CollectionsMetadataGetResponse),
         Summary = "WaDE Collections", Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> Collections(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "collections")]

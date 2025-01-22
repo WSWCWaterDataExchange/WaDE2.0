@@ -11,18 +11,20 @@ public class OgcApiProfile : Profile
         // Managers -> Engines
         CreateMap<Contracts.Api.Requests.V2.CollectionMetadataGetRequest,
             Engines.Contracts.Ogc.Requests.CollectionRequest>();
+        CreateMap<Contracts.Api.Requests.V2.DiscoveryMetadataGetRequest,
+            Engines.Contracts.Ogc.Requests.DiscoveryRequest>();
+        CreateMap<Contracts.Api.Requests.V2.ConformanceMetadataGetRequest,
+            Engines.Contracts.Ogc.Requests.ConformanceRequest>();
 
         // Engines -> Managers
+        CreateMap<Engines.Contracts.Ogc.Responses.DiscoveryResponse,
+            Contracts.Api.Responses.V2.DiscoveryMetadataGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.ConformanceResponse,
+            Contracts.Api.Responses.V2.ConformanceMetadataGetResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionResponse,
             Contracts.Api.Responses.V2.CollectionMetadataGetResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse,
             Contracts.Api.Responses.V2.CollectionsMetadataGetResponse>();
-        CreateMap<Engines.Contracts.Ogc.Collection, Contracts.Api.OgcApi.Collection>();
-        CreateMap<Engines.Contracts.Ogc.Link, Contracts.Api.OgcApi.Link>();
-        CreateMap<Engines.Contracts.Ogc.Extent, Contracts.Api.OgcApi.Extent>();
-        CreateMap<Engines.Contracts.Ogc.Spatial, Contracts.Api.OgcApi.Spatial>();
-        CreateMap<Engines.Contracts.Ogc.Temporal, Contracts.Api.OgcApi.Temporal>();
-        CreateMap<Engines.Contracts.Ogc.Responses.CollectionsResponse, Contracts.Api.OgcApi.CollectionsResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
@@ -126,21 +128,18 @@ public class OgcApiProfile : Profile
         // Accessor -> Engines
         CreateMap<Accessors.Contracts.Api.V2.Responses.SiteSearchResponse,
                 Engines.Contracts.Ogc.Requests.OgcFeaturesFormattingRequest>()
-            .ForMember(dest => dest.CollectionId, opt => opt.MapFrom(src => Constants.SitesCollectionId))
             .ForMember(dest => dest.Items,
                 opt => opt.MapFrom((src, a, b, c) =>
                     c.Mapper.Map<List<Engines.Contracts.SiteFeature>>(src.Sites)));
 
         CreateMap<Accessors.Contracts.Api.V2.Responses.OverlaySearchResponse,
                 Engines.Contracts.Ogc.Requests.OgcFeaturesFormattingRequest>()
-            .ForMember(dest => dest.CollectionId, opt => opt.MapFrom(src => Constants.OverlaysCollectionId))
             .ForMember(dest => dest.Items,
                 opt => opt.MapFrom((src, a, b, c) =>
                     c.Mapper.Map<List<Engines.Contracts.OverlayFeature>>(src.Overlays)));
 
         CreateMap<Accessors.Contracts.Api.V2.Responses.AllocationSearchResponse,
                 Engines.Contracts.Ogc.Requests.OgcFeaturesFormattingRequest>()
-            .ForMember(dest => dest.CollectionId, opt => opt.MapFrom(src => Constants.RightsCollectionId))
             .ForMember(dest => dest.Items,
                 opt => opt.MapFrom((src, a, b, c) =>
                     c.Mapper.Map<List<Engines.Contracts.RightFeature>>(src.Allocations)));

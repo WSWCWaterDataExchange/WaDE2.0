@@ -1,4 +1,4 @@
-using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Common.Ogc;
 
 namespace WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 

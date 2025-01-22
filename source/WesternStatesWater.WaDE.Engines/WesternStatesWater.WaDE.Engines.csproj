@@ -11,10 +11,14 @@
       <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
       <ProjectReference Include="..\WesternStatesWater.WaDE.Contracts.Api\WesternStatesWater.WaDE.Contracts.Api.csproj" />
       <ProjectReference Include="..\WesternStatesWater.WaDE.Engines.Contracts\WesternStatesWater.WaDE.Engines.Contracts.csproj" />
+      <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
     </ItemGroup>
     
 </Project>

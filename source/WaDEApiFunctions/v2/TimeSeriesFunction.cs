@@ -4,8 +4,8 @@ using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
+using WesternStatesWater.WaDE.Common.Ogc;
 using WesternStatesWater.WaDE.Contracts.Api;
-using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
@@ -35,10 +35,7 @@ public class TimeSeriesFunction(IMetadataManager metadataManager) : FunctionBase
         FunctionContext executionContext,
         string collectionId)
     {
-        var request = new CollectionMetadataGetRequest
-        {
-            CollectionId = Constants.OverlaysCollectionId
-        };
+        var request = new CollectionMetadataGetRequest();
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
         return await CreateOkResponse(req, response.Collection);
     }

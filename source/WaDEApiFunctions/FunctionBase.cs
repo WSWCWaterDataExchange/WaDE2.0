@@ -31,7 +31,7 @@ public abstract class FunctionBase
 
         return data;
     }
-    
+
     protected async Task<HttpResponseData> CreateErrorResponse(HttpRequestData request, ErrorBase error)
     {
         return error switch
@@ -41,7 +41,7 @@ public abstract class FunctionBase
             _ => await CreateInternalServerErrorResponse(request)
         };
     }
-    
+
     private Task<HttpResponseData> CreateInternalServerErrorResponse(HttpRequestData request)
     {
         var details = new ProblemDetails
