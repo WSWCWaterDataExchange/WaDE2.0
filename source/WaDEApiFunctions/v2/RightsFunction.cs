@@ -137,4 +137,35 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         
         return await CreateOkResponse(req, response);
     }
+    
+    [Function(nameof(GetWaterRight))]
+    [OpenApiOperation(operationId: "getWaterRight", tags: [Tag], Summary = "Get a water right feature",
+        Description = "TODO: feature.",
+        Visibility = OpenApiVisibilityType.Internal)]
+    [OpenApiParameter("featureId", Type = typeof(string), In = ParameterLocation.Path,
+        Required = true, Description = "The identifier of the feature.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Bad request", Description = "The request was invalid.")]
+    [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
+        bodyType: typeof(object),
+        Summary = "Not found", Description = "The request was invalid.")]
+    public async Task<HttpResponseData> GetWaterRight(
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "/items/{featureId}")]
+        HttpRequestData req,
+        FunctionContext executionContext,
+        string collectionId,
+        string featureId)
+    {
+        var request = new RightFeatureItemGetRequest
+        {
+            Id = featureId
+        };
+        var response = await waterResourceManager.Search<RightFeatureItemGetRequest, RightFeatureItemGetResponse>(request);
+    
+        return await CreateOkResponse(req, response.Feature);
+    }
 }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
@@ -17,6 +18,11 @@ public class OverlayFeatureItemGetRequestHandler(AccessorApi.IRegulatoryOverlayA
     {
         var searchRequest = request.Map<OverlaySearchRequest>();
         var searchResponse = await overlayAccessor.Search<OverlaySearchRequest, OverlaySearchResponse>(searchRequest);
+        
+        if (searchResponse.Overlays.Count != 1)
+        {
+            throw new WaDENotFoundException($"{nameof(OverlayFeatureItemGetRequestHandler)} found {searchResponse.Overlays.Count} sites for request {request.Id}.");
+        }
         
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
         var formatResponse = await formattingEngine.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(formatRequest);

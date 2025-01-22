@@ -68,7 +68,7 @@ public class AllocationSearchHandlerTests : DbTestBase
         // Assert
         response.Allocations.Should().HaveCount(3);
         response.LastUuid.Should()
-            .Be(dbAllocations.OrderBy(a => a.AllocationUUID).Select(a => a.AllocationUUID).ElementAt(3));
+            .Be(dbAllocations.OrderBy(a => a.AllocationUUID).Select(a => a.AllocationUUID).ElementAt(2));
     }
 
     [TestMethod]

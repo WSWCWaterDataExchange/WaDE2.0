@@ -12,6 +12,7 @@ using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.DurableTask;
 using Microsoft.DurableTask.Client;
 using Newtonsoft.Json.Serialization;
+using WesternStatesWater.Shared.Exceptions;
 
 namespace WaDEImportFunctions
 {

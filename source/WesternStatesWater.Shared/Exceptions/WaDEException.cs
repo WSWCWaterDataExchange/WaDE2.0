@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace WesternStatesWater.WaDE.Common
+namespace WesternStatesWater.Shared.Exceptions
 {
     [Serializable]
     public class WaDEException : Exception

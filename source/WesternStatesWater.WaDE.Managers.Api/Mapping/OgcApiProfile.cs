@@ -64,13 +64,22 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.States,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
             .ForMember(dest => dest.WaterSourcesTypes,
-                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes));
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.SiteUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.OverlayUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
+            .ForMember(dest => dest.AllocationUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids));
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
             .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
             .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.WaterSourcesTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.OverlayUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.AllocationUuids, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
 
@@ -150,14 +159,36 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
+            .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
+            .ForMember(dest => dest.LastSiteUuid, mem => mem.Ignore())
+            .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
+            .ForMember(dest => dest.WaterSourcesTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.OverlayUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.AllocationUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.Limit, mem => mem.MapFrom(src => 1))
             .ForMember(dest => dest.SiteUuids, mem => mem.MapFrom(src => new List<string> { src.Id }));
 
         CreateMap<Contracts.Api.Requests.V2.RightFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
+            .ForMember(dest => dest.SiteUuid, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
+            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.BeneficialUses, mem => mem.Ignore())
+            .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
+            .ForMember(dest => dest.LastKey, mem => mem.Ignore())
+            .ForMember(dest => dest.Limit, mem => mem.MapFrom(src => 1))
             .ForMember(dest => dest.AllocationUuid, mem => mem.MapFrom(src => new List<string> { src.Id }));
 
         CreateMap<Contracts.Api.Requests.V2.OverlayFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
+            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.States, mem => mem.Ignore())
+            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.OverlayTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.LastKey, mem => mem.Ignore())
+            .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
+            .ForMember(dest => dest.Limit, mem => mem.MapFrom(src => 1))
             .ForMember(dest => dest.OverlayUuids, mem => mem.MapFrom(src => new List<string> { src.Id }));
 
         // Accessor -> Engines

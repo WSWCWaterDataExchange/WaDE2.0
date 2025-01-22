@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using WesternStatesWater.WaDE.Common;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;

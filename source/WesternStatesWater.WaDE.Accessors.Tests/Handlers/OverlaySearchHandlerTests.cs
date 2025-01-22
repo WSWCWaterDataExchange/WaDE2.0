@@ -68,7 +68,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         response.Overlays.Should().HaveCount(3);
         response.LastUuid.Should()
             .Be(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
-                .ElementAt(3));
+                .ElementAt(2));
     }
 
     [TestMethod]

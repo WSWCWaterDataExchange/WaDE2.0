@@ -28,9 +28,18 @@ public class OverlaySearchHandler(IConfiguration configuration)
             .ProjectTo<OverlaySearchItem>(DtoMapper.Configuration)
             .ToListAsync();
         
+        string lastUuid = null;
+        // Only set lastUuid if more than one item was returned.
+        // Requests looking up a specific record will only have count of 1 or 0.
+        if (overlays.Count > 1)
+        {
+            // Get the last UUID of the page (not the first one on the next page).
+            lastUuid = overlays.Count <= request.Limit ? null : overlays[^2].OverlayUuid;
+        }
+        
         return new OverlaySearchResponse
         {
-            LastUuid = overlays.Count <= request.Limit ? null : overlays[^1].OverlayUuid,
+            LastUuid = lastUuid,
             Overlays = overlays.Take(request.Limit).ToList()
         };
     }

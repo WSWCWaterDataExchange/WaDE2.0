@@ -4,6 +4,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using NetTopologySuite.Features;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Common;
 using WesternStatesWater.WaDE.Common.Contexts;

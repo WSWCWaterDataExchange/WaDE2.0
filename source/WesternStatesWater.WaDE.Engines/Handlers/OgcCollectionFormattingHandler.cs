@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Common;

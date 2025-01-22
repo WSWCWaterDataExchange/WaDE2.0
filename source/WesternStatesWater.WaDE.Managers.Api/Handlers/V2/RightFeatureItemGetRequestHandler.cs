@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
@@ -21,6 +22,11 @@ public class RightFeatureItemGetRequestHandler(
         var searchResponse =
             await allocationAccessor.Search<AllocationSearchRequest, AllocationSearchResponse>(searchRequest);
 
+        if (searchResponse.Allocations.Count != 1)
+        {
+            throw new WaDENotFoundException($"{nameof(RightFeatureItemGetRequestHandler)} found {searchResponse.Allocations.Count} sites for request {request.Id}.");
+        }
+        
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
         var formatResponse = await formattingEngine.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(formatRequest);
         return formatResponse.Map<RightFeatureItemGetResponse>();
