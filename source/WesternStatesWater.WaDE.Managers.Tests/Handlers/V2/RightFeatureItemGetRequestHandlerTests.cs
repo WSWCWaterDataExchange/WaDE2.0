@@ -78,7 +78,7 @@ public class RightFeatureItemGetRequestHandlerTests
     }
 
     [TestMethod]
-    public async Task Handler_FoundZeroAllocations_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundZeroAllocations_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedAllocationUuid = "NE123_abc";
@@ -114,7 +114,7 @@ public class RightFeatureItemGetRequestHandlerTests
     }
 
     [TestMethod]
-    public async Task Handler_FoundMultipleAllocations_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundMultipleAllocations_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedAllocationUuid = "NE123_abc";

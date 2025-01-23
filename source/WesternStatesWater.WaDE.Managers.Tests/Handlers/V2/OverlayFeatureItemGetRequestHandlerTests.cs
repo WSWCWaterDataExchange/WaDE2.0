@@ -78,7 +78,7 @@ public class OverlayFeatureItemGetRequestHandlerTests
     }
 
     [TestMethod]
-    public async Task Handler_FoundZeroOverlays_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundZeroOverlays_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedOverlayUuid = "NE123_abc";
@@ -114,7 +114,7 @@ public class OverlayFeatureItemGetRequestHandlerTests
     }
 
     [TestMethod]
-    public async Task Handler_FoundMultipleOverlays_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundMultipleOverlays_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedOverlayUuid = "NE123_abc";

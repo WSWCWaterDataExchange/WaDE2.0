@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection;
-using WesternStatesWater.WaDE.Common;
+using WesternStatesWater.Shared.Exceptions;
 
 namespace WesternStatesWater.WaDE.DbUp
 {

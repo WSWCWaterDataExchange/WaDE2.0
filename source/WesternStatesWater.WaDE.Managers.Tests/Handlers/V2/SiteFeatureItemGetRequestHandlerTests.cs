@@ -79,7 +79,7 @@ public class SiteFeatureItemGetRequestHandlerTests
     }
 
     [TestMethod]
-    public async Task Handler_FoundZeroSites_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundZeroSites_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedSiteUuid = "NE123_abc";
@@ -115,7 +115,7 @@ public class SiteFeatureItemGetRequestHandlerTests
     }
     
     [TestMethod]
-    public async Task Handler_FoundMultipleSites_WaDENotFoundExceptionIsThrown()
+    public async Task Handler_FoundMultipleSites_NotFoundErrorIsThrown()
     {
         // Arrange
         string requestedSiteUuid = "NE123_abc";

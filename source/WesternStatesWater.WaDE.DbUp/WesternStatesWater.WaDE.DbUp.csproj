@@ -436,6 +436,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WesternStatesWater.Shared\WesternStatesWater.Shared.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Common\WesternStatesWater.WaDE.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
