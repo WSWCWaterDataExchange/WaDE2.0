@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
@@ -12,7 +14,10 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class SiteFeatureItemGetRequestHandler(AccessorApi.ISiteAccessor siteAccessor, IFormattingEngine formattingEngine) : IRequestHandler<SiteFeatureItemGetRequest, SiteFeatureItemGetResponse>
+public class SiteFeatureItemGetRequestHandler(
+    AccessorApi.ISiteAccessor siteAccessor, 
+    IFormattingEngine formattingEngine,
+    ILogger<SiteFeatureItemGetRequestHandler> logger) : IRequestHandler<SiteFeatureItemGetRequest, SiteFeatureItemGetResponse>
 {
     public async Task<SiteFeatureItemGetResponse> Handle(SiteFeatureItemGetRequest request)
     {
@@ -21,7 +26,15 @@ public class SiteFeatureItemGetRequestHandler(AccessorApi.ISiteAccessor siteAcce
 
         if (searchResponse.Sites.Count != 1)
         {
-            throw new WaDENotFoundException($"{nameof(SiteFeatureItemGetRequestHandler)} found {searchResponse.Sites.Count} sites for request {request.Id}.");
+            logger.LogInformation("{HandlerName} found {Count} sites for request {RequestedId}, but was expecting 1. Returning NotFoundError.", nameof(SiteFeatureItemGetRequestHandler), searchResponse.Sites.Count, request.Id);
+            return new SiteFeatureItemGetResponse
+            {
+                Error = new NotFoundError
+                {
+                    PublicMessage = "Site not found.",
+
+                }
+            };
         }
 
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();

@@ -40,12 +40,6 @@ internal abstract class ManagerBase
 
             return response;
         }
-        catch (WaDENotFoundException notFoundEx)
-        {
-            _logger.LogError(notFoundEx, "Record not found");
-
-            return CreateErrorResponse<TResponse>(new NotFoundError());
-        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred while processing the request");

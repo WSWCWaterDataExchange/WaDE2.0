@@ -1,9 +1,11 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Telerik.JustMock;
 using Telerik.JustMock.Helpers;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
@@ -103,11 +105,12 @@ public class OverlayFeatureItemGetRequestHandlerTests
             Id = requestedOverlayUuid
         };
 
-        Func<Task> act = async () => await handler.Handle(request);
-        await act.Should().ThrowAsync<WaDENotFoundException>();
-
+        var response = await handler.Handle(request);
+        
         // Assert
         formatEngineExpectation.OccursNever();
+        response.Feature.Should().BeNull();
+        response.Error.Should().BeOfType<NotFoundError>();
     }
 
     [TestMethod]
@@ -138,15 +141,16 @@ public class OverlayFeatureItemGetRequestHandlerTests
             Id = requestedOverlayUuid
         };
 
-        Func<Task> act = async () => await handler.Handle(request);
-        await act.Should().ThrowAsync<WaDENotFoundException>();
-
+        var response = await handler.Handle(request);
+        
         // Assert
         formatEngineExpectation.OccursNever();
+        response.Feature.Should().BeNull();
+        response.Error.Should().BeOfType<NotFoundError>();
     }
 
     private OverlayFeatureItemGetRequestHandler CreateOverlayFeatureItemGetRequestHandler()
     {
-        return new OverlayFeatureItemGetRequestHandler(_overlayAccessorMock, _formattingEngine);
+        return new OverlayFeatureItemGetRequestHandler(_overlayAccessorMock, _formattingEngine, NullLogger<OverlayFeatureItemGetRequestHandler>.Instance);
     }
 }

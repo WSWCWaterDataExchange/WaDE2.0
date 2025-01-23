@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
@@ -14,7 +16,8 @@ namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
 public class RightFeatureItemGetRequestHandler(
     AccessorApi.IWaterAllocationAccessor allocationAccessor,
-    IFormattingEngine formattingEngine): IRequestHandler<RightFeatureItemGetRequest, RightFeatureItemGetResponse>
+    IFormattingEngine formattingEngine,
+    ILogger<RightFeatureItemGetRequestHandler> logger): IRequestHandler<RightFeatureItemGetRequest, RightFeatureItemGetResponse>
 {
     public async Task<RightFeatureItemGetResponse> Handle(RightFeatureItemGetRequest request)
     {
@@ -24,7 +27,15 @@ public class RightFeatureItemGetRequestHandler(
 
         if (searchResponse.Allocations.Count != 1)
         {
-            throw new WaDENotFoundException($"{nameof(RightFeatureItemGetRequestHandler)} found {searchResponse.Allocations.Count} sites for request {request.Id}.");
+            logger.LogInformation("{HandlerName} found {Count} sites for request {RequestedId}, but was expecting 1. Returning NotFoundError.", nameof(RightFeatureItemGetRequestHandler), searchResponse.Allocations.Count, request.Id);
+            return new RightFeatureItemGetResponse
+            {
+                Error = new NotFoundError
+                {
+                    PublicMessage = "Water right not found.",
+
+                }
+            };
         }
         
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();

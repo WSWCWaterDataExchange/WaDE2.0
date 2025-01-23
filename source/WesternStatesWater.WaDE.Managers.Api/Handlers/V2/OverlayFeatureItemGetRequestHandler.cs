@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
-using WesternStatesWater.Shared.Exceptions;
+using Microsoft.Extensions.Logging;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.Shared.Resolver;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
@@ -12,7 +13,10 @@ using WesternStatesWater.WaDE.Managers.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Handlers.V2;
 
-public class OverlayFeatureItemGetRequestHandler(AccessorApi.IRegulatoryOverlayAccessor overlayAccessor, IFormattingEngine formattingEngine) : IRequestHandler<OverlayFeatureItemGetRequest, OverlayFeatureItemGetResponse>
+public class OverlayFeatureItemGetRequestHandler(
+    AccessorApi.IRegulatoryOverlayAccessor overlayAccessor, 
+    IFormattingEngine formattingEngine, 
+    ILogger<OverlayFeatureItemGetRequestHandler> logger) : IRequestHandler<OverlayFeatureItemGetRequest, OverlayFeatureItemGetResponse>
 {
     public async Task<OverlayFeatureItemGetResponse> Handle(OverlayFeatureItemGetRequest request)
     {
@@ -21,7 +25,15 @@ public class OverlayFeatureItemGetRequestHandler(AccessorApi.IRegulatoryOverlayA
         
         if (searchResponse.Overlays.Count != 1)
         {
-            throw new WaDENotFoundException($"{nameof(OverlayFeatureItemGetRequestHandler)} found {searchResponse.Overlays.Count} sites for request {request.Id}.");
+            logger.LogInformation("{HandlerName} found {Count} sites for request {RequestedId}, but was expecting 1. Returning NotFoundError.", nameof(OverlayFeatureItemGetRequestHandler), searchResponse.Overlays.Count, request.Id);
+            return new OverlayFeatureItemGetResponse
+            {
+                Error = new NotFoundError
+                {
+                    PublicMessage = "Overlay not found.",
+
+                }
+            };
         }
         
         var formatRequest = searchResponse.Map<OgcFeaturesFormattingRequest>();
