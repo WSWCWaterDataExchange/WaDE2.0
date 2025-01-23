@@ -26,5 +26,8 @@ public class TimeSeriesSearchItem
     public string VariableSpecificUUID { get; set; }
     public string SiteUUID { get; set; }
     public string AssociatedNativeAllocationIDs { get; set; }
-    public List<string> BeneficialUses { get; set; }
+    public string PrimaryUse { get; set; }
+    public string State { get; set; }
+    public string VariableType { get; set; }
+    public WaterSourceSummary WaterSource { get; set; }
 }

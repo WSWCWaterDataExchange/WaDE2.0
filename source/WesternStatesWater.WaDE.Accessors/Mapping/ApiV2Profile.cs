@@ -120,7 +120,10 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.VariableSpecificUUID, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificUuid))
             .ForMember(a => a.SiteUUID, b => b.MapFrom(c => c.Site.SiteUuid))
             .ForMember(a => a.AssociatedNativeAllocationIDs, b => b.MapFrom(c => c.AssociatedNativeAllocationIds))
-            .ForMember(a => a.BeneficialUses,
-                b => b.MapFrom(c => c.SitesBridgeBeneficialUsesFact.Select(d => d.BeneficialUseCV)));
+            .ForMember(a => a.PrimaryUse,
+                b => b.MapFrom(c => c.PrimaryBeneficialUse.WaDEName))
+            .ForMember(a => a.State, b => b.MapFrom(c => c.Site.StateCv))
+            .ForMember(a => a.VariableType, b => b.MapFrom(c => c.VariableSpecific.VariableCvNavigation.WaDEName))
+            .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSource));
     }
 }
