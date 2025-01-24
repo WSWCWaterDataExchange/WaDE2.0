@@ -1,0 +1,32 @@
+<policies>
+    <inbound>
+        <base />
+        <set-header name="X-WaDE-OriginalUrl" exists-action="append">
+            <value>@(context.Request.OriginalUrl.ToString())</value>
+        </set-header>
+        <!-- Function App Key so only APIM may hit the endpoints. -->
+        <set-header name="x-functions-key" exists-action="override">
+            <value>{1}</value>
+        </set-header>
+         <cors>
+            <allowed-origins>
+                <origin>{2}</origin>
+            </allowed-origins>
+            <allowed-methods preflight-result-max-age="1209600">
+                <method>GET</method>
+            </allowed-methods>
+            <allowed-headers>
+                <header>*</header>
+            </allowed-headers>
+        </cors>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
