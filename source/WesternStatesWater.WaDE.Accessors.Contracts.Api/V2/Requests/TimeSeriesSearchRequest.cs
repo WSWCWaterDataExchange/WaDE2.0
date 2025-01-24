@@ -8,5 +8,9 @@ public class TimeSeriesSearchRequest : SearchRequestBase
     public List<string> SiteUuids { get; set; }
     public DateTime? StartDate { get; set; }
     public DateTime? EndDate { get; set; }
+    public List<string> States { get; set; }
+    public List<string> VariableTypes { get; set; }
+    public List<string> PrimaryUses { get; set; }
+    public List<string> WaterSourceTypes { get; set; }
     public long? LastKey { get; set; }
 }

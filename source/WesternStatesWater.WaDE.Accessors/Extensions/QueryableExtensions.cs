@@ -135,6 +135,21 @@ public static class QueryableExtensions
             query = query.Where(x => filters.SiteUuids.Contains(x.Site.SiteUuid));
         }
 
+        if (filters.States != null && filters.States.Count != 0)
+        {
+            query = query.Where(x => filters.States.Contains(x.Site.StateCv));
+        }
+
+        if (filters.VariableTypes != null && filters.VariableTypes.Count != 0)
+        {
+            query = query.Where(x => filters.VariableTypes.Contains(x.VariableSpecific.VariableCvNavigation.WaDEName));
+        }
+
+        if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
+        {
+            query = query.Where(x => filters.WaterSourceTypes.Contains(x.WaterSource.WaterSourceTypeCvNavigation.WaDEName));
+        }
+
         if (filters.LastKey.HasValue)
         {
             query = query.Where(x => x.SiteVariableAmountId > filters.LastKey);

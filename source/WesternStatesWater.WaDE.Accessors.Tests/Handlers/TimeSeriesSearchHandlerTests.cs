@@ -178,6 +178,135 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         response.TimeSeries.Should().HaveCount(expectedCount);
     }
 
+    [TestMethod]
+    public async Task Handler_FilterStates_ReturnsTimeSeriesThatContainSitesInState()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var stateA = await StateBuilder.Load(db);
+        var stateB = await StateBuilder.Load(db);
+        
+        var siteA = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            StateCVNavigation = stateA
+        });
+        
+        var siteB = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            StateCVNavigation = stateB
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteB
+        });
+        
+        var request = new TimeSeriesSearchRequest
+        {
+            States = [stateA.Name],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.TimeSeries.Should().HaveCount(1);
+        response.TimeSeries[0].SiteUUID.Should().BeEquivalentTo(siteA.SiteUuid);
+        response.TimeSeries[0].State.Should().Be(stateA.Name);
+    }
+    
+    [TestMethod]
+    public async Task Handler_FilterVariableTypes_ReturnsTimeSeriesThatContainVariableTypes()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var variableA = await VariableBuilder.Load(db);
+        var variableB = await VariableBuilder.Load(db);
+        
+        var variableDimA = await VariablesDimBuilder.Load(db, new VariablesDimBuilderOptions
+        {
+            Variable = variableA
+        });
+        
+        var variableDimB = await VariablesDimBuilder.Load(db, new VariablesDimBuilderOptions
+        {
+            Variable = variableB
+        });
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA,
+            VariablesDim = variableDimA
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteB,
+            VariablesDim = variableDimB
+        });
+        
+        var request = new TimeSeriesSearchRequest
+        {
+            VariableTypes = [variableA.WaDEName],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.TimeSeries.Should().HaveCount(1);
+        response.TimeSeries[0].VariableType.Should().Be(variableA.WaDEName);
+    }
+    
+    [TestMethod]
+    public async Task Handler_FilterWaterSourceTypes_ReturnsTimeSeriesThatContainWaterSourceTypes()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var waterSourceTypeA = await WaterSourceTypeBuilder.Load(db);
+        var waterSourceTypeB = await WaterSourceTypeBuilder.Load(db);
+
+        var waterSourceA = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeA
+        });
+        var waterSourceB = await WaterSourcesDimBuilder.Load(db, new WaterSourcesDimBuilderOptions
+        {
+            WaterSourceType = waterSourceTypeB
+        });
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA,
+            WaterSourcesDim = waterSourceA
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA,
+            WaterSourcesDim = waterSourceB
+        });
+        
+        var request = new TimeSeriesSearchRequest
+        {
+            WaterSourceTypes = [waterSourceTypeA.WaDEName],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.TimeSeries.Should().HaveCount(1);
+        response.TimeSeries[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.WaDEName);
+    }
+
     private async Task<TimeSeriesSearchResponse> ExecuteHandler(TimeSeriesSearchRequest request)
     {
         var handler = new TimeSeriesSearchHandler(Configuration.GetConfiguration());
