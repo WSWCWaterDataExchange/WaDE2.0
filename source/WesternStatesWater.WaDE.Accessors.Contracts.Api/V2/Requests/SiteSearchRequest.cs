@@ -9,4 +9,7 @@ public class SiteSearchRequest : SearchRequestBase
     public List<string> SiteTypes { get; set; }
     public List<string> States { get; set; }
     public List<string> WaterSourcesTypes { get; set; }
+    public List<string> SiteUuids { get; set; }
+    public List<string> OverlayUuids { get; set; }
+    public List<string> AllocationUuids { get; set; }
 }

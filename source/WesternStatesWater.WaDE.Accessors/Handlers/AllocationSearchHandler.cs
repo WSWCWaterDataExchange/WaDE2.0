@@ -27,10 +27,19 @@ public class AllocationSearchHandler(IConfiguration configuration)
             .ApplyLimit(request)
             .ProjectTo<AllocationSearchItem>(DtoMapper.Configuration)
             .ToListAsync();
-
+        
+        string lastUuid = null;
+        // Only set lastUuid if more than one item was returned.
+        // Requests looking up a specific record will only have count of 1 or 0.
+        if (allocations.Count > 1)
+        {
+            // Get the last UUID of the page (not the first one on the next page).
+            lastUuid = allocations.Count <= request.Limit ? null : allocations[^2].AllocationUUID;    
+        }
+        
         return new AllocationSearchResponse
         {
-            LastUuid = allocations.Count <= request.Limit ? null : allocations[^1].AllocationUUID,
+            LastUuid = lastUuid,
             Allocations = allocations.Take(request.Limit).ToList()
         };
     }

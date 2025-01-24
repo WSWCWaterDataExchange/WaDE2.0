@@ -112,6 +112,15 @@ public class WaterSitesFunction(
     [OpenApiParameter("next", Type = typeof(string), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Next page")]
+    [OpenApiParameter("siteUuids", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of site Uuids")]
+    [OpenApiParameter("overlayUuids", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of overlay Uuids")]
+    [OpenApiParameter("allocationUuids", Type = typeof(string[]), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Comma separated list of allocation Uuids")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -144,10 +153,8 @@ public class WaterSitesFunction(
         Visibility = OpenApiVisibilityType.Internal)]
     [OpenApiParameter("featureId", Type = typeof(string), In = ParameterLocation.Path,
         Required = true, Description = "The identifier of the feature.")]
-    [OpenApiParameter("test", Type = typeof(string[]), In = ParameterLocation.Query,
-        Required = false, Description = "Testing parameter")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
-        bodyType: typeof(Collection),
+        bodyType: typeof(object),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.BadRequest, contentType: "application/json",
         bodyType: typeof(object),
@@ -155,14 +162,19 @@ public class WaterSitesFunction(
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.NotFound, contentType: "application/json",
         bodyType: typeof(object),
         Summary = "Not found", Description = "The request was invalid.")]
-    public static async Task<HttpResponseData> GetWaterSite(
+    public async Task<HttpResponseData> GetWaterSite(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "items/{featureId}")]
         HttpRequestData req,
         FunctionContext executionContext,
         string collectionId,
         string featureId)
     {
+        var request = new SiteFeatureItemGetRequest
+        {
+            Id = featureId
+        };
+        var response = await waterResourceManager.Search<SiteFeatureItemGetRequest, SiteFeatureItemGetResponse>(request);
 
-        return await CreateOkResponse(req, "A water site!");
+        return await CreateOkResponse(req, response.Feature);
     }
 }

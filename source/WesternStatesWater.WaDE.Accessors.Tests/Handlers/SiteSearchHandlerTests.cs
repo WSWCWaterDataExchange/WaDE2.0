@@ -102,8 +102,7 @@ public class SiteSearchHandlerTests : DbTestBase
         {
             Geometry = wkt.Read("POINT (-115.026855 40.988192)")
         });
-
-
+        
         var request = new SiteSearchRequest
         {
             GeometrySearch = new SpatialSearchCriteria
@@ -365,6 +364,93 @@ public class SiteSearchHandlerTests : DbTestBase
             .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
         response.Sites.First(s => s.SiteUuid == siteB.SiteUuid).WaterSources.Should()
             .BeEquivalentTo([waterSourceB.Map<WaterSourceSummary>(), waterSourceC.Map<WaterSourceSummary>()]);
+    }
+    
+    [TestMethod]
+    public async Task SiteAccessor_SiteUuidsFilter_ReturnsCorrectSites()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        await SitesDimBuilder.Load(db);
+
+        var request = new SiteSearchRequest
+        {
+            SiteUuids = [siteA.SiteUuid, siteB.SiteUuid],
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
+    }
+
+    [TestMethod]
+    public async Task SiteAccessor_OverlayUuidsFilter_ReturnsCorrectSites()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            RegulatoryOverlayDim = overlayA
+        });
+        
+        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            RegulatoryOverlayDim = overlayB
+        });
+        
+        var request = new SiteSearchRequest
+        {
+            OverlayUuids = [overlayA.RegulatoryOverlayUuid],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(1);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid);
+    }
+
+    [TestMethod]
+    public async Task SiteAccessor_AllocationUuidsFilter_ReturnsCorrectSites()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var rightA = await AllocationAmountsFactBuilder.Load(db);
+        var rightB = await AllocationAmountsFactBuilder.Load(db);
+        
+        var siteA = await SitesDimBuilder.Load(db);
+        var siteB = await SitesDimBuilder.Load(db);
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteA,
+            AllocationAmountsFact = rightA
+        });
+        
+        await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
+        {
+            SitesDim = siteB,
+            AllocationAmountsFact = rightB
+        });
+        
+        var request = new SiteSearchRequest
+        {
+            AllocationUuids = [rightA.AllocationUUID],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(1);
+        response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid);
     }
 
     private async Task<SiteSearchResponse> ExecuteHandler(SiteSearchRequest request)

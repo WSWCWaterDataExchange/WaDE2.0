@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using WesternStatesWater.Shared.DataContracts;
 using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.Shared.Exceptions;
 using WesternStatesWater.Shared.Extensions;
 using WesternStatesWater.Shared.Resolver;
 
