@@ -428,6 +428,10 @@
     <EmbeddedResource Include="Scripts\006\002 UpdateLoadMethodsStoredProcedureAddDataMappingUrl.sql" />
     <None Remove="Scripts\007\001 CreateAllocationAmountsView.sql" />
     <EmbeddedResource Include="Scripts\007\001 CreateAllocationAmountsView.sql" />
+    <None Remove="Scripts\007\006 AlterAllocationAmountsViewSeperateTimeSeries.sql" />
+    <EmbeddedResource Include="Scripts\007\006 AlterAllocationAmountsViewSeperateTimeSeries.sql" />
+    <None Remove="Scripts\007\007 CreateTimeSeriesView.sql" />
+    <EmbeddedResource Include="Scripts\007\007 CreateTimeSeriesView.sql" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="dbup" Version="4.2.0" />
