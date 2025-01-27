@@ -102,6 +102,7 @@ jobs:
   
   update-api-swagger:
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     needs: [build-and-deploy]
     defaults:
       run:
