@@ -8,13 +8,15 @@
     "OpenApi__DocTitle": "WaDE OGC API",
     "OpenApi__DocDescription": "WaDE API that conforms to the OGC API features and environmental data retrieval specification.",
     "OpenApi__ForceHttps": "false",
-    "OpenApi__ForceHttp": "true",
-    "OgcApi__Title": "WaDE OGC API",
-    "OgcApi__Description": "WaDE 2.0 OGC API",
-    "OgcApi__Host": "http://localhost:7071/api/v2"
+    "OpenApi__ForceHttp": "true"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",
     "WadeDatabase": "Server=localhost;Initial Catalog=WaDE2;TrustServerCertificate=True;User=sa;Password=DevP@ssw0rd!;Encrypt=False;"
+  },
+  "OgcApi": {
+    "Title": "WaDE OGC API",
+    "Description": "WaDE 2.0 OGC API",
+    "Host": "http://localhost:7071/api/v2"
   }
 }
