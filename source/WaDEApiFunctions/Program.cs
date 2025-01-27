@@ -43,27 +43,7 @@ var host = new HostBuilder()
     {
         var configuration = context.Configuration;
 
-        services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
-        {
-            var options = new OpenApiConfigurationOptions()
-            {
-                Info = new OpenApiInfo()
-                {
-                    Version = DefaultOpenApiConfigurationOptions.GetOpenApiDocVersion(),
-                    Title = DefaultOpenApiConfigurationOptions.GetOpenApiDocTitle(),
-                    Description = DefaultOpenApiConfigurationOptions.GetOpenApiDocDescription()
-                },
-                Servers = DefaultOpenApiConfigurationOptions.GetHostNames(),
-                OpenApiVersion = DefaultOpenApiConfigurationOptions.GetOpenApiVersion(),
-                IncludeRequestingHostName =
-                    DefaultOpenApiConfigurationOptions.IsFunctionsRuntimeEnvironmentDevelopment(),
-                ForceHttps = DefaultOpenApiConfigurationOptions.IsHttpsForced(),
-                ForceHttp = DefaultOpenApiConfigurationOptions.IsHttpForced(),
-            };
-
-            return options;
-        });
-
+        services.AddOpenApi();
         services.AddHttpContextAccessor();
         services.AddSingleton(configuration);
 
