@@ -15,7 +15,7 @@ namespace WaDEApiFunctions.v2;
 
 public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceManager waterResourceManager) : FunctionBase
 {
-    private const string PathBase = "v2/collections/overlays/";
+    private const string PathBase = "collections/overlays/";
     private const string Tag = "Overlays";
 
     [Function(nameof(GetOverlaysCollectionMetadata))]

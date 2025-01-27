@@ -13,7 +13,7 @@ namespace WaDEApiFunctions.v2;
 
 public class DiscoverabilityFunction : FunctionBase
 {
-    private const string PathBase = "v2/";
+    private const string PathBase = "";
     
     private readonly IMetadataManager _metadataManager;
     
@@ -29,7 +29,7 @@ public class DiscoverabilityFunction : FunctionBase
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json", bodyType: typeof(DiscoveryMetadataGetResponse),
         Summary = "The response", Description = "The operation was executed successfully.")]
     public async Task<HttpResponseData> LandingPage(
-        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase)]
+        [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "LandingPage")]
         HttpRequestData req,
         FunctionContext executionContext)
     {

@@ -17,7 +17,7 @@ public class WaterSitesFunction(
     IMetadataManager metadataManager,
     IWaterResourceManager waterResourceManager) : FunctionBase
 {
-    private const string PathBase = "v2/collections/sites/";
+    private const string PathBase = "collections/sites/";
 
     private const string Tag = "Sites";
 
