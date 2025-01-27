@@ -12,7 +12,6 @@ jobs:
       azure-api-name: ogc-api
       azure-api-url: https://wadeazurefunctions-qa.azurewebsites.net/api
       azure-apim-name: WADE-API-QA
-      azure-cors-domain: N/A
       azure-functionapp-name: WaDEAzureFunctions-QA
       azure-resource-group: WaDE_QA
       environment: QA
