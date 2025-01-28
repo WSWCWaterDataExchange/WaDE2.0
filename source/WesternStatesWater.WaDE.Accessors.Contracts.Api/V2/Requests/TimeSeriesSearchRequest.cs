@@ -12,5 +12,5 @@ public class TimeSeriesSearchRequest : SearchRequestBase
     public List<string> VariableTypes { get; set; }
     public List<string> PrimaryUses { get; set; }
     public List<string> WaterSourceTypes { get; set; }
-    public long? LastKey { get; set; }
+    public string LastKey { get; set; }
 }

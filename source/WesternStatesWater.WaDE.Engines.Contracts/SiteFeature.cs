@@ -32,14 +32,8 @@ public class SiteFeature : FeatureBase
     public string? Huc12 { get; set; }
     [JsonPropertyName("county")]
     public string? County { get; set; }
-    [JsonPropertyName("rightUuids")]
-    public string[]? RightUuids { get; set; }
-    [JsonPropertyName("isTimeSeries")]
-    public bool? IsTimeSeries { get; set; }
     [JsonPropertyName("podOrPouSite")]
     public string? PodOrPouSite { get; set; }
     [JsonPropertyName("waterSources")]
     public WaterSourceSummary[]? WaterSources { get; set; }
-    [JsonPropertyName("overlays")]
-    public string[]? Overlays { get; set; }
 }

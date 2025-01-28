@@ -17,6 +17,94 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.Handlers;
 [TestClass]
 public class TimeSeriesSearchHandlerTests : DbTestBase
 {
+    [TestMethod]
+    public async Task Handler_ReturnsSitesWithTimeSeries()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        await SitesDimBuilder.Load(db);
+        var timeSeriesSiteA = await SiteVariableAmountsFactBuilder.Load(db);
+        var timeSeriesSiteB = await SiteVariableAmountsFactBuilder.Load(db);
+        
+        // Act
+        var response = await ExecuteHandler(new TimeSeriesSearchRequest
+        {
+            Limit = 10
+        });
+        
+        // Assert
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(a => a.SiteUuid).Should().BeEquivalentTo(timeSeriesSiteA.Site.SiteUuid, timeSeriesSiteB.Site.SiteUuid);
+        
+    }
+
+    [TestMethod]
+    public async Task Handler_Response_OrderedBySiteUuidAndTimeSeriesAscending()
+    {
+        // Arrange
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        // Create time series date range
+        var dateNewestStart = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+        {
+            Date = DateTime.Parse("2042-01-01", CultureInfo.InvariantCulture)
+        });
+        var dateNewestEnd = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+        {
+            Date = DateTime.Parse("2042-12-31", CultureInfo.InvariantCulture)
+        });
+        
+        // Create date range back one year
+        var dateOldestStart = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+        {
+            Date = DateTime.Parse("2041-01-01", CultureInfo.InvariantCulture)
+        });
+        var dateOldestEnd = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+        {
+            Date = DateTime.Parse("2041-12-31", CultureInfo.InvariantCulture)
+        });
+        
+        List<SitesDim> sites = new();
+        for(var i =0;i<2;i++)
+        {
+            sites.Add(await SitesDimBuilder.Load(db));
+        }
+        
+        // Order Sites by SiteUuid
+        var sitesOrdered = sites.OrderBy(x => x.SiteUuid).ToList();
+        
+        // Create two time series entries for the first site. Add the newest one first to ensure ordering
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = sitesOrdered[0],
+            TimeframeStart = dateNewestStart,
+            TimeframeEnd = dateNewestEnd
+        });
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = sitesOrdered[0],
+            TimeframeStart = dateOldestStart,
+            TimeframeEnd = dateOldestEnd
+        });
+        // Create time series entry for the second site
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = sitesOrdered[1]
+        });
+        
+        // Act
+        var response = await ExecuteHandler(new TimeSeriesSearchRequest
+        {
+            Limit = 10
+        });
+        
+        // Assert
+        response.Sites.Should().HaveCount(2);
+        response.Sites[0].SiteUuid.Should().Be(sitesOrdered[0].SiteUuid);
+        response.Sites[0].TimeSeries[0].TimeframeStart.Should().Be(dateOldestStart.Date);
+    }
+    
     [DataTestMethod]
     [DataRow(5)]
     [DataRow(10)]
@@ -39,7 +127,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
 
         // Assert
-        response.TimeSeries.Should().HaveCount(5);
+        response.Sites.Should().HaveCount(5);
         response.LastUuid.Should().BeNull();
     }
     
@@ -64,11 +152,12 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
 
         // Assert
-        response.TimeSeries.Should().HaveCount(3);
+        response.Sites.Should().HaveCount(3);
         response.LastUuid.Should()
-            .Be(dbTimeSeries.OrderBy(ts => ts.SiteVariableAmountId)
-                .Select(ts => ts.SiteVariableAmountId)
-                .ElementAt(3)
+            .Be(dbTimeSeries
+                .OrderBy(ts => ts.Site.SiteUuid)
+                .Select(ts => ts.Site.SiteUuid)
+                .ElementAt(2)
                 .ToString());
     }
 
@@ -84,21 +173,21 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
             timeSeries.Add(await SiteVariableAmountsFactBuilder.Load(db));
         }
 
-        var sortedTimeSeries = timeSeries.OrderBy(x => x.SiteVariableAmountId).ToList();
+        var sortedTimeSeries = timeSeries.OrderBy(x => x.Site.SiteUuid).ToList();
 
         var request = new TimeSeriesSearchRequest
         {
             Limit = 3,
-            LastKey = sortedTimeSeries[2].SiteVariableAmountId
+            LastKey = sortedTimeSeries[2].Site.SiteUuid
         };
 
         // Act
         var response = await ExecuteHandler(request);
 
         // Assert
-        response.TimeSeries.Should().HaveCount(3);
-        response.TimeSeries.Select(a => a.SiteVariableAmountId).Should().BeEquivalentTo(
-            sortedTimeSeries.Skip(3).Take(3).Select(a => a.SiteVariableAmountId));
+        response.Sites.Should().HaveCount(3);
+        response.Sites.Select(a => a.SiteUuid).Should().BeEquivalentTo(
+            sortedTimeSeries.Skip(3).Take(3).Select(a => a.Site.SiteUuid));
     }
 
     [TestMethod]
@@ -133,10 +222,8 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
 
         // Assert
-        response.TimeSeries.Should().HaveCount(2);
-        response.TimeSeries.Select(a => a.SiteVariableAmountId).Should().BeEquivalentTo(
-            [timeSeriesA.SiteVariableAmountId, timeSeriesB.SiteVariableAmountId]
-        );
+        response.Sites.Should().HaveCount(2);
+        response.Sites.Select(a => a.SiteUuid).Should().BeEquivalentTo(timeSeriesA.Site.SiteUuid, timeSeriesB.Site.SiteUuid);
     }
 
     [TestMethod]
@@ -175,7 +262,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
 
         // Assert
-        response.TimeSeries.Should().HaveCount(expectedCount);
+        response.Sites.Should().HaveCount(expectedCount);
     }
 
     [TestMethod]
@@ -214,9 +301,9 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         var response = await ExecuteHandler(request);
         
-        response.TimeSeries.Should().HaveCount(1);
-        response.TimeSeries[0].SiteUUID.Should().BeEquivalentTo(siteA.SiteUuid);
-        response.TimeSeries[0].State.Should().Be(stateA.Name);
+        response.Sites.Should().HaveCount(1);
+        response.Sites[0].SiteUuid.Should().BeEquivalentTo(siteA.SiteUuid);
+        response.Sites[0].State.Should().Be(stateA.Name);
     }
     
     [TestMethod]
@@ -260,8 +347,8 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         var response = await ExecuteHandler(request);
         
-        response.TimeSeries.Should().HaveCount(1);
-        response.TimeSeries[0].VariableType.Should().Be(variableA.WaDEName);
+        response.Sites.Should().HaveCount(1);
+        response.Sites[0].TimeSeries[0].VariableSpecific.Variable.Should().Be(variableA.WaDEName);
     }
     
     [TestMethod]
@@ -286,12 +373,28 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
         {
             SiteDim = siteA,
+            TimeframeStart = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = DateTime.Parse("2025-01-01", CultureInfo.InvariantCulture)
+            }),
+            TimeframeEnd = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = DateTime.Parse("2025-01-31", CultureInfo.InvariantCulture)
+            }),
             WaterSourcesDim = waterSourceA
         });
         
         await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
         {
             SiteDim = siteA,
+            TimeframeStart = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = DateTime.Parse("2025-02-01", CultureInfo.InvariantCulture)
+            }),
+            TimeframeEnd = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = DateTime.Parse("2025-02-28", CultureInfo.InvariantCulture)
+            }),
             WaterSourcesDim = waterSourceB
         });
         
@@ -303,8 +406,8 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         var response = await ExecuteHandler(request);
         
-        response.TimeSeries.Should().HaveCount(1);
-        response.TimeSeries[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.WaDEName);
+        response.Sites.Should().HaveCount(1);
+        response.Sites[0].TimeSeries[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.WaDEName);
     }
 
     private async Task<TimeSeriesSearchResponse> ExecuteHandler(TimeSeriesSearchRequest request)
