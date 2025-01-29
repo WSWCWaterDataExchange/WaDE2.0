@@ -4,5 +4,5 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 
 public class TimeSeriesSearchResponse : SearchResponseBase
 {
-    public List<TimeSeriesSearchItem> TimeSeries { get; set; }
+    public List<TimeSeriesSearchItem> Sites { get; set; }
 }
