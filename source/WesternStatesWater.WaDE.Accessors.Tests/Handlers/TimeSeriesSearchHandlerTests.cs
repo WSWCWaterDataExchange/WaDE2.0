@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NetTopologySuite.Geometries;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -408,6 +410,70 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         response.Sites.Should().HaveCount(1);
         response.Sites[0].TimeSeries[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.WaDEName);
+    }
+
+    [TestMethod]
+    public async Task Handler_GeometrySearch_ReturnsTimeSeriesSitesInCoordinates()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var wkt = new NetTopologySuite.IO.WKTReader();
+        // Intersecting polygon
+        var siteA = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            // https://wktmap.com/?28eb0eb1
+            Geometry = wkt.Read(
+                "POLYGON ((-114.400635 41.574361, -114.400635 42.204107, -113.57666 42.204107, -113.57666 41.574361, -114.400635 41.574361))")
+        });
+
+        // Points inside boundary
+        var siteB = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            Geometry = wkt.Read("POINT (-112.631836 39.010648)") // https://wktmap.com/?45c78c27
+        });
+        var siteC = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            Geometry = wkt.Read("POINT (-111.928711 41.327326)") // https://wktmap.com/?23e9c33d
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteA
+        });
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteB
+        });
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteC
+        });
+
+        // Point outside boundary
+        var siteD = await SitesDimBuilder.Load(db, new SitesDimBuilderOptions
+        {
+            Geometry = wkt.Read("POINT (-115.026855 40.988192)")
+        });
+        
+        await SiteVariableAmountsFactBuilder.Load(db, new SiteVariableAmountsFactBuilderOptions
+        {
+            SiteDim = siteD
+        });
+        
+        var request = new TimeSeriesSearchRequest
+        {
+            GeometrySearch = new SpatialSearchCriteria
+            {
+                Geometry = (Polygon) wkt.Read(
+                    "POLYGON ((-114.0271 42.016652, -111.027832 42.000325, -111.049805 41.037931, -109.017334 41.013066, -109.050293 37.011326, -114.0271 36.985003, -114.0271 42.016652))"),
+                SpatialRelationType = SpatialRelationType.Intersects
+            },
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+        response.Sites.Should().HaveCount(3);
+        response.Sites.Select(s => s.SiteUuid).Should()
+            .BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid, siteC.SiteUuid);
     }
 
     private async Task<TimeSeriesSearchResponse> ExecuteHandler(TimeSeriesSearchRequest request)
