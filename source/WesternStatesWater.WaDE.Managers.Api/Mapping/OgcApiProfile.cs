@@ -163,19 +163,24 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
 
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesItemRequest,
-            Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new BoundingBoxConverter(), src => src.Bbox))
             .ForMember(dest => dest.SpatialRelationType,
                 mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
 
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesAreaRequest,
-            Accessors.Contracts.Api.SpatialSearchCriteria>()
+                Accessors.Contracts.Api.SpatialSearchCriteria>()
             .ForMember(dest => dest.Geometry, mem => mem.ConvertUsing(new WktToGeometryConverter(), src => src.Coords))
             .ForMember(dest => dest.SpatialRelationType,
                 mem => mem.MapFrom(src => AccessorApi.SpatialRelationType.Intersects));
-        
+
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
+            .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
+            // TODO create converter for datetime parameter
+            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
+            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
+            // END TODO
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.States,
@@ -195,8 +200,10 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
             .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
             .ForMember(dest => dest.PrimaryUses, mem => mem.Ignore())
+            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
+            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
-            .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src=>src.Next));
+            .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
@@ -234,6 +241,9 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
+            .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
+            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
+            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
             .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
