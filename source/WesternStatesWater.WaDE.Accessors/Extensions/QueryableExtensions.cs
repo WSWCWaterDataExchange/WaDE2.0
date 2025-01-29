@@ -117,6 +117,17 @@ public static class QueryableExtensions
         // Only include sites with time series data
         query = query.Where(x => x.SiteVariableAmountsFact.Count != 0);
         
+        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
+        {
+            query = filters.GeometrySearch.SpatialRelationType switch
+            {
+                SpatialRelationType.Intersects => query.Where(s =>
+                    (s.Geometry.IsValid && s.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
+                    (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
+                _ => query
+            };
+        }
+        
         if (filters.StartDate.HasValue)
         {
             query = query.Where(x =>
