@@ -7,4 +7,5 @@ public class TimeSeriesFeaturesItemRequest : TimeSeriesFeaturesSearchRequestBase
     public string VariableTypes { get; set; }
     public string WaterSourceTypes { get; set; }
     public string PrimaryUses { get; set; }
+    public string DateTime { get; set; }
 }

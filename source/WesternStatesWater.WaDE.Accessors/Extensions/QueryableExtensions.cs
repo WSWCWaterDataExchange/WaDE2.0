@@ -128,26 +128,26 @@ public static class QueryableExtensions
             };
         }
         
-        if (filters.StartDate.HasValue)
+        if (filters.DateRange?.StartDate != null)
         {
             query = query.Where(x =>
                 x.SiteVariableAmountsFact.Any(ts =>
                     // Check if filtered start date is within the time series date range
-                    (filters.StartDate >= ts.TimeframeStartNavigation.Date &&
-                     filters.StartDate <= ts.TimeframeEndNavigation.Date) ||
+                    (filters.DateRange.StartDate >= ts.TimeframeStartNavigation.Date &&
+                     filters.DateRange.StartDate <= ts.TimeframeEndNavigation.Date) ||
                     // Else check if filtered start date is before the time series start date
-                    filters.StartDate <= ts.TimeframeStartNavigation.Date));
+                    filters.DateRange.StartDate <= ts.TimeframeStartNavigation.Date));
         }
 
-        if (filters.EndDate.HasValue)
+        if (filters.DateRange?.EndDate != null)
         {
             query = query.Where(x =>
                 x.SiteVariableAmountsFact.Any(ts =>
                     // Check if filtered end date is within the time series date range
-                    (filters.EndDate >= ts.TimeframeStartNavigation.Date &&
-                     filters.EndDate <= ts.TimeframeEndNavigation.Date) ||
+                    (filters.DateRange.EndDate >= ts.TimeframeStartNavigation.Date &&
+                     filters.DateRange.EndDate <= ts.TimeframeEndNavigation.Date) ||
                     // Else check if filtered end date is after the time series end date
-                    ts.TimeframeEndNavigation.Date <= filters.EndDate));
+                    ts.TimeframeEndNavigation.Date <= filters.DateRange.EndDate));
         }
 
         if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)

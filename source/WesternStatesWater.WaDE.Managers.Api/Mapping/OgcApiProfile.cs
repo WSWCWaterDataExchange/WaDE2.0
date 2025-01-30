@@ -177,10 +177,7 @@ public class OgcApiProfile : Profile
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
-            // TODO create converter for datetime parameter
-            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
-            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
-            // END TODO
+            .ForMember(dest => dest.DateRange, mem => mem.ConvertUsing(new OgcDateTimeConverter(), src=>src.DateTime))
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.States,
@@ -200,8 +197,7 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
             .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
             .ForMember(dest => dest.PrimaryUses, mem => mem.Ignore())
-            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
-            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
+            .ForMember(dest => dest.DateRange, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
@@ -242,8 +238,7 @@ public class OgcApiProfile : Profile
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeatureItemGetRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
             .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
-            .ForMember(dest => dest.StartDate, mem => mem.Ignore())
-            .ForMember(dest => dest.EndDate, mem => mem.Ignore())
+            .ForMember(dest => dest.DateRange, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
             .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())

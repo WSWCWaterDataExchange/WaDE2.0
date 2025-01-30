@@ -255,8 +255,11 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
 
         var request = new TimeSeriesSearchRequest
         {
-            StartDate = startDate != null ? DateTime.Parse(startDate) : null,
-            EndDate = endDate != null ? DateTime.Parse(endDate) : null,
+            DateRange = new DateRangeFilter
+            {
+                StartDate = startDate != null ? DateTime.Parse(startDate) : null,
+                EndDate = endDate != null ? DateTime.Parse(endDate) : null    
+            },
             Limit = 10
         };
 

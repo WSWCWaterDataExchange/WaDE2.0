@@ -5,6 +5,8 @@ using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using NetTopologySuite.IO;
 using System;
+using System.Globalization;
+using Telerik.JustMock.AutoMock.Ninject.Activation;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
@@ -91,6 +93,92 @@ namespace WesternStatesWater.WaDE.Managers.Tests
 
             var response = request.Map<SiteSearchRequest>();
             response.GeometrySearch.Geometry.Should().BeNull();
+        }
+
+        [DataTestMethod]
+        [DataRow("2018-02-12T23:20:52Z")]
+        public void OgcDateTimeConverter_SingleDateTime_SetsStartAndEndDate(string datetime)
+        {
+            var request = new TimeSeriesFeaturesItemRequest
+            {
+                DateTime = datetime
+            };
+
+            var response = request.Map<TimeSeriesSearchRequest>();
+            response.DateRange.StartDate.Should()
+                .NotBeNull()
+                .And
+                .Be(DateTimeOffset.Parse(datetime, CultureInfo.InvariantCulture));
+            response.DateRange.EndDate.Should()
+                .NotBeNull()
+                .And
+                .Be(DateTimeOffset.Parse(datetime, CultureInfo.InvariantCulture));
+        }
+        
+        [DataTestMethod]
+        [DataRow("../2018-03-18T12:31:12Z")]
+        [DataRow("/2018-03-18T12:31:12Z")]
+        public void OgcDateTimeConverter_IntervalOpenStart_SetsEndDateOnly(string datetime)
+        {
+            var parts = datetime.Split("/");
+            var request = new TimeSeriesFeaturesItemRequest
+            {
+                DateTime = datetime
+            };
+
+            var response = request.Map<TimeSeriesSearchRequest>();
+            response.DateRange.StartDate.Should().BeNull();
+            response.DateRange.EndDate.Should()
+                .NotBeNull()
+                .And
+                .Be(DateTimeOffset.Parse(parts[1], CultureInfo.InvariantCulture));
+        }
+        
+        [DataTestMethod]
+        [DataRow("2018-02-12T00:00:00Z/..")]
+        [DataRow("2018-02-12T00:00:00Z/")]
+        public void OgcDateTimeConverter_IntervalOpenEnd_SetsStartDateOnly(string datetime)
+        {
+            var parts = datetime.Split("/");
+            var request = new TimeSeriesFeaturesItemRequest
+            {
+                DateTime = datetime
+            };
+
+            var response = request.Map<TimeSeriesSearchRequest>();
+            response.DateRange.StartDate.Should()
+                .NotBeNull()
+                .And
+                .Be(DateTimeOffset.Parse(parts[0], CultureInfo.InvariantCulture));
+            response.DateRange.EndDate.Should().BeNull();
+        }
+
+        [DataTestMethod]
+        [DataRow("2018-02-12T00:00:00Z/2018-03-18T12:31:12Z")]
+        public void OgcDateTimeConverter_Interval_SetsStartDateOnly(string datetime)
+        {
+            var parts = datetime.Split("/");
+            var request = new TimeSeriesFeaturesItemRequest
+            {
+                DateTime = datetime
+            };
+
+            var response = request.Map<TimeSeriesSearchRequest>();
+            response.DateRange.StartDate.Should().Be(DateTimeOffset.Parse(parts[0], CultureInfo.InvariantCulture));
+            response.DateRange.EndDate.Should().Be(DateTimeOffset.Parse(parts[1], CultureInfo.InvariantCulture));
+        }
+        
+        [TestMethod]
+        public void OgcDateTimeConverter_NoValue_DateRangeIsNull()
+        {
+            var request = new TimeSeriesFeaturesItemRequest
+            {
+                DateTime = null
+            };
+
+            var response = request.Map<TimeSeriesSearchRequest>();
+            response.DateRange.StartDate.Should().BeNull();
+            response.DateRange.EndDate.Should().BeNull();
         }
     }
 }
