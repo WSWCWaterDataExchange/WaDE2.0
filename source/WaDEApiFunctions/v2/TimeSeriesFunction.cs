@@ -68,6 +68,9 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
     [OpenApiParameter("variableTypes", Type = typeof(string[]), In = ParameterLocation.Query,
         Explode = false,
         Required = false, Description = "Variable Types")]
+    [OpenApiParameter("datetime", Type = typeof(string), In = ParameterLocation.Query,
+        Explode = false,
+        Required = false, Description = "Date time")]
     [OpenApiResponseWithBody(statusCode: HttpStatusCode.OK, contentType: "application/json",
         bodyType: typeof(Collection),
         Summary = "TODO: summary of collection.", Description = "The operation was executed successfully.")]
@@ -91,6 +94,7 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"],
             VariableTypes = req.Query["variableTypes"],
+            DateTime = req.Query["datetime"]
         };
         var response =
             await waterResourceManager.Search<TimeSeriesFeaturesSearchRequestBase, TimeSeriesFeaturesSearchResponse>(request);
