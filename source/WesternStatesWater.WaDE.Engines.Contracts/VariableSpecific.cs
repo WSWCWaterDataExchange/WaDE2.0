@@ -7,13 +7,17 @@ public class VariableSpecific
     [JsonPropertyName("uuid")]
     public string Uuid { get; set; }
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string VariableSpecificCv { get; set; }
+    [JsonPropertyName("wadeName")]
+    public string VariableSpecificWaDEName { get; set; }
     [JsonPropertyName("variable")]
-    public string Variable { get; set; }
+    public string VariableCv { get; set; }
+    [JsonPropertyName("variableWaDEName")]
+    public string VariableWaDEName { get; set; }
     [JsonPropertyName("aggStatistic")]
     public string AggregationStatistic { get; set; }
     [JsonPropertyName("aggInterval")]
-    public string AggregationInterval { get; set; }
+    public decimal AggregationInterval { get; set; }
     [JsonPropertyName("aggIntervalUnit")]
     public string AggregationIntervalUnit { get; set; }
     [JsonPropertyName("reportYearStartMonth")]

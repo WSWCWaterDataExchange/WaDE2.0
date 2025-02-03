@@ -23,16 +23,16 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
 {
     private ISiteVariableAmountsAccessor _siteVariableAmountsAccessorMock = Mock.Create<ISiteVariableAmountsAccessor>();
     private IFormattingEngine _formattingEngine = Mock.Create<IFormattingEngine>();
-    
+
     [TestMethod]
     public async Task Handler_FoundOneSite_ReturnsResponse()
     {
         // Arrange
-        string requestedSiteUuid = "NE123_abc";
-        _siteVariableAmountsAccessorMock.Arrange(mock => 
+        string requestedSiteUuid = "1234";
+        _siteVariableAmountsAccessorMock.Arrange(mock =>
                 mock.Search<TimeSeriesSearchRequest, TimeSeriesSearchResponse>(
-                    Arg.Matches<TimeSeriesSearchRequest>(req => 
-                        req.SiteUuids.Contains(requestedSiteUuid) &&
+                    Arg.Matches<TimeSeriesSearchRequest>(req =>
+                        req.SiteVariableAmountId == long.Parse(requestedSiteUuid) &&
                         req.Limit == 1)))
             .ReturnsAsync(new TimeSeriesSearchResponse
             {
@@ -40,7 +40,7 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
                 [
                     new TimeSeriesSearchItem()
                     {
-                        SiteUuid = requestedSiteUuid
+                        SiteVariableAmountId = requestedSiteUuid
                     }
                 ],
                 LastUuid = null
@@ -60,16 +60,16 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
                 ],
                 Links = []
             });
-        
+
         // Act
         var handler = CreateTimeSeriesFeatureItemGetRequestHandler();
         var request = new TimeSeriesFeatureItemGetRequest
         {
             Id = requestedSiteUuid
         };
-        
+
         var response = await handler.Handle(request);
-        
+
         // Assert
         response.Should().NotBeNull();
         response.Feature.Should().NotBeNull();
@@ -79,11 +79,11 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
     public async Task Handler_FoundZeroSites_NotFoundErrorIsThrown()
     {
         // Arrange
-        string requestedSiteUuid = "NE123_abc";
-        _siteVariableAmountsAccessorMock.Arrange(mock => 
+        string requestedSiteUuid = "1234";
+        _siteVariableAmountsAccessorMock.Arrange(mock =>
                 mock.Search<TimeSeriesSearchRequest, TimeSeriesSearchResponse>(
-                    Arg.Matches<TimeSeriesSearchRequest>(req => 
-                        req.SiteUuids.Contains(requestedSiteUuid) &&
+                    Arg.Matches<TimeSeriesSearchRequest>(req =>
+                        req.SiteVariableAmountId == long.Parse(requestedSiteUuid) &&
                         req.Limit == 1)))
             .ReturnsAsync(new TimeSeriesSearchResponse
             {
@@ -91,11 +91,11 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
                 LastUuid = null
             });
 
-        var formatEngineExpectation =_formattingEngine.Arrange(mock =>
+        var formatEngineExpectation = _formattingEngine.Arrange(mock =>
                 mock.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(
                     Arg.IsAny<OgcFeaturesFormattingRequest>()))
             .ReturnsAsync(new OgcFeaturesFormattingResponse());
-        
+
         // Act
         var handler = CreateTimeSeriesFeatureItemGetRequestHandler();
         var request = new TimeSeriesFeatureItemGetRequest
@@ -104,22 +104,22 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
         };
 
         var response = await handler.Handle(request);
-        
+
         // Assert
         formatEngineExpectation.OccursNever();
         response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
-    
+
     [TestMethod]
     public async Task Handler_FoundMultipleSites_NotFoundErrorIsThrown()
     {
         // Arrange
-        string requestedSiteUuid = "NE123_abc";
-        _siteVariableAmountsAccessorMock.Arrange(mock => 
+        string requestedSiteUuid = "1234";
+        _siteVariableAmountsAccessorMock.Arrange(mock =>
                 mock.Search<TimeSeriesSearchRequest, TimeSeriesSearchResponse>(
-                    Arg.Matches<TimeSeriesSearchRequest>(req => 
-                        req.SiteUuids.Contains(requestedSiteUuid) &&
+                    Arg.Matches<TimeSeriesSearchRequest>(req =>
+                        req.SiteVariableAmountId == long.Parse(requestedSiteUuid) &&
                         req.Limit == 1)))
             .ReturnsAsync(new TimeSeriesSearchResponse
             {
@@ -127,11 +127,11 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
                 LastUuid = null
             });
 
-        var formatEngineExpectation =_formattingEngine.Arrange(mock =>
+        var formatEngineExpectation = _formattingEngine.Arrange(mock =>
                 mock.Format<OgcFeaturesFormattingRequest, OgcFeaturesFormattingResponse>(
                     Arg.IsAny<OgcFeaturesFormattingRequest>()))
             .ReturnsAsync(new OgcFeaturesFormattingResponse());
-        
+
         // Act
         var handler = CreateTimeSeriesFeatureItemGetRequestHandler();
         var request = new TimeSeriesFeatureItemGetRequest
@@ -140,15 +140,16 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
         };
 
         var response = await handler.Handle(request);
-        
+
         // Assert
         formatEngineExpectation.OccursNever();
         response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
-    
+
     private TimeSeriesFeatureItemGetRequestHandler CreateTimeSeriesFeatureItemGetRequestHandler()
     {
-        return new TimeSeriesFeatureItemGetRequestHandler(_siteVariableAmountsAccessorMock, _formattingEngine, NullLogger<TimeSeriesFeatureItemGetRequestHandler>.Instance);
+        return new TimeSeriesFeatureItemGetRequestHandler(_siteVariableAmountsAccessorMock, _formattingEngine,
+            NullLogger<TimeSeriesFeatureItemGetRequestHandler>.Instance);
     }
 }

@@ -111,19 +111,21 @@ public static class QueryableExtensions
         return query;
     }
 
-    public static IQueryable<SitesDim> ApplySearchFilters(this IQueryable<SitesDim> query,
+    public static IQueryable<SiteVariableAmountsFact> ApplySearchFilters(this IQueryable<SiteVariableAmountsFact> query,
         TimeSeriesSearchRequest filters)
     {
-        // Only include sites with time series data
-        query = query.Where(x => x.SiteVariableAmountsFact.Count != 0);
+        if (filters.SiteVariableAmountId.HasValue)
+        {
+            query = query.Where(x => x.SiteVariableAmountId == filters.SiteVariableAmountId);
+        }
         
         if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
         {
             query = filters.GeometrySearch.SpatialRelationType switch
             {
                 SpatialRelationType.Intersects => query.Where(s =>
-                    (s.Geometry.IsValid && s.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
-                    (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
+                    (s.Site.Geometry.IsValid && s.Site.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
+                    (s.Site.SitePoint.IsValid && s.Site.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
                 _ => query
             };
         }
@@ -131,48 +133,46 @@ public static class QueryableExtensions
         if (filters.DateRange?.StartDate != null)
         {
             query = query.Where(x =>
-                x.SiteVariableAmountsFact.Any(ts =>
                     // Check if filtered start date is within the time series date range
-                    (filters.DateRange.StartDate >= ts.TimeframeStartNavigation.Date &&
-                     filters.DateRange.StartDate <= ts.TimeframeEndNavigation.Date) ||
+                    (filters.DateRange.StartDate >= x.TimeframeStartNavigation.Date &&
+                     filters.DateRange.StartDate <= x.TimeframeEndNavigation.Date) ||
                     // Else check if filtered start date is before the time series start date
-                    filters.DateRange.StartDate <= ts.TimeframeStartNavigation.Date));
+                    filters.DateRange.StartDate <= x.TimeframeStartNavigation.Date);
         }
 
         if (filters.DateRange?.EndDate != null)
         {
             query = query.Where(x =>
-                x.SiteVariableAmountsFact.Any(ts =>
                     // Check if filtered end date is within the time series date range
-                    (filters.DateRange.EndDate >= ts.TimeframeStartNavigation.Date &&
-                     filters.DateRange.EndDate <= ts.TimeframeEndNavigation.Date) ||
+                    (filters.DateRange.EndDate >= x.TimeframeStartNavigation.Date &&
+                     filters.DateRange.EndDate <= x.TimeframeEndNavigation.Date) ||
                     // Else check if filtered end date is after the time series end date
-                    ts.TimeframeEndNavigation.Date <= filters.DateRange.EndDate));
+                    x.TimeframeEndNavigation.Date <= filters.DateRange.EndDate);
         }
 
         if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)
         {
-            query = query.Where(x => filters.SiteUuids.Contains(x.SiteUuid));
+            query = query.Where(x => filters.SiteUuids.Contains(x.Site.SiteUuid));
         }
 
         if (filters.States != null && filters.States.Count != 0)
         {
-            query = query.Where(x => filters.States.Contains(x.StateCv));
+            query = query.Where(x => filters.States.Contains(x.Site.StateCv));
         }
 
         if (filters.VariableTypes != null && filters.VariableTypes.Count != 0)
         {
-            query = query.Where(x => x.SiteVariableAmountsFact.Any(ts => filters.VariableTypes.Contains(ts.VariableSpecific.VariableCvNavigation.WaDEName)));
+            query = query.Where(x => filters.VariableTypes.Contains(x.VariableSpecific.VariableCv));
         }
 
         if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
         {
-            query = query.Where(x => x.SiteVariableAmountsFact.Any(ts => filters.WaterSourceTypes.Contains(ts.WaterSource.WaterSourceTypeCvNavigation.WaDEName)));
+            query = query.Where(x => filters.WaterSourceTypes.Contains(x.WaterSource.WaterSourceTypeCv));
         }
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
-            query = query.Where(x => x.SiteUuid.CompareTo(filters.LastKey) > 0);
+            query = query.Where(x => x.SiteVariableAmountId > long.Parse(filters.LastKey));
         }
 
         return query;

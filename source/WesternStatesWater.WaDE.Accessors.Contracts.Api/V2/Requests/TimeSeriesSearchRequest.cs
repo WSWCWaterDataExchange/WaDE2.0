@@ -4,6 +4,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 
 public class TimeSeriesSearchRequest : SearchRequestBase
 {
+    public long? SiteVariableAmountId { get; set; }
     public SpatialSearchCriteria GeometrySearch { get; set; }
     public List<string> SiteUuids { get; set; }
     public DateRangeFilter DateRange { get; set; }

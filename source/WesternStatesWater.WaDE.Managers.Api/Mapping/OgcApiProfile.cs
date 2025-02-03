@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
+using WesternStatesWater.WaDE.Engines.Contracts;
 
 namespace WesternStatesWater.WaDE.Managers.Api.Mapping;
 
@@ -176,8 +178,9 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesItemRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
+            .ForMember(dest => dest.SiteVariableAmountId, mem => mem.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
-            .ForMember(dest => dest.DateRange, mem => mem.ConvertUsing(new OgcDateTimeConverter(), src=>src.DateTime))
+            .ForMember(dest => dest.DateRange, mem => mem.ConvertUsing(new OgcDateTimeConverter(), src => src.DateTime))
             .ForMember(dest => dest.SiteUuids,
                 mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.States,
@@ -192,6 +195,7 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
+            .ForMember(dest => dest.SiteVariableAmountId, mem => mem.Ignore())
             .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
             .ForMember(dest => dest.States, mem => mem.Ignore())
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
@@ -244,10 +248,10 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
             .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
             .ForMember(dest => dest.PrimaryUses, mem => mem.Ignore())
+            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
             .ForMember(dest => dest.LastKey, mem => mem.Ignore())
             .ForMember(dest => dest.Limit, mem => mem.MapFrom(src => 1))
-            .ForMember(dest => dest.SiteUuids,
-                mem => mem.MapFrom(src => new List<string> { src.Id }));
+            .ForMember(dest => dest.SiteVariableAmountId, mem => mem.MapFrom(src => long.Parse(src.Id)));
 
         // Accessor -> Engines
         CreateMap<Accessors.Contracts.Api.V2.Responses.SiteSearchResponse,
@@ -291,12 +295,13 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.TimeSeriesSearchItem,
                 Engines.Contracts.TimeSeriesFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SiteUuid))
-            .ForMember(dest => dest.TimeSeries, opt => opt.MapFrom(src => src.TimeSeries))
-            .ForMember(dest => dest.Geometry, opt => opt.MapFrom(src => src.Location));
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SiteVariableAmountId))
+            .ForMember(dest => dest.Geometry, opt => opt.MapFrom(src => src.Site.Location))
+            .ForMember(dest => dest.Site, opt => opt.MapFrom(src => src.Site));
 
-        CreateMap<Accessors.Contracts.Api.V2.TimeSeries,
-            Engines.Contracts.TimeSeries>();
+        CreateMap<Site, SiteFeature>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.Geometry, opt => opt.Ignore());
 
         CreateMap<Accessors.Contracts.Api.WaterSourceSummary,
             Engines.Contracts.WaterSourceSummary>();
