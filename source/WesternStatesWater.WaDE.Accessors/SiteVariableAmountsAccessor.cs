@@ -7,15 +7,18 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Accessors.Mapping;
 using AccessorApi = WesternStatesWater.WaDE.Accessors.Contracts.Api;
 
 namespace WesternStatesWater.WaDE.Accessors
 {
-    public class SiteVariableAmountsAccessor : AccessorApi.ISiteVariableAmountsAccessor
+    public class SiteVariableAmountsAccessor : AccessorBase, AccessorApi.ISiteVariableAmountsAccessor
     {
-        public SiteVariableAmountsAccessor(IConfiguration configuration, ILoggerFactory loggerFactory)
+        public SiteVariableAmountsAccessor(IConfiguration configuration, ILoggerFactory loggerFactory, IAccessorRequestHandlerResolver requestHandlerResolver) : base(requestHandlerResolver)
         {
             Configuration = configuration;
             Logger = loggerFactory.CreateLogger<AggregratedAmountsAccessor>();
@@ -72,9 +75,27 @@ namespace WesternStatesWater.WaDE.Accessors
             var startDate = await db.SiteVariableAmountsFact.MinAsync(fact => fact.TimeframeStartNavigation.Date);
             return new AccessorApi.SiteVariableAmountsMetadata
             {
+                // Due to the calculating boundary box for all sites is an expensive db operation,
+                // we are hardcoding the boundary box.
+                // Note: If we do calculate bound box, be aware not all site geometries are valid.
+
+                // View of bounding box: https://linestrings.com/bbox/#-180,18,-93,72
+                BoundaryBox = new AccessorApi.BoundaryBox
+                {
+                    Crs = "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+                    MinX = -180,
+                    MinY = 18,
+                    MaxX = -93,
+                    MaxY = 72
+                },
                 IntervalStartDate = startDate,
                 IntervalEndDate = null
             };
+        }
+
+        public async Task<TResponse> Search<TRequest, TResponse>(TRequest request) where TRequest : SearchRequestBase where TResponse : SearchResponseBase
+        {
+            return await ExecuteAsync<TRequest, TResponse>(request);
         }
 
         private static IQueryable<SiteVariableAmountsFact> BuildQuery(AccessorApi.SiteVariableAmountsFilters filters, WaDEContext db)

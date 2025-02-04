@@ -156,6 +156,11 @@ public class OgcFeaturesFormattingHandler(
             {
                 Href = $"{OgcHost}/collections/overlays/items?siteuuids={feature.Id}", Rel = "related",
                 Type = ContentTypeJson, Title = "The overlays associated with this site"
+            },
+            new Link
+            {
+                Href = $"{OgcHost}/collections/timeseries/items?siteuuids={feature.Id}", Rel = "related",
+                Type = ContentTypeJson, Title = "Time series data for this site"
             }
         ];
     }
@@ -190,6 +195,28 @@ public class OgcFeaturesFormattingHandler(
             {
                 Href = $"{OgcHost}/collections/rights/items?overlayuuids={feature.Id}", Rel = "related",
                 Type = ContentTypeJson, Title = "The rights associated with this overlay"
+            }
+        ];
+    }
+
+    private Link[] TimeSeriesRelatedLinks(TimeSeriesFeature feature)
+    {
+        return
+        [
+            new Link
+            {
+                Href = $"{OgcHost}/collections/sites/items?siteuuids={feature.Id}", Rel = "related",
+                Type = ContentTypeJson, Title = "Site"
+            },
+            new Link
+            {
+                Href = $"{OgcHost}/collections/rights/items?siteuuids={feature.Id}", Rel = "related",
+                Type = ContentTypeJson, Title = "The rights associated with this site"
+            },
+            new Link
+            {
+                Href = $"{OgcHost}/collections/overlays/items?siteuuids={feature.Id}", Rel = "related",
+                Type = ContentTypeJson, Title = "The overlays associated with this site"
             }
         ];
     }

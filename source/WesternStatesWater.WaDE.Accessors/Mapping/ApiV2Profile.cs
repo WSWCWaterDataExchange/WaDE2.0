@@ -5,6 +5,7 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using EF = WesternStatesWater.WaDE.Accessors.EntityFramework;
 using Method = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Method;
+using Site = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Site;
 using VariableSpecific = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.VariableSpecific;
 
 namespace WesternStatesWater.WaDE.Accessors.Mapping;
@@ -99,7 +100,7 @@ public class ApiV2Profile : Profile
                 b => b.MapFrom(c => c.AllocationBridgeSitesFact
                     .SelectMany(bridge => bridge.Site.WaterSourceBridgeSitesFact.Select(ws => ws.WaterSource))));
 
-        CreateMap<EF.SitesDim, TimeSeriesSearchItem>()
+        CreateMap<EF.SitesDim, Site>()
             .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
             .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
             .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
@@ -119,33 +120,8 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.PodOrPouSite, b => b.MapFrom(c => c.PODorPOUSite))
             .ForMember(a => a.WaterSources,
                 b => b.MapFrom(c =>
-                    c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)))
-            .ForMember(a => a.TimeSeries, b => b.MapFrom(c => c.SiteVariableAmountsFact.OrderBy(ts => ts.TimeframeStartNavigation.Date)));
-
-        CreateMap<EF.SiteVariableAmountsFact, TimeSeries>()
-            .ForMember(a => a.Organization, b => b.MapFrom(c => c.Organization))
-            .ForMember(a => a.VariableSpecific, b => b.MapFrom(c => c.VariableSpecific))
-            .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSource))
-            .ForMember(a => a.Method, b => b.MapFrom(c => c.Method))
-            .ForMember(a => a.TimeframeStart, b => b.MapFrom(c => c.TimeframeStartNavigation.Date))
-            .ForMember(a => a.TimeframeEnd, b => b.MapFrom(c => c.TimeframeEndNavigation.Date))
-            .ForMember(a => a.ReportYear, b => b.MapFrom(c => c.ReportYearCv))
-            .ForMember(a => a.Amount, b => b.MapFrom(c => c.Amount))
-            .ForMember(a => a.PopulationServed, b => b.MapFrom(c => c.PopulationServed))
-            .ForMember(a => a.PowerGeneratedGWh, b => b.MapFrom(c => c.PowerGeneratedGwh))
-            .ForMember(a => a.IrrigatedAcreage, b => b.MapFrom(c => c.IrrigatedAcreage))
-            .ForMember(a => a.IrrigationMethod, b => b.MapFrom(c => c.IrrigationMethodCv))
-            .ForMember(a => a.CropType, b => b.MapFrom(c => c.CropTypeCv))
-            .ForMember(a => a.CommunityWaterSupplySystem,
-                b => b.MapFrom(c => c.CommunityWaterSupplySystem))
-            .ForMember(a => a.SdwisIdentifier, b => b.MapFrom(c => c.SDWISIdentifierCv))
-            .ForMember(a => a.AssociatedNativeAllocationIDs, b => b.MapFrom(c => c.AssociatedNativeAllocationIds))
-            .ForMember(a => a.CustomerType, b => b.MapFrom(c => c.CustomerTypeCv))
-            .ForMember(a => a.AllocationCropDutyAmount, b => b.MapFrom(c => c.AllocationCropDutyAmount))
-            .ForMember(a => a.PrimaryUseCategory,
-                b => b.MapFrom(c => c.PrimaryBeneficialUse.WaDEName))
-            .ForMember(a => a.PowerType, b => b.MapFrom(c => c.PowerType));
-            
+                    c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
+        
         CreateMap<EF.OrganizationsDim, Organization>()
             .ForMember(a => a.Uuid, b => b.MapFrom(c => c.OrganizationUuid))
             .ForMember(a => a.Purview, b => b.MapFrom(c => c.OrganizationPurview))
@@ -157,8 +133,10 @@ public class ApiV2Profile : Profile
 
         CreateMap<EF.VariablesDim, VariableSpecific>()
             .ForMember(a => a.Uuid, b => b.MapFrom(c => c.VariableSpecificUuid))
-            .ForMember(a => a.Name, b => b.MapFrom(c => c.VariableSpecificCv))
-            .ForMember(a => a.Variable, b => b.MapFrom(c => c.VariableCvNavigation.WaDEName))
+            .ForMember(a => a.VariableSpecificCv, b => b.MapFrom(c => c.VariableSpecificCv))
+            .ForMember(a => a.VariableSpecificWaDEName, b => b.MapFrom(c => c.VariableSpecificCvNavigation.WaDEName))
+            .ForMember(a => a.VariableCv, b => b.MapFrom(c => c.VariableCv))
+            .ForMember(a => a.VariableWaDEName, b => b.MapFrom(c => c.VariableCvNavigation.WaDEName))
             .ForMember(a => a.AggregationStatistic, b => b.MapFrom(c => c.AggregationStatisticCv))
             .ForMember(a => a.AggregationInterval, b => b.MapFrom(c => c.AggregationInterval))
             .ForMember(a => a.AggregationIntervalUnit, b => b.MapFrom(c => c.AggregationIntervalUnitCv))

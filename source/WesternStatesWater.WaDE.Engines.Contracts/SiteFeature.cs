@@ -4,6 +4,8 @@ namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class SiteFeature : FeatureBase
 {
+    [JsonPropertyName("siteUuid")]
+    public string SiteUuid { get; set; }
     [JsonPropertyName("nId")]
     public string? SiteNativeId { get; set; }
     [JsonPropertyName("name")]
