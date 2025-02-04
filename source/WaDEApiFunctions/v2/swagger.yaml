@@ -21,7 +21,7 @@ paths:
           $ref: '#/components/responses/LandingPage'
         '500':
           $ref: '#/components/responses/ServerError'
-  /v2/conformance:
+  /conformance:
     get:
       tags:
         - Capabilities
@@ -33,7 +33,7 @@ paths:
           $ref: "#/components/responses/ConformanceDeclaration"
         '500':
           $ref: '#/components/responses/ServerError'
-  /v2/collections:
+  /collections:
     get:
       tags:
         - Capabilities
@@ -44,7 +44,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Collections'
-  /v2/collections/overlays:
+  /collections/overlays:
     get:
       tags:
         - Overlays
@@ -58,7 +58,7 @@ paths:
           $ref: '#/components/responses/NotFound'
         '500':
           $ref: '#/components/responses/ServerError'
-  /v2/collections/overlays/items:
+  /collections/overlays/items:
     get:
       tags:
         - Overlays
@@ -82,7 +82,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/overlays/area:
+  /collections/overlays/area:
     get:
       tags:
         - Overlays
@@ -101,7 +101,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/rights:
+  /collections/rights:
     get:
       tags:
         - Rights
@@ -112,7 +112,7 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/Collection'
-  /v2/collections/rights/items:
+  /collections/rights/items:
     get:
       tags:
         - Rights
@@ -136,7 +136,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/rights/area:
+  /collections/rights/area:
     get:
       tags:
         - Rights
@@ -155,7 +155,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/sites:
+  /collections/sites:
     get:
       tags:
         - Sites
@@ -170,7 +170,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/sites/items:
+  /collections/sites/items:
     get:
       tags:
         - Sites
@@ -192,7 +192,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/sites/area:
+  /collections/sites/area:
     get:
       tags:
         - Sites
@@ -214,7 +214,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/v2/collections/sites/items/{featureId}':
+  '/collections/sites/items/{featureId}':
     get:
       tags:
         - Sites
@@ -231,7 +231,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/timeSeries:
+  /collections/timeSeries:
     get:
       tags:
         - Time Series
@@ -246,7 +246,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/v2/collections/overlays/items/{featureId}':
+  '/collections/overlays/items/{featureId}':
     get:
       tags:
         - Overlays
@@ -263,7 +263,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/v2/collections/rights/items/{featureId}':
+  '/collections/rights/items/{featureId}':
     get:
       tags:
         - Rights
@@ -280,7 +280,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/timeSeries/items:
+  /collections/timeSeries/items:
     get:
       tags:
         - Time Series
@@ -304,7 +304,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  /v2/collections/timeSeries/area:
+  /collections/timeSeries/area:
     get:
       tags:
         - Time Series
@@ -323,7 +323,7 @@ paths:
           $ref: '#/components/responses/InvalidParameter'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/v2/collections/timeSeries/items/{featureId}':
+  '/collections/timeSeries/items/{featureId}':
     get:
       tags:
         - Time Series
