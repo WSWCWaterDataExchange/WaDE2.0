@@ -765,6 +765,7 @@ components:
     featureGeoJSON:
       type: object
       required:
+        - id
         - type
         - geometry
         - properties
