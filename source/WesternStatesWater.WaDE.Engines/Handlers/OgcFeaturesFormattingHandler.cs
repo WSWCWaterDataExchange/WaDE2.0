@@ -81,6 +81,13 @@ public class OgcFeaturesFormattingHandler(
             },
             new()
             {
+                Href = $"{OgcHost}/collections/{collectionId}/items/{item.Id}",
+                Rel = "alternate",
+                Type = "application/geo+json",
+                Title = "This feature as JSON"
+            },
+            new()
+            {
                 Href = $"{OgcHost}/collections/{collectionId}/items",
                 Rel = "items",
                 Type = ContentTypeJson,
