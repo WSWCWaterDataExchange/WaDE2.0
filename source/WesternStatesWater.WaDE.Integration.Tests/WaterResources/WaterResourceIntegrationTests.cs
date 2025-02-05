@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetTopologySuite.IO;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
@@ -108,7 +109,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         >(request);
 
         // Filtered on geometry, can't find the invalid site.
-        response.Features.Should().BeEmpty();
+        response.Error.Should().BeOfType<InternalError>("invalid sites throws a sql exception");
 
         request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
