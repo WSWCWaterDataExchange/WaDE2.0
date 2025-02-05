@@ -589,6 +589,7 @@
         "name": "coords",
         "in": "query",
         "description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\\n\\nThe polygon is defined using a Well Known Text string following\\n\\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).",
+        "required": true,
         "schema": {
           "type": "string"
         }
