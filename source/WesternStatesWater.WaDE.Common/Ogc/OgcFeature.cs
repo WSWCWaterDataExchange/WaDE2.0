@@ -1,4 +1,3 @@
-using System.Text.Json.Serialization;
 using NetTopologySuite.Features;
 using NetTopologySuite.Geometries;
 
@@ -9,11 +8,11 @@ namespace WesternStatesWater.WaDE.Common.Ogc;
 /// However, the current GeoJSON converters provided by the NetTopologySuite library do not support
 /// adding extra custom properties (referred to as "foreign members") to the JSON output.
 /// </summary>
-public sealed class OgcFeature
+public sealed class OgcFeature : IOgcFeature
 {
-    [JsonPropertyName("type")] public string Type { get; set; } = "Feature";
-    [JsonPropertyName("id")] public required string Id { get; set; }
-    [JsonPropertyName("geometry")] public Geometry? Geometry { get; set; }
-    [JsonPropertyName("properties")] public AttributesTable? Attributes { get; set; }
-    [JsonPropertyName("links")] public Link[]? Links { get; set; }
+    public string Type => "Feature";
+    public string Id { get; set; }
+    public Geometry? Geometry { get; set; }
+    public AttributesTable? Properties { get; set; }
+    public Link[]? Links { get; set; }
 }

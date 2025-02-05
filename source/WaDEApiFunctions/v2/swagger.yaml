@@ -344,14 +344,14 @@ paths:
 components:
   parameters:
     allocationUuids:
-        name: allocationUuids
-        in: query
-        description: Comma separated list of allocation Uuids
-        required: false
-        schema:
-          type: array
-          items:
-            type: string
+      name: allocationUuids
+      in: query
+      description: Comma separated list of allocation Uuids
+      required: false
+      schema:
+        type: array
+        items:
+          type: string
     bbox:
       name: bbox
       in: query
@@ -392,11 +392,8 @@ components:
       required: false
       schema:
         type: array
-        oneOf:
-        - minItems: 4
-          maxItems: 4
-        - minItems: 6
-          maxItems: 6
+        minItems: 4
+        maxItems: 4
         items:
           type: number
       style: form
@@ -647,10 +644,8 @@ components:
 
                   * Lower left corner, coordinate axis 1
                   * Lower left corner, coordinate axis 2
-                  * Minimum value, coordinate axis 3 (optional)
                   * Upper right corner, coordinate axis 1
                   * Upper right corner, coordinate axis 2
-                  * Maximum value, coordinate axis 3 (optional)
 
                   The coordinate reference system of the values is WGS 84 longitude/latitude
                   (http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate
@@ -671,8 +666,6 @@ components:
                 oneOf:
                 - minItems: 4
                   maxItems: 4
-                - minItems: 6
-                  maxItems: 6
                 items:
                   type: number
                 example:

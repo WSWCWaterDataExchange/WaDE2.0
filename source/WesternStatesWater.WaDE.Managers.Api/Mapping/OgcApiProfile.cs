@@ -36,18 +36,31 @@ public class OgcApiProfile : Profile
             Contracts.Api.Responses.V2.RightFeaturesSearchResponse>();
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
             Contracts.Api.Responses.V2.TimeSeriesFeaturesSearchResponse>();
+        
         CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            Contracts.Api.Responses.V2.SiteFeatureItemGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            Contracts.Api.Responses.V2.RightFeatureItemGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            Contracts.Api.Responses.V2.OverlayFeatureItemGetResponse>();
+        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            Contracts.Api.Responses.V2.TimeSeriesFeatureItemGetResponse>();
+
+        CreateMap<Engines.Contracts.Ogc.Responses.FeaturesResponseBase,
+            Contracts.Api.Responses.FeatureItemSearchResponseBase>()
+            .Include<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
                 Contracts.Api.Responses.V2.SiteFeatureItemGetResponse>()
-            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
-        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            .Include<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
                 Contracts.Api.Responses.V2.RightFeatureItemGetResponse>()
-            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
-        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            .Include<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
                 Contracts.Api.Responses.V2.OverlayFeatureItemGetResponse>()
-            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
-        CreateMap<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
+            .Include<Engines.Contracts.Ogc.Responses.OgcFeaturesFormattingResponse,
                 Contracts.Api.Responses.V2.TimeSeriesFeatureItemGetResponse>()
-            .ForMember(dest => dest.Feature, mem => mem.MapFrom(src => src.Features[0]));
+            .ForMember(dest => dest.Id, mem => mem.MapFrom(src => src.Features[0].Id))
+            .ForMember(dest => dest.Geometry, mem => mem.MapFrom(src => src.Features[0].Geometry))
+            .ForMember(dest => dest.Type, mem => mem.MapFrom(src => src.Features[0].Type))
+            .ForMember(dest => dest.Links, mem => mem.MapFrom(src => src.Features[0].Links))
+            .ForMember(dest => dest.Properties, mem => mem.MapFrom(src => src.Features[0].Properties));
 
         // Managers -> Accessors
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesItemRequest,

@@ -77,15 +77,15 @@ public class OgcFeaturesFormattingHandlerTests : OgcFormattingTestBase
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
-        response.Features[0].Attributes["sp"].Should().Be("string!");
-        response.Features[0].Attributes["nsp"].Should().Be("nullable string!");
-        response.Features[0].Attributes["ip"].Should().Be(1);
-        response.Features[0].Attributes["nip"].Should().Be(2);
-        response.Features[0].Attributes["dp"].Should().Be(3.0);
-        response.Features[0].Attributes["ndp"].Should().Be(4.0);
-        response.Features[0].Attributes["bp"].Should().Be(true);
-        response.Features[0].Attributes["nbp"].Should().Be(false);
-        response.Features[0].Attributes["sap"].Should().BeEquivalentTo(new[] { "string array!" });
+        response.Features[0].Properties["sp"].Should().Be("string!");
+        response.Features[0].Properties["nsp"].Should().Be("nullable string!");
+        response.Features[0].Properties["ip"].Should().Be(1);
+        response.Features[0].Properties["nip"].Should().Be(2);
+        response.Features[0].Properties["dp"].Should().Be(3.0);
+        response.Features[0].Properties["ndp"].Should().Be(4.0);
+        response.Features[0].Properties["bp"].Should().Be(true);
+        response.Features[0].Properties["nbp"].Should().Be(false);
+        response.Features[0].Properties["sap"].Should().BeEquivalentTo(new[] { "string array!" });
     }
 
     [TestMethod]
@@ -105,15 +105,15 @@ public class OgcFeaturesFormattingHandlerTests : OgcFormattingTestBase
         var response = await CreateHandler().Handle(request);
 
         // All attributes are keyed off the FeaturePropertyNameAttributes on the class properties.
-        response.Features[0].Attributes["sp"].Should().Be("string!");
-        response.Features[0].Attributes["nsp"].Should().BeNull();
-        response.Features[0].Attributes["ip"].Should().Be(1);
-        response.Features[0].Attributes["nip"].Should().BeNull();
-        response.Features[0].Attributes["dp"].Should().Be(2.0);
-        response.Features[0].Attributes["ndp"].Should().BeNull();
-        response.Features[0].Attributes["bp"].Should().Be(true);
-        response.Features[0].Attributes["nbp"].Should().BeNull();
-        response.Features[0].Attributes["sap"].Should().BeNull();
+        response.Features[0].Properties["sp"].Should().Be("string!");
+        response.Features[0].Properties["nsp"].Should().BeNull();
+        response.Features[0].Properties["ip"].Should().Be(1);
+        response.Features[0].Properties["nip"].Should().BeNull();
+        response.Features[0].Properties["dp"].Should().Be(2.0);
+        response.Features[0].Properties["ndp"].Should().BeNull();
+        response.Features[0].Properties["bp"].Should().Be(true);
+        response.Features[0].Properties["nbp"].Should().BeNull();
+        response.Features[0].Properties["sap"].Should().BeNull();
     }
 
     [TestMethod]
@@ -136,7 +136,27 @@ public class OgcFeaturesFormattingHandlerTests : OgcFormattingTestBase
         var request = new OgcFeaturesFormattingRequest { Items = [feature] };
         var response = await CreateHandler().Handle(request);
     
-        response.Features[0].Attributes.Count.Should().Be(namedProperties.Length);
+        response.Features[0].Properties.Count.Should().Be(namedProperties.Length);
+    }
+    
+    [TestMethod]
+    public async Task Features_Required_Links()
+    {
+        MockApiContextRequest("/collections/test/items");
+        
+        var request = new OgcFeaturesFormattingRequest()
+        {
+            Items = []
+        };
+
+        // Act
+        var handler = CreateHandler();
+        var response = await handler.Handle(request);
+
+        // Assert
+        response.Links.Should().NotBeNull();
+        response.Links.Should().Contain(link => link.Rel == "self" && link.Type == "application/json");
+        response.Links.Should().Contain(link => link.Rel == "alternate" && link.Type == "application/geo+json");
     }
 
     [TestMethod]
@@ -155,16 +175,7 @@ public class OgcFeaturesFormattingHandlerTests : OgcFormattingTestBase
 
         // Assert
         response.Links.Should().NotBeNull();
-        response.Links.Should().HaveCount(1);
-        response.Links.Should().BeEquivalentTo([
-            new Link
-            {
-                Href = $"{ApiHostName}/collections/test/items",
-                Rel = "self",
-                Title = "This document as JSON",
-                Type = "application/json"
-            }
-        ]);
+        response.Links.Should().NotContain(link => link.Rel == "next");
     }
 
     [TestMethod]
