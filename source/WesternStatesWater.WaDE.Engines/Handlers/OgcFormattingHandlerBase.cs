@@ -13,7 +13,7 @@ public abstract class OgcFormattingHandlerBase
     {
         Href = SwaggerDescription,
         Rel = "service-desc",
-        Type = ContentTypeJson,
+        Type = "application/vnd.oai.openapi+json;version=3.0",
         Title = "The API definition in JSON"
     };
 
@@ -21,7 +21,7 @@ public abstract class OgcFormattingHandlerBase
     {
         Href = SwaggerDoc,
         Rel = "service-doc",
-        Type = ContentTypeJson,
+        Type = "text/html",
         Title = "Swagger UI"
     };
     
