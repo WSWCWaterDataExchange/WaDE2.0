@@ -14,8 +14,8 @@ public static class QueryableExtensions
             query = filters.GeometrySearch.SpatialRelationType switch
             {
                 SpatialRelationType.Intersects => query.Where(s =>
-                    (s.Geometry.IsValid && s.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
-                    (s.SitePoint.IsValid && s.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
+                    (s.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
+                    (s.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
                 _ => query
             };
         }
