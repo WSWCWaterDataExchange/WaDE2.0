@@ -114,6 +114,13 @@ public class OgcFeaturesFormattingHandler(
             {
                 Href = $"{OgcHost}/collections/{GetCollectionId(requestUri)}/items", Rel = "self", Type = ContentTypeJson,
                 Title = "This document as JSON"
+            },
+            new()
+            {
+                Href = $"{OgcHost}/collections/{GetCollectionId(requestUri)}/items", 
+                Rel = "alternate", 
+                Type = "application/geo+json",
+                Title = "This document as JSON"
             }
         ];
 
