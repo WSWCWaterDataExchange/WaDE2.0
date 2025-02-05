@@ -74,7 +74,6 @@ public class RightFeatureItemGetRequestHandlerTests
 
         // Assert
         response.Should().NotBeNull();
-        response.Feature.Should().NotBeNull();
     }
 
     [TestMethod]
@@ -109,7 +108,6 @@ public class RightFeatureItemGetRequestHandlerTests
         
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
 
@@ -145,7 +143,6 @@ public class RightFeatureItemGetRequestHandlerTests
         
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
 

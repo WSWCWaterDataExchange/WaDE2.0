@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using WesternStatesWater.Shared.DataContracts;
 using WesternStatesWater.Shared.Errors;
 
 namespace WaDEApiFunctions;
@@ -20,6 +21,15 @@ public abstract class FunctionBase
         Converters =
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
+    
+    protected async Task<HttpResponseData> CreateResponse(HttpRequestData request, ResponseBase response)
+    {
+        return response switch
+        {
+            { Error: null } => await CreateOkResponse(request, response),
+            _ => await CreateErrorResponse(request, response.Error),
+        };
+    }
 
     protected static async Task<HttpResponseData> CreateOkResponse<T>(
         HttpRequestData request,
@@ -37,6 +47,7 @@ public abstract class FunctionBase
         return error switch
         {
             InternalError => await CreateInternalServerErrorResponse(request),
+            NotFoundError err => await CreateNotFoundResponse(request, err),
             ValidationError err => await CreateBadRequestResponse(request, err),
             _ => await CreateInternalServerErrorResponse(request)
         };
@@ -54,6 +65,19 @@ public abstract class FunctionBase
         return CreateProblemDetailsResponse(request, details, HttpStatusCode.InternalServerError);
     }
 
+    private static Task<HttpResponseData> CreateNotFoundResponse(HttpRequestData request, NotFoundError err)
+    {
+        var details = new ProblemDetails
+        {
+            Status = (int)HttpStatusCode.NotFound,
+            Title = "Resource not found",
+            Type = "https://tools.ietf.org/html/rfc7231#section-6.5.4",
+            Detail = err.PublicMessage
+        };
+
+        return CreateProblemDetailsResponse(request, details, HttpStatusCode.NotFound);
+    }
+    
     private static Task<HttpResponseData> CreateBadRequestResponse(HttpRequestData request, ValidationError error)
     {
         var details = new HttpValidationProblemDetails(error.Errors)

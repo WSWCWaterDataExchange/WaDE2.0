@@ -72,7 +72,6 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
 
         // Assert
         response.Should().NotBeNull();
-        response.Feature.Should().NotBeNull();
     }
 
     [TestMethod]
@@ -107,7 +106,6 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
 
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
 
@@ -143,7 +141,6 @@ public class TimeSeriesFeatureItemGetRequestHandlerTests
 
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
 

@@ -101,7 +101,7 @@ public class OgcFeaturesFormattingHandler(
         {
             Id = item.Id,
             Geometry = item.Geometry,
-            Attributes = BuildAttributesTable(item),
+            Properties = BuildAttributesTable(item),
             Links = featureLinks.ToArray()
         };
     }
