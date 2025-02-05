@@ -11,7 +11,7 @@ public abstract class OgcFormattingHandlerBase
 
     protected Link ServiceDescriptionLink => new Link
     {
-        Href = $"{SwaggerHost}/swagger.json",
+        Href = SwaggerDescription,
         Rel = "service-desc",
         Type = ContentTypeJson,
         Title = "The API definition in JSON"
@@ -19,7 +19,7 @@ public abstract class OgcFormattingHandlerBase
 
     protected Link ServiceDocumentLink => new Link
     {
-        Href = $"{SwaggerHost}/swagger/ui",
+        Href = SwaggerDoc,
         Rel = "service-doc",
         Type = ContentTypeJson,
         Title = "Swagger UI"
@@ -40,12 +40,16 @@ public abstract class OgcFormattingHandlerBase
         Type = ContentTypeJson,
         Title = "Resource collections"
     };
-
+    
     /// <summary>
-    /// Swagger host name that comes from the OpenApi:HostNames configuration.
-    /// Use this when you are referencing links in the Swagger specification.
+    /// URL to the Swagger file that describes the API.
     /// </summary>
-    private string SwaggerHost { get; }
+    private string SwaggerDescription { get; }
+    
+    /// <summary>
+    /// URL to the Swagger UI.
+    /// </summary>
+    private string SwaggerDoc { get; set; }
     
     /// <summary>
     /// Host name that comes from the OgcApi:Host configuration.
@@ -60,18 +64,11 @@ public abstract class OgcFormattingHandlerBase
         OgcHost = configuration["OgcApi:Host"] ?? 
                   throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OgcApi:Host configuration to build the specification links.");
         
-        // Uses the OpenApi:HostNames configuration to know the host name of the server.
-        // Open API supports multiple host names, but this engine will only support one at this time.
-        var swaggerHostNames = configuration["OpenApi:HostNames"] ??
-                               throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OpenApi:HostNames configuration to determine swagger links.");
+        SwaggerDoc = configuration["OgcApi:SwaggerDoc"] ?? 
+                  throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OgcApi:SwaggerDoc configuration to build the specification links.");
         
-        var hostNames = swaggerHostNames.Split(',');
-        if (hostNames.Length > 1)
-        {
-            throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} currently only supports one Swagger host name.");
-        }
-
-        SwaggerHost = hostNames[0].Trim();
+        SwaggerDescription = configuration["OgcApi:SwaggerDescription"] ?? 
+                  throw new InvalidOperationException($"{nameof(OgcFormattingHandlerBase)} requires OgcApi:SwaggerDescription configuration to build the specification links.");
     }
 
     /// <summary>
