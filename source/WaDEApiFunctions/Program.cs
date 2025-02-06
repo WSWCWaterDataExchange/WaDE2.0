@@ -1,11 +1,7 @@
 using System;
-using Microsoft.Azure.Functions.Worker.Extensions.OpenApi.Extensions;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Abstractions;
-using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using WaDEApiFunctions;
 using WesternStatesWater.WaDE.Accessors;
 using WesternStatesWater.WaDE.Accessors.Handlers;
@@ -24,7 +20,6 @@ using ManagerExt = WesternStatesWater.WaDE.Managers.Api.Extensions;
 var host = new HostBuilder()
     .ConfigureFunctionsWebApplication(builder =>
     {
-        builder.UseNewtonsoftJson();
         builder.UseMiddleware<HttpContextAccessorMiddleware>();
     })
     .ConfigureAppConfiguration((_, configBuilder) =>
@@ -43,28 +38,7 @@ var host = new HostBuilder()
     {
         var configuration = context.Configuration;
 
-        services.AddSingleton<IOpenApiConfigurationOptions>(_ =>
-        {
-            var options = new OpenApiConfigurationOptions()
-            {
-                Info = new OpenApiInfo()
-                {
-                    Version = DefaultOpenApiConfigurationOptions.GetOpenApiDocVersion(),
-                    Title = DefaultOpenApiConfigurationOptions.GetOpenApiDocTitle(),
-                    Description = DefaultOpenApiConfigurationOptions.GetOpenApiDocDescription()
-                },
-                Servers = DefaultOpenApiConfigurationOptions.GetHostNames(),
-                OpenApiVersion = DefaultOpenApiConfigurationOptions.GetOpenApiVersion(),
-                IncludeRequestingHostName =
-                    DefaultOpenApiConfigurationOptions.IsFunctionsRuntimeEnvironmentDevelopment(),
-                ForceHttps = DefaultOpenApiConfigurationOptions.IsHttpsForced(),
-                ForceHttp = DefaultOpenApiConfigurationOptions.IsHttpForced(),
-            };
-
-            return options;
-        });
-
-        services.AddHttpContextAccessor();
+       services.AddHttpContextAccessor();
         services.AddSingleton(configuration);
 
         services.AddScoped<
