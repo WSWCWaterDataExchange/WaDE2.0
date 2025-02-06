@@ -521,6 +521,13 @@
     }
   },
   "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "key"
+      }
+    },
     "parameters": {
       "allocationUuids": {
         "name": "allocationUuids",
@@ -1177,5 +1184,10 @@
         }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
 }
