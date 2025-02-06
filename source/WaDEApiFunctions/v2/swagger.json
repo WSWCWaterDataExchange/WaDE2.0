@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://wade-api-qa.azure-api.net/api/v2"
+      "url": "http://localhost:7071/api/v2"
     }
   ],
   "paths": {
