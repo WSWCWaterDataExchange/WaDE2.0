@@ -30,6 +30,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new RightFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
@@ -52,6 +53,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new RightFeaturesAreaRequest
         {
             Coords = req.Query["coords"],

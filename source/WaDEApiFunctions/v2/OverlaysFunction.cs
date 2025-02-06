@@ -30,6 +30,7 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new OverlayFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
@@ -53,6 +54,7 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new OverlayFeaturesAreaRequest
         {
             Coords = req.Query["coords"],

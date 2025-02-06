@@ -6,9 +6,9 @@
     "version": "1.0"
   },
   "servers": [
-      {
-        "url": "https://wade-api-qa.azure-api.net/api/v2"
-      }
+    {
+      "url": "https://wade-api-qa.azure-api.net/api/v2"
+    }
   ],
   "paths": {
     "/": {
@@ -52,6 +52,9 @@
         "responses": {
           "200": {
             "$ref": "#/components/responses/Collections"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
           }
         }
       }
@@ -311,15 +314,6 @@
           },
           {
             "$ref": "#/components/parameters/next"
-          },
-          {
-            "$ref": "#/components/parameters/siteUuids"
-          },
-          {
-            "$ref": "#/components/parameters/overlayUuids"
-          },
-          {
-            "$ref": "#/components/parameters/allocationUuids"
           }
         ],
         "responses": {
@@ -573,16 +567,6 @@
           "items": {
             "type": "string"
           }
-        },
-        "explode": false
-      },
-      "collectionId": {
-        "name": "collectionId",
-        "in": "path",
-        "description": "local identifier of a collection",
-        "required": true,
-        "schema": {
-          "type": "string"
         }
       },
       "coords": {
@@ -597,7 +581,7 @@
       "datetime": {
         "name": "datetime",
         "in": "query",
-        "description": "Either a date-time or an interval. Date and time expressions adhere to RFC 3339.\nIntervals may be bounded or half-bounded (double-dots at start or end).\n\nExamples:\n\n* A date-time: \"2018-02-12T23:20:50Z\"\n* A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n* Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n\nOnly features that have a temporal property that intersects the value of\n`datetime` are selected.\n\nIf a feature has multiple temporal properties, it is the decision of the\nserver whether only a single temporal property is used to determine\nthe extent or all relevant temporal properties.",
+        "description": "Either a date-time or an interval. Date and time expressions adhere to RFC 3339.\nIntervals may be bounded or half-bounded (double-dots at start or end).\n\nExamples:\n\n* A date-time: \"2018-02-12T23:20:50Z\"\n* A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n* Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n\nOnly features that have a temporal property that intersects the value of\n`datetime` are selected.",
         "required": false,
         "schema": {
           "type": "string"
@@ -617,13 +601,13 @@
       "limit": {
         "name": "limit",
         "in": "query",
-        "description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document.\nNested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 10000. Default = 10.",
+        "description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document.\nNested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.",
         "required": false,
         "schema": {
           "type": "integer",
           "minimum": 1,
-          "maximum": 10000,
-          "default": 10
+          "maximum": 1000,
+          "default": 1000
         },
         "style": "form",
         "explode": false
@@ -671,8 +655,7 @@
           "items": {
             "type": "string"
           }
-        },
-        "explode": false
+        }
       },
       "siteUuids": {
         "name": "siteUuids",
@@ -684,8 +667,7 @@
           "items": {
             "type": "string"
           }
-        },
-        "explode": false
+        }
       },
       "states": {
         "name": "states",
@@ -1087,7 +1069,6 @@
               "conformsTo": [
                 "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
                 "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
-                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/html",
                 "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson"
               ]
             }

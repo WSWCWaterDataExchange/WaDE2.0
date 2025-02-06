@@ -31,6 +31,7 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new TimeSeriesFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
@@ -54,6 +55,7 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new TimeSeriesFeaturesAreaRequest()
         {
             Coords = req.Query["coords"],

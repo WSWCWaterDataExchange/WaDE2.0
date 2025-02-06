@@ -32,6 +32,7 @@ public class WaterSitesFunction(
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new SiteFeaturesItemRequest
         {
             Bbox = req.Query["bbox"],
@@ -53,6 +54,7 @@ public class WaterSitesFunction(
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        // Modifying any query string parameters, will require updating swagger.json.
         var request = new SiteFeaturesAreaRequest
         {
             Coords = req.Query["coords"],
