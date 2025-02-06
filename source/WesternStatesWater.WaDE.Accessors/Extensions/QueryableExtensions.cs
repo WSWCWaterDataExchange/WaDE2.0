@@ -102,6 +102,19 @@ public static class QueryableExtensions
             query = query.Where(x => x.AllocationBridgeBeneficialUsesFact.Any(
                 bridge => filters.BeneficialUses.Contains(bridge.BeneficialUse.WaDEName)));
         }
+        
+        if (filters.PriorityDate != null)
+        {
+            if (filters.PriorityDate.StartDate != null)
+            {
+                query = query.Where(x => x.AllocationPriorityDateNavigation.Date >= filters.PriorityDate.StartDate);
+            }
+
+            if (filters.PriorityDate.EndDate != null)
+            {
+                query = query.Where(x => x.AllocationPriorityDateNavigation.Date <= filters.PriorityDate.EndDate);
+            }
+        }
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {

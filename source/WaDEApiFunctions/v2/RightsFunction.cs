@@ -42,6 +42,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
             Next = req.Query["next"],
+            DateTime = req.Query["datetime"],
             AllocationUuids = req.Query["allocationUuids"],
             SiteUuids = req.Query["siteUuids"],
             States = req.Query["states"],

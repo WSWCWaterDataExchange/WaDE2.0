@@ -183,6 +183,9 @@
             "$ref": "#/components/parameters/next"
           },
           {
+            "$ref": "#/components/parameters/datetime"
+          },
+          {
             "$ref": "#/components/parameters/allocationUuids"
           },
           {
