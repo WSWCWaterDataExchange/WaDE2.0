@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -24,7 +25,7 @@ public class CollectionMetadataGetRequestHandlerTests
     {
         // Arrange
         var request = new CollectionMetadataGetRequest();
-        
+
         var mockResponse = new CollectionResponse
         {
             Collection = new Collection
@@ -43,12 +44,15 @@ public class CollectionMetadataGetRequestHandlerTests
                         Trs = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian",
                     }
                 },
-                Links = [
-                new Link
-                {
-                    Href = "http://localhost/",
-                    Rel = "self",
-                }]
+                Links =
+                [
+                    new Link
+                    {
+                        Href = "http://localhost/",
+                        Rel = "self",
+                    }
+                ],
+                ParameterNames = new Dictionary<string, Parameter>()
             }
         };
         _formattingEngineMock.Arrange(mock =>
