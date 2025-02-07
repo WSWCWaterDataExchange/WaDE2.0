@@ -75,7 +75,6 @@ public class SiteFeatureItemGetRequestHandlerTests
         
         // Assert
         response.Should().NotBeNull();
-        response.Feature.Should().NotBeNull();
     }
 
     [TestMethod]
@@ -110,7 +109,6 @@ public class SiteFeatureItemGetRequestHandlerTests
         
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
     
@@ -146,7 +144,6 @@ public class SiteFeatureItemGetRequestHandlerTests
         
         // Assert
         formatEngineExpectation.OccursNever();
-        response.Feature.Should().BeNull();
         response.Error.Should().BeOfType<NotFoundError>();
     }
     

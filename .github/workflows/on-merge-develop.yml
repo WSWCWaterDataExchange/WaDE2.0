@@ -5,8 +5,31 @@ on:
       - develop
 name: Deploy Application to QA
 
+env:
+  API_HOST: https://wade-api-qa.azure-api.net/api/v2
+
 jobs:
-  call-deploy-app-staging:
+  artifact-swagger:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: Update swagger.json server url
+        run: echo "`jq '.servers[0].url="${{ env.API_HOST }}"' swagger.json`" > swagger.json
+        working-directory: ./source/WaDEApiFunctions/v2
+
+      - name: Read swagger.json
+        run: cat swagger.json
+        working-directory: ./source/WaDEApiFunctions/v2
+
+      - name: Artifact swagger.json
+        uses: actions/upload-artifact@v4
+        with:
+          name: swagger.json
+          path: ./source/WaDEApiFunctions/v2/swagger.json
+
+  call-deploy-app-qa:
     uses: ./.github/workflows/deploy.yml
     with:
       environment: QA

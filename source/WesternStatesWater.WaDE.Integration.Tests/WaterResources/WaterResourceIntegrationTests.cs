@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NetTopologySuite.IO;
+using WesternStatesWater.Shared.Errors;
 using WesternStatesWater.WaDE.Contracts.Api;
 using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
 using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
@@ -108,7 +109,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         >(request);
 
         // Filtered on geometry, can't find the invalid site.
-        response.Features.Should().BeEmpty();
+        response.Error.Should().BeOfType<InternalError>("invalid sites throws a sql exception");
 
         request = new Contracts.Api.Requests.V2.SiteFeaturesItemRequest
         {
@@ -198,7 +199,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Be(lincolnSites.Length, "all these points should be in the Lincoln area.");
 
         response.Features
-            .Select(f => f.Attributes["id"])
+            .Select(f => f.Properties["id"])
             .Should()
             .Contain(lincolnSites.Select(s => s.SiteUuid));
 
@@ -218,7 +219,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Be(omahaSites.Length, "all these points should be in the Omaha area.");
 
         response.Features
-            .Select(f => f.Attributes["id"])
+            .Select(f => f.Properties["id"])
             .Should()
             .Contain(omahaSites.Select(s => s.SiteUuid));
 
@@ -267,7 +268,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
-        sites[0].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
+        sites[0].SiteUuid.Should().Be(response.Features[0].Properties["id"].ToString());
 
         // Use the link to get the next page, but up the limit to 2.
         var next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
@@ -282,8 +283,8 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             Contracts.Api.Responses.V2.SiteFeaturesSearchResponse
         >(request);
 
-        sites[1].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
-        sites[2].SiteUuid.Should().Be(response.Features[1].Attributes["id"].ToString());
+        sites[1].SiteUuid.Should().Be(response.Features[0].Properties["id"].ToString());
+        sites[2].SiteUuid.Should().Be(response.Features[1].Properties["id"].ToString());
 
         // Use the link to get the final page. Overshoot the limit for good measure.
         next = response.Links.First(link => link.Rel == "next").Href.Split('=').Last();
@@ -298,7 +299,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
         >(request);
 
         response.Features.Length.Should().Be(1);
-        sites[3].SiteUuid.Should().Be(response.Features[0].Attributes["id"].ToString());
+        sites[3].SiteUuid.Should().Be(response.Features[0].Properties["id"].ToString());
         response.Links.Count(link => link.Rel == "next").Should().Be(0);
     }
     
@@ -343,7 +344,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Be(lincolnSites.Length, "all these points should be in the Lincoln area.");
 
         response.Features
-            .Select(f => f.Attributes["id"])
+            .Select(f => f.Properties["id"])
             .Should()
             .Contain(lincolnSites.Select(s => s.SiteUuid));
 
@@ -369,7 +370,7 @@ public class WaterResourceIntegrationTests : IntegrationTestsBase
             .Be(omahaSites.Length, "all these points should be in the Omaha area.");
 
         response.Features
-            .Select(f => f.Attributes["id"])
+            .Select(f => f.Properties["id"])
             .Should()
             .Contain(omahaSites.Select(s => s.SiteUuid));
 

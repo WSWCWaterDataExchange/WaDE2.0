@@ -11,7 +11,9 @@
     "OpenApi__ForceHttp": "true",
     "OgcApi__Title": "WaDE OGC API",
     "OgcApi__Description": "WaDE 2.0 OGC API",
-    "OgcApi__Host": "http://localhost:7071/api/v2"
+    "OgcApi__Host": "http://localhost:7071/api/v2",
+    "OgcApi__SwaggerDoc": "http://localhost:7071/api/swagger/ui",
+    "OgcApi__SwaggerDescription": "http://localhost:7071/api/swagger.json"
   },
   "ConnectionStrings": {
     "AzureStorage": "UseDevelopmentStorage=true",

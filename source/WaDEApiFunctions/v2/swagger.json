@@ -1,0 +1,1193 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "WaDE OGC API",
+    "description": "WaDE API that conforms to the OGC API features and environmental data retrieval specification.",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7071/api/v2"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "tags": ["Capabilities"],
+        "summary": "Landing Page",
+        "description": "The landing page provides links to the API definition, the conformance\nstatements and to the feature collections in this dataset.",
+        "operationId": "getLandingPage",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/LandingPage"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/conformance": {
+      "get": {
+        "tags": ["Capabilities"],
+        "summary": "Conformance",
+        "description": "Conformance declaration for the OGC API.",
+        "operationId": "getConformance",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/ConformanceDeclaration"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/collections": {
+      "get": {
+        "tags": ["Capabilities"],
+        "summary": "Discovery",
+        "description": "Collections",
+        "operationId": "getCollections",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Collections"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/collections/overlays": {
+      "get": {
+        "tags": ["Overlays"],
+        "summary": "Overlays collection metadata",
+        "description": "WaDE overlays collection.",
+        "operationId": "getOverlaysCollections",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Collection"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/collections/overlays/items": {
+      "get": {
+        "tags": ["Overlays"],
+        "summary": "Get overlay collection items",
+        "description": "List of overlays.",
+        "operationId": "getOverlays",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/bbox"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/overlayUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/overlayTypes"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/overlays/area": {
+      "get": {
+        "tags": ["Overlays"],
+        "summary": "Get overlay collection items in the given area",
+        "description": "List of overlays.",
+        "operationId": "getOverlaysInArea",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/coords"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/rights": {
+      "get": {
+        "tags": ["Rights"],
+        "summary": "Rights collection metadata",
+        "description": "WaDE water rights collection",
+        "operationId": "getRightsCollection",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Collection"
+          }
+        }
+      }
+    },
+    "/collections/rights/items": {
+      "get": {
+        "tags": ["Rights"],
+        "summary": "Get water right collection items",
+        "description": "Allocations",
+        "operationId": "getRights",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/bbox"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/allocationUuids"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          },
+          {
+            "$ref": "#/components/parameters/beneficialUses"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/rights/area": {
+      "get": {
+        "tags": ["Rights"],
+        "summary": "Get water right for a given area",
+        "description": "Allocations",
+        "operationId": "getRightsInArea",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/coords"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/sites": {
+      "get": {
+        "tags": ["Sites"],
+        "summary": "Site collection metadata",
+        "description": "WaDE sites collection.",
+        "operationId": "getSiteCollection",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Collection"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/sites/items": {
+      "get": {
+        "tags": ["Sites"],
+        "summary": "Get water site collection items",
+        "description": "TODO: features of site.",
+        "operationId": "getWaterSites",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/bbox"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteTypes"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/sites/area": {
+      "get": {
+        "tags": ["Sites"],
+        "summary": "Return the data values for the data area defined by the query parameters",
+        "description": "TODO: features of site.",
+        "operationId": "getWaterSitesInArea",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/coords"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/sites/items/{featureId}": {
+      "get": {
+        "tags": ["Sites"],
+        "summary": "Get a water site feature W",
+        "description": "TODO: feature.",
+        "operationId": "getWaterSite",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/featureId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Feature"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/timeSeries": {
+      "get": {
+        "tags": ["Time Series"],
+        "summary": "Time Series collection metadata",
+        "description": "WaDE time series collection.",
+        "operationId": "getTimeSeriesCollections",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Collection"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/overlays/items/{featureId}": {
+      "get": {
+        "tags": ["Overlays"],
+        "summary": "Get a overlay feature",
+        "description": "TODO: feature.",
+        "operationId": "getOverlay",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/featureId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Feature"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/rights/items/{featureId}": {
+      "get": {
+        "tags": ["Rights"],
+        "summary": "Get a water right feature",
+        "description": "TODO: feature.",
+        "operationId": "getWaterRight",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/featureId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Feature"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/timeSeries/items": {
+      "get": {
+        "tags": ["Time Series"],
+        "summary": "Get time series collection items",
+        "description": "TODO: features of site.",
+        "operationId": "searchTimeSeries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/bbox"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          },
+          {
+            "$ref": "#/components/parameters/variableTypes"
+          },
+          {
+            "$ref": "#/components/parameters/datetime"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/timeSeries/area": {
+      "get": {
+        "tags": ["Time Series"],
+        "summary": "Get time series collection items in area.",
+        "description": "TODO: features of site.",
+        "operationId": "searchTimeSeriesInArea",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/coords"
+          },
+          {
+            "$ref": "#/components/parameters/next"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Features"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/collections/timeSeries/items/{featureId}": {
+      "get": {
+        "tags": ["Time Series"],
+        "summary": "Get a site time series",
+        "description": "TODO: feature.",
+        "operationId": "getTimeSeries",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/featureId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/Feature"
+          },
+          "400": {
+            "$ref": "#/components/responses/InvalidParameter"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "apiKeyAuth": {
+        "type": "apiKey",
+        "in": "query",
+        "name": "key"
+      }
+    },
+    "parameters": {
+      "allocationUuids": {
+        "name": "allocationUuids",
+        "in": "query",
+        "description": "Comma separated list of allocation Uuids",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "bbox": {
+        "name": "bbox",
+        "in": "query",
+        "description": "Only features that have a geometry that intersects the bounding box are selected.\nThe bounding box is provided as four or six numbers, depending on whether the\ncoordinate reference system includes a vertical axis (height or depth):\n\n* Lower left corner, coordinate axis 1\n* Lower left corner, coordinate axis 2\n* Minimum value, coordinate axis 3 (optional)\n* Upper right corner, coordinate axis 1\n* Upper right corner, coordinate axis 2\n* Maximum value, coordinate axis 3 (optional)\n\nIf the value consists of four numbers, the coordinate reference system is\nWGS 84 longitude/latitude (http://www.opengis.net/def/crs/OGC/1.3/CRS84)\nunless a different coordinate reference system is specified in the parameter `bbox-crs`.\n\nIf the value consists of six numbers, the coordinate reference system is WGS 84\nlongitude/latitude/ellipsoidal height (http://www.opengis.net/def/crs/OGC/0/CRS84h)\nunless a different coordinate reference system is specified in the parameter `bbox-crs`.\n\nThe query parameter `bbox-crs` is specified in OGC API - Features - Part 2: Coordinate\nReference Systems by Reference.\n\nFor WGS 84 longitude/latitude the values are in most cases the sequence of\nminimum longitude, minimum latitude, maximum longitude and maximum latitude.\nHowever, in cases where the box spans the antimeridian the first value\n(west-most box edge) is larger than the third value (east-most box edge).\n\nIf the vertical axis is included, the third and the sixth number are\nthe bottom and the top of the 3-dimensional bounding box.\n\nIf a feature has multiple spatial geometry properties, it is the decision of the\nserver whether only a single spatial geometry property is used to determine\nthe extent or all relevant geometries.",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "oneOf": [
+            {
+              "minItems": 4,
+              "maxItems": 4
+            },
+            {
+              "minItems": 6,
+              "maxItems": 6
+            }
+          ],
+          "items": {
+            "type": "number"
+          }
+        },
+        "style": "form",
+        "explode": false
+      },
+      "beneficialUses": {
+        "name": "beneficialUses",
+        "in": "query",
+        "description": "Comma separated list of beneficial uses",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "coords": {
+        "name": "coords",
+        "in": "query",
+        "description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\\n\\nThe polygon is defined using a Well Known Text string following\\n\\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y)).",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "datetime": {
+        "name": "datetime",
+        "in": "query",
+        "description": "Either a date-time or an interval. Date and time expressions adhere to RFC 3339.\nIntervals may be bounded or half-bounded (double-dots at start or end).\n\nExamples:\n\n* A date-time: \"2018-02-12T23:20:50Z\"\n* A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n* Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n\nOnly features that have a temporal property that intersects the value of\n`datetime` are selected.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        },
+        "style": "form",
+        "explode": false
+      },
+      "featureId": {
+        "name": "featureId",
+        "in": "path",
+        "description": "local identifier of a feature",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document.\nNested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 1000
+        },
+        "style": "form",
+        "explode": false
+      },
+      "next": {
+        "name": "next",
+        "in": "query",
+        "description": "The optional next parameter is used to request the next page of items in a paginated response.\nThe value of the next parameter is the URL to the next page of items.",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "overlayTypes": {
+        "name": "overlayTypes",
+        "in": "query",
+        "description": "Comma separated list of overlay types",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "overlayUuids": {
+        "name": "overlayUuids",
+        "in": "query",
+        "description": "Comma separated list of overlay Uuids",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "siteTypes": {
+        "name": "siteTypes",
+        "in": "query",
+        "description": "Comma separated list of site types",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "siteUuids": {
+        "name": "siteUuids",
+        "in": "query",
+        "description": "Comma separated list of site Uuids",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "states": {
+        "name": "states",
+        "in": "query",
+        "description": "Comma separated list of state abbreviations",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "variableTypes": {
+        "name": "variableTypes",
+        "in": "query",
+        "description": "Comma separated list of variable types",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "waterSourceTypes": {
+        "name": "waterSourceTypes",
+        "in": "query",
+        "description": "Comma separated list of water source types",
+        "required": false,
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "collection": {
+        "type": "object",
+        "required": ["id", "links"],
+        "properties": {
+          "id": {
+            "description": "identifier of the collection used, for example, in URIs",
+            "type": "string",
+            "example": "sites"
+          },
+          "title": {
+            "description": "human readable title of the collection",
+            "type": "string",
+            "example": "Water Sites"
+          },
+          "description": {
+            "description": "a description of the features in the collection",
+            "type": "string",
+            "example": "Water Sites Description"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/link"
+            }
+          },
+          "extent": {
+            "$ref": "#/components/schemas/extent"
+          },
+          "itemType": {
+            "description": "indicator about the type of the items in the collection (the default value is 'feature').",
+            "type": "string",
+            "default": "feature"
+          },
+          "crs": {
+            "description": "the list of coordinate reference systems supported by the service",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": ["http://www.opengis.net/def/crs/OGC/1.3/CRS84"],
+            "example": ["http://www.opengis.net/def/crs/OGC/1.3/CRS84"]
+          }
+        }
+      },
+      "collections": {
+        "type": "object",
+        "required": ["links", "collections"],
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/link"
+            }
+          },
+          "collections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/collection"
+            }
+          },
+          "error": {
+            "$ref": "#/components/schemas/errorBase"
+          }
+        }
+      },
+      "conformance": {
+        "type": "object",
+        "required": ["conformsTo"],
+        "properties": {
+          "conformsTo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "$ref": "#/components/schemas/errorBase"
+          }
+        }
+      },
+      "errorBase": {
+        "type": "object",
+        "properties": {
+          "publicMessage": {
+            "type": "string"
+          }
+        }
+      },
+      "extent": {
+        "type": "object",
+        "description": "The extent of the features in the collection. In the Core only spatial and temporal\nextents are specified. Extensions may add additional members to represent other\nextents, for example, thermal or pressure ranges.",
+        "properties": {
+          "spatial": {
+            "description": "The spatial extent of the features in the collection.",
+            "type": "object",
+            "properties": {
+              "bbox": {
+                "description": "One or more bounding boxes that describe the spatial extent of the dataset.\nIn the Core only a single bounding box is supported. Extensions may support\nadditional areas. If multiple areas are provided, the union of the bounding\nboxes describes the spatial extent.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "description": "Each bounding box is provided as four or six numbers, depending on\nwhether the coordinate reference system includes a vertical axis\n(height or depth):\n\n* Lower left corner, coordinate axis 1\n* Lower left corner, coordinate axis 2\n* Upper right corner, coordinate axis 1\n* Upper right corner, coordinate axis 2\n\nThe coordinate reference system of the values is WGS 84 longitude/latitude\n(http://www.opengis.net/def/crs/OGC/1.3/CRS84) unless a different coordinate\nreference system is specified in `crs`.\n\nFor WGS 84 longitude/latitude the values are in most cases the sequence of\nminimum longitude, minimum latitude, maximum longitude and maximum latitude.\nHowever, in cases where the box spans the antimeridian the first value\n(west-most box edge) is larger than the third value (east-most box edge).\n\nIf the vertical axis is included, the third and the sixth number are\nthe bottom and the top of the 3-dimensional bounding box.\n\nIf a feature has multiple spatial geometry properties, it is the decision of the\nserver whether only a single spatial geometry property is used to determine\nthe extent or all relevant geometries.",
+                  "type": "array",
+                  "minItems": 4,
+                  "maxItems": 4,
+                  "items": {
+                    "type": "number"
+                  },
+                  "example": [-180, -90, 180, 90]
+                }
+              },
+              "crs": {
+                "description": "Coordinate reference system of the coordinates in the spatial extent\n(property `bbox`). The default reference system is WGS 84 longitude/latitude.\nIn the Core this is the only supported coordinate reference system.\nExtensions may support additional coordinate reference systems and add\nadditional enum values.",
+                "type": "string",
+                "enum": ["http://www.opengis.net/def/crs/OGC/1.3/CRS84"],
+                "default": "http://www.opengis.net/def/crs/OGC/1.3/CRS84"
+              }
+            }
+          },
+          "temporal": {
+            "description": "The temporal extent of the features in the collection.",
+            "type": "object",
+            "properties": {
+              "interval": {
+                "description": "One or more time intervals that describe the temporal extent of the dataset.\nThe value `null` is supported and indicates an unbounded interval end.\nIn the Core only a single time interval is supported. Extensions may support\nmultiple intervals. If multiple intervals are provided, the union of the\nintervals describes the temporal extent.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "description": "Begin and end times of the time interval. The timestamps are in the\ntemporal coordinate reference system specified in `trs`. By default\nthis is the Gregorian calendar.",
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "example": ["2011-11-11T12:22:11Z", null]
+                }
+              },
+              "trs": {
+                "description": "Coordinate reference system of the coordinates in the temporal extent\n(property `interval`). The default reference system is the Gregorian calendar.\nIn the Core this is the only supported temporal coordinate reference system.\nExtensions may support additional temporal coordinate reference systems and add\nadditional enum values.",
+                "type": "string",
+                "enum": ["http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"],
+                "default": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"
+              }
+            }
+          }
+        }
+      },
+      "exception": {
+        "type": "object",
+        "description": "Information about the exception: an error code plus an optional description.",
+        "required": ["code"],
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "featureCollectionGeoJSON": {
+        "type": "object",
+        "required": ["type", "features"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["FeatureCollection"]
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/featureGeoJSON"
+            }
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/link"
+            }
+          }
+        }
+      },
+      "featureGeoJSON": {
+        "type": "object",
+        "required": ["id", "type", "geometry", "properties"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["Feature"]
+          },
+          "geometry": {
+            "$ref": "#/components/schemas/geometryGeoJSON"
+          },
+          "properties": {
+            "type": "object",
+            "nullable": true
+          },
+          "id": {
+            "type": "string"
+          },
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/link"
+            }
+          }
+        }
+      },
+      "geometryGeoJSON": {
+        "type": "object",
+        "required": ["type", "coordinates"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "Point",
+              "LineString",
+              "Polygon",
+              "MultiPoint",
+              "MultiLineString",
+              "MultiPolygon"
+            ]
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "description": "Coordinates of the geometry, following GeoJSON specification."
+          }
+        }
+      },
+      "geometrycollectionGeoJSON": {
+        "type": "object",
+        "required": ["type", "geometries"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["GeometryCollection"]
+          },
+          "geometries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/geometryGeoJSON"
+            }
+          }
+        }
+      },
+      "landingPage": {
+        "type": "object",
+        "required": ["links"],
+        "properties": {
+          "links": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/link"
+            }
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "error": {
+            "$ref": "#/components/schemas/errorBase"
+          }
+        }
+      },
+      "link": {
+        "type": "object",
+        "properties": {
+          "href": {
+            "type": "string"
+          },
+          "rel": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "LandingPage": {
+        "description": "The landing page provides links to the API definition\n(link relations `service-desc` and `service-doc`),\nthe Conformance declaration (path `/conformance`,\nlink relation `conformance`), and the Feature\nCollections (path `/collections`, link relation\n`data`).",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/landingPage"
+            },
+            "example": {
+              "title": "Water Data Exchange API",
+              "description": "The Water Data Exchange API provides access to water data.",
+              "links": [
+                {
+                  "href": "http://wade-api-qa.azure-api.net/api/v2/",
+                  "rel": "self",
+                  "type": "application/json",
+                  "title": "this document"
+                },
+                {
+                  "href": "wade-api-qa.azure-api.net/api/v2/swagger.json",
+                  "rel": "service-desc",
+                  "type": "application/vnd.oai.openapi+json;version=3.0",
+                  "title": "the API definition"
+                },
+                {
+                  "href": "wade-api-qa.azure-api.net/api/v2/swagger/ui",
+                  "rel": "service-doc",
+                  "type": "text/html",
+                  "title": "the API documentation"
+                },
+                {
+                  "href": "http://wade-api-qa.azure-api.net/api/v2/conformance",
+                  "rel": "conformance",
+                  "type": "application/json",
+                  "title": "OGC API conformance classes implemented by this server"
+                },
+                {
+                  "href": "http://wade-api-qa.azure-api.net/api/v2/collections",
+                  "rel": "data",
+                  "type": "application/json",
+                  "title": "Information about the feature collections"
+                }
+              ]
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ConformanceDeclaration": {
+        "description": "The URIs of all conformance classes supported by the server.\n\nTo support \"generic\" clients that want to access multiple\nOGC API Features implementations - and not \"just\" a specific\nAPI / server, the server declares the conformance\nclasses it implements and conforms to.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/conformance"
+            },
+            "example": {
+              "conformsTo": [
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson"
+              ]
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Collections": {
+        "description": "The feature collections shared by this API.\n\nThe dataset is organized as one or more feature collections. This resource\nprovides information about and access to the collections.\n\nThe response contains the list of collections. For each collection, a link\nto the items in the collection (path `/collections/{collectionId}/items`,\nlink relation `items`) as well as key information about the collection.\nThis information includes:\n\n* A local identifier for the collection that is unique for the dataset;\n* A list of coordinate reference systems (CRS) in which geometries may be returned by the server. The first CRS is the default coordinate reference system (the default is always WGS 84 with axis order longitude/latitude);\n* An optional title and description for the collection;\n* An optional extent that can be used to provide an indication of the spatial and temporal extent of the collection - typically derived from the data;\n* An optional indicator about the type of the items in the collection (the default value, if the indicator is not provided, is 'feature').",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/collections"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Collection": {
+        "description": "Information about the feature collection with id `collectionId`.\n\nThe response contains a link to the items in the collection\n(path `/collections/{collectionId}/items`, link relation `items`)\nas well as key information about the collection. This information\nincludes:\n\n* A local identifier for the collection that is unique for the dataset;\n* A list of coordinate reference systems (CRS) in which geometries may be returned by the server. The first CRS is the default coordinate reference system (the default is always WGS 84 with axis order longitude/latitude);\n* An optional title and description for the collection;\n* An optional extent that can be used to provide an indication of the spatial and temporal extent of the collection - typically derived from the data;\n* An optional indicator about the type of the items in the collection (the default value, if the indicator is not provided, is 'feature').",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/collection"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Features": {
+        "description": "The response is a document consisting of features in the collection.\nThe features included in the response are determined by the server\nbased on the query parameters of the request. To support access to\nlarger collections without overloading the client, the API supports\npaged access with links to the next page, if more features are selected\nthat the page size.\n\nThe `bbox` and `datetime` parameter can be used to select only a\nsubset of the features in the collection (the features that are in the\nbounding box or time interval). The `bbox` parameter matches all features\nin the collection that are not associated with a location, too. The\n`datetime` parameter matches all features in the collection that are\nnot associated with a time stamp or interval, too.\n\nThe `limit` parameter may be used to control the subset of the\nselected features that should be returned in the response, the page size.\nEach page include links to support paging (link relation `next`).",
+        "content": {
+          "application/geo+json": {
+            "schema": {
+              "$ref": "#/components/schemas/featureCollectionGeoJSON"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Feature": {
+        "description": "fetch the feature with id `featureId` in the feature collection\nwith id `collectionId`",
+        "content": {
+          "application/geo+json": {
+            "schema": {
+              "$ref": "#/components/schemas/featureGeoJSON"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "InvalidParameter": {
+        "description": "A query parameter has an invalid value.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/exception"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "The requested resource does not exist on the server. For example, a path parameter had an incorrect value."
+      },
+      "NotAcceptable": {
+        "description": "Content negotiation failed. For example, the `Accept` header submitted in the request did not support any of the media types supported by the server for the requested resource."
+      },
+      "ServerError": {
+        "description": "A server error occurred.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/exception"
+            }
+          },
+          "text/html": {
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
+}

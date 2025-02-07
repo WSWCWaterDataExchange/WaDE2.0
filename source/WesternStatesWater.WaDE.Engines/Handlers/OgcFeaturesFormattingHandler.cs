@@ -81,6 +81,13 @@ public class OgcFeaturesFormattingHandler(
             },
             new()
             {
+                Href = $"{OgcHost}/collections/{collectionId}/items/{item.Id}",
+                Rel = "alternate",
+                Type = "application/geo+json",
+                Title = "This feature as JSON"
+            },
+            new()
+            {
                 Href = $"{OgcHost}/collections/{collectionId}/items",
                 Rel = "items",
                 Type = ContentTypeJson,
@@ -101,7 +108,7 @@ public class OgcFeaturesFormattingHandler(
         {
             Id = item.Id,
             Geometry = item.Geometry,
-            Attributes = BuildAttributesTable(item),
+            Properties = BuildAttributesTable(item),
             Links = featureLinks.ToArray()
         };
     }
@@ -113,6 +120,13 @@ public class OgcFeaturesFormattingHandler(
             new()
             {
                 Href = $"{OgcHost}/collections/{GetCollectionId(requestUri)}/items", Rel = "self", Type = ContentTypeJson,
+                Title = "This document as JSON"
+            },
+            new()
+            {
+                Href = $"{OgcHost}/collections/{GetCollectionId(requestUri)}/items", 
+                Rel = "alternate", 
+                Type = "application/geo+json",
                 Title = "This document as JSON"
             }
         ];
