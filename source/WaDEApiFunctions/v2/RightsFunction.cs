@@ -30,6 +30,12 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<RightFeaturesItemRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new RightFeaturesItemRequest
         {
@@ -53,6 +59,12 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<RightFeaturesAreaRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new RightFeaturesAreaRequest
         {

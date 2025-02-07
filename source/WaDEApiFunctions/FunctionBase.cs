@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.Extensions.Logging;
+using WaDEApiFunctions.Extensions;
 using WesternStatesWater.Shared.DataContracts;
 using WesternStatesWater.Shared.Errors;
 
@@ -21,6 +23,18 @@ public abstract class FunctionBase
         Converters =
             { new JsonStringEnumConverter(), new NetTopologySuite.IO.Converters.GeoJsonConverterFactory(false, "id") }
     };
+    
+    protected async Task<HttpResponseData> CheckUnmatchedParameters<T>(HttpRequestData req) where T : RequestBase
+    {
+        var (hasUnmatched, unmatchedParams) = req.Query.ContainsUnmatchedParameters<T>();
+        if (hasUnmatched)
+        {
+            return await CreateErrorResponse(req,
+                new ValidationError("query",
+                    unmatchedParams.Select(param => $"Unknown query parameter: {param}").ToArray()));
+        }
+        return null;
+    }
     
     protected async Task<HttpResponseData> CreateResponse(HttpRequestData request, ResponseBase response)
     {

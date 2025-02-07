@@ -8,7 +8,8 @@ using WesternStatesWater.WaDE.Contracts.Api.Responses.V2;
 
 namespace WaDEApiFunctions.v2;
 
-public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceManager waterResourceManager) : FunctionBase
+public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceManager waterResourceManager)
+    : FunctionBase
 {
     private const string PathBase = "v2/collections/overlays/";
 
@@ -30,6 +31,12 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<OverlayFeaturesItemRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new OverlayFeaturesItemRequest
         {
@@ -47,13 +54,19 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
 
         return await CreateResponse(req, response);
     }
-    
+
     [Function(nameof(GetOverlaysInArea))]
     public async Task<HttpResponseData> GetOverlaysInArea(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "area")]
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<OverlayFeaturesAreaRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new OverlayFeaturesAreaRequest
         {
@@ -66,7 +79,7 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
 
         return await CreateResponse(req, response);
     }
-    
+
     [Function(nameof(GetOverlay))]
     public async Task<HttpResponseData> GetOverlay(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = PathBase + "items/{featureId}")]
@@ -79,8 +92,9 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         {
             Id = featureId
         };
-        var response = await waterResourceManager.Search<OverlayFeatureItemGetRequest, OverlayFeatureItemGetResponse>(request);
-    
+        var response =
+            await waterResourceManager.Search<OverlayFeatureItemGetRequest, OverlayFeatureItemGetResponse>(request);
+
         return await CreateResponse(req, response);
     }
 }

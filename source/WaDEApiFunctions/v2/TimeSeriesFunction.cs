@@ -31,6 +31,12 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<TimeSeriesFeaturesItemRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new TimeSeriesFeaturesItemRequest
         {
@@ -55,6 +61,12 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<TimeSeriesFeaturesAreaRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new TimeSeriesFeaturesAreaRequest()
         {

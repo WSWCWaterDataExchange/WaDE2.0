@@ -32,6 +32,12 @@ public class WaterSitesFunction(
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<SiteFeaturesItemRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new SiteFeaturesItemRequest
         {
@@ -54,6 +60,12 @@ public class WaterSitesFunction(
         HttpRequestData req,
         FunctionContext executionContext)
     {
+        var unmatchedResponse = await CheckUnmatchedParameters<SiteFeaturesAreaRequest>(req);
+        if (unmatchedResponse != null)
+        {
+            return unmatchedResponse;
+        }
+        
         // Modifying any query string parameters, will require updating swagger.json.
         var request = new SiteFeaturesAreaRequest
         {
