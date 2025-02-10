@@ -23,7 +23,7 @@ public class WaterSitesFunction(
     {
         var request = new CollectionMetadataGetRequest();
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
-        return await CreateResponse(req, response);
+        return await CreateUnwrappedResponse(req, response, r => r.Collection);
     }
 
     [Function(nameof(GetWaterSites))]

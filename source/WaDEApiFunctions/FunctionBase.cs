@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Net;
 using System.Text.Json;
@@ -41,6 +42,15 @@ public abstract class FunctionBase
         return response switch
         {
             { Error: null } => await CreateOkResponse(request, response),
+            _ => await CreateErrorResponse(request, response.Error),
+        };
+    }
+
+    protected async Task<HttpResponseData> CreateUnwrappedResponse<T, TResult>(HttpRequestData request, T response,  Func<T, TResult> selector) where T : ResponseBase
+    {
+        return response switch
+        {
+            { Error: null } => await CreateOkResponse(request, selector(response)),
             _ => await CreateErrorResponse(request, response.Error),
         };
     }
