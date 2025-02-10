@@ -321,6 +321,19 @@ namespace WesternStatesWater.WaDE.Accessors
                 .MinAsync(fact => fact.AllocationPriorityDateNavigation.Date);
             return new AccessorApi.AllocationMetadata
             {
+                // Due to the calculating boundary box for all sites is an expensive db operation,
+                // we are hardcoding the boundary box.
+                // Note: If we do calculate bound box, be aware not all site geometries are valid.
+
+                // View of bounding box: https://linestrings.com/bbox/#-180,18,-93,72
+                BoundaryBox = new AccessorApi.BoundaryBox
+                {
+                    Crs = "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
+                    MinX = -180,
+                    MinY = 18,
+                    MaxX = -93,
+                    MaxY = 72
+                },
                 IntervalStartDate = minStartDate,
                 IntervalEndDate = null
             };
