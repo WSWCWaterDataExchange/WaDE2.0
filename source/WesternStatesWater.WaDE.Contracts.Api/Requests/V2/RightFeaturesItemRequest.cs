@@ -7,4 +7,8 @@ public class RightFeaturesItemRequest : RightFeaturesSearchRequestBase
     public string States { get; set; }
     public string WaterSourceTypes { get; set; }
     public string BeneficialUses { get; set; }
+    /// <summary>
+    /// OGC API DateTime parameter used for Priority Date
+    /// </summary>
+    public string DateTime { get; set; }
 }

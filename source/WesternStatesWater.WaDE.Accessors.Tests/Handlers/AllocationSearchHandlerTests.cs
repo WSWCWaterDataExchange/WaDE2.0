@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -366,14 +367,14 @@ public class AllocationSearchHandlerTests : DbTestBase
             BeneficialUses = ["Irrigation"],
             Limit = 10
         };
-        
+
         var response = await ExecuteHandler(request);
-        
+
         response.Allocations.Should().HaveCount(1);
         response.Allocations.Select(a => a.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID);
         response.Allocations[0].BeneficialUses.Should().BeEquivalentTo(beneficialUseA.WaDEName);
     }
-    
+
     [TestMethod]
     public async Task Handler_FilterStates_ReturnsAllocationsInStates()
     {
@@ -386,7 +387,11 @@ public class AllocationSearchHandlerTests : DbTestBase
         var siteD = await SitesDimBuilder.Load(db);
 
         // Ensure all states are unique
-        string[] expectUnique = [siteA.StateCVNavigation.Name, siteB.StateCVNavigation.Name, siteC.StateCVNavigation.Name, siteD.StateCVNavigation.Name];
+        string[] expectUnique =
+        [
+            siteA.StateCVNavigation.Name, siteB.StateCVNavigation.Name, siteC.StateCVNavigation.Name,
+            siteD.StateCVNavigation.Name
+        ];
         expectUnique.Should().OnlyHaveUniqueItems();
 
         var allocationA = await AllocationAmountsFactBuilder.Load(db);
@@ -409,7 +414,7 @@ public class AllocationSearchHandlerTests : DbTestBase
             SitesDim = siteC,
             AllocationAmountsFact = allocationC
         });
-        
+
         await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
         {
             SitesDim = siteD,
@@ -426,10 +431,81 @@ public class AllocationSearchHandlerTests : DbTestBase
         response.Allocations.Should().HaveCount(2);
         response.Allocations.First(alloc => alloc.AllocationUUID == allocationA.AllocationUUID).States.Should()
             .BeEquivalentTo(siteA.StateCv);
-        response.Allocations.First(alloc => alloc.AllocationUUID == allocationC.AllocationUUID).States.Should().BeEquivalentTo(siteC.StateCv, siteD.StateCv);
-        response.Allocations.Select(alloc => alloc.AllocationUUID).Should().BeEquivalentTo(allocationA.AllocationUUID, allocationC.AllocationUUID);
+        response.Allocations.First(alloc => alloc.AllocationUUID == allocationC.AllocationUUID).States.Should()
+            .BeEquivalentTo(siteC.StateCv, siteD.StateCv);
+        response.Allocations.Select(alloc => alloc.AllocationUUID).Should()
+            .BeEquivalentTo(allocationA.AllocationUUID, allocationC.AllocationUUID);
     }
-    
+
+    [DataTestMethod]
+    [DataRow("2025-02-01", null, 4)]
+    [DataRow(null, "2025-02-01", 2)]
+    [DataRow("2025-02-01", "2025-02-28", 3)]
+    public async Task Handler_FilterPriorityDate_ReturnsAllocationsInPriorityRange(string start, string end,
+        int expectedMatchCount)
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+
+        await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            AllocationPriorityDate = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+            })
+        });
+
+        await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            AllocationPriorityDate = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = new DateTime(2025, 2, 1, 0, 0, 0, DateTimeKind.Utc)
+            })
+        });
+        await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            AllocationPriorityDate = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = new DateTime(2025, 2, 15, 0, 0, 0, DateTimeKind.Utc)
+            })
+        });
+        await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            AllocationPriorityDate = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = new DateTime(2025, 2, 28, 0, 0, 0, DateTimeKind.Utc)
+            })
+        });
+
+        var x =await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            AllocationPriorityDate = await DateDimBuilder.Load(db, new DateDimBuilderOptions
+            {
+                Date = new DateTime(2025, 12, 1, 0, 0, 0, DateTimeKind.Utc)
+            })
+        });
+
+        DateTime? startDate = start != null ? DateTime.Parse(start) : null;
+        DateTime? endDate = end != null ? DateTime.Parse(end) : null;
+        var request = new AllocationSearchRequest
+        {
+            PriorityDate = new DateRangeFilter
+            {
+                StartDate = startDate != null
+                    ? new DateTimeOffset(startDate.Value.Year, startDate.Value.Month, startDate.Value.Day, 0, 0, 0,
+                        TimeSpan.Zero)
+                    : null,
+                EndDate = endDate != null
+                    ? new DateTimeOffset(endDate.Value.Year, endDate.Value.Month, endDate.Value.Day, 0, 0, 0,
+                        TimeSpan.Zero)
+                    : null
+            },
+            Limit = 10
+        };
+        var response = await ExecuteHandler(request);
+
+        response.Allocations.Should().HaveCount(expectedMatchCount);
+    }
+
     private async Task<AllocationSearchResponse> ExecuteHandler(AllocationSearchRequest request)
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
