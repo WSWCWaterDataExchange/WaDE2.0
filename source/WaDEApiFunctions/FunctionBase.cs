@@ -46,11 +46,20 @@ public abstract class FunctionBase
         };
     }
 
-    protected async Task<HttpResponseData> CreateUnwrappedResponse<T, TResult>(HttpRequestData request, T response,  Func<T, TResult> selector) where T : ResponseBase
+    /// <summary>
+    /// Creates an HTTP response based on the provided response object and a property selector function.
+    /// </summary>
+    /// <param name="request">The HTTP request data.</param>
+    /// <param name="response">The response object containing the data or error information.</param>
+    /// <param name="propertySelector">A function to select a specific property from the response object.</param>
+    /// <typeparam name="T">The type of the response object.</typeparam>
+    /// <typeparam name="TResult">The type of the selected property.</typeparam>
+    /// <returns>An HTTP response with the selected property or an error response.</returns>
+    protected async Task<HttpResponseData> CreateResponse<T, TResult>(HttpRequestData request, T response,  Func<T, TResult> propertySelector) where T : ResponseBase
     {
         return response switch
         {
-            { Error: null } => await CreateOkResponse(request, selector(response)),
+            { Error: null } => await CreateOkResponse(request, propertySelector(response)),
             _ => await CreateErrorResponse(request, response.Error),
         };
     }
