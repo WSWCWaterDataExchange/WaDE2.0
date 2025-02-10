@@ -21,7 +21,7 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
     {
         var request = new CollectionMetadataGetRequest();
         var response = await metadataManager.Load<CollectionMetadataGetRequest, CollectionMetadataGetResponse>(request);
-        return await CreateUnwrappedResponse(req, response, r => r.Collection);
+        return await CreateResponse(req, response, r => r.Collection);
     }
 
     [Function(nameof(GetRights))]
