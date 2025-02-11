@@ -327,7 +327,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
         
         response.Sites.Should().HaveCount(1);
-        response.Sites[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.Name);
+        response.Sites[0].WaterSource.WaterSourceTypeCv.Should().Be(waterSourceTypeA.Name);
     }
 
     [TestMethod]

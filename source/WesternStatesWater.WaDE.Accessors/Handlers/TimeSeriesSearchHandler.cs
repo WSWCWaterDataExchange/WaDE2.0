@@ -50,11 +50,11 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
                     PodOrPouSite = ts.Site.PODorPOUSite,
                     WaterSources = ts.Site.WaterSourceBridgeSitesFact.Select(ws => new WaterSourceSummary
                     {
-                        Name = ws.WaterSource.WaterSourceName,
-                        NativeId = ws.WaterSource.WaterSourceNativeId,
-                        SourceType = ws.WaterSource.WaterSourceTypeCv,
-                        WaterSourceUuId = ws.WaterSource.WaterSourceUuid,
-                        WaterType = ws.WaterSource.WaterSourceTypeCv
+                        WaterSourceName = ws.WaterSource.WaterSourceName,
+                        WaterSourceNativeId = ws.WaterSource.WaterSourceNativeId,
+                        WaterSourceTypeCv = ws.WaterSource.WaterSourceTypeCv,
+                        WaterSourceUuid = ws.WaterSource.WaterSourceUuid,
+                        WaterQualityIndicatorCv = ws.WaterSource.WaterSourceTypeCv
                     }).ToArray()
                 },
                 Organization = new Organization
@@ -93,11 +93,11 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
                 },
                 WaterSource = new WaterSourceSummary
                 {
-                    WaterSourceUuId = ts.WaterSource.WaterSourceUuid,
-                    NativeId = ts.WaterSource.WaterSourceNativeId,
-                    Name = ts.WaterSource.WaterSourceName,
-                    SourceType = ts.WaterSource.WaterSourceTypeCv,
-                    WaterType = ts.WaterSource.WaterSourceTypeCv
+                    WaterSourceUuid = ts.WaterSource.WaterSourceUuid,
+                    WaterSourceNativeId = ts.WaterSource.WaterSourceNativeId,
+                    WaterSourceName = ts.WaterSource.WaterSourceName,
+                    WaterSourceTypeCv = ts.WaterSource.WaterSourceTypeCv,
+                    WaterQualityIndicatorCv = ts.WaterSource.WaterSourceTypeCv
                 },
                 SiteVariableAmountId = ts.SiteVariableAmountId.ToString(),
                 TimeframeStart = ts.TimeframeStartNavigation.Date,

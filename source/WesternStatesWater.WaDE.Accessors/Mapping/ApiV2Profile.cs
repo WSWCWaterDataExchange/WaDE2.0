@@ -15,12 +15,7 @@ public class ApiV2Profile : Profile
     public ApiV2Profile()
     {
         AllowNullDestinationValues = true;
-        CreateMap<EF.WaterSourcesDim, WaterSourceSummary>()
-            .ForMember(dest => dest.WaterSourceUuId, opt => opt.MapFrom(src => src.WaterSourceUuid))
-            .ForMember(dest => dest.NativeId, opt => opt.MapFrom(src => src.WaterSourceNativeId))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.WaterSourceName))
-            .ForMember(dest => dest.SourceType, opt => opt.MapFrom(src => src.WaterSourceTypeCvNavigation.WaDEName))
-            .ForMember(dest => dest.WaterType, opt => opt.MapFrom(src => src.WaterQualityIndicatorCv));
+        CreateMap<EF.WaterSourcesDim, WaterSourceSummary>();
 
         CreateMap<EF.SitesDim, SiteSearchItem>()
             .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
