@@ -34,7 +34,7 @@ public class OverlaySearchHandler(IConfiguration configuration)
         if (overlays.Count > 1)
         {
             // Get the last UUID of the page (not the first one on the next page).
-            lastUuid = overlays.Count <= request.Limit ? null : overlays[^2].OverlayUuid;
+            lastUuid = overlays.Count <= request.Limit ? null : overlays[^2].RegulatoryOverlayUuid;
         }
         
         return new OverlaySearchResponse

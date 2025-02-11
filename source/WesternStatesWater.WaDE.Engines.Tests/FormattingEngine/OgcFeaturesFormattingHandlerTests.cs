@@ -1,16 +1,11 @@
-using System.Reflection;
-using System.Text.Json.Serialization;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NetTopologySuite.Geometries;
-using Telerik.JustMock;
 using WesternStatesWater.WaDE.Common.Ogc;
-using WesternStatesWater.WaDE.Contracts.Api.OgcApi;
 using WesternStatesWater.WaDE.Engines.Contracts;
 using WesternStatesWater.WaDE.Engines.Contracts.Ogc.Requests;
 using WesternStatesWater.WaDE.Engines.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
-using WesternStatesWater.WaDE.Utilities;
 
 namespace WesternStatesWater.WaDE.Engines.Tests.FormattingEngine;
 

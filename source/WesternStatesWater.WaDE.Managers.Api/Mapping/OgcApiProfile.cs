@@ -301,7 +301,7 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.OverlaySearchItem,
                 Engines.Contracts.OverlayFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OverlayUuid))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RegulatoryOverlayUuid))
             .ForMember(dest => dest.Geometry, opt => opt.MapFrom(src => src.Areas));
 
         CreateMap<Accessors.Contracts.Api.V2.AllocationSearchItem,

@@ -25,24 +25,12 @@ public class ApiV2Profile : Profile
                     c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
 
         CreateMap<EF.RegulatoryOverlayDim, OverlaySearchItem>()
-            .ForMember(a => a.OverlayUuid, b => b.MapFrom(c => c.RegulatoryOverlayUuid))
-            .ForMember(a => a.OverlayNativeId, b => b.MapFrom(c => c.RegulatoryOverlayNativeId))
-            .ForMember(a => a.RegulatoryName, b => b.MapFrom(c => c.RegulatoryName))
-            .ForMember(a => a.RegulatoryDescription, b => b.MapFrom(c => c.RegulatoryDescription))
-            .ForMember(a => a.RegulatoryStatus, b => b.MapFrom(c => c.RegulatoryStatusCv))
-            .ForMember(a => a.RegulatoryStatuteLink, b => b.MapFrom(c => c.RegulatoryStatuteLink))
-            .ForMember(a => a.StatutoryEffectiveDate, b => b.MapFrom(c => c.StatutoryEffectiveDate))
-            .ForMember(a => a.StatutoryEndDate, b => b.MapFrom(c => c.StatutoryEndDate))
-            .ForMember(a => a.OverlayType, b => b.MapFrom(c => c.RegulatoryOverlayType.WaDEName))
-            .ForMember(a => a.WaterSource, b => b.MapFrom(c => c.WaterSourceType.WaDEName))
-            .ForMember(a => a.AreaNames,
+            .ForMember(a => a.ReportingUnitNames,
                 b => b.MapFrom(c =>
                     c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitName)))
-            .ForMember(a => a.AreaNativeIds,
+            .ForMember(a => a.ReportingUnitNativeIds,
                 b => b.MapFrom(c =>
                     c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitNativeId)))
-            .ForMember(a => a.SiteUuids,
-                b => b.MapFrom(c => c.RegulatoryOverlayBridgeSitesFact.Select(fact => fact.Site.SiteUuid)))
             .ForMember(a => a.Areas,
                 b => b.MapFrom(c =>
                     UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null)
