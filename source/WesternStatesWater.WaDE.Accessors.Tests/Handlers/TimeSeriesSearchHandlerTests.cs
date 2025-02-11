@@ -242,7 +242,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         response.Sites.Should().HaveCount(1);
         response.Sites[0].Site.SiteUuid.Should().BeEquivalentTo(siteA.SiteUuid);
-        response.Sites[0].Site.State.Should().Be(stateA.Name);
+        response.Sites[0].Site.StateCv.Should().Be(stateA.Name);
     }
     
     [TestMethod]
