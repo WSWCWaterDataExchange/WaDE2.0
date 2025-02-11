@@ -109,7 +109,7 @@ public abstract class OgcFormattingHandlerBase
                 },
                 new Link
                 {
-                    Href = $"{OgcHost}/collections/{collectionId}/items", Rel = "data",
+                    Href = $"{OgcHost}/collections/{collectionId}/items", Rel = "items",
                     Type = "application/geo+json", Title = "Items as GeoJSON"
                 }
             ],
