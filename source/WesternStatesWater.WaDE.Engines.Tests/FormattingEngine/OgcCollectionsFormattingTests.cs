@@ -109,7 +109,7 @@ public class OgcCollectionsFormattingTests : OgcFormattingTestBase
                 new Link
                 {
                     Href = $"{ApiHostName}/collections/{collectionId}/items",
-                    Rel = "data",
+                    Rel = "items",
                     Type = "application/geo+json",
                     Title = "Items as GeoJSON"
                 }
