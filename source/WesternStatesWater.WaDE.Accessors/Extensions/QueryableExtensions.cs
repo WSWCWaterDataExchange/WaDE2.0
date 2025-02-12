@@ -116,6 +116,11 @@ public static class QueryableExtensions
             }
         }
 
+        if (filters.OwnerClassificationTypes != null && filters.OwnerClassificationTypes.Count != 0)
+        {
+            query = query.Where(x => filters.OwnerClassificationTypes.Contains(x.OwnerClassification.WaDEName));
+        }
+
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
             query = query.Where(x => x.AllocationUUID.CompareTo(filters.LastKey) > 0);
