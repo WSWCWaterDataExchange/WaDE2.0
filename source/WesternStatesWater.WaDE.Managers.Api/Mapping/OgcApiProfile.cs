@@ -178,6 +178,7 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
             .ForMember(dest => dest.BeneficialUses, mem => mem.Ignore())
             .ForMember(dest => dest.PriorityDate, opt => opt.Ignore())
+            .ForMember(dest => dest.OwnerClassificationTypes, opt => opt.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
 
@@ -243,6 +244,7 @@ public class OgcApiProfile : Profile
             .ForMember(dest => dest.GeometrySearch, mem => mem.Ignore())
             .ForMember(dest => dest.LastKey, mem => mem.Ignore())
             .ForMember(dest => dest.PriorityDate, mem => mem.Ignore())
+            .ForMember(dest => dest.OwnerClassificationTypes, mem => mem.Ignore())
             .ForMember(dest => dest.Limit, mem => mem.MapFrom(src => 1))
             .ForMember(dest => dest.AllocationUuid, mem => mem.MapFrom(src => new List<string> { src.Id }));
 
