@@ -16,6 +16,8 @@ public class AllocationSearchItem
     public DateTime? AllocationPriorityDate { get; set; }
     public string AllocationLegalStatusCv { get; set; }
     public string AllocationLegalStatusWaDEName { get; set; }
+    public string OwnerClassificationCV { get; set; }
+    public string OwnerClassificationWaDEName { get; set; }
     public DateTime? AllocationExpirationDate { get; set; }
     public string AllocationChangeApplicationIndicator { get; set; }
     public string LegacyAllocationIDs { get; set; }

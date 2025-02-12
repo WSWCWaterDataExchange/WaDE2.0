@@ -42,6 +42,7 @@ public class ApiV2Profile : Profile
                 b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
             .ForMember(a => a.AllocationLegalStatusWaDEName,
                 b => b.MapFrom(c => c.AllocationLegalStatusCvNavigation.WaDEName))
+            .ForMember(a => a.OwnerClassificationWaDEName, b => b.MapFrom(c => c.OwnerClassification.WaDEName))
             .ForMember(a => a.Method, b => b.MapFrom(c => c.Method))
             .ForMember(a => a.Organization, b => b.MapFrom(c => c.Organization))
             .ForMember(a => a.VariableSpecific, b => b.MapFrom(c => c.VariableSpecific))
