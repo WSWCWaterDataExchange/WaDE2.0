@@ -2,14 +2,8 @@ namespace WesternStatesWater.WaDE.Contracts.Api.Requests.V2;
 
 public class RightFeaturesItemRequest : RightFeaturesSearchRequestBase
 {
-    public string AllocationUuids { get; set; }
-    public string SiteUuids { get; set; }
-    public string States { get; set; }
-    public string WaterSourceTypes { get; set; }
-    public string BeneficialUses { get; set; }
     /// <summary>
     /// OGC API DateTime parameter used for Priority Date
     /// </summary>
     public string DateTime { get; set; }
-    public string OwnerClassificationTypes { get; set; }
 }

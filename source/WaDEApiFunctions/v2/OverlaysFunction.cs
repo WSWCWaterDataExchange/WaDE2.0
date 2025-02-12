@@ -72,7 +72,12 @@ public class OverlaysFunction(IMetadataManager metadataManager, IWaterResourceMa
         {
             Coords = req.Query["coords"],
             Limit = req.Query["limit"],
-            Next = req.Query["next"]
+            Next = req.Query["next"],
+            OverlayUuids = req.Query["overlayIds"],
+            SiteUuids = req.Query["siteIds"],
+            States = req.Query["states"],
+            OverlayTypes = req.Query["overlayTypes"],
+            WaterSourceTypes = req.Query["waterSourceTypes"]
         };
         var response =
             await waterResourceManager.Search<OverlayFeaturesSearchRequestBase, OverlayFeaturesSearchResponse>(request);

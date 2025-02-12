@@ -44,6 +44,9 @@ public class WaterSitesFunction(
             Bbox = req.Query["bbox"],
             Limit = req.Query["limit"],
             Next = req.Query["next"],
+            SiteUuids = req.Query["siteUuids"],
+            OverlayUuids = req.Query["overlayUuids"],
+            AllocationUuids = req.Query["allocationUuids"],
             SiteTypes = req.Query["siteTypes"],
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"]
@@ -71,7 +74,13 @@ public class WaterSitesFunction(
         {
             Coords = req.Query["coords"],
             Limit = req.Query["limit"],
-            Next = req.Query["next"]
+            Next = req.Query["next"],
+            SiteUuids = req.Query["siteUuids"],
+            OverlayUuids = req.Query["overlayUuids"],
+            AllocationUuids = req.Query["allocationUuids"],
+            SiteTypes = req.Query["siteTypes"],
+            States = req.Query["states"],
+            WaterSourceTypes = req.Query["waterSourceTypes"]
         };
         var response =
             await waterResourceManager.Search<SiteFeaturesSearchRequestBase, SiteFeaturesSearchResponse>(request);
