@@ -89,7 +89,7 @@ public class OgcFeaturesFormattingHandler(
             new()
             {
                 Href = $"{OgcHost}/collections/{collectionId}/items",
-                Rel = "items",
+                Rel = "data",
                 Type = ContentTypeJson,
                 Title = "The features in this collection"
             },
