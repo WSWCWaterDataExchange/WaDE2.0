@@ -34,10 +34,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.Areas,
                 b => b.MapFrom(c =>
                     UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null)
-                        .Select(fact => fact.ReportingUnit.Geometry))))
-            .ForMember(a => a.States,
-                b => b.MapFrom(
-                    c => c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.StateCv).Distinct()));
+                        .Select(fact => fact.ReportingUnit.Geometry))));
 
         CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()
             .ForMember(a => a.AllocationApplicationDate,

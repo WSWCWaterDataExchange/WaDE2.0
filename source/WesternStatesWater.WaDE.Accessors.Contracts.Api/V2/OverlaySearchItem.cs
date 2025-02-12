@@ -18,6 +18,5 @@ public class OverlaySearchItem
     public string WaterSourceTypeCv { get; set; }
     public string[] ReportingUnitNames { get; set; }
     public string[] ReportingUnitNativeIds { get; set; }
-    public string[] States { get; set; }
     public Geometry Areas { get; set; }
 }

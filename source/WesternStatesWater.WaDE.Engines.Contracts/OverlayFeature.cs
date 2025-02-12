@@ -16,5 +16,4 @@ public class OverlayFeature : FeatureBase
     public string WaterSourceTypeCv { get; set; }
     public string[] ReportingUnitNames { get; set; }
     public string[] ReportingUnitNativeIds { get; set; }
-    public string[] States { get; set; }
 }
