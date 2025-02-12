@@ -59,35 +59,35 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
                 },
                 Organization = new Organization
                 {
-                    ContactEmail = ts.Organization.OrganizationContactEmail,
-                    ContactName = ts.Organization.OrganizationName,
-                    PhoneNumber = ts.Organization.OrganizationPhoneNumber,
-                    Purview = ts.Organization.OrganizationPurview,
+                    OrganizationContactEmail = ts.Organization.OrganizationContactEmail,
+                    OrganizationContactName = ts.Organization.OrganizationName,
+                    OrganizationPhoneNumber = ts.Organization.OrganizationPhoneNumber,
+                    OrganizationPurview = ts.Organization.OrganizationPurview,
                     State = ts.Organization.State,
-                    Uuid = ts.Organization.OrganizationUuid,
-                    Website = ts.Organization.OrganizationWebsite
+                    OrganizationUuid = ts.Organization.OrganizationUuid,
+                    OrganizationWebsite = ts.Organization.OrganizationWebsite
                 },
                 Method = new Method
                 {
-                    ApplicableResourceType = ts.Method.ApplicableResourceTypeCv,
-                    Description = ts.Method.MethodDescription,
-                    Name = ts.Method.MethodName,
-                    NemiLink = ts.Method.MethodNemilink,
-                    Type = ts.Method.MethodTypeCv,
-                    Uuid = ts.Method.MethodUuid
+                    ApplicableResourceTypeCv = ts.Method.ApplicableResourceTypeCv,
+                    MethodDescription = ts.Method.MethodDescription,
+                    MethodName = ts.Method.MethodName,
+                    MethodNemiLink = ts.Method.MethodNemilink,
+                    MethodTypeCv = ts.Method.MethodTypeCv,
+                    MethodUuid = ts.Method.MethodUuid
                 },
                 VariableSpecific = new VariableSpecific
                 {
                     AggregationInterval = ts.VariableSpecific.AggregationInterval,
-                    AggregationIntervalUnit = ts.VariableSpecific.AggregationIntervalUnitCv,
-                    AggregationStatistic = ts.VariableSpecific.AggregationStatisticCv,
-                    AmountUnit = ts.VariableSpecific.AmountUnitCv,
-                    MaximumAmountUnit = ts.VariableSpecific.MaximumAmountUnitCv,
+                    AggregationIntervalUnitCv = ts.VariableSpecific.AggregationIntervalUnitCv,
+                    AggregationStatisticCv = ts.VariableSpecific.AggregationStatisticCv,
+                    AmountUnitCv = ts.VariableSpecific.AmountUnitCv,
+                    MaximumAmountUnitCv = ts.VariableSpecific.MaximumAmountUnitCv,
                     VariableSpecificCv = ts.VariableSpecific.VariableSpecificCv,
                     VariableSpecificWaDEName = ts.VariableSpecific.VariableSpecificCvNavigation.WaDEName,
                     ReportYearStartMonth = ts.VariableSpecific.ReportYearStartMonth,
-                    ReportYearType = ts.VariableSpecific.ReportYearTypeCv,
-                    Uuid = ts.VariableSpecific.VariableSpecificUuid,
+                    ReportYearTypeCv = ts.VariableSpecific.ReportYearTypeCv,
+                    VariableSpecificUuid = ts.VariableSpecific.VariableSpecificUuid,
                     VariableCv = ts.VariableSpecific.VariableCv,
                     VariableWaDEName = ts.VariableSpecific.VariableCvNavigation.WaDEName
                 },

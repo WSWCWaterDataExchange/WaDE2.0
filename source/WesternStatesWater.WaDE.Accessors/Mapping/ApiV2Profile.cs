@@ -62,56 +62,32 @@ public class ApiV2Profile : Profile
                     .SelectMany(bridge => bridge.Site.WaterSourceBridgeSitesFact.Select(ws => ws.WaterSource))));
 
         CreateMap<EF.SitesDim, Site>()
-            .ForMember(a => a.SiteUuid, b => b.MapFrom(c => c.SiteUuid))
-            .ForMember(a => a.SiteNativeId, b => b.MapFrom(c => c.SiteNativeId))
-            .ForMember(a => a.SiteName, b => b.MapFrom(c => c.SiteName))
-            .ForMember(a => a.UsgsSiteId, b => b.MapFrom(c => c.UsgssiteId))
             .ForMember(a => a.SiteTypeWaDEName, b => b.MapFrom(c => c.SiteTypeCvNavigation.WaDEName))
             .ForMember(a => a.Location, b => b.MapFrom(c => c.Geometry != null ? c.Geometry : c.SitePoint))
-            .ForMember(a => a.CoordinateMethodCv, b => b.MapFrom(c => c.CoordinateMethodCv))
-            .ForMember(a => a.CoordinateAccuracy, b => b.MapFrom(c => c.CoordinateAccuracy))
-            .ForMember(a => a.GnisCodeCv, b => b.MapFrom(c => c.GniscodeCv))
-            .ForMember(a => a.EpsgCodeCv, b => b.MapFrom(c => c.EpsgcodeCv))
-            .ForMember(a => a.NhdNetworkStatusCv, b => b.MapFrom(c => c.NhdnetworkStatusCv))
-            .ForMember(a => a.NhdProductCv, b => b.MapFrom(c => c.NhdproductCv))
-            .ForMember(a => a.StateCv, b => b.MapFrom(c => c.StateCv))
-            .ForMember(a => a.Huc8, b => b.MapFrom(c => c.HUC8))
-            .ForMember(a => a.Huc12, b => b.MapFrom(c => c.HUC12))
-            .ForMember(a => a.County, b => b.MapFrom(c => c.County))
-            .ForMember(a => a.PodOrPouSite, b => b.MapFrom(c => c.PODorPOUSite))
             .ForMember(a => a.WaterSources,
                 b => b.MapFrom(c =>
                     c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
         
         CreateMap<EF.OrganizationsDim, Organization>()
-            .ForMember(a => a.Uuid, b => b.MapFrom(c => c.OrganizationUuid))
-            .ForMember(a => a.Purview, b => b.MapFrom(c => c.OrganizationPurview))
-            .ForMember(a => a.Website, b => b.MapFrom(c => c.OrganizationWebsite))
-            .ForMember(a => a.PhoneNumber, b => b.MapFrom(c => c.OrganizationPhoneNumber))
-            .ForMember(a => a.ContactName, b => b.MapFrom(c => c.OrganizationContactName))
-            .ForMember(a => a.ContactEmail, b => b.MapFrom(c => c.OrganizationContactEmail))
+            .ForMember(a => a.OrganizationUuid, b => b.MapFrom(c => c.OrganizationUuid))
+            .ForMember(a => a.OrganizationPurview, b => b.MapFrom(c => c.OrganizationPurview))
+            .ForMember(a => a.OrganizationWebsite, b => b.MapFrom(c => c.OrganizationWebsite))
+            .ForMember(a => a.OrganizationPhoneNumber, b => b.MapFrom(c => c.OrganizationPhoneNumber))
+            .ForMember(a => a.OrganizationContactName, b => b.MapFrom(c => c.OrganizationContactName))
+            .ForMember(a => a.OrganizationContactEmail, b => b.MapFrom(c => c.OrganizationContactEmail))
             .ForMember(a => a.State, b => b.MapFrom(c => c.State));
 
         CreateMap<EF.VariablesDim, VariableSpecific>()
-            .ForMember(a => a.Uuid, b => b.MapFrom(c => c.VariableSpecificUuid))
-            .ForMember(a => a.VariableSpecificCv, b => b.MapFrom(c => c.VariableSpecificCv))
+            .ForMember(a => a.VariableSpecificUuid, b => b.MapFrom(c => c.VariableSpecificUuid))
             .ForMember(a => a.VariableSpecificWaDEName, b => b.MapFrom(c => c.VariableSpecificCvNavigation.WaDEName))
-            .ForMember(a => a.VariableCv, b => b.MapFrom(c => c.VariableCv))
-            .ForMember(a => a.VariableWaDEName, b => b.MapFrom(c => c.VariableCvNavigation.WaDEName))
-            .ForMember(a => a.AggregationStatistic, b => b.MapFrom(c => c.AggregationStatisticCv))
-            .ForMember(a => a.AggregationInterval, b => b.MapFrom(c => c.AggregationInterval))
-            .ForMember(a => a.AggregationIntervalUnit, b => b.MapFrom(c => c.AggregationIntervalUnitCv))
-            .ForMember(a => a.ReportYearStartMonth, b => b.MapFrom(c => c.ReportYearStartMonth))
-            .ForMember(a => a.ReportYearType, b => b.MapFrom(c => c.ReportYearTypeCv))
-            .ForMember(a => a.AmountUnit, b => b.MapFrom(c => c.AmountUnitCv))
-            .ForMember(a => a.MaximumAmountUnit, b => b.MapFrom(c => c.MaximumAmountUnitCv));
+            .ForMember(a => a.VariableWaDEName, b => b.MapFrom(c => c.VariableCvNavigation.WaDEName));
 
         CreateMap<EF.MethodsDim, Method>()
-            .ForMember(a => a.Uuid, b => b.MapFrom(c => c.MethodUuid))
-            .ForMember(a => a.Name, b => b.MapFrom(c => c.MethodName))
-            .ForMember(a => a.Description, b => b.MapFrom(c => c.MethodDescription))
-            .ForMember(a => a.Type, b => b.MapFrom(c => c.MethodTypeCv))
-            .ForMember(a => a.NemiLink, b => b.MapFrom(c => c.MethodNemilink))
-            .ForMember(a => a.ApplicableResourceType, b => b.MapFrom(c => c.ApplicableResourceTypeCv));
+            .ForMember(a => a.MethodUuid, b => b.MapFrom(c => c.MethodUuid))
+            .ForMember(a => a.MethodName, b => b.MapFrom(c => c.MethodName))
+            .ForMember(a => a.MethodDescription, b => b.MapFrom(c => c.MethodDescription))
+            .ForMember(a => a.MethodTypeCv, b => b.MapFrom(c => c.MethodTypeCv))
+            .ForMember(a => a.MethodNemiLink, b => b.MapFrom(c => c.MethodNemilink))
+            .ForMember(a => a.ApplicableResourceTypeCv, b => b.MapFrom(c => c.ApplicableResourceTypeCv));
     }
 }
