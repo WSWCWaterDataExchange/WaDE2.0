@@ -39,21 +39,13 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.AllocationPriorityDate, b => b.MapFrom(c => c.AllocationPriorityDateNavigation.Date))
             .ForMember(a => a.AllocationExpirationDate,
                 b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
-            .ForMember(a => a.MethodUuid, b => b.MapFrom(c => c.Method.MethodUuid))
-            .ForMember(a => a.MethodName, b => b.MapFrom(c => c.Method.MethodName))
-            .ForMember(a => a.OrganizationName, b => b.MapFrom(c => c.Organization.OrganizationName))
-            .ForMember(a => a.VariableSpecificTypeCv, b => b.MapFrom(c => c.VariableSpecific.VariableSpecificCv))
-            .ForMember(a => a.States,
-                b => b.MapFrom(c =>
-                    c.AllocationBridgeSitesFact.Where(bridge => bridge.Site.StateCv != null)
-                        .Select(bridge => bridge.Site.StateCv)))
+            .ForMember(a => a.Method, b => b.MapFrom(c => c.Method))
+            .ForMember(a => a.Organization, b => b.MapFrom(c => c.Organization))
+            .ForMember(a => a.VariableSpecific, b => b.MapFrom(c => c.VariableSpecific))
             .ForMember(a => a.BeneficialUses,
                 b => b.MapFrom(c =>
                     c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUse.WaDEName).Distinct()))
-            .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date))
-            .ForMember(a => a.WaterSources,
-                b => b.MapFrom(c => c.AllocationBridgeSitesFact
-                    .SelectMany(bridge => bridge.Site.WaterSourceBridgeSitesFact.Select(ws => ws.WaterSource))));
+            .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date));
 
         CreateMap<EF.SitesDim, Site>()
             .ForMember(a => a.SiteTypeWaDEName, b => b.MapFrom(c => c.SiteTypeCvNavigation.WaDEName))
