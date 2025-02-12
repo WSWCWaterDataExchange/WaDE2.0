@@ -199,6 +199,9 @@
           },
           {
             "$ref": "#/components/parameters/beneficialUses"
+          },
+          {
+            "$ref": "#/components/parameters/ownerClassificationTypes"
           }
         ],
         "responses": {
@@ -629,6 +632,17 @@
         "required": false,
         "schema": {
           "type": "string"
+        }
+      },
+      "ownerClassificationTypes": {
+        "name": "ownerClassificationTypes",
+        "in": "query",
+        "description": "Comma separated list of owner classification types",
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "overlayTypes": {

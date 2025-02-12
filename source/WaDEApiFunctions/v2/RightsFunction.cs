@@ -47,7 +47,8 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             SiteUuids = req.Query["siteUuids"],
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"],
-            BeneficialUses = req.Query["beneficialUses"]
+            BeneficialUses = req.Query["beneficialUses"],
+            OwnerClassificationTypes = req.Query["ownerClassificationTypes"]
         };
         var response = await waterResourceManager.Search<RightFeaturesSearchRequestBase, RightFeaturesSearchResponse>(request);
         

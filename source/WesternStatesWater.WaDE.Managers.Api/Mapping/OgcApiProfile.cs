@@ -165,6 +165,8 @@ public class OgcApiProfile : Profile
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
             .ForMember(dest => dest.States,
                 opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.OwnerClassificationTypes,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.OwnerClassificationTypes))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next))
             .ForMember(dest => dest.PriorityDate, opt => opt.ConvertUsing(new OgcDateTimeConverter(), src => src.DateTime));
 

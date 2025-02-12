@@ -26,6 +26,8 @@ public class RightFeature : FeatureBase
     public double? GeneratedPowerCapacityMW { get; set; }
     public string? AllocationCommunityWaterSupplySystem { get; set; }
     public string? SdwisIdentifierCv { get; set; }
+    public string OwnerClassificationCV { get; set; }
+    public string OwnerClassificationWaDEName { get; set; }
     public Method? Method { get; set; }
     public VariableSpecific? VariableSpecific { get; set; }
     public List<BeneficialUse>? BeneficialUses { get; set; }
