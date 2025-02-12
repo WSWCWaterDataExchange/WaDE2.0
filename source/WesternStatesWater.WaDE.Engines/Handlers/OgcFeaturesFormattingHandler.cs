@@ -54,7 +54,8 @@ public class OgcFeaturesFormattingHandler(
         foreach (var property in item.GetType().GetProperties()
                      .Where(prop => prop.Name is not (nameof(FeatureBase.Geometry) or nameof(FeatureBase.Id)))) // Exclude the geometry and id properties.
         {
-            var attrName = property.Name;
+            // AttributesTable does not serialize the property names into camelCase. We need to do this manually. Nested objects are serialized correctly.
+            var attrName = char.ToLowerInvariant(property.Name[0]) + property.Name.Substring(1);
 
             properties.Add(attrName, property.GetValue(item));
         }
