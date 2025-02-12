@@ -330,5 +330,8 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.Method,
             Engines.Contracts.Method>();
+
+        CreateMap<Accessors.Contracts.Api.V2.ReportingArea,
+            Engines.Contracts.ReportingArea>();
     }
 }

@@ -16,7 +16,6 @@ public class OverlaySearchItem
     public string StatutoryEndDate { get; set; }
     public string RegulatoryOverlayTypeCv { get; set; }
     public string WaterSourceTypeCv { get; set; }
-    public string[] ReportingUnitNames { get; set; }
-    public string[] ReportingUnitNativeIds { get; set; }
+    public ReportingArea[] ReportingAreas { get; set; }
     public Geometry Areas { get; set; }
 }

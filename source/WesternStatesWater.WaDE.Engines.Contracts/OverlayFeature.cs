@@ -1,3 +1,5 @@
+using WesternStatesWater.WaDE.Engines.Contracts.Ogc;
+
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class OverlayFeature : FeatureBase
@@ -14,6 +16,5 @@ public class OverlayFeature : FeatureBase
     public string StatutoryEndDate { get; set; }
     public string RegulatoryOverlayTypeCv { get; set; }
     public string WaterSourceTypeCv { get; set; }
-    public string[] ReportingUnitNames { get; set; }
-    public string[] ReportingUnitNativeIds { get; set; }
+    public ReportingArea[] ReportingAreas { get; set; }
 }

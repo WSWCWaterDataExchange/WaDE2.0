@@ -418,9 +418,9 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(1);
-        response.Overlays[0].ReportingUnitNames.Should().BeEquivalentTo(
+        response.Overlays[0].ReportingAreas.Select(area => area.ReportingUnitName).Should().BeEquivalentTo(
             areaA.ReportingUnitName, areaB.ReportingUnitName, areaC.ReportingUnitName);
-        response.Overlays[0].ReportingUnitNativeIds.Should().BeEquivalentTo(
+        response.Overlays[0].ReportingAreas.Select(area => area.ReportingUnitNativeId).Should().BeEquivalentTo(
             areaA.ReportingUnitNativeId, areaB.ReportingUnitNativeId, areaC.ReportingUnitNativeId);
     }
     
@@ -478,7 +478,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Assert
         response.Overlays.Should().HaveCount(1);
         response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(overlayA.RegulatoryOverlayUuid);
-        response.Overlays[0].States.Should().BeEquivalentTo(stateA.Name);
+        response.Overlays[0].ReportingAreas[0].State.Should().BeEquivalentTo(stateA.Name);
     }
     
     [TestMethod]

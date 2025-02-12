@@ -25,12 +25,9 @@ public class ApiV2Profile : Profile
                     c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
 
         CreateMap<EF.RegulatoryOverlayDim, OverlaySearchItem>()
-            .ForMember(a => a.ReportingUnitNames,
+            .ForMember(a => a.ReportingAreas,
                 b => b.MapFrom(c =>
-                    c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitName)))
-            .ForMember(a => a.ReportingUnitNativeIds,
-                b => b.MapFrom(c =>
-                    c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit.ReportingUnitNativeId)))
+                    c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit)))
             .ForMember(a => a.Areas,
                 b => b.MapFrom(c =>
                     UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null)
@@ -86,5 +83,8 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.MethodTypeCv, b => b.MapFrom(c => c.MethodTypeCv))
             .ForMember(a => a.MethodNemiLink, b => b.MapFrom(c => c.MethodNemilink))
             .ForMember(a => a.ApplicableResourceTypeCv, b => b.MapFrom(c => c.ApplicableResourceTypeCv));
+
+        CreateMap<EF.ReportingUnitsDim, ReportingArea>()
+            .ForMember(a => a.State, b => b.MapFrom(c => c.StateCv));
     }
 }
