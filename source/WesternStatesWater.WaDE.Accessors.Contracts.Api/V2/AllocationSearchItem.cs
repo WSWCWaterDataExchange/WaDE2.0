@@ -30,7 +30,7 @@ public class AllocationSearchItem
     public string SdwisIdentifierCv { get; set; }
     public Method Method { get; set; }
     public VariableSpecific VariableSpecific { get; set; }
-    public List<string> BeneficialUses { get; set; }
+    public List<BeneficialUse> BeneficialUses { get; set; }
     public Organization Organization { get; set; }
     public bool ExemptOfVolumeFlowPriority { get; set; }
 }

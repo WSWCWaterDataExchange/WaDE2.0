@@ -610,7 +610,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                    .HasColumnName("SourceVocabularyURI")
                    .HasMaxLength(100);
 
-
+                entity.Property(e => e.ConsumptionCategoryType)
+                    .HasConversion<int>();
             });
 
             modelBuilder.Entity<CoordinateMethod>(entity =>

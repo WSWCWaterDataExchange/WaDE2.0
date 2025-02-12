@@ -44,7 +44,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.VariableSpecific, b => b.MapFrom(c => c.VariableSpecific))
             .ForMember(a => a.BeneficialUses,
                 b => b.MapFrom(c =>
-                    c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUse.WaDEName).Distinct()))
+                    c.AllocationBridgeBeneficialUsesFact.Select(d => d.BeneficialUse).Distinct()))
             .ForMember(a => a.DataPublicationDate, b => b.MapFrom(c => c.DataPublicationDate.Date));
 
         CreateMap<EF.SitesDim, Site>()
@@ -78,5 +78,10 @@ public class ApiV2Profile : Profile
 
         CreateMap<EF.ReportingUnitsDim, ReportingArea>()
             .ForMember(a => a.State, b => b.MapFrom(c => c.StateCv));
+
+        CreateMap<EF.BeneficialUsesCV, Contracts.Api.V2.BeneficialUse>()
+            .ForMember(a => a.BeneficialUseCv, b => b.MapFrom(c => c.Name))
+            .ForMember(a => a.BeneficialUseWaDEName, b => b.MapFrom(c => c.WaDEName))
+            .ForMember(a => a.ConsumptionCategoryType, b => b.MapFrom(c => c.ConsumptionCategoryType.ToString()));
     }
 }

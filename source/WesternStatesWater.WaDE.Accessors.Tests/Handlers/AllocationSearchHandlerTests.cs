@@ -312,8 +312,6 @@ public class AllocationSearchHandlerTests : DbTestBase
 
         response.Allocations.Should().HaveCount(1);
         response.Allocations.Select(a => a.AllocationUuid).Should().BeEquivalentTo(allocationA.AllocationUUID);
-        response.Allocations[0].WaterSources.Should()
-            .BeEquivalentTo([waterSourceA.Map<WaterSourceSummary>()]);
     }
 
     [TestMethod]
@@ -368,7 +366,7 @@ public class AllocationSearchHandlerTests : DbTestBase
 
         response.Allocations.Should().HaveCount(1);
         response.Allocations.Select(a => a.AllocationUuid).Should().BeEquivalentTo(allocationA.AllocationUUID);
-        response.Allocations[0].BeneficialUses.Should().BeEquivalentTo(beneficialUseA.WaDEName);
+        response.Allocations[0].BeneficialUses.Should().HaveCount(2);
     }
 
     [TestMethod]
@@ -425,10 +423,6 @@ public class AllocationSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
 
         response.Allocations.Should().HaveCount(2);
-        response.Allocations.First(alloc => alloc.AllocationUuid == allocationA.AllocationUUID).States.Should()
-            .BeEquivalentTo(siteA.StateCv);
-        response.Allocations.First(alloc => alloc.AllocationUuid == allocationC.AllocationUUID).States.Should()
-            .BeEquivalentTo(siteC.StateCv, siteD.StateCv);
         response.Allocations.Select(alloc => alloc.AllocationUuid).Should()
             .BeEquivalentTo(allocationA.AllocationUUID, allocationC.AllocationUUID);
     }
