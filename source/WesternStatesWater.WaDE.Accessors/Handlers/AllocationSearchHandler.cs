@@ -34,7 +34,7 @@ public class AllocationSearchHandler(IConfiguration configuration)
         if (allocations.Count > 1)
         {
             // Get the last UUID of the page (not the first one on the next page).
-            lastUuid = allocations.Count <= request.Limit ? null : allocations[^2].AllocationUUID;    
+            lastUuid = allocations.Count <= request.Limit ? null : allocations[^2].AllocationUuid;    
         }
         
         return new AllocationSearchResponse

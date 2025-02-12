@@ -1,51 +1,34 @@
-using System.Text.Json.Serialization;
-
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class RightFeature : FeatureBase
 {
-    [JsonPropertyName("nId")]
+    public string AllocationUuid { get; set; }
     public string AllocationNativeID { get; set; }
-    [JsonPropertyName("owner")]
     public string AllocationOwner { get; set; }
-    [JsonPropertyName("appDate")]
     public DateTime? AllocationApplicationDate { get; set; }
-    [JsonPropertyName("priorityDate")]
     public DateTime? AllocationPriorityDate { get; set; }
-    [JsonPropertyName("legalStatus")]
-    public string AllocationLegalStatusCodeCV { get; set; }
-    [JsonPropertyName("expires")]
+    public string AllocationLegalStatusCv { get; set; }
     public DateTime? AllocationExpirationDate { get; set; }
-    [JsonPropertyName("acreage")]
-    public double? AllocationAcreage { get; set; }
-    [JsonPropertyName("basis")]
+    public string AllocationChangeApplicationIndicator { get; set; }
+    public string LegacyAllocationIDs { get; set; }
+    public double? IrrigatedAcreage { get; set; }
     public string AllocationBasisCV { get; set; }
-    [JsonPropertyName("start")]
-    public string TimeframeStart { get; set; }
-    [JsonPropertyName("end")]
-    public string TimeframeEnd { get; set; }
-    [JsonPropertyName("cropDutyAmt")]
+    public string AllocationTimeframeStart { get; set; }
+    public string AllocationTimeframeEnd { get; set; }
+    public DateTime? DataPublicationDate { get; set; }
     public double? AllocationCropDutyAmount { get; set; }
-    [JsonPropertyName("cfs")]
     public double? AllocationFlow_CFS { get; set; }
-    [JsonPropertyName("af")]
     public double? AllocationVolume_AF { get; set; }
-    [JsonPropertyName("popServed")]
     public long? PopulationServed { get; set; }
-    [JsonPropertyName("generatedPowerCap")]
     public double? GeneratedPowerCapacityMW { get; set; }
-    [JsonPropertyName("commWaterSupply")]
     public string AllocationCommunityWaterSupplySystem { get; set; }
-    [JsonPropertyName("sdwis")]
-    public string AllocationSDWISIdentifier { get; set; }
-    [JsonPropertyName("varType")]
-    public string VariableSpecificTypeCV { get; set; }
-    [JsonPropertyName("beneficialUses")]
-    public List<string> BeneficialUses { get; set; }
-    [JsonPropertyName("exmptVolFlowPriority")]
-    public bool ExemptOfVolumeFlowPriority { get; set; }
-    [JsonPropertyName("states")]
+    public string SdwisIdentifierCv { get; set; }
+    public string MethodName { get; set; }
+    public string MethodUuid { get; set; }
+    public string VariableSpecificTypeCv { get; set; }
     public List<string> States { get; set; }
-    [JsonPropertyName("waterSources")]
+    public List<string> BeneficialUses { get; set; }
+    public string OrganizationName { get; set; }
+    public bool ExemptOfVolumeFlowPriority { get; set; }
     public List<WaterSourceSummary> WaterSources { get; set; }
 }

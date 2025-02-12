@@ -306,7 +306,7 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.AllocationSearchItem,
                 Engines.Contracts.RightFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUuid))
             .ForMember(dest => dest.Geometry, opt => opt.Ignore());
 
         CreateMap<Accessors.Contracts.Api.V2.TimeSeriesSearchItem,
