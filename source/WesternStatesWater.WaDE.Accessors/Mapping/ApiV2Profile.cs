@@ -34,11 +34,14 @@ public class ApiV2Profile : Profile
                         .Select(fact => fact.ReportingUnit.Geometry))));
 
         CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()
+            .ForMember(a => a.AllocationTypeWaDEName, b => b.MapFrom(c => c.AllocationTypeCvNavigation.WaDEName))
             .ForMember(a => a.AllocationApplicationDate,
                 b => b.MapFrom(c => c.AllocationApplicationDateNavigation.Date))
             .ForMember(a => a.AllocationPriorityDate, b => b.MapFrom(c => c.AllocationPriorityDateNavigation.Date))
             .ForMember(a => a.AllocationExpirationDate,
                 b => b.MapFrom(c => c.AllocationExpirationDateNavigation.Date))
+            .ForMember(a => a.AllocationLegalStatusWaDEName,
+                b => b.MapFrom(c => c.AllocationLegalStatusCvNavigation.WaDEName))
             .ForMember(a => a.Method, b => b.MapFrom(c => c.Method))
             .ForMember(a => a.Organization, b => b.MapFrom(c => c.Organization))
             .ForMember(a => a.VariableSpecific, b => b.MapFrom(c => c.VariableSpecific))
@@ -53,7 +56,7 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.WaterSources,
                 b => b.MapFrom(c =>
                     c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
-        
+
         CreateMap<EF.OrganizationsDim, Organization>()
             .ForMember(a => a.OrganizationUuid, b => b.MapFrom(c => c.OrganizationUuid))
             .ForMember(a => a.OrganizationPurview, b => b.MapFrom(c => c.OrganizationPurview))
@@ -64,7 +67,6 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.State, b => b.MapFrom(c => c.State));
 
         CreateMap<EF.VariablesDim, VariableSpecific>()
-            .ForMember(a => a.VariableSpecificUuid, b => b.MapFrom(c => c.VariableSpecificUuid))
             .ForMember(a => a.VariableSpecificWaDEName, b => b.MapFrom(c => c.VariableSpecificCvNavigation.WaDEName))
             .ForMember(a => a.VariableWaDEName, b => b.MapFrom(c => c.VariableCvNavigation.WaDEName));
 
@@ -77,7 +79,8 @@ public class ApiV2Profile : Profile
             .ForMember(a => a.ApplicableResourceTypeCv, b => b.MapFrom(c => c.ApplicableResourceTypeCv));
 
         CreateMap<EF.ReportingUnitsDim, ReportingArea>()
-            .ForMember(a => a.State, b => b.MapFrom(c => c.StateCv));
+            .ForMember(a => a.State, b => b.MapFrom(c => c.StateCv))
+            .ForMember(a => a.ReportingUnitTypeWaDEName, b => b.MapFrom(c => c.ReportingUnitTypeCvNavigation.WaDEName));
 
         CreateMap<EF.BeneficialUsesCV, Contracts.Api.V2.BeneficialUse>()
             .ForMember(a => a.BeneficialUseCv, b => b.MapFrom(c => c.Name))

@@ -8,11 +8,14 @@ public class AllocationSearchItem
 {
     public string AllocationUuid { get; set; }
     public long AllocationAmountId { get; set; }
+    public string AllocationTypeCv { get; set; }
+    public string AllocationTypeWaDEName { get; set; }
     public string AllocationNativeID { get; set; }
     public string AllocationOwner { get; set; }
     public DateTime? AllocationApplicationDate { get; set; }
     public DateTime? AllocationPriorityDate { get; set; }
     public string AllocationLegalStatusCv { get; set; }
+    public string AllocationLegalStatusWaDEName { get; set; }
     public DateTime? AllocationExpirationDate { get; set; }
     public string AllocationChangeApplicationIndicator { get; set; }
     public string LegacyAllocationIDs { get; set; }
