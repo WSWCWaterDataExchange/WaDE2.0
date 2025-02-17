@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "WaDE OGC API",
-    "description": "WaDE API that conforms to the OGC API features and environmental data retrieval specification.",
+    "description": "This API service, available by the Western States Water Council’s (WSWC) Water Data Exchange (WaDE) Program, conforms to the Open Geospatial Consortium (OGC) API features and environmental data retrieval specifications. WaDE is committed to publicly sharing water rights, supply, use, and regulatory overlay data through a streamlined and standardized service that enables regional analyses to inform water resources management, planning and policies.",
     "version": "1.0"
   },
   "servers": [
@@ -46,8 +46,8 @@
     "/collections": {
       "get": {
         "tags": ["Capabilities"],
-        "summary": "Discovery",
-        "description": "Collections",
+        "summary": "The WaDE API “collections” are the distinct grouping of state-based data accessible through the API, identified by a unique identifier. WaDE offers the following collections of data: 1) overlays, 2) sites, 3) water rights, 4) timeseries.",
+        "description": "* Overlays refer to state-based geospatial boundary data split among administrative (districts or offices with authority over water) and regulatory (geographic areas that may follow basin or aquifer boundaries where specific rules or requirements apply to water use) boundary data paired to water right site information. Each overlay has a geospatial boundary, name, type of overlay, the water source type it applies to, an oversight agency, and a hyperlink that points to online documentation provided by the oversight agency.\n* Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use. Each site has a geospatial location (latitude and longitude), a recognized site type, a name, a geospatial category (point of diversion site or place of use boundary), and a specified water source(s).\n* Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations. Each water right can include the owner’s name, a limit on the flow rate or total quantity consumptively used, a priority date to determine seniority, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.\n* Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data. Each timeseries has a measured value, a start and end time, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getCollections",
         "responses": {
           "200": {
@@ -62,8 +62,8 @@
     "/collections/overlays": {
       "get": {
         "tags": ["Overlays"],
-        "summary": "Overlays collection metadata",
-        "description": "WaDE overlays collection.",
+        "summary": "Overlays “collections” are the distinct grouping of overlay geospatial data accessible through the API, identified by a unique identifier.",
+        "description": "Overlays refer to state-based geospatial boundary data split among administrative (districts or offices with authority over water) and regulatory (geographic areas that may follow basin or aquifer boundaries where specific rules or requirements apply to water use) boundary data paired to water right site information. Each overlay has a geospatial boundary, name, type of overlay, the water source type it applies to, an oversight agency, and a hyperlink that points to online documentation provided by the oversight agency.",
         "operationId": "getOverlaysCollections",
         "responses": {
           "200": {
@@ -81,8 +81,8 @@
     "/collections/overlays/items": {
       "get": {
         "tags": ["Overlays"],
-        "summary": "Get overlay collection items",
-        "description": "List of overlays.",
+        "summary": "Overlay “items” within overlays collections refers to an individual overlay geospatial record that is part of that collection accessible through the API, identified by a unique identifier.",
+        "description": "Overlays refer to state-based geospatial boundary data split among administrative (districts or offices with authority over water) and regulatory (geographic areas that may follow basin or aquifer boundaries where specific rules or requirements apply to water use) boundary data paired to water right site information. Each overlay has a geospatial boundary, name, type of overlay, the water source type it applies to, an oversight agency, and a hyperlink that points to online documentation provided by the oversight agency.",
         "operationId": "getOverlays",
         "parameters": [
           {
@@ -171,8 +171,8 @@
     "/collections/rights": {
       "get": {
         "tags": ["Rights"],
-        "summary": "Rights collection metadata",
-        "description": "WaDE water rights collection",
+        "summary": "Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations",
+        "description": "Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations. Each water right can include the owner’s name, a limit on the flow rate or total quantity consumptively used, a priority date to determine seniority, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getRightsCollection",
         "responses": {
           "200": {
@@ -184,8 +184,8 @@
     "/collections/rights/items": {
       "get": {
         "tags": ["Rights"],
-        "summary": "Get water right collection items",
-        "description": "Allocations",
+        "summary": "Right “items” within rights collections refers to an individual water right record that is part of that collection accessible through the API, identified by a unique identifier.",
+        "description": "Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations. Each water right can include the owner’s name, a limit on the flow rate or total quantity consumptively used, a priority date to determine seniority, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getRights",
         "parameters": [
           {
@@ -235,8 +235,8 @@
     "/collections/rights/area": {
       "get": {
         "tags": ["Rights"],
-        "summary": "Get water right for a given area",
-        "description": "Allocations",
+        "summary": "The “area” of a rights collections refer to the ability to search for specific sites items that relate to a water right within a user described spatial feature (polygon) by using a well-known text (WKT) markup of a geometry object, written in decimal degrees using a world geodetic system 1984 (WGS84) coordinate reference frame.",
+        "description": "Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations. Each water right can include the owner’s name, a limit on the flow rate or total quantity consumptively used, a priority date to determine seniority, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getRightsInArea",
         "parameters": [
           {
@@ -283,8 +283,8 @@
     "/collections/sites": {
       "get": {
         "tags": ["Sites"],
-        "summary": "Site collection metadata",
-        "description": "WaDE sites collection.",
+        "summary": "Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use.",
+        "description": "Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use. Each site has a geospatial location (latitude and longitude), a recognized site type, a name, a geospatial category (point of diversion site or place of use boundary), and a specified water source(s).",
         "operationId": "getSiteCollection",
         "responses": {
           "200": {
@@ -302,8 +302,8 @@
     "/collections/sites/items": {
       "get": {
         "tags": ["Sites"],
-        "summary": "Get water site collection items",
-        "description": "TODO: features of site.",
+        "summary": "Site “items” within sites collections refers to an individual site geospatial record that is part of that collection accessible through the API, identified by a unique identifier.",
+        "description": "Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use. Each site has a geospatial location (latitude and longitude), a spatial representation of a feature, a recognized site type, a name, a geospatial category (point of diversion site or place of use boundary), and a specified water source(s).",
         "operationId": "getWaterSites",
         "parameters": [
           {
@@ -350,8 +350,8 @@
     "/collections/sites/area": {
       "get": {
         "tags": ["Sites"],
-        "summary": "Return the data values for the data area defined by the query parameters",
-        "description": "TODO: features of site.",
+        "summary": "The “area” of a sites collections refer to the ability to search for specific sites items within a user described spatial feature (polygon or multipolygon) by using a well-known text (WKT) markup of a geometry object, written in decimal degrees using a world geodetic system 1984 (WGS84) coordinate reference frame.",
+        "description": "Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use. Each site has a geospatial location (latitude and longitude), a spatial representation of a feature, a recognized site type, a name, a geospatial category (point of diversion site or place of use boundary), and a specified water source(s).",
         "operationId": "getWaterSitesInArea",
         "parameters": [
           {
@@ -398,8 +398,8 @@
     "/collections/sites/items/{featureId}": {
       "get": {
         "tags": ["Sites"],
-        "summary": "Get a water site feature W",
-        "description": "TODO: feature.",
+        "summary": "The “siteUuid” of a sites item refers to the unique universal identifier assigned by the WaDE team to the individual site record, where each site has it’s own UUID value. For WaDE, siteUuid is a composite of state, identified data item type, and a state native id for a site if available.",
+        "description": "Sites are the state-based geospatial location data of either a granted water right or a historical time series record on water supply or water use. Each site has a geospatial location (latitude and longitude), a spatial representation of a feature, a recognized site type, a name, a geospatial category (point of diversion site or place of use boundary), and a specified water source(s).",
         "operationId": "getWaterSite",
         "parameters": [
           {
@@ -422,8 +422,8 @@
     "/collections/timeSeries": {
       "get": {
         "tags": ["Time Series"],
-        "summary": "Time Series collection metadata",
-        "description": "WaDE time series collection.",
+        "summary": "Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data.",
+        "description": "Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data. Each timeseries has a measured value, a start and end time, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getTimeSeriesCollections",
         "responses": {
           "200": {
@@ -465,8 +465,8 @@
     "/collections/rights/items/{featureId}": {
       "get": {
         "tags": ["Rights"],
-        "summary": "Get a water right feature",
-        "description": "TODO: feature.",
+        "summary": "The “allocationUuid” of a rights item refers to the unique universal identifier assigned by the WaDE team to the individual water right record, where each water right has it’s own UUID value. For WaDE, allocationUuid is a composite of state, identified data item type, and a state native id for a site if available.",
+        "description": "Water rights refer to the state-granted rights to the use of public waters via public and private appropriations, permits, allocations, allotments, and reservations. Each water right can include the owner’s name, a limit on the flow rate or total quantity consumptively used, a priority date to determine seniority, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getWaterRight",
         "parameters": [
           {
@@ -489,8 +489,8 @@
     "/collections/timeSeries/items": {
       "get": {
         "tags": ["Time Series"],
-        "summary": "Get time series collection items",
-        "description": "TODO: features of site.",
+        "summary": "Timeseries “items” within timeseries collections refers to an individual timeseries record that is part of that collection accessible through the API, identified by a unique identifier.",
+        "description": "Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data. Each timeseries has a measured value, a start and end time, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "searchTimeSeries",
         "parameters": [
           {
@@ -534,8 +534,8 @@
     "/collections/timeSeries/area": {
       "get": {
         "tags": ["Time Series"],
-        "summary": "Get time series collection items in area.",
-        "description": "TODO: features of site.",
+        "summary": "The “area” of a timeseries collections refer to the ability to search for specific sites items that relate to a timeseries within a user described spatial feature (polygon) by using a well-known text (WKT) markup of a geometry object, written in decimal degrees using a world geodetic system 1984 (WGS84) coordinate reference frame.",
+        "description": "Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data. Each timeseries has a measured value, a start and end time, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "searchTimeSeriesInArea",
         "parameters": [
           {
@@ -576,8 +576,8 @@
     "/collections/timeSeries/items/{featureId}": {
       "get": {
         "tags": ["Time Series"],
-        "summary": "Get a site time series",
-        "description": "TODO: feature.",
+        "summary": "The “sitevariableamountsid” of a timeseries item refers to the unique row id, where each subsequent row is assigned the next identity value, which is equal to the last identity value plus the increment value.",
+        "description": "Timeseries refer to state-based historical time series records on water supply (reservoir releases, streamgage flow, and groundwater level or pumping measurements) and water use (withdrawals related to an existing water right, and public-supply use related to geospatial areas) data. Each timeseries has a measured value, a start and end time, a designated beneficial use(s) which may come from one or many specified water source(s), all referenced to a geospatial site location.",
         "operationId": "getTimeSeries",
         "parameters": [
           {
@@ -626,16 +626,8 @@
         "required": false,
         "schema": {
           "type": "array",
-          "oneOf": [
-            {
-              "minItems": 4,
-              "maxItems": 4
-            },
-            {
-              "minItems": 6,
-              "maxItems": 6
-            }
-          ],
+          "minItems": 4,
+          "maxItems": 4,
           "items": {
             "type": "number"
           }
@@ -1111,35 +1103,35 @@
               "$ref": "#/components/schemas/landingPage"
             },
             "example": {
-              "title": "Water Data Exchange API",
-              "description": "The Water Data Exchange API provides access to water data.",
+              "title": "WaDE OGC API",
+              "description": "The landing page provides links to the API definition, the conformance\nstatements and to the feature collections in this dataset.",
               "links": [
                 {
-                  "href": "http://wade-api-qa.azure-api.net/api/v2/",
+                  "href": "https://wade-api.azure-api.net/api/v2/",
                   "rel": "self",
                   "type": "application/json",
                   "title": "this document"
                 },
                 {
-                  "href": "wade-api-qa.azure-api.net/api/v2/swagger.json",
+                  "href": "https://wade-api.azure-api.net/api/v2/swagger.json",
                   "rel": "service-desc",
                   "type": "application/vnd.oai.openapi+json;version=3.0",
                   "title": "the API definition"
                 },
                 {
-                  "href": "wade-api-qa.azure-api.net/api/v2/swagger/ui",
+                  "href": "https://wade-api.azure-api.net/api/v2/swagger/ui",
                   "rel": "service-doc",
                   "type": "text/html",
                   "title": "the API documentation"
                 },
                 {
-                  "href": "http://wade-api-qa.azure-api.net/api/v2/conformance",
+                  "href": "https://wade-api.azure-api.net/api/v2/conformance",
                   "rel": "conformance",
                   "type": "application/json",
                   "title": "OGC API conformance classes implemented by this server"
                 },
                 {
-                  "href": "http://wade-api-qa.azure-api.net/api/v2/collections",
+                  "href": "https://wade-api.azure-api.net/api/v2/collections",
                   "rel": "data",
                   "type": "application/json",
                   "title": "Information about the feature collections"
@@ -1165,7 +1157,10 @@
               "conformsTo": [
                 "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/core",
                 "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/oas30",
-                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson"
+                "http://www.opengis.net/spec/ogcapi-features-1/1.0/conf/geojson",
+                "http://www.opengis.net/spec/ogcapi-edr-1/1.0/conf/core",
+                "http://www.opengis.net/spec/ogcapi-edr-1/1.0/conf/collections",
+                "http://www.opengis.net/spec/ogcapi-edr-1/1.0/conf/areas"
               ]
             }
           },
