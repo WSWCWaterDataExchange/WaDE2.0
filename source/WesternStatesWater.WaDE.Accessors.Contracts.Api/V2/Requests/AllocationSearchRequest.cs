@@ -19,4 +19,6 @@ public class AllocationSearchRequest : SearchRequestBase
     public List<string> WaterSourceTypes { get; set; }
     
     public List<string> BeneficialUses { get; set; }
+    
+    public List<string> OwnerClassificationTypes { get; set; }
 }

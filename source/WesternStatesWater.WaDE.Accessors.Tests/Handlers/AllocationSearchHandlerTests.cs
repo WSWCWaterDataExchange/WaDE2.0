@@ -496,6 +496,36 @@ public class AllocationSearchHandlerTests : DbTestBase
         response.Allocations.Should().HaveCount(expectedMatchCount);
     }
 
+    [TestMethod]
+    public async Task Handler_FilterOwnerClassificationTypes_ReturnsAllocationsWithOwnerClassifications()
+    {
+        await using var db = new WaDEContext(Configuration.GetConfiguration());
+        
+        var ownerClassificationA = await OwnerClassificationBuilder.Load(db);
+        var ownerClassificationB = await OwnerClassificationBuilder.Load(db);
+
+        var allocationA = await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            OwnerClassificationType = ownerClassificationA,
+        });
+        
+        await AllocationAmountsFactBuilder.Load(db, new AllocationAmountsFactBuilderOptions
+        {
+            OwnerClassificationType = ownerClassificationB
+        });
+        
+        var request = new AllocationSearchRequest
+        {
+            OwnerClassificationTypes = [ownerClassificationA.WaDEName],
+            Limit = 10
+        };
+        
+        var response = await ExecuteHandler(request);
+        
+        response.Allocations.Should().HaveCount(1);
+        response.Allocations.Select(a => a.AllocationUuid).Should().BeEquivalentTo(allocationA.AllocationUUID);
+    }
+
     private async Task<AllocationSearchResponse> ExecuteHandler(AllocationSearchRequest request)
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());

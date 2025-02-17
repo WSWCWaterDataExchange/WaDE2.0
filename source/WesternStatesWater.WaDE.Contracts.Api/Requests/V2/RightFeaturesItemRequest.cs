@@ -11,4 +11,5 @@ public class RightFeaturesItemRequest : RightFeaturesSearchRequestBase
     /// OGC API DateTime parameter used for Priority Date
     /// </summary>
     public string DateTime { get; set; }
+    public string OwnerClassificationTypes { get; set; }
 }
