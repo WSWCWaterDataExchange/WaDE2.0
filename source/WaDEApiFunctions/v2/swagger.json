@@ -876,9 +876,6 @@
             "items": {
               "$ref": "#/components/schemas/collection"
             }
-          },
-          "error": {
-            "$ref": "#/components/schemas/errorBase"
           }
         }
       },
@@ -891,17 +888,34 @@
             "items": {
               "type": "string"
             }
-          },
-          "error": {
-            "$ref": "#/components/schemas/errorBase"
           }
         }
       },
-      "errorBase": {
+      "error": {
         "type": "object",
         "properties": {
-          "publicMessage": {
-            "type": "string"
+          "type": {
+            "type": "string",
+            "format": "uri",
+            "description": "A URI reference that identifies the problem type."
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem."
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The HTTP status code."
+          },
+          "detail": {
+            "type": "string",
+            "description": "A detailed explanation of the problem."
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Additional key-value pairs with extended problem details."
           }
         }
       },
@@ -964,22 +978,6 @@
                 "default": "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"
               }
             }
-          }
-        }
-      },
-      "exception": {
-        "type": "object",
-        "description": "Information about the exception: an error code plus an optional description.",
-        "required": ["code"],
-        "properties": {
-          "status": {
-            "type": "integer"
-          },
-          "title": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
           }
         }
       },
@@ -1094,7 +1092,7 @@
             }
           },
           "error": {
-            "$ref": "#/components/schemas/errorBase"
+            "$ref": "#/components/schemas/error"
           }
         }
       },
@@ -1258,7 +1256,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/exception"
+              "$ref": "#/components/schemas/error"
             }
           },
           "text/html": {
@@ -1279,7 +1277,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/exception"
+              "$ref": "#/components/schemas/error"
             }
           },
           "text/html": {
