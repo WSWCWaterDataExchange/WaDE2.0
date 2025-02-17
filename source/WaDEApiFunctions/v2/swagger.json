@@ -92,6 +92,17 @@
             "$ref": "#/components/parameters/bbox"
           },
           {
+            "name": "datetime",
+            "in": "query",
+            "description": "This parameter is not used on this endpoint and will be ignored!",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "style": "form",
+            "explode": false
+          },
+          {
             "$ref": "#/components/parameters/next"
           },
           {
@@ -311,6 +322,17 @@
           },
           {
             "$ref": "#/components/parameters/bbox"
+          },
+          {
+            "name": "datetime",
+            "in": "query",
+            "description": "This parameter is not used on this endpoint and will be ignored!",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "style": "form",
+            "explode": false
           },
           {
             "$ref": "#/components/parameters/next"
