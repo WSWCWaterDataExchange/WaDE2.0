@@ -138,6 +138,21 @@
           },
           {
             "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/overlayUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/overlayTypes"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
           }
         ],
         "responses": {
@@ -232,6 +247,24 @@
           },
           {
             "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/allocationUuids"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          },
+          {
+            "$ref": "#/components/parameters/beneficialUses"
+          },
+          {
+            "$ref": "#/components/parameters/ownerClassificationTypes"
           }
         ],
         "responses": {
@@ -283,6 +316,15 @@
             "$ref": "#/components/parameters/next"
           },
           {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/overlayUuids"
+          },
+          {
+            "$ref": "#/components/parameters/allocationUuids"
+          },
+          {
             "$ref": "#/components/parameters/siteTypes"
           },
           {
@@ -320,6 +362,24 @@
           },
           {
             "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/overlayUuids"
+          },
+          {
+            "$ref": "#/components/parameters/allocationUuids"
+          },
+          {
+            "$ref": "#/components/parameters/siteTypes"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
           }
         ],
         "responses": {
@@ -443,6 +503,9 @@
             "$ref": "#/components/parameters/next"
           },
           {
+            "$ref": "#/components/parameters/datetime"
+          },
+          {
             "$ref": "#/components/parameters/siteUuids"
           },
           {
@@ -453,9 +516,6 @@
           },
           {
             "$ref": "#/components/parameters/variableTypes"
-          },
-          {
-            "$ref": "#/components/parameters/datetime"
           }
         ],
         "responses": {
@@ -486,6 +546,18 @@
           },
           {
             "$ref": "#/components/parameters/next"
+          },
+          {
+            "$ref": "#/components/parameters/siteUuids"
+          },
+          {
+            "$ref": "#/components/parameters/states"
+          },
+          {
+            "$ref": "#/components/parameters/waterSourceTypes"
+          },
+          {
+            "$ref": "#/components/parameters/variableTypes"
           }
         ],
         "responses": {

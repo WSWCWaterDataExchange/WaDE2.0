@@ -94,12 +94,18 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.SiteFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.SiteSearchRequest>()
-            .ForMember(dest => dest.SiteTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.States, mem => mem.Ignore())
-            .ForMember(dest => dest.WaterSourcesTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
-            .ForMember(dest => dest.OverlayUuids, mem => mem.Ignore())
-            .ForMember(dest => dest.AllocationUuids, mem => mem.Ignore())
+            .ForMember(dest => dest.SiteTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteTypes))
+            .ForMember(dest => dest.States,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.WaterSourcesTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.SiteUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.OverlayUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
+            .ForMember(dest => dest.AllocationUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids))
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastSiteUuid, mem => mem.MapFrom(src => src.Next));
 
@@ -132,11 +138,16 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.OverlayFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.OverlaySearchRequest>()
-            .ForMember(dest => dest.OverlayUuids, mem => mem.Ignore())
-            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
-            .ForMember(dest => dest.States, mem => mem.Ignore())
-            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.OverlayTypes, mem => mem.Ignore())
+            .ForMember(dest => dest.OverlayUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayUuids))
+            .ForMember(dest => dest.SiteUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.WaterSourceTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.OverlayTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.OverlayTypes))
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
@@ -172,13 +183,19 @@ public class OgcApiProfile : Profile
 
         CreateMap<Contracts.Api.Requests.V2.RightFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.AllocationSearchRequest>()
-            .ForMember(dest => dest.AllocationUuid, mem => mem.Ignore())
-            .ForMember(dest => dest.SiteUuid, mem => mem.Ignore())
-            .ForMember(dest => dest.States, mem => mem.Ignore())
-            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.BeneficialUses, mem => mem.Ignore())
+            .ForMember(dest => dest.AllocationUuid,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.AllocationUuids))
+            .ForMember(dest => dest.WaterSourceTypes,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.BeneficialUses,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.BeneficialUses))
+            .ForMember(dest => dest.SiteUuid,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.OwnerClassificationTypes,
+                opt => opt.ConvertUsing(new CommaStringToListConverter(), src => src.OwnerClassificationTypes))
             .ForMember(dest => dest.PriorityDate, opt => opt.Ignore())
-            .ForMember(dest => dest.OwnerClassificationTypes, opt => opt.Ignore())
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, opt => opt.MapFrom(src => src.Next));
 
@@ -214,12 +231,17 @@ public class OgcApiProfile : Profile
         CreateMap<Contracts.Api.Requests.V2.TimeSeriesFeaturesAreaRequest,
                 Accessors.Contracts.Api.V2.Requests.TimeSeriesSearchRequest>()
             .ForMember(dest => dest.SiteVariableAmountId, mem => mem.Ignore())
-            .ForMember(dest => dest.SiteUuids, mem => mem.Ignore())
-            .ForMember(dest => dest.States, mem => mem.Ignore())
-            .ForMember(dest => dest.VariableTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.WaterSourceTypes, mem => mem.Ignore())
-            .ForMember(dest => dest.PrimaryUses, mem => mem.Ignore())
             .ForMember(dest => dest.DateRange, mem => mem.Ignore())
+            .ForMember(dest => dest.SiteUuids,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.SiteUuids))
+            .ForMember(dest => dest.States,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.States))
+            .ForMember(dest => dest.VariableTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.VariableTypes))
+            .ForMember(dest => dest.WaterSourceTypes,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.WaterSourceTypes))
+            .ForMember(dest => dest.PrimaryUses,
+                mem => mem.ConvertUsing(new CommaStringToListConverter(), src => src.PrimaryUses))
             .ForMember(dest => dest.GeometrySearch, mem => mem.MapFrom(src => src))
             .ForMember(dest => dest.LastKey, mem => mem.MapFrom(src => src.Next));
 
