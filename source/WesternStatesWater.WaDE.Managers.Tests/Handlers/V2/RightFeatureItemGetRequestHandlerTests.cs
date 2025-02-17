@@ -42,7 +42,7 @@ public class RightFeatureItemGetRequestHandlerTests
                 [
                     new AllocationSearchItem()
                     {
-                        AllocationUUID = requestedAllocationUuid
+                        AllocationUuid = requestedAllocationUuid
                     }
                 ],
                 LastUuid = null

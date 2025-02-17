@@ -47,7 +47,8 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             SiteUuids = req.Query["siteUuids"],
             States = req.Query["states"],
             WaterSourceTypes = req.Query["waterSourceTypes"],
-            BeneficialUses = req.Query["beneficialUses"]
+            BeneficialUses = req.Query["beneficialUses"],
+            OwnerClassificationTypes = req.Query["ownerClassificationTypes"]
         };
         var response = await waterResourceManager.Search<RightFeaturesSearchRequestBase, RightFeaturesSearchResponse>(request);
         
@@ -72,6 +73,12 @@ public class RightsFunction(IMetadataManager metadataManager, IWaterResourceMana
             Coords = req.Query["coords"],
             Limit = req.Query["limit"],
             Next = req.Query["next"],
+            AllocationUuids = req.Query["allocationUuids"],
+            SiteUuids = req.Query["siteUuids"],
+            States = req.Query["states"],
+            WaterSourceTypes = req.Query["waterSourceTypes"],
+            BeneficialUses = req.Query["beneficialUses"],
+            OwnerClassificationTypes = req.Query["ownerClassificationTypes"]
         };
         var response = await waterResourceManager.Search<RightFeaturesSearchRequestBase, RightFeaturesSearchResponse>(request);
         

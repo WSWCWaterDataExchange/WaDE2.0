@@ -72,7 +72,11 @@ public class TimeSeriesFunction(IMetadataManager metadataManager, IWaterResource
         {
             Coords = req.Query["coords"],
             Limit = req.Query["limit"],
-            Next = req.Query["next"]
+            Next = req.Query["next"],
+            SiteUuids = req.Query["siteUuids"],
+            States = req.Query["states"],
+            WaterSourceTypes = req.Query["waterSourceTypes"],
+            VariableTypes = req.Query["variableTypes"],
         };
         var response =
             await waterResourceManager.Search<TimeSeriesFeaturesSearchRequestBase, TimeSeriesFeaturesSearchResponse>(request);

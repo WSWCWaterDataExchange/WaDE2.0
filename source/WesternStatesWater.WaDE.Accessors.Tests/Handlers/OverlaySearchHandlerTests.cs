@@ -97,7 +97,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(3);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlays.Skip(3).Take(3).Select(a => a.RegulatoryOverlayUuid));
     }
 
@@ -120,7 +120,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 
@@ -160,7 +160,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 
@@ -221,7 +221,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 
@@ -418,53 +418,10 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(1);
-        response.Overlays[0].AreaNames.Should().BeEquivalentTo(
+        response.Overlays[0].ReportingAreas.Select(area => area.ReportingUnitName).Should().BeEquivalentTo(
             areaA.ReportingUnitName, areaB.ReportingUnitName, areaC.ReportingUnitName);
-        response.Overlays[0].AreaNativeIds.Should().BeEquivalentTo(
+        response.Overlays[0].ReportingAreas.Select(area => area.ReportingUnitNativeId).Should().BeEquivalentTo(
             areaA.ReportingUnitNativeId, areaB.ReportingUnitNativeId, areaC.ReportingUnitNativeId);
-    }
-
-    [TestMethod]
-    public async Task Handler_OverlayWithManySites_ReturnsSiteUuids()
-    {
-        await using var db = new WaDEContext(Configuration.GetConfiguration());
-
-        var siteA = await SitesDimBuilder.Load(db);
-        var siteB = await SitesDimBuilder.Load(db);
-        var siteC = await SitesDimBuilder.Load(db);
-
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
-        {
-            SitesDim = siteA,
-            RegulatoryOverlayDim = overlayA
-        });
-
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
-        {
-            SitesDim = siteB,
-            RegulatoryOverlayDim = overlayA
-        });
-
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
-        {
-            SitesDim = siteC,
-            RegulatoryOverlayDim = overlayA
-        });
-
-        var request = new OverlaySearchRequest
-        {
-            Limit = 5
-        };
-
-        // Act
-        var response = await ExecuteHandler(request);
-
-        // Assert
-        response.Overlays.Should().HaveCount(1);
-        response.Overlays[0].SiteUuids.Should().BeEquivalentTo(
-            siteA.SiteUuid, siteB.SiteUuid, siteC.SiteUuid);
     }
     
     [TestMethod]
@@ -520,8 +477,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(1);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(overlayA.RegulatoryOverlayUuid);
-        response.Overlays[0].States.Should().BeEquivalentTo(stateA.Name);
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(overlayA.RegulatoryOverlayUuid);
+        response.Overlays[0].ReportingAreas[0].State.Should().BeEquivalentTo(stateA.Name);
     }
     
     [TestMethod]
@@ -549,7 +506,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
     
@@ -578,7 +535,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
             overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
     }
 

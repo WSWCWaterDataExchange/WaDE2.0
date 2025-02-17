@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using WesternStatesWater.WaDE.Common;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
@@ -15,6 +16,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public string UsgscategoryNameCv { get; set; }
         public string NaicscodeNameCv { get; set; }
+        
+        public ConsumptionCategoryType ConsumptionCategoryType { get; set; }
 
 
         public virtual ICollection<AggBridgeBeneficialUsesFact> AggBridgeBeneficialUsesFact { get; set; }

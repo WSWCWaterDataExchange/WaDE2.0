@@ -17,6 +17,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             return new Faker<OwnerClassificationCv>()
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
+                .RuleFor(a => a.WaDEName, f => f.Random.Words(3))
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
