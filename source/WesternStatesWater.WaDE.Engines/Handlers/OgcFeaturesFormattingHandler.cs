@@ -47,14 +47,15 @@ public class OgcFeaturesFormattingHandler(
     /// Builds a GeoJson Feature "properties" using the <see cref="JsonPropertyNameAttribute"/> as the property name.
     /// </summary>
     /// <param name="item">Feature item</param>
-    /// <returns>Creates an AttributeTable from the derived FeatureBase type. Geometry is omitted from the table.</returns>
+    /// <returns>Creates an AttributeTable from the derived FeatureBase type. Geometry and Id is omitted from the table.</returns>
     private static AttributesTable BuildAttributesTable(FeatureBase item)
     {
         var properties = new AttributesTable();
         foreach (var property in item.GetType().GetProperties()
-                     .Where(prop => prop.GetCustomAttribute<JsonPropertyNameAttribute>() is not null))
+                     .Where(prop => prop.Name is not (nameof(FeatureBase.Geometry) or nameof(FeatureBase.Id)))) // Exclude the geometry and id properties.
         {
-            var attrName = property.GetCustomAttribute<JsonPropertyNameAttribute>()!.Name;
+            // AttributesTable does not serialize the property names into camelCase. We need to do this manually. Nested objects are serialized correctly.
+            var attrName = char.ToLowerInvariant(property.Name[0]) + property.Name.Substring(1);
 
             properties.Add(attrName, property.GetValue(item));
         }

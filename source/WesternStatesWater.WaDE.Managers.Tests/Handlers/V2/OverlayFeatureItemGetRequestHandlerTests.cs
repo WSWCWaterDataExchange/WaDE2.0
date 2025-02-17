@@ -42,7 +42,7 @@ public class OverlayFeatureItemGetRequestHandlerTests
                 [
                     new OverlaySearchItem()
                     {
-                        OverlayUuid = requestedOverlayUuid
+                        RegulatoryOverlayUuid = requestedOverlayUuid
                     }
                 ],
                 LastUuid = null

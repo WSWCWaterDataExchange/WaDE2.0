@@ -277,7 +277,7 @@ public class SiteSearchHandlerTests : DbTestBase
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(2);
-        response.Sites.Select(s => s.SiteType).Should().BeEquivalentTo(siteTypeA.WaDEName, siteTypeB.WaDEName);
+        response.Sites.Select(s => s.SiteTypeWaDEName).Should().BeEquivalentTo(siteTypeA.WaDEName, siteTypeB.WaDEName);
         response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
     }
     
@@ -297,7 +297,7 @@ public class SiteSearchHandlerTests : DbTestBase
         };
         var response = await ExecuteHandler(request);
         response.Sites.Should().HaveCount(2);
-        response.Sites.Select(s => s.State).Should().BeEquivalentTo(siteA.StateCv, siteB.StateCv);
+        response.Sites.Select(s => s.StateCv).Should().BeEquivalentTo(siteA.StateCv, siteB.StateCv);
         response.Sites.Select(s => s.SiteUuid).Should().BeEquivalentTo(siteA.SiteUuid, siteB.SiteUuid);
     }
 

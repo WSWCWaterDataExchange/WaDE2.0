@@ -1,21 +1,12 @@
-using System.Text.Json.Serialization;
-
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class Organization
 {
-    [JsonPropertyName("uuid")]
-    public string Uuid { get; set; }
-    [JsonPropertyName("purview")]
-    public string Purview { get; set; }
-    [JsonPropertyName("website")]
-    public string Website { get; set; }
-    [JsonPropertyName("phoneNumber")]
-    public string PhoneNumber { get; set; }
-    [JsonPropertyName("contactName")]
-    public string ContactName { get; set; }
-    [JsonPropertyName("contactEmail")]
-    public string ContactEmail { get; set; }
-    [JsonPropertyName("state")]
+    public string OrganizationUuid { get; set; }
+    public string OrganizationPurview { get; set; }
+    public string OrganizationWebsite { get; set; }
+    public string OrganizationPhoneNumber { get; set; }
+    public string OrganizationContactName { get; set; }
+    public string OrganizationContactEmail { get; set; }
     public string State { get; set; }
 }

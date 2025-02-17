@@ -242,7 +242,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         
         response.Sites.Should().HaveCount(1);
         response.Sites[0].Site.SiteUuid.Should().BeEquivalentTo(siteA.SiteUuid);
-        response.Sites[0].Site.State.Should().Be(stateA.Name);
+        response.Sites[0].Site.StateCv.Should().Be(stateA.Name);
     }
     
     [TestMethod]
@@ -327,7 +327,7 @@ public class TimeSeriesSearchHandlerTests : DbTestBase
         var response = await ExecuteHandler(request);
         
         response.Sites.Should().HaveCount(1);
-        response.Sites[0].WaterSource.SourceType.Should().Be(waterSourceTypeA.Name);
+        response.Sites[0].WaterSource.WaterSourceTypeCv.Should().Be(waterSourceTypeA.Name);
     }
 
     [TestMethod]

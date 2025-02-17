@@ -301,12 +301,12 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.OverlaySearchItem,
                 Engines.Contracts.OverlayFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.OverlayUuid))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.RegulatoryOverlayUuid))
             .ForMember(dest => dest.Geometry, opt => opt.MapFrom(src => src.Areas));
 
         CreateMap<Accessors.Contracts.Api.V2.AllocationSearchItem,
                 Engines.Contracts.RightFeature>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUUID))
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.AllocationUuid))
             .ForMember(dest => dest.Geometry, opt => opt.Ignore());
 
         CreateMap<Accessors.Contracts.Api.V2.TimeSeriesSearchItem,
@@ -330,5 +330,11 @@ public class OgcApiProfile : Profile
 
         CreateMap<Accessors.Contracts.Api.V2.Method,
             Engines.Contracts.Method>();
+
+        CreateMap<Accessors.Contracts.Api.V2.ReportingArea,
+            Engines.Contracts.ReportingArea>();
+
+        CreateMap<Accessors.Contracts.Api.V2.BeneficialUse,
+            Engines.Contracts.BeneficialUse>();
     }
 }

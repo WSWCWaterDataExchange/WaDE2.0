@@ -1,19 +1,11 @@
-using System.Text.Json.Serialization;
-
 namespace WesternStatesWater.WaDE.Engines.Contracts;
 
 public class Method
 {
-    [JsonPropertyName("uuid")]
-    public string Uuid { get; set; }
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-    [JsonPropertyName("description")]
-    public string Description { get; set; }
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
-    [JsonPropertyName("nemiLink")]
-    public string NemiLink { get; set; }
-    [JsonPropertyName("applicableResourceType")]
-    public string ApplicableResourceType { get; set; }
+    public string MethodUuid { get; set; }
+    public string MethodName { get; set; }
+    public string MethodDescription { get; set; }
+    public string MethodTypeCv { get; set; }
+    public string MethodNemiLink { get; set; }
+    public string ApplicableResourceTypeCv { get; set; }
 }
