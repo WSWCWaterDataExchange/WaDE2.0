@@ -225,6 +225,7 @@ This project contains a set of Azure Functions that implement the OGC API Featur
 }
 ```
 </details>
+
 ### OverlaysFunction
 
 > OGC API requires `datetime` filter so the swagger.json supports it, but the filter is actively ignored because sites don't have temporal data.
@@ -287,12 +288,21 @@ architecture-beta
     azfn:R --> L:db
 ```
 
+### Environment Configuration
+| Name | Description |
+| ---- | ----------- |
+| OgcApi__Title | Configures the Landing Page "title" of the API. |
+| OgcApi__Description | Configures the Landing Page "descripton" of the API.|
+| OgcApi__Host | The public facing base url to the OGC API endpoints. This is used for generating related links. |
+| OgcApi__SwaggerDescription | URL that points to the swagger.json definition file. |
+| OgcApi__SwaggerDoc | URL that points to the Swagger page. |
+
 ### API Management
 
 - Name: `WaDE OGC API`
 - API URL suffix: `api`
 
-Base policy requires forwarding the request url from APIM to Azure Function so we can properly construct links.
+Base policy requires forwarding the request url from API Management to Azure Function so we can properly construct links.
 
 ```xml
 <set-header name="X-WaDE-OriginalUrl" exists-action="append">
@@ -302,7 +312,7 @@ Base policy requires forwarding the request url from APIM to Azure Function so w
 
 # Validating Compliance
 
-Currently validating the API's compliancy with OGC is done manually using their [online service](https://cite.opengeospatial.org/teamengine/viewSessions.jsp). But you can also clone the following repositories if you want to run the tests locally.
+Currently validating the API's compliancy with OGC is done manually using their [online service](https://cite.opengeospatial.org/teamengine/viewSessions.jsp). An account is required. You can also clone the following repositories if you want to run the tests locally.
 
 - https://github.com/opengeospatial/ets-ogcapi-features10 (Local)
 - https://github.com/opengeospatial/ets-ogcapi-edr10 (Local)
