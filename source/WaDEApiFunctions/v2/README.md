@@ -228,7 +228,7 @@ This project contains a set of Azure Functions that implement the OGC API Featur
 
 ### OverlaysFunction
 
-> OGC API requires `datetime` filter so the swagger.json supports it, but the filter is actively ignored because sites don't have temporal data.
+> OGC API requires `datetime` filter so the swagger.json supports it, but the filter is actively ignored because overlays don't have temporal data.
 
 - **GetOverlaysCollectionMetadata**: `GET` `/collections/overlays` Retrieves metadata for an overlays collection.
 - **GetOverlays**: `GET` `/collections/overlays/items` Searches for overlay items based on query parameters. Response is GeoJSON Feature Collection.
