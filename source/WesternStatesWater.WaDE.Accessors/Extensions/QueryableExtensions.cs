@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -24,7 +26,7 @@ public static class QueryableExtensions
         {
             query = query.Where(s => s.SiteUuid.CompareTo(filters.LastSiteUuid) > 0);
         }
-        
+
         if (filters.SiteTypes != null && filters.SiteTypes.Count != 0)
         {
             query = query.Where(s => filters.SiteTypes.Contains(s.SiteTypeCvNavigation.WaDEName));
@@ -34,25 +36,29 @@ public static class QueryableExtensions
         {
             query = query.Where(s => filters.States.Contains(s.StateCv));
         }
-        
+
         if (filters.WaterSourcesTypes != null && filters.WaterSourcesTypes.Count != 0)
         {
-            query = query.Where(s => s.WaterSourceBridgeSitesFact.Any(fact => filters.WaterSourcesTypes.Contains(fact.WaterSource.WaterSourceTypeCvNavigation.WaDEName)));
+            query = query.Where(s => s.WaterSourceBridgeSitesFact.Any(fact =>
+                filters.WaterSourcesTypes.Contains(fact.WaterSource.WaterSourceTypeCvNavigation.WaDEName)));
         }
 
         if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)
         {
             query = query.Where(s => filters.SiteUuids.Contains(s.SiteUuid));
         }
-        
+
         if (filters.OverlayUuids != null && filters.OverlayUuids.Count != 0)
         {
-            query = query.Where(s => s.RegulatoryOverlayBridgeSitesFact.Any(fact => filters.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
+            query = query.Where(s => s.RegulatoryOverlayBridgeSitesFact.Any(fact =>
+                filters.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
         }
-        
+
         if (filters.AllocationUuids != null && filters.AllocationUuids.Count != 0)
         {
-            query = query.Where(s => s.AllocationBridgeSitesFact.Any(fact => filters.AllocationUuids.Contains(fact.AllocationAmount.AllocationUUID)));
+            query = query.Where(s =>
+                s.AllocationBridgeSitesFact.Any(fact =>
+                    filters.AllocationUuids.Contains(fact.AllocationAmount.AllocationUUID)));
         }
 
         return query;
@@ -70,9 +76,8 @@ public static class QueryableExtensions
                               (bridge.Site.SitePoint.Intersects(filters.GeometrySearch.Geometry)))),
                 _ => query
             };
-
         }
-        
+
         if (filters.AllocationUuid != null && filters.AllocationUuid.Any())
         {
             query = query.Where(x => filters.AllocationUuid.Contains(x.AllocationUUID));
@@ -96,13 +101,13 @@ public static class QueryableExtensions
                 bridge => bridge.Site.WaterSourceBridgeSitesFact.Any(
                     ws => filters.WaterSourceTypes.Contains(ws.WaterSource.WaterSourceTypeCvNavigation.WaDEName))));
         }
-        
+
         if (filters.BeneficialUses != null && filters.BeneficialUses.Count != 0)
         {
             query = query.Where(x => x.AllocationBridgeBeneficialUsesFact.Any(
                 bridge => filters.BeneficialUses.Contains(bridge.BeneficialUse.WaDEName)));
         }
-        
+
         if (filters.PriorityDate != null)
         {
             if (filters.PriorityDate.StartDate != null)
@@ -130,42 +135,36 @@ public static class QueryableExtensions
     }
 
     public static IQueryable<SiteVariableAmountsFact> ApplySearchFilters(this IQueryable<SiteVariableAmountsFact> query,
-        TimeSeriesSearchRequest filters)
+        TimeSeriesSearchRequest filters, List<long> siteIds = null)
     {
         if (filters.SiteVariableAmountId.HasValue)
         {
             query = query.Where(x => x.SiteVariableAmountId == filters.SiteVariableAmountId);
         }
-        
-        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
+
+        if (siteIds != null && siteIds.Count != 0)
         {
-            query = filters.GeometrySearch.SpatialRelationType switch
-            {
-                SpatialRelationType.Intersects => query.Where(s =>
-                    (s.Site.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
-                    (s.Site.SitePoint.Intersects(filters.GeometrySearch.Geometry))),
-                _ => query
-            };
+            query = query.Where(x => siteIds.Contains(x.SiteId));
         }
-        
+
         if (filters.DateRange?.StartDate != null)
         {
             query = query.Where(x =>
-                    // Check if filtered start date is within the time series date range
-                    (filters.DateRange.StartDate >= x.TimeframeStartNavigation.Date &&
-                     filters.DateRange.StartDate <= x.TimeframeEndNavigation.Date) ||
-                    // Else check if filtered start date is before the time series start date
-                    filters.DateRange.StartDate <= x.TimeframeStartNavigation.Date);
+                // Check if filtered start date is within the time series date range
+                (filters.DateRange.StartDate >= x.TimeframeStartNavigation.Date &&
+                 filters.DateRange.StartDate <= x.TimeframeEndNavigation.Date) ||
+                // Else check if filtered start date is before the time series start date
+                filters.DateRange.StartDate <= x.TimeframeStartNavigation.Date);
         }
 
         if (filters.DateRange?.EndDate != null)
         {
             query = query.Where(x =>
-                    // Check if filtered end date is within the time series date range
-                    (filters.DateRange.EndDate >= x.TimeframeStartNavigation.Date &&
-                     filters.DateRange.EndDate <= x.TimeframeEndNavigation.Date) ||
-                    // Else check if filtered end date is after the time series end date
-                    x.TimeframeEndNavigation.Date <= filters.DateRange.EndDate);
+                // Check if filtered end date is within the time series date range
+                (filters.DateRange.EndDate >= x.TimeframeStartNavigation.Date &&
+                 filters.DateRange.EndDate <= x.TimeframeEndNavigation.Date) ||
+                // Else check if filtered end date is after the time series end date
+                x.TimeframeEndNavigation.Date <= filters.DateRange.EndDate);
         }
 
         if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)
@@ -221,17 +220,18 @@ public static class QueryableExtensions
                 _ => query
             };
         }
-        
+
         if (filters.States != null && filters.States.Count != 0)
         {
-            query = query.Where(o => o.RegulatoryReportingUnitsFact.Any(fact => filters.States.Contains(fact.ReportingUnit.StateCv)));
+            query = query.Where(o =>
+                o.RegulatoryReportingUnitsFact.Any(fact => filters.States.Contains(fact.ReportingUnit.StateCv)));
         }
-        
+
         if (filters.OverlayTypes != null && filters.OverlayTypes.Count != 0)
         {
             query = query.Where(o => filters.OverlayTypes.Contains(o.RegulatoryOverlayType.WaDEName));
         }
-        
+
         if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
         {
             query = query.Where(o => filters.WaterSourceTypes.Contains(o.WaterSourceType.WaDEName));
@@ -244,7 +244,7 @@ public static class QueryableExtensions
 
         return query;
     }
-    
+
     /// <summary>
     /// Sets the Take limit plus one on the query. This is used to determine if there are more results.
     /// </summary>
