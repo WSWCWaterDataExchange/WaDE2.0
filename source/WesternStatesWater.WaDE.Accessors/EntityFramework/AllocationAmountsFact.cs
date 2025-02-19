@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace WesternStatesWater.WaDE.Accessors.EntityFramework
@@ -51,6 +52,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string PowerType { get; set; }
         public string OwnerClassificationCV { get; set; }
         public string AllocationUUID { get; set; }
+        public Guid? ConservationApplicationFundingOrganizationId { get; set; }
 
         public virtual DateDim AllocationApplicationDateNavigation { get; set; }
         public virtual WaterAllocationBasis AllocationBasisCvNavigation { get; set; }
