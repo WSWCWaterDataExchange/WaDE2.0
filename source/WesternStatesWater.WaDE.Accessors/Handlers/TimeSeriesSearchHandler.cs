@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.Shared.Resolver;
@@ -10,7 +10,6 @@ using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
 using WesternStatesWater.WaDE.Accessors.Extensions;
-using WesternStatesWater.WaDE.Accessors.Mapping;
 using Method = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Method;
 using Site = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Site;
 using VariableSpecific = WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.VariableSpecific;
@@ -23,10 +22,36 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
     public async Task<TimeSeriesSearchResponse> Handle(TimeSeriesSearchRequest request)
     {
         await using var db = new WaDEContext(configuration);
+        db.Database.SetCommandTimeout(300);
+        
+        // Performing a spatial search from SiteVariableAmountsFact to SitesDim causes queries to be very slow when the Geometry does not match any records.
+        // To improve performance, we first query SitesDim to get the SiteIds that match the spatial search.
+        List<long> siteIds = null;
+        if (request.GeometrySearch?.Geometry != null && !request.GeometrySearch.Geometry.IsEmpty)
+        {
+            siteIds = await db.SiteVariableAmountsFact
+                .AsNoTracking()
+                .Where(s =>
+                    s.Site.Geometry.Intersects(request.GeometrySearch.Geometry) ||
+                    s.Site.SitePoint.Intersects(request.GeometrySearch.Geometry))
+                .ApplyLimit(request) // This must happen before OrderBy otherwise the query gets very slow and causes timeouts.
+                .OrderBy(s => s.SiteVariableAmountId)
+                .Select(x => x.SiteId)
+                .ToListAsync();
+
+            // If no siteIds are found, return an empty response, no need to query the rest of the data.
+            if (siteIds.Count == 0)
+            {
+                return new TimeSeriesSearchResponse
+                {
+                    Sites = new List<TimeSeriesSearchItem>()
+                };
+            }
+        }
 
         var sites = await db.SiteVariableAmountsFact
             .AsNoTracking()
-            .ApplySearchFilters(request)
+            .ApplySearchFilters(request, siteIds)
             .OrderBy(s => s.SiteVariableAmountId)
             .ApplyLimit(request)
             // Using Select because Automapper ProjectTo created complex queries that were not performant.
@@ -37,7 +62,7 @@ public class TimeSeriesSearchHandler(IConfiguration configuration)
                     SiteUuid = ts.Site.SiteUuid,
                     SiteNativeId = ts.Site.SiteNativeId,
                     SiteName = ts.Site.SiteName,
-                    Location = ts.Site.Geometry ?? ts.Site.SitePoint,
+                    Location = ts.Site.Geometry == null ? ts.Site.SitePoint : ts.Site.Geometry,
                     CoordinateMethodCv = ts.Site.CoordinateMethodCv,
                     GnisCodeCv = ts.Site.GniscodeCv,
                     EpsgCodeCv = ts.Site.EpsgcodeCv,
