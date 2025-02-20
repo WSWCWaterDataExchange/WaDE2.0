@@ -4,6 +4,10 @@
 
 This project contains a set of Azure Functions that implement the OGC API Features and Environmental Data Retrieval (EDR) specifications. These functions provide endpoints for accessing various water-related data collections, including time series, sites, rights, and overlays.
 
+[OGC API - Features - Part 1: Core corrigendum, version 1.0.1](https://docs.opengeospatial.org/is/17-069r4/17-069r4.html)
+
+[OGC API - Environmental Data Retrieval Standard 1.1.0](https://docs.ogc.org/is/19-086r6/19-086r6.html)
+
 ## Functions Overview
 
 ### DiscoverabilityFunction
@@ -275,6 +279,9 @@ These functions are designed to comply with the OGC API Features and EDR specifi
 
 The azure functions are deployed using GH Actions. Any APIM configuration is done manually.
 
+# SwaggerHub
+On the GitHub Actions deploy, a `swagger.json` artifact is generated. This swagger definition needs to then be uploaded to SwaggerHub. You may also need to update the Azure Function environment variable `OgcApi__SwaggerDescription` to point to the updated `swagger.json` file.
+
 # Hosting
 
 ```mermaid
@@ -288,7 +295,7 @@ architecture-beta
     azfn:R --> L:db
 ```
 
-### Environment Configuration
+### Environment Configurations
 | Name | Description |
 | ---- | ----------- |
 | OgcApi__Title | Configures the Landing Page "title" of the API. |
