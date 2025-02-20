@@ -12,6 +12,10 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 ## Conceptual workflow of the next WaDE 2.0 system
 [Link](https://github.com/WSWCWaterDataExchange/WaDE2.0/blob/master/Design_docs/Diagrams/WaDE_workflow.jpg)
 
+# WaDE OGC API
+
+[Documentation](/source/WaDEApiFunctions/v2/README.md)
+
 ## FAQ
 **How to import data into the database, locally?**
 
