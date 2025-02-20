@@ -649,7 +649,7 @@
         "schema": {
           "type": "array",
           "minItems": 4,
-          "maxItems": 4,
+          "maxItems": 6,
           "items": {
             "type": "number"
           }

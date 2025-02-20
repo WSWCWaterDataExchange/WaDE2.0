@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using WesternStatesWater.Shared.Resolver;
+using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Responses;
@@ -20,10 +22,34 @@ public class AllocationSearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
+        // Performing a spatial search from AllocationAmountsFact to SitesDim causes queries to be very slow when the Geometry does not match any records.
+        // To improve performance, we first query SitesDim to get the SiteIds that match the spatial search.
+        List<long> siteIds = null;
+        if (request.GeometrySearch?.Geometry != null && !request.GeometrySearch.Geometry.IsEmpty)
+        {
+            siteIds = await db.SitesDim
+                .AsNoTracking()
+                .Where(s =>
+                    s.Geometry.Intersects(request.GeometrySearch.Geometry) ||
+                    s.SitePoint.Intersects(request.GeometrySearch.Geometry))
+                .ApplyLimit(request) // This must happen before OrderBy otherwise the query gets very slow and causes timeouts.
+                .Select(x => x.SiteId)
+                .ToListAsync();
+
+            // If no siteIds are found, return an empty response, no need to query the rest of the data.
+            if (siteIds.Count == 0)
+            {
+                return new AllocationSearchResponse()
+                {
+                    Allocations = new List<AllocationSearchItem>()
+                };
+            }
+        }
+
         var allocations = await db.AllocationAmountsFact
             .AsNoTracking()
             .OrderBy(alloc => alloc.AllocationUUID)
-            .ApplySearchFilters(request)
+            .ApplySearchFilters(request, siteIds)
             .ApplyLimit(request)
             .ProjectTo<AllocationSearchItem>(DtoMapper.Configuration)
             .ToListAsync();

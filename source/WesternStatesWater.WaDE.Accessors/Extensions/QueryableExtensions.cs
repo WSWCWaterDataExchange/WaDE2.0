@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api.V2.Requests;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
@@ -65,17 +64,11 @@ public static class QueryableExtensions
     }
 
     public static IQueryable<AllocationAmountsFact> ApplySearchFilters(this IQueryable<AllocationAmountsFact> query,
-        AllocationSearchRequest filters)
+        AllocationSearchRequest filters, List<long> siteIds)
     {
-        if (filters.GeometrySearch?.Geometry != null && !filters.GeometrySearch.Geometry.IsEmpty)
+        if (siteIds != null && siteIds.Count != 0)
         {
-            query = filters.GeometrySearch.SpatialRelationType switch
-            {
-                SpatialRelationType.Intersects => query.Where(x => x.AllocationBridgeSitesFact.Any(
-                    bridge => (bridge.Site.Geometry.Intersects(filters.GeometrySearch.Geometry)) ||
-                              (bridge.Site.SitePoint.Intersects(filters.GeometrySearch.Geometry)))),
-                _ => query
-            };
+            query = query.Where(x => x.AllocationBridgeSitesFact.Any(bridge => siteIds.Contains(bridge.SiteId)));
         }
 
         if (filters.AllocationUuid != null && filters.AllocationUuid.Any())
