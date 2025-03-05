@@ -1,0 +1,927 @@
+{
+	"info": {
+		"_postman_id": "4e76abe1-8957-4a8c-bb39-5962f4bf5502",
+		"name": "WaDE OGC API",
+		"description": "This API service, available by the Western States Water Council’s (WSWC)  \nWater Data Exchange (WaDE) Program, conforms to the Open Geospatial  \nConsortium (OGC) API features and environmental data retrieval  \nspecifications. WaDE is committed to publicly sharing water rights,  \nsupply, use, and regulatory overlay data through a streamlined and  \nstandardized service that enables regional analyses to inform water  \nresources management, planning and policies.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8589581"
+	},
+	"item": [
+		{
+			"name": "Capabilities",
+			"item": [
+				{
+					"name": "Landing Page",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Collections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Conformance",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/conformance",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"conformance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sites",
+			"item": [
+				{
+					"name": "Sites Collection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/sites",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"sites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Site Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/sites/items",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"sites",
+								"items"
+							],
+							"query": [
+								{
+									"key": "bbox",
+									"value": null,
+									"description": "Only features that have a geometry that intersects the bounding box are selected.\n\nThe bounding box is provided as four numbers.\n\n\n* Lower left corner, coordinate axis 1\n\n* Lower left corner, coordinate axis 2\n\n* Upper right corner, coordinate axis 1\n\n* Upper right corner, coordinate axis 2",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of Site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "overlayUuids",
+									"value": null,
+									"description": "Comma separated list of Overlay Uuids",
+									"disabled": true
+								},
+								{
+									"key": "allocationUuids",
+									"value": null,
+									"description": "Comma separated list of Allocation Uuids",
+									"disabled": true
+								},
+								{
+									"key": "siteTypes",
+									"value": null,
+									"description": "Comma separated list of Site Types",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Site Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/sites/area?coords=POLYGON ((-111.872063 40.610434, -111.835327 40.610434, -111.835327 40.622813, -111.872063 40.622813, -111.872063 40.610434))",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"sites",
+								"area"
+							],
+							"query": [
+								{
+									"key": "coords",
+									"value": "POLYGON ((-111.872063 40.610434, -111.835327 40.610434, -111.835327 40.622813, -111.872063 40.622813, -111.872063 40.610434))",
+									"description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y))."
+								},
+								{
+									"key": "next",
+									"value": "",
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "overlayUuids",
+									"value": null,
+									"description": "Comma separated list of overlay Uuids",
+									"disabled": true
+								},
+								{
+									"key": "allocationUuids",
+									"value": null,
+									"description": "Comma separated list of allocation Uuids",
+									"disabled": true
+								},
+								{
+									"key": "siteTypes",
+									"value": null,
+									"description": "Comma separated list of site types",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Site Feature",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain/api/v2/collections/sites/items/:featureId",
+							"protocol": "https",
+							"host": [
+								"{{domain"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"sites",
+								"items",
+								":featureId"
+							],
+							"variable": [
+								{
+									"key": "featureId",
+									"value": "",
+									"description": "Site UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Water Rights",
+			"item": [
+				{
+					"name": "Water Rights Collection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/rights",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"rights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Water Right Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/rights/items",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"rights",
+								"items"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "bbox",
+									"value": null,
+									"description": "Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):\n\nLower left corner, coordinate axis 1\nLower left corner, coordinate axis 2\nUpper right corner, coordinate axis 1\nUpper right corner, coordinate axis 2",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "datetime",
+									"value": null,
+									"description": "Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).\n\nExamples:\n\n    A date-time: \"2018-02-12T23:20:50Z\"\n    A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n    Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n\nOnly features that have a temporal property that intersects the value of datetime are selected.",
+									"disabled": true
+								},
+								{
+									"key": "allocationUuids",
+									"value": null,
+									"description": "Comma separated list of allocation Uuids",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								},
+								{
+									"key": "beneficialUses",
+									"value": null,
+									"description": "Comma separated list of beneficial uses",
+									"disabled": true
+								},
+								{
+									"key": "ownerClassificationTypes",
+									"value": null,
+									"description": "Comma separated list of owner classification types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Water Right Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/rights/area?coords=POLYGON ((-111.872063 40.610434, -111.835327 40.610434, -111.835327 40.622813, -111.872063 40.622813, -111.872063 40.610434))",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"rights",
+								"area"
+							],
+							"query": [
+								{
+									"key": "coords",
+									"value": "POLYGON ((-111.872063 40.610434, -111.835327 40.610434, -111.835327 40.622813, -111.872063 40.622813, -111.872063 40.610434))",
+									"description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y))."
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "allocationUuids",
+									"value": null,
+									"description": "Comma separated list of allocation Uuids",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								},
+								{
+									"key": "beneficialUses",
+									"value": null,
+									"description": "Comma separated list of beneficial uses",
+									"disabled": true
+								},
+								{
+									"key": "ownerClassificationTypes",
+									"value": null,
+									"description": "Comma separated list of owner classification types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Water Right Feature",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/rights/items/:featureId",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"rights",
+								"items",
+								":featureId"
+							],
+							"variable": [
+								{
+									"key": "featureId",
+									"value": "",
+									"description": "Allocation UUID"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Overlays",
+			"item": [
+				{
+					"name": "Overlays Collection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/overlays",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"overlays"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Overlay Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/overlays/items",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"overlays",
+								"items"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "bbox",
+									"value": null,
+									"description": "Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):\n\n    Lower left corner, coordinate axis 1\n    Lower left corner, coordinate axis 2\n    Minimum value, coordinate axis 3 (optional)\n    Upper right corner, coordinate axis 1\n    Upper right corner, coordinate axis 2",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "overlayUuids",
+									"value": null,
+									"description": "Comma separated list of overlay Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "overlayTypes",
+									"value": null,
+									"description": "Comma separated list of overlay types",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Overlay Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/overlays/area?coords=POLYGON ((-105.46875 32.472695, -104.414063 32.472695, -104.414063 32.842674, -105.46875 32.842674, -105.46875 32.472695))",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"overlays",
+								"area"
+							],
+							"query": [
+								{
+									"key": "coords",
+									"value": "POLYGON ((-105.46875 32.472695, -104.414063 32.472695, -104.414063 32.842674, -105.46875 32.842674, -105.46875 32.472695))",
+									"description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y))."
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "overlayUuids",
+									"value": null,
+									"description": "Comma separated list of overlay Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "overlayTypes",
+									"value": null,
+									"description": "Comma separated list of overlay types",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Overlay Feature",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/overlays/items/:featureId",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"overlays",
+								"items",
+								":featureId"
+							],
+							"variable": [
+								{
+									"key": "featureId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Time series",
+			"item": [
+				{
+					"name": "Time Series Collection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/timeseries",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"timeseries"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Time Series Items",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/timeseries/items",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"timeseries",
+								"items"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "",
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "bbox",
+									"value": null,
+									"description": "Only features that have a geometry that intersects the bounding box are selected. The bounding box is provided as four or six numbers, depending on whether the coordinate reference system includes a vertical axis (height or depth):\n\n    Lower left corner, coordinate axis 1\n    Lower left corner, coordinate axis 2\n    Minimum value, coordinate axis 3 (optional)\n    Upper right corner, coordinate axis 1\n    Upper right corner, coordinate axis 2",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "datetime",
+									"value": null,
+									"description": "Either a date-time or an interval. Date and time expressions adhere to RFC 3339. Intervals may be bounded or half-bounded (double-dots at start or end).\n\nExamples:\n\n    A date-time: \"2018-02-12T23:20:50Z\"\n    A bounded interval: \"2018-02-12T00:00:00Z/2018-03-18T12:31:12Z\"\n    Half-bounded intervals: \"2018-02-12T00:00:00Z/..\" or \"../2018-03-18T12:31:12Z\"\n\nOnly features that have a temporal property that intersects the value of datetime are selected.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": "",
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								},
+								{
+									"key": "variableTypes",
+									"value": null,
+									"description": "Comma separated list of variable types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Time Series Area",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/timeseries/area?coords=POLYGON ((-96.932373 46.792538, -96.932373 46.792538, -96.932373 46.792538, -96.932373 46.792538))",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"timeseries",
+								"area"
+							],
+							"query": [
+								{
+									"key": "coords",
+									"value": "POLYGON ((-96.932373 46.792538, -96.932373 46.792538, -96.932373 46.792538, -96.932373 46.792538))",
+									"description": "Only data that has a geometry that intersects the area defined by the polygon are selected.\n\nThe polygon is defined using a Well Known Text string following\n\ncoords=POLYGON((x y,x1 y1,x2 y2,...,xn yn x y))."
+								},
+								{
+									"key": "limit",
+									"value": null,
+									"description": "The optional limit parameter limits the number of items that are presented in the response document.\n\nOnly items are counted that are on the first level of the collection in the response document. Nested objects contained within the explicitly requested items shall not be counted.\n\nMinimum = 1. Maximum = 1000. Default = 1000.\n\nDefault value : 1000",
+									"disabled": true
+								},
+								{
+									"key": "next",
+									"value": null,
+									"description": "The optional next parameter is used to request the next page of items in a paginated response. The value of the next parameter is the URL to the next page of items.",
+									"disabled": true
+								},
+								{
+									"key": "siteUuids",
+									"value": null,
+									"description": "Comma separated list of site Uuids",
+									"disabled": true
+								},
+								{
+									"key": "states",
+									"value": null,
+									"description": "Comma separated list of state abbreviations",
+									"disabled": true
+								},
+								{
+									"key": "waterSourceTypes",
+									"value": null,
+									"description": "Comma separated list of water source types",
+									"disabled": true
+								},
+								{
+									"key": "variableTypes",
+									"value": null,
+									"description": "Comma separated list of variable types",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Time Series Feature",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://{{domain}}/api/v2/collections/timeseries/items/:featureId",
+							"protocol": "https",
+							"host": [
+								"{{domain}}"
+							],
+							"path": [
+								"api",
+								"v2",
+								"collections",
+								"timeseries",
+								"items",
+								":featureId"
+							],
+							"variable": [
+								{
+									"key": "featureId",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "key",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "query",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{apiKey}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
