@@ -23,8 +23,6 @@ SELECT
     SA.maxAfVolume,
     SA.minPriorityDate,
     SA.maxPriorityDate,
-    sts.startDate,
-    sts.endDate,
     sd.Geometry AS [geometry],
     sd.SitePoint AS [point]
 FROM (
@@ -64,6 +62,5 @@ FROM (
     LEFT OUTER JOIN CVs.WaterAllocationType cvwat ON cvwat.Name = aaf.AllocationTypeCV
     GROUP BY sd.SiteID
     ) AS SA
-    INNER JOIN Core.Sites_dim sd ON sd.SiteID = SA.SiteID
-    LEFT OUTER JOIN dbo.SiteTimeSeries sts ON sd.SiteID = sts.SiteID;
+    INNER JOIN Core.Sites_dim sd ON sd.SiteID = SA.SiteID;
 GO
