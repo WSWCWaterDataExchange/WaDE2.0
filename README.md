@@ -16,7 +16,8 @@ The next version of the Water Data Exchange (WaDE) program. An agreed upon metad
 
 [Documentation](/source/WaDEApiFunctions/v2/README.md)
 
-You can also import our [Postman Collection](WaDE%20OGC%20API.postman_collection.json). Please reach out to the project administrator for obtaining an API key.
+You can also import our [Postman Collection](./WaDE%20OGC%20API.postman_collection.json). Please reach out to the project administrator for obtaining an API key.
+Don't forget to also import the environments [Alpha](./Alpha.postman_environment.json), [Beta](./Beta.postman_environment.json), [Production](./Production.postman_environment.json)
 
 ## FAQ
 **How to import data into the database, locally?**
