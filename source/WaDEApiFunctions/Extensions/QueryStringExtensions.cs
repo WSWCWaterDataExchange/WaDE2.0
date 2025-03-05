@@ -13,7 +13,8 @@ public static class QueryStringExtensions
         var properties = typeof(T).GetProperties();
         var unmatchedParameters = new List<string>();
 
-        foreach (var key in query.AllKeys)
+        // Filter out query string parameter key. This is attached to requests for security, but is not a property of the request.
+        foreach (var key in query.AllKeys.Where(x => !x.Equals("key", StringComparison.OrdinalIgnoreCase)))
         {
             if (properties.All(p => !p.Name.Equals(key, StringComparison.InvariantCultureIgnoreCase)))
             {
