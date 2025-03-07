@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class OwnerClassificationBuilder
     {
+        private static int _globalIndex = 0;
         public static OwnerClassificationCv Create()
         {
             return Create(new OwnerClassificationBuilderOptions());
@@ -16,9 +17,10 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             return new Faker<OwnerClassificationCv>()
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
+                .RuleFor(a => a.WaDEName, f => f.Random.Words(3))
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
-                .RuleFor(a => a.SourceVocabularyURI, f => f.Internet.Url());
+                .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
         public static async Task<OwnerClassificationCv> Load(WaDEContext db)
@@ -35,10 +37,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-
+        
         public static string GenerateName()
         {
-            return new Faker().Random.AlphaNumeric(50);
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,250);
         }
     }
 

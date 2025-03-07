@@ -1,34 +1,37 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_SiteAllocationAmounts
+    public class WaterAllocation_SiteAllocationAmounts : FunctionBase
     {
-        public WaterAllocation_SiteAllocationAmounts(IWaterAllocationManager waterAllocationManager)
+        private readonly IWaterResourceManager _waterResourceManager;
+        
+        private readonly ILogger<WaterAllocation_SiteAllocationAmounts> _logger;
+        
+        public WaterAllocation_SiteAllocationAmounts(
+            IWaterResourceManager waterResourceManager,
+            ILogger<WaterAllocation_SiteAllocationAmounts> logger
+        )
         {
-            WaterAllocationManager = waterAllocationManager;
+            _waterResourceManager = waterResourceManager;
+            _logger = logger;
         }
 
-        private IWaterAllocationManager WaterAllocationManager { get; set; }
         
-        [FunctionName("WaterAllocation_SiteAllocationAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequest req, ILogger log)
+        [Function("WaterAllocation_SiteAllocationAmounts_v1")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Run");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsRequestBody>(requestBody);
-
+            var data = await Deserialize<SiteAllocationAmountsRequestBody>(req, _logger);
+            
             var siteUuid = req.GetQueryString("SiteUUID") ?? data?.siteUUID;
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -48,12 +51,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return new BadRequestObjectResult("Start index must be 0 or greater.");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(siteUuid) &&
@@ -66,36 +75,52 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(county) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("Filters",
+                    [
+                        "At least one of the following filter parameters must be specified: siteUuid, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV, huc8, huc12, county, state"
+                    ])
+                );
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsAsync(new SiteAllocationAmountsFilters
+            var request = new SiteAllocationAmountsSearchRequest
             {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                SiteUuid = siteUuid,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                HUC8 = huc8,
-                HUC12 = huc12,
-                County = county,
-                State = state
-            }, startIndex, recordCount, geoFormat);
+                Filters = new SiteAllocationAmountsFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    SiteUuid = siteUuid,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    HUC8 = huc8,
+                    HUC12 = huc12,
+                    County = county,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
 
-            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsSearchRequest, SiteAllocationAmountsSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocations)
+                : await CreateErrorResponse(req, response.Error);
         }
 
-        [FunctionName("WaterAllocation_SiteAllocationAmountsDigest_v1")]
-        public async Task<IActionResult> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequest req, ILogger log)
+        [Function("WaterAllocation_SiteAllocationAmountsDigest_v1")]
+        public async Task<HttpResponseData> Digest([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/SiteAllocationAmountsDigest")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_SiteAllocationAmounts)} Digest");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<SiteAllocationAmountsDigestRequestBody>(requestBody);
+            var data = await Deserialize<SiteAllocationAmountsDigestRequestBody>(req, _logger);
 
             var siteTypeCV = req.GetQueryString("SiteTypeCV") ?? data?.siteTypeCV;
             var beneficialUseCv = req.GetQueryString("BeneficialUseCV") ?? data?.beneficialUseCV;
@@ -112,12 +137,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return new BadRequestObjectResult("Start index must be 0 or greater.");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(organizationUUID) &&
@@ -126,23 +157,39 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(siteTypeCV) &&
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("Filters",
+                    [
+                        "At least one of the following filter parameters must be specified: organizationUUID, beneficialUseCv, geometry, siteTypeCV, usgsCategoryNameCV"
+                    ])
+                );
             }
 
-            var siteAllocationAmounts = await WaterAllocationManager.GetSiteAllocationAmountsDigestAsync(new SiteAllocationAmountsDigestFilters
+            var request = new SiteAllocationAmountsDigestSearchRequest
             {
-                BeneficialUseCv = beneficialUseCv,
-                Geometry = geometry,
-                SiteTypeCV = siteTypeCV,
-                UsgsCategoryNameCv = usgsCategoryNameCV,
-                StartPriorityDate = startPriorityDate,
-                EndPriorityDate = endPriorityDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                OrganizationUUID = organizationUUID
-            }, startIndex, recordCount);
+                Filters = new SiteAllocationAmountsDigestFilters
+                {
+                    BeneficialUseCv = beneficialUseCv,
+                    Geometry = geometry,
+                    SiteTypeCV = siteTypeCV,
+                    UsgsCategoryNameCv = usgsCategoryNameCV,
+                    StartPriorityDate = startPriorityDate,
+                    EndPriorityDate = endPriorityDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    OrganizationUUID = organizationUUID
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount
+            };
 
-            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+            var response = await _waterResourceManager
+                .Load<SiteAllocationAmountsDigestSearchRequest, SiteAllocationAmountsDigestSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.WaterAllocationDigests)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class SiteAllocationAmountsRequestBody

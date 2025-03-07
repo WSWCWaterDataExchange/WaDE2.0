@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Azure.Functions.Worker.Http;
 using WesternStatesWater.WaDE.Contracts.Api;
 
 namespace WaDEApiFunctions
 {
     internal static class RequestDataParser
     {
-        public static string GetQueryString(this HttpRequest req, string key)
+        public static string GetQueryString(this HttpRequestData req, string key)
         {
             return (string)req.Query[key];
         }

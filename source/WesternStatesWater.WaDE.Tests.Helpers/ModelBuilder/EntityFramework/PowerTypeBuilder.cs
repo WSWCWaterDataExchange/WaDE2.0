@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class PowerTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static PowerType Create()
         {
             return Create(new PowerTypeBuilderOptions());
@@ -38,7 +39,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
         public static string GenerateName()
         {
-            return new Faker().Random.Word();
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,50);
         }
     }
 

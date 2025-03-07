@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class SiteTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static SiteType Create()
         {
             return Create(new SiteTypeBuilderOptions());
@@ -14,7 +15,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static SiteType Create(SiteTypeBuilderOptions opts)
         {
             var faker = new Faker<SiteType>()
-                .RuleFor(a => a.Name, f => f.Random.AlphaNumeric(100))
+                .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.WaDEName, f => opts?.WaDEName ?? f.Random.Words(5))
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(250))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(40))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(250))
@@ -37,10 +39,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,100);
+        }
     }
 
     public class SiteTypeBuilderOptions
-    {
-
+    { 
+        public string WaDEName { get; set; }
     }
 }

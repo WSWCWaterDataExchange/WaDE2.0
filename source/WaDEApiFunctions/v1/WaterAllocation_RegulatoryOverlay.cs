@@ -1,33 +1,36 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_RegulatoryOverlay
+    public class WaterAllocation_RegulatoryOverlay : FunctionBase
     {
-        public WaterAllocation_RegulatoryOverlay(IRegulatoryOverlayManager regulatoryOverlayManager)
+        private readonly IWaterResourceManager _waterResourceManager;
+        
+        private readonly ILogger<WaterAllocation_RegulatoryOverlay> _logger;
+        
+        public WaterAllocation_RegulatoryOverlay(
+            IWaterResourceManager waterResourceManager,
+            ILogger<WaterAllocation_RegulatoryOverlay> logger
+        )
         {
-            RegulatoryOverlayManager = regulatoryOverlayManager;
+            _waterResourceManager = waterResourceManager;
+            _logger = logger;
         }
 
-        private IRegulatoryOverlayManager RegulatoryOverlayManager { get; set; }
 
-        [FunctionName("WaterAllocation_RegulatoryOverlay_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequest req, ILogger log)
+        [Function("WaterAllocation_RegulatoryOverlay_v1")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggRegulatoryOverlay")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_RegulatoryOverlay)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<RegulatoryOverlayRequestBody>(requestBody);
+            var data = await Deserialize<RegulatoryOverlayRequestBody>(req, _logger);            
 
             var reportingUnitUUID = ((string)req.Query["ReportingUnitUUID"]) ?? data?.reportingUnitUUID;
             var regulatoryOverlayUUID = ((string)req.Query["RegulatoryOverlayUUID"]) ?? data?.regulatoryOverlayUUID;
@@ -45,12 +48,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return new BadRequestObjectResult("Start index must be 0 or greater.");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(reportingUnitUUID) &&
@@ -60,23 +69,38 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(geometry) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("Filters", ["At least one of the following filter parameters must be specified: reportingUnitUUID, regulatoryOverlayUUID, organizationUUID, regulatoryStatusCV, geometry, state"])
+                );
             }
 
-            var regulatoryReportingUnits = await RegulatoryOverlayManager.GetRegulatoryReportingUnitsAsync(new RegulatoryOverlayFilters
+            var request = new OverlayResourceSearchRequest
             {
-                ReportingUnitUUID = reportingUnitUUID,
-                RegulatoryOverlayUUID = regulatoryOverlayUUID,
-                OrganizationUUID = organizationUUID,
-                StatutoryEffectiveDate = statutoryEffectiveDate,
-                StatutoryEndDate = statutoryEndDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                RegulatoryStatusCV = regulatoryStatusCV,
-                Geometry = geometry,
-                State = state
-            }, startIndex, recordCount, geoFormat);
-            return new JsonResult(regulatoryReportingUnits, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+                Filters = new RegulatoryOverlayFilters
+                {
+                    ReportingUnitUUID = reportingUnitUUID,
+                    RegulatoryOverlayUUID = regulatoryOverlayUUID,
+                    OrganizationUUID = organizationUUID,
+                    StatutoryEffectiveDate = statutoryEffectiveDate,
+                    StatutoryEndDate = statutoryEndDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    RegulatoryStatusCV = regulatoryStatusCV,
+                    Geometry = geometry,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
+
+            var response = await _waterResourceManager
+                .Load<OverlayResourceSearchRequest, OverlayResourceSearchResponse>(request);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.ReportingUnits)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class RegulatoryOverlayRequestBody

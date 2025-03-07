@@ -1,33 +1,35 @@
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.IO;
 using System.Threading.Tasks;
 using WesternStatesWater.WaDE.Contracts.Api;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.Azure.Functions.Worker.Http;
+using WesternStatesWater.Shared.Errors;
+using WesternStatesWater.WaDE.Contracts.Api.Requests.V1;
+using WesternStatesWater.WaDE.Contracts.Api.Responses.V1;
 
 namespace WaDEApiFunctions.v1
 {
-    public class WaterAllocation_AggregatedAmounts
+    public class WaterAllocation_AggregatedAmounts : FunctionBase
     {
-        public WaterAllocation_AggregatedAmounts(IAggregatedAmountsManager aggregatedAmountsManager)
+        private readonly IWaterResourceManager _waterResourceManager;
+        
+        private readonly ILogger<WaterAllocation_AggregatedAmounts> _logger;
+
+        public WaterAllocation_AggregatedAmounts(
+            IWaterResourceManager waterResourceManager,
+            ILogger<WaterAllocation_AggregatedAmounts> logger
+        )
         {
-            AggregatedAmountsManager = aggregatedAmountsManager;
+            _waterResourceManager = waterResourceManager;
+            _logger = logger;
         }
 
-        private IAggregatedAmountsManager AggregatedAmountsManager { get; set; }
-
-        [FunctionName("WaterAllocation_AggregatedAmounts_v1")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggregatedAmounts")] HttpRequest req, ILogger log)
+        [Function("WaterAllocation_AggregatedAmounts_v1")]
+        public async Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = "v1/AggregatedAmounts")] HttpRequestData req)
         {
-            log.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
+            _logger.LogInformation($"Call to {nameof(WaterAllocation_AggregatedAmounts)}");
 
-            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            var data = JsonConvert.DeserializeObject<AggregratedAmountsRequestBody>(requestBody);
+            var data = await Deserialize<AggregratedAmountsRequestBody>(req, _logger);
 
             var variableCV = req.GetQueryString("VariableCV") ?? data?.variableCV;
             var variableSpecificCV = req.GetQueryString("VariableSpecificCV") ?? data?.variableCV;
@@ -47,12 +49,18 @@ namespace WaDEApiFunctions.v1
 
             if (startIndex < 0)
             {
-                return new BadRequestObjectResult("Start index must be 0 or greater.");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("StartIndex", ["StartIndex must be 0 or greater."])
+                );
             }
 
-            if (recordCount < 1 || recordCount > 10000)
+            if (recordCount is < 1 or > 10000)
             {
-                return new BadRequestObjectResult("Record count must be between 1 and 10000");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError("RecordCount", ["RecordCount must be between 1 and 10000"])
+                );
             }
 
             if (string.IsNullOrWhiteSpace(variableCV) &&
@@ -64,25 +72,44 @@ namespace WaDEApiFunctions.v1
                 string.IsNullOrWhiteSpace(usgsCategoryNameCV) &&
                 string.IsNullOrWhiteSpace(state))
             {
-                return new BadRequestObjectResult("At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, reportingUnitUUID, geometry, reportingUnitTypeCV, usgsCategoryNameCV, state");
+                return await CreateErrorResponse(
+                    req,
+                    new ValidationError(
+                        "Filters",
+                        [
+                            "At least one of the following filter parameters must be specified: variableCV, variableSpecificCV, beneficialUse, reportingUnitUUID, geometry, reportingUnitTypeCV, usgsCategoryNameCV, state"
+                        ]
+                    ));
             }
 
-            var siteAllocationAmounts = await AggregatedAmountsManager.GetAggregatedAmountsAsync(new AggregatedAmountsFilters
+            var searchRequest = new AggregatedAmountsSearchRequest
             {
-                BeneficialUse = beneficialUse,
-                Geometry = geometry,
-                ReportingUnitTypeCV = reportingUnitTypeCV,
-                ReportingUnitUUID = reportingUnitUUID,
-                UsgsCategoryNameCV = usgsCategoryNameCV,
-                VariableCV = variableCV,
-                VariableSpecificCV = variableSpecificCV,
-                StartDate = startDate,
-                EndDate = endDate,
-                StartDataPublicationDate = startDataPublicationDate,
-                EndDataPublicationDate = endDataPublicationDate,
-                State = state
-            }, startIndex, recordCount, geoFormat);
-            return new JsonResult(siteAllocationAmounts, new JsonSerializerSettings { ContractResolver = new DefaultContractResolver() });
+                Filters = new AggregatedAmountsFilters
+                {
+                    BeneficialUse = beneficialUse,
+                    Geometry = geometry,
+                    ReportingUnitTypeCV = reportingUnitTypeCV,
+                    ReportingUnitUUID = reportingUnitUUID,
+                    UsgsCategoryNameCV = usgsCategoryNameCV,
+                    VariableCV = variableCV,
+                    VariableSpecificCV = variableSpecificCV,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    StartDataPublicationDate = startDataPublicationDate,
+                    EndDataPublicationDate = endDataPublicationDate,
+                    State = state
+                },
+                StartIndex = startIndex,
+                RecordCount = recordCount,
+                OutputGeometryFormat = geoFormat
+            };
+
+            var response = await _waterResourceManager
+                .Load<AggregatedAmountsSearchRequest, AggregatedAmountsSearchResponse>(searchRequest);
+
+            return response.Error is null
+                ? await CreateOkResponse(req, response.AggregatedAmounts)
+                : await CreateErrorResponse(req, response.Error);
         }
 
         private sealed class AggregratedAmountsRequestBody

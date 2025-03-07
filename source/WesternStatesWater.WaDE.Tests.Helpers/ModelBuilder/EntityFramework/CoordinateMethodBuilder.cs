@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class CoordinateMethodBuilder
     {
+        private static int _globalIndex = 0;
         public static CoordinateMethod Create()
         {
             return Create(new CoordinateMethodBuilderOptions());
@@ -14,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static CoordinateMethod Create(CoordinateMethodBuilderOptions opts)
         {
             var faker = new Faker<CoordinateMethod>()
-                .RuleFor(a => a.Name, f => f.Random.AlphaNumeric(100))
+                .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(2))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(10))
                 .RuleFor(a => a.State, f => f.Random.AlphaNumeric(10))
@@ -36,6 +37,12 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             await db.SaveChangesAsync();
 
             return item;
+        }
+        
+        public static string GenerateName()
+        {
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,100);
         }
     }
 

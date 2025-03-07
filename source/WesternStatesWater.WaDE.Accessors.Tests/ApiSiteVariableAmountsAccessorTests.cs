@@ -5,8 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
@@ -299,9 +301,24 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             waterAllocations.Should().HaveCount(0);
         }
 
+        [TestMethod]
+        public async Task GetSiteVariableAmountsMetadata_ReturnsIntervalStartDate()
+        {
+            await using var db = new WaDEContext(Configuration.GetConfiguration());
+            List<SiteVariableAmountsFact> timeSeries = new();
+            for (var i = 0; i < 3; i++)
+            {
+                timeSeries.Add(await SiteVariableAmountsFactBuilder.Load(db));
+            }
+
+            var response = await CreateSiteVariableAmountsAccessor().GetSiteVariableAmountsMetadata();
+            response.IntervalStartDate.Should().BeSameDateAs(timeSeries.MinBy(ts => ts.TimeframeStartNavigation.Date).TimeframeStartNavigation.Date);
+            response.IntervalEndDate.Should().BeNull();
+        }
+        
         private ISiteVariableAmountsAccessor CreateSiteVariableAmountsAccessor()
         {
-            return new SiteVariableAmountsAccessor(Configuration.GetConfiguration(), LoggerFactory);
+            return new SiteVariableAmountsAccessor(Configuration.GetConfiguration(), LoggerFactory, Mock.Create<IAccessorRequestHandlerResolver>());
         }
     }
 }

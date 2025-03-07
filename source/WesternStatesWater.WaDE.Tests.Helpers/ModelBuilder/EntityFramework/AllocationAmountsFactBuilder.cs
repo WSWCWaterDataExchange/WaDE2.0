@@ -34,6 +34,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.AllocationFlow_CFS, f => f.Random.Double(0, 1000))
                 .RuleFor(a => a.AllocationVolume_AF, f => f.Random.Double(0, 1000))
                 .RuleFor(a => a.AllocationUUID, f => f.Random.Guid().ToString())
+                .RuleFor(a => a.OwnerClassificationCV, opts.OwnerClassificationType.Name)
                 ;
 
             switch (opts.RecordType ?? (new Faker()).PickRandom<WaterAllocationRecordType>())
@@ -70,6 +71,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             opts.MethodsDim = opts.MethodsDim ?? await MethodsDimBuilder.Load(db);
             opts.DataPublicationDate = opts.DataPublicationDate ?? await DateDimBuilder.Load(db);
             opts.AllocationPriorityDate = opts.AllocationPriorityDate ?? await DateDimBuilder.Load(db);
+            opts.OwnerClassificationType = opts.OwnerClassificationType ?? await OwnerClassificationBuilder.Load(db);
 
             var item = Create(opts);
 
@@ -108,6 +110,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public CustomerType CustomerType { get; set; }
         public SDWISIdentifier SDWISIdentifier { get; set; }
         public WaterAllocationRecordType? RecordType { get; set; }
+        public OwnerClassificationCv OwnerClassificationType { get; set; }
     }
 
     public enum WaterAllocationRecordType

@@ -2,7 +2,10 @@ name: Pull Request
 
 on:
   pull_request:
-    branches: [ develop, master ]
+    branches: [develop, master]
+
+env:
+  ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;TrustServerCertificate=true;"
 
 jobs:
   build-and-test:
@@ -12,32 +15,60 @@ jobs:
         working-directory: source
 
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v3
 
-    - name: create-database-container
-      run: docker-compose -f ci-compose.yml up -d
-      working-directory: .github
+      - name: create-database-container
+        run: docker compose -f ci-compose.yml up -d
+        working-directory: .github
 
-    - name: setup-dotnet
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
+      - name: setup-dotnet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
 
-    - name: restore-dependencies
-      run: dotnet restore
+      - name: restore-dependencies
+        run: dotnet restore
 
-    - name: build-solution
-      run: dotnet build --no-restore
+      - name: build-solution
+        run: dotnet build --no-restore
 
-    - name: create-database
-      run: docker exec -i mssql /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'DevP@ssw0rd!' -Q 'create database WaDE2'
+      - name: create-database
+        run: docker exec -i mssql /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U SA -P 'DevP@ssw0rd!' -Q 'create database WaDE2'
 
-    - name: update-database
-      run: dotnet run --args "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!;"
-      working-directory: source/WesternStatesWater.WaDE.DbUp
+      - name: update-database
+        run: dotnet run --args "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!;"
+        working-directory: source/WesternStatesWater.WaDE.DbUp
 
-    - name: run-tests
-      run: dotnet test
-      env:
-          ConnectionStrings__WadeDatabase: "Server=localhost; Initial Catalog=WaDE2; User=sa; Password=DevP@ssw0rd!; MultipleActiveResultSets=False;"
+      # Individually run each test project to prevent deadlock.
+      - name: .NET Integration Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Integration.Tests
+
+      - name: .NET Accessor Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Accessors.Tests
+
+      - name: .NET Engine Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Engines.Tests
+    
+      - name: .NET Manager Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Managers.Tests
+
+      - name: .NET Utilities Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Utilities.Tests
+      
+      - name: .NET Shared Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.Shared.Tests
+      
+      - name: .NET Common Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Common.Tests
+      
+      - name: .NET Client Tests
+        run: dotnet test
+        working-directory: source/WesternStatesWater.WaDE.Clients.Tests

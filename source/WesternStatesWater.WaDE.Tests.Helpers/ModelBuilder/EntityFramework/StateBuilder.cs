@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class StateBuilder
     {
+        public static int _globalIndex = 0;
         public static State Create()
         {
             return Create(new StateBuilderOptions());
@@ -17,7 +18,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.AlphaNumeric(2))
                 .RuleFor(a => a.Definition, f => f.Random.AlphaNumeric(10))
-                .RuleFor(a => a.State1, f => f.Random.AlphaNumeric(10))
+                .RuleFor(a => a.State, f => f.Random.AlphaNumeric(10))
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
@@ -38,10 +39,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-
+        
         public static string GenerateName()
         {
-            return new Faker().Address.StateAbbr();
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,2);
         }
     }
 

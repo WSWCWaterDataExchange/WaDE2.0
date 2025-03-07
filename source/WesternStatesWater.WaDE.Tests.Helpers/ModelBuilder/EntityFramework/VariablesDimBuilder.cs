@@ -15,14 +15,14 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             return new Faker<VariablesDim>()
                 .RuleFor(a => a.VariableSpecificUuid, f => f.Random.Uuid().ToString())
-                .RuleFor(a => a.VariableSpecificCv, f => opts.VariableSpecific?.Name ?? VariableSpecificBuilder.GenerateName())
-                .RuleFor(a => a.VariableCv, f => opts.Variable?.Name ?? VariableBuilder.GenerateName())
-                .RuleFor(a => a.AggregationStatisticCv, f => opts.AggregationStatistic?.Name ?? AggregationStatisticBuilder.GenerateName())
+                .RuleFor(a => a.VariableSpecificCv, f => opts.VariableSpecific?.Name ?? f.Random.Word())
+                .RuleFor(a => a.VariableCv, f => opts.Variable?.Name ?? f.Random.Word())
+                .RuleFor(a => a.AggregationStatisticCv, f => opts.AggregationStatistic?.Name ?? f.Random.Word())
                 .RuleFor(a => a.AggregationInterval, f => f.Random.Decimal(1, 300))
-                .RuleFor(a => a.AggregationIntervalUnitCv, f => opts.AggregationIntervalUnit?.Name ?? UnitsBuilder.GenerateName())
+                .RuleFor(a => a.AggregationIntervalUnitCv, f => opts.AggregationIntervalUnit?.Name ?? f.Random.Word())
                 .RuleFor(a => a.ReportYearStartMonth, f => f.Date.Month())
-                .RuleFor(a => a.ReportYearTypeCv, f => opts.ReportYearType?.Name ?? ReportYearTypeBuilder.GenerateName())
-                .RuleFor(a => a.AmountUnitCv, f => opts.AmountUnit?.Name ?? UnitsBuilder.GenerateName())
+                .RuleFor(a => a.ReportYearTypeCv, f => opts.ReportYearType?.Name ?? f.Random.Word())
+                .RuleFor(a => a.AmountUnitCv, f => opts.AmountUnit?.Name ?? f.Random.Word())
                 .RuleFor(a => a.MaximumAmountUnitCv, f => opts.MaximumAmountUnit?.Name);
         }
 

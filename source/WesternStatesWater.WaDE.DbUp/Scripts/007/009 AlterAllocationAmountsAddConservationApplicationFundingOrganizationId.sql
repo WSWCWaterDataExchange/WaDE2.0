@@ -1,0 +1,2 @@
+ALTER TABLE Core.AllocationAmounts_fact
+	ADD ConservationApplicationFundingOrganizationId UNIQUEIDENTIFIER NULL;

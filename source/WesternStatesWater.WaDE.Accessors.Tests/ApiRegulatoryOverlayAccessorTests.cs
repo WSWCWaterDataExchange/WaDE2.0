@@ -4,8 +4,10 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Telerik.JustMock;
 using WesternStatesWater.WaDE.Accessors.Contracts.Api;
 using WesternStatesWater.WaDE.Accessors.EntityFramework;
+using WesternStatesWater.WaDE.Accessors.Handlers;
 using WesternStatesWater.WaDE.Tests.Helpers;
 using WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework;
 
@@ -27,11 +29,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
                 reportingUnitsDim = await ReportingUnitsDimBuilder.Load(db);
-                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
-                {
-                    RegulatoryOverlay = regulatoryOverlayDim,
-                    ReportingUnits = reportingUnitsDim
-                });
+                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db,
+                    new RegulatoryReportingUnitsFactBuilderOptions
+                    {
+                        RegulatoryOverlay = regulatoryOverlayDim,
+                        ReportingUnits = reportingUnitsDim
+                    });
             }
 
             var filters = new RegulatoryOverlayFilters();
@@ -64,7 +67,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [DataRow("2022-02-24", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-25", "2022-02-23", "2022-02-25", true)]
         [DataRow("2022-02-26", "2022-02-23", "2022-02-25", false)]
-        public async Task GetRegulatoryReportingUnitsAsync_Filters_DataPublicationDate(string dataPublicationDate, string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
+        public async Task GetRegulatoryReportingUnitsAsync_Filters_DataPublicationDate(string dataPublicationDate,
+            string startDataPublicationDate, string endDataPublicationDate, bool shouldMatch)
         {
             var configuration = Configuration.GetConfiguration();
 
@@ -79,17 +83,19 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 publicationDate = await DateDimBuilder.Load(db);
                 publicationDate.Date = DateTime.Parse(dataPublicationDate);
 
-                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
-                {
-                    RegulatoryOverlay = regulatoryOverlayDim,
-                    ReportingUnits = reportingUnitsDim,
-                    DataPublicationDate = publicationDate
-                });
+                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db,
+                    new RegulatoryReportingUnitsFactBuilderOptions
+                    {
+                        RegulatoryOverlay = regulatoryOverlayDim,
+                        ReportingUnits = reportingUnitsDim,
+                        DataPublicationDate = publicationDate
+                    });
             }
 
             var filters = new RegulatoryOverlayFilters
             {
-                StartDataPublicationDate = startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
+                StartDataPublicationDate =
+                    startDataPublicationDate == null ? null : DateTime.Parse(startDataPublicationDate),
                 EndDataPublicationDate = endDataPublicationDate == null ? null : DateTime.Parse(endDataPublicationDate),
             };
 
@@ -114,9 +120,23 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             }
         }
 
+        [TestMethod]
+        public async Task GetOverlayMetadata_ReturnsBoundaryBox()
+        {
+            var response = await CreateRegulatoryOverlayAccessor().GetOverlayMetadata();
+            response.BoundaryBox.MinX.Should().Be(-180);
+            response.BoundaryBox.MinY.Should().Be(18);
+            response.BoundaryBox.MaxX.Should().Be(-93);
+            response.BoundaryBox.MaxY.Should().Be(72);
+            response.BoundaryBox.Crs.Should().Be("http://www.opengis.net/def/crs/OGC/1.3/CRS84");
+        }
+
         private IRegulatoryOverlayAccessor CreateRegulatoryOverlayAccessor()
         {
-            return new RegulatoryOverlayAccessor(Configuration.GetConfiguration(), LoggerFactory);
+            return new RegulatoryOverlayAccessor(
+                Configuration.GetConfiguration(), 
+                LoggerFactory,
+                Mock.Create<IAccessorRequestHandlerResolver>());
         }
     }
 }

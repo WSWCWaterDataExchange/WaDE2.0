@@ -6,6 +6,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public static class RegulatoryOverlayTypeBuilder
     {
+        private static int _globalIndex = 0;
         public static RegulatoryOverlayType Create()
         {
             return Create(new RegulatoryOverlayTypeBuilderOptions());
@@ -14,7 +15,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         public static RegulatoryOverlayType Create(RegulatoryOverlayTypeBuilderOptions opts)
         {
             return new Faker<RegulatoryOverlayType>()
-                .RuleFor(a => a.Name, f => f.Random.Word())
+                .RuleFor(a => a.Name, f => GenerateName())
+                .RuleFor(a => a.WaDEName, f => f.Random.Words(5))
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
                 .RuleFor(a => a.State, f => f.Address.StateAbbr())
@@ -35,15 +37,15 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             return item;
         }
-
-        public static long GenerateId()
+        
+        public static string GenerateName()
         {
-            return new Faker().Random.Long(1);
+            _globalIndex++;
+            return CvNameGenerator.GetNextName(_globalIndex,100);
         }
     }
 
     public class RegulatoryOverlayTypeBuilderOptions
     {
-        
     }
 }

@@ -1,25 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <IsPackable>false</IsPackable>
+    <UserSecretsId>0233c5d4-6e7e-4ba4-997b-313518edcce4</UserSecretsId>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Azure.Security.KeyVault.Secrets" Version="4.2.0" />
-    <PackageReference Include="FluentAssertions" Version="6.5.1" />
-    <PackageReference Include="JustMock" Version="2019.3.910.4" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
-    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="FluentAssertions" Version="7.0.0" />
+    <PackageReference Include="JustMock" Version="2024.3.805.336" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.6.0" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.6.0" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors.Contracts.Api\WesternStatesWater.WaDE.Accessors.Contracts.Api.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Accessors\WesternStatesWater.WaDE.Accessors.csproj" />
     <ProjectReference Include="..\WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="ImportData\ImportData.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -27,14 +23,12 @@
       <DependentUpon>ImportData.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <EmbeddedResource Update="ImportData\ImportData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ImportData.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="local.settings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -49,6 +43,8 @@
     <None Update="settings.nwilkinson.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="personal.settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-
 </Project>

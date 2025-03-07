@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using System;
+using WesternStatesWater.WaDE.Managers.Api.Mapping;
 
 namespace WesternStatesWater.WaDE.Managers.Mapping
 {
@@ -19,6 +20,7 @@ namespace WesternStatesWater.WaDE.Managers.Mapping
                     var config = new MapperConfiguration(cfg =>
                     {
                         cfg.AddProfile<ApiProfile>();
+                        cfg.AddProfile<OgcApiProfile>();
                     });
                     _config = config;
                 }
