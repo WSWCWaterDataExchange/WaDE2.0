@@ -250,10 +250,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://{{domain/api/v2/collections/sites/items/:featureId",
+							"raw": "https://{{domain}}/api/v2/collections/sites/items/:featureId",
 							"protocol": "https",
 							"host": [
-								"{{domain"
+								"{{domain}}"
 							],
 							"path": [
 								"api",
