@@ -1239,7 +1239,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var dbRegulatoryOverlayBridgeSitesFact = await db.OverlayBridgeSitesFact.SingleAsync();
 
                 dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(dbSite.SiteId);
-                dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.OverlayId);
+                dbRegulatoryOverlayBridgeSitesFact.OverlayId.Should().Be(regulatoryOverlay.OverlayId);
 
                 db.ImportErrors.Should().HaveCount(0);
             }
@@ -1279,7 +1279,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 var dbRegulatoryOverlayBridgeSitesFact = await db.OverlayBridgeSitesFact.SingleAsync();
 
                 dbRegulatoryOverlayBridgeSitesFact.SiteId.Should().Be(siteDim.SiteId);
-                dbRegulatoryOverlayBridgeSitesFact.RegulatoryOverlayId.Should().Be(regulatoryOverlay.OverlayId);
+                dbRegulatoryOverlayBridgeSitesFact.OverlayId.Should().Be(regulatoryOverlay.OverlayId);
 
                 db.ImportErrors.Should().HaveCount(0);
             }
@@ -1367,12 +1367,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1412,12 +1412,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1448,17 +1448,17 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(3);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg3 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay3.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay3.OverlayId).ToList();
                 reg3.Count().Should().Be(1);
                 reg3[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1498,12 +1498,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1534,12 +1534,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg3 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay3.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay3.OverlayId).ToList();
                 reg3.Count().Should().Be(1);
                 reg3[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1579,12 +1579,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim.SiteId);
 
@@ -1674,8 +1674,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 var dbRegulatoryOverlayBridgeSitesFacts = await db.OverlayBridgeSitesFact.ToListAsync();
                 dbRegulatoryOverlayBridgeSitesFacts.Should().HaveCount(2)
-                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.RegulatoryOverlayId == regulatoryOverlays[0].OverlayId)
-                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.RegulatoryOverlayId == regulatoryOverlays[1].OverlayId);
+                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.OverlayId == regulatoryOverlays[0].OverlayId)
+                    .And.Contain(a => a.SiteId == siteDim.SiteId && a.OverlayId == regulatoryOverlays[1].OverlayId);
                 db.ImportErrors.Should().HaveCount(0);
             }
         }
@@ -1730,12 +1730,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlayBridgeSitesFact.Count().Should().Be(2);
 
                 var reg1 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay1.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay1.OverlayId).ToList();
                 reg1.Count().Should().Be(1);
                 reg1[0].SiteId.Should().Be(siteDim1.SiteId);
 
                 var reg2 = dbRegulatoryOverlayBridgeSitesFact.Where(x =>
-                    x.RegulatoryOverlayId == regulatoryOverlay2.OverlayId).ToList();
+                    x.OverlayId == regulatoryOverlay2.OverlayId).ToList();
                 reg2.Count().Should().Be(1);
                 reg2[0].SiteId.Should().Be(siteDim2.SiteId);
 

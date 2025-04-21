@@ -50,7 +50,7 @@ public static class QueryableExtensions
         if (filters.OverlayUuids != null && filters.OverlayUuids.Count != 0)
         {
             query = query.Where(s => s.RegulatoryOverlayBridgeSitesFact.Any(fact =>
-                filters.OverlayUuids.Contains(fact.RegulatoryOverlay.OverlayUuid)));
+                filters.OverlayUuids.Contains(fact.Overlay.OverlayUuid)));
         }
 
         if (filters.AllocationUuids != null && filters.AllocationUuids.Count != 0)

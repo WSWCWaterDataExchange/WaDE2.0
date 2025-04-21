@@ -6,27 +6,27 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
     public class RegulatoryOverlayBridgeSitesFactBuilder
     {
-        public static RegulatoryOverlayBridgeSitesFact Create()
+        public static OverlayBridgeSitesFact Create()
         {
             return Create(new RegulatoryOverlayBridgeSitesFactBuilderOptions());
         }
 
-        public static RegulatoryOverlayBridgeSitesFact Create(RegulatoryOverlayBridgeSitesFactBuilderOptions opts)
+        public static OverlayBridgeSitesFact Create(RegulatoryOverlayBridgeSitesFactBuilderOptions opts)
         {
-            var faker = new Faker<RegulatoryOverlayBridgeSitesFact>()
+            var faker = new Faker<OverlayBridgeSitesFact>()
                 .RuleFor(a => a.SiteId, f => opts.SitesDim?.SiteId ?? SitesDimBuilder.GenerateId())
-                .RuleFor(a => a.RegulatoryOverlayId, f => opts.RegulatoryOverlayDim?.OverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
+                .RuleFor(a => a.OverlayId, f => opts.RegulatoryOverlayDim?.OverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
                 ;
 
             return faker;
         }
 
-        public static async Task<RegulatoryOverlayBridgeSitesFact> Load(WaDEContext db)
+        public static async Task<OverlayBridgeSitesFact> Load(WaDEContext db)
         {
             return await Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions());
         }
         
-        public static async Task<RegulatoryOverlayBridgeSitesFact> Load(WaDEContext db, RegulatoryOverlayBridgeSitesFactBuilderOptions opts)
+        public static async Task<OverlayBridgeSitesFact> Load(WaDEContext db, RegulatoryOverlayBridgeSitesFactBuilderOptions opts)
         {
             opts.SitesDim = opts.SitesDim ?? await SitesDimBuilder.Load(db);
             opts.RegulatoryOverlayDim = opts.RegulatoryOverlayDim ?? await RegulatoryOverlayDimBuilder.Load(db);

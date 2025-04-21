@@ -41,7 +41,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<OverlayDim> OverlayDim { get; set; }
         public virtual DbSet<RegulatoryOverlayType> OverlayType { get; set; }
         public virtual DbSet<RegulatoryReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
-        public virtual DbSet<RegulatoryOverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
+        public virtual DbSet<OverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
         public virtual DbSet<ReportYearType> ReportYearType { get; set; }
@@ -1213,21 +1213,21 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_ReportingUnits_dim");
             });
 
-            modelBuilder.Entity<RegulatoryOverlayBridgeSitesFact>(entity =>
+            modelBuilder.Entity<OverlayBridgeSitesFact>(entity =>
             {
-                entity.HasKey(e => e.RegulatoryOverlayBridgeId);
+                entity.HasKey(e => e.OverlayBridgeId);
 
                 entity.ToTable("OverlayBridge_Sites_fact", "Core");
 
-                entity.Property(e => e.RegulatoryOverlayBridgeId).HasColumnName("OverlayBridgeID");
+                entity.Property(e => e.OverlayBridgeId).HasColumnName("OverlayBridgeID");
 
-                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("OverlayID");
+                entity.Property(e => e.OverlayId).HasColumnName("OverlayID");
 
                 entity.Property(e => e.SiteId).HasColumnName("SiteID");
 
-                entity.HasOne(d => d.RegulatoryOverlay)
+                entity.HasOne(d => d.Overlay)
                     .WithMany(p => p.OverlayBridgeSitesFact)
-                    .HasForeignKey(d => d.RegulatoryOverlayId)
+                    .HasForeignKey(d => d.OverlayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryOverLayBridge_Sites_fact_RegulatoryOverlay_fact");
 

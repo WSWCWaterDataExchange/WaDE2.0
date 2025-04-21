@@ -240,7 +240,7 @@ namespace WesternStatesWater.WaDE.Accessors
             {
                 return await db.OverlayBridgeSitesFact
                     .Where(a => sitesIds.Contains(a.SiteId))
-                    .Select(a => a.RegulatoryOverlay)
+                    .Select(a => a.Overlay)
                     .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)
                     .ToListAsync();
             }
