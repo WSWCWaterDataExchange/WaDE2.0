@@ -1851,7 +1851,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         [TestMethod]
         public async Task LoadRegulatoryOverlays_SimpleLoad()
         {
-            RegulatoryOverlayType organization;
+            OverlayTypeCV organization;
             RegulatoryStatus regulatoryStatus;
             WaterSourceType waterSourceType;
             RegulatoryOverlay regulatoryOverlay;

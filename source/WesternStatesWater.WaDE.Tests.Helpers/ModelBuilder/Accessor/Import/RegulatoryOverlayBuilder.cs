@@ -34,7 +34,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
     public class RegulatoryOverlayBuilderOptions
     {
         public RegulatoryStatus RegulatoryStatus { get; set; }
-        public RegulatoryOverlayType RegulatoryOverlayType { get; set; }
+        public OverlayTypeCV RegulatoryOverlayType { get; set; }
         public WaterSourceType WaterSourceType { get; set; }
     }
 }

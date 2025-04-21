@@ -58,7 +58,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     public class RegulatoryOverlayDimBuilderOptions
     {
         public RegulatoryStatus RegulatoryStatus { get; set; }
-        public RegulatoryOverlayType RegulatoryOverlayType { get; set; }
+        public OverlayTypeCV RegulatoryOverlayType { get; set; }
         public WaterSourceType WaterSourceType { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<OwnerClassificationCv> OwnerClassificationCv { get; set; }
         public virtual DbSet<PowerType> PowerType { get; set; }
         public virtual DbSet<OverlayDim> OverlayDim { get; set; }
-        public virtual DbSet<RegulatoryOverlayType> OverlayType { get; set; }
+        public virtual DbSet<OverlayTypeCV> OverlayType { get; set; }
         public virtual DbSet<RegulatoryReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
         public virtual DbSet<OverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
@@ -1132,7 +1132,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("FK_RegulatoryOverlay_dim_WaterSourceTypeCV");
 
                 entity.HasOne(d => d.OverlayType)
-                    .WithMany(p => p.RegulatoryOverlayDim)
+                    .WithMany(p => p.OverlayDim)
                     .HasForeignKey(d => d.OverlayTypeCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RegulatoryOverlay_dim_RegulatoryOverlayTypeCV");
@@ -1146,7 +1146,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.StatutoryEndDate).HasColumnType("date");
             });
 
-            modelBuilder.Entity<RegulatoryOverlayType>(entity =>
+            modelBuilder.Entity<OverlayTypeCV>(entity =>
             {
                 entity.HasKey(e => e.Name)
                     .HasName("PK_CVs.RegulatoryOverlayType");
