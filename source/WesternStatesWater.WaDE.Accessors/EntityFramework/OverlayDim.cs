@@ -7,7 +7,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public OverlayDim()
         {
-            OverlayReportingUnitsFact = new HashSet<RegulatoryReportingUnitsFact>();
+            OverlayReportingUnitsFact = new HashSet<OverlayReportingUnitsFact>();
         }
 
         public long OverlayId { get; set; }
@@ -24,7 +24,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string OverlayTypeCV { get; set; }
         public string WaterSourceTypeCV { get; set; }
 
-        public virtual ICollection<RegulatoryReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
+        public virtual ICollection<OverlayReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
 
         public virtual WaterSourceType WaterSourceType { get; set; }
 

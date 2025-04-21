@@ -46,7 +46,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var orgsTask = GetOrganizations(results.Select(a => a.OrganizationId).ToHashSet())
                     .BlockTaskInTransaction();
                 var regulatoryOverlaysTask =
-                    GetRegulatoryOverlays(results.Select(a => a.RegulatoryOverlayId).ToHashSet())
+                    GetRegulatoryOverlays(results.Select(a => a.OverlayId).ToHashSet())
                         .BlockTaskInTransaction();
 
                 var regulatoryOverlays = await regulatoryOverlaysTask;
@@ -90,18 +90,18 @@ namespace WesternStatesWater.WaDE.Accessors
             return await ExecuteAsync<TRequest, TResponse>(request);
         }
 
-        private static IQueryable<RegulatoryReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(
+        private static IQueryable<OverlayReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(
             AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
         {
             var query = db.OverlayReportingUnitsFact.AsNoTracking();
             if (filters.StatutoryEffectiveDate != null)
             {
-                query = query.Where(a => a.RegulatoryOverlay.StatutoryEffectiveDate >= filters.StatutoryEffectiveDate);
+                query = query.Where(a => a.Overlay.StatutoryEffectiveDate >= filters.StatutoryEffectiveDate);
             }
 
             if (filters.StatutoryEndDate != null)
             {
-                query = query.Where(a => a.RegulatoryOverlay.StatutoryEndDate <= filters.StatutoryEndDate);
+                query = query.Where(a => a.Overlay.StatutoryEndDate <= filters.StatutoryEndDate);
             }
 
             if (filters.StartDataPublicationDate != null)
@@ -121,12 +121,12 @@ namespace WesternStatesWater.WaDE.Accessors
 
             if (!string.IsNullOrWhiteSpace(filters.RegulatoryOverlayUUID))
             {
-                query = query.Where(a => a.RegulatoryOverlay.OverlayUuid == filters.RegulatoryOverlayUUID);
+                query = query.Where(a => a.Overlay.OverlayUuid == filters.RegulatoryOverlayUUID);
             }
 
             if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
             {
-                query = query.Where(a => a.RegulatoryOverlay.RegulatoryStatusCv == filters.RegulatoryStatusCV);
+                query = query.Where(a => a.Overlay.RegulatoryStatusCv == filters.RegulatoryStatusCV);
             }
 
             if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))
@@ -200,7 +200,7 @@ namespace WesternStatesWater.WaDE.Accessors
             List<AccessorApi.RegulatoryOverlay> regulatoryOverlays)
         {
             var regulatoryReportingUnits = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
-            var regulatoryOverlayIds2 = regulatoryReportingUnits.Select(a => a.RegulatoryOverlayId).ToList();
+            var regulatoryOverlayIds2 = regulatoryReportingUnits.Select(a => a.OverlayId).ToList();
 
             org.RegulatoryOverlays = regulatoryOverlays
                 .Where(a => regulatoryOverlayIds2.Contains(a.OverlayID))
@@ -212,7 +212,7 @@ namespace WesternStatesWater.WaDE.Accessors
         internal class ReportingUnitRegulatoryHelper
         {
             public long OrganizationId { get; set; }
-            public long RegulatoryOverlayId { get; set; }
+            public long OverlayId { get; set; }
             public string ReportingUnitUUID { get; set; }
             public string ReportingUnitNativeID { get; set; }
             public string ReportingUnitName { get; set; }

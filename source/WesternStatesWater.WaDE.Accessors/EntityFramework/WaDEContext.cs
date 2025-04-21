@@ -40,7 +40,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<PowerType> PowerType { get; set; }
         public virtual DbSet<OverlayDim> OverlayDim { get; set; }
         public virtual DbSet<OverlayTypeCV> OverlayType { get; set; }
-        public virtual DbSet<RegulatoryReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
+        public virtual DbSet<OverlayReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
         public virtual DbSet<OverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
@@ -1170,7 +1170,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<RegulatoryReportingUnitsFact>(entity =>
+            modelBuilder.Entity<OverlayReportingUnitsFact>(entity =>
             {
                 entity.HasKey(e => e.BridgeId)
                     .HasName("pkRegulatoryReportingUnits_fact");
@@ -1184,7 +1184,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.OrganizationId).HasColumnName("OrganizationID");
 
-                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("OverlayID");
+                entity.Property(e => e.OverlayId).HasColumnName("OverlayID");
 
                 entity.Property(e => e.ReportingUnitId).HasColumnName("ReportingUnitID");
 
@@ -1200,9 +1200,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_Organizations_dim");
 
-                entity.HasOne(d => d.RegulatoryOverlay)
+                entity.HasOne(d => d.Overlay)
                     .WithMany(p => p.OverlayReportingUnitsFact)
-                    .HasForeignKey(d => d.RegulatoryOverlayId)
+                    .HasForeignKey(d => d.OverlayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim");
 

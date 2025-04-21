@@ -22,7 +22,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         public async Task GetRegulatoryReportingUnitsAsync_Filters_None()
         {
             var configuration = Configuration.GetConfiguration();
-            RegulatoryReportingUnitsFact regulatoryReportingUnitsFact;
+            OverlayReportingUnitsFact regulatoryReportingUnitsFact;
             OverlayDim regulatoryOverlayDim;
             ReportingUnitsDim reportingUnitsDim;
             using (var db = new WaDEContext(configuration))
@@ -72,7 +72,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             var configuration = Configuration.GetConfiguration();
 
-            RegulatoryReportingUnitsFact regulatoryReportingUnitsFact;
+            OverlayReportingUnitsFact regulatoryReportingUnitsFact;
             OverlayDim regulatoryOverlayDim;
             ReportingUnitsDim reportingUnitsDim;
             DateDim publicationDate;

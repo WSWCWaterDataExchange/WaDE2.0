@@ -222,7 +222,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 return (await db.OverlayReportingUnitsFact
                         .AsNoTracking()
                         .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
-                        .Select(a => new { a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay })
+                        .Select(a => new { a.ReportingUnitId, RegulatoryOverlayId = a.OverlayId, RegulatoryOverlay = a.Overlay })
                         .ToListAsync())
                     .Select(a => (a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay)).ToList();
             }

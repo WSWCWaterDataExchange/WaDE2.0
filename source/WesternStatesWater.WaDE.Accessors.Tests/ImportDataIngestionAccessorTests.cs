@@ -1189,7 +1189,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
                 dbRegulatoryReportingUnit.DataPublicationDateId.Should().Be(date.DateId);
                 dbRegulatoryReportingUnit.OrganizationId.Should().Be(organization.OrganizationId);
-                dbRegulatoryReportingUnit.RegulatoryOverlayId.Should().Be(regulatoryOverlay.OverlayId);
+                dbRegulatoryReportingUnit.OverlayId.Should().Be(regulatoryOverlay.OverlayId);
                 dbRegulatoryReportingUnit.ReportingUnitId.Should().Be(reportingUnit.ReportingUnitId);
 
                 db.ImportErrors.Should().HaveCount(0);

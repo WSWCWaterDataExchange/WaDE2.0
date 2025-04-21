@@ -194,7 +194,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.RegulatoryOverlayUUIDs, b => b.Ignore());
 
-            CreateMap<EF.RegulatoryReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
+            CreateMap<EF.OverlayReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))
                 .ForMember(a => a.ReportingUnitNativeID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitNativeId))
                 .ForMember(a => a.ReportingUnitName, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitName))
