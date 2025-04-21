@@ -6,16 +6,16 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
     public class RegulatoryOverlay
     {
         [NullValues("")]
-        public string RegulatoryOverlayUUID { get; set; }
+        public string OverlayUUID { get; set; }
 
         [NullValues("")]
-        public string RegulatoryOverlayNativeID { get; set; }
+        public string OverlayNativeID { get; set; }
 
         [NullValues("")]
-        public string RegulatoryName { get; set; }
+        public string OverlayName { get; set; }
 
         [NullValues("")]
-        public string RegulatoryDescription { get; set; }
+        public string OverlayDescription { get; set; }
 
         [NullValues("")]
         public string RegulatoryStatusCV { get; set; }
@@ -36,7 +36,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public DateTime? StatutoryEndDate { get; set; }
 
         [NullValues("")]
-        public string RegulatoryOverlayTypeCV { get; set; }
+        public string OverlayTypeCV { get; set; }
 
         [NullValues("")]
         public string WaterSourceTypeCV { get; set; }

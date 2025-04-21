@@ -209,7 +209,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
                 .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())
                 .ForMember(a => a.ReportingUnitsRegulatory, b => b.Ignore());
-            CreateMap<EF.RegulatoryOverlayDim, AccessorApi.RegulatoryOverlay>();
+            CreateMap<EF.OverlayDim, AccessorApi.RegulatoryOverlay>();
             CreateMap<RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper, AccessorApi.ReportingUnitRegulatory>();
         }
 

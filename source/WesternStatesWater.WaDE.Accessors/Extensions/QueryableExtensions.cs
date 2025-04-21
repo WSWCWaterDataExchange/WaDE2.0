@@ -50,7 +50,7 @@ public static class QueryableExtensions
         if (filters.OverlayUuids != null && filters.OverlayUuids.Count != 0)
         {
             query = query.Where(s => s.RegulatoryOverlayBridgeSitesFact.Any(fact =>
-                filters.OverlayUuids.Contains(fact.RegulatoryOverlay.RegulatoryOverlayUuid)));
+                filters.OverlayUuids.Contains(fact.RegulatoryOverlay.OverlayUuid)));
         }
 
         if (filters.AllocationUuids != null && filters.AllocationUuids.Count != 0)
@@ -188,18 +188,18 @@ public static class QueryableExtensions
         return query;
     }
 
-    public static IQueryable<RegulatoryOverlayDim> ApplySearchFilters(this IQueryable<RegulatoryOverlayDim> query,
+    public static IQueryable<OverlayDim> ApplySearchFilters(this IQueryable<OverlayDim> query,
         OverlaySearchRequest filters)
     {
         if (filters.OverlayUuids != null && filters.OverlayUuids.Count != 0)
         {
-            query = query.Where(o => filters.OverlayUuids.Contains(o.RegulatoryOverlayUuid));
+            query = query.Where(o => filters.OverlayUuids.Contains(o.OverlayUuid));
         }
 
         if (filters.SiteUuids != null && filters.SiteUuids.Count != 0)
         {
             query = query.Where(o =>
-                o.RegulatoryOverlayBridgeSitesFact.Any(sf =>
+                o.OverlayBridgeSitesFact.Any(sf =>
                     filters.SiteUuids.Contains(sf.Site.SiteUuid)));
         }
 
@@ -208,7 +208,7 @@ public static class QueryableExtensions
             query = filters.GeometrySearch.SpatialRelationType switch
             {
                 SpatialRelationType.Intersects => query.Where(o =>
-                    o.RegulatoryReportingUnitsFact.Any(fact =>
+                    o.OverlayReportingUnitsFact.Any(fact =>
                         fact.ReportingUnit.Geometry.Intersects(filters.GeometrySearch.Geometry))),
                 _ => query
             };
@@ -217,12 +217,12 @@ public static class QueryableExtensions
         if (filters.States != null && filters.States.Count != 0)
         {
             query = query.Where(o =>
-                o.RegulatoryReportingUnitsFact.Any(fact => filters.States.Contains(fact.ReportingUnit.StateCv)));
+                o.OverlayReportingUnitsFact.Any(fact => filters.States.Contains(fact.ReportingUnit.StateCv)));
         }
 
         if (filters.OverlayTypes != null && filters.OverlayTypes.Count != 0)
         {
-            query = query.Where(o => filters.OverlayTypes.Contains(o.RegulatoryOverlayType.WaDEName));
+            query = query.Where(o => filters.OverlayTypes.Contains(o.OverlayType.WaDEName));
         }
 
         if (filters.WaterSourceTypes != null && filters.WaterSourceTypes.Count != 0)
@@ -232,7 +232,7 @@ public static class QueryableExtensions
 
         if (!string.IsNullOrWhiteSpace(filters.LastKey))
         {
-            query = query.Where(o => o.RegulatoryOverlayUuid.CompareTo(filters.LastKey) > 0);
+            query = query.Where(o => o.OverlayUuid.CompareTo(filters.LastKey) > 0);
         }
 
         return query;

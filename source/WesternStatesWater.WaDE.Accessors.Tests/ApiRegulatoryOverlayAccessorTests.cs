@@ -23,7 +23,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         {
             var configuration = Configuration.GetConfiguration();
             RegulatoryReportingUnitsFact regulatoryReportingUnitsFact;
-            RegulatoryOverlayDim regulatoryOverlayDim;
+            OverlayDim regulatoryOverlayDim;
             ReportingUnitsDim reportingUnitsDim;
             using (var db = new WaDEContext(configuration))
             {
@@ -51,7 +51,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             org.ReportingUnitsRegulatory[0].ReportingUnitUUID.Should().Be(reportingUnitsDim.ReportingUnitUuid);
 
             org.RegulatoryOverlays.Should().HaveCount(1);
-            org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
+            org.RegulatoryOverlays[0].OverlayUUID.Should().Be(regulatoryOverlayDim.OverlayUuid);
         }
 
         [DataTestMethod]
@@ -73,7 +73,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             var configuration = Configuration.GetConfiguration();
 
             RegulatoryReportingUnitsFact regulatoryReportingUnitsFact;
-            RegulatoryOverlayDim regulatoryOverlayDim;
+            OverlayDim regulatoryOverlayDim;
             ReportingUnitsDim reportingUnitsDim;
             DateDim publicationDate;
             using (var db = new WaDEContext(configuration))
@@ -111,7 +111,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 org.ReportingUnitsRegulatory.Should().HaveCount(1);
                 org.ReportingUnitsRegulatory[0].ReportingUnitUUID.Should().Be(reportingUnitsDim.ReportingUnitUuid);
                 org.RegulatoryOverlays.Should().HaveCount(1);
-                org.RegulatoryOverlays[0].RegulatoryOverlayUUID.Should().Be(regulatoryOverlayDim.RegulatoryOverlayUuid);
+                org.RegulatoryOverlays[0].OverlayUUID.Should().Be(regulatoryOverlayDim.OverlayUuid);
             }
             else
             {

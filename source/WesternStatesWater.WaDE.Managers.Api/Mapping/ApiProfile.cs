@@ -48,7 +48,11 @@ namespace WesternStatesWater.WaDE.Managers.Api.Mapping
 
             CreateMap<AccessorApi.RegulatoryReportingUnitsOrganization,
                 ManagerApi.RegulatoryReportingUnitsOrganization>();
-            CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>();
+            CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>()
+                .ForMember(dest => dest.RegulatoryOverlayID, opt => opt.MapFrom(src => src.OverlayID))
+                .ForMember(dest => dest.RegulatoryOverlayUUID, opt => opt.MapFrom(src => src.OverlayUUID))
+                .ForMember(dest => dest.RegulatoryDescription, opt => opt.MapFrom(src => src.OverlayDescription))
+                .ForMember(dest => dest.RegulatoryOverlayTypeCV, opt => opt.MapFrom(src => src.OverlayTypeCV));
             CreateMap<AccessorApi.ReportingUnitRegulatory, ManagerApi.ReportingUnitRegulatory>();
 
             CreateMap<AccessorApi.RegulatoryReportingUnits, ManagerApi.RegulatoryReportingUnits>();

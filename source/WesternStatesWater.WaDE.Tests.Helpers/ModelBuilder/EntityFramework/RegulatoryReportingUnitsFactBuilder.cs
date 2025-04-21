@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             return new Faker<RegulatoryReportingUnitsFact>()
                 .RuleFor(a => a.OrganizationId, f => opts.OrganizationsDim?.OrganizationId ?? OrganizationsDimBuilder.GenerateId())
-                .RuleFor(a => a.RegulatoryOverlayId, f => opts.RegulatoryOverlay?.RegulatoryOverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
+                .RuleFor(a => a.RegulatoryOverlayId, f => opts.RegulatoryOverlay?.OverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
                 .RuleFor(a => a.ReportingUnitId, f => opts.ReportingUnits?.ReportingUnitId ?? ReportingUnitsDimBuilder.GenerateId())
                 .RuleFor(a => a.DataPublicationDateId, f => opts.DataPublicationDate?.DateId ?? DateDimBuilder.GenerateId());
         }
@@ -34,7 +34,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 
             var item = Create(opts);
 
-            db.RegulatoryReportingUnitsFact.Add(item);
+            db.OverlayReportingUnitsFact.Add(item);
             await db.SaveChangesAsync();
 
             return item;
@@ -49,7 +49,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     public class RegulatoryReportingUnitsFactBuilderOptions
     {
         public OrganizationsDim OrganizationsDim { get; set; }
-        public RegulatoryOverlayDim RegulatoryOverlay { get; set; }
+        public OverlayDim RegulatoryOverlay { get; set; }
         public ReportingUnitsDim ReportingUnits { get; set; }
         public DateDim DataPublicationDate { get; set; }
     }

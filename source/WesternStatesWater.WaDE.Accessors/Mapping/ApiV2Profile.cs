@@ -24,13 +24,13 @@ public class ApiV2Profile : Profile
                 b => b.MapFrom(c =>
                     c.WaterSourceBridgeSitesFact.Select(bridge => bridge.WaterSource)));
 
-        CreateMap<EF.RegulatoryOverlayDim, OverlaySearchItem>()
+        CreateMap<EF.OverlayDim, OverlaySearchItem>()
             .ForMember(a => a.ReportingAreas,
                 b => b.MapFrom(c =>
-                    c.RegulatoryReportingUnitsFact.Select(fact => fact.ReportingUnit)))
+                    c.OverlayReportingUnitsFact.Select(fact => fact.ReportingUnit)))
             .ForMember(a => a.Areas,
                 b => b.MapFrom(c =>
-                    UnaryUnionOp.Union(c.RegulatoryReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null)
+                    UnaryUnionOp.Union(c.OverlayReportingUnitsFact.Where(fact => fact.ReportingUnit.Geometry != null)
                         .Select(fact => fact.ReportingUnit.Geometry))));
 
         CreateMap<EF.AllocationAmountsFact, AllocationSearchItem>()

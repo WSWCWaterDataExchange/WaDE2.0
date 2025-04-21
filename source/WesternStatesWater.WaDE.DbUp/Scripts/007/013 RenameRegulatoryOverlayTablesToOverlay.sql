@@ -52,8 +52,9 @@ CREATE TYPE [Core].[SiteTableType_new] AS TABLE(
     [HUC12] [nvarchar](20) NULL,
     [County] [nvarchar](20) NULL,
     [PODorPOUSite] [nvarchar](50) NULL,
-    [OverlayUUDIDs] [nvarchar](max) NULL,
-    [WaterSourceUUIDs] [nvarchar](max) NULL
+    [OverlayUUIDs] [nvarchar](max) NULL,
+    [WaterSourceUUIDs] [nvarchar](max) NULL,
+    [StateCV] [nvarchar](2) NULL
 )
 GO
 
@@ -109,15 +110,15 @@ WITH q1 AS
          (
              SELECT 'OverlayUUID Not Valid' Reason, *
              FROM #TempOverlayData
-             WHERE RegulatoryOverlayUUID IS NULL
+             WHERE OverlayUUID IS NULL
              UNION ALL
              SELECT 'OverlayName Not Valid' Reason, *
              FROM #TempOverlayData
-             WHERE RegulatoryName IS NULL
+             WHERE OverlayName IS NULL
              UNION ALL
              SELECT 'OverlayDescription Not Valid' Reason, *
              FROM #TempOverlayData
-             WHERE RegulatoryDescription IS NULL
+             WHERE OverlayDescription IS NULL
              UNION ALL
              SELECT 'OverlayStatusCV Not Valid' Reason, *
              FROM #TempOverlayData
@@ -308,11 +309,11 @@ INTO
     #TempOverlayBridgeData
 FROM
     #TempSiteData sd
-    CROSS APPLY STRING_SPLIT(sd.RegulatoryOverlayUUIDs, ',') ro
+    CROSS APPLY STRING_SPLIT(sd.OverlayUUIDs, ',') ro
             LEFT OUTER JOIN Core.Overlay_dim rodim ON TRIM(ro.[value]) = rodim.OverlayUUID
 WHERE
     ro.[Value] IS NOT NULL
-  AND LEN(TRIM(sd.RegulatoryOverlayUUIDs)) > 0
+  AND LEN(TRIM(sd.OverlayUUIDs)) > 0
   AND LEN(TRIM(ro.[Value])) > 0;
 
 SELECT

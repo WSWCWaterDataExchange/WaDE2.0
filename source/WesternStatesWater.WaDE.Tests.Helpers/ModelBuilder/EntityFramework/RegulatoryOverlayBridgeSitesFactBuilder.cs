@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             var faker = new Faker<RegulatoryOverlayBridgeSitesFact>()
                 .RuleFor(a => a.SiteId, f => opts.SitesDim?.SiteId ?? SitesDimBuilder.GenerateId())
-                .RuleFor(a => a.RegulatoryOverlayId, f => opts.RegulatoryOverlayDim?.RegulatoryOverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
+                .RuleFor(a => a.RegulatoryOverlayId, f => opts.RegulatoryOverlayDim?.OverlayId ?? RegulatoryOverlayDimBuilder.GenerateId())
                 ;
 
             return faker;
@@ -33,7 +33,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
             
             var item = Create(opts);
 
-            db.RegulatoryOverlayBridgeSitesFact.Add(item);
+            db.OverlayBridgeSitesFact.Add(item);
             await db.SaveChangesAsync();
 
             return item;
@@ -43,6 +43,6 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     public class RegulatoryOverlayBridgeSitesFactBuilderOptions
     {
         public SitesDim SitesDim { get; set; }
-        public RegulatoryOverlayDim RegulatoryOverlayDim { get; set; }
+        public OverlayDim RegulatoryOverlayDim { get; set; }
     }
 }

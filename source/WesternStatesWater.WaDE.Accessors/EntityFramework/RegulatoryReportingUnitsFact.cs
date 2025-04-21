@@ -13,7 +13,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public virtual DateDim DataPublicationDate { get; set; }
         public virtual OrganizationsDim Organization { get; set; }
-        public virtual RegulatoryOverlayDim RegulatoryOverlay { get; set; }
+        public virtual OverlayDim RegulatoryOverlay { get; set; }
         public virtual ReportingUnitsDim ReportingUnit { get; set; }
     }
 }

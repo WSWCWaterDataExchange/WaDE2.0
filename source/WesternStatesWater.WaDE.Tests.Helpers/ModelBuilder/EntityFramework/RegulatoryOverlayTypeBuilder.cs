@@ -32,7 +32,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         {
             var item = Create(opts);
 
-            db.RegulatoryOverlayType.Add(item);
+            db.OverlayType.Add(item);
             await db.SaveChangesAsync();
 
             return item;

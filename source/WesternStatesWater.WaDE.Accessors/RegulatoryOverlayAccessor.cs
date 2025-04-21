@@ -93,7 +93,7 @@ namespace WesternStatesWater.WaDE.Accessors
         private static IQueryable<RegulatoryReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(
             AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
         {
-            var query = db.RegulatoryReportingUnitsFact.AsNoTracking();
+            var query = db.OverlayReportingUnitsFact.AsNoTracking();
             if (filters.StatutoryEffectiveDate != null)
             {
                 query = query.Where(a => a.RegulatoryOverlay.StatutoryEffectiveDate >= filters.StatutoryEffectiveDate);
@@ -121,7 +121,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
             if (!string.IsNullOrWhiteSpace(filters.RegulatoryOverlayUUID))
             {
-                query = query.Where(a => a.RegulatoryOverlay.RegulatoryOverlayUuid == filters.RegulatoryOverlayUUID);
+                query = query.Where(a => a.RegulatoryOverlay.OverlayUuid == filters.RegulatoryOverlayUUID);
             }
 
             if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
@@ -187,8 +187,8 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.RegulatoryOverlayDim
-                    .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
+                return await db.OverlayDim
+                    .Where(a => regulatoryOverlayIds.Contains(a.OverlayId))
                     .ProjectTo<AccessorApi.RegulatoryOverlay>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
             }
@@ -203,7 +203,7 @@ namespace WesternStatesWater.WaDE.Accessors
             var regulatoryOverlayIds2 = regulatoryReportingUnits.Select(a => a.RegulatoryOverlayId).ToList();
 
             org.RegulatoryOverlays = regulatoryOverlays
-                .Where(a => regulatoryOverlayIds2.Contains(a.RegulatoryOverlayID))
+                .Where(a => regulatoryOverlayIds2.Contains(a.OverlayID))
                 .Map<List<AccessorApi.RegulatoryOverlay>>();
 
             org.ReportingUnitsRegulatory = regulatoryReportingUnits.Map<List<AccessorApi.ReportingUnitRegulatory>>();

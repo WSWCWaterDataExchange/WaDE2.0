@@ -6,9 +6,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
     {
         public RegulatoryOverlayType()
         {
-            RegulatoryOverlayDim = new HashSet<RegulatoryOverlayDim>();
+            RegulatoryOverlayDim = new HashSet<OverlayDim>();
         }
 
-        public virtual ICollection<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
+        public virtual ICollection<OverlayDim> RegulatoryOverlayDim { get; set; }
     }
 }

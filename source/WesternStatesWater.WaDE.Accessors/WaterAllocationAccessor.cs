@@ -238,7 +238,7 @@ namespace WesternStatesWater.WaDE.Accessors
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.RegulatoryOverlayBridgeSitesFact
+                return await db.OverlayBridgeSitesFact
                     .Where(a => sitesIds.Contains(a.SiteId))
                     .Select(a => a.RegulatoryOverlay)
                     .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)

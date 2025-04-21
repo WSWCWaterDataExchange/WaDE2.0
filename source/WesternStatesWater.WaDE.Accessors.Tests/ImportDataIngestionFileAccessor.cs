@@ -41,7 +41,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             results.Should().HaveCount(1);
             results[0].SiteUUID.Should().Be("NEwr_S1");
-            results[0].RegulatoryOverlayUUIDs.Should().Be("abcd");
+            results[0].OverlayUUIDs.Should().Be("abcd");
             results[0].WaterSourceUUIDs.Should().Be("NEwr_WS1,NEwr_WS2");
             results[0].CoordinateAccuracy.Should().Be("1.01");
             results[0].CoordinateMethodCV.Should().Be("Unspecified");
