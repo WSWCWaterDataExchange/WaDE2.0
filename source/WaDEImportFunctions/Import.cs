@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using WesternStatesWater.WaDE.Common;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.Functions.Worker.Http;
 using Microsoft.DurableTask;
@@ -35,7 +34,7 @@ namespace WaDEImportFunctions
                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOrganizations, runId),
                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterSources, runId),
                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadMethods, runId),
-                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryOverlays, runId),
+                context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOverlays, runId),
                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadReportingUnits, runId),
                 context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadVariables, runId)
             };
@@ -65,7 +64,7 @@ namespace WaDEImportFunctions
                 await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadAggregatedAmounts, runId),
                 await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadWaterAllocations, runId),
                 await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadSiteSpecificAmounts, runId),
-                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadRegulatoryReportingUnits, runId),
+                await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadOverlayReportingUnits, runId),
                 await context.CallSubOrchestratorAsync<StatusHelper>(FunctionNames.LoadPODToPOUSiteRelationships, runId)
             };
 
@@ -178,8 +177,8 @@ namespace WaDEImportFunctions
         public const string LoadMethods = "LoadMethods";
         public const string LoadWaterAllocations = "LoadWaterAllocations";
         public const string LoadAggregatedAmounts = "LoadAggregatedAmounts";
-        public const string LoadRegulatoryOverlays = "LoadRegulatoryOverlays";
-        public const string LoadRegulatoryReportingUnits = "LoadRegulatoryReportingUnits";
+        public const string LoadOverlays = "LoadOverlays";
+        public const string LoadOverlayReportingUnits = "LoadOverlayReportingUnits";
         public const string LoadReportingUnits = "LoadReportingUnits";
         public const string LoadSiteSpecificAmounts = "LoadSiteSpecificAmounts";
         public const string LoadVariables = "LoadVariables";

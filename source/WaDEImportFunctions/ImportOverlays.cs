@@ -6,15 +6,15 @@ using Microsoft.DurableTask;
 
 namespace WaDEImportFunctions
 {
-    public class ImportRegulatoryOverlays
+    public class ImportOverlays
     {
         private readonly IWaterAllocationManager _waterAllocationManager;
 
-        private readonly ILogger<ImportRegulatoryOverlays> _logger;
+        private readonly ILogger<ImportOverlays> _logger;
         
-        public ImportRegulatoryOverlays(
+        public ImportOverlays(
             IWaterAllocationManager waterAllocationManager,
-            ILogger<ImportRegulatoryOverlays> logger
+            ILogger<ImportOverlays> logger
         )
         {
             _waterAllocationManager = waterAllocationManager;
@@ -22,7 +22,7 @@ namespace WaDEImportFunctions
         }
 
         private const int BatchCount = 25000;
-        private const string FunctionName = FunctionNames.LoadRegulatoryOverlays;
+        private const string FunctionName = FunctionNames.LoadOverlays;
         private const string BatchFunctionName = FunctionName + "Batch";
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 
