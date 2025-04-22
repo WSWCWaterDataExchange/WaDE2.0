@@ -10,8 +10,8 @@ public class OverlaySearchItem
     public string OverlayDescription { get; set; }
     public string RegulatoryStatusCv { get; set; }
     public string OversightAgency { get; set; }
-    public string RegulatoryStatute { get; set; }
-    public string RegulatoryStatuteLink { get; set; }
+    public string Statute { get; set; }
+    public string StatuteLink { get; set; }
     public string StatutoryEffectiveDate { get; set; }
     public string StatutoryEndDate { get; set; }
     public string OverlayTypeCv { get; set; }

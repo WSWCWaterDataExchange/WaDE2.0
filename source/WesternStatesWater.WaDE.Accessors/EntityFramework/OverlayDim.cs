@@ -17,8 +17,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public string OverlayDescription { get; set; }
         public string RegulatoryStatusCv { get; set; }
         public string OversightAgency { get; set; }
-        public string RegulatoryStatute { get; set; }
-        public string RegulatoryStatuteLink { get; set; }
+        public string Statute { get; set; }
+        public string StatuteLink { get; set; }
         public DateTime StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
         public string OverlayTypeCV { get; set; }

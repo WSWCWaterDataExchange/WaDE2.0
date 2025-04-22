@@ -24,10 +24,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string OversightAgency { get; set; }
 
         [NullValues("")]
-        public string RegulatoryStatute { get; set; }
+        public string Statute { get; set; }
 
         [NullValues("")]
-        public string RegulatoryStatuteLink { get; set; }
+        public string StatuteLink { get; set; }
 
         [NullValues("")]
         public DateTime? StatutoryEffectiveDate { get; set; }

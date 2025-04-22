@@ -1886,8 +1886,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlay.OverlayDescription.Should().Be(regulatoryOverlay.OverlayDescription);
                 dbRegulatoryOverlay.RegulatoryStatusCv.Should().Be(regulatoryOverlay.RegulatoryStatusCV);
                 dbRegulatoryOverlay.OversightAgency.Should().Be(regulatoryOverlay.OversightAgency);
-                dbRegulatoryOverlay.RegulatoryStatute.Should().Be(regulatoryOverlay.RegulatoryStatute);
-                dbRegulatoryOverlay.RegulatoryStatuteLink.Should().Be(regulatoryOverlay.RegulatoryStatuteLink);
+                dbRegulatoryOverlay.Statute.Should().Be(regulatoryOverlay.Statute);
+                dbRegulatoryOverlay.StatuteLink.Should().Be(regulatoryOverlay.StatuteLink);
                 dbRegulatoryOverlay.StatutoryEffectiveDate.Should().Be(regulatoryOverlay.StatutoryEffectiveDate.Value.Date);
                 dbRegulatoryOverlay.StatutoryEndDate.Should().Be(regulatoryOverlay.StatutoryEndDate.Value.Date);
                 dbRegulatoryOverlay.OverlayTypeCV.Should().Be(regulatoryOverlay.OverlayTypeCV);

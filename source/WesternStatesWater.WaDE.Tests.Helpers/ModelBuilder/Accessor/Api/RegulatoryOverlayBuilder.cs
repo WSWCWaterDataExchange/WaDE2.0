@@ -15,7 +15,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.OverlayDescription, f => f.Lorem.Sentence())
                 .RuleFor(a => a.StatutoryEffectiveDate, f => f.Date.Past(100))
                 .RuleFor(a => a.StatutoryEndDate, (f, o) => f.Date.Between(o.StatutoryEffectiveDate, DateTime.Now))
-                .RuleFor(a => a.RegulatoryStatuteLink, f => f.Internet.Url())
+                .RuleFor(a => a.StatuteLink, f => f.Internet.Url())
                 .RuleFor(a => a.OverlayTypeCV, f => f.Random.Word())
                 .RuleFor(a => a.WaterSourceTypeCV, f => f.Random.Word())
                 .RuleFor(a => a.OverlayUUID, f => f.Random.Uuid().ToString());

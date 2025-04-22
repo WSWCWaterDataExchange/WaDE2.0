@@ -1137,9 +1137,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RegulatoryOverlay_dim_RegulatoryOverlayTypeCV");
 
-                entity.Property(e => e.RegulatoryStatute).HasMaxLength(500);
+                entity.Property(e => e.Statute).HasMaxLength(500);
 
-                entity.Property(e => e.RegulatoryStatuteLink).HasMaxLength(500);
+                entity.Property(e => e.StatuteLink).HasMaxLength(500);
 
                 entity.Property(e => e.StatutoryEffectiveDate).HasColumnType("date");
 

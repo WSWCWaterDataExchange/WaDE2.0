@@ -22,6 +22,8 @@ EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryOverlayNativeID', 'OverlayN
 EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryName', 'OverlayName', 'COLUMN';
 EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryDescription', 'OverlayDescription', 'COLUMN';
 EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryOverlayTypeCV', 'OverlayTypeCV', 'COLUMN';
+EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryStatute', 'Statute', 'COLUMN';
+EXEC sp_rename 'Core.RegulatoryOverlay_dim.RegulatoryStatuteLink', 'StatuteLink', 'COLUMN';
 
 EXEC sp_rename 'Core.RegulatoryOverlayBridge_Sites_fact.RegulatoryOverlayBridgeID', 'OverlayBridgeID', 'COLUMN';
 EXEC sp_rename 'Core.RegulatoryOverlayBridge_Sites_fact.RegulatoryOverlayID', 'OverlayID', 'COLUMN';
@@ -68,8 +70,8 @@ CREATE TYPE [Core].[OverlayTableType] AS TABLE(
     [OverlayDescription] [nvarchar](max) NULL,
     [RegulatoryStatusCV] [nvarchar](50) NULL,
     [OversightAgency] [nvarchar](250) NULL,
-    [RegulatoryStatute] [nvarchar](500) NULL,
-    [RegulatoryStatuteLink] [nvarchar](500) NULL,
+    [Statute] [nvarchar](500) NULL,
+    [StatuteLink] [nvarchar](500) NULL,
     [StatutoryEffectiveDATE] [date] NULL,
     [StatutoryEndDATE] [date] NULL,
     [OverlayTypeCV] [nvarchar](100) NULL,
@@ -152,8 +154,8 @@ MERGE INTO Core.Overlay_dim AS Target USING #TempOverlayData AS Source ON
             ,OverlayDescription = Source.OverlayDescription
             ,RegulatoryStatusCV = Source.RegulatoryStatusCV
             ,OversightAgency = Source.OversightAgency
-            ,RegulatoryStatute = Source.RegulatoryStatute
-            ,RegulatoryStatuteLink = Source.RegulatoryStatuteLink
+            ,Statute = Source.Statute
+            ,StatuteLink = Source.StatuteLink
             ,StatutoryEffectiveDate = Source.StatutoryEffectiveDate
             ,StatutoryEndDate = Source.StatutoryEndDate
     WHEN NOT MATCHED THEN
@@ -164,8 +166,8 @@ MERGE INTO Core.Overlay_dim AS Target USING #TempOverlayData AS Source ON
                 ,OverlayDescription
                 ,RegulatoryStatusCV
                 ,OversightAgency
-                ,RegulatoryStatute
-                ,RegulatoryStatuteLink
+                ,Statute
+                ,StatuteLink
                 ,StatutoryEffectiveDate
                 ,StatutoryEndDate
                 ,OverlayTypeCV
@@ -177,8 +179,8 @@ MERGE INTO Core.Overlay_dim AS Target USING #TempOverlayData AS Source ON
                 ,Source.OverlayDescription
                 ,Source.RegulatoryStatusCV
                 ,Source.OversightAgency
-                ,Source.RegulatoryStatute
-                ,Source.RegulatoryStatuteLink
+                ,Source.Statute
+                ,Source.StatuteLink
                 ,Source.StatutoryEffectiveDate
                 ,Source.StatutoryEndDate
                 ,Source.OverlayTypeCV

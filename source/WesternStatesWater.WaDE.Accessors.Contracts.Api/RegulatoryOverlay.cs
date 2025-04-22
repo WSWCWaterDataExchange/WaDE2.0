@@ -10,7 +10,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string OverlayDescription { get; set; }
         public DateTime StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
-        public string RegulatoryStatuteLink { get; set; }
+        public string StatuteLink { get; set; }
         public string OverlayTypeCV { get; set; }
         public string WaterSourceTypeCV { get; set; }
 
