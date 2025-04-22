@@ -7,11 +7,11 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
 {
     public static class RegulatoryReportingUnitsBuilder
     {
-        public static RegulatoryReportingUnits Create()
+        public static OverlayReportingUnits Create()
         {
-            var faker = new Faker<RegulatoryReportingUnits>()
-                .RuleFor(a => a.Organizations, f => new List<RegulatoryReportingUnitsOrganization> { RegulatoryReportingUnitsOrganizationBuilder.Create() })
-                .RuleFor(a => a.TotalRegulatoryReportingUnitsCount, (f, o) => o.Organizations.Sum(a => a.ReportingUnitsRegulatory.Count));
+            var faker = new Faker<OverlayReportingUnits>()
+                .RuleFor(a => a.Organizations, f => new List<OverlayReportingUnitsOrganization> { RegulatoryReportingUnitsOrganizationBuilder.Create() })
+                .RuleFor(a => a.TotalRegulatoryReportingUnitsCount, (f, o) => o.Organizations.Sum(a => a.ReportingUnitsOverlay.Count));
 
             return faker;
         }

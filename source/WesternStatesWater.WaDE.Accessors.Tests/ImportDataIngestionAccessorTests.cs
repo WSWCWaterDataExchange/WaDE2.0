@@ -1169,10 +1169,10 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 reportingUnit = await ReportingUnitsDimBuilder.Load(db);
                 date = await DateDimBuilder.Load(db);
 
-                regulatoryReportingUnit = RegulatoryReportingUnitBuilder.Create(new RegulatoryReportingUnitBuilderOptions
+                regulatoryReportingUnit = OverlayReportingUnitBuilder.Create(new OverlayReportingUnitBuilderOptions
                 {
                     Organization = organization,
-                    RegulatoryOverlay = regulatoryOverlay,
+                    Overlay = regulatoryOverlay,
                     ReportingUnit = reportingUnit,
                     DatePublication = date
                 });
@@ -1862,7 +1862,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 regulatoryStatus = await RegulatoryStatusBuilder.Load(db);
                 waterSourceType = await WaterSourceTypeBuilder.Load(db);
 
-                regulatoryOverlay = RegulatoryOverlayBuilder.Create(new RegulatoryOverlayBuilderOptions
+                regulatoryOverlay = OverlayBuilder.Create(new OverlayBuilderOptions
                 {
                     RegulatoryOverlayType = organization,
                     RegulatoryStatus = regulatoryStatus,

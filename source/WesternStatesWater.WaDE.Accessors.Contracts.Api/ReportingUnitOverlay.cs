@@ -2,7 +2,7 @@
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
-    public class ReportingUnitRegulatory
+    public class ReportingUnitOverlay
     {
         public string ReportingUnitUUID { get; set; }
         public string ReportingUnitNativeID { get; set; }

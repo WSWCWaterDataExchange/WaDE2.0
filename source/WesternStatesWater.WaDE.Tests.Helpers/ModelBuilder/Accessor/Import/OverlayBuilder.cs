@@ -4,14 +4,14 @@ using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
 {
-    public static class RegulatoryOverlayBuilder
+    public static class OverlayBuilder
     {
         public static Overlay Create()
         {
-            return Create(new RegulatoryOverlayBuilderOptions());
+            return Create(new OverlayBuilderOptions());
         }
 
-        public static Overlay Create(RegulatoryOverlayBuilderOptions opts)
+        public static Overlay Create(OverlayBuilderOptions opts)
         {
             var faker = new Faker<Overlay>()
                 .RuleFor(a => a.OverlayUUID, f => f.Random.Uuid().ToString())
@@ -31,7 +31,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
         }
     }
 
-    public class RegulatoryOverlayBuilderOptions
+    public class OverlayBuilderOptions
     {
         public RegulatoryStatus RegulatoryStatus { get; set; }
         public OverlayTypeCV RegulatoryOverlayType { get; set; }

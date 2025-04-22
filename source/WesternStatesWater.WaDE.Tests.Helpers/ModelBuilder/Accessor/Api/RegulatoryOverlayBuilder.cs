@@ -6,9 +6,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
 {
     public static class RegulatoryOverlayBuilder
     {
-        public static RegulatoryOverlay Create()
+        public static Overlay Create()
         {
-            var faker = new Faker<RegulatoryOverlay>()
+            var faker = new Faker<Overlay>()
                 .RuleFor(a => a.OverlayID, f => f.Random.Long(1))
                 .RuleFor(a => a.RegulatoryStatusCV, f => f.Random.Word(50))
                 .RuleFor(a => a.OversightAgency, f => f.Company.CompanyName())

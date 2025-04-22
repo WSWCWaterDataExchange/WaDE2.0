@@ -77,10 +77,10 @@ namespace WaDEApiFunctions.v1
 
             var request = new OverlayResourceSearchRequest
             {
-                Filters = new RegulatoryOverlayFilters
+                Filters = new OverlayFilters
                 {
                     ReportingUnitUUID = reportingUnitUUID,
-                    RegulatoryOverlayUUID = regulatoryOverlayUUID,
+                    OverlayUUID = regulatoryOverlayUUID,
                     OrganizationUUID = organizationUUID,
                     StatutoryEffectiveDate = statutoryEffectiveDate,
                     StatutoryEndDate = statutoryEndDate,

@@ -31,8 +31,8 @@ namespace WesternStatesWater.WaDE.Accessors
         private ILogger Logger { get; }
         private IConfiguration Configuration { get; set; }
 
-        async Task<AccessorApi.RegulatoryReportingUnits> AccessorApi.IRegulatoryOverlayAccessor.
-            GetRegulatoryReportingUnitsAsync(AccessorApi.RegulatoryOverlayFilters filters, int startIndex,
+        async Task<AccessorApi.OverlayReportingUnits> AccessorApi.IRegulatoryOverlayAccessor.
+            GetRegulatoryReportingUnitsAsync(AccessorApi.OverlayFilters filters, int startIndex,
                 int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
@@ -52,7 +52,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 var regulatoryOverlays = await regulatoryOverlaysTask;
 
                 var regulatoryReportingUnitsOrganizations =
-                    new List<AccessorApi.RegulatoryReportingUnitsOrganization>();
+                    new List<AccessorApi.OverlayReportingUnitsOrganization>();
                 foreach (var org in await orgsTask)
                 {
                     ProcessRegulatoryReportingUnitsOrganization(org, results, regulatoryOverlays);
@@ -61,7 +61,7 @@ namespace WesternStatesWater.WaDE.Accessors
 
                 sw.Stop();
                 Logger.LogInformation($"Completed RegulatoryOverlay [{sw.ElapsedMilliseconds} ms]");
-                return new AccessorApi.RegulatoryReportingUnits
+                return new AccessorApi.OverlayReportingUnits
                 {
                     TotalRegulatoryReportingUnitsCount = await totalCountTask,
                     Organizations = regulatoryReportingUnitsOrganizations
@@ -91,7 +91,7 @@ namespace WesternStatesWater.WaDE.Accessors
         }
 
         private static IQueryable<OverlayReportingUnitsFact> BuildRegulatoryReportingUnitsQuery(
-            AccessorApi.RegulatoryOverlayFilters filters, WaDEContext db)
+            AccessorApi.OverlayFilters filters, WaDEContext db)
         {
             var query = db.OverlayReportingUnitsFact.AsNoTracking();
             if (filters.StatutoryEffectiveDate != null)
@@ -119,9 +119,9 @@ namespace WesternStatesWater.WaDE.Accessors
                 query = query.Where(a => a.Organization.OrganizationUuid == filters.OrganizationUUID);
             }
 
-            if (!string.IsNullOrWhiteSpace(filters.RegulatoryOverlayUUID))
+            if (!string.IsNullOrWhiteSpace(filters.OverlayUUID))
             {
-                query = query.Where(a => a.Overlay.OverlayUuid == filters.RegulatoryOverlayUUID);
+                query = query.Where(a => a.Overlay.OverlayUuid == filters.OverlayUUID);
             }
 
             if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
@@ -148,7 +148,7 @@ namespace WesternStatesWater.WaDE.Accessors
             return query;
         }
 
-        private async Task<int> GetRegulatoryReportingUnitsCount(AccessorApi.RegulatoryOverlayFilters filters)
+        private async Task<int> GetRegulatoryReportingUnitsCount(AccessorApi.OverlayFilters filters)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -157,7 +157,7 @@ namespace WesternStatesWater.WaDE.Accessors
         }
 
         private async Task<List<ReportingUnitRegulatoryHelper>> GetRegulatoryReportingUnits(
-            AccessorApi.RegulatoryOverlayFilters filters, int startIndex, int recordCount)
+            AccessorApi.OverlayFilters filters, int startIndex, int recordCount)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
@@ -170,43 +170,43 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async Task<List<AccessorApi.RegulatoryReportingUnitsOrganization>> GetOrganizations(
+        private async Task<List<AccessorApi.OverlayReportingUnitsOrganization>> GetOrganizations(
             HashSet<long> orgIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.OrganizationsDim
                     .Where(a => orgIds.Contains(a.OrganizationId))
-                    .ProjectTo<AccessorApi.RegulatoryReportingUnitsOrganization>(Mapping.DtoMapper.Configuration)
+                    .ProjectTo<AccessorApi.OverlayReportingUnitsOrganization>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
             }
         }
 
-        private async Task<List<AccessorApi.RegulatoryOverlay>> GetRegulatoryOverlays(
+        private async Task<List<AccessorApi.Overlay>> GetRegulatoryOverlays(
             HashSet<long> regulatoryOverlayIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
                 return await db.OverlayDim
                     .Where(a => regulatoryOverlayIds.Contains(a.OverlayId))
-                    .ProjectTo<AccessorApi.RegulatoryOverlay>(Mapping.DtoMapper.Configuration)
+                    .ProjectTo<AccessorApi.Overlay>(Mapping.DtoMapper.Configuration)
                     .ToListAsync();
             }
         }
 
         private static void ProcessRegulatoryReportingUnitsOrganization(
-            AccessorApi.RegulatoryReportingUnitsOrganization org,
+            AccessorApi.OverlayReportingUnitsOrganization org,
             List<ReportingUnitRegulatoryHelper> results,
-            List<AccessorApi.RegulatoryOverlay> regulatoryOverlays)
+            List<AccessorApi.Overlay> regulatoryOverlays)
         {
             var regulatoryReportingUnits = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
             var regulatoryOverlayIds2 = regulatoryReportingUnits.Select(a => a.OverlayId).ToList();
 
-            org.RegulatoryOverlays = regulatoryOverlays
+            org.Overlays = regulatoryOverlays
                 .Where(a => regulatoryOverlayIds2.Contains(a.OverlayID))
-                .Map<List<AccessorApi.RegulatoryOverlay>>();
+                .Map<List<AccessorApi.Overlay>>();
 
-            org.ReportingUnitsRegulatory = regulatoryReportingUnits.Map<List<AccessorApi.ReportingUnitRegulatory>>();
+            org.ReportingUnitsOverlay = regulatoryReportingUnits.Map<List<AccessorApi.ReportingUnitOverlay>>();
         }
 
         internal class ReportingUnitRegulatoryHelper

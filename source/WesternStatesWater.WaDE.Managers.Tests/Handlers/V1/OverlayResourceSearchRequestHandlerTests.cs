@@ -22,14 +22,14 @@ public class OverlayResourceSearchRequestHandlerTests : HandlerTestsBase
     public async Task GetRegulatoryReportingUnitsAsync_SiteGeometries(string geometryString, GeometryFormat geometryFormat, string expectedResultString)
     {
         var accessorResult = RegulatoryReportingUnitsBuilder.Create();
-        accessorResult.Organizations.First().ReportingUnitsRegulatory[0].Geometry = GeometryExtensions.GetGeometryByWkt(geometryString);
-        RegulatoryOverlayAccessorMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<Accessors.Contracts.Api.RegulatoryOverlayFilters>(), 0, 1))
+        accessorResult.Organizations.First().ReportingUnitsOverlay[0].Geometry = GeometryExtensions.GetGeometryByWkt(geometryString);
+        RegulatoryOverlayAccessorMock.Arrange(a => a.GetRegulatoryReportingUnitsAsync(Arg.IsAny<Accessors.Contracts.Api.OverlayFilters>(), 0, 1))
             .Returns(Task.FromResult(accessorResult));
         var sut = CreateHandler();
         
         var request = new OverlayResourceSearchRequest
         {
-            Filters = new RegulatoryOverlayFilters(),
+            Filters = new OverlayFilters(),
             StartIndex = 0,
             RecordCount = 1,
             OutputGeometryFormat = geometryFormat

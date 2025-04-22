@@ -2,7 +2,7 @@
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
-    public class RegulatoryOverlay
+    public class Overlay
     {
         public long OverlayID { get; set; }
         public string RegulatoryStatusCV { get; set; }

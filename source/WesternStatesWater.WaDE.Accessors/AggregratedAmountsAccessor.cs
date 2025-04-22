@@ -266,7 +266,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
                 .Select(a => a.RegulatoryOverlay)
                 .DistinctBy(a => a.OverlayUuid)
-                .Map<List<AccessorApi.RegulatoryOverlay>>();
+                .Map<List<AccessorApi.Overlay>>();
 
             org.AggregatedAmounts = allocations.Map<List<AccessorApi.AggregatedAmount>>();
 

@@ -2,9 +2,9 @@
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
-    public class RegulatoryReportingUnits
+    public class OverlayReportingUnits
     {
         public int TotalRegulatoryReportingUnitsCount { get; set; }
-        public IEnumerable<RegulatoryReportingUnitsOrganization> Organizations { get; set; }
+        public IEnumerable<OverlayReportingUnitsOrganization> Organizations { get; set; }
     }
 }

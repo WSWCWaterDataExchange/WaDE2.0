@@ -6,7 +6,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
     public interface IRegulatoryOverlayAccessor
     {
-        Task<RegulatoryReportingUnits> GetRegulatoryReportingUnitsAsync(RegulatoryOverlayFilters filters,
+        Task<OverlayReportingUnits> GetRegulatoryReportingUnitsAsync(OverlayFilters filters,
             int startIndex, int recordCount);
 
         Task<OverlayMetadata> GetOverlayMetadata();

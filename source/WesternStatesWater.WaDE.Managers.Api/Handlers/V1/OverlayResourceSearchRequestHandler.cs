@@ -21,7 +21,7 @@ public class OverlayResourceSearchRequestHandler
 
     public async Task<OverlayResourceSearchResponse> Handle(OverlayResourceSearchRequest request)
     {
-        var filters = request.Filters.Map<AccessorApi.RegulatoryOverlayFilters>();
+        var filters = request.Filters.Map<AccessorApi.OverlayFilters>();
 
         var dtoReportingUnits = await _regulatoryOverlayAccessor.GetRegulatoryReportingUnitsAsync(
             filters, request.StartIndex, request.RecordCount
