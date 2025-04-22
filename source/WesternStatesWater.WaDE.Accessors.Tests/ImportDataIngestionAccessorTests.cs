@@ -1160,7 +1160,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             ReportingUnitsDim reportingUnit;
             DateDim date;
 
-            RegulatoryReportingUnits regulatoryReportingUnit;
+            OverlayReportingUnits regulatoryReportingUnit;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
@@ -1854,7 +1854,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             OverlayTypeCV organization;
             RegulatoryStatus regulatoryStatus;
             WaterSourceType waterSourceType;
-            RegulatoryOverlay regulatoryOverlay;
+            Overlay regulatoryOverlay;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {

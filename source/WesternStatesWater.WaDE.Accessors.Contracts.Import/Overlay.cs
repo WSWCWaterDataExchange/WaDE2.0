@@ -3,7 +3,7 @@ using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
-    public class RegulatoryOverlay
+    public class Overlay
     {
         [NullValues("")]
         public string OverlayUUID { get; set; }

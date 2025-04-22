@@ -6,14 +6,14 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
 {
     public static class RegulatoryOverlayBuilder
     {
-        public static RegulatoryOverlay Create()
+        public static Overlay Create()
         {
             return Create(new RegulatoryOverlayBuilderOptions());
         }
 
-        public static RegulatoryOverlay Create(RegulatoryOverlayBuilderOptions opts)
+        public static Overlay Create(RegulatoryOverlayBuilderOptions opts)
         {
-            var faker = new Faker<RegulatoryOverlay>()
+            var faker = new Faker<Overlay>()
                 .RuleFor(a => a.OverlayUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.OverlayNativeID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.OverlayName, f => f.Company.CompanyName())

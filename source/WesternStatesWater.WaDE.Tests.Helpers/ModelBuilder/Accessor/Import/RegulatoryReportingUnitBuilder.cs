@@ -7,14 +7,14 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
 {
     public static class RegulatoryReportingUnitBuilder
     {
-        public static RegulatoryReportingUnits Create()
+        public static OverlayReportingUnits Create()
         {
             return Create(new RegulatoryReportingUnitBuilderOptions());
         }
 
-        public static RegulatoryReportingUnits Create(RegulatoryReportingUnitBuilderOptions opts)
+        public static OverlayReportingUnits Create(RegulatoryReportingUnitBuilderOptions opts)
         {
-            var faker = new Faker<RegulatoryReportingUnits>()
+            var faker = new Faker<OverlayReportingUnits>()
                 .RuleFor(a => a.OrganizationUUID, f => opts?.Organization?.OrganizationUuid ?? f.Random.Uuid().ToString())
                 .RuleFor(a => a.RegulatoryOverlayUUID, f => opts?.RegulatoryOverlay?.OverlayUuid ?? f.Random.Uuid().ToString())
                 .RuleFor(a => a.ReportingUnitUUID, f => opts?.ReportingUnit?.ReportingUnitUuid ?? f.Random.Uuid().ToString())

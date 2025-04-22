@@ -3,13 +3,13 @@ using System;
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
 {
-    public class RegulatoryReportingUnits
+    public class OverlayReportingUnits
     {
         [NullValues("")]
         public string OrganizationUUID { get; set; }
 
         [NullValues("")]
-        public string RegulatoryOverlayUUID { get; set; }
+        public string OverlayUUID { get; set; }
 
         [NullValues("")]
         public string ReportingUnitUUID { get; set; }

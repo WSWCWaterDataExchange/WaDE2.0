@@ -44,12 +44,12 @@ namespace WesternStatesWater.WaDE.Accessors
             return await LoadData(runId, methods, "LoadMethods", "@MethodTable", "MethodTableType");
         }
 
-        async Task<bool> AccessorImport.IDataIngestionAccessor.LoadRegulatoryOverlays(string runId, IEnumerable<AccessorImport.RegulatoryOverlay> regulatoryOverlays)
+        async Task<bool> AccessorImport.IDataIngestionAccessor.LoadRegulatoryOverlays(string runId, IEnumerable<AccessorImport.Overlay> regulatoryOverlays)
         {
             return await LoadData(runId, regulatoryOverlays, "LoadOverlays", "@OverlayTable", "OverlayTableType");
         }
 
-        async Task<bool> AccessorImport.IDataIngestionAccessor.LoadRegulatoryReportingUnits(string runId, IEnumerable<AccessorImport.RegulatoryReportingUnits> loadRegulatoryReportingUnits)
+        async Task<bool> AccessorImport.IDataIngestionAccessor.LoadRegulatoryReportingUnits(string runId, IEnumerable<AccessorImport.OverlayReportingUnits> loadRegulatoryReportingUnits)
         {
             return await LoadData(runId, loadRegulatoryReportingUnits, "LoadOverlayReportingUnits", "@OverlayReportingUnitsTableType", "OverlayReportingUnitsTableType");
         }
