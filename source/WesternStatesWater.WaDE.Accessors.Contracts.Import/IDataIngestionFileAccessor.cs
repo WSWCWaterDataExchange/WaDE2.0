@@ -17,10 +17,10 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         Task<List<Method>> GetMethods(string runId, int startIndex, int count);
         Task<int> GetMethodsCount(string runId);
 
-        Task<List<RegulatoryOverlay>> GetRegulatoryOverlays(string runId, int startIndex, int count);
+        Task<List<Overlay>> GetRegulatoryOverlays(string runId, int startIndex, int count);
         Task<int> GetRegulatoryOverlaysCount(string runId);
 
-        Task<List<RegulatoryReportingUnits>> GetRegulatoryReportingUnits(string runId, int startIndex, int count);
+        Task<List<OverlayReportingUnits>> GetRegulatoryReportingUnits(string runId, int startIndex, int count);
         Task<int> GetRegulatoryReportingUnitsCount(string runId);
 
         Task<List<ReportingUnit>> GetReportingUnits(string runId, int startIndex, int count);

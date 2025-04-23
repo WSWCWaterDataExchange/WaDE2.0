@@ -18,7 +18,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public List<Method> Methods { get; set; }
         public List<BeneficialUse> BeneficialUses { get; set; }
         public List<Allocation> WaterAllocations { get; set; }
-        public List<RegulatoryOverlay> RegulatoryOverlays { get; set; }
+        public List<Overlay> RegulatoryOverlays { get; set; }
         public List<Site> Sites { get; set; }
     }
 }

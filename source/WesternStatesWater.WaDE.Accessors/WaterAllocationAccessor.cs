@@ -234,14 +234,14 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async Task<List<AccessorApi.RegulatoryOverlay>> GetRegulatoryOverlays(HashSet<long> sitesIds)
+        private async Task<List<AccessorApi.Overlay>> GetRegulatoryOverlays(HashSet<long> sitesIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return await db.RegulatoryOverlayBridgeSitesFact
+                return await db.OverlayBridgeSitesFact
                     .Where(a => sitesIds.Contains(a.SiteId))
-                    .Select(a => a.RegulatoryOverlay)
-                    .ProjectTo<AccessorApi.RegulatoryOverlay>(DtoMapper.Configuration)
+                    .Select(a => a.Overlay)
+                    .ProjectTo<AccessorApi.Overlay>(DtoMapper.Configuration)
                     .ToListAsync();
             }
         }
@@ -421,7 +421,7 @@ namespace WesternStatesWater.WaDE.Accessors
             List<(long AllocationAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses,
             List<(long AllocationAmountId, SitesDim Site)> sites,
             List<PODSiteToPOUSiteFact> siteRelationships,
-            List<AccessorApi.RegulatoryOverlay> regulatoryOverlays
+            List<AccessorApi.Overlay> regulatoryOverlays
         )
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();

@@ -22,7 +22,7 @@ namespace WaDEImportFunctions
         }
 
         private const int BatchCount = 25000;
-        private const string FunctionName = FunctionNames.LoadRegulatoryReportingUnits;
+        private const string FunctionName = FunctionNames.LoadOverlayReportingUnits;
         private const string BatchFunctionName = FunctionName + "Batch";
         private const string CountFunctionName = "Get" + FunctionName + "Count";
 

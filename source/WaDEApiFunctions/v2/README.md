@@ -244,17 +244,17 @@ This project contains a set of Azure Functions that implement the OGC API Featur
 
 ```json
 {
-    "regulatoryOverlayUuid": "NMov_RO0SWCDb",
-    "regulatoryOverlayNativeId": "0SWCDb",
-    "regulatoryName": "Border",
-    "regulatoryDescription": "Conserve and develop the natural resources of the state",
+    "overlayUuid": "NMov_RO0SWCDb",
+    "overlayNativeId": "0SWCDb",
+    "overlayName": "Border",
+    "overlayDescription": "Conserve and develop the natural resources of the state",
     "regulatoryStatusCv": "Active",
     "oversightAgency": "New Mexico Department of Agriculture",
-    "regulatoryStatute": null,
-    "regulatoryStatuteLink": "https://nmdeptag.nmsu.edu/statutes-and-rules.html",
+    "statute": null,
+    "statuteLink": "https://nmdeptag.nmsu.edu/statutes-and-rules.html",
     "statutoryEffectiveDate": "1978-01-01",
     "statutoryEndDate": null,
-    "regulatoryOverlayTypeCv": "Soil Water Conservation District",
+    "overlayTypeCv": "Soil Water Conservation District",
     "waterSourceTypeCv": "Surface and Groundwater",
     "reportingAreas": [
         {

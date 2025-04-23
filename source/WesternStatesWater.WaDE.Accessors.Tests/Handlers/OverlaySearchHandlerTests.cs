@@ -50,7 +50,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
-        List<RegulatoryOverlayDim> dbOverlays = new();
+        List<OverlayDim> dbOverlays = new();
         for (var i = 0; i < 5; i++)
         {
             dbOverlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
@@ -67,7 +67,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Assert
         response.Overlays.Should().HaveCount(3);
         response.LastUuid.Should()
-            .Be(dbOverlays.OrderBy(o => o.RegulatoryOverlayUuid).Select(o => o.RegulatoryOverlayUuid)
+            .Be(dbOverlays.OrderBy(o => o.OverlayUuid).Select(o => o.OverlayUuid)
                 .ElementAt(2));
     }
 
@@ -77,19 +77,19 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
-        List<RegulatoryOverlayDim> overlays = new();
+        List<OverlayDim> overlays = new();
         for (var i = 0; i < 10; i++)
         {
             overlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
         }
 
         overlays.Sort((x, y) =>
-            string.Compare(x.RegulatoryOverlayUuid, y.RegulatoryOverlayUuid, StringComparison.Ordinal));
+            string.Compare(x.OverlayUuid, y.OverlayUuid, StringComparison.Ordinal));
 
         var request = new OverlaySearchRequest
         {
             Limit = 3,
-            LastKey = overlays[2].RegulatoryOverlayUuid
+            LastKey = overlays[2].OverlayUuid
         };
 
         // Act
@@ -97,8 +97,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(3);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlays.Skip(3).Take(3).Select(a => a.RegulatoryOverlayUuid));
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlays.Skip(3).Take(3).Select(a => a.OverlayUuid));
     }
 
     [TestMethod]
@@ -111,7 +111,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         var request = new OverlaySearchRequest
         {
-            OverlayUuids = [overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid],
+            OverlayUuids = [overlayA.OverlayUuid, overlayB.OverlayUuid],
             Limit = 10
         };
 
@@ -120,8 +120,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.OverlayUuid, overlayB.OverlayUuid);
     }
 
     [TestMethod]
@@ -160,8 +160,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.OverlayUuid, overlayB.OverlayUuid);
     }
 
     [TestMethod]
@@ -221,8 +221,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.OverlayUuid, overlayB.OverlayUuid);
     }
 
     [TestMethod]
@@ -477,7 +477,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(1);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(overlayA.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(overlayA.OverlayUuid);
         response.Overlays[0].ReportingAreas[0].State.Should().BeEquivalentTo(stateA.Name);
     }
     
@@ -492,12 +492,12 @@ public class OverlaySearchHandlerTests : DbTestBase
         var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
 
         string[] uniqueOverlayTypes =
-            [overlayA.RegulatoryOverlayType.WaDEName, overlayB.RegulatoryOverlayType.WaDEName, overlayC.RegulatoryOverlayType.WaDEName];
+            [overlayA.OverlayType.WaDEName, overlayB.OverlayType.WaDEName, overlayC.OverlayType.WaDEName];
         uniqueOverlayTypes.Should().OnlyHaveUniqueItems();
 
         var request = new OverlaySearchRequest
         {
-            OverlayTypes = [overlayA.RegulatoryOverlayType.WaDEName, overlayB.RegulatoryOverlayType.WaDEName],
+            OverlayTypes = [overlayA.OverlayType.WaDEName, overlayB.OverlayType.WaDEName],
             Limit = 10
         };
 
@@ -506,8 +506,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.OverlayUuid, overlayB.OverlayUuid);
     }
     
     [TestMethod]
@@ -535,8 +535,8 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         // Assert
         response.Overlays.Should().HaveCount(2);
-        response.Overlays.Select(a => a.RegulatoryOverlayUuid).Should().BeEquivalentTo(
-            overlayA.RegulatoryOverlayUuid, overlayB.RegulatoryOverlayUuid);
+        response.Overlays.Select(a => a.OverlayUuid).Should().BeEquivalentTo(
+            overlayA.OverlayUuid, overlayB.OverlayUuid);
     }
 
     private async Task<OverlaySearchResponse> ExecuteHandler(OverlaySearchRequest request)

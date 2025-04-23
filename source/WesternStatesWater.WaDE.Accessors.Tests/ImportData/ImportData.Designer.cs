@@ -103,7 +103,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests.ImportData {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SiteUUID,RegulatoryOverlayUUIDs,WaterSourceUUIDs,CoordinateAccuracy,CoordinateMethodCV,County,EPSGCodeCV,Geometry,GNISCodeCV,HUC12,HUC8,Latitude,Longitude,PODorPOUSite,SiteName,SiteNativeID,SiteTypeCV,USGSSiteID
+        ///   Looks up a localized string similar to SiteUUID,OverlayUUIDs,WaterSourceUUIDs,CoordinateAccuracy,CoordinateMethodCV,County,EPSGCodeCV,Geometry,GNISCodeCV,HUC12,HUC8,Latitude,Longitude,PODorPOUSite,SiteName,SiteNativeID,SiteTypeCV,USGSSiteID
         ///NEwr_S1,abcd,&quot;NEwr_WS1,NEwr_WS2&quot;,1.01,Unspecified,Thayer,4326,Fake Geometry,999,103000000000,158400000000,40.01104072,-97.5223804,POD,Unspecified,10443,Unspecified,Fake USGS
         ///.
         /// </summary>

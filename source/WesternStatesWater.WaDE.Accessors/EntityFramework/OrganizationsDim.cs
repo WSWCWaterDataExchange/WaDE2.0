@@ -9,7 +9,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         {
             AggregatedAmountsFact = new HashSet<AggregatedAmountsFact>();
             AllocationAmountsFact = new HashSet<AllocationAmountsFact>();
-            RegulatoryReportingUnitsFact = new HashSet<RegulatoryReportingUnitsFact>();
+            RegulatoryReportingUnitsFact = new HashSet<OverlayReportingUnitsFact>();
             SiteVariableAmountsFact = new HashSet<SiteVariableAmountsFact>();
         }
 
@@ -25,7 +25,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public virtual ICollection<AggregatedAmountsFact> AggregatedAmountsFact { get; set; }
         public virtual ICollection<AllocationAmountsFact> AllocationAmountsFact { get; set; }
-        public virtual ICollection<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
+        public virtual ICollection<OverlayReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
         public virtual ICollection<SiteVariableAmountsFact> SiteVariableAmountsFact { get; set; }
     }
 }

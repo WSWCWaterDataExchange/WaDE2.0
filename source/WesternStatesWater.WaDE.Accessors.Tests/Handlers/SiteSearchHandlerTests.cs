@@ -410,7 +410,7 @@ public class SiteSearchHandlerTests : DbTestBase
         
         var request = new SiteSearchRequest
         {
-            OverlayUuids = [overlayA.RegulatoryOverlayUuid],
+            OverlayUuids = [overlayA.OverlayUuid],
             Limit = 10
         };
         

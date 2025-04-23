@@ -38,10 +38,10 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<OrganizationsDim> OrganizationsDim { get; set; }
         public virtual DbSet<OwnerClassificationCv> OwnerClassificationCv { get; set; }
         public virtual DbSet<PowerType> PowerType { get; set; }
-        public virtual DbSet<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
-        public virtual DbSet<RegulatoryOverlayType> RegulatoryOverlayType { get; set; }
-        public virtual DbSet<RegulatoryReportingUnitsFact> RegulatoryReportingUnitsFact { get; set; }
-        public virtual DbSet<RegulatoryOverlayBridgeSitesFact> RegulatoryOverlayBridgeSitesFact { get; set; }
+        public virtual DbSet<OverlayDim> OverlayDim { get; set; }
+        public virtual DbSet<OverlayTypeCV> OverlayType { get; set; }
+        public virtual DbSet<OverlayReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
+        public virtual DbSet<OverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
         public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
         public virtual DbSet<ReportYearType> ReportYearType { get; set; }
@@ -313,14 +313,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.ToTable("AllocationAmounts_fact", "Core");
 
                 entity.Property(e => e.AllocationAmountId).HasColumnName("AllocationAmountID");
-
-                entity.Property(e => e.AllocationAssociatedConsumptiveUseSiteIds)
-                    .HasColumnName("AllocationAssociatedConsumptiveUseSiteIDs")
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.AllocationAssociatedWithdrawalSiteIds)
-                    .HasColumnName("AllocationAssociatedWithdrawalSiteIDs")
-                    .HasMaxLength(500);
 
                 entity.Property(e => e.AllocationBasisCv)
                     .HasColumnName("AllocationBasisCV")
@@ -1093,31 +1085,31 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                 entity.Property(e => e.Term).HasMaxLength(250);
             });
 
-            modelBuilder.Entity<RegulatoryOverlayDim>(entity =>
+            modelBuilder.Entity<OverlayDim>(entity =>
             {
-                entity.HasKey(e => e.RegulatoryOverlayId)
+                entity.HasKey(e => e.OverlayId)
                     .HasName("pkRegulatoryOverlay_dim");
 
-                entity.ToTable("RegulatoryOverlay_dim", "Core");
+                entity.ToTable("Overlay_dim", "Core");
 
-                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("RegulatoryOverlayID");
+                entity.Property(e => e.OverlayId).HasColumnName("OverlayID");
 
                 entity.Property(e => e.OversightAgency)
                     .IsRequired()
                     .HasMaxLength(250);
 
-                entity.Property(e => e.RegulatoryDescription).IsRequired();
+                entity.Property(e => e.OverlayDescription).IsRequired();
 
-                entity.Property(e => e.RegulatoryName)
+                entity.Property(e => e.OverlayName)
                     .IsRequired()
                     .HasMaxLength(50);
 
-                entity.Property(e => e.RegulatoryOverlayNativeId)
-                    .HasColumnName("RegulatoryOverlayNativeID")
+                entity.Property(e => e.OverlayNativeId)
+                    .HasColumnName("OverlayNativeID")
                     .HasMaxLength(250);
 
-                entity.Property(e => e.RegulatoryOverlayUuid)
-                    .HasColumnName("RegulatoryOverlayUUID")
+                entity.Property(e => e.OverlayUuid)
+                    .HasColumnName("OverlayUUID")
                     .HasMaxLength(250);
 
                 entity.Property(e => e.RegulatoryStatusCv)
@@ -1125,8 +1117,8 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("RegulatoryStatusCV")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.RegulatoryOverlayTypeCV)
-                    .HasColumnName("RegulatoryOverlayTypeCV")
+                entity.Property(e => e.OverlayTypeCV)
+                    .HasColumnName("OverlayTypeCV")
                     .HasMaxLength(100);
 
                 entity.Property(e => e.WaterSourceTypeCV)
@@ -1139,27 +1131,27 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RegulatoryOverlay_dim_WaterSourceTypeCV");
 
-                entity.HasOne(d => d.RegulatoryOverlayType)
-                    .WithMany(p => p.RegulatoryOverlayDim)
-                    .HasForeignKey(d => d.RegulatoryOverlayTypeCV)
+                entity.HasOne(d => d.OverlayType)
+                    .WithMany(p => p.OverlayDim)
+                    .HasForeignKey(d => d.OverlayTypeCV)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_RegulatoryOverlay_dim_RegulatoryOverlayTypeCV");
 
-                entity.Property(e => e.RegulatoryStatute).HasMaxLength(500);
+                entity.Property(e => e.Statute).HasMaxLength(500);
 
-                entity.Property(e => e.RegulatoryStatuteLink).HasMaxLength(500);
+                entity.Property(e => e.StatuteLink).HasMaxLength(500);
 
                 entity.Property(e => e.StatutoryEffectiveDate).HasColumnType("date");
 
                 entity.Property(e => e.StatutoryEndDate).HasColumnType("date");
             });
 
-            modelBuilder.Entity<RegulatoryOverlayType>(entity =>
+            modelBuilder.Entity<OverlayTypeCV>(entity =>
             {
                 entity.HasKey(e => e.Name)
                     .HasName("PK_CVs.RegulatoryOverlayType");
 
-                entity.ToTable("RegulatoryOverlayType", "CVs");
+                entity.ToTable("OverlayType", "CVs");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(100)
@@ -1178,12 +1170,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasMaxLength(250);
             });
 
-            modelBuilder.Entity<RegulatoryReportingUnitsFact>(entity =>
+            modelBuilder.Entity<OverlayReportingUnitsFact>(entity =>
             {
                 entity.HasKey(e => e.BridgeId)
                     .HasName("pkRegulatoryReportingUnits_fact");
 
-                entity.ToTable("RegulatoryReportingUnits_fact", "Core");
+                entity.ToTable("OverlayReportingUnits_fact", "Core");
 
                 entity.Property(e => e.BridgeId)
                     .HasColumnName("BridgeID");
@@ -1192,7 +1184,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
                 entity.Property(e => e.OrganizationId).HasColumnName("OrganizationID");
 
-                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("RegulatoryOverlayID");
+                entity.Property(e => e.OverlayId).HasColumnName("OverlayID");
 
                 entity.Property(e => e.ReportingUnitId).HasColumnName("ReportingUnitID");
 
@@ -1208,9 +1200,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_Organizations_dim");
 
-                entity.HasOne(d => d.RegulatoryOverlay)
-                    .WithMany(p => p.RegulatoryReportingUnitsFact)
-                    .HasForeignKey(d => d.RegulatoryOverlayId)
+                entity.HasOne(d => d.Overlay)
+                    .WithMany(p => p.OverlayReportingUnitsFact)
+                    .HasForeignKey(d => d.OverlayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_RegulatoryOverlay_dim");
 
@@ -1221,21 +1213,21 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("fk_RegulatoryReportingUnits_fact_ReportingUnits_dim");
             });
 
-            modelBuilder.Entity<RegulatoryOverlayBridgeSitesFact>(entity =>
+            modelBuilder.Entity<OverlayBridgeSitesFact>(entity =>
             {
-                entity.HasKey(e => e.RegulatoryOverlayBridgeId);
+                entity.HasKey(e => e.OverlayBridgeId);
 
-                entity.ToTable("RegulatoryOverlayBridge_Sites_fact", "Core");
+                entity.ToTable("OverlayBridge_Sites_fact", "Core");
 
-                entity.Property(e => e.RegulatoryOverlayBridgeId).HasColumnName("RegulatoryOverlayBridgeID");
+                entity.Property(e => e.OverlayBridgeId).HasColumnName("OverlayBridgeID");
 
-                entity.Property(e => e.RegulatoryOverlayId).HasColumnName("RegulatoryOverlayID");
+                entity.Property(e => e.OverlayId).HasColumnName("OverlayID");
 
                 entity.Property(e => e.SiteId).HasColumnName("SiteID");
 
-                entity.HasOne(d => d.RegulatoryOverlay)
-                    .WithMany(p => p.RegulatoryOverlayBridgeSitesFact)
-                    .HasForeignKey(d => d.RegulatoryOverlayId)
+                entity.HasOne(d => d.Overlay)
+                    .WithMany(p => p.OverlayBridgeSitesFact)
+                    .HasForeignKey(d => d.OverlayId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_RegulatoryOverLayBridge_Sites_fact_RegulatoryOverlay_fact");
 

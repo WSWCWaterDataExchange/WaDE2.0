@@ -7,14 +7,14 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
     public static class RegulatoryOverlayTypeBuilder
     {
         private static int _globalIndex = 0;
-        public static RegulatoryOverlayType Create()
+        public static OverlayTypeCV Create()
         {
             return Create(new RegulatoryOverlayTypeBuilderOptions());
         }
 
-        public static RegulatoryOverlayType Create(RegulatoryOverlayTypeBuilderOptions opts)
+        public static OverlayTypeCV Create(RegulatoryOverlayTypeBuilderOptions opts)
         {
-            return new Faker<RegulatoryOverlayType>()
+            return new Faker<OverlayTypeCV>()
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.WaDEName, f => f.Random.Words(5))
                 .RuleFor(a => a.Term, f => f.Random.Word())
@@ -23,16 +23,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
-        public static async Task<RegulatoryOverlayType> Load(WaDEContext db)
+        public static async Task<OverlayTypeCV> Load(WaDEContext db)
         {
             return await Load(db, new RegulatoryOverlayTypeBuilderOptions());
         }
 
-        public static async Task<RegulatoryOverlayType> Load(WaDEContext db, RegulatoryOverlayTypeBuilderOptions opts)
+        public static async Task<OverlayTypeCV> Load(WaDEContext db, RegulatoryOverlayTypeBuilderOptions opts)
         {
             var item = Create(opts);
 
-            db.RegulatoryOverlayType.Add(item);
+            db.OverlayType.Add(item);
             await db.SaveChangesAsync();
 
             return item;

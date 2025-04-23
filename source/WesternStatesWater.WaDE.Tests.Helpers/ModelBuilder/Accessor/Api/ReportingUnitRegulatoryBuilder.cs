@@ -5,9 +5,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
 {
     public static class ReportingUnitRegulatoryBuilder
     {
-        public static ReportingUnitRegulatory Create()
+        public static ReportingUnitOverlay Create()
         {
-            var faker = new Faker<ReportingUnitRegulatory>()
+            var faker = new Faker<ReportingUnitOverlay>()
                 .RuleFor(a => a.ReportingUnitUUID, f => f.Random.Uuid().ToString())
                 .RuleFor(a => a.ReportingUnitNativeID, f => f.Random.AlphaNumeric(50))
                 .RuleFor(a => a.ReportingUnitName, f => f.Random.Word())

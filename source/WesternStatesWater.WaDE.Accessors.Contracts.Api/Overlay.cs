@@ -2,18 +2,18 @@
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
-    public class RegulatoryOverlay
+    public class Overlay
     {
-        public long RegulatoryOverlayID { get; set; }
+        public long OverlayID { get; set; }
         public string RegulatoryStatusCV { get; set; }
         public string OversightAgency { get; set; }
-        public string RegulatoryDescription { get; set; }
+        public string OverlayDescription { get; set; }
         public DateTime StatutoryEffectiveDate { get; set; }
         public DateTime? StatutoryEndDate { get; set; }
-        public string RegulatoryStatuteLink { get; set; }
-        public string RegulatoryOverlayTypeCV { get; set; }
+        public string StatuteLink { get; set; }
+        public string OverlayTypeCV { get; set; }
         public string WaterSourceTypeCV { get; set; }
 
-        public string RegulatoryOverlayUUID { get; set; }
+        public string OverlayUUID { get; set; }
     }
 }

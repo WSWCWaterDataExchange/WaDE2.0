@@ -215,21 +215,21 @@ namespace WesternStatesWater.WaDE.Accessors
             }
         }
 
-        private async ValueTask<List<(long ReportingUnitId, long RegulatoryOverlayId, RegulatoryOverlayDim RegulatoryOverlay)>> GetRegulatoryReportingUnits(HashSet<long> reportingUnitIds)
+        private async ValueTask<List<(long ReportingUnitId, long RegulatoryOverlayId, OverlayDim RegulatoryOverlay)>> GetRegulatoryReportingUnits(HashSet<long> reportingUnitIds)
         {
             using (var db = new EntityFramework.WaDEContext(Configuration))
             {
-                return (await db.RegulatoryReportingUnitsFact
+                return (await db.OverlayReportingUnitsFact
                         .AsNoTracking()
                         .Where(a => reportingUnitIds.Contains(a.ReportingUnitId))
-                        .Select(a => new { a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay })
+                        .Select(a => new { a.ReportingUnitId, RegulatoryOverlayId = a.OverlayId, RegulatoryOverlay = a.Overlay })
                         .ToListAsync())
                     .Select(a => (a.ReportingUnitId, a.RegulatoryOverlayId, a.RegulatoryOverlay)).ToList();
             }
         }
 
         private static void ProcessAggregatedAmountsOrganization(AccessorApi.AggregatedAmountsOrganization org, List<AggregatedHelper> results,
-            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.ReportingUnit> reportingUnits, List<AccessorApi.Method> methods, List<(long AggregatedAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses, List<(long ReportingUnitId, long RegulatoryOverlayId, RegulatoryOverlayDim RegulatoryOverlay)> regulatoryOverlays)
+            List<AccessorApi.WaterSource> waterSources, List<AccessorApi.VariableSpecific> variableSpecifics, List<AccessorApi.ReportingUnit> reportingUnits, List<AccessorApi.Method> methods, List<(long AggregatedAmountId, BeneficialUsesCV BeneficialUse)> beneficialUses, List<(long ReportingUnitId, long RegulatoryOverlayId, OverlayDim RegulatoryOverlay)> regulatoryOverlays)
         {
             var allocations = results.Where(a => a.OrganizationId == org.OrganizationId).ToList();
 
@@ -265,8 +265,8 @@ namespace WesternStatesWater.WaDE.Accessors
             org.RegulatoryOverlays = regulatoryOverlays
                 .Where(a => regulatoryOverlayIds.Contains(a.RegulatoryOverlayId))
                 .Select(a => a.RegulatoryOverlay)
-                .DistinctBy(a => a.RegulatoryOverlayUuid)
-                .Map<List<AccessorApi.RegulatoryOverlay>>();
+                .DistinctBy(a => a.OverlayUuid)
+                .Map<List<AccessorApi.Overlay>>();
 
             org.AggregatedAmounts = allocations.Map<List<AccessorApi.AggregatedAmount>>();
 
@@ -282,7 +282,7 @@ namespace WesternStatesWater.WaDE.Accessors
                 reportingUnit.RegulatoryOverlayUUIDs = regulatoryOverlays
                     .Where(a => a.ReportingUnitId == reportingUnit.ReportingUnitId)
                     .DistinctBy(a => a.RegulatoryOverlayId)
-                    .Select(a => a.RegulatoryOverlay.RegulatoryOverlayUuid).ToList();
+                    .Select(a => a.RegulatoryOverlay.OverlayUuid).ToList();
             }
         }
 

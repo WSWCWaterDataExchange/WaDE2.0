@@ -53,7 +53,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string PODorPOUSite { get; set; }
 
         [NullValues("")]
-        public string RegulatoryOverlayUUIDs { get; set; }
+        public string OverlayUUIDs { get; set; }
 
         [NullValues("")]
         public string WaterSourceUUIDs { get; set; }
