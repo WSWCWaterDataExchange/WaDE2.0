@@ -4,7 +4,7 @@ using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
-    public static class RegulatoryOverlayTypeBuilder
+    public static class OverlayTypeBuilder
     {
         private static int _globalIndex = 0;
         public static OverlayTypeCV Create()

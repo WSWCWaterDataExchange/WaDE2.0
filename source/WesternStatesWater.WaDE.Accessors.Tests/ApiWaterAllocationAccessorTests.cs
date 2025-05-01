@@ -33,7 +33,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 allocationAmountsFact = await AllocationAmountsFactBuilder.Load(db);
                 waterSourceDim = await WaterSourcesDimBuilder.Load(db);
-                regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlayDim = await OverlayDimBuilder.Load(db);
 
                 siteDim = await SitesDimBuilder.Load(db);
                 await AllocationBridgeSitesFactBuilder.Load(db, new AllocationBridgeSitesFactBuilderOptions
@@ -48,7 +48,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     WaterSourcesDim = waterSourceDim
                 });
 
-                await RegulatoryOverlayBridgeSitesFactBuilder.Load(db,
+                await OverlayBridgeSitesFactBuilder.Load(db,
                     new RegulatoryOverlayBridgeSitesFactBuilderOptions
                     {
                         SitesDim = siteDim,

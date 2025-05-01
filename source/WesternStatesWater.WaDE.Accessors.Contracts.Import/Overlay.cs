@@ -18,7 +18,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string OverlayDescription { get; set; }
 
         [NullValues("")]
-        public string RegulatoryStatusCV { get; set; }
+        public string OverlayStatusCV { get; set; }
 
         [NullValues("")]
         public string OversightAgency { get; set; }

@@ -248,7 +248,7 @@ This project contains a set of Azure Functions that implement the OGC API Featur
     "overlayNativeId": "0SWCDb",
     "overlayName": "Border",
     "overlayDescription": "Conserve and develop the natural resources of the state",
-    "regulatoryStatusCv": "Active",
+    "overlayStatusCv": "Active",
     "oversightAgency": "New Mexico Department of Agriculture",
     "statute": null,
     "statuteLink": "https://nmdeptag.nmsu.edu/statutes-and-rules.html",

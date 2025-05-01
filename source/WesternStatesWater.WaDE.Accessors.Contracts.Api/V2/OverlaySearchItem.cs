@@ -8,7 +8,7 @@ public class OverlaySearchItem
     public string OverlayNativeId { get; set; }
     public string OverlayName { get; set; }
     public string OverlayDescription { get; set; }
-    public string RegulatoryStatusCv { get; set; }
+    public string OverlayStatusCv { get; set; }
     public string OversightAgency { get; set; }
     public string Statute { get; set; }
     public string StatuteLink { get; set; }
