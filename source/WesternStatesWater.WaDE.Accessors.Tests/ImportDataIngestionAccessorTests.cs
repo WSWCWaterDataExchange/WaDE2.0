@@ -1165,7 +1165,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 organization = await OrganizationsDimBuilder.Load(db);
-                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay = await OverlayDimBuilder.Load(db);
                 reportingUnit = await ReportingUnitsDimBuilder.Load(db);
                 date = await DateDimBuilder.Load(db);
 
@@ -1215,7 +1215,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     SiteTypeCvNavigation = await SiteTypeBuilder.Load(db),
                     StateCVNavigation = await StateBuilder.Load(db)
                 });
-                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1255,7 +1255,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
-                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1304,7 +1304,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                     SiteTypeCvNavigation = await SiteTypeBuilder.Load(db),
                     StateCVNavigation = await StateBuilder.Load(db)
                 });
-                regulatoryOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1346,8 +1346,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
-                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
-                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay1 = await OverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1391,8 +1391,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
-                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
-                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay1 = await OverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1429,7 +1429,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
-                regulatoryOverlay3 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay3 = await OverlayDimBuilder.Load(db);
 
                 updatedSite = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1477,8 +1477,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
-                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
-                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay1 = await OverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1515,7 +1515,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
-                regulatoryOverlay3 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay3 = await OverlayDimBuilder.Load(db);
 
                 updatedSite = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1558,8 +1558,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim = await SitesDimBuilder.Load(db);
-                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
-                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay1 = await OverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await OverlayDimBuilder.Load(db);
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1654,8 +1654,8 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             {
                 siteDim = await SitesDimBuilder.Load(db);
                 regulatoryOverlays = new List<OverlayDim>{
-                    await RegulatoryOverlayDimBuilder.Load(db),
-                    await RegulatoryOverlayDimBuilder.Load(db)
+                    await OverlayDimBuilder.Load(db),
+                    await OverlayDimBuilder.Load(db)
                 };
 
                 site = SiteBuilder.Create(new SiteBuilderOptions()
@@ -1690,7 +1690,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim1 = await SitesDimBuilder.Load(db);
-                regulatoryOverlay1 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay1 = await OverlayDimBuilder.Load(db);
 
                 site1 = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1711,7 +1711,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
                 siteDim2 = await SitesDimBuilder.Load(db);
-                regulatoryOverlay2 = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlay2 = await OverlayDimBuilder.Load(db);
 
                 site2 = SiteBuilder.Create(new SiteBuilderOptions()
                 {
@@ -1852,20 +1852,20 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
         public async Task LoadRegulatoryOverlays_SimpleLoad()
         {
             OverlayTypeCV organization;
-            RegulatoryStatus regulatoryStatus;
+            OverlayStatus overlayStatus;
             WaterSourceType waterSourceType;
             Overlay regulatoryOverlay;
 
             using (var db = new WaDEContext(Configuration.GetConfiguration()))
             {
-                organization = await RegulatoryOverlayTypeBuilder.Load(db);
-                regulatoryStatus = await RegulatoryStatusBuilder.Load(db);
+                organization = await OverlayTypeBuilder.Load(db);
+                overlayStatus = await OverlayStatusBuilder.Load(db);
                 waterSourceType = await WaterSourceTypeBuilder.Load(db);
 
                 regulatoryOverlay = OverlayBuilder.Create(new OverlayBuilderOptions
                 {
-                    RegulatoryOverlayType = organization,
-                    RegulatoryStatus = regulatoryStatus,
+                    OverlayType = organization,
+                    OverlayStatus = overlayStatus,
                     WaterSourceType = waterSourceType
                 });
             }
@@ -1884,7 +1884,7 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
                 dbRegulatoryOverlay.OverlayNativeId.Should().Be(regulatoryOverlay.OverlayNativeID);
                 dbRegulatoryOverlay.OverlayName.Should().Be(regulatoryOverlay.OverlayName);
                 dbRegulatoryOverlay.OverlayDescription.Should().Be(regulatoryOverlay.OverlayDescription);
-                dbRegulatoryOverlay.RegulatoryStatusCv.Should().Be(regulatoryOverlay.RegulatoryStatusCV);
+                dbRegulatoryOverlay.OverlayStatusCv.Should().Be(regulatoryOverlay.OverlayStatusCV);
                 dbRegulatoryOverlay.OversightAgency.Should().Be(regulatoryOverlay.OversightAgency);
                 dbRegulatoryOverlay.Statute.Should().Be(regulatoryOverlay.Statute);
                 dbRegulatoryOverlay.StatuteLink.Should().Be(regulatoryOverlay.StatuteLink);

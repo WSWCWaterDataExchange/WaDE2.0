@@ -28,7 +28,7 @@ public class OverlaySearchHandlerTests : DbTestBase
 
         for (var i = 0; i < 5; i++)
         {
-            await RegulatoryOverlayDimBuilder.Load(db);
+            await OverlayDimBuilder.Load(db);
         }
 
         var request = new OverlaySearchRequest
@@ -53,7 +53,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         List<OverlayDim> dbOverlays = new();
         for (var i = 0; i < 5; i++)
         {
-            dbOverlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
+            dbOverlays.Add(await OverlayDimBuilder.Load(db));
         }
 
         var request = new OverlaySearchRequest
@@ -80,7 +80,7 @@ public class OverlaySearchHandlerTests : DbTestBase
         List<OverlayDim> overlays = new();
         for (var i = 0; i < 10; i++)
         {
-            overlays.Add(await RegulatoryOverlayDimBuilder.Load(db));
+            overlays.Add(await OverlayDimBuilder.Load(db));
         }
 
         overlays.Sort((x, y) =>
@@ -105,9 +105,9 @@ public class OverlaySearchHandlerTests : DbTestBase
     public async Task Handler_FilterOverlayUuid_ReturnsRequestedOverlays()
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
+        var overlayC = await OverlayDimBuilder.Load(db);
 
         var request = new OverlaySearchRequest
         {
@@ -132,22 +132,22 @@ public class OverlaySearchHandlerTests : DbTestBase
         var siteA = await SitesDimBuilder.Load(db);
         var siteB = await SitesDimBuilder.Load(db);
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
 
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteA,
             RegulatoryOverlayDim = overlayA
         });
 
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteB,
             RegulatoryOverlayDim = overlayB
         });
 
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions());
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions());
 
         var request = new OverlaySearchRequest
         {
@@ -184,23 +184,23 @@ public class OverlaySearchHandlerTests : DbTestBase
             Geometry = CreateGreatSaltLakeGeometry()
         });
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
-        var omittedOverlay = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
+        var omittedOverlay = await OverlayDimBuilder.Load(db);
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaInersectingRequest
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayB,
             ReportingUnits = areaInsideRequest
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = omittedOverlay,
             ReportingUnits = areaOutsideRequest
@@ -257,21 +257,21 @@ public class OverlaySearchHandlerTests : DbTestBase
             Geometry = polygonC
         });
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaA
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaB
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaC
@@ -322,22 +322,22 @@ public class OverlaySearchHandlerTests : DbTestBase
             Geometry = polygonC
         });
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
 
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaA
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaB
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaC
@@ -387,22 +387,22 @@ public class OverlaySearchHandlerTests : DbTestBase
             Geometry = polygonC
         });
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
 
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaA
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaB
         });
 
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaC
@@ -447,20 +447,20 @@ public class OverlaySearchHandlerTests : DbTestBase
             State = stateA
         });
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
         
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaA
         });
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayB,
             ReportingUnits = areaB
         });
-        await RegulatoryReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
+        await OverlayReportingUnitsFactBuilder.Load(db, new RegulatoryReportingUnitsFactBuilderOptions
         {
             RegulatoryOverlay = overlayA,
             ReportingUnits = areaC
@@ -487,9 +487,9 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
+        var overlayC = await OverlayDimBuilder.Load(db);
 
         string[] uniqueOverlayTypes =
             [overlayA.OverlayType.WaDEName, overlayB.OverlayType.WaDEName, overlayC.OverlayType.WaDEName];
@@ -516,9 +516,9 @@ public class OverlaySearchHandlerTests : DbTestBase
         // Arrange
         await using var db = new WaDEContext(Configuration.GetConfiguration());
 
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayC = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
+        var overlayC = await OverlayDimBuilder.Load(db);
 
         string[] uniqueWaterSourceTypes =
             [overlayA.WaterSourceType.WaDEName, overlayB.WaterSourceType.WaDEName, overlayC.WaterSourceType.WaDEName];

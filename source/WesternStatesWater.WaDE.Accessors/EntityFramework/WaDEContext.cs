@@ -42,7 +42,7 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
         public virtual DbSet<OverlayTypeCV> OverlayType { get; set; }
         public virtual DbSet<OverlayReportingUnitsFact> OverlayReportingUnitsFact { get; set; }
         public virtual DbSet<OverlayBridgeSitesFact> OverlayBridgeSitesFact { get; set; }
-        public virtual DbSet<RegulatoryStatus> RegulatoryStatus { get; set; }
+        public virtual DbSet<OverlayStatus> OverlayStatus { get; set; }
         public virtual DbSet<ReportYearCv> ReportYearCv { get; set; }
         public virtual DbSet<ReportYearType> ReportYearType { get; set; }
         public virtual DbSet<ReportingUnitType> ReportingUnitType { get; set; }
@@ -1112,9 +1112,9 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasColumnName("OverlayUUID")
                     .HasMaxLength(250);
 
-                entity.Property(e => e.RegulatoryStatusCv)
+                entity.Property(e => e.OverlayStatusCv)
                     .IsRequired()
-                    .HasColumnName("RegulatoryStatusCV")
+                    .HasColumnName("OverlayStatusCV")
                     .HasMaxLength(50);
 
                 entity.Property(e => e.OverlayTypeCV)
@@ -1238,12 +1238,12 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
                     .HasConstraintName("fk_RegulatoryOverLayBridge_Sites_fact_Sites_dim");
             });
 
-            modelBuilder.Entity<RegulatoryStatus>(entity =>
+            modelBuilder.Entity<OverlayStatus>(entity =>
             {
                 entity.HasKey(e => e.Name)
                     .HasName("pkRegulatoryStatus");
 
-                entity.ToTable("RegulatoryStatus", "CVs");
+                entity.ToTable("OverlayStatus", "CVs");
 
                 entity.Property(e => e.Name)
                     .HasMaxLength(250)

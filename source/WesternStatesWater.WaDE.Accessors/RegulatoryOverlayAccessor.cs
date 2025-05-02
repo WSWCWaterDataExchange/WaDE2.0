@@ -124,9 +124,9 @@ namespace WesternStatesWater.WaDE.Accessors
                 query = query.Where(a => a.Overlay.OverlayUuid == filters.OverlayUUID);
             }
 
-            if (!string.IsNullOrWhiteSpace(filters.RegulatoryStatusCV))
+            if (!string.IsNullOrWhiteSpace(filters.OverlayStatusCV))
             {
-                query = query.Where(a => a.Overlay.RegulatoryStatusCv == filters.RegulatoryStatusCV);
+                query = query.Where(a => a.Overlay.OverlayStatusCv == filters.OverlayStatusCV);
             }
 
             if (!string.IsNullOrWhiteSpace(filters.ReportingUnitUUID))

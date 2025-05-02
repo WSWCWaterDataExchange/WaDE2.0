@@ -48,7 +48,7 @@ namespace WaDEImportFunctions
                 ("methodtype", "methodtype"),
                 ("nhdnetworkstatus", "nhdnetworkstatus"),
                 ("nhdproduct", "nhdproduct"),
-                ("regulatorystatus", "regulatorystatus"),
+                ("overlaystatus", "overlaystatus"),
                 ("reportingunittype", "reportingunittype"),
                 ("reportyear", "reportyearcv"),
                 ("sitetype", "sitetype"),

@@ -86,7 +86,7 @@ namespace WaDEApiFunctions.v1
                     StatutoryEndDate = statutoryEndDate,
                     StartDataPublicationDate = startDataPublicationDate,
                     EndDataPublicationDate = endDataPublicationDate,
-                    RegulatoryStatusCV = regulatoryStatusCV,
+                    OverlayStatusCV = regulatoryStatusCV,
                     Geometry = geometry,
                     State = state
                 },

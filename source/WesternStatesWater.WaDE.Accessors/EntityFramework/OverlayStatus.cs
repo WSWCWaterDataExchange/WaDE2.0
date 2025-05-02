@@ -1,6 +1,6 @@
 ﻿namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 {
-    public partial class RegulatoryStatus : ControlledVocabularyBase
+    public partial class OverlayStatus : ControlledVocabularyBase
     {
     }
 }

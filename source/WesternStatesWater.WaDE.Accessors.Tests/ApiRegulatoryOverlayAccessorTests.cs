@@ -27,9 +27,9 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             ReportingUnitsDim reportingUnitsDim;
             using (var db = new WaDEContext(configuration))
             {
-                regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlayDim = await OverlayDimBuilder.Load(db);
                 reportingUnitsDim = await ReportingUnitsDimBuilder.Load(db);
-                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db,
+                regulatoryReportingUnitsFact = await OverlayReportingUnitsFactBuilder.Load(db,
                     new RegulatoryReportingUnitsFactBuilderOptions
                     {
                         RegulatoryOverlay = regulatoryOverlayDim,
@@ -78,12 +78,12 @@ namespace WesternStatesWater.WaDE.Accessors.Tests
             DateDim publicationDate;
             using (var db = new WaDEContext(configuration))
             {
-                regulatoryOverlayDim = await RegulatoryOverlayDimBuilder.Load(db);
+                regulatoryOverlayDim = await OverlayDimBuilder.Load(db);
                 reportingUnitsDim = await ReportingUnitsDimBuilder.Load(db);
                 publicationDate = await DateDimBuilder.Load(db);
                 publicationDate.Date = DateTime.Parse(dataPublicationDate);
 
-                regulatoryReportingUnitsFact = await RegulatoryReportingUnitsFactBuilder.Load(db,
+                regulatoryReportingUnitsFact = await OverlayReportingUnitsFactBuilder.Load(db,
                     new RegulatoryReportingUnitsFactBuilderOptions
                     {
                         RegulatoryOverlay = regulatoryOverlayDim,
