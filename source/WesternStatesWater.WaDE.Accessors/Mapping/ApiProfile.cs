@@ -194,7 +194,7 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.ReportingUnitGeometry, b => b.MapFrom(c => c.Geometry))
                 .ForMember(a => a.RegulatoryOverlayUUIDs, b => b.Ignore());
 
-            CreateMap<EF.RegulatoryReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
+            CreateMap<EF.OverlayReportingUnitsFact, RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper>()
                 .ForMember(a => a.ReportingUnitUUID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitUuid))
                 .ForMember(a => a.ReportingUnitNativeID, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitNativeId))
                 .ForMember(a => a.ReportingUnitName, b => b.MapFrom(c => c.ReportingUnit.ReportingUnitName))
@@ -205,12 +205,12 @@ namespace WesternStatesWater.WaDE.Accessors.Mapping
                 .ForMember(a => a.StateCV, b => b.MapFrom(c => c.ReportingUnit.StateCv))
                 .ForMember(a => a.EPSGCodeCV, b => b.MapFrom(c => c.ReportingUnit.EpsgcodeCv))
                 .ForMember(a => a.Geometry, b => b.MapFrom(c => c.ReportingUnit.Geometry));
-            CreateMap<EF.OrganizationsDim, AccessorApi.RegulatoryReportingUnitsOrganization>()
+            CreateMap<EF.OrganizationsDim, AccessorApi.OverlayReportingUnitsOrganization>()
                 .ForMember(a => a.OrganizationState, b => b.MapFrom(c => c.State))
-                .ForMember(a => a.RegulatoryOverlays, b => b.Ignore())
-                .ForMember(a => a.ReportingUnitsRegulatory, b => b.Ignore());
-            CreateMap<EF.RegulatoryOverlayDim, AccessorApi.RegulatoryOverlay>();
-            CreateMap<RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper, AccessorApi.ReportingUnitRegulatory>();
+                .ForMember(a => a.Overlays, b => b.Ignore())
+                .ForMember(a => a.ReportingUnitsOverlay, b => b.Ignore());
+            CreateMap<EF.OverlayDim, AccessorApi.Overlay>();
+            CreateMap<RegulatoryOverlayAccessor.ReportingUnitRegulatoryHelper, AccessorApi.ReportingUnitOverlay>();
         }
 
         private class PODSiteToPOUSiteFactToSiteUuidResolver : IValueResolver<EF.PODSiteToPOUSiteFact,

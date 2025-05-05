@@ -6,9 +6,9 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
 {
     public static class RegulatoryReportingUnitsOrganizationBuilder
     {
-        public static RegulatoryReportingUnitsOrganization Create()
+        public static OverlayReportingUnitsOrganization Create()
         {
-            var faker = new Faker<RegulatoryReportingUnitsOrganization>()
+            var faker = new Faker<OverlayReportingUnitsOrganization>()
                 .RuleFor(a => a.OrganizationId, f => f.Random.Long(1))
                 .RuleFor(a => a.OrganizationName, f => f.Company.CompanyName())
                 .RuleFor(a => a.OrganizationPurview, f => f.Random.Word())
@@ -18,8 +18,8 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Api
                 .RuleFor(a => a.OrganizationContactEmail, f => f.Internet.Email())
                 .RuleFor(a => a.OrganizationState, f => f.Address.StateAbbr())
 
-                .RuleFor(a => a.RegulatoryOverlays, f => new List<RegulatoryOverlay> { RegulatoryOverlayBuilder.Create() })
-                .RuleFor(a => a.ReportingUnitsRegulatory, f => new List<ReportingUnitRegulatory> { ReportingUnitRegulatoryBuilder.Create() });
+                .RuleFor(a => a.Overlays, f => new List<Overlay> { RegulatoryOverlayBuilder.Create() })
+                .RuleFor(a => a.ReportingUnitsOverlay, f => new List<ReportingUnitOverlay> { ReportingUnitRegulatoryBuilder.Create() });
 
             return faker;
         }

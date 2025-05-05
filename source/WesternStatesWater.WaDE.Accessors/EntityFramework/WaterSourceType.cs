@@ -11,6 +11,6 @@ namespace WesternStatesWater.WaDE.Accessors.EntityFramework
 
         public virtual ICollection<WaterSourcesDim> WaterSourcesDim { get; set; }
 
-        public virtual ICollection<RegulatoryOverlayDim> RegulatoryOverlayDim { get; set; }
+        public virtual ICollection<OverlayDim> RegulatoryOverlayDim { get; set; }
     }
 }

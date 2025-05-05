@@ -4,17 +4,17 @@ using WesternStatesWater.WaDE.Accessors.EntityFramework;
 
 namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
 {
-    public static class RegulatoryStatusBuilder
+    public static class OverlayStatusBuilder
     {
         private static int _globalIndex = 0;
-        public static RegulatoryStatus Create()
+        public static OverlayStatus Create()
         {
-            return Create(new RegulatoryStatusBuilderOptions());
+            return Create(new OverlayStatusBuilderOptions());
         }
 
-        public static RegulatoryStatus Create(RegulatoryStatusBuilderOptions opts)
+        public static OverlayStatus Create(OverlayStatusBuilderOptions opts)
         {
-            return new Faker<RegulatoryStatus>()
+            return new Faker<OverlayStatus>()
                 .RuleFor(a => a.Name, f => GenerateName())
                 .RuleFor(a => a.Term, f => f.Random.Word())
                 .RuleFor(a => a.Definition, f => f.Random.Words(5))
@@ -22,16 +22,16 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
                 .RuleFor(a => a.SourceVocabularyUri, f => f.Internet.Url());
         }
 
-        public static async Task<RegulatoryStatus> Load(WaDEContext db)
+        public static async Task<OverlayStatus> Load(WaDEContext db)
         {
-            return await Load(db, new RegulatoryStatusBuilderOptions());
+            return await Load(db, new OverlayStatusBuilderOptions());
         }
 
-        public static async Task<RegulatoryStatus> Load(WaDEContext db, RegulatoryStatusBuilderOptions opts)
+        public static async Task<OverlayStatus> Load(WaDEContext db, OverlayStatusBuilderOptions opts)
         {
             var item = Create(opts);
 
-            db.RegulatoryStatus.Add(item);
+            db.OverlayStatus.Add(item);
             await db.SaveChangesAsync();
 
             return item;
@@ -44,7 +44,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.EntityFramework
         }
     }
 
-    public class RegulatoryStatusBuilderOptions
+    public class OverlayStatusBuilderOptions
     {
         
     }

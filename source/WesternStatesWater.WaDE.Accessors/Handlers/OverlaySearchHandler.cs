@@ -20,9 +20,9 @@ public class OverlaySearchHandler(IConfiguration configuration)
     {
         await using var db = new WaDEContext(configuration);
 
-        var overlays =await  db.RegulatoryOverlayDim
+        var overlays =await  db.OverlayDim
             .AsNoTracking()
-            .OrderBy(o => o.RegulatoryOverlayUuid)
+            .OrderBy(o => o.OverlayUuid)
             .ApplySearchFilters(request)
             .ApplyLimit(request)
             .ProjectTo<OverlaySearchItem>(DtoMapper.Configuration)
@@ -34,7 +34,7 @@ public class OverlaySearchHandler(IConfiguration configuration)
         if (overlays.Count > 1)
         {
             // Get the last UUID of the page (not the first one on the next page).
-            lastUuid = overlays.Count <= request.Limit ? null : overlays[^2].RegulatoryOverlayUuid;
+            lastUuid = overlays.Count <= request.Limit ? null : overlays[^2].OverlayUuid;
         }
         
         return new OverlaySearchResponse

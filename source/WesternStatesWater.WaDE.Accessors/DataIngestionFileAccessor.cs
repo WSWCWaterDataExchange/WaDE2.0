@@ -62,14 +62,14 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetRecordCount(runId, "methods.csv");
         }
 
-        async Task<List<AccessorImport.RegulatoryOverlay>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryOverlays(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.Overlay>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryOverlays(string runId, int startIndex, int count)
         {
-            return await GetNormalizedData<AccessorImport.RegulatoryOverlay>(runId, "regulatoryoverlays.csv", startIndex, count);
+            return await GetNormalizedData<AccessorImport.Overlay>(runId, "overlays.csv", startIndex, count);
         }
 
         async Task<int> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryOverlaysCount(string runId)
         {
-            return await GetRecordCount(runId, "regulatoryoverlays.csv");
+            return await GetRecordCount(runId, "overlays.csv");
         }
 
         async Task<List<AccessorImport.ReportingUnit>> AccessorImport.IDataIngestionFileAccessor.GetReportingUnits(string runId, int startIndex, int count)
@@ -82,14 +82,14 @@ namespace WesternStatesWater.WaDE.Accessors
             return await GetRecordCount(runId, "reportingunits.csv");
         }
 
-        async Task<List<AccessorImport.RegulatoryReportingUnits>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryReportingUnits(string runId, int startIndex, int count)
+        async Task<List<AccessorImport.OverlayReportingUnits>> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryReportingUnits(string runId, int startIndex, int count)
         {
-            return await GetNormalizedData<AccessorImport.RegulatoryReportingUnits>(runId, "regulatoryreportingunits.csv", startIndex, count);
+            return await GetNormalizedData<AccessorImport.OverlayReportingUnits>(runId, "overlayreportingunits.csv", startIndex, count);
         }
 
         async Task<int> AccessorImport.IDataIngestionFileAccessor.GetRegulatoryReportingUnitsCount(string runId)
         {
-            return await GetRecordCount(runId, "regulatoryreportingunits.csv");
+            return await GetRecordCount(runId, "overlayreportingunits.csv");
         }
 
         async Task<List<AccessorImport.Site>> AccessorImport.IDataIngestionFileAccessor.GetSites(string runId, int startIndex, int count)

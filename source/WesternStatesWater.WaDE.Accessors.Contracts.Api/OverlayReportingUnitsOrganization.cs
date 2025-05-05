@@ -2,7 +2,7 @@
 
 namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
 {
-    public class RegulatoryReportingUnitsOrganization
+    public class OverlayReportingUnitsOrganization
     {
         public long OrganizationId { get; set; }
         public string OrganizationName { get; set; }
@@ -13,7 +13,7 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Api
         public string OrganizationContactEmail { get; set; }
         public string OrganizationState { get; set; }
 
-        public List<RegulatoryOverlay> RegulatoryOverlays { get; set; }
-        public List<ReportingUnitRegulatory> ReportingUnitsRegulatory { get; set; }
+        public List<Overlay> Overlays { get; set; }
+        public List<ReportingUnitOverlay> ReportingUnitsOverlay { get; set; }
     }
 }

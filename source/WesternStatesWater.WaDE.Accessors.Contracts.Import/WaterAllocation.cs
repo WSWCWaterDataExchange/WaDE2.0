@@ -89,12 +89,6 @@ namespace WesternStatesWater.WaDE.Accessors.Contracts.Import
         public string AllocationSDWISIdentifierCV { get; set; }
 
         [NullValues("")]
-        public string AllocationAssociatedWithdrawalSiteIDs { get; set; }
-
-        [NullValues("")]
-        public string AllocationAssociatedConsumptiveUseSiteIDs { get; set; }
-
-        [NullValues("")]
         public string AllocationChangeApplicationIndicator { get; set; }
 
         [NullValues("")]

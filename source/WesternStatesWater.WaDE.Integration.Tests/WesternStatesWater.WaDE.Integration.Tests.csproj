@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="local.settings.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
-        </None>
         <None Update="personal.settings.json">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
@@ -40,6 +36,14 @@
         <ProjectReference Include="..\WesternStatesWater.WaDE.Managers.Api\WesternStatesWater.WaDE.Managers.Api.csproj"/>
         <ProjectReference Include="..\WesternStatesWater.WaDE.Tests.Helpers\WesternStatesWater.WaDE.Tests.Helpers.csproj" />
         <ProjectReference Include="..\WesternStatesWater.WaDE.Utilities\WesternStatesWater.WaDE.Utilities.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="local.settings.json" />
+      <Content Include="local.settings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

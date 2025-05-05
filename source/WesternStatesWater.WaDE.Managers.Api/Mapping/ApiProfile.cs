@@ -17,7 +17,7 @@ namespace WesternStatesWater.WaDE.Managers.Api.Mapping
             CreateMap<ManagerApi.SiteVariableAmountsFilters, AccessorApi.SiteVariableAmountsFilters>()
                 .ForMember(dest => dest.Geometry,
                     opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
-            CreateMap<ManagerApi.RegulatoryOverlayFilters, AccessorApi.RegulatoryOverlayFilters>()
+            CreateMap<ManagerApi.OverlayFilters, AccessorApi.OverlayFilters>()
                 .ForMember(dest => dest.Geometry,
                     opt => opt.ConvertUsing(new StringToGeometryConverter(), src => src.Geometry));;
             CreateMap<ManagerApi.SiteAllocationAmountsDigestFilters, AccessorApi.SiteAllocationAmountsDigestFilters>()
@@ -46,12 +46,20 @@ namespace WesternStatesWater.WaDE.Managers.Api.Mapping
             CreateMap<AccessorApi.SiteVariableAmountsOrganization, ManagerApi.SiteVariableAmountsOrganization>();
             CreateMap<AccessorApi.SiteVariableAmount, ManagerApi.SiteVariableAmount>();
 
-            CreateMap<AccessorApi.RegulatoryReportingUnitsOrganization,
-                ManagerApi.RegulatoryReportingUnitsOrganization>();
-            CreateMap<AccessorApi.RegulatoryOverlay, ManagerApi.RegulatoryOverlay>();
-            CreateMap<AccessorApi.ReportingUnitRegulatory, ManagerApi.ReportingUnitRegulatory>();
+            CreateMap<AccessorApi.OverlayReportingUnitsOrganization,
+                ManagerApi.RegulatoryReportingUnitsOrganization>()
+                .ForMember(dest => dest.RegulatoryOverlays, opt => opt.MapFrom(src => src.Overlays))
+                .ForMember(dest => dest.ReportingUnitsRegulatory, opt => opt.MapFrom(src => src.ReportingUnitsOverlay));
+            CreateMap<AccessorApi.Overlay, ManagerApi.RegulatoryOverlay>()
+                .ForMember(dest => dest.RegulatoryOverlayID, opt => opt.MapFrom(src => src.OverlayID))
+                .ForMember(dest => dest.RegulatoryOverlayUUID, opt => opt.MapFrom(src => src.OverlayUUID))
+                .ForMember(dest => dest.RegulatoryDescription, opt => opt.MapFrom(src => src.OverlayDescription))
+                .ForMember(dest => dest.RegulatoryOverlayTypeCV, opt => opt.MapFrom(src => src.OverlayTypeCV))
+                .ForMember(dest => dest.RegulatoryStatuteLink, opt => opt.MapFrom(src => src.StatuteLink))
+                .ForMember(dest => dest.RegulatoryStatusCV, opt => opt.MapFrom(src => src.OverlayStatusCV));
+            CreateMap<AccessorApi.ReportingUnitOverlay, ManagerApi.ReportingUnitRegulatory>();
 
-            CreateMap<AccessorApi.RegulatoryReportingUnits, ManagerApi.RegulatoryReportingUnits>();
+            CreateMap<AccessorApi.OverlayReportingUnits, ManagerApi.RegulatoryReportingUnits>();
 
             CreateMap<AccessorApi.WaterAllocationsDigest, ManagerApi.WaterAllocationDigest>();
             CreateMap<AccessorApi.SiteDigest, ManagerApi.SiteDigest>();

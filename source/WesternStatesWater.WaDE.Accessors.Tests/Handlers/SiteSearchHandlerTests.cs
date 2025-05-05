@@ -218,16 +218,16 @@ public class SiteSearchHandlerTests : DbTestBase
             WaterSourcesDim = sourceB
         });
         
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
         
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteA,
             RegulatoryOverlayDim = overlayA
         });
         
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteA,
             RegulatoryOverlayDim = overlayB
@@ -390,19 +390,19 @@ public class SiteSearchHandlerTests : DbTestBase
     {
         await using var db = new WaDEContext(Configuration.GetConfiguration());
         
-        var overlayA = await RegulatoryOverlayDimBuilder.Load(db);
-        var overlayB = await RegulatoryOverlayDimBuilder.Load(db);
+        var overlayA = await OverlayDimBuilder.Load(db);
+        var overlayB = await OverlayDimBuilder.Load(db);
         
         var siteA = await SitesDimBuilder.Load(db);
         var siteB = await SitesDimBuilder.Load(db);
         
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteA,
             RegulatoryOverlayDim = overlayA
         });
         
-        await RegulatoryOverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
+        await OverlayBridgeSitesFactBuilder.Load(db, new RegulatoryOverlayBridgeSitesFactBuilderOptions
         {
             SitesDim = siteB,
             RegulatoryOverlayDim = overlayB
@@ -410,7 +410,7 @@ public class SiteSearchHandlerTests : DbTestBase
         
         var request = new SiteSearchRequest
         {
-            OverlayUuids = [overlayA.RegulatoryOverlayUuid],
+            OverlayUuids = [overlayA.OverlayUuid],
             Limit = 10
         };
         

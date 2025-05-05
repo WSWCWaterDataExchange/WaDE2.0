@@ -26,7 +26,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
                 .RuleFor(a => a.HUC12, f => opts.Site.HUC12)
                 .RuleFor(a => a.County, f => opts.Site.County)
                 .RuleFor(a => a.PODorPOUSite, f => opts.Site.PODorPOUSite)
-                .RuleFor(a => a.RegulatoryOverlayUUIDs, f => opts.RegulatoryOverlayDims == null ? "" : string.Join(',', opts.RegulatoryOverlayDims.Select(x => x.RegulatoryOverlayUuid)))
+                .RuleFor(a => a.OverlayUUIDs, f => opts.RegulatoryOverlayDims == null ? "" : string.Join(',', opts.RegulatoryOverlayDims.Select(x => x.OverlayUuid)))
                 .RuleFor(a => a.WaterSourceUUIDs, f => opts.WaterSourceDims == null ? "" : string.Join(',', opts.WaterSourceDims.Select(x => x.WaterSourceUuid)));
 
             return faker;
@@ -36,7 +36,7 @@ namespace WesternStatesWater.WaDE.Tests.Helpers.ModelBuilder.Accessor.Import
     public class SiteBuilderOptions
     {
         public SitesDim Site { get; set; }
-        public List<RegulatoryOverlayDim> RegulatoryOverlayDims { get; set; }
+        public List<OverlayDim> RegulatoryOverlayDims { get; set; }
         public List<WaterSourcesDim> WaterSourceDims { get; set; }
     }
 }
